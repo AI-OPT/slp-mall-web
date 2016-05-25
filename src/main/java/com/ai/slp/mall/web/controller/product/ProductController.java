@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.ai.opt.sdk.dubbo.util.DubboConsumerFactory;
+import com.ai.paas.ipaas.util.JSonUtil;
 import com.ai.slp.product.api.webfront.interfaces.IProductDetailSV;
 import com.ai.slp.product.api.webfront.param.ProductSKURequest;
 import com.ai.slp.product.api.webfront.param.ProductSKUResponse;
@@ -24,8 +25,9 @@ public class ProductController {
 		ProductSKURequest productskurequest=new ProductSKURequest();
 		productskurequest.setSkuId("0001");
 		ProductSKUResponse producSKU= iProductDetailSV.queryProducSKUById(productskurequest);
-        Map<String,ProductSKUResponse> model = new HashMap<String,ProductSKUResponse>();
-        model.put("producSKU", producSKU);
+        Map<String,String> model = new HashMap<String,String>();
+        String producSKUJson =JSonUtil.toJSon(producSKU);
+        model.put("producSKU", producSKUJson);
 		ModelAndView view = new ModelAndView("jsp/product/product_detail",model);
         return view;
     }
