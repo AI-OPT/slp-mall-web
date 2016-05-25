@@ -273,12 +273,17 @@
                				<div class="single-top">
 							 <div class="picture-carousel">
                     			<div class="tb-booth tb-pic tb-s310">
-                            		<a href="#"><img src="${_slpbase }/images/01_mid.jpg"  class="jqzoom" /></a>
+                            		<a href="#"><img src="{{:pictureUrl}}"  class="jqzoom" id="bigPic"/></a>
                         		</div>
                         		<ul class="tb-thumb" id="thumblist">
-                            		<li class="tb-selected"><div class="tb-pic tb-s40"><a href="javascript:void(0);"><img src="${_slpbase }/images/01_mid.jpg"></a></div></li>
-                            		<li><div class="tb-pic tb-s40"><a href="javascript:void(0);"><img  src="${_slpbase }/images/02_mid.jpg"></a></div></li>
-                        		</ul>
+									{{for pictureUrlList}}
+										{{if #index==0}}
+                            				<li class="tb-selected"><div class="tb-pic tb-s40"><a href="javascript:void(0);"><img src="{{:#data}}" id="crruntImageId"></a></div></li>
+                            			{{else}}
+											<li><div class="tb-pic tb-s40"><a href="javascript:void(0);"><img  src="{{:#data}}" id="thumbnailId"></a></div></li>
+										{{/if}}
+									{{/for}}                       		
+								</ul>
                    			</div>
 							<div class="single-word">
                					<ul>
