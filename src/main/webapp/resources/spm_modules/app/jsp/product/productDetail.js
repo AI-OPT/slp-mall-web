@@ -34,6 +34,18 @@ define('app/jsp/product/productDetail', function (require, exports, module) {
     	setup: function () {
     		ProductDeatilPager.superclass.setup.call(this);
     		this._renderProducSKUTemple();
+    		this._renderImageBigTemple();
+    		this._renderImageBigTemple();
+    	},
+    	_renderImageBigTemple:function(){
+    		var template = $.templates("#bigImageTemple");
+			var htmlOutput = template.render(imageArrayList);
+			$("#bigImageData").html(htmlOutput);
+    	},
+    	_renderImageBigTemple:function(){
+    		var template = $.templates("#smallImageTemple");
+			var htmlOutput = template.render(imageArrayList);
+			$("#smallImageData").html(htmlOutput);
     	},
     	_renderProducSKUTemple:function(){
     		var template = $.templates("#producSKUTemple");
