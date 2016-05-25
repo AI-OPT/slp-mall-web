@@ -10,6 +10,15 @@
 <link href="${_slpbase }/styles/frame.css" rel="stylesheet" type="text/css">
 <link href="${_slpbase }/styles/banner.css" rel="stylesheet" type="text/css">
 <link href="${_slpbase }/styles/font-awesome.css" rel="stylesheet" type="text/css">
+<script type="text/javascript">
+			var pager;
+			(function () {
+				seajs.use('app/jsp/producthome/productHome', function (ProductHomePager) {
+					pager = new ProductHomePager({element: document.body});
+					pager.render();
+				});
+			})();
+		</script>
 </head>
 
 <body>
@@ -242,146 +251,20 @@
         </div>
         <!--table1-->
         <div id="img-list1">
-            <div class="plist-right-list">
-                <a href="#">
-                <ul>
-                <li><img src="${_slpbase }/images/ka.png"></li>
-                <li class="tit">联通上网卡季卡</li>
-                <li class="ash">本地流量50G</li>
-                <li class="dred">120元</li> 
-                </ul>
+            <div class="plist-right-list" id="phoneBillData">
+            <script id="phoneBillTmpl" type="text/x-jsrender">
+				<a href="#">
+                	<ul>
+                		<li><img src="{{:picUrl}}"></li>
+                		<li class="tit">{{:prodName}}</li>
+                		<li class="dred">{{:salePrice}}元</li> 
+                	</ul>
                 </a>
-                <a href="#">
-                <ul>
-                <li><img src="${_slpbase }/images/ka.png"></li>
-                <li class="tit">联通上网卡季卡</li>
-                <li class="ash">本地流量50G</li>
-                <li class="dred">120元</li> 
-                </ul>
-                </a>
-                <a href="#">
-                <ul>
-                <li><img src="${_slpbase }/images/ka.png"></li>
-                <li class="tit">联通上网卡季卡</li>
-                <li class="ash">本地流量50G</li>
-                <li class="dred">120元</li> 
-                </ul>
-                </a>
-                <a href="#">
-                <ul>
-                <li><img src="${_slpbase }/images/ka.png"></li>
-                <li class="tit">联通上网卡季卡</li>
-                <li class="ash">本地流量50G</li>
-                <li class="dred">120元</li> 
-                </ul>
-                </a>
-                <a href="#">
-                <ul>
-                <li><img src="${_slpbase }/images/ka.png"></li>
-                <li class="tit">联通上网卡季卡</li>
-                <li class="ash">本地流量50G</li>
-                <li class="dred">120元</li> 
-                </ul>
-                </a>
-                <a href="#">
-                <ul>
-                <li><img src="${_slpbase }/images/ka.png"></li>
-                <li class="tit">联通上网卡季卡</li>
-                <li class="ash">本地流量50G</li>
-                <li class="dred">120元</li> 
-                </ul>
-                </a>
-                <a href="#">
-                <ul>
-                <li><img src="${_slpbase }/images/ka.png"></li>
-                <li class="tit">联通上网卡季卡</li>
-                <li class="ash">本地流量50G</li>
-                <li class="dred">120元</li> 
-                </ul>
-                </a>
-                <a href="#">
-                <ul>
-                <li><img src="${_slpbase }/images/ka.png"></li>
-                <li class="tit">联通上网卡季卡</li>
-                <li class="ash">本地流量50G</li>
-                <li class="dred">120元</li> 
-                </ul>
-                </a>
+			</script>
             </div>
+            <ul style="display: none;" id="pagination-ul"></ul>
         </div>
         <!--table2-->
-        <div id="img-list2" style=" display:none;">
-            <div class="plist-right-list">
-                <a href="#">
-                <ul>
-                <li><img src="${_slpbase }/images/ka.png"></li>
-                <li class="tit">联通上网卡季卡</li>
-                <li class="ash">本地流量501G</li>
-                <li class="dred">120元</li> 
-                </ul>
-                </a>
-                <a href="#">
-                <ul>
-                <li><img src="${_slpbase }/images/ka.png"></li>
-                <li class="tit">联通上网卡季卡</li>
-                <li class="ash">本地流量50G</li>
-                <li class="dred">120元</li> 
-                </ul>
-                </a>
-                <a href="#">
-                <ul>
-                <li><img src="${_slpbase }/images/ka.png"></li>
-                <li class="tit">联通上网卡季卡</li>
-                <li class="ash">本地流量50G</li>
-                <li class="dred">120元</li> 
-                </ul>
-                </a>
-                <a href="#">
-                <ul>
-                <li><img src="${_slpbase }/images/ka.png"></li>
-                <li class="tit">联通上网卡季卡</li>
-                <li class="ash">本地流量50G</li>
-                <li class="dred">120元</li> 
-                </ul>
-                </a>
-                <a href="#">
-                <ul>
-                <li><img src="${_slpbase }/images/ka.png"></li>
-                <li class="tit">联通上网卡季卡</li>
-                <li class="ash">本地流量50G</li>
-                <li class="dred">120元</li> 
-                </ul>
-                </a>
-                <a href="#">
-                <ul>
-                <li><img src="${_slpbase }/images/ka.png"></li>
-                <li class="tit">联通上网卡季卡</li>
-                <li class="ash">本地流量50G</li>
-                <li class="dred">120元</li> 
-                </ul>
-                </a>
-                <a href="#">
-                <ul>
-                <li><img src="${_slpbase }/images/ka.png"></li>
-                <li class="tit">联通上网卡季卡</li>
-                <li class="ash">本地流量50G</li>
-                <li class="dred">120元</li> 
-                </ul>
-                </a>
-                <a href="#">
-                <ul>
-                <li><img src="${_slpbase }/images/ka.png"></li>
-                <li class="tit">联通上网卡季卡</li>
-                <li class="ash">本地流量50G</li>
-                <li class="dred">120元</li> 
-                </ul>
-                </a>
-            </div>
-        </div>
-        
-    
-    
-    
     </div>
 </div>
 
@@ -406,145 +289,27 @@
         </div>
         <!--table1-->
         <div id="img-list3">
-            <div class="plist-right-list">
-                <a href="#">
-                <ul>
-                <li><img src="${_slpbase }/images/ka.png"></li>
-                <li class="tit">联通上网卡季卡</li>
-                <li class="ash">本地流量20G</li>
-                <li class="dred">120元</li> 
-                </ul>
+            <div class="plist-right-list" >
+            <div id="flowData">
+            	<script id="flowTmpl" type="text/x-jsrender">
+				<a href="#">
+                	<ul>
+                		<li><img src="{{:picUrl}}"></li>
+                		<li class="tit">{{:prodName}}</li>
+                		<li class="dred">{{:salePrice}}元</li> 
+                	</ul>
                 </a>
-                <a href="#">
-                <ul>
-                <li><img src="${_slpbase }/images/ka.png"></li>
-                <li class="tit">联通上网卡季卡</li>
-                <li class="ash">本地流量50G</li>
-                <li class="dred">120元</li> 
-                </ul>
-                </a>
-                <a href="#">
-                <ul>
-                <li><img src="${_slpbase }/images/ka.png"></li>
-                <li class="tit">联通上网卡季卡</li>
-                <li class="ash">本地流量50G</li>
-                <li class="dred">120元</li> 
-                </ul>
-                </a>
-                <a href="#">
-                <ul>
-                <li><img src="${_slpbase }/images/ka.png"></li>
-                <li class="tit">联通上网卡季卡</li>
-                <li class="ash">本地流量50G</li>
-                <li class="dred">120元</li> 
-                </ul>
-                </a>
-                <a href="#">
-                <ul>
-                <li><img src="${_slpbase }/images/ka.png"></li>
-                <li class="tit">联通上网卡季卡</li>
-                <li class="ash">本地流量50G</li>
-                <li class="dred">120元</li> 
-                </ul>
-                </a>
-                <a href="#">
-                <ul>
-                <li><img src="${_slpbase }/images/ka.png"></li>
-                <li class="tit">联通上网卡季卡</li>
-                <li class="ash">本地流量50G</li>
-                <li class="dred">120元</li> 
-                </ul>
-                </a>
-                <a href="#">
-                <ul>
-                <li><img src="${_slpbase }/images/ka.png"></li>
-                <li class="tit">联通上网卡季卡</li>
-                <li class="ash">本地流量50G</li>
-                <li class="dred">120元</li> 
-                </ul>
-                </a>
-              	 <a href="#">
+			</script>
+            </div>
+			<a href="#">
                 <ul>
                 <li class="tit1">浏览更多</li>
                 <li class="ash">热门</li>
-                <li class="dred"><img src="${_slpbase }/images/tiaoz.png"></li> 
+                <li class="dred"><img src="${_slpbase }/images/tiaoz.png" id="moreproduct"></li> 
                 </ul>
                 </a>
             </div>
-        </div>
-        <!--table2-->
-        <div id="img-list4" style=" display:none;">
-            <div class="plist-right-list">
-                <a href="#">
-                <ul>
-                <li><img src="${_slpbase }/images/ka.png"></li>
-                <li class="tit">联通上网卡季卡</li>
-                <li class="ash">本地流量120G</li>
-                <li class="dred">120元</li> 
-                </ul>
-                </a>
-                <a href="#">
-                <ul>
-                <li><img src="${_slpbase }/images/ka.png"></li>
-                <li class="tit">联通上网卡季卡</li>
-                <li class="ash">本地流量50G</li>
-                <li class="dred">120元</li> 
-                </ul>
-                </a>
-                <a href="#">
-                <ul>
-                <li><img src="${_slpbase }/images/ka.png"></li>
-                <li class="tit">联通上网卡季卡</li>
-                <li class="ash">本地流量50G</li>
-                <li class="dred">120元</li> 
-                </ul>
-                </a>
-                <a href="#">
-                <ul>
-                <li><img src="${_slpbase }/images/ka.png"></li>
-                <li class="tit">联通上网卡季卡</li>
-                <li class="ash">本地流量50G</li>
-                <li class="dred">120元</li> 
-                </ul>
-                </a>
-                <a href="#">
-                <ul>
-                <li><img src="${_slpbase }/images/ka.png"></li>
-                <li class="tit">联通上网卡季卡</li>
-                <li class="ash">本地流量50G</li>
-                <li class="dred">120元</li> 
-                </ul>
-                </a>
-                <a href="#">
-                <ul>
-                <li><img src="${_slpbase }/images/ka.png"></li>
-                <li class="tit">联通上网卡季卡</li>
-                <li class="ash">本地流量50G</li>
-                <li class="dred">120元</li> 
-                </ul>
-                </a>
-                <a href="#">
-                <ul>
-                <li><img src="${_slpbase }/images/ka.png"></li>
-                <li class="tit">联通上网卡季卡</li>
-                <li class="ash">本地流量50G</li>
-                <li class="dred">120元</li> 
-                </ul>
-                </a>
-                <a href="#">
-                <ul>
-                <li class="tit1">浏览更多</li>
-                <li class="ash">热门</li>
-                <li class="dred"><img src="${_slpbase }/images/tiaoz.png"></li> 
-                </ul>
-                </a>
-            </div>
-            
-        </div>
-        
-    
-    
-    
+        </div>   
     </div>
 </div>
  
@@ -556,71 +321,18 @@
           <li class="right"><A href="#">刷新<i class="icon-refresh"></i></A></li>
           </ul>
           </div>
-          <div class="recommend-list">
-          <a href="#" class="mar-none">
-          <ul>
-          <li class="word">TP-link300M无线路由器</li>
-          <li class="ash">简单实现无线桥接、中继，扩展无线覆盖</li>
-          <li class="dred">¥99</li>
-          <li><img src="${_slpbase }/images/imga.png"></li>
-          </ul>
-          </a>
-          <a href="#">
-          <ul>
-          <li class="word">TP-link300M无线路由器</li>
-          <li class="ash">简单实现无线桥接、中继，扩展无线覆盖</li>
-          <li class="dred">¥99</li>
-          <li><img src="${_slpbase }/images/imga.png"></li>
-          </ul>
-          </a>
-          <a href="#">
-          <ul>
-          <li class="word">TP-link300M无线路由器</li>
-          <li class="ash">简单实现无线桥接、中继，扩展无线覆盖</li>
-          <li class="dred">¥99</li>
-          <li><img src="${_slpbase }/images/imga.png"></li>
-          </ul>
-          </a>
-          <a href="#">
-          <ul>
-          <li class="word">TP-link300M无线路由器</li>
-          <li class="ash">简单实现无线桥接、中继，扩展无线覆盖</li>
-          <li class="dred">¥99</li>
-          <li><img src="${_slpbase }/images/imga.png"></li>
-          </ul>
-          </a>
-          <a href="#" class="mar-none">
-          <ul>
-          <li class="word">TP-link300M无线路由器</li>
-          <li class="ash">简单实现无线桥接、中继，扩展无线覆盖</li>
-          <li class="dred">¥99</li>
-          <li><img src="${_slpbase }/images/imga.png"></li>
-          </ul>
-          </a>
-          <a href="#">
-          <ul>
-          <li class="word">TP-link300M无线路由器</li>
-          <li class="ash">简单实现无线桥接、中继，扩展无线覆盖</li>
-          <li class="dred">¥99</li>
-          <li><img src="${_slpbase }/images/imga.png"></li>
-          </ul>
-          </a>
-          <a href="#">
-          <ul>
-          <li class="word">TP-link300M无线路由器</li>
-          <li class="ash">简单实现无线桥接、中继，扩展无线覆盖</li>
-          <li class="dred">¥99</li>
-          <li><img src="${_slpbase }/images/imga.png"></li>
-          </ul>
-          </a>
-          <a href="#">
-          <ul>
-          <li class="word">TP-link300M无线路由器</li>
-          <li class="ash">简单实现无线桥接、中继，扩展无线覆盖</li>
-          <li class="dred">¥99</li>
-          <li><img src="${_slpbase }/images/imga.png"></li>
-          </ul>
-          </a>
+          <div class="recommend-list" id="hotData">
+          <script id="hotTmpl" type="text/x-jsrender">
+				<a href="#" class="mar-none">
+                	<ul>
+                		<li class="word">{{:prodName}}</li>
+          				<li class="ash">{{:productSellPoint}}</li>
+          				<li class="dred">¥{{:salePrice}}</li>
+          				<li><img src="{{:picUrl}}"></li> 
+                	</ul>
+                </a>
+			</script>
+          
           </div>
      
      </div>

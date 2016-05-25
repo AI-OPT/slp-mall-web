@@ -48,4 +48,7 @@
 		interface="com.ai.slp.product.api.webfront.interfaces.IProductDetailSV" 
 		registry="baasRegistry" />
 		
+	<dubbo:reference id="iProductHomeSV" 
+		interface="com.ai.slp.product.api.webfront.interfaces.IProductHomeSV" 
+		registry="baasRegistry" />
 </beans>

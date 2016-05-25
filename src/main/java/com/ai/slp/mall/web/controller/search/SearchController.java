@@ -80,6 +80,10 @@ public class SearchController {
         ResponseData<List<ProductData>> responseData = null;
         try {
             List<ProductData> resultInfo = iPaymentQuerySV.queryHotSellProduct();
+            for(ProductData data:resultInfo){
+                data.setPictureUrl(ImageUtil.getHotImage());
+            }
+            resultInfo.get(0).setPictureUrl(ImageUtil.getImage());
             LOG.debug("商品查询出参:"+JSONArray.fromObject(resultInfo).toString());
             responseData = new ResponseData<List<ProductData>>(ResponseData.AJAX_STATUS_SUCCESS, "查询成功", resultInfo);
         } catch (Exception e) {

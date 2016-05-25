@@ -253,7 +253,7 @@
                          <script id="hotProductListTmpl" type="text/x-jsrender">
 							<div class="left-tow-list">
 								<ul>
-                            		<li class="img"><a href="#"><img src="${_slpbase }/images/hot-1.png"></a></li>
+                            		<li class="img"><a href="#"><img src="{{:pictureUrl}}"></a></li>
                             		<li class="word"><a href="#">{{:skuName}}</a> </li>
                             		<li class="left"><span>￥{{:salePrice}}</span><a href="#" class="pj">{{:commentIdCount}}评价</a></li>
                         		</ul>
@@ -278,9 +278,9 @@
                         		<ul class="tb-thumb" id="thumblist">
 									{{for pictureUrlList}}
 										{{if #index==0}}
-                            				<li class="tb-selected"><div class="tb-pic tb-s40"><a href="javascript:void(0);"><img src="{{:#data}}" id="crruntImageId"></a></div></li>
+                            				<li class="tb-selected"><div class="tb-pic tb-s40"><a href="javascript:void(0);"><img src="{{:#data}}" name="image"id="crruntImageId"></a></div></li>
                             			{{else}}
-											<li><div class="tb-pic tb-s40"><a href="javascript:void(0);"><img  src="{{:#data}}" id="thumbnailId"></a></div></li>
+											<li><div class="tb-pic tb-s40"><a href="javascript:void(0);"><img  src="{{:#data}}" name="image" id="thumbnailId"></a></div></li>
 										{{/if}}
 									{{/for}}                       		
 								</ul>
@@ -327,4 +327,3 @@ $(document).ready(function(){
 
 });
 </script>
-

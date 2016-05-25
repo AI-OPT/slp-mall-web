@@ -69,6 +69,9 @@ define('app/jsp/product/searchProduct', function (require, exports, module) {
 				},
     		});
     	},
+    	_test: function(){
+    		
+    	},
     	_changeImage: function(){
     		var url = document.getElementById("thumbnailId").src;
     		$("#bigPic").attr("src",url); 
