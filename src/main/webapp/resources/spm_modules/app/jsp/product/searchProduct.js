@@ -30,6 +30,8 @@ define('app/jsp/product/searchProduct', function (require, exports, module) {
     	events: {
     		//查询
             "click #BTN_SEARCH":"_searchBtnClick"
+            //"click #thumbnailId":"_changeImage",
+            //"click #crruntImageId":"_changeCurrentImage"
         },
     	//重写父类
     	setup: function () {
@@ -67,7 +69,15 @@ define('app/jsp/product/searchProduct', function (require, exports, module) {
 				},
     		});
     	},
-    	
+    	_changeImage: function(){
+    		var url = document.getElementById("thumbnailId").src;
+    		$("#bigPic").attr("src",url); 
+    	},
+    	_changeCurrentImage: function(){
+    		var url = document.getElementById("crruntImageId").src;
+    		alert(url);
+    		$("#bigPic").attr("src",url); 
+    	},
     	_getHotProduct:function(){
       		ajaxController.ajax({
 						type: "post",

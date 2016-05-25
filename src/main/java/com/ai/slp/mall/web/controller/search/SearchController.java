@@ -13,6 +13,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.ai.opt.base.vo.PageInfo;
 import com.ai.opt.sdk.dubbo.util.DubboConsumerFactory;
 import com.ai.opt.sdk.web.model.ResponseData;
+import com.ai.slp.mall.web.util.ImageUtil;
 import com.ai.slp.product.api.webfront.interfaces.ISearchProductSV;
 import com.ai.slp.product.api.webfront.param.ProductData;
 import com.ai.slp.product.api.webfront.param.ProductQueryRequest;
@@ -51,7 +52,12 @@ public class SearchController {
             req.setPageInfo(pageInfo);
             ProductQueryResponse resultInfo = iPaymentQuerySV.queryProductPage(req);
             PageInfo<ProductData> result= resultInfo.getPageInfo();
+            List<ProductData> list = result.getResult();
             result.setCount(10);
+            for(ProductData data:list){
+                data.setPictureUrl(ImageUtil.getImage());
+                data.setPictureUrlList(ImageUtil.getImages());
+            }
             LOG.debug("商品查询出参:"+JSONArray.fromObject(resultInfo).toString());
             responseData = new ResponseData<PageInfo<ProductData>>(ResponseData.AJAX_STATUS_SUCCESS, "查询成功", result);
         } catch (Exception e) {

@@ -71,11 +71,11 @@
                          <div id="picarea">
                 
                         <div id="bigpicarea">
-                            <div id="image_xixi-01" class="image"><a href="#"><img alt="" src="${_slpbase }/images/carousel-01.png" width="360" height="457"></a><div class="word"></div>
+                            <div id="image_xixi-01" class="image"><a href="#"><img alt="" src="${_slpbase }/images/xiaomi-bai-01.jpg" width="400" height="400"></a><div class="word"></div>
                             </div>
-                            <div id="image_xixi-02" class="image"><a href="#"><img alt="" src="${_slpbase }/images/carousel-01.png" width="360" height="457"></a><div class="word"></div>
+                            <div id="image_xixi-02" class="image"><a href="#"><img alt="" src="${_slpbase }/images/xiaomi-bai-02.jpg" width="400" height="400"></a><div class="word"></div>
                             </div>
-                            <div id="image_xixi-03" class="image"><a href="#"><img alt="" src="${_slpbase }/images/carousel-01.png" width="360" height="457"></a><div class="word"></div>
+                            <div id="image_xixi-03" class="image"><a href="#"><img alt="" src="${_slpbase }/images/xiaomi-bai-03.jpg" width="400" height="400"></a><div class="word"></div>
                             </div>
                            </div>
                         </div>
@@ -83,10 +83,9 @@
                             <div id="thumbs">
                                 <ul>
                                     <li class="first btnPrev"><i id="play_prev" class="icon-angle-left"></i></li>
-                                    <li class="slideshowItem"><a id="thumb_xixi-01" href="javascript:"><img src="${_slpbase }/images/carousel-01.png" width=60 height=60></a></li>
-                                    <li class="slideshowItem"><a id="thumb_xixi-02" href="javascript:"><img src="${_slpbase }/images/carousel-01.png" width=60 height=60></a></li>
-                                    <li class="slideshowItem"><a id="thumb_xixi-03" href="javascript:"><img src="${_slpbase }/images/carousel-01.png" width=60 height=60></a></li>
-                                    <li class="slideshowItem"><a id="thumb_xixi-04" href="javascript:"><img src="${_slpbase }/images/carousel-01.png" width=60 height=60></a></li>
+                                    <li class="slideshowItem"><a id="thumb_xixi-01" href="javascript:"><img src="${_slpbase }/images/xiaomi-bai-01.jpg" width=60 height=60></a></li>
+                                    <li class="slideshowItem"><a id="thumb_xixi-02" href="javascript:"><img src="${_slpbase }/images/xiaomi-bai-02.jpg" width=60 height=60></a></li>
+                                    <li class="slideshowItem"><a id="thumb_xixi-03" href="javascript:"><img src="${_slpbase }/images/xiaomi-bai-03.jpg" width=60 height=60></a></li>
                                     <li class="last btnNext"><i id="play_next" class="icon-angle-right"></i></li>
                                 </ul>
                             </div>
@@ -99,14 +98,16 @@
                    </div>
                  </div>
                 <!--商品详情右侧-->
-      <div class="details">
+      			<div class="details">
+      			 <div id="producSKUData"></div>
+      			 <script id="producSKUTemple" type="text/template">
                    <ul class="details-title">
-                       <li class="word">小米5 全网通 标准版 3GB......</li>
-                       <li class="color">套餐更实惠，千元畅机！高通晓龙650处理器，轻薄4000mAH电池，5.5英寸1080p高清大屏！5.5英寸1080p高清大屏！</li>
+                       <li class="word">{{:productName}}</li>
+                       <li class="color">{{:productSellPoint}}</li>
                    </ul>
                    <ul class="details-list">
                        <li class="word">价格:</li>
-                       <li class="color">￥1499元</li>
+                       <li class="color">￥{{:salePrice}}元</li>
                    </ul>
                    <ul class="details-list">
                        <li class="word">所在地:</li>
@@ -116,12 +117,39 @@
                        <li class="word">有效期:</li>
                        <li>购买后15天</li>
                    </ul>
-                  <ul class="details-list">
+					{{for productAttrList}}
+						<ul class="details-list">
+					   		<li class="word">{{:attrName}}:</li>
+                       		<li class="attribute">
+							{{for attrValueList}}
+                           		<p>
+                               		<a href="#">
+									<!--<a href="#" class="current">-->
+									{{if vfsId}}
+                               		<span><img src="{{:vfsId}}"></span>
+									{{/if}}
+                               		<span>{{:attrValueName}}</span>
+                               		</a>
+                           		</p>
+							{{/for}}
+                        	</li>
+                   	 </ul>
+					{{/for}}
+					 <ul class="details-list">
+                       <li class="word">购买数量:</li>
+                       <li class="numbe">
+                           <p><input type="button" class="details-jia" value="-"></p>
+                           <p><input type="text" class="details-int" value="1"></p>
+                           <p><input type="button" class="details-jia" value="+"></p>
+                       </li>
+                   	</ul>
+                   	<ul class="details-list">
                        <li class="word">销量:</li>
-                       <li>232345455</li>
-                       <li class="right"><span class="word1">评价:</span><span>2323</span></li>
-                   </ul>
-                   <ul class="details-list">
+                       <li>{{:saleNum}}</li>
+                       <li class="right"><span class="word1">评价:</span><span>{{:commentNum}}</span></li>
+                   	</ul>
+					</script>
+                 <%--   	<ul class="details-list">
                        <li class="word">销售属性1:</li>
                        <li class="attribute">
                            <p>
@@ -173,15 +201,8 @@
                            <p><a href="#"><span>属性2选择项1</span></a></p>
                            <p><a href="#"><span>属性2选择项1</span></a></p>
                        </li>
-                   </ul>
-                    <ul class="details-list">
-                       <li class="word">购买数量:</li>
-                       <li class="numbe">
-                           <p><input type="button" class="details-jia" value="-"></p>
-                           <p><input type="text" class="details-int" value="1"></p>
-                           <p><input type="button" class="details-jia" value="+"></p>
-                       </li>
-                   </ul>
+                   </ul> --%>
+                    
                    <ul class="details-list btm-magin">
                    <li class="btn-mar"><input type="button" class="slp-btn details-btn" value="立即购买"></li>
                    <li><input type="button" class="slp-btn details-btn" value="加入购物车"></li>
@@ -321,14 +342,22 @@
    <!--底部-->
 <%@ include file="/inc/foot.jsp" %>
    <!--底部 结束-->
-
+	<script src="${_slpbase }/scripts/frame.js" type="text/javascript"></script>
+	<script src="${_slpbase }/scripts/carousel.js" type="text/javascript"></script>
+	<script type="text/javascript">
+	var target = ["xixi-01","xixi-02","xixi-03","xixi-04"];
+	
+	var pager;
+	var producSKU = $.parseJSON('${producSKU}');
+	(function () {
+		seajs.use('app/jsp/product/productDetail', function (ProductDetailPager) {
+			pager = new ProductDetailPager({element: document.body});
+			pager.render();
+		});
+	})();
+	</script>
 </body>
 </html>
-<script src="${_slpbase }/scripts/frame.js" type="text/javascript"></script>
-<script src="${_slpbase }/scripts/carousel.js" type="text/javascript"></script>
-<script type="text/javascript">
-var target = ["xixi-01","xixi-02","xixi-03","xixi-04"];
-</script>
 
 
 

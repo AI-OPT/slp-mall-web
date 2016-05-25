@@ -139,5 +139,11 @@ public final class SLPMallConstants {
     	public static final String BAAS_PT_INDEX_URL_KEY = "/baas_pt_index_url";
     }
     
+    public static final class ProductImageConstant{
+    	private ProductImageConstant(){}
+    	
+    	public static final String IDPSNS="slp-mall-web-idps";
+    }
+    
     
 }
