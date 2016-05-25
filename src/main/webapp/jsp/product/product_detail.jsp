@@ -69,25 +69,24 @@
      <div class="left-effect">
                      <div class="carousel-left">
                          <div id="picarea">
-                
-                        <div id="bigpicarea">
-                            <div id="image_xixi-01" class="image"><a href="#"><img alt="" src="${_slpbase }/images/xiaomi-bai-01.jpg" width="400" height="400"></a><div class="word"></div>
-                            </div>
-                            <div id="image_xixi-02" class="image"><a href="#"><img alt="" src="${_slpbase }/images/xiaomi-bai-02.jpg" width="400" height="400"></a><div class="word"></div>
-                            </div>
-                            <div id="image_xixi-03" class="image"><a href="#"><img alt="" src="${_slpbase }/images/xiaomi-bai-03.jpg" width="400" height="400"></a><div class="word"></div>
-                            </div>
+                           <div id="bigpicarea">
+                           	<div id="bigImageData"></div>
                            </div>
-                        </div>
+                           <script id="bigImageTemple" type="text/template">
+								<div id="image_xixi-{{:#index+1}}" class="image"><a href="#"><img src="{{:bigImageUrl}}"></a><div class="word"></div>
+	                            </div>
+						   </script>
+						 </div>
                          <div id="smallpicarea">
                             <div id="thumbs">
                                 <ul>
                                     <li class="first btnPrev"><i id="play_prev" class="icon-angle-left"></i></li>
-                                    <li class="slideshowItem"><a id="thumb_xixi-01" href="javascript:"><img src="${_slpbase }/images/xiaomi-bai-01.jpg" width=60 height=60></a></li>
-                                    <li class="slideshowItem"><a id="thumb_xixi-02" href="javascript:"><img src="${_slpbase }/images/xiaomi-bai-02.jpg" width=60 height=60></a></li>
-                                    <li class="slideshowItem"><a id="thumb_xixi-03" href="javascript:"><img src="${_slpbase }/images/xiaomi-bai-03.jpg" width=60 height=60></a></li>
+                                	<div id="smallImageData"></div>
                                     <li class="last btnNext"><i id="play_next" class="icon-angle-right"></i></li>
                                 </ul>
+                                <script id="smallImageTemple" type="text/template">
+								<li class="slideshowItem"><a id="thumb_xixi-{{:#index+1}}" href="javascript:"><img src="{{:smallImageUrl}}"></a></li>
+						   		</script>
                             </div>
                         </div>
                    </div>
@@ -349,6 +348,7 @@
 	
 	var pager;
 	var producSKU = $.parseJSON('${productSKU}');
+	var imageArrayList = $.parseJSON('${imageArrayList}');
 	(function () {
 		seajs.use('app/jsp/product/productDetail', function (ProductDetailPager) {
 			pager = new ProductDetailPager({element: document.body});
