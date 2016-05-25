@@ -125,8 +125,8 @@
                            		<p>
                                		<a href="#">
 									<!--<a href="#" class="current">-->
-									{{if vfsId}}
-                               		<span><img src="{{:vfsId}}"></span>
+									{{if imageUrl != null}}
+                               		<span><img src="{{:imageUrl}}"></span>
 									{{/if}}
                                		<span>{{:attrValueName}}</span>
                                		</a>
@@ -348,7 +348,7 @@
 	var target = ["xixi-01","xixi-02","xixi-03","xixi-04"];
 	
 	var pager;
-	var producSKU = $.parseJSON('${producSKU}');
+	var producSKU = $.parseJSON('${productSKU}');
 	(function () {
 		seajs.use('app/jsp/product/productDetail', function (ProductDetailPager) {
 			pager = new ProductDetailPager({element: document.body});

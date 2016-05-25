@@ -26,4 +26,9 @@ public class productDetailTest {
 		// 获取上传图片指定尺寸的URL
 		//System.out.println(im.getImageUrl(idpsId, ".jpg", "100x80"));
 	}
+	
+	@Test
+	public void checkImage(){
+		
+	}
 }
