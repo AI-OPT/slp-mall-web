@@ -39,6 +39,7 @@
 	<dubbo:reference id="iTenantManageSV" 
 		interface="com.ai.opt.uac.api.account.interfaces.ITenantManageSV" 
 		registry="baasRegistry" />
-
-		
+		<!-- 商品查询服务 -->
+<dubbo:reference id="iSearchProductSV"
+		interface="com.ai.slp.product.api.webfront.interfaces.ISearchProductSV"/>
 </beans>

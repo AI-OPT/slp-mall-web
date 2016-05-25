@@ -1,14 +1,23 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<!doctype html>
 <html>
 <head>
-<meta charset="UTF-8">
+<%@ include file="/inc/inc.jsp"%>
 <title>搜索结果</title>
-<%@ include file="/inc/inc.jsp" %>
 <link href="${_slpbase }/styles/modular.css" rel="stylesheet" type="text/css">
 <link href="${_slpbase }/styles/global.css" rel="stylesheet" type="text/css">
 <link href="${_slpbase }/styles/frame.css" rel="stylesheet" type="text/css">
 <link href="${_slpbase }/styles/font-awesome.css" rel="stylesheet" type="text/css">
+<script src="${_slpbase }/scripts/frame.js" type="text/javascript"></script>
+<script src="${_slpbase }/scripts/imgloop.js" type="text/javascript"></script>
+<script type="text/javascript">
+			var pager;
+			(function () {
+				seajs.use('app/jsp/product/searchProduct', function (QueryProductPager) {
+					pager = new QueryProductPager({element: document.body});
+					pager.render();
+				});
+			})();
+		</script>
 </head>
 
 <body>
@@ -227,9 +236,9 @@
                 </div> 
                <div class="results-right">
                    <ul>
-                       <li>共356785件商品</li>
+                       <li>共<span id="totalcount"></span>件商品</li>
                        <li><A href="#">&lt;</A></li>
-                       <li><span>1</span>/20</li>
+                       <li><span id="pageno"></span>/<span id="pagecount"></span></li>
                        <li><A href="#">&gt;</A></li>
                    </ul>
                </div>
@@ -240,380 +249,54 @@
           <div class="product-list-left">
               <div class="parameter-left-tow">
                      <div class="parameter-left-tow-title"><p>热销推荐</p></div>
-                        <div class="left-tow-list">
-                         <ul>
-                            <li class="img"><a href="#"><img src="${_slpbase }/images/hot-1.png"></a></li>
-                            <li class="word"><a href="#">华为(HUAWEI) 荣耀 畅玩5X 4G手机 破晓银 移动4G版(2G</a> </li>
-                            <li class="left"><span>￥1099.00</span><a href="#" class="pj">43435评价</a></li>
-                        </ul>
-                        </div>
-                          <div class="left-tow-list">
-                         <ul>
-                            <li class="img"><a href="#"><img src="${_slpbase }/images/hot-2.png"></a></li>
-                            <li class="word"><a href="#">华为(HUAWEI) 荣耀 畅玩5X 4G手机 破晓银 移动4G版(2G</a> </li>
-                            <li class="left"><span>￥1099.00</span><a href="#" class="pj">43435评价</a></li>
-                        </ul>
-                        </div>
-                          <div class="left-tow-list">
-                         <ul>
-                            <li class="img"><a href="#"><img src="${_slpbase }/images/hot-1.png"></a></li>
-                            <li class="word"><a href="#">华为(HUAWEI) 荣耀 畅玩5X 4G手机 破晓银 移动4G版(2G</a> </li>
-                            <li class="left"><span>￥1099.00</span><a href="#" class="pj">43435评价</a></li>
-                        </ul>
-                        </div>
-                          <div class="left-tow-list border-none">
-                         <ul>
-                            <li class="img"><a href="#"><img src="${_slpbase }/images/hot-2.png"></a></li>
-                            <li class="word"><a href="#">华为(HUAWEI) 荣耀 畅玩5X 4G手机 破晓银 移动4G版(2G</a> </li>
-                            <li class="left"><span>￥1099.00</span><a href="#" class="pj">43435评价</a></li>
-                        </ul>
+                        <div class="left-tow-list" id="hotProductData">
+                         <script id="hotProductListTmpl" type="text/x-jsrender">
+							<div class="left-tow-list">
+								<ul>
+                            		<li class="img"><a href="#"><img src="${_slpbase }/images/hot-1.png"></a></li>
+                            		<li class="word"><a href="#">{{:skuName}}</a> </li>
+                            		<li class="left"><span>￥{{:salePrice}}</span><a href="#" class="pj">{{:commentIdCount}}评价</a></li>
+                        		</ul>
+							</div>
+						</script>
                         </div>
                   </div>
           
           </div>
           <!--热销产品右侧-->
            <div class="product-list-right">
-           <div class="big-list">
+           <div class="big-list" id="productData">
            <!--图片列表块-->
-           <div class="single">
-               <div class="single-top">
-               <!--图片轮播-->
-                   <div class="picture-carousel">
-                    <div class="tb-booth tb-pic tb-s310">
-                            <a href="#"><img src="${_slpbase }/images/01_mid.jpg"  class="jqzoom" /></a>
-                        </div>
-                    
-                        <ul class="tb-thumb" id="thumblist">
-                            <li class="tb-selected"><div class="tb-pic tb-s40"><a href="javascript:void(0);"><img src="${_slpbase }/images/01_mid.jpg"></a></div></li>
-                            <li><div class="tb-pic tb-s40"><a href="javascript:void(0);"><img  src="${_slpbase }/images/02_mid.jpg"></a></div></li>
-                        </ul>
-                   
-                   </div>
-               <!--文字-->
-               <div class="single-word">
-               <ul>
-               <li class="word">¥48<a href="#" class="pj">23423评价</a></li>
-               <li><a href="#">光环系列二合一数据线光环系列二合一数据线</a></li>
-               </ul>
-      
-               </div>
-               </div>
-           </div>
-           <!--图片列表块技术-->
-            <!--图片列表块-->
-           <div class="single">
-               <div class="single-top">
-               <!--图片轮播-->
-                   <div class="picture-carousel">
-                    <div class="tb-booth tb-pic tb-s310">
-                            <a href="#"><img src="${_slpbase }/images/01_mid.jpg"  class="jqzoom" /></a>
-                        </div>
-                    
-                        <ul class="tb-thumb" id="thumblist">
-                            <li class="tb-selected"><div class="tb-pic tb-s40"><a href="javascript:void(0);"><img src="${_slpbase }/images/01_mid.jpg"></a></div></li>
-                            <li><div class="tb-pic tb-s40"><a href="javascript:void(0);"><img  src="${_slpbase }/images/02_mid.jpg"></a></div></li>
-                        </ul>
-                   
-                   </div>
-               <!--文字-->
-               <div class="single-word">
-               <ul>
-               <li class="word">¥48<a href="#" class="pj">23423评价</a></li>
-               <li><a href="#">光环系列二合一数据线光环系列二合一数据线</a></li>
-               </ul>
-      
-               </div>
-               </div>
-           </div>
-           <!--图片列表块技术-->
-            <!--图片列表块-->
-           <div class="single">
-               <div class="single-top">
-               <!--图片轮播-->
-                   <div class="picture-carousel">
-                    <div class="tb-booth tb-pic tb-s310">
-                            <a href="#"><img src="${_slpbase }/images/01_mid.jpg"  class="jqzoom" /></a>
-                        </div>
-                    
-                        <ul class="tb-thumb" id="thumblist">
-                            <li class="tb-selected"><div class="tb-pic tb-s40"><a href="javascript:void(0);"><img src="${_slpbase }/images/01_mid.jpg"></a></div></li>
-                            <li><div class="tb-pic tb-s40"><a href="javascript:void(0);"><img  src="${_slpbase }/images/02_mid.jpg"></a></div></li>
-                        </ul>
-                   
-                   </div>
-               <!--文字-->
-               <div class="single-word">
-               <ul>
-               <li class="word">¥48<a href="#" class="pj">23423评价</a></li>
-               <li><a href="#">光环系列二合一数据线光环系列二合一数据线</a></li>
-               </ul>
-      
-               </div>
-               </div>
-           </div>
-           <!--图片列表块技术-->
-            <!--图片列表块-->
-           <div class="single">
-               <div class="single-top">
-               <!--图片轮播-->
-                   <div class="picture-carousel">
-                    <div class="tb-booth tb-pic tb-s310">
-                            <a href="#"><img src="${_slpbase }/images/01_mid.jpg"  class="jqzoom" /></a>
-                        </div>
-                    
-                        <ul class="tb-thumb" id="thumblist">
-                            <li class="tb-selected"><div class="tb-pic tb-s40"><a href="javascript:void(0);"><img src="${_slpbase }/images/01_mid.jpg"></a></div></li>
-                            <li><div class="tb-pic tb-s40"><a href="javascript:void(0);"><img  src="${_slpbase }/images/02_mid.jpg"></a></div></li>
-                        </ul>
-                   
-                   </div>
-               <!--文字-->
-               <div class="single-word">
-               <ul>
-               <li class="word">¥48<a href="#" class="pj">23423评价</a></li>
-               <li><a href="#">光环系列二合一数据线光环系列二合一数据线</a></li>
-               </ul>
-      
-               </div>
-               </div>
-           </div>
-           <!--图片列表块技术-->
-            <!--图片列表块-->
-           <div class="single">
-               <div class="single-top">
-               <!--图片轮播-->
-                   <div class="picture-carousel">
-                    <div class="tb-booth tb-pic tb-s310">
-                            <a href="#"><img src="${_slpbase }/images/01_mid.jpg"  class="jqzoom" /></a>
-                        </div>
-                    
-                        <ul class="tb-thumb" id="thumblist">
-                            <li class="tb-selected"><div class="tb-pic tb-s40"><a href="javascript:void(0);"><img src="${_slpbase }/images/01_mid.jpg"></a></div></li>
-                            <li><div class="tb-pic tb-s40"><a href="javascript:void(0);"><img  src="${_slpbase }/images/02_mid.jpg"></a></div></li>
-                        </ul>
-                   
-                   </div>
-               <!--文字-->
-               <div class="single-word">
-               <ul>
-               <li class="word">¥48<a href="#" class="pj">23423评价</a></li>
-               <li><a href="#">光环系列二合一数据线光环系列二合一数据线</a></li>
-               </ul>
-      
-               </div>
-               </div>
-           </div>
-           <!--图片列表块技术-->
-            <!--图片列表块-->
-           <div class="single">
-               <div class="single-top">
-               <!--图片轮播-->
-                   <div class="picture-carousel">
-                    <div class="tb-booth tb-pic tb-s310">
-                            <a href="#"><img src="${_slpbase }/images/01_mid.jpg"  class="jqzoom" /></a>
-                        </div>
-                    
-                        <ul class="tb-thumb" id="thumblist">
-                            <li class="tb-selected"><div class="tb-pic tb-s40"><a href="javascript:void(0);"><img src="${_slpbase }/images/01_mid.jpg"></a></div></li>
-                            <li><div class="tb-pic tb-s40"><a href="javascript:void(0);"><img  src="${_slpbase }/images/02_mid.jpg"></a></div></li>
-                        </ul>
-                   
-                   </div>
-               <!--文字-->
-               <div class="single-word">
-               <ul>
-               <li class="word">¥48<a href="#" class="pj">23423评价</a></li>
-               <li><a href="#">光环系列二合一数据线光环系列二合一数据线</a></li>
-               </ul>
-      
-               </div>
-               </div>
-           </div>
-           <!--图片列表块技术-->
-            <!--图片列表块-->
-           <div class="single">
-               <div class="single-top">
-               <!--图片轮播-->
-                   <div class="picture-carousel">
-                    <div class="tb-booth tb-pic tb-s310">
-                            <a href="#"><img src="${_slpbase }/images/01_mid.jpg"  class="jqzoom" /></a>
-                        </div>
-                    
-                        <ul class="tb-thumb" id="thumblist">
-                            <li class="tb-selected"><div class="tb-pic tb-s40"><a href="javascript:void(0);"><img src="${_slpbase }/images/01_mid.jpg"></a></div></li>
-                            <li><div class="tb-pic tb-s40"><a href="javascript:void(0);"><img  src="${_slpbase }/images/02_mid.jpg"></a></div></li>
-                        </ul>
-                   
-                   </div>
-               <!--文字-->
-               <div class="single-word">
-               <ul>
-               <li class="word">¥48<a href="#" class="pj">23423评价</a></li>
-               <li><a href="#">光环系列二合一数据线光环系列二合一数据线</a></li>
-               </ul>
-      
-               </div>
-               </div>
-           </div>
-           <!--图片列表块技术-->
-            <!--图片列表块-->
-           <div class="single">
-               <div class="single-top">
-               <!--图片轮播-->
-                   <div class="picture-carousel">
-                    <div class="tb-booth tb-pic tb-s310">
-                            <a href="#"><img src="${_slpbase }/images/01_mid.jpg"  class="jqzoom" /></a>
-                        </div>
-                    
-                        <ul class="tb-thumb" id="thumblist">
-                            <li class="tb-selected"><div class="tb-pic tb-s40"><a href="javascript:void(0);"><img src="${_slpbase }/images/01_mid.jpg"></a></div></li>
-                            <li><div class="tb-pic tb-s40"><a href="javascript:void(0);"><img  src="${_slpbase }/images/02_mid.jpg"></a></div></li>
-                        </ul>
-                   
-                   </div>
-               <!--文字-->
-               <div class="single-word">
-               <ul>
-               <li class="word">¥48<a href="#" class="pj">23423评价</a></li>
-               <li><a href="#">光环系列二合一数据线光环系列二合一数据线</a></li>
-               </ul>
-      
-               </div>
-               </div>
-           </div>
-           <!--图片列表块技术-->
-            <!--图片列表块-->
-           <div class="single">
-               <div class="single-top">
-               <!--图片轮播-->
-                   <div class="picture-carousel">
-                    <div class="tb-booth tb-pic tb-s310">
-                            <a href="#"><img src="${_slpbase }/images/01_mid.jpg"  class="jqzoom" /></a>
-                        </div>
-                    
-                        <ul class="tb-thumb" id="thumblist">
-                            <li class="tb-selected"><div class="tb-pic tb-s40"><a href="javascript:void(0);"><img src="${_slpbase }/images/01_mid.jpg"></a></div></li>
-                            <li><div class="tb-pic tb-s40"><a href="javascript:void(0);"><img  src="${_slpbase }/images/02_mid.jpg"></a></div></li>
-                        </ul>
-                   
-                   </div>
-               <!--文字-->
-               <div class="single-word">
-               <ul>
-               <li class="word">¥48<a href="#" class="pj">23423评价</a></li>
-               <li><a href="#">光环系列二合一数据线光环系列二合一数据线</a></li>
-               </ul>
-      
-               </div>
-               </div>
-           </div>
-           <!--图片列表块技术-->
-            <!--图片列表块-->
-           <div class="single">
-               <div class="single-top">
-               <!--图片轮播-->
-                   <div class="picture-carousel">
-                    <div class="tb-booth tb-pic tb-s310">
-                            <a href="#"><img src="${_slpbase }/images/01_mid.jpg"  class="jqzoom" /></a>
-                        </div>
-                    
-                        <ul class="tb-thumb" id="thumblist">
-                            <li class="tb-selected"><div class="tb-pic tb-s40"><a href="javascript:void(0);"><img src="${_slpbase }/images/01_mid.jpg"></a></div></li>
-                            <li><div class="tb-pic tb-s40"><a href="javascript:void(0);"><img  src="${_slpbase }/images/02_mid.jpg"></a></div></li>
-                        </ul>
-                   
-                   </div>
-               <!--文字-->
-               <div class="single-word">
-               <ul>
-               <li class="word">¥48<a href="#" class="pj">23423评价</a></li>
-               <li><a href="#">光环系列二合一数据线光环系列二合一数据线</a></li>
-               </ul>
-      
-               </div>
-               </div>
-           </div>
-           <!--图片列表块技术-->
-            <!--图片列表块-->
-           <div class="single">
-               <div class="single-top">
-               <!--图片轮播-->
-                   <div class="picture-carousel">
-                    <div class="tb-booth tb-pic tb-s310">
-                            <a href="#"><img src="${_slpbase }/images/01_mid.jpg"  class="jqzoom" /></a>
-                        </div>
-                    
-                        <ul class="tb-thumb" id="thumblist">
-                            <li class="tb-selected"><div class="tb-pic tb-s40"><a href="javascript:void(0);"><img src="${_slpbase }/images/01_mid.jpg"></a></div></li>
-                            <li><div class="tb-pic tb-s40"><a href="javascript:void(0);"><img  src="${_slpbase }/images/02_mid.jpg"></a></div></li>
-                        </ul>
-                   
-                   </div>
-               <!--文字-->
-               <div class="single-word">
-               <ul>
-               <li class="word">¥48<a href="#" class="pj">23423评价</a></li>
-               <li><a href="#">光环系列二合一数据线光环系列二合一数据线</a></li>
-               </ul>
-      
-               </div>
-               </div>
-           </div>
-           <!--图片列表块技术-->
-            <!--图片列表块-->
-           <div class="single">
-               <div class="single-top">
-               <!--图片轮播-->
-                   <div class="picture-carousel">
-                    <div class="tb-booth tb-pic tb-s310">
-                            <a href="#"><img src="${_slpbase }/images/01_mid.jpg"  class="jqzoom" /></a>
-                        </div>
-                    
-                        <ul class="tb-thumb" id="thumblist">
-                            <li class="tb-selected"><div class="tb-pic tb-s40"><a href="javascript:void(0);"><img src="${_slpbase }/images/01_mid.jpg"></a></div></li>
-                            <li><div class="tb-pic tb-s40"><a href="javascript:void(0);"><img  src="${_slpbase }/images/02_mid.jpg"></a></div></li>
-                        </ul>
-                   
-                   </div>
-               <!--文字-->
-               <div class="single-word">
-               <ul>
-               <li class="word">¥48<a href="#" class="pj">23423评价</a></li>
-               <li><a href="#">光环系列二合一数据线光环系列二合一数据线</a></li>
-               </ul>
-      
-               </div>
-               </div>
-           </div>
-           <!--图片列表块技术-->
-  
+		    </div>
+		    <script id="productListTemple" type="text/template">
+						<div class="single">
+               				<div class="single-top">
+							 <div class="picture-carousel">
+                    			<div class="tb-booth tb-pic tb-s310">
+                            		<a href="#"><img src="${_slpbase }/images/01_mid.jpg"  class="jqzoom" /></a>
+                        		</div>
+                        		<ul class="tb-thumb" id="thumblist">
+                            		<li class="tb-selected"><div class="tb-pic tb-s40"><a href="javascript:void(0);"><img src="${_slpbase }/images/01_mid.jpg"></a></div></li>
+                            		<li><div class="tb-pic tb-s40"><a href="javascript:void(0);"><img  src="${_slpbase }/images/02_mid.jpg"></a></div></li>
+                        		</ul>
+                   			</div>
+							<div class="single-word">
+               					<ul>
+               						<li class="word">¥{{:salePrice}}<a href="#" class="pj">{{:commentIdCount}}评价</a></li>
+               						<li><a href="#">{{:skuName}}</a></li>
+               					</ul>
+               				</div>
+						</div>
+					</div>
+						   
+	    </script>
            
-           </div>
-           
-           <div class="" style=" width:100%; float:left;">
-           <div class="paging-large">
-        <ul>
-            <li>共100页</li>
-            <li class="prev-up"><a href="#">&lt;上一页</a> </li>
-            <li class="active"> <a href="#">1 </a> </li>
-            <li> <a href="#">2 </a> </li>
-            <li> <a href="#">3</a> </li>
-            <li><span>....</span></li>
-            <li> <a href="#">6</a> </li>
-            <li> <a href="#">7</a> </li>
-            <li class="next-down"><a href="#">下一页&gt;</a> </li>
-   		     <li>
-                <span>到</span>
-                <span><input type="text" class="int-verysmall"></span>
-                <span>页</span>
-                <span class="btn-span"><a class="but-determine">确定</a></span>
-            </li>
-            
-         </ul>
-	</div>
-           
-           </div>
-      
+         <!--分页-->
+          
+          <div class="paging-large">
+			 <ul id="pagination-ul"></ul>
+		  </div>
+			 <!--分页-->
       </div>
       
         </div>
@@ -628,8 +311,7 @@
 
 </body>
 </html>
-<script src="${_slpbase }/scripts/frame.js" type="text/javascript"></script>
-<script src="${_slpbase }/scripts/imgloop.js" type="text/javascript"></script>
+
 <script type="text/javascript">
 $(document).ready(function(){
 	
