@@ -243,15 +243,14 @@
         		</div>
                 <div id="date2" style=" display:none;">
                    <div class="specification">
-                       <ul>
-                       	   <div id="configParameterData"></div>
-                       	   <script id="configParameterTemple" type="text/template">
+                       	<ul id="configParameterData">
+						</ul>
+                      	<script id="configParameterTemple" type="text/template">
 							<li>
                                <p class="word">{{:configName}}</p>
                                <p>{{:configValue}}</p>
                             </li>
-						   </script>
-						</ul>
+						</script>
                    </div>
                   
                   
