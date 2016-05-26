@@ -1,19 +1,17 @@
 package com.ai.slp.mall.web.model.product;
 
+import java.util.List;
+
 public class ProductImageVO {
-	private String bigImageUrl;
-	private String smallImageUrl;
 	
-	public String getBigImageUrl() {
-		return bigImageUrl;
+	private List<SKUImageVO> skuImageList;
+
+	public List<SKUImageVO> getSkuImageList() {
+		return skuImageList;
 	}
-	public void setBigImageUrl(String bigImageUrl) {
-		this.bigImageUrl = bigImageUrl;
+
+	public void setSkuImageList(List<SKUImageVO> skuImageList) {
+		this.skuImageList = skuImageList;
 	}
-	public String getSmallImageUrl() {
-		return smallImageUrl;
-	}
-	public void setSmallImageUrl(String smallImageUrl) {
-		this.smallImageUrl = smallImageUrl;
-	}
+
 }

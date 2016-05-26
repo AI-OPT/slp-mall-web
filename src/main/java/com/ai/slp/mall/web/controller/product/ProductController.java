@@ -24,6 +24,7 @@ import com.ai.paas.ipaas.image.IImageClient;
 import com.ai.paas.ipaas.util.JSonUtil;
 import com.ai.slp.mall.web.constants.SLPMallConstants.ProductImageConstant;
 import com.ai.slp.mall.web.model.product.ProductImageVO;
+import com.ai.slp.mall.web.model.product.SKUImageVO;
 import com.ai.slp.mall.web.util.ImageUtil;
 import com.ai.slp.product.api.webfront.interfaces.IProductDetailSV;
 import com.ai.slp.product.api.webfront.interfaces.ISearchProductSV;
@@ -65,8 +66,10 @@ public class ProductController {
 			String producSKUJson = JSonUtil.toJSon(producSKU);
 			model.put("productSKU", producSKUJson);
 			// 获得商品图片
-			List<ProductImageVO> productImageVOList = getProductImages(producSKU);
-			String productImageJson = JSonUtil.toJSon(productImageVOList);
+			List<SKUImageVO> productImageVOList = getProductImages(producSKU);
+			ProductImageVO productImageVO = new ProductImageVO();
+			productImageVO.setSkuImageList(productImageVOList);
+			String productImageJson = JSonUtil.toJSon(productImageVO);
 			model.put("imageArrayList", productImageJson);
 			// 设置skuID
 			String skuId = producSKU.getSkuId();
@@ -111,11 +114,11 @@ public class ProductController {
 	 * @param productSKUVO
 	 * @return
 	 */
-	private List<ProductImageVO> getProductImages(ProductSKUResponse productSKUVO) {
+	private List<SKUImageVO> getProductImages(ProductSKUResponse productSKUVO) {
 		String productImageBigSize = "360x457";
 		String productImageSmailSize = "60x60";
 		List<ProductImage> productImageList = productSKUVO.getProductImageList();
-		List<ProductImageVO> productImageArrayList = new LinkedList<ProductImageVO>();
+		List<SKUImageVO> productImageArrayList = new LinkedList<SKUImageVO>();
 		if (productImageList != null && productImageList.size() > 0) {
 			IImageClient imageClient = IDPSClientFactory.getImageClient(ProductImageConstant.IDPSNS);
 			for (ProductImage productImage : productImageList) {
@@ -123,10 +126,10 @@ public class ProductController {
 				String extension = productImage.getExtension();
 				String bigImageUrl = imageClient.getImageUrl(idpsId, extension, productImageBigSize);
 				String smallImageUrl = imageClient.getImageUrl(idpsId, extension, productImageSmailSize);
-				ProductImageVO productImageVO = new ProductImageVO();
-				productImageVO.setBigImageUrl(bigImageUrl);
-				productImageVO.setSmallImageUrl(smallImageUrl);
-				productImageArrayList.add(productImageVO);
+				SKUImageVO sKUImageVO = new SKUImageVO();
+				sKUImageVO.setBigImageUrl(bigImageUrl);
+				sKUImageVO.setSmallImageUrl(smallImageUrl);
+				productImageArrayList.add(sKUImageVO);
 			}
 		}
 		return productImageArrayList;
