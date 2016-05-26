@@ -69,12 +69,15 @@
      <div class="left-effect">
                      <div class="carousel-left">
                          <div id="picarea">
-                           <div id="bigpicarea">
-                           	<div id="bigImageData"></div>
-                           </div>
+                           <div id="bigpicarea"></div>
                            <script id="bigImageTemple" type="text/template">
-								<div id="image_xixi-{{:#index+1}}" class="image"><a href="#"><img src="{{:bigImageUrl}}"></a><div class="word"></div>
-	                            </div>
+								{{if #index<9}}
+								<div id="image_xixi-0{{: #getIndex()+1}}" class="image"><a href="#"><img alt="" src="{{:bigImageUrl}}" width="360" height="457"></a><div class="word"></div>
+                            	</div>
+								{{else}}
+								<div id="image_xixi-{{: #getIndex()+1}}" class="image"><a href="#"><img alt="" src="{{:bigImageUrl}}" width="360" height="457"></a><div class="word"></div>
+                            	</div>
+								{{/if}}
 						   </script>
 						 </div>
                          <div id="smallpicarea">
@@ -85,14 +88,20 @@
                                     <li class="last btnNext"><i id="play_next" class="icon-angle-right"></i></li>
                                 </ul>
                                 <script id="smallImageTemple" type="text/template">
-								<li class="slideshowItem"><a id="thumb_xixi-{{:#index+1}}" href="javascript:"><img src="{{:smallImageUrl}}"></a></li>
-						   		</script>
+								{{if #index<9}}
+								<li class="slideshowItem"><a id="thumb_xixi-0{{: #getIndex()+1}}" href="javascript:"><img src="{{:smallImageUrl}}"></a></li>
+						   		{{else}}
+								<li class="slideshowItem"><a id="thumb_xixi-{{: #getIndex()+1}}" href="javascript:"><img src="{{:smallImageUrl}}"></a></li>	
+								{{/if}}
+								</script>
                             </div>
                         </div>
                    </div>
                    
                    <div class="collection">
-                   <p>商品ID：788964678909 </p>
+                   <p>商品ID：${skuId} </p>
+                   <!-- 保存当前商品的SKU标识的隐藏 -->
+                   <input type="hidden" id="skuId" value="788964678909"/>
                    <p><a href="#"><i class="icon-heart-empty"></i>收藏</a></p>
                    </div>
                  </div>
@@ -105,25 +114,28 @@
                        <li class="color">{{:productSellPoint}}</li>
                    </ul>
                    <ul class="details-list">
-                       <li class="word">价格:</li>
+                       <li class="word">价格：</li>
                        <li class="color">￥{{:salePrice}}元</li>
                    </ul>
                    <ul class="details-list">
-                       <li class="word">所在地:</li>
+                       <li class="word">所在地：</li>
                        <li><select class="details-large"><option>北京市海淀区</option></select></li>
                    </ul>
-                  <ul class="details-list">
-                       <li class="word">有效期:</li>
-                       <li>购买后15天</li>
-                   </ul>
+                    <ul class="details-list" id="activeDateDiv">
+                       <li class="word">有效期：</li>
+                       <li id="activeDate"></li>
+                    </ul>
 					{{for productAttrList}}
 						<ul class="details-list">
-					   		<li class="word">{{:attrName}}:</li>
+					   		<li class="word">{{:attrName}}：</li>
                        		<li class="attribute">
 							{{for attrValueList}}
                            		<p>
-                               		<a href="#">
-									<!--<a href="#" class="current">-->
+									{{if isOwn}}
+										<a href="#" class="current">
+									{{else}}
+                               			<a href="#">
+									{{/if}}
 									{{if imageUrl != null}}
                                		<span><img src="{{:imageUrl}}"></span>
 									{{/if}}
@@ -135,73 +147,19 @@
                    	 </ul>
 					{{/for}}
 					 <ul class="details-list">
-                       <li class="word">购买数量:</li>
+                       <li class="word">购买数量：</li>
                        <li class="numbe">
-                           <p><input type="button" class="details-jia" value="-"></p>
-                           <p><input type="text" class="details-int" value="1"></p>
-                           <p><input type="button" class="details-jia" value="+"></p>
+                           <p><input id="delQtyBtn" type="button" class="details-jia" value="-"></p>
+                           <p><input id="productQty" type="text" class="details-int" value="1"></p>
+                           <p><input id="addQtyBtn"type="button" class="details-jia" value="+"></p>
                        </li>
                    	</ul>
                    	<ul class="details-list">
-                       <li class="word">销量:</li>
+                       <li class="word">销量：</li>
                        <li>{{:saleNum}}</li>
-                       <li class="right"><span class="word1">评价:</span><span>{{:commentNum}}</span></li>
+                       <li class="right"><span class="word1">评价：</span><span>{{:commentNum}}</span></li>
                    	</ul>
 					</script>
-                 <%--   	<ul class="details-list">
-                       <li class="word">销售属性1:</li>
-                       <li class="attribute">
-                           <p>
-                               <a href="#" class="current">
-                               <span><img src="${_slpbase }/images/details-a.png"></span>
-                               <span>颜色1</span>
-                               </a>
-                           </p>
-                           <p>
-                               <a href="#">
-                               <span><img src="${_slpbase }/images/details-b.png"></span>
-                               <span>颜色1</span>
-                               </a>
-                           </p>
-                            <p>
-                           <a href="#">
-                           <span><img src="${_slpbase }/images/details-a.png"></span>
-                           <span>颜色1</span>
-                           </a>
-                           </p>
-                            <p>
-                           <a href="#">
-                           <span><img src="${_slpbase }/images/details-b.png"></span>
-                           <span>颜色1</span>
-                           </a>
-                           </p>
-                            <p>
-                           <a href="#">
-                           <span><img src="${_slpbase }/images/details-a.png"></span>
-                           <span>颜色1</span>
-                           </a>
-                           </p>
-                       </li>
-                   </ul>
-            		 <ul class="details-list">
-                       <li class="word">销售属性2:</li>
-                       <li class="attribute">
-                           <p><a href="#" class="current"><span>属性2选择项1</span></a></p>
-                           <p><a href="#"><span>属性2选择项1</span></a></p>
-                           <p><a href="#"><span>属性2选择项1</span></a></p>
-                           <p><a href="#"><span>属性2选择项1</span></a></p>
-                       </li>
-                   </ul>
-                    <ul class="details-list">
-                       <li class="word">销售属性3:</li>
-                       <li class="attribute">
-                           <p><a href="#"><span>属性2选择项1</span></a></p>
-                           <p><a href="#" class="current"><span>属性2选择项1</span></a></p>
-                           <p><a href="#"><span>属性2选择项1</span></a></p>
-                           <p><a href="#"><span>属性2选择项1</span></a></p>
-                       </li>
-                   </ul> --%>
-                    
                    <ul class="details-list btm-magin">
                    <li class="btn-mar"><input type="button" class="slp-btn details-btn" value="立即购买"></li>
                    <li><input type="button" class="slp-btn details-btn" id="joinShopCart" value="加入购物车"></li>
@@ -222,34 +180,17 @@
              <div class="parameter-left-none"><img src="${_slpbase }/images/left-1.png"></div>
              <div class="parameter-left-tow">
                  <div class="parameter-left-tow-title"><p>热销推荐</p></div>
-                    <div class="left-tow-list">
-                     <ul>
-                        <li class="img"><A href="#"><img src="${_slpbase }/images/hot-1.png"></A></li>
-                        <li class="word"><A href="#">华为(HUAWEI) 荣耀 畅玩5X 4G手机 破晓银 移动4G版(2G</A> </li>
-                        <li class="left"><span>￥1099.00</span><a href="#" class="pj">43435评价</a></li>
-                    </ul>
-                    </div>
-                      <div class="left-tow-list">
-                     <ul>
-                        <li class="img"><A href="#"><img src="${_slpbase }/images/hot-2.png"></A></li>
-                        <li class="word"><A href="#">华为(HUAWEI) 荣耀 畅玩5X 4G手机 破晓银 移动4G版(2G</A> </li>
-                        <li class="left"><span>￥1099.00</span><a href="#" class="pj">43435评价</a></li>
-                    </ul>
-                    </div>
-                      <div class="left-tow-list">
-                     <ul>
-                        <li class="img"><A href="#"><img src="${_slpbase }/images/hot-1.png"></A></li>
-                        <li class="word"><A href="#">华为(HUAWEI) 荣耀 畅玩5X 4G手机 破晓银 移动4G版(2G</A> </li>
-                        <li class="left"><span>￥1099.00</span><a href="#" class="pj">43435评价</a></li>
-                    </ul>
-                    </div>
-                      <div class="left-tow-list border-none">
-                     <ul>
-                        <li class="img"><A href="#"><img src="${_slpbase }/images/hot-2.png"></A></li>
-                        <li class="word"><A href="#">华为(HUAWEI) 荣耀 畅玩5X 4G手机 破晓银 移动4G版(2G</A> </li>
-                        <li class="left"><span>￥1099.00</span><a href="#" class="pj">43435评价</a></li>
-                    </ul>
-                    </div>
+                 	 <div class="left-tow-list" id="hotProductData">
+                         <script id="hotProductListTmpl" type="text/x-jsrender">
+							<div class="left-tow-list">
+								<ul>
+                            		<li class="img"><a href="#"><img src="{{:pictureUrl}}"></a></li>
+                            		<li class="word"><a href="#">{{:skuName}}</a> </li>
+                            		<li class="left"><span>￥{{:salePrice}}</span><a href="#" class="pj">{{:commentIdCount}}评价</a></li>
+                        		</ul>
+							</div>
+						</script>
+                        </div>
               </div>   
        </div>
        <!--左侧-结束-->
@@ -349,6 +290,7 @@
 	var pager;
 	var producSKU = $.parseJSON('${productSKU}');
 	var imageArrayList = $.parseJSON('${imageArrayList}');
+	var activeDateValue = '${activeDateValue}';
 	(function () {
 		seajs.use('app/jsp/product/productDetail', function (ProductDetailPager) {
 			pager = new ProductDetailPager({element: document.body});
@@ -358,6 +300,3 @@
 	</script>
 </body>
 </html>
-
-
-
