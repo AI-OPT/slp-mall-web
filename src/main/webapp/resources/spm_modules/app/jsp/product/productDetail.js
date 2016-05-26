@@ -33,7 +33,7 @@ define('app/jsp/product/productDetail', function (require, exports, module) {
             "change #productQty":"_modifyProductQty",
             //增加数量
             "click #addQtyBtn":"_addProductQty",
-	    //加入购物车
+            //加入购物车
             "click #joinShopCart":"_joinShopCartClick"
         },
     	//重写父类
@@ -44,6 +44,7 @@ define('app/jsp/product/productDetail', function (require, exports, module) {
     		this._renderImageSmallTemple();
     		this._controlActiveDate();
     		this._controlBtn();
+    		this._getHotProduct();
     	},
     	//渲染大图
     	_renderImageBigTemple:function(){
@@ -125,6 +126,24 @@ define('app/jsp/product/productDetail', function (require, exports, module) {
         	var re = /^[1-9][0-9]*$/ ; 
         	return re.test(num) 
         },
+        _getHotProduct:function(){
+      		ajaxController.ajax({
+						type: "post",
+						dataType: "json",
+						processing: false,
+						//message: "查询中，请等待...",
+						url: _base+"/search/getHotProduct",
+						data:'',
+						success: function(data){
+							if(data.data){
+								var template = $.templates("#hotProductListTmpl");
+								var htmlOut = template.render(data.data);
+								$("#hotProductData").html(htmlOut);
+							}
+						}
+					}
+      		);
+      	},
 	//加入购物车测试
     	_joinShopCartClick:function(){
     		alert("OK");

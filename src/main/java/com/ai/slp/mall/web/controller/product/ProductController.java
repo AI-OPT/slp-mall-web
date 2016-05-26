@@ -8,19 +8,26 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import net.sf.json.JSONArray;
+
 import org.apache.commons.httpclient.util.DateUtil;
 import org.apache.log4j.Logger;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.ai.opt.sdk.components.idps.IDPSClientFactory;
 import com.ai.opt.sdk.dubbo.util.DubboConsumerFactory;
+import com.ai.opt.sdk.web.model.ResponseData;
 import com.ai.paas.ipaas.image.IImageClient;
 import com.ai.paas.ipaas.util.JSonUtil;
 import com.ai.slp.mall.web.constants.SLPMallConstants.ProductImageConstant;
 import com.ai.slp.mall.web.model.product.ProductImageVO;
+import com.ai.slp.mall.web.util.ImageUtil;
 import com.ai.slp.product.api.webfront.interfaces.IProductDetailSV;
+import com.ai.slp.product.api.webfront.interfaces.ISearchProductSV;
+import com.ai.slp.product.api.webfront.param.ProductData;
 import com.ai.slp.product.api.webfront.param.ProductImage;
 import com.ai.slp.product.api.webfront.param.ProductSKUAttr;
 import com.ai.slp.product.api.webfront.param.ProductSKUAttrValue;
@@ -153,4 +160,29 @@ public class ProductController {
 		}
 		return defAttrValueId;
 	}
+	
+	/**
+     * 热销商品查询
+     * @param request
+     * @return
+     */
+    @RequestMapping("/getHotProduct")
+    @ResponseBody
+    public ResponseData<List<ProductData>> getHotProduct(HttpServletRequest request){
+        ISearchProductSV iPaymentQuerySV = DubboConsumerFactory.getService("iSearchProductSV");
+        ResponseData<List<ProductData>> responseData = null;
+        try {
+            List<ProductData> resultInfo = iPaymentQuerySV.queryHotSellProduct();
+            for(ProductData data:resultInfo){
+                data.setPictureUrl(ImageUtil.getHotImage());
+            }
+            resultInfo.get(0).setPictureUrl(ImageUtil.getImage());
+            LOG.debug("商品查询出参:"+JSONArray.fromObject(resultInfo).toString());
+            responseData = new ResponseData<List<ProductData>>(ResponseData.AJAX_STATUS_SUCCESS, "查询成功", resultInfo);
+        } catch (Exception e) {
+            responseData = new ResponseData<List<ProductData>>(ResponseData.AJAX_STATUS_FAILURE, "查询失败");
+            LOG.error("获取信息出错：", e);
+        }
+        return responseData;
+    }
 }

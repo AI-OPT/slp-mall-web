@@ -178,34 +178,17 @@
              <div class="parameter-left-none"><img src="${_slpbase }/images/left-1.png"></div>
              <div class="parameter-left-tow">
                  <div class="parameter-left-tow-title"><p>热销推荐</p></div>
-                    <div class="left-tow-list">
-                     <ul>
-                        <li class="img"><A href="#"><img src="${_slpbase }/images/hot-1.png"></A></li>
-                        <li class="word"><A href="#">华为(HUAWEI) 荣耀 畅玩5X 4G手机 破晓银 移动4G版(2G</A> </li>
-                        <li class="left"><span>￥1099.00</span><a href="#" class="pj">43435评价</a></li>
-                    </ul>
-                    </div>
-                      <div class="left-tow-list">
-                     <ul>
-                        <li class="img"><A href="#"><img src="${_slpbase }/images/hot-2.png"></A></li>
-                        <li class="word"><A href="#">华为(HUAWEI) 荣耀 畅玩5X 4G手机 破晓银 移动4G版(2G</A> </li>
-                        <li class="left"><span>￥1099.00</span><a href="#" class="pj">43435评价</a></li>
-                    </ul>
-                    </div>
-                      <div class="left-tow-list">
-                     <ul>
-                        <li class="img"><A href="#"><img src="${_slpbase }/images/hot-1.png"></A></li>
-                        <li class="word"><A href="#">华为(HUAWEI) 荣耀 畅玩5X 4G手机 破晓银 移动4G版(2G</A> </li>
-                        <li class="left"><span>￥1099.00</span><a href="#" class="pj">43435评价</a></li>
-                    </ul>
-                    </div>
-                      <div class="left-tow-list border-none">
-                     <ul>
-                        <li class="img"><A href="#"><img src="${_slpbase }/images/hot-2.png"></A></li>
-                        <li class="word"><A href="#">华为(HUAWEI) 荣耀 畅玩5X 4G手机 破晓银 移动4G版(2G</A> </li>
-                        <li class="left"><span>￥1099.00</span><a href="#" class="pj">43435评价</a></li>
-                    </ul>
-                    </div>
+                 	 <div class="left-tow-list" id="hotProductData">
+                         <script id="hotProductListTmpl" type="text/x-jsrender">
+							<div class="left-tow-list">
+								<ul>
+                            		<li class="img"><a href="#"><img src="{{:pictureUrl}}"></a></li>
+                            		<li class="word"><a href="#">{{:skuName}}</a> </li>
+                            		<li class="left"><span>￥{{:salePrice}}</span><a href="#" class="pj">{{:commentIdCount}}评价</a></li>
+                        		</ul>
+							</div>
+						</script>
+                        </div>
               </div>   
        </div>
        <!--左侧-结束-->
