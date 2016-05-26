@@ -100,11 +100,8 @@
                    
                    <div class="collection">
                    <p>商品ID：${skuId} </p>
-<<<<<<< HEAD
-=======
                    <!-- 保存当前商品的SKU标识的隐藏 -->
                    <input type="hidden" id="skuId" value="788964678909"/>
->>>>>>> branch 'master' of git@github.com:AI-OPT/slp-mall-web.git
                    <p><a href="#"><i class="icon-heart-empty"></i>收藏</a></p>
                    </div>
                  </div>

@@ -8,8 +8,6 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
-import net.sf.json.JSONArray;
-
 import org.apache.commons.httpclient.util.DateUtil;
 import org.apache.log4j.Logger;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,7 +22,6 @@ import com.ai.paas.ipaas.image.IImageClient;
 import com.ai.paas.ipaas.util.JSonUtil;
 import com.ai.slp.mall.web.constants.SLPMallConstants.ProductImageConstant;
 import com.ai.slp.mall.web.model.product.ProductImageVO;
-import com.ai.slp.mall.web.model.product.SKUImageVO;
 import com.ai.slp.mall.web.util.ImageUtil;
 import com.ai.slp.product.api.webfront.interfaces.IProductDetailSV;
 import com.ai.slp.product.api.webfront.interfaces.ISearchProductSV;
@@ -66,10 +63,8 @@ public class ProductController {
 			String producSKUJson = JSonUtil.toJSon(producSKU);
 			model.put("productSKU", producSKUJson);
 			// 获得商品图片
-			List<SKUImageVO> productImageVOList = getProductImages(producSKU);
-			ProductImageVO productImageVO = new ProductImageVO();
-			productImageVO.setSkuImageList(productImageVOList);
-			String productImageJson = JSonUtil.toJSon(productImageVO);
+			List<ProductImageVO> productImageVOList = getProductImages(producSKU);
+			String productImageJson = JSonUtil.toJSon(productImageVOList);
 			model.put("imageArrayList", productImageJson);
 			// 设置skuID
 			String skuId = producSKU.getSkuId();
@@ -114,11 +109,11 @@ public class ProductController {
 	 * @param productSKUVO
 	 * @return
 	 */
-	private List<SKUImageVO> getProductImages(ProductSKUResponse productSKUVO) {
+	private List<ProductImageVO> getProductImages(ProductSKUResponse productSKUVO) {
 		String productImageBigSize = "360x457";
 		String productImageSmailSize = "60x60";
 		List<ProductImage> productImageList = productSKUVO.getProductImageList();
-		List<SKUImageVO> productImageArrayList = new LinkedList<SKUImageVO>();
+		List<ProductImageVO> productImageArrayList = new LinkedList<ProductImageVO>();
 		if (productImageList != null && productImageList.size() > 0) {
 			IImageClient imageClient = IDPSClientFactory.getImageClient(ProductImageConstant.IDPSNS);
 			for (ProductImage productImage : productImageList) {
@@ -126,10 +121,10 @@ public class ProductController {
 				String extension = productImage.getExtension();
 				String bigImageUrl = imageClient.getImageUrl(idpsId, extension, productImageBigSize);
 				String smallImageUrl = imageClient.getImageUrl(idpsId, extension, productImageSmailSize);
-				SKUImageVO sKUImageVO = new SKUImageVO();
-				sKUImageVO.setBigImageUrl(bigImageUrl);
-				sKUImageVO.setSmallImageUrl(smallImageUrl);
-				productImageArrayList.add(sKUImageVO);
+				ProductImageVO productImageVO = new ProductImageVO();
+				productImageVO.setBigImageUrl(bigImageUrl);
+				productImageVO.setSmallImageUrl(smallImageUrl);
+				productImageArrayList.add(productImageVO);
 			}
 		}
 		return productImageArrayList;
@@ -163,7 +158,6 @@ public class ProductController {
 		}
 		return defAttrValueId;
 	}
-	
 	/**
      * 热销商品查询
      * @param request
@@ -180,7 +174,6 @@ public class ProductController {
                 data.setPictureUrl(ImageUtil.getHotImage());
             }
             resultInfo.get(0).setPictureUrl(ImageUtil.getImage());
-            LOG.debug("商品查询出参:"+JSONArray.fromObject(resultInfo).toString());
             responseData = new ResponseData<List<ProductData>>(ResponseData.AJAX_STATUS_SUCCESS, "查询成功", resultInfo);
         } catch (Exception e) {
             responseData = new ResponseData<List<ProductData>>(ResponseData.AJAX_STATUS_FAILURE, "查询失败");
