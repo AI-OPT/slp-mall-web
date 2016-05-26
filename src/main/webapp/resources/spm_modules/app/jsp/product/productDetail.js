@@ -28,7 +28,9 @@ define('app/jsp/product/productDetail', function (require, exports, module) {
     	//事件代理
     	events: {
     		//查询
-            "click #BTN_SEARCH":"_searchBtnClick"
+            "click #BTN_SEARCH":"_searchBtnClick",
+            //加入购物车
+            "click #joinShopCart":"_joinShopCartClick",
         },
     	//重写父类
     	setup: function () {
@@ -51,6 +53,10 @@ define('app/jsp/product/productDetail', function (require, exports, module) {
     		var template = $.templates("#producSKUTemple");
 			var htmlOutput = template.render(producSKU);
 			$("#producSKUData").html(htmlOutput);
+    	},
+    	//加入购物车测试
+    	_joinShopCartClick:function(){
+    		alert("OK");
     	}
     });
     

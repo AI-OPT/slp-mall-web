@@ -204,7 +204,7 @@
                     
                    <ul class="details-list btm-magin">
                    <li class="btn-mar"><input type="button" class="slp-btn details-btn" value="立即购买"></li>
-                   <li><input type="button" class="slp-btn details-btn" value="加入购物车"></li>
+                   <li><input type="button" class="slp-btn details-btn" id="joinShopCart" value="加入购物车"></li>
                    <li><input type="button" class="slp--ash-btn" value="已下架"></li>
                    </ul>
                
