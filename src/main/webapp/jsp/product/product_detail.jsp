@@ -244,27 +244,14 @@
                 <div id="date2" style=" display:none;">
                    <div class="specification">
                        <ul>
-                           <li>
-                               <p class="word">运营商</p>
-                               <p>归属地</p>
-                           </li>
-                           <li>
-                               <p class="word">归属地</p>
-                               <p>北京</p>
-                           </li>
-                           <li>
-                               <p class="word">有效期</p>
-                               <p>2016-5-8 10:30</p>
-                           </li>
-                           <li>
-                               <p class="word">充值方式</p>
-                               <p>自动快充</p>
-                           </li>
-                           <li>
-                               <p class="word">充值面额</p>
-                               <p>50元 </p>
-                           </li>
-                       </ul>
+                       	   <div id="configParameterData"></div>
+                       	   <script id="configParameterTemple" type="text/template">
+							<li>
+                               <p class="word">{{:configName}}</p>
+                               <p>{{:configValue}}</p>
+                            </li>
+						   </script>
+						</ul>
                    </div>
                   
                   

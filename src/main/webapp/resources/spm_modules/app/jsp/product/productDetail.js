@@ -45,6 +45,7 @@ define('app/jsp/product/productDetail', function (require, exports, module) {
     		this._controlActiveDate();
     		this._controlBtn();
     		this._getHotProduct();
+    		this._getProductConfigParameter();
     	},
     	//渲染大图
     	_renderImageBigTemple:function(){
@@ -132,13 +133,31 @@ define('app/jsp/product/productDetail', function (require, exports, module) {
 						dataType: "json",
 						processing: false,
 						//message: "查询中，请等待...",
-						url: _base+"/search/getHotProduct",
+						url: _base+"/product/getHotProduct",
 						data:'',
 						success: function(data){
 							if(data.data){
 								var template = $.templates("#hotProductListTmpl");
 								var htmlOut = template.render(data.data);
 								$("#hotProductData").html(htmlOut);
+							}
+						}
+					}
+      		);
+      	},
+      	_getProductConfigParameter:function(){
+      		ajaxController.ajax({
+						type: "post",
+						dataType: "json",
+						processing: false,
+						//message: "查询中，请等待...",
+						url: _base+"/product/getProductConfigParameter",
+						data:'',
+						success: function(data){
+							if(data.data){
+								var template = $.templates("#configParameterTemple");
+								var htmlOut = template.render(data.data);
+								$("#configParameterData").html(htmlOut);
 							}
 						}
 					}
