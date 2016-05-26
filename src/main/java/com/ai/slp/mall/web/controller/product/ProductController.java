@@ -1,5 +1,6 @@
 package com.ai.slp.mall.web.controller.product;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -7,6 +8,8 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.httpclient.util.DateUtil;
+import org.apache.log4j.Logger;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
@@ -28,27 +31,71 @@ import com.ai.slp.product.api.webfront.param.ProductSKUResponse;
 @RequestMapping("/product")
 public class ProductController {
 
+	private static final Logger LOG = Logger.getLogger(ProductController.class);
+
 	@RequestMapping("/detail")
 	public ModelAndView index(HttpServletRequest request) {
-		// 商品属性图片大小
-		String attrImageSize = "30x30";
-
-		IProductDetailSV iProductDetailSV = DubboConsumerFactory.getService("iProductDetailSV");
-		ProductSKURequest productskurequest = new ProductSKURequest();
-		productskurequest.setSkuId("0001");
-		ProductSKUResponse producSKU = iProductDetailSV.queryProducSKUById(productskurequest);
-
-		// 设置商品属性中的图片
-		changeAttrIamge(attrImageSize, producSKU);
-		// 获得商品图片
-		List<ProductImageVO> productImageVOList = getProductImages(producSKU);
 		Map<String, String> model = new HashMap<String, String>();
-		String producSKUJson = JSonUtil.toJSon(producSKU);
-		model.put("productSKU", producSKUJson);
-		String productImageJson = JSonUtil.toJSon(productImageVOList);
-		model.put("imageArrayList", productImageJson);
-		ModelAndView view = new ModelAndView("jsp/product/product_detail", model);
-		return view;
+		try {
+			// 商品属性图片大小
+			String attrImageSize = "30x30";
+
+			IProductDetailSV iProductDetailSV = DubboConsumerFactory.getService("iProductDetailSV");
+			ProductSKURequest productskurequest = new ProductSKURequest();
+			productskurequest.setSkuId("0001");
+			ProductSKUResponse producSKU = iProductDetailSV.queryProducSKUById(productskurequest);
+
+			// producSKU.setActiveType("2");
+			// producSKU.setActiveTime(DateUtils.parseDate("2016-01-01",
+			// "yyyy-MM-dd"));
+			// producSKU.setInactiveTime(DateUtils.parseDate("2018-01-01",
+			// "yyyy-MM-dd"));
+			// producSKU.setActiveCycle(15);
+			// producSKU.setUnit("天");
+
+			// 设置商品属性中的图片
+			changeAttrIamge(attrImageSize, producSKU);
+			String producSKUJson = JSonUtil.toJSon(producSKU);
+			model.put("productSKU", producSKUJson);
+			// 获得商品图片
+			List<ProductImageVO> productImageVOList = getProductImages(producSKU);
+			String productImageJson = JSonUtil.toJSon(productImageVOList);
+			model.put("imageArrayList", productImageJson);
+			// 设置skuID
+			String skuId = producSKU.getSkuId();
+			model.put("skuId", skuId);
+			// 设置商品有效期
+			String activeType = producSKU.getActiveType();
+			String activeValue = getActiveDateValue(producSKU, activeType);
+			model.put("activeDateValue", activeValue);
+		} catch (Exception e) {
+			e.printStackTrace();
+			LOG.error("商品详情查询报错：", e);
+		}
+		return new ModelAndView("jsp/product/product_detail", model);
+	}
+
+	/**
+	 * 获得商品有效期
+	 * 
+	 * @param producSKU
+	 * @param activeType
+	 * @return
+	 */
+	private String getActiveDateValue(ProductSKUResponse producSKU, String activeType) {
+		String activeValue = null;
+		if ("1".equals(activeType)) {
+			Date activeTime = producSKU.getActiveTime();
+			Date inactiveTime = producSKU.getInactiveTime();
+			String activeStr = DateUtil.formatDate(activeTime, "yyyy-MM-dd");
+			String inactiveStr = DateUtil.formatDate(inactiveTime, "yyyy-MM-dd");
+			activeValue = activeStr + " ~ " + inactiveStr;
+		} else if ("2".equals(activeType)) {
+			Integer activeCycle = producSKU.getActiveCycle();
+			String unit = producSKU.getUnit();
+			activeValue = "支付后" + activeCycle + unit + "内充值使用";
+		}
+		return activeValue;
 	}
 
 	/**
