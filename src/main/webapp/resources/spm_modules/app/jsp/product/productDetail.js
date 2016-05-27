@@ -45,6 +45,7 @@ define('app/jsp/product/productDetail', function (require, exports, module) {
     		this._controlActiveDate();
     		this._controlBtn();
     		this._getHotProduct();
+    		this._getProductConfigParameter();
     	},
     	//渲染大图
     	_renderImageBigTemple:function(){
@@ -132,7 +133,7 @@ define('app/jsp/product/productDetail', function (require, exports, module) {
 						dataType: "json",
 						processing: false,
 						//message: "查询中，请等待...",
-						url: _base+"/search/getHotProduct",
+						url: _base+"/product/getHotProduct",
 						data:'',
 						success: function(data){
 							if(data.data){
@@ -144,10 +145,49 @@ define('app/jsp/product/productDetail', function (require, exports, module) {
 					}
       		);
       	},
+      	_getProductConfigParameter:function(){
+      		ajaxController.ajax({
+						type: "post",
+						dataType: "json",
+						processing: false,
+						//message: "查询中，请等待...",
+						url: _base+"/product/getProductConfigParameter",
+						data:'',
+						success: function(data){
+							if(data.data){
+								var template = $.templates("#configParameterTemple");
+								var htmlOut = template.render(data.data);
+								$("#configParameterData").html(htmlOut);
+							}
+						}
+					}
+      		);
+      	},
 	//加入购物车测试
     	_joinShopCartClick:function(){
     		alert("OK");
-    	}
+    		var skuId = $("#skuId").val();
+    		var buyNum = Number($("#productQty").val());
+    		$.ajax({
+    			type: "post",
+    			url: _base+"/shopcart/addProd",
+    			data: {"skuId":skuId,"buyNum":buyNum},
+    			dataType: "json",
+    			success: function(data){
+    				if(data){
+    					var prodNum = data.prodNum;
+    					var prodTotal = data.prodTotal;
+                        var d = Dialog({
+                            content:"添加成功",
+                            ok:function(){
+                                this.close();
+                            }
+                        	d.show();
+                        });
+    				}
+    			}
+    		});
+    	},
     });
     
     module.exports = ProductDeatilPager
