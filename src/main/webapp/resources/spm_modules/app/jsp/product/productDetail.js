@@ -199,8 +199,8 @@ define('app/jsp/product/productDetail', function (require, exports, module) {
                             ok:function(){
                                 this.close();
                             }
-                        	d.show();
                         });
+                        d.show();
     				}
     			}
     		});
