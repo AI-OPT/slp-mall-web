@@ -14,22 +14,17 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.apache.commons.beanutils.BeanUtils;
 import org.jasig.cas.client.authentication.AttributePrincipal;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.ai.opt.base.vo.BaseInfo;
 import com.ai.opt.sdk.dubbo.util.DubboConsumerFactory;
+import com.ai.opt.sso.client.filter.SLPClientUser;
 import com.ai.opt.sso.client.filter.SSOClientConstants;
-import com.ai.opt.sso.client.filter.SSOClientUser;
-import com.ai.opt.uac.api.account.interfaces.IAccountManageSV;
-import com.ai.opt.uac.api.account.interfaces.IIndustryManageSV;
-import com.ai.opt.uac.api.account.interfaces.ITenantManageSV;
-import com.ai.opt.uac.api.account.param.AccountQueryRequest;
-import com.ai.opt.uac.api.account.param.AccountQueryResponse;
-import com.ai.opt.uac.api.account.param.IndustryQueryResponse;
-import com.ai.opt.uac.api.account.param.TenantQueryResponse;
-import com.ai.paas.ipaas.util.StringUtil;
+import com.ai.slp.user.api.ucuser.intefaces.IUcUserSV;
+import com.ai.slp.user.api.ucuser.param.SearchUserRequest;
+import com.ai.slp.user.api.ucuser.param.SearchUserResponse;
 import com.alibaba.fastjson.JSON;
 
 
@@ -55,7 +50,7 @@ public class AssembleUserInfoFilter implements Filter {
             return;
         }
         HttpSession session = req.getSession();
-        SSOClientUser user = (SSOClientUser) session.getAttribute(SSOClientConstants.USER_SESSION_KEY);
+        SLPClientUser user = (SLPClientUser) session.getAttribute(SSOClientConstants.USER_SESSION_KEY);
         if (user == null) {
             user = assembleUser(req);
             if(user!=null){
@@ -65,8 +60,8 @@ public class AssembleUserInfoFilter implements Filter {
             chain.doFilter(req, response);
 
         } else {
-        	//刷新用户昵称
-        	refreshUser(user);
+        	//刷新用户
+        	//refreshUser(user);
         	LOG.info("【slp-mall-web】user="+JSON.toJSONString(user));
             chain.doFilter(req, response);
         }
@@ -77,14 +72,14 @@ public class AssembleUserInfoFilter implements Filter {
 
     }
     
-    public void refreshUser(SSOClientUser user){
+    public void refreshUser(SLPClientUser user){
     	try{
-    		IAccountManageSV accSv=DubboConsumerFactory.getService(IAccountManageSV.class);
-    		AccountQueryRequest req=new AccountQueryRequest();
-    		req.setAccountId(user.getAccountId());
-    		AccountQueryResponse resp=accSv.queryBaseInfo(req);
+    		IUcUserSV accSv=DubboConsumerFactory.getService(IUcUserSV.class);
+    		SearchUserRequest req=new SearchUserRequest();
+    		req.setUserId(user.getUserId());
+    		SearchUserResponse resp=accSv.queryBaseInfo(req);
     		if(resp.getResponseHeader().isSuccess()){
-    			user.setNickName(resp.getNickName());
+    			BeanUtils.copyProperties(user, resp);
     		}
     	}
     	catch(Exception e){
@@ -98,15 +93,15 @@ public class AssembleUserInfoFilter implements Filter {
      * @param request
      * @return
      */
-    private SSOClientUser assembleUser(HttpServletRequest request) {
-    	SSOClientUser user = null;
+    private SLPClientUser assembleUser(HttpServletRequest request) {
+    	SLPClientUser user = null;
         try {
             Principal principal = request.getUserPrincipal();
             if (principal != null) {
-                user = new SSOClientUser();
+                user = new SLPClientUser();
                 AttributePrincipal attributePrincipal = (AttributePrincipal) principal;
                 Map<String, Object> attributes = attributePrincipal.getAttributes();
-                Field[] fields = SSOClientUser.class.getDeclaredFields();
+                Field[] fields = SLPClientUser.class.getDeclaredFields();
                 for (Field field : fields) {
                     String value = (String) attributes.get(field.getName());
                     if (value != null) {
@@ -118,37 +113,6 @@ public class AssembleUserInfoFilter implements Filter {
                         }
                     }
                 }
-                
-                
-                String tenantId=user.getTenantId();
-                //租户ID不存在
-                if(TENANT_ID_DEFAULT.equals(tenantId)){
-                	user.setTenantName("");
-                	user.setIndustryName("");
-                	user.setIndustryCode(INDUSTRY_CODE_DEFAULT);
-                }
-                else{
-                	BaseInfo baseInfo=new BaseInfo();
-                	baseInfo.setTenantId(user.getTenantId());
-                	TenantQueryResponse tenantResponse=DubboConsumerFactory.getService(ITenantManageSV.class).queryTenantInfo(baseInfo);
-                	if(tenantResponse!=null){
-                		user.setTenantName(tenantResponse.getTenantName());
-                		String industryCode=tenantResponse.getIndustryCode();
-                		
-                		if(!StringUtil.isBlank(industryCode)&&!INDUSTRY_CODE_DEFAULT.equals(industryCode)){
-                			user.setIndustryCode(industryCode);
-                			IndustryQueryResponse industryResponse=DubboConsumerFactory.getService(IIndustryManageSV.class).queryByIndustryCode(industryCode);
-                			if(industryResponse!=null){
-                				user.setIndustryName(industryResponse.getIndustryName());
-                			}
-                		}
-                		else{
-                			user.setIndustryCode(INDUSTRY_CODE_DEFAULT);
-                			user.setIndustryName("");
-                		}
-                	}
-                }
-                
                 
             }
         } catch (Exception e) {
