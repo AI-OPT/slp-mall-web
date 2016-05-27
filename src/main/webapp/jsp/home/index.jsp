@@ -304,7 +304,7 @@
                 </a>
 </script>
 <script id="hotTmpl" type="text/x-jsrender">
-         {{if #index==0 || #index==4}}
+         {{if #index%4==0}}
 				<a href="#" class="mar-none">
                 	<ul>
                 		<li class="word">{{:prodName}}</li>
