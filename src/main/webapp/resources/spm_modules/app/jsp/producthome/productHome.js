@@ -31,17 +31,39 @@ define('app/jsp/producthome/productHome', function (require, exports, module) {
     		//查询
             //"click #BTN_SEARCH":"_searchBtnClick"
             //"click #thumbnailId":"_changeImage",
-            "click #moreproduct":"_getMore"
+            "click #moreproduct":"_getMore",
+            "click #refresh":"_getHotProduct",
+            "click #phoneBillCucc":"_getPhoneBill",
+            "click #phoneBillCmcc":"_getPhoneBill",
+            "click #phoneBillCtcc":"_getPhoneBill",
+            "click #flowCtcc":"_getFlowProduct",
+            "click #flowCtcc":"_getFlowProduct",
+            "click #flowCucc":"_getFlowProduct"
+            	
         },
     	//重写父类
     	setup: function () {
     		ProductHomePager.superclass.setup.call(this);
     		//初始化执行搜索
-    		this._getPhoneProduct();
+    		this._getPhoneBill();
     		this._getFlowProduct();
     		this._getHotProduct();
     	},
-    	_getPhoneProduct:function(){
+    	_getPhoneBill:function(){
+    		//类目
+    		var type="phoneBill"
+    		var oprator;
+    		//获取运营商类目
+      		var isCmcc = $("#phoneBillCmcc").attr("class");
+      		var isCtcc = $("#phoneBillCtcc").attr("class");
+      		var isCucc = $("#phoneBillCucc").attr("class");
+      		if(isCmcc=="current"){
+      			oprator=$("#phoneBillCmcc").attr("oprator");
+      		}else if(isCtcc){
+      			oprator=$("#phoneBillCtcc").attr("oprator");
+      		}else if(isCucc){
+      			oprator=$("#phoneBillCucc").attr("oprator");
+      		}
       		ajaxController.ajax({
 						type: "post",
 						dataType: "json",
@@ -74,11 +96,25 @@ define('app/jsp/producthome/productHome', function (require, exports, module) {
 						$("#flowData").html(htmlOut);
 					}
 				}
-			}
-		);
+			});
       	},
       	_getMore: function(){
       		window.location.href = _base + '/search/list';
+      	},
+      	_jumpToSearch: function(price,type){
+      		var orgired ;
+      		//获取运营商类目
+      		var isCmcc = $("#cmccShowId").is(":visible");
+      		var isCtcc = $("#ctccShowId").is(":visible");
+      		var isCucc = $("#cuccShowId").is(":visible");
+      		if(isCmcc){
+      			orgired="CMCC";
+      		}else if(isCtcc){
+      			orgired="CTCC";
+      		}else if(isCucc){
+      			orgired="CUCC";
+      		}
+      		window.location.href = _base + '/search/list?price='+price+"&type="+type+"&isp="+orgired;
       	},
       	_getHotProduct: function(){
       		ajaxController.ajax({

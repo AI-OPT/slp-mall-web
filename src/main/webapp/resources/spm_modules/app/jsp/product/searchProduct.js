@@ -39,6 +39,12 @@ define('app/jsp/product/searchProduct', function (require, exports, module) {
     		//初始化执行搜索
     		this._searchBtnClick(1,QueryProductPager.DEFAULT_PAGE_SIZE);
     		this._getHotProduct();
+    		this._changeShow();
+    	},
+    	_changeShow: function(){
+    		var isp = $("#isp").val();
+    		
+    		
     	},
     	_searchBtnClick: function(){
     		var data = $("#ba-form :input,#cg-Form select").serializeArray();

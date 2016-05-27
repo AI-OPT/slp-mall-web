@@ -20,7 +20,6 @@ public class HomeController {
 
 	@RequestMapping("/home")
 	public ModelAndView index(HttpServletRequest request) {
-
         ModelAndView view = new ModelAndView("jsp/home/index");
         return view;
     }
@@ -47,7 +46,7 @@ public class HomeController {
         return responseData;
     }
     /**
-     * 流量查询
+     * 话费查询
      * @param request
      * @return
      */

@@ -18,6 +18,7 @@
 					pager.render();
 				});
 			})();
+			
 		</script>
 </head>
 
@@ -29,7 +30,8 @@
 <!--导航区域-->
 <div class="mainbav-bj">
  <div class="mainbav">
-      <div class="logo"><img src="${_slpbase }/images/logo.png"></div>
+      <div class="logo"><img src="${_slpbase }/images/logo.png">
+      </div>
       <!--导航 搜索区-->
       <div class="mainbav-main">
       <!--搜索区-->
@@ -66,10 +68,10 @@
         <ul>
             <li class="Mobile"><a href="#"><img src="${_slpbase }/images/left-a.png"></a>
             <!--弹出-->
-             <div class="Mobile-hover" style="display:none;">
+             <div class="Mobile-hover" style="display:none;" id="cmccShowId">
                  <ul>
                 	   <p>充话费</p>
-                     <li class="current"><A href="#">10元 </A></li>
+                     <li class="current"><A href="#" onclick="pager._jumpToSearch('10','phoneBill')">10元 </A></li>
                      <li><A href="#">20元</A></li>
                      <li><A href="#">30元 </A></li>
                      <li><A href="#">50元</A></li>
@@ -80,7 +82,7 @@
                  </ul>
                   <ul>
                 	   <p>充流量</p>
-                     <li><A href="#">10元 </A></li>
+                     <li ><A href="#">10元 </A></li>
                      <li><A href="#">20元</A></li>
                      <li><A href="#">30元 </A></li>
                      <li><A href="#">50元</A></li>
@@ -94,7 +96,7 @@
             </li>
             <li  class="Unicom"><a href="#"><img src="${_slpbase }/images/left-b.png"></a>
              <!--弹出-->
-             <div class="Unicom-hover" style="display:none;">
+             <div class="Unicom-hover" style="display:none;" id="ctccShowId">
                  <ul>
                 	   <p>充话费</p>
                      <li class="current"><A href="#">10元 </A></li>
@@ -122,7 +124,7 @@
             </li>
             <li class="telecom"><a href="#"><img src="${_slpbase }/images/left-c.png"></a>
              <!--弹出-->
-             <div class="telecom-hover" style="display:none;">
+             <div class="telecom-hover" style="display:none;"  id="cuccShowId">
                  <ul>
                 	   <p>充话费</p>
                      <li class="current"><A href="#">10元 </A></li>
@@ -245,24 +247,16 @@
         
        	 <div class="plist-right-title">
         <ul>
-        <li><a href="javascript:void(0);" class="current">快充</a></li>         
-        <li><a href="javascript:void(0);">话费卡</a></li>
+        	<li><a href="javascript:void(0);" oprator="cmcc" class="current" id="phoneBillCmcc" >中国移动</a></li>         
+        	<li><a href="javascript:void(0);" oprator="ctcc" id="phoneBillCtcc">中国电信</a></li>
+         	<li><a href="javascript:void(0);" oprator="cucc" id="phoneBillCucc">中国联通</a></li>
         </ul>
         </div>
         <!--table1-->
-        <div id="img-list1">
+        <div>
             <div class="plist-right-list" id="phoneBillData">
-            <script id="phoneBillTmpl" type="text/x-jsrender">
-				<a href="#">
-                	<ul>
-                		<li><img src="{{:picUrl}}"></li>
-                		<li class="tit">{{:prodName}}</li>
-                		<li class="dred">{{:salePrice}}元</li> 
-                	</ul>
-                </a>
-			</script>
+           
             </div>
-            <ul style="display: none;" id="pagination-ul"></ul>
         </div>
         <!--table2-->
     </div>
@@ -283,23 +277,16 @@
         
        	 <div class="plist-right-title-tow">
         <ul>
-        <li><a href="javascript:void(0);" class="current">快充</a></li>         
-        <li><a href="javascript:void(0);">话费卡</a></li>
+        <li><a href="javascript:void(0);" class="current" id="flowCtcc">中国移动</a></li>         
+        <li><a href="javascript:void(0);" id="flowCtcc">中国电信</a></li>
+        <li><a href="javascript:void(0);" id="flowCucc">中国联通</a></li>
         </ul>
         </div>
         <!--table1-->
-        <div id="img-list3">
+        <div>
             <div class="plist-right-list" >
             <div id="flowData">
-            	<script id="flowTmpl" type="text/x-jsrender">
-				<a href="#">
-                	<ul>
-                		<li><img src="{{:picUrl}}"></li>
-                		<li class="tit">{{:prodName}}</li>
-                		<li class="dred">{{:salePrice}}元</li> 
-                	</ul>
-                </a>
-			</script>
+            	
             </div>
 			<a href="#">
                 <ul>
@@ -309,7 +296,7 @@
                 </ul>
                 </a>
             </div>
-        </div>   
+        </div> 
     </div>
 </div>
  
@@ -318,20 +305,10 @@
           <div class="recommend-title">
           <ul>
           <li class="word">为您推荐</li>
-          <li class="right"><A href="#">刷新<i class="icon-refresh"></i></A></li>
+          <li class="right"><A href="#" id="refresh">刷新<i class="icon-refresh"></i></A></li>
           </ul>
           </div>
           <div class="recommend-list" id="hotData">
-          <script id="hotTmpl" type="text/x-jsrender">
-				<a href="#" class="mar-none">
-                	<ul>
-                		<li class="word">{{:prodName}}</li>
-          				<li class="ash">{{:productSellPoint}}</li>
-          				<li class="dred">¥{{:salePrice}}</li>
-          				<li><img src="{{:picUrl}}"></li> 
-                	</ul>
-                </a>
-			</script>
           
           </div>
      
@@ -343,9 +320,35 @@
    
    
 </div>
-
-
+ <script id="phoneBillTmpl" type="text/x-jsrender">
+				<a href="#">
+                	<ul>
+                		<li><img src="{{:picUrl}}"></li>
+                		<li class="tit">{{:prodName}}</li>
+                		<li class="dred">{{:salePrice}}元</li> 
+                	</ul>
+                </a>
+</script>
+<script id="hotTmpl" type="text/x-jsrender">
+				<a href="#" class="mar-none">
+                	<ul>
+                		<li class="word">{{:prodName}}</li>
+          				<li class="ash">{{:productSellPoint}}</li>
+          				<li class="dred">¥{{:salePrice}}</li>
+          				<li><img src="{{:picUrl}}"></li> 
+                	</ul>
+                </a>
+</script>
 </body>
+<script id="flowTmpl" type="text/x-jsrender">
+				<a href="#">
+                	<ul>
+                		<li><img src="{{:picUrl}}"></li>
+                		<li class="tit">{{:prodName}}</li>
+                		<li class="dred">{{:salePrice}}元</li> 
+                	</ul>
+                </a>
+</script>
 </html>
 <script src="${_slpbase }/scripts/frame.js" type="text/javascript"></script>
 <script src="${_slpbase }/scripts/flickity-docs.min.js"></script>
