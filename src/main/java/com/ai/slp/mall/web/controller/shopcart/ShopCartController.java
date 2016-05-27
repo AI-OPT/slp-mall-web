@@ -67,6 +67,9 @@ public class ShopCartController {
 		UserInfo userInfo = new UserInfo();
 //		userInfo.setTenantId((String)session.getAttribute("tenantId"));
 //		userInfo.setUserId((String)session.getAttribute("userId"));
+		//测试数据
+		userInfo.setTenantId("slp");
+		userInfo.setUserId("123");
 		List<CartProdInfo> cartProdInfoList = iShopCartSV.queryCartOfUser(userInfo);
 		Map<String,String> model = new HashMap<>();
 		String cartProdJson = JSonUtil.toJSon(cartProdInfoList);
