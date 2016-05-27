@@ -52,6 +52,7 @@
 		interface="com.ai.slp.product.api.webfront.interfaces.IProductHomeSV" 
 		registry="baasRegistry" />
 		
+	<!-- 购物车 -->
 	<dubbo:reference id="IShopCartSV" 
 		interface="com.ai.slp.order.api.shopcart.interfaces.IShopCartSV" 
 		registry="baasRegistry" />	
