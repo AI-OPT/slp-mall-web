@@ -91,7 +91,13 @@ compile "com.ai:ipaas-idps:0.3"
 	compile 'com.ai.baas.smc:sysparamcache:2.0-SNAPSHOT'
     //购物车
     compile 'com.ai.slp.order:shopcart:1.0-SNAPSHOT'
-
+	//安全设置
+	compile 'com.ai.slp.user:ucUserSecurity:1.0-SNAPSHOT'
+	//用户
+	compile 'com.ai.slp.user:ucuser:1.0-SNAPSHOT'
+	//创建手机验证码
+	compile 'com.ai.slp.user:seq:1.0-SNAPSHOT'
+	
     testCompile(
             "org.springframework:spring-test:4.1.7.RELEASE",
             "junit:junit:4.12"

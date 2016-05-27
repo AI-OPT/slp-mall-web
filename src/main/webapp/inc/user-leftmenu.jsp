@@ -35,7 +35,7 @@
                 <p><A href="#">个人资料</A></p>
                 <p><A href="#">通讯录</A></p>
                 <p><A href="#">我的API</A></p>
-                <p><A href="#">安全设置</A></p>
+                <p><A href="${_base}/center/bandEmail/securitySettings">安全设置</A></p>
             </li>
         </ul>
     </div>
