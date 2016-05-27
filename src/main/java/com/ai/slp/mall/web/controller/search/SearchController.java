@@ -26,8 +26,10 @@ import net.sf.json.JSONArray;
 public class SearchController {
     private static final Logger LOG = Logger.getLogger(SearchController.class);
 	@RequestMapping("/list")
-	public ModelAndView index(HttpServletRequest request) {
-
+	public ModelAndView index(HttpServletRequest request,String price,String type,String isp) {
+	    request.setAttribute("price", price);
+        request.setAttribute("type", type);
+        request.setAttribute("isp", isp);
         ModelAndView view = new ModelAndView("jsp/search/search_list");
         return view;
     }

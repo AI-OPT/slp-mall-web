@@ -4,7 +4,7 @@
 .slp-btn:hover{background:#fc721c}
 
 /**下拉 输入**/
-.select-login-small{width:150px; float:left; border:1px solid #e7e7e7; height:40px;font-size:14px;}
+.select-login-small{width:150px; float:left; border:1px solid #e7e7e7; height:40px;font-size:14px;outline:none}
 .select-login-small:hover{border:1px solid #fc721c;}
 
 .int-xlarge{width:300px; float:left; border:1px solid #e7e7e7; height:40px;font-size:14px; padding-left:6px;}
@@ -70,20 +70,20 @@
 .steps ul .ash-border{ width:100%; float:left; border-bottom:4px solid #ccc; margin-bottom:20px;}
 .steps ul .ash-yuan{ width:24px; height:24px; background:#ccc; border-radius:50%; text-align:center; color:#fff; font-size:14px; position:absolute; left:68px; margin-right:24px; top:-12px; line-height:24px;}
 /**步骤样式结束***/
-.list-int{ width:750px; margin:60px  auto; }
-.list-int ul{ width:100%; float:left; height:50px;}
+.list-int{ width:770px; margin:60px  auto; }
+.list-int ul{ width:100%; float:left; height:58px;}
 .list-int ul li{ float:left; line-height:30px; margin-left:10px;}
 .list-int ul .word{ width:120px; text-align:right;}
 .list-int ul .word span{ color:red;}
-.list-int ul .lable { font-size:12px;}
+.list-int ul .lable { font-size:12px;margin-top:4px;}
 .list-int ul .lable img{ float:left; margin-top:7px; margin-right:4px;}
 .list-int ul .lable .red{ color:red;}
 .list-int ul .re-btn{ margin-left:4px;}
 .list-int ul .checx-word{ float:left; margin-left:140px;}
 .list-int ul .checx-word a{ color:#005aa0;}
-.list-int ul label{ width:100%; float:left; padding-left:140px; margin-top:2px; font-size:12px; color:#999;}
+.list-int ul label{ width:100%; float:left; padding-left:140px; margin-top:4px; font-size:12px; color:#999;}
 .list-int ul label img{ float:left; margin-right:4px;}
-
+.disabled{background:#f7f7f7;}
 /**注册成功**/
 .regeiter-success{width:1000px; float:left; margin-top:60px;}
 .regeiter-success p{text-align:center; color:#666; margin-bottom:20px; }
@@ -104,7 +104,7 @@
 
 /**忘记密码**/
 .steps-four{ width: 640px;}
-.select-medium{ width:230px; float:left; border:1px solid #e7e7e7; height:30px; padding-left:4px; font-size:12px;}
+.select-medium{ width:230px; float:left; border:1px solid #e7e7e7; height:30px; padding-left:4px; font-size:12px;outline:none}
 .select-medium:hover{ border:1px solid #fc721c}
 .list-int .yazm img{ height: 30px;}
 .yazm a{line-height: 30px; color: #005aa0;}

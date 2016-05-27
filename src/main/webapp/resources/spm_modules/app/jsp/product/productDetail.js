@@ -163,6 +163,24 @@ define('app/jsp/product/productDetail', function (require, exports, module) {
 					}
       		);
       	},
+      	_getProductConfigParameter:function(){
+      		ajaxController.ajax({
+						type: "post",
+						dataType: "json",
+						processing: false,
+						//message: "查询中，请等待...",
+						url: _base+"/product/getProductConfigParameter",
+						data:'',
+						success: function(data){
+							if(data.data){
+								var template = $.templates("#configParameterTemple");
+								var htmlOut = template.render(data.data);
+								$("#configParameterData").html(htmlOut);
+							}
+						}
+					}
+      		);
+      	},
       	//加入购物车
     	_joinShopCartClick:function(){
     		var skuId = $("#skuId").val();

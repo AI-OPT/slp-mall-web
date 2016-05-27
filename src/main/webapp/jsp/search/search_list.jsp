@@ -77,14 +77,16 @@
          <!--搜索结果查询条件-->
         <div class="search-wrapper">
             <div class="big-wrapper"><!--内侧居中框架--> 
-              
+                <input type="hidden" name="price" id="price" value="${requestScope.price}"/>
+             	<input type="hidden" name="type" id="type" value="${requestScope.type}"/>
+             	<input type="hidden" name="isp" id="isp" value="${requestScope.isp}"/>
                 <div class="search-main">
                      <ul>
                          <li class="word">运营商:</li>
                          <li>
-                             <p class="current"><A href="#">中国移动</A></p>
-                             <p><A href="#">中国联通</A></p>
-                             <p><A href="#">中国电信</A></p>
+                             <p class="current"><A href="#" value="cmcc" id="cmccId">中国移动</A></p>
+                             <p><A  href="#" value="ctcc" id="ctccId">中国联通</A></p>
+                             <p><A  href="#" value="cucc" id="cuccId">中国电信</A></p>
                          </li>
                      </ul>
                        <ul>

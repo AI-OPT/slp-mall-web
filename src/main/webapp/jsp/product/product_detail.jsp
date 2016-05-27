@@ -69,8 +69,8 @@
      <div class="left-effect">
                      <div class="carousel-left">
                          <div id="picarea">
-                           <div id="bigpicarea"></div>
-                           <script id="bigImageTemple" type="text/template">
+                           <div id="bigpicarea">
+                           <script id="bigImageTemple" type="text/x-jsrender">
 								{{if #index<9}}
 								<div id="image_xixi-0{{: #getIndex()+1}}" class="image"><a href="#"><img alt="" src="{{:bigImageUrl}}" width="360" height="457"></a><div class="word"></div>
                             	</div>
@@ -79,21 +79,24 @@
                             	</div>
 								{{/if}}
 						   </script>
+						   </div>
 						 </div>
                          <div id="smallpicarea">
                             <div id="thumbs">
                                 <ul>
                                     <li class="first btnPrev"><i id="play_prev" class="icon-angle-left"></i></li>
-                                	<div id="smallImageData"></div>
+                                	<div id="smallImageData">
+	                                	<script id="smallImageTemple" type="text/x-jsrender">
+										{{if #index<9}}
+										<li class="slideshowItem"><a id="thumb_xixi-0{{: #getIndex()+1}}" href="javascript:"><img src="{{:smallImageUrl}}"></a></li>
+						   				{{else}}
+										<li class="slideshowItem"><a id="thumb_xixi-{{: #getIndex()+1}}" href="javascript:"><img src="{{:smallImageUrl}}"></a></li>	
+										{{/if}}
+										</script>
+                                	</div>
                                     <li class="last btnNext"><i id="play_next" class="icon-angle-right"></i></li>
                                 </ul>
-                                <script id="smallImageTemple" type="text/template">
-								{{if #index<9}}
-								<li class="slideshowItem"><a id="thumb_xixi-0{{: #getIndex()+1}}" href="javascript:"><img src="{{:smallImageUrl}}"></a></li>
-						   		{{else}}
-								<li class="slideshowItem"><a id="thumb_xixi-{{: #getIndex()+1}}" href="javascript:"><img src="{{:smallImageUrl}}"></a></li>	
-								{{/if}}
-								</script>
+                                
                             </div>
                         </div>
                    </div>
@@ -243,28 +246,14 @@
         		</div>
                 <div id="date2" style=" display:none;">
                    <div class="specification">
-                       <ul>
-                           <li>
-                               <p class="word">运营商</p>
-                               <p>归属地</p>
-                           </li>
-                           <li>
-                               <p class="word">归属地</p>
-                               <p>北京</p>
-                           </li>
-                           <li>
-                               <p class="word">有效期</p>
-                               <p>2016-5-8 10:30</p>
-                           </li>
-                           <li>
-                               <p class="word">充值方式</p>
-                               <p>自动快充</p>
-                           </li>
-                           <li>
-                               <p class="word">充值面额</p>
-                               <p>50元 </p>
-                           </li>
-                       </ul>
+                       	<ul id="configParameterData">
+						</ul>
+                      	<script id="configParameterTemple" type="text/template">
+							<li>
+                               <p class="word">{{:configName}}</p>
+                               <p>{{:configValue}}</p>
+                            </li>
+						</script>
                    </div>
                   
                   

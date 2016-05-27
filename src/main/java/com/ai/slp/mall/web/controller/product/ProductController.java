@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.ai.opt.base.vo.ResponseHeader;
 import com.ai.opt.sdk.components.idps.IDPSClientFactory;
 import com.ai.opt.sdk.dubbo.util.DubboConsumerFactory;
 import com.ai.opt.sdk.web.model.ResponseData;
@@ -29,6 +30,8 @@ import com.ai.slp.product.api.webfront.param.ProductData;
 import com.ai.slp.product.api.webfront.param.ProductImage;
 import com.ai.slp.product.api.webfront.param.ProductSKUAttr;
 import com.ai.slp.product.api.webfront.param.ProductSKUAttrValue;
+import com.ai.slp.product.api.webfront.param.ProductSKUConfigParamter;
+import com.ai.slp.product.api.webfront.param.ProductSKUConfigResponse;
 import com.ai.slp.product.api.webfront.param.ProductSKURequest;
 import com.ai.slp.product.api.webfront.param.ProductSKUResponse;
 
@@ -49,30 +52,32 @@ public class ProductController {
 			ProductSKURequest productskurequest = new ProductSKURequest();
 			productskurequest.setSkuId("0001");
 			ProductSKUResponse producSKU = iProductDetailSV.queryProducSKUById(productskurequest);
+			ResponseHeader responseHeader = producSKU.getResponseHeader();
+			if (responseHeader.isSuccess()) {
+				// producSKU.setActiveType("2");
+				// producSKU.setActiveTime(DateUtils.parseDate("2016-01-01",
+				// "yyyy-MM-dd"));
+				// producSKU.setInactiveTime(DateUtils.parseDate("2018-01-01",
+				// "yyyy-MM-dd"));
+				// producSKU.setActiveCycle(15);
+				// producSKU.setUnit("天");
 
-			// producSKU.setActiveType("2");
-			// producSKU.setActiveTime(DateUtils.parseDate("2016-01-01",
-			// "yyyy-MM-dd"));
-			// producSKU.setInactiveTime(DateUtils.parseDate("2018-01-01",
-			// "yyyy-MM-dd"));
-			// producSKU.setActiveCycle(15);
-			// producSKU.setUnit("天");
-
-			// 设置商品属性中的图片
-			changeAttrIamge(attrImageSize, producSKU);
-			String producSKUJson = JSonUtil.toJSon(producSKU);
-			model.put("productSKU", producSKUJson);
-			// 获得商品图片
-			List<ProductImageVO> productImageVOList = getProductImages(producSKU);
-			String productImageJson = JSonUtil.toJSon(productImageVOList);
-			model.put("imageArrayList", productImageJson);
-			// 设置skuID
-			String skuId = producSKU.getSkuId();
-			model.put("skuId", skuId);
-			// 设置商品有效期
-			String activeType = producSKU.getActiveType();
-			String activeValue = getActiveDateValue(producSKU, activeType);
-			model.put("activeDateValue", activeValue);
+				// 设置商品属性中的图片
+				changeAttrIamge(attrImageSize, producSKU);
+				String producSKUJson = JSonUtil.toJSon(producSKU);
+				model.put("productSKU", producSKUJson);
+				// 获得商品图片
+				List<ProductImageVO> productImageVOList = getProductImages(producSKU);
+				String productImageJson = JSonUtil.toJSon(productImageVOList);
+				model.put("imageArrayList", productImageJson);
+				// 设置skuID
+				String skuId = producSKU.getSkuId();
+				model.put("skuId", skuId);
+				// 设置商品有效期
+				String activeType = producSKU.getActiveType();
+				String activeValue = getActiveDateValue(producSKU, activeType);
+				model.put("activeDateValue", activeValue);
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 			LOG.error("商品详情查询报错：", e);
@@ -158,27 +163,56 @@ public class ProductController {
 		}
 		return defAttrValueId;
 	}
+
 	/**
-     * 热销商品查询
-     * @param request
-     * @return
-     */
-    @RequestMapping("/getHotProduct")
-    @ResponseBody
-    public ResponseData<List<ProductData>> getHotProduct(HttpServletRequest request){
-        ISearchProductSV iPaymentQuerySV = DubboConsumerFactory.getService("iSearchProductSV");
-        ResponseData<List<ProductData>> responseData = null;
-        try {
-            List<ProductData> resultInfo = iPaymentQuerySV.queryHotSellProduct();
-            for(ProductData data:resultInfo){
-                data.setPictureUrl(ImageUtil.getHotImage());
-            }
-            resultInfo.get(0).setPictureUrl(ImageUtil.getImage());
-            responseData = new ResponseData<List<ProductData>>(ResponseData.AJAX_STATUS_SUCCESS, "查询成功", resultInfo);
-        } catch (Exception e) {
-            responseData = new ResponseData<List<ProductData>>(ResponseData.AJAX_STATUS_FAILURE, "查询失败");
-            LOG.error("获取信息出错：", e);
-        }
-        return responseData;
-    }
+	 * 热销商品查询
+	 * 
+	 * @param request
+	 * @return
+	 */
+	@RequestMapping("/getHotProduct")
+	@ResponseBody
+	public ResponseData<List<ProductData>> getHotProduct(HttpServletRequest request) {
+		ISearchProductSV iPaymentQuerySV = DubboConsumerFactory.getService("iSearchProductSV");
+		ResponseData<List<ProductData>> responseData = null;
+		try {
+			List<ProductData> resultInfo = iPaymentQuerySV.queryHotSellProduct();
+			for (ProductData data : resultInfo) {
+				data.setPictureUrl(ImageUtil.getHotImage());
+			}
+			resultInfo.get(0).setPictureUrl(ImageUtil.getImage());
+			responseData = new ResponseData<List<ProductData>>(ResponseData.AJAX_STATUS_SUCCESS, "查询成功", resultInfo);
+		} catch (Exception e) {
+			responseData = new ResponseData<List<ProductData>>(ResponseData.AJAX_STATUS_FAILURE, "查询失败");
+			LOG.error("获取信息出错：", e);
+		}
+		return responseData;
+	}
+	
+	/**
+	 * 查询商品配置参数
+	 * @param request
+	 * @return
+	 */
+	@RequestMapping("/getProductConfigParameter")
+	@ResponseBody
+	public ResponseData<List<ProductSKUConfigParamter>> getProductConfigParamter(HttpServletRequest request) {
+		ResponseData<List<ProductSKUConfigParamter>> responseData = null;
+		try {
+			IProductDetailSV iProductDetailSV = DubboConsumerFactory.getService("iProductDetailSV");
+			ProductSKURequest productSKURequest = new ProductSKURequest();
+			productSKURequest.setSkuId("0001");
+			ProductSKUConfigResponse productSKUConfig = iProductDetailSV.queryProductSKUConfig(productSKURequest);
+			ResponseHeader responseHeader = productSKUConfig.getResponseHeader();
+			if(responseHeader.isSuccess()){
+				List<ProductSKUConfigParamter> configParamterList = productSKUConfig.getConfigParamterList();
+				responseData = new ResponseData<List<ProductSKUConfigParamter>>(ResponseData.AJAX_STATUS_SUCCESS, "查询成功", configParamterList);
+			}
+		} catch (Exception e) {
+			responseData = new ResponseData<List<ProductSKUConfigParamter>>(ResponseData.AJAX_STATUS_FAILURE, "查询失败", null);
+			LOG.error("商品详情查询报错：", e);
+			e.printStackTrace();
+		}
+		return responseData;
+	}
 }
