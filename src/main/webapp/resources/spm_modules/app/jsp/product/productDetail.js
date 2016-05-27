@@ -163,9 +163,8 @@ define('app/jsp/product/productDetail', function (require, exports, module) {
 					}
       		);
       	},
-	//加入购物车测试
+      	//加入购物车
     	_joinShopCartClick:function(){
-    		alert("OK");
     		var skuId = $("#skuId").val();
     		var buyNum = Number($("#productQty").val());
     		$.ajax({
