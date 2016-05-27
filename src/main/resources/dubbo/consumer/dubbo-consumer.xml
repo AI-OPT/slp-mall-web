@@ -56,4 +56,9 @@
 	<dubbo:reference id="IShopCartSV" 
 		interface="com.ai.slp.order.api.shopcart.interfaces.IShopCartSV" 
 		registry="baasRegistry" />	
+		
+     <dubbo:reference id="iUcUserSV"
+		interface="com.ai.slp.user.api.ucuser.intefaces.IUcUserSV"
+		registry="baasRegistry"
+		/>
 </beans>
