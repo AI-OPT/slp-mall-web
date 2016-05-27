@@ -69,8 +69,8 @@
      <div class="left-effect">
                      <div class="carousel-left">
                          <div id="picarea">
-                           <div id="bigpicarea"></div>
-                           <script id="bigImageTemple" type="text/template">
+                           <div id="bigpicarea">
+                           <script id="bigImageTemple" type="text/x-jsrender">
 								{{if #index<9}}
 								<div id="image_xixi-0{{: #getIndex()+1}}" class="image"><a href="#"><img alt="" src="{{:bigImageUrl}}" width="360" height="457"></a><div class="word"></div>
                             	</div>
@@ -79,21 +79,24 @@
                             	</div>
 								{{/if}}
 						   </script>
+						   </div>
 						 </div>
                          <div id="smallpicarea">
                             <div id="thumbs">
                                 <ul>
                                     <li class="first btnPrev"><i id="play_prev" class="icon-angle-left"></i></li>
-                                	<div id="smallImageData"></div>
+                                	<div id="smallImageData">
+	                                	<script id="smallImageTemple" type="text/x-jsrender">
+										{{if #index<9}}
+										<li class="slideshowItem"><a id="thumb_xixi-0{{: #getIndex()+1}}" href="javascript:"><img src="{{:smallImageUrl}}"></a></li>
+						   				{{else}}
+										<li class="slideshowItem"><a id="thumb_xixi-{{: #getIndex()+1}}" href="javascript:"><img src="{{:smallImageUrl}}"></a></li>	
+										{{/if}}
+										</script>
+                                	</div>
                                     <li class="last btnNext"><i id="play_next" class="icon-angle-right"></i></li>
                                 </ul>
-                                <script id="smallImageTemple" type="text/template">
-								{{if #index<9}}
-								<li class="slideshowItem"><a id="thumb_xixi-0{{: #getIndex()+1}}" href="javascript:"><img src="{{:smallImageUrl}}"></a></li>
-						   		{{else}}
-								<li class="slideshowItem"><a id="thumb_xixi-{{: #getIndex()+1}}" href="javascript:"><img src="{{:smallImageUrl}}"></a></li>	
-								{{/if}}
-								</script>
+                                
                             </div>
                         </div>
                    </div>
