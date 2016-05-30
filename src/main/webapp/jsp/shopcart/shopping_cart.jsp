@@ -182,7 +182,7 @@
          </ul>
           </div>
 
-          <div class="right-btn"><input type="button" class="slp-btn topay-btn" value="去支付"></div>
+          <div class="right-btn"><input type="button" class="slp-btn topay-btn" value="提交订单"></div>
           
           </div>
 
