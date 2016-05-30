@@ -57,8 +57,8 @@
 		interface="com.ai.slp.order.api.shopcart.interfaces.IShopCartSV" 
 		registry="baasRegistry" />	
 		
-	<!-- 购物车 -->
-	<dubbo:reference id="IOrderListSV" 
+	<!-- 订单查询 -->
+	<dubbo:reference id="iOrderListSV" 
 		interface="com.ai.slp.order.api.orderlist.interfaces.IOrderListSV" 
 		registry="baasRegistry" />	
 		
