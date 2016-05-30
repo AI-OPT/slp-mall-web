@@ -19,8 +19,8 @@
           <div class="breadcrumb">
               <ul>
                   <li><a href="#">首页</a></li>
-                  <li><a href="#">话费快充</a></li>
-                  <li><a href="#">流量快充</a></li>
+                  <li><a href="#" id="phoneBillFastId">话费快充</a></li>
+                  <li><a href="#" id="flowFastId">流量快充</a></li>
                   <li><a href="#">话费卡</a></li>
                   <li><a href="#">流量卡</a></li>
                   <li><a href="#">API</a></li>
@@ -28,3 +28,13 @@
           </div>
           <!--主导航结束-->
      </div>
+     <script type="text/javascript">
+			var pager;
+			(function () {
+				seajs.use('app/jsp/logonavmenu/logoNavMenu', function (HeadPager) {
+					pager = new HeadPager({element: document.body});
+					pager.render();
+				});
+			})();
+			
+		</script>
