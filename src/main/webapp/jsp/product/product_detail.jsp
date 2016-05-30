@@ -250,6 +250,7 @@
 	var target = ["xixi-01","xixi-02","xixi-03","xixi-04"];
 	
 	var pager;
+	var skuId = '${skuId}';
 	var producSKU = $.parseJSON('${productSKU}');
 	var imageArrayList = $.parseJSON('${imageArrayList}');
 	var activeDateValue = '${activeDateValue}';

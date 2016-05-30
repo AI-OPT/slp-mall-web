@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.ai.net.xss.util.StringUtil;
 import com.ai.opt.base.vo.ResponseHeader;
 import com.ai.opt.sdk.components.idps.IDPSClientFactory;
 import com.ai.opt.sdk.dubbo.util.DubboConsumerFactory;
@@ -48,6 +49,7 @@ public class ProductController {
 			// 商品属性图片大小
 			String attrImageSize = "30x30";
 
+			String skuId = StringUtil.toString(request.getParameter("skuId"));
 			IProductDetailSV iProductDetailSV = DubboConsumerFactory.getService("iProductDetailSV");
 			ProductSKURequest productskurequest = new ProductSKURequest();
 			productskurequest.setSkuId("0001");
@@ -71,7 +73,6 @@ public class ProductController {
 				String productImageJson = JSonUtil.toJSon(productImageVOList);
 				model.put("imageArrayList", productImageJson);
 				// 设置skuID
-				String skuId = producSKU.getSkuId();
 				model.put("skuId", skuId);
 				// 设置商品有效期
 				String activeType = producSKU.getActiveType();
