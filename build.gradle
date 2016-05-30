@@ -91,6 +91,8 @@ compile "com.ai:ipaas-idps:0.3"
 	compile 'com.ai.baas.smc:sysparamcache:2.0-SNAPSHOT'
     //购物车
     compile 'com.ai.slp.order:shopcart:1.0-SNAPSHOT'
+    //订单
+    compile 'com.ai.slp.order:orderlist:1.0-SNAPSHOT'
 	//安全设置
 	compile 'com.ai.slp.user:ucUserSecurity:1.0-SNAPSHOT'
 	//用户
