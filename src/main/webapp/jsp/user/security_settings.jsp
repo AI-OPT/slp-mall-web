@@ -8,12 +8,15 @@
 <link href="${_slpbase }/styles/global.css" rel="stylesheet" type="text/css">
 <link href="${_slpbase }/styles/frame.css" rel="stylesheet" type="text/css">
 <link href="${_slpbase }/styles/font-awesome.css" rel="stylesheet" type="text/css">
-<title>Insert title here</title>
+<title>账户中心</title>
 </head>
 
 <script type="text/javascript">
 	function goToBandEmail(){
 		window.location.href = _base+"/center/bandEmail/confirminfo";
+	}
+	function toChangePassword(){
+		window.location.href = _base+"/user/toChangePassword";
 	}
 </script>
 
@@ -89,7 +92,7 @@
         					</ul>
         				</div>
         				<div class="state-list-word">建议修改密码，使用大小写字母等特殊字符的组合</div>
-        				<div class="state-list-btn"><input type="button" class="sta-btn" value="修改"></div>
+        				<div class="state-list-btn"><input type="button" class="sta-btn" value="修改" onclick="toChangePassword();"></div>
         			</div>	
         			<div class="state-list">
         				 <div class="state-list-icon">
