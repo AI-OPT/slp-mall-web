@@ -15,6 +15,7 @@ import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpSession;
@@ -33,6 +34,7 @@ public class ShopCartController {
      * 购物车中添加商品
      */
     @RequestMapping("/addProd")
+    @ResponseBody
     public ResponseData<CartProdOptRes> addProd(HttpSession session, @RequestParam Long buyNum, @RequestParam String skuId) {
         //获取service
 //        IShopCartSV iShopCartSV = DubboConsumerFactory.getService("IShopCartSV");

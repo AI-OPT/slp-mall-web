@@ -165,21 +165,29 @@ define('app/jsp/product/productDetail', function (require, exports, module) {
       	},
       	//加入购物车
     	_joinShopCartClick:function(){
-			var skuId = $("#skuId").val();
+//			var skuId = $("#skuId").val();
 			var buyNum = Number($("#productQty").val());
 			ajaxController.ajax({
 					type: "post",
 					dataType: "json",
 					processing: false,
-					//message: "查询中，请等待...",
+					//message: "添加中，请等待...",
 					url: _base+"/shopcart/addProd",
 					data:{"skuId":skuId,"buyNum":buyNum},
 					success: function(data){
-						if(data){
-							var prodNum = data.prodNum;
-							var prodTotal = data.prodTotal;
+						if(data.statusCode == "1"){
+							var prodNum = data.data.prodNum;
+							var prodTotal = data.data.prodTotal;
 							var d = Dialog({
-								content:"添加成功",
+								content:"添加成功,本商品数量:"+prodNum+",商品总数量:"+prodTotal,
+								ok:function(){
+									this.close();
+								}
+							});
+							d.show();
+						}else{
+							var d = Dialog({
+								content:"添加失败",
 								ok:function(){
 									this.close();
 								}
