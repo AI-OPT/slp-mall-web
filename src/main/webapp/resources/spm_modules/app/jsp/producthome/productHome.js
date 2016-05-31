@@ -57,16 +57,16 @@ define('app/jsp/producthome/productHome', function (require, exports, module) {
       		var isCtcc = $("#phoneBillCtcc").attr("class");
       		var isCucc = $("#phoneBillCucc").attr("class");
       		if(isCmcc=="current"){
-      			oprator=$("#phoneBillCmcc").attr("oprator");
+      			$("#phoneOprator").val($("#phoneBillCmcc").attr("opratorid"));
       		}else if(isCtcc){
-      			oprator=$("#phoneBillCtcc").attr("oprator");
+      			$("#phoneOprator").val($("#phoneBillCtcc").attr("opratorid"));
       		}else if(isCucc){
-      			oprator=$("#phoneBillCucc").attr("oprator");
+      			$("#phoneOprator").val($("#phoneBillCucc").attr("opratorid"));
       		}
       		var	param={
 					areaCode:"120000",  
 					productCatId: "10000010010000",	   
-					basicOrgIdIs:"100002"
+					basicOrgIdIs:$("#phoneOprator").val()
 				   };
       		ajaxController.ajax({
 						type: "post",
@@ -86,7 +86,8 @@ define('app/jsp/producthome/productHome', function (require, exports, module) {
       		);
       	},
       	_getFlowProduct: function(){
-      		//类目ID
+      		var _this=this;
+      		//流量类目ID
       		var productId="10000010020000";
       		var oprator;
       		//获取运营商类目
@@ -94,16 +95,16 @@ define('app/jsp/producthome/productHome', function (require, exports, module) {
           		var isCtcc = $("#flowCtcc").attr("class");
           		var isCucc = $("#flowCucc").attr("class");
           		if(isCmcc=="current"){
-          			oprator=$("#flowCmcc").attr("oprator");
+          			$("#flowOprator").val($("#flowCmcc").attr("opratorid"));
           		}else if(isCtcc){
-          			oprator=$("#flowCtcc").attr("oprator");
+          			$("#flowOprator").val($("#flowCtcc").attr("opratorid"));
           		}else if(isCucc){
-          			oprator=$("#flowCucc").attr("oprator");
+          			$("#flowOprator").val($("#flowCucc").attr("opratorid"));
           		}
           		var	param={
     					areaCode:"120000",  
-    					productCatId: "10000010010000",	   
-    					basicOrgIdIs:"100002"
+    					productCatId: "10000010020000",	   
+    					basicOrgIdIs:$("#flowOprator").val()
     				   };
       		ajaxController.ajax({
 				type: "post",
@@ -113,11 +114,9 @@ define('app/jsp/producthome/productHome', function (require, exports, module) {
 				url: _base+"/getFlow",
 				data:param,
 				success: function(data){
-					alert("kkll");
 					if(data.data){
 						var template = $.templates("#flowTmpl");
 						var htmlOut = template.render(data.data);
-						alert(htmlOut);
 						$("#flowData").html(htmlOut);
 					}
 				}

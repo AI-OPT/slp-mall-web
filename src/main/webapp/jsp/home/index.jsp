@@ -223,7 +223,10 @@
         <ul>
         	<li><a href="javascript:void(0);" opratorid="100002" class="current" id="phoneBillCmcc" >中国移动</a></li>         
         	<li><a href="javascript:void(0);" opratorid="100001" id="phoneBillCtcc">中国电信</a></li>
-         	<li><a href="javascript:void(0);" opratorid="100003" id="phoneBillCucc">中国联通</a></li>
+         	<li>
+         		<a href="javascript:void(0);" opratorid="100003" id="phoneBillCucc">中国联通</a>
+         		<input type="hidden" id="phoneOprator">
+         	</li>
         </ul>
         </div>
         <!--table1-->
@@ -253,7 +256,10 @@
         <ul>
         <li><a href="javascript:void(0);" opratorid="100002" class="current" id="flowCmcc">中国移动</a></li>         
         <li><a href="javascript:void(0);" opratorid="100001" id="flowCtcc">中国电信</a></li>
-        <li><a href="javascript:void(0);" opratorid="100003" id="flowCucc">中国联通</a></li>
+        <li>
+        	<a href="javascript:void(0);" opratorid="100003" id="flowCucc">中国联通</a>
+        	<input type="hidden" id="flowOprator">
+        </li>
         </ul>
         </div>
         <!--table1-->
@@ -299,7 +305,7 @@
                 	<ul>
                 		<li><img src="{{:picUrl}}"></li>
                 		<li class="tit">{{:prodName}}</li>
-                		<li class="dred">{{:salePrice}}元</li> 
+                		<li class="dred">{{:~liToYuan(salePrice)}}元</li> 
                 	</ul>
                 </a>
 </script>
@@ -309,7 +315,7 @@
                 	<ul>
                 		<li class="word">{{:prodName}}</li>
           				<li class="ash">{{:productSellPoint}}</li>
-          				<li class="dred">¥{{:salePrice}}</li>
+          				<li class="dred">¥{{:~liToYuan(salePrice)}}</li>
           				<li><img src="{{:picUrl}}"></li> 
                 	</ul>
                 </a>
@@ -318,7 +324,7 @@
                 	<ul>
                 		<li class="word">{{:prodName}}</li>
           				<li class="ash">{{:productSellPoint}}</li>
-          				<li class="dred">¥{{:salePrice}}</li>
+          				<li class="dred">¥{{:~liToYuan(salePrice)}}</li>
           				<li><img src="{{:picUrl}}"></li> 
                 	</ul>
                 </a>
@@ -329,7 +335,7 @@
                 	<ul>
                 		<li><img src="{{:picUrl}}"></li>
                 		<li class="tit">{{:prodName}}</li>
-                		<li class="dred">{{:salePrice}}元</li> 
+                		<li class="dred">{{:~liToYuan(salePrice)}}元</li> 
                 	</ul>
                 </a>
 </script>

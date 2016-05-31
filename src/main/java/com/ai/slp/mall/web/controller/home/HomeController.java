@@ -69,7 +69,7 @@ public class HomeController {
             List<ProductHomeResponse> list  = iHomeProductSV.queryHomeDataProduct(proRequest);
             for(ProductHomeResponse data:list){
                 ProductHomeVO vo = new ProductHomeVO();
-                vo.setPicUrl(ImageUtil.getHotImage());
+                vo.setPicUrl(ImageUtil.getImage(data.getProductImage().getVfsid()));
                 vo.setProdId(data.getProdId());
                 vo.setProdName(data.getProdName());
                 vo.setSalePrice(data.getSalePrice());
@@ -93,13 +93,14 @@ public class HomeController {
         ResponseData<List<ProductHomeVO>> responseData = null;
         List<ProductHomeVO> resultList = new ArrayList<ProductHomeVO>();
         try {
-            List<ProductHomeResponse> list  = iHomeProductSV.queryHomeDataProduct(proRequest);
+            List<ProductHomeResponse> list  = iHomeProductSV.queryHotProduct(proRequest);
             for(ProductHomeResponse data:list){
                 ProductHomeVO vo = new ProductHomeVO();
                 vo.setPicUrl(ImageUtil.getHotImage());
                 vo.setProdId(data.getProdId());
                 vo.setProdName(data.getProdName());
                 vo.setSalePrice(data.getSalePrice());
+                vo.setProductSellPoint(data.getProductSellPoint());
                 resultList.add(vo);
             }
         responseData = new ResponseData<List<ProductHomeVO>>(ResponseData.AJAX_STATUS_SUCCESS, "查询成功", resultList);
