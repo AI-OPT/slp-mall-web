@@ -7,14 +7,14 @@ import com.ai.opt.sdk.components.idps.IDPSClientFactory;
 import com.ai.paas.ipaas.image.IImageClient;
 
 public class ImageUtil {
-   public static String getImage(){
+   public static String getImage(String vsid){
        IImageClient im = null;
        //应用场景
        String idpsns="slp-mall-web-idps";
        //获取imageClient
        im = IDPSClientFactory.getImageClient(idpsns);
       //获取上传图片的URL
-       return im.getImageUrl("57454864d601800009c0b0cd", ".jpg");
+       return im.getImageUrl(vsid, ".PNG");
    }
    public static String getHotImage(){
        IImageClient im = null;

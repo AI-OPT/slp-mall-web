@@ -51,7 +51,6 @@ define('app/jsp/producthome/productHome', function (require, exports, module) {
     	},
     	_getPhoneBill:function(){
     		//类目
-    		var type="phoneBill"
     		var oprator;
     		//获取运营商类目
       		var isCmcc = $("#phoneBillCmcc").attr("class");
@@ -64,13 +63,18 @@ define('app/jsp/producthome/productHome', function (require, exports, module) {
       		}else if(isCucc){
       			oprator=$("#phoneBillCucc").attr("oprator");
       		}
+      		var	param={
+					areaCode:"120000",  
+					productCatId: "10000010010000",	   
+					basicOrgIdIs:"100002"
+				   };
       		ajaxController.ajax({
 						type: "post",
 						dataType: "json",
 						processing: true,
 						message: "查询中，请等待...",
 						url: _base+"/getPhoneBill",
-						data:'',
+						data:param,
 						success: function(data){
 							if(data.data){
 								var template = $.templates("#phoneBillTmpl");
@@ -82,17 +86,38 @@ define('app/jsp/producthome/productHome', function (require, exports, module) {
       		);
       	},
       	_getFlowProduct: function(){
+      		//类目ID
+      		var productId="10000010020000";
+      		var oprator;
+      		//获取运营商类目
+          		var isCmcc = $("#flowCmcc").attr("class");
+          		var isCtcc = $("#flowCtcc").attr("class");
+          		var isCucc = $("#flowCucc").attr("class");
+          		if(isCmcc=="current"){
+          			oprator=$("#flowCmcc").attr("oprator");
+          		}else if(isCtcc){
+          			oprator=$("#flowCtcc").attr("oprator");
+          		}else if(isCucc){
+          			oprator=$("#flowCucc").attr("oprator");
+          		}
+          		var	param={
+    					areaCode:"120000",  
+    					productCatId: "10000010010000",	   
+    					basicOrgIdIs:"100002"
+    				   };
       		ajaxController.ajax({
 				type: "post",
 				dataType: "json",
 				processing: true,
 				message: "查询中，请等待...",
 				url: _base+"/getFlow",
-				data:'',
+				data:param,
 				success: function(data){
+					alert("kkll");
 					if(data.data){
 						var template = $.templates("#flowTmpl");
 						var htmlOut = template.render(data.data);
+						alert(htmlOut);
 						$("#flowData").html(htmlOut);
 					}
 				}
@@ -123,7 +148,7 @@ define('app/jsp/producthome/productHome', function (require, exports, module) {
 				processing: true,
 				message: "查询中，请等待...",
 				url: _base+"/getHotProduct",
-				data:'',
+				data:{areaCode:"120000"},
 				success: function(data){
 					if(data.data){
 						var template = $.templates("#hotTmpl");

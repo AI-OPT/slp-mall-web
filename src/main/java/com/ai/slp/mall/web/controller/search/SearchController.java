@@ -57,7 +57,7 @@ public class SearchController {
             List<ProductData> list = result.getResult();
             result.setCount(10);
             for(ProductData data:list){
-                data.setPictureUrl(ImageUtil.getImage());
+                data.setPictureUrl(ImageUtil.getHotImage());
                 data.setPictureUrlList(ImageUtil.getImages());
             }
             LOG.debug("商品查询出参:"+JSONArray.fromObject(resultInfo).toString());
@@ -85,7 +85,7 @@ public class SearchController {
             for(ProductData data:resultInfo){
                 data.setPictureUrl(ImageUtil.getHotImage());
             }
-            resultInfo.get(0).setPictureUrl(ImageUtil.getImage());
+            resultInfo.get(0).setPictureUrl(ImageUtil.getHotImage());
             LOG.debug("商品查询出参:"+JSONArray.fromObject(resultInfo).toString());
             responseData = new ResponseData<List<ProductData>>(ResponseData.AJAX_STATUS_SUCCESS, "查询成功", resultInfo);
         } catch (Exception e) {

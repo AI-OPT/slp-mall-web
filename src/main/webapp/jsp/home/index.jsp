@@ -221,9 +221,9 @@
         
        	 <div class="plist-right-title">
         <ul>
-        	<li><a href="javascript:void(0);" oprator="cmcc" class="current" id="phoneBillCmcc" >中国移动</a></li>         
-        	<li><a href="javascript:void(0);" oprator="ctcc" id="phoneBillCtcc">中国电信</a></li>
-         	<li><a href="javascript:void(0);" oprator="cucc" id="phoneBillCucc">中国联通</a></li>
+        	<li><a href="javascript:void(0);" opratorid="100002" class="current" id="phoneBillCmcc" >中国移动</a></li>         
+        	<li><a href="javascript:void(0);" opratorid="100001" id="phoneBillCtcc">中国电信</a></li>
+         	<li><a href="javascript:void(0);" opratorid="100003" id="phoneBillCucc">中国联通</a></li>
         </ul>
         </div>
         <!--table1-->
@@ -251,9 +251,9 @@
         
        	 <div class="plist-right-title-tow">
         <ul>
-        <li><a href="javascript:void(0);" class="current" id="flowCtcc">中国移动</a></li>         
-        <li><a href="javascript:void(0);" id="flowCtcc">中国电信</a></li>
-        <li><a href="javascript:void(0);" id="flowCucc">中国联通</a></li>
+        <li><a href="javascript:void(0);" opratorid="100002" class="current" id="flowCmcc">中国移动</a></li>         
+        <li><a href="javascript:void(0);" opratorid="100001" id="flowCtcc">中国电信</a></li>
+        <li><a href="javascript:void(0);" opratorid="100003" id="flowCucc">中国联通</a></li>
         </ul>
         </div>
         <!--table1-->
@@ -324,7 +324,6 @@
                 </a>
 		{{/if}}
 </script>
-</body>
 <script id="flowTmpl" type="text/x-jsrender">
 				<a href="#">
                 	<ul>
@@ -334,6 +333,8 @@
                 	</ul>
                 </a>
 </script>
+</body>
+
 </html>
 <script src="${_slpbase }/scripts/frame.js" type="text/javascript"></script>
 <script src="${_slpbase }/scripts/flickity-docs.min.js"></script>

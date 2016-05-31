@@ -123,8 +123,8 @@ public class ProductController {
 		if (productImageList != null && productImageList.size() > 0) {
 			IImageClient imageClient = IDPSClientFactory.getImageClient(ProductImageConstant.IDPSNS);
 			for (ProductImage productImage : productImageList) {
-				String idpsId = productImage.getIdpsId();
-				String extension = productImage.getExtension();
+				String idpsId = productImage.getVfsid();
+				String extension = productImage.getImagetype();
 				String bigImageUrl = imageClient.getImageUrl(idpsId, extension, productImageBigSize);
 				String smallImageUrl = imageClient.getImageUrl(idpsId, extension, productImageSmailSize);
 				ProductImageVO productImageVO = new ProductImageVO();
@@ -155,8 +155,8 @@ public class ProductController {
 				}
 				ProductImage image = attrValue.getImage();
 				if (image != null) {
-					String idpsId = image.getIdpsId();
-					String extension = image.getExtension();
+					String idpsId = image.getVfsid();
+					String extension = image.getImagetype();
 					String imageUrl = imageClient.getImageUrl(idpsId, extension, attrImageSize);
 					attrValue.setImageUrl(imageUrl);
 				}
@@ -181,7 +181,7 @@ public class ProductController {
 			for (ProductData data : resultInfo) {
 				data.setPictureUrl(ImageUtil.getHotImage());
 			}
-			resultInfo.get(0).setPictureUrl(ImageUtil.getImage());
+			resultInfo.get(0).setPictureUrl(ImageUtil.getHotImage());
 			responseData = new ResponseData<List<ProductData>>(ResponseData.AJAX_STATUS_SUCCESS, "查询成功", resultInfo);
 		} catch (Exception e) {
 			responseData = new ResponseData<List<ProductData>>(ResponseData.AJAX_STATUS_FAILURE, "查询失败");
