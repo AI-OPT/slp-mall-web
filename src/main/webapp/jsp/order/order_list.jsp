@@ -21,7 +21,7 @@
  <div class="fsast-head">
         <div class="fsast-logo">
             <ul>
-                <li><a href="#"><img src="images/login-logo.png"></a></li>
+                <li><a href="#"><img src="${_slpbase }/images/login-logo.png"></a></li>
                 <li>快充支付</li>
             </ul>
         </div>
@@ -62,7 +62,7 @@
     <!--我的订单左侧-->
     <div class="my-order-menu">
         <ul>
-            <li class="img"><img src="images/order-menu-iocn1.png"></li>
+            <li class="img"><img src="${_slpbase }/images/order-menu-iocn1.png"></li>
             <li class="word">
                 <p class="">订单中心</p>
                 <p class="active"><A href="#">我的订单</A></p>
@@ -71,7 +71,7 @@
             </li>
         </ul>
         <ul>
-            <li class="img"><img src="images/order-menu-iocn2.png"></li>
+            <li class="img"><img src="${_slpbase }/images/order-menu-iocn2.png"></li>
             <li class="word">
                 <p class="">资产中心</p>
                 <p><A href="#">账户余额</A></p>
@@ -80,7 +80,7 @@
             </li>
         </ul>
         <ul>
-            <li class="img"><img src="images/order-menu-iocn3.png"></li>
+            <li class="img"><img src="${_slpbase }/images/order-menu-iocn3.png"></li>
             <li class="word">
                 <p class="">关注中心</p>
                 <p><A href="#">收藏夹</A></p>
@@ -89,7 +89,7 @@
             </li>
         </ul>
         <ul>
-            <li class="img"><img src="images/order-menu-iocn5.png"></li>
+            <li class="img"><img src="${_slpbase }/images/order-menu-iocn5.png"></li>
             <li class="word">
                 <p class="">账户设置</p>
                 <p><A href="#">个人资料</A></p>
@@ -167,6 +167,9 @@
                         </tr>
                    </table>
              </div>
+             <div id="orderListData"></div>
+             <script id="orderListTemple" type="text/x-jsrender">
+             
                <div class="shopping-cart addto-list">
                  <table width="100%" border="0">
                                 <tr class="order-bj-s">
@@ -175,1190 +178,87 @@
                                         <ul>
                                             <li>
                                                 <p>订单号:</p>
-                                                <p>74774832300912</p>
+                                                <p>{{:orderId}}</p>
                                             </li>
                                             <li>
-                                                <p>2016-3-16 14:23</p>
+                                                <p>{{:~timesToFmatter(orderTime)}}</p>
                                             </li>
                                                 <li>
                                                 <p>订单金额:</p>
-                                                <p>¥127.00</p>
+                                                <p>¥{{:adjustFee}}</p>
                                             </li>
                                         </ul>
                                     </div>
                                 </td>
                               </tr>   
-                                     
+                              {{for productList ~parentState=state ~parentStateName=stateName ~size=productList.length}}     
                               <tr class="tr-border">
                                <td class="sp"  width="45%">
                                     <table width="100%" border="0">
                                           <tr>
-                                            <td class="word" width="25%"><img src="images/sim.png"></td>
+                                            <td class="word" width="25%"><img src="{{:imageUrl}}"></td>
                                             <td>
                                              <div class="number">
-                                             <p><a href="#">中国电信手机充值北京手机充值10远电信手机充值电信手机充值</a></p>
-                                             <p>充值手机：18639882844</p>
+                                             <p><a href="#">{{:prodName}}</a></p>
                                              </div>
                                             </td>	
                                           </tr>
                                     </table>
                                 </td>
-                                <td class="ash" width="10%">¥300.00</td>
+                                <td class="ash" width="10%">¥{{:salePrice}}</td>
                                 <td width="10%">1</td>
-                                <td width="10%" class="strong">¥300.00</td>
-                                <td width="10%"> 
+                                <td width="10%" class="strong">{{:adjustFee}}</td>
+								{{if #getIndex() == 0}}
+                                <td width="10%" rowspan="{{:~size}}"> 
                                     <div class="number">
-                                    <p><a href="#">待付款</a></p>
+									<p>{{:~parentStateName}}</p>
                                     <p><a href="#">订单详情</a></p>
                                     </div>
                                 </td>
-                                <td width="15%" class="none-borer">
+                                <td width="15%" class="none-borer" rowspan="{{:~size}}">
                                     <div class="number">
+									{{if ~parentState=='11'}}
                                     <p><input type="button" class="immedtl-btn" value="立即支付"></p>
+									{{else}}
+									<p><input type="button" class="again-btn" value="再次购买"></p>
+									{{/if}}
                                     <p><a href="#">关闭订单</a></p>
                                     </div>
                                 </td>
-                                 
+                                {{/if}}
                               </tr>  
+						      {{/for}}
                   </table>   
                   </div>
-               <div class="shopping-cart addto-list">
-                 <table width="100%" border="0">
-                                <tr class="order-bj-s">
-                                <td colspan="6">
-                                    <div class="purchase-list">
-                                        <ul>
-                                            <li>
-                                                <p>订单号:</p>
-                                                <p>74774832300912</p>
-                                            </li>
-                                            <li>
-                                                <p>2016-3-16 14:23</p>
-                                            </li>
-                                                <li>
-                                                <p>订单金额:</p>
-                                                <p>¥127.00</p>
-                                            </li>
-                                            <li>
-                                                <p>在线支付</p>
-                                                <p><img src="images/order-icon1.png"></p>
-                                            </li>
-                                            <li class="right">
-                                                <p><A href="#"><i class="icon-trash"></i></A></p>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </td>
-                              </tr>   
-                                     
-                              <tr class="tr-border">
-                               <td class="sp"  width="45%">
-                                    <table width="100%" border="0">
-                                          <tr>
-                                            <td class="word" width="25%"><img src="images/sim.png"></td>
-                                            <td>
-                                             <div class="number">
-                                             <p><a href="#">中国电信手机充值北京手机充值10远电信手机充值电信手机充值</a></p>
-                                             <p>充值手机：18639882844</p>
-                                             </div>
-                                            </td>	
-                                          </tr>
-                                    </table>
-                                </td>
-                                <td class="ash" width="10%">¥300.00</td>
-                                <td width="10%">1</td>
-                                <td width="10%" class="strong">¥300.00</td>
-                                <td width="10%"> 
-                                    <div class="number">
-                                    <p><a href="#">待付款</a></p>
-                                    <p><a href="#">订单详情</a></p>
-                                    </div>
-                                </td>
-                                <td width="15%" class="none-borer">
-                                    <div class="number">
-                                    <p><input type="button" class="again-btn" value="再次购买"></p>
-                                    <p><a href="#">关闭订单</a></p>
-                                    </div>
-                                </td>
-                                 
-                              </tr>  
-                  </table>   
-                  </div>
-               <div class="shopping-cart addto-list">
-                 <table width="100%" border="0">
-                                <tr class="order-bj-s">
-                                <td colspan="6">
-                                    <div class="purchase-list">
-                                        <ul>
-                                            <li>
-                                                <p>订单号:</p>
-                                                <p>74774832300912</p>
-                                            </li>
-                                            <li>
-                                                <p>2016-3-16 14:23</p>
-                                            </li>
-                                                <li>
-                                                <p>订单金额:</p>
-                                                <p>¥127.00</p>
-                                            </li>
-                                            <li>
-                                                <p>在线支付</p>
-                                                <p><img src="images/order-icon3.png"></p>
-                                            </li>
-                                            <li class="right">
-                                                <p><A href="#"><i class="icon-trash"></i></A></p>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </td>
-                              </tr>   
-                                     
-                              <tr class="tr-border">
-                               <td class="sp"  width="45%">
-                                    <table width="100%" border="0">
-                                          <tr>
-                                            <td class="word" width="25%"><img src="images/sim.png"></td>
-                                            <td>
-                                             <div class="number">
-                                             <p><a href="#">中国电信手机充值北京手机充值10远电信手机充值电信手机充值</a></p>
-                                             <p>充值手机：18639882844</p>
-                                             </div>
-                                            </td>	
-                                          </tr>
-                                    </table>
-                                </td>
-                                <td class="ash" width="10%">¥300.00</td>
-                                <td width="10%">1</td>
-                                <td width="10%" class="strong">¥300.00</td>
-                                <td width="10%" rowspan="2"> 
-                                    <div class="number">
-                                    <p><a href="#">待付款</a></p>
-                                    <p><a href="#">订单详情</a></p>
-                                    </div>
-                                </td>
-                                <td width="15%" rowspan="2" class="none-borer">
-                                    <div class="number">
-                                    <p><input type="button" class="again-btn" value="再次购买"></p>
-                                    <p><a href="#">关闭订单</a></p>
-                                    </div>
-                                </td>
-                                 
-                              </tr> 
-                              <tr class="tr-border">
-                               <td class="sp"  width="45%">
-                                    <table width="100%" border="0">
-                                          <tr>
-                                            <td class="word" width="25%"><img src="images/sim.png"></td>
-                                            <td>
-                                             <div class="number">
-                                             <p><a href="#">中国电信手机充值北京手机充值10远电信手机充值电信手机充值</a></p>
-                                             <p>充值手机：18639882844</p>
-                                             </div>
-                                            </td>	
-                                          </tr>
-                                    </table>
-                                </td>
-                                <td class="ash" width="10%">¥300.00</td>
-                                <td width="10%">1</td>
-                                <td width="10%" class="strong">¥300.00</td>
-                              </tr> 
-                  </table>   
-                  </div>   
+				</script>
+             </div>
+          </div>
               
-                  
-             </div>
-          
-          </div>    
-      
-		   <div class="paging-large">
-        <ul>
-            <li>共100页</li>
-            <li class="prev-up"><a href="#">&lt;上一页</a> </li>
-            <li class="active"> <a href="#">1 </a> </li>
-            <li> <a href="#">2 </a> </li>
-            <li> <a href="#">3</a> </li>
-            <li><span>....</span></li>
-            <li> <a href="#">6</a> </li>
-            <li> <a href="#">7</a> </li>
-            <li class="next-down"><a href="#">下一页&gt;</a> </li>
-   		     <li>
-                <span>到</span>
-                <span><input type="text" class="int-verysmall"></span>
-                <span>页</span>
-                <span class="btn-span"><a class="but-determine">确定</a></span>
-            </li>
-         </ul>
-      </div>
-      </div>
-          <div id="order-date1" style=" display:none;">
-          
-          <div class="order-list-ctn">
-             <div class="order-list-title">
-             <div class="shopping-cart addto-title">
-            		 <table>
-                        <tr class="order-bj-s">
-                            <td width="50%">商品信息</td>
-                            <td width="10%">单价</td>
-                            <td width="10%">数量</td>
-                            <td width="10%">实付款</td>
-                            <td width="10%">订单状态</td>
-                            <td width="15%">操作</td>
-                        </tr>
-                   </table>
-             </div>
-               <div class="shopping-cart addto-list">
-                 <table width="100%" border="0">
-                                <tr class="order-bj-s">
-                                <td colspan="6">
-                                    <div class="purchase-list">
-                                        <ul>
-                                            <li>
-                                                <p>订单号:</p>
-                                                <p>74774832300912</p>
-                                            </li>
-                                            <li>
-                                                <p>2016-3-16 14:23</p>
-                                            </li>
-                                                <li>
-                                                <p>订单金额:</p>
-                                                <p>¥127.00</p>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </td>
-                              </tr>   
-                                     
-                              <tr class="tr-border">
-                               <td class="sp"  width="45%">
-                                    <table width="100%" border="0">
-                                          <tr>
-                                            <td class="word" width="25%"><img src="images/sim.png"></td>
-                                            <td>
-                                             <div class="number">
-                                             <p><a href="#">中国电信手机充值北京手机充值10远电信手机充值电信手机充值</a></p>
-                                             <p>充值手机：18639882844</p>
-                                             </div>
-                                            </td>	
-                                          </tr>
-                                    </table>
-                                </td>
-                                <td class="ash" width="10%">¥300.00</td>
-                                <td width="10%">1</td>
-                                <td width="10%" class="strong">¥800.00</td>
-                                <td width="10%"> 
-                                    <div class="number">
-                                    <p><a href="#">待付款</a></p>
-                                    <p><a href="#">订单详情</a></p>
-                                    </div>
-                                </td>
-                                <td width="15%" class="none-borer">
-                                    <div class="number">
-                                    <p><input type="button" class="immedtl-btn" value="立即支付"></p>
-                                    <p><a href="#">关闭订单</a></p>
-                                    </div>
-                                </td>
-                                 
-                              </tr>  
-                  </table>   
-                  </div>
-               <div class="shopping-cart addto-list">
-                 <table width="100%" border="0">
-                                <tr class="order-bj-s">
-                                <td colspan="6">
-                                    <div class="purchase-list">
-                                        <ul>
-                                            <li>
-                                                <p>订单号:</p>
-                                                <p>74774832300912</p>
-                                            </li>
-                                            <li>
-                                                <p>2016-3-16 14:23</p>
-                                            </li>
-                                                <li>
-                                                <p>订单金额:</p>
-                                                <p>¥127.00</p>
-                                            </li>
-                                            <li>
-                                                <p>在线支付</p>
-                                                <p><img src="images/order-icon1.png"></p>
-                                            </li>
-                                            <li class="right">
-                                                <p><A href="#"><i class="icon-trash"></i></A></p>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </td>
-                              </tr>   
-                                     
-                              <tr class="tr-border">
-                               <td class="sp"  width="45%">
-                                    <table width="100%" border="0">
-                                          <tr>
-                                            <td class="word" width="25%"><img src="images/sim.png"></td>
-                                            <td>
-                                             <div class="number">
-                                             <p><a href="#">中国电信手机充值北京手机充值10远电信手机充值电信手机充值</a></p>
-                                             <p>充值手机：18639882844</p>
-                                             </div>
-                                            </td>	
-                                          </tr>
-                                    </table>
-                                </td>
-                                <td class="ash" width="10%">¥300.00</td>
-                                <td width="10%">1</td>
-                                <td width="10%" class="strong">¥300.00</td>
-                                <td width="10%"> 
-                                    <div class="number">
-                                    <p><a href="#">待付款</a></p>
-                                    <p><a href="#">订单详情</a></p>
-                                    </div>
-                                </td>
-                                <td width="15%" class="none-borer">
-                                    <div class="number">
-                                    <p><input type="button" class="again-btn" value="再次购买"></p>
-                                    <p><a href="#">关闭订单</a></p>
-                                    </div>
-                                </td>
-                                 
-                              </tr>  
-                  </table>   
-                  </div>
-               <div class="shopping-cart addto-list">
-                 <table width="100%" border="0">
-                                <tr class="order-bj-s">
-                                <td colspan="6">
-                                    <div class="purchase-list">
-                                        <ul>
-                                            <li>
-                                                <p>订单号:</p>
-                                                <p>74774832300912</p>
-                                            </li>
-                                            <li>
-                                                <p>2016-3-16 14:23</p>
-                                            </li>
-                                                <li>
-                                                <p>订单金额:</p>
-                                                <p>¥127.00</p>
-                                            </li>
-                                            <li>
-                                                <p>在线支付</p>
-                                                <p><img src="images/order-icon3.png"></p>
-                                            </li>
-                                            <li class="right">
-                                                <p><A href="#"><i class="icon-trash"></i></A></p>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </td>
-                              </tr>   
-                                     
-                              <tr class="tr-border">
-                               <td class="sp"  width="45%">
-                                    <table width="100%" border="0">
-                                          <tr>
-                                            <td class="word" width="25%"><img src="images/sim.png"></td>
-                                            <td>
-                                             <div class="number">
-                                             <p><a href="#">中国电信手机充值北京手机充值10远电信手机充值电信手机充值</a></p>
-                                             <p>充值手机：18639882844</p>
-                                             </div>
-                                            </td>	
-                                          </tr>
-                                    </table>
-                                </td>
-                                <td class="ash" width="10%">¥300.00</td>
-                                <td width="10%">1</td>
-                                <td width="10%" class="strong">¥300.00</td>
-                                <td width="10%" rowspan="2"> 
-                                    <div class="number">
-                                    <p><a href="#">待付款</a></p>
-                                    <p><a href="#">订单详情</a></p>
-                                    </div>
-                                </td>
-                                <td width="15%" rowspan="2" class="none-borer">
-                                    <div class="number">
-                                    <p><input type="button" class="again-btn" value="再次购买"></p>
-                                    <p><a href="#">关闭订单</a></p>
-                                    </div>
-                                </td>
-                                 
-                              </tr> 
-                              <tr class="tr-border">
-                               <td class="sp"  width="45%">
-                                    <table width="100%" border="0">
-                                          <tr>
-                                            <td class="word" width="25%"><img src="images/sim.png"></td>
-                                            <td>
-                                             <div class="number">
-                                             <p><a href="#">中国电信手机充值北京手机充值10远电信手机充值电信手机充值</a></p>
-                                             <p>充值手机：18639882844</p>
-                                             </div>
-                                            </td>	
-                                          </tr>
-                                    </table>
-                                </td>
-                                <td class="ash" width="10%">¥300.00</td>
-                                <td width="10%">1</td>
-                                <td width="10%" class="strong">¥300.00</td>
-                              </tr> 
-                  </table>   
-                  </div>   
-              
-                  
-             </div>
-          
-          </div>    
-      
-		   <div class="paging-large">
-        <ul>
-            <li>共100页</li>
-            <li class="prev-up"><a href="#">&lt;上一页</a> </li>
-            <li class="active"> <a href="#">1 </a> </li>
-            <li> <a href="#">2 </a> </li>
-            <li> <a href="#">3</a> </li>
-            <li><span>....</span></li>
-            <li> <a href="#">6</a> </li>
-            <li> <a href="#">7</a> </li>
-            <li class="next-down"><a href="#">下一页&gt;</a> </li>
-   		     <li>
-                <span>到</span>
-                <span><input type="text" class="int-verysmall"></span>
-                <span>页</span>
-                <span class="btn-span"><a class="but-determine">确定</a></span>
-            </li>
-         </ul>
-      </div>
-      </div>
-      	   <div id="order-date2"  style=" display:none;">
-          
-          <div class="order-list-ctn">
-             <div class="order-list-title">
-             <div class="shopping-cart addto-title">
-            		 <table>
-                        <tr class="order-bj-s">
-                            <td width="50%">商品信息</td>
-                            <td width="10%">单价</td>
-                            <td width="10%">数量</td>
-                            <td width="10%">实付款</td>
-                            <td width="10%">订单状态</td>
-                            <td width="15%">操作</td>
-                        </tr>
-                   </table>
-             </div>
-               <div class="shopping-cart addto-list">
-                 <table width="100%" border="0">
-                                <tr class="order-bj-s">
-                                <td colspan="6">
-                                    <div class="purchase-list">
-                                        <ul>
-                                            <li>
-                                                <p>订单号:</p>
-                                                <p>74774832300912</p>
-                                            </li>
-                                            <li>
-                                                <p>2016-3-16 14:23</p>
-                                            </li>
-                                                <li>
-                                                <p>订单金额:</p>
-                                                <p>¥127.00</p>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </td>
-                              </tr>   
-                                     
-                              <tr class="tr-border">
-                               <td class="sp"  width="45%">
-                                    <table width="100%" border="0">
-                                          <tr>
-                                            <td class="word" width="25%"><img src="images/sim.png"></td>
-                                            <td>
-                                             <div class="number">
-                                             <p><a href="#">中国电信手机充值北京手机充值10远电信手机充值电信手机充值</a></p>
-                                             <p>充值手机：18639882844</p>
-                                             </div>
-                                            </td>	
-                                          </tr>
-                                    </table>
-                                </td>
-                                <td class="ash" width="10%">¥300.00</td>
-                                <td width="10%">1</td>
-                                <td width="10%" class="strong">¥500.00</td>
-                                <td width="10%"> 
-                                    <div class="number">
-                                    <p><a href="#">待付款</a></p>
-                                    <p><a href="#">订单详情</a></p>
-                                    </div>
-                                </td>
-                                <td width="15%" class="none-borer">
-                                    <div class="number">
-                                    <p><input type="button" class="immedtl-btn" value="立即支付"></p>
-                                    <p><a href="#">关闭订单</a></p>
-                                    </div>
-                                </td>
-                                 
-                              </tr>  
-                  </table>   
-                  </div>
-               <div class="shopping-cart addto-list">
-                 <table width="100%" border="0">
-                                <tr class="order-bj-s">
-                                <td colspan="6">
-                                    <div class="purchase-list">
-                                        <ul>
-                                            <li>
-                                                <p>订单号:</p>
-                                                <p>74774832300912</p>
-                                            </li>
-                                            <li>
-                                                <p>2016-3-16 14:23</p>
-                                            </li>
-                                                <li>
-                                                <p>订单金额:</p>
-                                                <p>¥127.00</p>
-                                            </li>
-                                            <li>
-                                                <p>在线支付</p>
-                                                <p><img src="images/order-icon1.png"></p>
-                                            </li>
-                                            <li class="right">
-                                                <p><A href="#"><i class="icon-trash"></i></A></p>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </td>
-                              </tr>   
-                                     
-                              <tr class="tr-border">
-                               <td class="sp"  width="45%">
-                                    <table width="100%" border="0">
-                                          <tr>
-                                            <td class="word" width="25%"><img src="images/sim.png"></td>
-                                            <td>
-                                             <div class="number">
-                                             <p><a href="#">中国电信手机充值北京手机充值10远电信手机充值电信手机充值</a></p>
-                                             <p>充值手机：18639882844</p>
-                                             </div>
-                                            </td>	
-                                          </tr>
-                                    </table>
-                                </td>
-                                <td class="ash" width="10%">¥300.00</td>
-                                <td width="10%">1</td>
-                                <td width="10%" class="strong">¥300.00</td>
-                                <td width="10%"> 
-                                    <div class="number">
-                                    <p><a href="#">待付款</a></p>
-                                    <p><a href="#">订单详情</a></p>
-                                    </div>
-                                </td>
-                                <td width="15%" class="none-borer">
-                                    <div class="number">
-                                    <p><input type="button" class="again-btn" value="再次购买"></p>
-                                    <p><a href="#">关闭订单</a></p>
-                                    </div>
-                                </td>
-                                 
-                              </tr>  
-                  </table>   
-                  </div>
-               <div class="shopping-cart addto-list">
-                 <table width="100%" border="0">
-                                <tr class="order-bj-s">
-                                <td colspan="6">
-                                    <div class="purchase-list">
-                                        <ul>
-                                            <li>
-                                                <p>订单号:</p>
-                                                <p>74774832300912</p>
-                                            </li>
-                                            <li>
-                                                <p>2016-3-16 14:23</p>
-                                            </li>
-                                                <li>
-                                                <p>订单金额:</p>
-                                                <p>¥127.00</p>
-                                            </li>
-                                            <li>
-                                                <p>在线支付</p>
-                                                <p><img src="images/order-icon3.png"></p>
-                                            </li>
-                                            <li class="right">
-                                                <p><A href="#"><i class="icon-trash"></i></A></p>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </td>
-                              </tr>   
-                                     
-                              <tr class="tr-border">
-                               <td class="sp"  width="45%">
-                                    <table width="100%" border="0">
-                                          <tr>
-                                            <td class="word" width="25%"><img src="images/sim.png"></td>
-                                            <td>
-                                             <div class="number">
-                                             <p><a href="#">中国电信手机充值北京手机充值10远电信手机充值电信手机充值</a></p>
-                                             <p>充值手机：18639882844</p>
-                                             </div>
-                                            </td>	
-                                          </tr>
-                                    </table>
-                                </td>
-                                <td class="ash" width="10%">¥300.00</td>
-                                <td width="10%">1</td>
-                                <td width="10%" class="strong">¥300.00</td>
-                                <td width="10%" rowspan="2"> 
-                                    <div class="number">
-                                    <p><a href="#">待付款</a></p>
-                                    <p><a href="#">订单详情</a></p>
-                                    </div>
-                                </td>
-                                <td width="15%" rowspan="2" class="none-borer">
-                                    <div class="number">
-                                    <p><input type="button" class="again-btn" value="再次购买"></p>
-                                    <p><a href="#">关闭订单</a></p>
-                                    </div>
-                                </td>
-                                 
-                              </tr> 
-                              <tr class="tr-border">
-                               <td class="sp"  width="45%">
-                                    <table width="100%" border="0">
-                                          <tr>
-                                            <td class="word" width="25%"><img src="images/sim.png"></td>
-                                            <td>
-                                             <div class="number">
-                                             <p><a href="#">中国电信手机充值北京手机充值10远电信手机充值电信手机充值</a></p>
-                                             <p>充值手机：18639882844</p>
-                                             </div>
-                                            </td>	
-                                          </tr>
-                                    </table>
-                                </td>
-                                <td class="ash" width="10%">¥300.00</td>
-                                <td width="10%">1</td>
-                                <td width="10%" class="strong">¥300.00</td>
-                              </tr> 
-                  </table>   
-                  </div>   
-              
-                  
-             </div>
-          
-          </div>    
-      
-		   <div class="paging-large">
-        <ul>
-            <li>共100页</li>
-            <li class="prev-up"><a href="#">&lt;上一页</a> </li>
-            <li class="active"> <a href="#">1 </a> </li>
-            <li> <a href="#">2 </a> </li>
-            <li> <a href="#">3</a> </li>
-            <li><span>....</span></li>
-            <li> <a href="#">6</a> </li>
-            <li> <a href="#">7</a> </li>
-            <li class="next-down"><a href="#">下一页&gt;</a> </li>
-   		     <li>
-                <span>到</span>
-                <span><input type="text" class="int-verysmall"></span>
-                <span>页</span>
-                <span class="btn-span"><a class="but-determine">确定</a></span>
-            </li>
-         </ul>
-      </div>
-      </div>
-          <div id="order-date3"  style=" display:none;">
-          
-          <div class="order-list-ctn">
-             <div class="order-list-title">
-             <div class="shopping-cart addto-title">
-            		 <table>
-                        <tr class="order-bj-s">
-                            <td width="50%">商品信息</td>
-                            <td width="10%">单价</td>
-                            <td width="10%">数量</td>
-                            <td width="10%">实付款</td>
-                            <td width="10%">订单状态</td>
-                            <td width="15%">操作</td>
-                        </tr>
-                   </table>
-             </div>
-               <div class="shopping-cart addto-list">
-                 <table width="100%" border="0">
-                                <tr class="order-bj-s">
-                                <td colspan="6">
-                                    <div class="purchase-list">
-                                        <ul>
-                                            <li>
-                                                <p>订单号:</p>
-                                                <p>74774832300912</p>
-                                            </li>
-                                            <li>
-                                                <p>2016-3-16 14:23</p>
-                                            </li>
-                                                <li>
-                                                <p>订单金额:</p>
-                                                <p>¥127.00</p>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </td>
-                              </tr>   
-                                     
-                              <tr class="tr-border">
-                               <td class="sp"  width="45%">
-                                    <table width="100%" border="0">
-                                          <tr>
-                                            <td class="word" width="25%"><img src="images/sim.png"></td>
-                                            <td>
-                                             <div class="number">
-                                             <p><a href="#">中国电信手机充值北京手机充值10远电信手机充值电信手机充值</a></p>
-                                             <p>充值手机：18639882844</p>
-                                             </div>
-                                            </td>	
-                                          </tr>
-                                    </table>
-                                </td>
-                                <td class="ash" width="10%">¥300.00</td>
-                                <td width="10%">1</td>
-                                <td width="10%" class="strong">¥300.00</td>
-                                <td width="10%"> 
-                                    <div class="number">
-                                    <p><a href="#">待付款</a></p>
-                                    <p><a href="#">订单详情</a></p>
-                                    </div>
-                                </td>
-                                <td width="15%" class="none-borer">
-                                    <div class="number">
-                                    <p><input type="button" class="immedtl-btn" value="立即支付"></p>
-                                    <p><a href="#">关闭订单</a></p>
-                                    </div>
-                                </td>
-                                 
-                              </tr>  
-                  </table>   
-                  </div>
-               <div class="shopping-cart addto-list">
-                 <table width="100%" border="0">
-                                <tr class="order-bj-s">
-                                <td colspan="6">
-                                    <div class="purchase-list">
-                                        <ul>
-                                            <li>
-                                                <p>订单号:</p>
-                                                <p>74774832300912</p>
-                                            </li>
-                                            <li>
-                                                <p>2016-3-16 14:23</p>
-                                            </li>
-                                                <li>
-                                                <p>订单金额:</p>
-                                                <p>¥127.00</p>
-                                            </li>
-                                            <li>
-                                                <p>在线支付</p>
-                                                <p><img src="images/order-icon1.png"></p>
-                                            </li>
-                                            <li class="right">
-                                                <p><A href="#"><i class="icon-trash"></i></A></p>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </td>
-                              </tr>   
-                                     
-                              <tr class="tr-border">
-                               <td class="sp"  width="45%">
-                                    <table width="100%" border="0">
-                                          <tr>
-                                            <td class="word" width="25%"><img src="images/sim.png"></td>
-                                            <td>
-                                             <div class="number">
-                                             <p><a href="#">中国电信手机充值北京手机充值10远电信手机充值电信手机充值</a></p>
-                                             <p>充值手机：18639882844</p>
-                                             </div>
-                                            </td>	
-                                          </tr>
-                                    </table>
-                                </td>
-                                <td class="ash" width="10%">¥300.00</td>
-                                <td width="10%">1</td>
-                                <td width="10%" class="strong">¥300.00</td>
-                                <td width="10%"> 
-                                    <div class="number">
-                                    <p><a href="#">待付款</a></p>
-                                    <p><a href="#">订单详情</a></p>
-                                    </div>
-                                </td>
-                                <td width="15%" class="none-borer">
-                                    <div class="number">
-                                    <p><input type="button" class="again-btn" value="再次购买"></p>
-                                    <p><a href="#">关闭订单</a></p>
-                                    </div>
-                                </td>
-                                 
-                              </tr>  
-                  </table>   
-                  </div>
-               <div class="shopping-cart addto-list">
-                 <table width="100%" border="0">
-                                <tr class="order-bj-s">
-                                <td colspan="6">
-                                    <div class="purchase-list">
-                                        <ul>
-                                            <li>
-                                                <p>订单号:</p>
-                                                <p>74774832300912</p>
-                                            </li>
-                                            <li>
-                                                <p>2016-3-16 14:23</p>
-                                            </li>
-                                                <li>
-                                                <p>订单金额:</p>
-                                                <p>¥127.00</p>
-                                            </li>
-                                            <li>
-                                                <p>在线支付</p>
-                                                <p><img src="images/order-icon3.png"></p>
-                                            </li>
-                                            <li class="right">
-                                                <p><A href="#"><i class="icon-trash"></i></A></p>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </td>
-                              </tr>   
-                                     
-                              <tr class="tr-border">
-                               <td class="sp"  width="45%">
-                                    <table width="100%" border="0">
-                                          <tr>
-                                            <td class="word" width="25%"><img src="images/sim.png"></td>
-                                            <td>
-                                             <div class="number">
-                                             <p><a href="#">中国电信手机充值北京手机充值10远电信手机充值电信手机充值</a></p>
-                                             <p>充值手机：18639882844</p>
-                                             </div>
-                                            </td>	
-                                          </tr>
-                                    </table>
-                                </td>
-                                <td class="ash" width="10%">¥300.00</td>
-                                <td width="10%">1</td>
-                                <td width="10%" class="strong">¥300.00</td>
-                                <td width="10%" rowspan="2"> 
-                                    <div class="number">
-                                    <p><a href="#">待付款</a></p>
-                                    <p><a href="#">订单详情</a></p>
-                                    </div>
-                                </td>
-                                <td width="15%" rowspan="2" class="none-borer">
-                                    <div class="number">
-                                    <p><input type="button" class="again-btn" value="再次购买"></p>
-                                    <p><a href="#">关闭订单</a></p>
-                                    </div>
-                                </td>
-                                 
-                              </tr> 
-                              <tr class="tr-border">
-                               <td class="sp"  width="45%">
-                                    <table width="100%" border="0">
-                                          <tr>
-                                            <td class="word" width="25%"><img src="images/sim.png"></td>
-                                            <td>
-                                             <div class="number">
-                                             <p><a href="#">中国电信手机充值北京手机充值10远电信手机充值电信手机充值</a></p>
-                                             <p>充值手机：18639882844</p>
-                                             </div>
-                                            </td>	
-                                          </tr>
-                                    </table>
-                                </td>
-                                <td class="ash" width="10%">¥300.00</td>
-                                <td width="10%">1</td>
-                                <td width="10%" class="strong">¥300.00</td>
-                              </tr> 
-                  </table>   
-                  </div>   
-              
-                  
-             </div>
-          
-          </div>    
-      
-		   <div class="paging-large">
-        <ul>
-            <li>共100页</li>
-            <li class="prev-up"><a href="#">&lt;上一页</a> </li>
-            <li class="active"> <a href="#">1 </a> </li>
-            <li> <a href="#">2 </a> </li>
-            <li> <a href="#">3</a> </li>
-            <li><span>....</span></li>
-            <li> <a href="#">6</a> </li>
-            <li> <a href="#">7</a> </li>
-            <li class="next-down"><a href="#">下一页&gt;</a> </li>
-   		     <li>
-                <span>到</span>
-                <span><input type="text" class="int-verysmall"></span>
-                <span>页</span>
-                <span class="btn-span"><a class="but-determine">确定</a></span>
-            </li>
-         </ul>
-      </div>
-      </div>
-          <div id="order-date4" style=" display:none;">
-          
-          <div class="order-list-ctn">
-             <div class="order-list-title">
-             <div class="shopping-cart addto-title">
-            		 <table>
-                        <tr class="order-bj-s">
-                            <td width="50%">商品信息</td>
-                            <td width="10%">单价</td>
-                            <td width="10%">数量</td>
-                            <td width="10%">实付款</td>
-                            <td width="10%">订单状态</td>
-                            <td width="15%">操作</td>
-                        </tr>
-                   </table>
-             </div>
-               <div class="shopping-cart addto-list">
-                 <table width="100%" border="0">
-                                <tr class="order-bj-s">
-                                <td colspan="6">
-                                    <div class="purchase-list">
-                                        <ul>
-                                            <li>
-                                                <p>订单号:</p>
-                                                <p>74774832300912</p>
-                                            </li>
-                                            <li>
-                                                <p>2016-3-16 14:23</p>
-                                            </li>
-                                                <li>
-                                                <p>订单金额:</p>
-                                                <p>¥227.00</p>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </td>
-                              </tr>   
-                                     
-                              <tr class="tr-border">
-                               <td class="sp"  width="45%">
-                                    <table width="100%" border="0">
-                                          <tr>
-                                            <td class="word" width="25%"><img src="images/sim.png"></td>
-                                            <td>
-                                             <div class="number">
-                                             <p><a href="#">中国电信手机充值北京手机充值10远电信手机充值电信手机充值</a></p>
-                                             <p>充值手机：18639882844</p>
-                                             </div>
-                                            </td>	
-                                          </tr>
-                                    </table>
-                                </td>
-                                <td class="ash" width="10%">¥300.00</td>
-                                <td width="10%">1</td>
-                                <td width="10%" class="strong">¥400.00</td>
-                                <td width="10%"> 
-                                    <div class="number">
-                                    <p><a href="#">待付款</a></p>
-                                    <p><a href="#">订单详情</a></p>
-                                    </div>
-                                </td>
-                                <td width="15%" class="none-borer">
-                                    <div class="number">
-                                    <p><input type="button" class="immedtl-btn" value="立即支付"></p>
-                                    <p><a href="#">关闭订单</a></p>
-                                    </div>
-                                </td>
-                                 
-                              </tr>  
-                  </table>   
-                  </div>
-               <div class="shopping-cart addto-list">
-                 <table width="100%" border="0">
-                                <tr class="order-bj-s">
-                                <td colspan="6">
-                                    <div class="purchase-list">
-                                        <ul>
-                                            <li>
-                                                <p>订单号:</p>
-                                                <p>74774832300912</p>
-                                            </li>
-                                            <li>
-                                                <p>2016-3-16 14:23</p>
-                                            </li>
-                                                <li>
-                                                <p>订单金额:</p>
-                                                <p>¥127.00</p>
-                                            </li>
-                                            <li>
-                                                <p>在线支付</p>
-                                                <p><img src="images/order-icon1.png"></p>
-                                            </li>
-                                            <li class="right">
-                                                <p><A href="#"><i class="icon-trash"></i></A></p>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </td>
-                              </tr>   
-                                     
-                              <tr class="tr-border">
-                               <td class="sp"  width="45%">
-                                    <table width="100%" border="0">
-                                          <tr>
-                                            <td class="word" width="25%"><img src="images/sim.png"></td>
-                                            <td>
-                                             <div class="number">
-                                             <p><a href="#">中国电信手机充值北京手机充值10远电信手机充值电信手机充值</a></p>
-                                             <p>充值手机：18639882844</p>
-                                             </div>
-                                            </td>	
-                                          </tr>
-                                    </table>
-                                </td>
-                                <td class="ash" width="10%">¥300.00</td>
-                                <td width="10%">1</td>
-                                <td width="10%" class="strong">¥300.00</td>
-                                <td width="10%"> 
-                                    <div class="number">
-                                    <p><a href="#">待付款</a></p>
-                                    <p><a href="#">订单详情</a></p>
-                                    </div>
-                                </td>
-                                <td width="15%" class="none-borer">
-                                    <div class="number">
-                                    <p><input type="button" class="again-btn" value="再次购买"></p>
-                                    <p><a href="#">关闭订单</a></p>
-                                    </div>
-                                </td>
-                                 
-                              </tr>  
-                  </table>   
-                  </div>
-               <div class="shopping-cart addto-list">
-                 <table width="100%" border="0">
-                                <tr class="order-bj-s">
-                                <td colspan="6">
-                                    <div class="purchase-list">
-                                        <ul>
-                                            <li>
-                                                <p>订单号:</p>
-                                                <p>74774832300912</p>
-                                            </li>
-                                            <li>
-                                                <p>2016-3-16 14:23</p>
-                                            </li>
-                                                <li>
-                                                <p>订单金额:</p>
-                                                <p>¥127.00</p>
-                                            </li>
-                                            <li>
-                                                <p>在线支付</p>
-                                                <p><img src="images/order-icon3.png"></p>
-                                            </li>
-                                            <li class="right">
-                                                <p><A href="#"><i class="icon-trash"></i></A></p>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </td>
-                              </tr>   
-                                     
-                              <tr class="tr-border">
-                               <td class="sp"  width="45%">
-                                    <table width="100%" border="0">
-                                          <tr>
-                                            <td class="word" width="25%"><img src="images/sim.png"></td>
-                                            <td>
-                                             <div class="number">
-                                             <p><a href="#">中国电信手机充值北京手机充值10远电信手机充值电信手机充值</a></p>
-                                             <p>充值手机：18639882844</p>
-                                             </div>
-                                            </td>	
-                                          </tr>
-                                    </table>
-                                </td>
-                                <td class="ash" width="10%">¥300.00</td>
-                                <td width="10%">1</td>
-                                <td width="10%" class="strong">¥300.00</td>
-                                <td width="10%" rowspan="2"> 
-                                    <div class="number">
-                                    <p><a href="#">待付款</a></p>
-                                    <p><a href="#">订单详情</a></p>
-                                    </div>
-                                </td>
-                                <td width="15%" rowspan="2" class="none-borer">
-                                    <div class="number">
-                                    <p><input type="button" class="again-btn" value="再次购买"></p>
-                                    <p><a href="#">关闭订单</a></p>
-                                    </div>
-                                </td>
-                                 
-                              </tr> 
-                              <tr class="tr-border">
-                               <td class="sp"  width="45%">
-                                    <table width="100%" border="0">
-                                          <tr>
-                                            <td class="word" width="25%"><img src="images/sim.png"></td>
-                                            <td>
-                                             <div class="number">
-                                             <p><a href="#">中国电信手机充值北京手机充值10远电信手机充值电信手机充值</a></p>
-                                             <p>充值手机：18639882844</p>
-                                             </div>
-                                            </td>	
-                                          </tr>
-                                    </table>
-                                </td>
-                                <td class="ash" width="10%">¥300.00</td>
-                                <td width="10%">1</td>
-                                <td width="10%" class="strong">¥300.00</td>
-                              </tr> 
-                  </table>   
-                  </div>   
-              
-                  
-             </div>
-          
-          </div>    
-      
-		   <div class="paging-large">
-        <ul>
-            <li>共100页</li>
-            <li class="prev-up"><a href="#">&lt;上一页</a> </li>
-            <li class="active"> <a href="#">1 </a> </li>
-            <li> <a href="#">2 </a> </li>
-            <li> <a href="#">3</a> </li>
-            <li><span>....</span></li>
-            <li> <a href="#">6</a> </li>
-            <li> <a href="#">7</a> </li>
-            <li class="next-down"><a href="#">下一页&gt;</a> </li>
-   		     <li>
-                <span>到</span>
-                <span><input type="text" class="int-verysmall"></span>
-                <span>页</span>
-                <span class="btn-span"><a class="but-determine">确定</a></span>
-            </li>
-         </ul>
-      </div>
+		  <!--分页-->
+          <div class="paging-large">
+			 <ul id="pagination-ul"></ul>
+		  </div>
+		  <!--分页-->
       </div>
   </div>
   </div>  
      
      
     </div>
-     </div>
  </div>
  <!--底部-->
 <%@ include file="/inc/foot.jsp" %>
  <!--底部 结束-->
+<script type="text/javascript">
+var pager;
+(function () {
+	seajs.use('app/jsp/order/orderList', function (OrderListPager) {
+		pager = new OrderListPager({element: document.body});
+		pager.render();
+	});
+})();
+</script>
 </body>
 </html>
-<script src="scripts/jquery-1.11.1.min.js" type="text/javascript"></script>
-<script src="scripts/frame.js" type="text/javascript"></script>
 
 
