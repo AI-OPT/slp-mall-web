@@ -99,6 +99,8 @@ compile "com.ai:ipaas-idps:0.3"
 	compile 'com.ai.slp.user:ucuser:1.0-SNAPSHOT'
 	//创建手机验证码
 	compile 'com.ai.slp.user:seq:1.0-SNAPSHOT'
+    //订单支付
+    compile 'com.ai.slp.order:orderpay:1.0-SNAPSHOT'
 	
     testCompile(
             "org.springframework:spring-test:4.1.7.RELEASE",
