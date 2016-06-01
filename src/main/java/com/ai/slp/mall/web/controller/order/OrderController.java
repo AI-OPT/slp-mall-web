@@ -18,7 +18,7 @@ import com.ai.opt.sdk.web.model.ResponseData;
 import com.ai.slp.mall.web.constants.SLPMallConstants.ExceptionCode;
 import com.ai.slp.mall.web.model.order.OrderListQueryParams;
 import com.ai.slp.order.api.orderlist.interfaces.IOrderListSV;
-import com.ai.slp.order.api.orderlist.param.OrdOrderParams;
+import com.ai.slp.order.api.orderlist.param.OrdOrderVo;
 import com.ai.slp.order.api.orderlist.param.QueryOrderListRequest;
 import com.ai.slp.order.api.orderlist.param.QueryOrderListResponse;
 
@@ -35,8 +35,8 @@ public class OrderController {
 	
 	@RequestMapping("/getOrderListData")
 	@ResponseBody
-	public ResponseData<PageInfo<OrdOrderParams>> getOrderListData(HttpServletRequest request,OrderListQueryParams queryParams ){
-		ResponseData<PageInfo<OrdOrderParams>> responseData = null;
+	public ResponseData<PageInfo<OrdOrderVo>> getOrderListData(HttpServletRequest request,OrderListQueryParams queryParams ){
+		ResponseData<PageInfo<OrdOrderVo>> responseData = null;
 		try {
 			String searchType = queryParams.getSearchType();
 			QueryOrderListRequest queryRequest = new QueryOrderListRequest();
@@ -70,15 +70,15 @@ public class OrderController {
 			QueryOrderListResponse orderListResponse = iOrderListSV.queryOrderList(queryRequest);
 			ResponseHeader responseHeader = orderListResponse.getResponseHeader();
 			if(responseHeader.isSuccess()){
-				PageInfo<OrdOrderParams> pageInfo=orderListResponse.getPageInfo() ;
-				responseData = new ResponseData<PageInfo<OrdOrderParams>>(ExceptionCode.SUCCESS, "查询成功", pageInfo);
+				PageInfo<OrdOrderVo> pageInfo=orderListResponse.getPageInfo() ;
+				responseData = new ResponseData<PageInfo<OrdOrderVo>>(ExceptionCode.SUCCESS, "查询成功", pageInfo);
 			}else{
-				responseData = new ResponseData<PageInfo<OrdOrderParams>>(ExceptionCode.SYSTEM_ERROR, "查询失败", null);
+				responseData = new ResponseData<PageInfo<OrdOrderVo>>(ExceptionCode.SYSTEM_ERROR, "查询失败", null);
 			}
 		} catch (Exception e) {
 			LOG.error("查询订单列表失败：", e);
 			e.printStackTrace();
-			responseData = new ResponseData<PageInfo<OrdOrderParams>>(ExceptionCode.SYSTEM_ERROR, "查询失败", null);
+			responseData = new ResponseData<PageInfo<OrdOrderVo>>(ExceptionCode.SYSTEM_ERROR, "查询失败", null);
 		}
 		return responseData;
 	}
