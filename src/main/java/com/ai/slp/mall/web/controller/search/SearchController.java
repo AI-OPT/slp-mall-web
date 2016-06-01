@@ -69,13 +69,13 @@ public class SearchController {
                 vo.setProdId(data.getProdId());
                 vo.setProdName(data.getProdName());
                 vo.setSalePrice(data.getSalePrice());
-                vo.setPicUrl(ImageUtil.getImage(data.getImageinfo().getVfsid()));
+                vo.setPicUrl(ImageUtil.getImage(data.getImageinfo().getVfsId()));
                 //获取缩略图id
                List<ProductImage> iamgeList = data.getThumbnail();
                List<String> vsidList = new ArrayList<String>();
                if(!CollectionUtil.isEmpty(iamgeList)){
                    for(ProductImage img:iamgeList){
-                       vsidList.add(img.getVfsid());
+                       vsidList.add(img.getVfsId());
                    }  
                }
                 vo.setThumnailUrl(ImageUtil.getImages(vsidList));
