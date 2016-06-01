@@ -81,7 +81,7 @@ define('app/jsp/product/searchProduct', function (require, exports, module) {
 						processing: true,
 						message: "查询中，请等待...",
 						url: _base+"/search/getHotProduct",
-						data:'',
+						data:{areaCode:"81"},
 						success: function(data){
 							if(data.data){
 								var template = $.templates("#hotProductListTmpl");

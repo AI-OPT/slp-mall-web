@@ -1,7 +1,9 @@
 package com.ai.slp.mall.web.controller.search;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -69,16 +71,19 @@ public class SearchController {
                 vo.setProdId(data.getProdId());
                 vo.setProdName(data.getProdName());
                 vo.setSalePrice(data.getSalePrice());
-                vo.setPicUrl(ImageUtil.getImage(data.getImageinfo().getVfsId()));
+                vo.setPicUrl(ImageUtil.getImage(data.getImageinfo().getVfsId(),data.getImageinfo().getPicType()));
                 //获取缩略图id
                List<ProductImage> iamgeList = data.getThumbnail();
-               List<String> vsidList = new ArrayList<String>();
+               Map<String,String> map = new HashMap<String,String>();
+               
+               //List<String> vsidList = new ArrayList<String>();
                if(!CollectionUtil.isEmpty(iamgeList)){
                    for(ProductImage img:iamgeList){
-                       vsidList.add(img.getVfsId());
+                      // map.set(img.getVfsId());
+                       map.put(img.getVfsId(), img.getPicType());
                    }  
                }
-                vo.setThumnailUrl(ImageUtil.getImages(vsidList));
+                vo.setThumnailUrl(ImageUtil.getImages(map));
                 results.add(vo);
             }
             pageVo.setResult(results);
@@ -99,11 +104,11 @@ public class SearchController {
      */
     @RequestMapping("/getHotProduct")
     @ResponseBody
-    public ResponseData<List<ProductDataVO>> getHotProduct(HttpServletRequest request){
+    public ResponseData<List<ProductDataVO>> getHotProduct(HttpServletRequest request,ProductQueryRequest req){
         ISearchProductSV iPaymentQuerySV = DubboConsumerFactory.getService("iSearchProductSV");
         ResponseData<List<ProductDataVO>> responseData = null;
         try {
-            List<ProductData> resultInfo = iPaymentQuerySV.queryHotSellProduct();
+            List<ProductData> resultInfo = iPaymentQuerySV.queryHotSellProduct(req);
             List<ProductDataVO> voList = new ArrayList<ProductDataVO>();
             for(ProductData data:resultInfo){
                 ProductDataVO vo  =new ProductDataVO();

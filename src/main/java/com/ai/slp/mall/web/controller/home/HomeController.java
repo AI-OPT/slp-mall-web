@@ -42,7 +42,7 @@ public class HomeController {
             List<ProductHomeResponse> list  = iHomeProductSV.queryHomeDataProduct(proRequest);
             for(ProductHomeResponse data:list){
                 ProductHomeVO vo = new ProductHomeVO();
-                vo.setPicUrl(ImageUtil.getImage(data.getProductImage().getVfsId()));
+                vo.setPicUrl(ImageUtil.getImage(data.getProductImage().getVfsId(),data.getProductImage().getPicType()));
                 vo.setProdId(data.getProdId());
                 vo.setProdName(data.getProdName());
                 vo.setSalePrice(data.getSalePrice());
@@ -69,7 +69,7 @@ public class HomeController {
             List<ProductHomeResponse> list  = iHomeProductSV.queryHomeDataProduct(proRequest);
             for(ProductHomeResponse data:list){
                 ProductHomeVO vo = new ProductHomeVO();
-                vo.setPicUrl(ImageUtil.getImage(data.getProductImage().getVfsId()));
+                vo.setPicUrl(ImageUtil.getImage(data.getProductImage().getVfsId(),data.getProductImage().getPicType()));
                 vo.setProdId(data.getProdId());
                 vo.setProdName(data.getProdName());
                 vo.setSalePrice(data.getSalePrice());
@@ -96,7 +96,7 @@ public class HomeController {
             List<ProductHomeResponse> list  = iHomeProductSV.queryHotProduct(proRequest);
             for(ProductHomeResponse data:list){
                 ProductHomeVO vo = new ProductHomeVO();
-                vo.setPicUrl(ImageUtil.getImage(data.getProductImage().getVfsId()));
+                vo.setPicUrl(ImageUtil.getImage(data.getProductImage().getVfsId(),data.getProductImage().getPicType()));
                 vo.setProdId(data.getProdId());
                 vo.setProdName(data.getProdName());
                 vo.setSalePrice(data.getSalePrice());
