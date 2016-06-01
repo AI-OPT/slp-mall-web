@@ -35,6 +35,12 @@ define('app/jsp/product/productDetail', function (require, exports, module) {
     		ProductDeatilPager.superclass.setup.call(this);
     		this._renderProducSKUTemple();
     	},
+    	//渲染商品信息
+    	_renderCartProdTemple:function(){
+    		var template = $.templates("#cartProdTemple");
+			var htmlOutput = template.render(cartProdList);
+			$("#shopCart").html(htmlOutput);
+    	},
     	
     });
     

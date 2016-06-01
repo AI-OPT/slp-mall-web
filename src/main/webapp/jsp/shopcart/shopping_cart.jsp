@@ -42,7 +42,8 @@
      	<div class="big-wrapper"><!--内侧居中框架-->
        		<div class="payment-title"><p>全部<span>（20）</span></p></div>
            <div class="recharge-bj-tow"><!--白色背景-->
-                <div class="shopping-cart">
+                <div id="shopCart" class="shopping-cart">
+                   <script id="cartProdTemple" type="text/template">
                  <table width="100%" border="0">
                               <tr class="bj">
                                 <td width="10%"><input type="checkbox" class="checkbox-medium" style=" display:inline-block;">全选</td>
@@ -52,122 +53,42 @@
                                 <td>小计</td>
                                 <td>操作</td>
                               </tr>
+								{{for cartProdList}}
                               <tr>
                                 <td><input type="checkbox" class="checkbox-medium"></td>
                                 <td class="sp">
                                     <table width="100%" border="0">
                                           <tr>
                                             <td class="word" width="25%"><img src="${_slpbase }/images/sim.png"></td>
-                                            <td><a href="#">中国电信手机充值北京手机充值10远电信手机充值电信手机充值</a></td>
+                                            <td><a href="#">{{:productName}}</a></td>
                                           </tr>
                                     </table>
                                 </td>
-                                <td class="ash">¥300.00</td>
+                                <td class="ash">￥{{:salePrice}}</td>
                                 <td class="clp-btn">
                                     <div class="number">
-                                        <p><input type="button" value="-" class="small-xbtn"></p>
-                                        <p><input type="text" value="1" class="xz-int"></p>
-                                        <p><input type="button" value="+" class="small-xbtn"></p>
+                                        <p><input id="delQtyBtn" type="button" value="-" class="small-xbtn"></p>
+                                        <p><input id="productQty" type="text" value={{:buyNum}} class="xz-int"></p>
+                                        <p><input id="addQtyBtn" type="button" value="+" class="small-xbtn"></p>
                                     </div>
                                 </td>
-                                <td class="bold">¥300.00</td>
+                                <td id="prodPrice" class="bold">¥{{:salePrice}}*{{:buyNum}}</td>
                                 <td>
                                 <div class="number">
                                 <p><a href="#"><i class="icon-remove"></i>删除</a></p>
-                                <p><a href="#"><i class="icon-heart-empty"></i>收藏</a></p>
                                 </div>
                                 </td>
                               </tr>
-                              <!--不可点击-->
-                              <tr class="none-color">
-                                <td><input type="checkbox" class="checkbox-medium" disabled="disabled"></td>
-                                <td  class="sp">
-                                    <table width="100%" border="0">
-                                          <tr>
-                                            <td class="word" width="25%"><img src="${_slpbase }/images/sim.png"></td>
-                                            <td><a href="#">中国电信手机充值北京手机充值10远电信手机充值电信手机充值</a></td>
-                                          </tr>
-                                    </table>
-                                </td>
-                                <td class="ash">¥300.00</td>
-                                <td class="clp-btn">
-                                    <div class="number">
-                                        <p><input type="button" value="-" class="small-xbtn" disabled="disabled"></p>
-                                        <p><input type="text" value="1" class="xz-int" disabled="disabled"></p>
-                                        <p><input type="button" value="+" class="small-xbtn" disabled="disabled"></p>
-                                        <label>暂时无货</label>
-                                    </div>
-                                </td>
-                                <td class="bold">¥300.00</td>
-                                <td>
-                                <div class="number">
-                                <p><a href="#"><i class="icon-remove"></i>删除</a></p>
-                                <p><a href="#"><i class="icon-heart-empty"></i>收藏</a></p>
-                                </div>
-                                </td>
-                              </tr>
-                                 <tr>
-                                <td><input type="checkbox" class="checkbox-medium"></td>
-                                <td  class="sp">
-                                    <table width="100%" border="0">
-                                          <tr>
-                                            <td class="word" width="25%"><img src="${_slpbase }/images/sim.png"></td>
-                                            <td><a href="#">中国电信手机充值北京手机充值10远电信手机充值电信手机充值</a></td>
-                                          </tr>
-                                    </table>
-                                </td>
-                                <td class="ash">¥300.00</td>
-                                <td class="clp-btn">
-                                    <div class="number">
-                                        <p><input type="button" value="-" class="small-xbtn"></p>
-                                        <p><input type="text" value="1" class="xz-int"></p>
-                                        <p><input type="button" value="+" class="small-xbtn"></p>
-                                    </div>
-                                </td>
-                                <td class="bold">¥300.00</td>
-                                <td>
-                                <div class="number">
-                                <p><a href="#"><i class="icon-remove"></i>删除</a></p>
-                                <p><a href="#"><i class="icon-heart-empty"></i>收藏</a></p>
-                                </div>
-                                </td>
-                              </tr>
-                                 <tr>
-                                <td><input type="checkbox" class="checkbox-medium"></td>
-                                <td  class="sp">
-                                    <table width="100%" border="0">
-                                          <tr>
-                                            <td class="word" width="25%"><img src="${_slpbase }/images/sim.png"></td>
-                                            <td><a href="#">中国电信手机充值北京手机充值10远电信手机充值电信手机充值</a></td>
-                                          </tr>
-                                    </table>
-                                </td>
-                                <td class="ash">¥300.00</td>
-                                <td class="clp-btn">
-                                    <div class="number">
-                                        <p><input type="button" value="-" class="small-xbtn"></p>
-                                        <p><input type="text" value="1" class="xz-int"></p>
-                                        <p><input type="button" value="+" class="small-xbtn"></p>
-                                    </div>
-                                </td>
-                                <td class="bold">¥300.00</td>
-                                <td>
-                                <div class="number">
-                                <p><a href="#"><i class="icon-remove"></i>删除</a></p>
-                                <p><a href="#"><i class="icon-heart-empty"></i>收藏</a></p>
-                                </div>
-                                </td>
-                              </tr>
-                              
+								{{/for}}
                   </table>   
+                    </script>
                   </div>
          </div>
          
-          <div class="recharge-bj-tow recharge-bj-three"><!--白色背景-->
+          <div class="recharge-bj-tow recharge-bj-three"> <!--白色背景-->
           <div class="left-chix">
               <ul>
                   <li><input type="checkbox" class="checkbox-medium" style=" margin-top:26px; float:left;">全选</li>
-                  <li><a href="#">收藏选中</a></li>
                   <li><a href="#">删除选中</a></li>
               </ul>
           </div>
@@ -183,19 +104,18 @@
           </div>
 
           <div class="right-btn"><input type="button" class="slp-btn topay-btn" value="提交订单"></div>
-          
-          </div>
-
          </div>
      </div>
  </div>
     <!--底部-->
 <%@ include file="/inc/foot.jsp" %>
    <!--底部 结束-->
-
+	<script src="${_slpbase }/scripts/jquery-1.11.1.min.js" type="text/javascript"></script>
+	<script src="${_slpbase }/scripts/frame.js" type="text/javascript"></script>
+	<script type="text/javascript">
+		var cartProdList = $.parseJSON('${cartProdList}');
+	</script>
 </body>
 </html>
-<script src="${_slpbase }/scripts/jquery-1.11.1.min.js" type="text/javascript"></script>
-<script src="${_slpbase }/scripts/frame.js" type="text/javascript"></script>
 
 

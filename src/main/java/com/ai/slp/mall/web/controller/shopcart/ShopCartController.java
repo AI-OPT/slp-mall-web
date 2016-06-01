@@ -1,16 +1,12 @@
 package com.ai.slp.mall.web.controller.shopcart;
 
-import com.ai.opt.base.exception.BusinessException;
-import com.ai.opt.base.exception.SystemException;
-import com.ai.opt.sdk.dubbo.util.DubboConsumerFactory;
-import com.ai.opt.sdk.web.model.ResponseData;
-import com.ai.paas.ipaas.util.JSonUtil;
-import com.ai.slp.order.api.shopcart.interfaces.IShopCartSV;
-import com.ai.slp.order.api.shopcart.param.CartProd;
-import com.ai.slp.order.api.shopcart.param.CartProdInfo;
-import com.ai.slp.order.api.shopcart.param.CartProdOptRes;
-import com.ai.slp.order.api.shopcart.param.UserInfo;
-import net.sf.json.JSONArray;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,10 +14,17 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.servlet.http.HttpSession;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import com.ai.opt.base.exception.BusinessException;
+import com.ai.opt.base.exception.SystemException;
+import com.ai.opt.sdk.dubbo.util.DubboConsumerFactory;
+import com.ai.opt.sdk.web.model.ResponseData;
+import com.ai.slp.order.api.shopcart.interfaces.IShopCartSV;
+import com.ai.slp.order.api.shopcart.param.CartProd;
+import com.ai.slp.order.api.shopcart.param.CartProdInfo;
+import com.ai.slp.order.api.shopcart.param.CartProdOptRes;
+import com.ai.slp.order.api.shopcart.param.UserInfo;
+
+import net.sf.json.JSONArray;
 
 /**
  * Created by liutong5 on 16/5/30.
@@ -62,21 +65,31 @@ public class ShopCartController {
         return responseData;
     }
     /**
-     * 购物车信息概览
+     * 查询用户的购物车详细信息
      */
     @RequestMapping("/cartDetails")
-    public ModelAndView queryCartDetails(HttpSession session){
-        //获取service
-        IShopCartSV iShopCartSV = DubboConsumerFactory.getService("IShopCartSV");
-        UserInfo userInfo = new UserInfo();
-//		userInfo.setTenantId((String)session.getAttribute("tenantId"));
-//		userInfo.setUserId((String)session.getAttribute("userId"));
-        //测试数据
-        userInfo.setTenantId("slp");
-        userInfo.setUserId("123");
-        List<CartProdInfo> cartProdInfoList = iShopCartSV.queryCartOfUser(userInfo);
-        Map<String,Object> model = new HashMap<>();
-        model.put("cartProdList", cartProdInfoList);
+    @ResponseBody
+    public ModelAndView queryCartDetails(HttpServletRequest request){
+    	System.out.println(request.toString());
+    	Map<String, Object> model = new HashMap<String, Object>();
+    	try{
+    		String tenantId = request.getParameter("tenantId");
+    		String userId = request.getParameter("userId");
+    		IShopCartSV iShopCartSV = DubboConsumerFactory.getService("IShopCartSV");
+    		UserInfo userInfo = new UserInfo();
+    		userInfo.setTenantId(tenantId);
+            userInfo.setUserId(userId);
+            List<CartProdInfo> cartProdInfoList = iShopCartSV.queryCartOfUser(userInfo);
+            CartProdInfo cartProdInfo = new CartProdInfo();
+            cartProdInfo.setBuyNum(3);
+            cartProdInfo.setProductName("小黄鸭");
+            cartProdInfo.setSalePrice(300l);
+            cartProdInfoList.add(cartProdInfo);
+            model.put("cartProdList", cartProdInfoList);
+    	}catch(Exception e){
+    		e.printStackTrace();
+    		LOG.error("查询购物车商品详情出错",e);
+    	}
         return new ModelAndView("jsp/shopcart/shopping_cart",model);
     }
 }
