@@ -129,6 +129,7 @@
                            <p><input id="productQty" type="text" class="details-int" value="1"></p>
                            <p><input id="addQtyBtn"type="button" class="details-jia" value="+"></p>
                        </li>
+					   <li class="word">库存:<li><li id="usableNum">{{:usableNum}}</li>
                    	</ul>
                    	<ul class="details-list">
                        <li class="word">销量：</li>
@@ -176,7 +177,6 @@
                   <ul>
                       <li class="current">商品详情</li>
                       <li>规格参数</li>
-                      <li>商品评价</li>
                   </ul>                  
               </div>
               <div id="date1">

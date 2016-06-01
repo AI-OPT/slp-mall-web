@@ -110,8 +110,11 @@ define('app/jsp/product/productDetail', function (require, exports, module) {
         //修改数量
         _modifyProductQty:function(){
         	var qty = Number($("#productQty").val());
+        	var usableNum = Number($("#usableNum").text());
         	if(!this._isPositiveNum(qty)){
         		$("#productQty").val(1);
+        	}else if(qty>usableNum){
+        		$("#productQty").val(usableNum);
         	}else{
         		$("#productQty").val(qty);
         	}
@@ -119,7 +122,10 @@ define('app/jsp/product/productDetail', function (require, exports, module) {
         //增加数量
         _addProductQty:function(){
         	var qty = Number($("#productQty").val());
-        	qty = qty + 1;
+        	var usableNum = Number($("#usableNum").text());
+        	if(qty<usableNum){
+        		qty = qty + 1;
+        	}
         	$("#productQty").val(qty);
         },
         //是否为正整数 
