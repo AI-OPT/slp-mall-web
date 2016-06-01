@@ -66,4 +66,14 @@
 		interface="com.ai.slp.user.api.ucuser.intefaces.IUcUserSV"
 		registry="baasRegistry"
 		/>
+		
+	<dubbo:reference id="IUcUserSecurityManageSV"
+		interface="com.ai.slp.user.api.ucUserSecurity.interfaces.IUcUserSecurityManageSV"
+		registry="baasRegistry"
+		/>
+		
+	<dubbo:reference id="IOrderPaySV"
+		interface="com.ai.slp.order.api.orderpay.interfaces.IOrderPaySV"
+		registry="baasRegistry"
+		/>
 </beans>

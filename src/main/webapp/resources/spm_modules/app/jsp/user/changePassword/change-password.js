@@ -30,16 +30,21 @@ define(
 					$("#password").on("blur", this._checkPasswordEmpty);
 					$("#password").on("focus", this._hidePassword);
 					$("#newPassword").on("blur", this._checkNewPasswordEmpty);
+					$("#newPassword").on("blur", this._checkNewPasswordEmpty);
+					$("#newPassword").on("blur", this._validServicePaw);
 					$("#newPassword").on("focus", this._hideNewPassword);
+					$("#newPasswordConfirm").on("blur", this._checkNewPasswordConfirmEmpty);
+					$("#newPasswordConfirm").on("blur", this._passwordConfirmation);
+					$("#newPasswordConfirm").on("focus", this._hideNewPasswordConfirm);
 					$("#next").on("click", this._next);
-	
+					$("#submit").on("click", this._submit);
 					},
 						//检查密码是否为空
 						_checkPasswordEmpty : function(){
 							$("#passwordErrMsg").attr("style", "display:none");
 							var password = $('#password').val();
 							if(password==""){
-								$("#passwordErrMsgShow").text("帐户名不能为空");
+								$("#passwordErrMsgShow").text("密码不能为空");
 								$("#passwordErrMsg").show();
 								$("#passwordEmptyFlag").val("0");
 							}
@@ -49,9 +54,19 @@ define(
 							$("#newPasswordErrMsg").attr("style", "display:none");
 							var newPassword = $('#newPassword').val();
 							if(newPassword==""){
-								$("#newPasswordErrMsgShow").text("帐户名不能为空");
+								$("#newPasswordErrMsgShow").text("密码不能为空");
 								$("#newPasswordErrMsg").show();
 								$("#newPasswordEmptyFlag").val("0");
+							}
+						},
+						//检查新密码确认是否为空
+						_checkNewPasswordConfirmEmpty : function(){
+							$("#newPasswordConfirmErrMsg").attr("style", "display:none");
+							var newPasswordConfirm = $('#newPasswordConfirm').val();
+							if(newPasswordConfirm==""){
+								$("#newPasswordConfirmErrMsgShow").text("密码不能为空");
+								$("#newPasswordConfirmErrMsg").show();
+								$("#newPasswordConfirmEmptyFlag").val("0");
 							}
 						},
 						//隐藏确认密码错误提示
@@ -101,9 +116,15 @@ define(
 
 						// 点击下一步用户信息显示
 						_next : function() {
-							
+							$("#passwordEmptyFlag").val("1");
+							$("#passwordErrFlag").val("1");
+							if($('#password').val()==""){
+								$("#passwordErrMsgShow").text("密码不能为空");
+								$("#passwordErrMsg").show();
+								$("#passwordEmptyFlag").val("0");
+							}
 							var param = {
-									password : $("#password").val()
+									password : hex_md5($("#password").val())
 								};
 								ajaxController.ajax({
 									type : "post",
@@ -144,6 +165,61 @@ define(
 						}
 						},
 
+						// 点击下一步用户信息显示
+						_submit : function() {
+							$("#newPasswordEmptyFlag").val("1");
+							$("#newPasswordErrFlag").val("1");
+							$("#newPasswordConfirmEmptyFlag").val("1");
+							$("#passwordNotEqualFlag").val("1");
+							
+							if($('#newPassword').val()==""){
+								$("#newPasswordErrMsgShow").text("密码不能为空");
+								$("#newPasswordErrMsg").show();
+								$("#newPasswordEmptyFlag").val("0");
+							}
+							if($('#newPasswordConfirm').val()==""){
+								$("#newPasswordConfirmErrMsgShow").text("密码不能为空");
+								$("#newPasswordConfirmErrMsg").show();
+								$("#newPasswordConfirmEmptyFlag").val("0");
+							}
+							var newPasswordEmptyFlag=$("#newPasswordEmptyFlag").val();
+							var newPasswordErrFlag=$("#newPasswordErrFlag").val();
+							var newPasswordConfirmEmptyFlag=$("#newPasswordConfirmEmptyFlag").val();
+							var passwordNotEqualFlag=$("#passwordNotEqualFlag").val();
+							if(newPasswordEmptyFlag!=0&&newPasswordErrFlag!=0&&newPasswordConfirmEmptyFlag!=0&&passwordNotEqualFlag!=0){
+							var param = {
+									password : hex_md5($("#newPassword").val())
+							};
+							ajaxController.ajax({
+								type : "post",
+								processing : false,
+								async: false, 
+								url : _base + "/user/updatePassword",
+								dataType : "json",
+								data : param,
+								message : "正在加载数据..",
+								success : function(data) {
+									if (data.responseHeader.resultCode == "11112") {
+										$("#changePasswordBorder3").removeClass()
+										.addClass("yellow-border");
+										$("#changePasswordYuan3").removeClass().addClass(
+										"yellow-yuan");
+										$("#changePasswordWord3").removeClass().addClass(
+										"yellow-word");
+										$("#change-password1").hide();
+										$("#change-password2").hide();
+										$("#change-password3").show();
+									}
+								},
+								error : function(XMLHttpRequest,
+										textStatus, errorThrown) {
+									alert(XMLHttpRequest.status);
+									alert(XMLHttpRequest.readyState);
+									alert(textStatus);
+								}
+							});
+						}
+						},
 						// 密码校验
 						_passwordConfirmation : function() {
 							var inputPassword = $("#newPassword").val();
