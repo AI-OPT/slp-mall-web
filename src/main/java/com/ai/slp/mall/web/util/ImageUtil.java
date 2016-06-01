@@ -14,7 +14,7 @@ public class ImageUtil {
        //获取imageClient
        im = IDPSClientFactory.getImageClient(idpsns);
       //获取上传图片的URL
-       return im.getImageUrl(vsid, ".PNG");
+       return im.getImageUrl(vsid, ".jpg");
    }
    public static String getHotImage(){
        IImageClient im = null;
@@ -27,7 +27,7 @@ public class ImageUtil {
        //获取上传图片指定尺寸的URL
       // System.out.println(im.getImageUrl("574514c1d601800009c0b0ba", ".jpg","100x80"));
    }
-   public static List<String> getImages(){
+   public static List<String> getImages(List<String> imgList){
        IImageClient im = null;
        //应用场景
        String idpsns="slp-mall-web-idps";
@@ -35,10 +35,10 @@ public class ImageUtil {
        im = IDPSClientFactory.getImageClient(idpsns);
        List<String> list = new ArrayList<String>();
        //获取上传图片指定尺寸的URL
-       String url1 = im.getImageUrl("57454864d601800009c0b0cd", ".jpg","100x80");
-       String url2 = im.getImageUrl("57454864d601800009c0b0cd", ".jpg","100x80");
-       list.add(url1);
-       list.add(url2);
+       for(String visIDs:imgList){
+           String url = im.getImageUrl(visIDs, ".jpg","100x80"); 
+           list.add(url);
+       }
        return list;
    }
 }

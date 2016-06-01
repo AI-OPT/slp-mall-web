@@ -39,15 +39,14 @@ define('app/jsp/product/searchProduct', function (require, exports, module) {
     		//初始化执行搜索
     		this._searchBtnClick(1,QueryProductPager.DEFAULT_PAGE_SIZE);
     		this._getHotProduct();
-    		this._changeShow();
-    	},
-    	_changeShow: function(){
-    		var isp = $("#isp").val();
-    		
-    		
     	},
     	_searchBtnClick: function(){
-    		var data = $("#ba-form :input,#cg-Form select").serializeArray();
+    		var	param={
+					areaCode:"81",  
+					productCatId: $("#billType").val(),
+					basicOrgIdIs:"12",
+					attrDefId:$("#priceId").val()
+				   };
     		var _this = this;
     		var url = _base+"/search/getProduct";
     		$("#pagination-ul").runnerPagination({
@@ -55,7 +54,7 @@ define('app/jsp/product/searchProduct', function (require, exports, module) {
 	 			method: "POST",
 	 			dataType: "json",
 	 			processing: true,
-	            data : {},
+	            data : param,
 	           	pageSize: QueryProductPager.DEFAULT_PAGE_SIZE,
 	           	visiblePages:5,
 	            message: "正在为您查询数据..",
@@ -74,18 +73,6 @@ define('app/jsp/product/searchProduct', function (require, exports, module) {
 					 $("#pagecount").text(data.pageCount);
 				},
     		});
-    	},
-    	_test: function(){
-    		
-    	},
-    	_changeImage: function(){
-    		var url = document.getElementById("thumbnailId").src;
-    		$("#bigPic").attr("src",url); 
-    	},
-    	_changeCurrentImage: function(){
-    		var url = document.getElementById("crruntImageId").src;
-    		alert(url);
-    		$("#bigPic").attr("src",url); 
     	},
     	_getHotProduct:function(){
       		ajaxController.ajax({

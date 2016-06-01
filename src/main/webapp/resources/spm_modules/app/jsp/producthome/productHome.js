@@ -36,7 +36,7 @@ define('app/jsp/producthome/productHome', function (require, exports, module) {
             "click #phoneBillCucc":"_getPhoneBill",
             "click #phoneBillCmcc":"_getPhoneBill",
             "click #phoneBillCtcc":"_getPhoneBill",
-            "click #flowCtcc":"_getFlowProduct",
+            "click #flowCmcc":"_getFlowProduct",
             "click #flowCtcc":"_getFlowProduct",
             "click #flowCucc":"_getFlowProduct"
             	
@@ -64,7 +64,7 @@ define('app/jsp/producthome/productHome', function (require, exports, module) {
       			$("#phoneOprator").val($("#phoneBillCucc").attr("opratorid"));
       		}
       		var	param={
-					areaCode:"120000",  
+					areaCode:"81",  
 					productCatId: "10000010010000",	   
 					basicOrgIdIs:$("#phoneOprator").val()
 				   };
@@ -102,7 +102,7 @@ define('app/jsp/producthome/productHome', function (require, exports, module) {
           			$("#flowOprator").val($("#flowCucc").attr("opratorid"));
           		}
           		var	param={
-    					areaCode:"120000",  
+    					areaCode:"81",  
     					productCatId: "10000010020000",	   
     					basicOrgIdIs:$("#flowOprator").val()
     				   };
@@ -126,19 +126,23 @@ define('app/jsp/producthome/productHome', function (require, exports, module) {
       		window.location.href = _base + '/search/list';
       	},
       	_jumpToSearch: function(price,type){
-      		var orgired ;
       		//获取运营商类目
       		var isCmcc = $("#cmccShowId").is(":visible");
       		var isCtcc = $("#ctccShowId").is(":visible");
       		var isCucc = $("#cuccShowId").is(":visible");
       		if(isCmcc){
-      			orgired="CMCC";
+      			//移动
+      			var orgired="10";
+      			window.location.href = _base + '/search/list?priceId='+price+"&billType="+type+"&orgired="+orgired;
       		}else if(isCtcc){
-      			orgired="CTCC";
+      			//电信
+      			var orgired="11";
+      			window.location.href = _base + '/search/list?priceId='+price+"&billType="+type+"&orgired="+orgired;
       		}else if(isCucc){
-      			orgired="CUCC";
+      			//联通
+      			var orgired="12";
+      			window.location.href = _base + '/search/list?priceId='+price+"&billType="+type+"&orgired="+orgired;
       		}
-      		window.location.href = _base + '/search/list?price='+price+"&type="+type+"&isp="+orgired;
       	},
       	_getHotProduct: function(){
       		ajaxController.ajax({
@@ -147,7 +151,7 @@ define('app/jsp/producthome/productHome', function (require, exports, module) {
 				processing: true,
 				message: "查询中，请等待...",
 				url: _base+"/getHotProduct",
-				data:{areaCode:"120000"},
+				data:{areaCode:"81"},
 				success: function(data){
 					if(data.data){
 						var template = $.templates("#hotTmpl");

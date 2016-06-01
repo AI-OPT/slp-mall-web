@@ -50,16 +50,16 @@
          <!--搜索结果查询条件-->
         <div class="search-wrapper">
             <div class="big-wrapper"><!--内侧居中框架--> 
-                <input type="hidden" name="price" id="price" value="${requestScope.price}"/>
-             	<input type="hidden" name="type" id="type" value="${requestScope.type}"/>
-             	<input type="hidden" name="isp" id="isp" value="${requestScope.isp}"/>
+                <input type="hidden" name="priceId" id="priceId" value="${requestScope.priceId}"/>
+             	<input type="hidden" name="billType" id="billType" value="${requestScope.billType}"/>
+             	<input type="hidden" name="orgired" id="orgired" value="${requestScope.orgired}"/>
                 <div class="search-main">
                      <ul>
                          <li class="word">运营商:</li>
                          <li>
-                             <p class="current"><A href="#" value="cmcc" id="cmccId">中国移动</A></p>
-                             <p><A  href="#" value="ctcc" id="ctccId">中国联通</A></p>
-                             <p><A  href="#" value="cucc" id="cuccId">中国电信</A></p>
+                             <p class="current"><A href="#" value="10" id="cmccId">中国移动</A></p>
+                             <p><A  href="#" value="11" id="ctccId">中国联通</A></p>
+                             <p><A  href="#" value="12" id="cuccId">中国电信</A></p>
                          </li>
                      </ul>
                        <ul>
@@ -228,9 +228,9 @@
                          <script id="hotProductListTmpl" type="text/x-jsrender">
 							<div class="left-tow-list">
 								<ul>
-                            		<li class="img"><a href="#"><img src="{{:pictureUrl}}"></a></li>
-                            		<li class="word"><a href="#">{{:skuName}}</a> </li>
-                            		<li class="left"><span>￥{{:salePrice}}</span><a href="#" class="pj">{{:commentIdCount}}评价</a></li>
+                            		<li class="img"><a href="#"><img src="{{:picUrl}}"></a></li>
+                            		<li class="word"><a href="#">{{:prodName}}</a> </li>
+                            		<li class="left"><span>￥{{:~liToYuan(salePrice)}}</span><a href="#" class="pj">{{:commentIdCount}}评价</a></li>
                         		</ul>
 							</div>
 						</script>
@@ -248,10 +248,10 @@
                				<div class="single-top">
 							 <div class="picture-carousel">
                     			<div class="tb-booth tb-pic tb-s310">
-                            		<a href="#"><img src="{{:pictureUrl}}"  class="jqzoom" id="bigPic"/></a>
+                            		<a href="#"><img src="{{:picUrl}}"  class="jqzoom" id="bigPic"/></a>
                         		</div>
                         		<ul class="tb-thumb" id="thumblist">
-									{{for pictureUrlList}}
+									{{for thumnailUrl}}
 										{{if #index==0}}
                             				<li class="tb-selected"><div class="tb-pic tb-s40"><a href="javascript:void(0);"><img src="{{:#data}}" name="image"id="crruntImageId"></a></div></li>
                             			{{else}}
@@ -262,8 +262,8 @@
                    			</div>
 							<div class="single-word">
                					<ul>
-               						<li class="word">¥{{:salePrice}}<a href="#" class="pj">{{:commentIdCount}}评价</a></li>
-               						<li><a href="#">{{:skuName}}</a></li>
+               						<li class="word">¥{{:~liToYuan(salePrice)}}<a href="#" class="pj">{{:commentIdCount}}评价</a></li>
+               						<li><a href="#">{{:prodName}}</a></li>
                					</ul>
                				</div>
 						</div>

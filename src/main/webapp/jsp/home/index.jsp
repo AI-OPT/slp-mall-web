@@ -10,16 +10,7 @@
 <link href="${_slpbase }/styles/frame.css" rel="stylesheet" type="text/css">
 <link href="${_slpbase }/styles/banner.css" rel="stylesheet" type="text/css">
 <link href="${_slpbase }/styles/font-awesome.css" rel="stylesheet" type="text/css">
-<script type="text/javascript">
-			var pager;
-			(function () {
-				seajs.use('app/jsp/producthome/productHome', function (ProductHomePager) {
-					pager = new ProductHomePager({element: document.body});
-					pager.render();
-				});
-			})();
-			
-		</script>
+
 </head>
 
 <body>
@@ -45,14 +36,14 @@
              <div class="Mobile-hover" style="display:none;" id="cmccShowId">
                  <ul>
                 	   <p>充话费</p>
-                     <li class="current"><A href="#" onclick="pager._jumpToSearch('10','phoneBill')">10元 </A></li>
-                     <li><A href="#">20元</A></li>
-                     <li><A href="#">30元 </A></li>
-                     <li><A href="#">50元</A></li>
-                     <li><A href="#">100元 </A></li>
-                     <li><A href="#">200元</A></li>
-                     <li><A href="#">300元</A></li>
-                     <li><A href="#">500元</A></li>
+                     <li class="current"><A href="#" onclick="pager._jumpToSearch('100004','10000010010000')">10元 </A></li>
+                     <li><A href="#" onclick="pager._jumpToSearch('100005','10000010010000')">20元</A></li>
+                     <li><A href="#" onclick="pager._jumpToSearch('100006','10000010010000')">30元 </A></li>
+                     <li><A href="#" onclick="pager._jumpToSearch('100007','10000010010000')">50元</A></li>
+                     <li><A href="#" onclick="pager._jumpToSearch('100008','10000010010000')">100元 </A></li>
+                     <li><A href="#" onclick="pager._jumpToSearch('100009','10000010010000')">200元</A></li>
+                     <li><A href="#" onclick="pager._jumpToSearch('100010','10000010010000')">300元</A></li>
+                     <li><A href="#" onclick="pager._jumpToSearch('100011','10000010010000')">500元</A></li>
                  </ul>
                   <ul>
                 	   <p>充流量</p>
@@ -221,10 +212,10 @@
         
        	 <div class="plist-right-title">
         <ul>
-        	<li><a href="javascript:void(0);" opratorid="100002" class="current" id="phoneBillCmcc" >中国移动</a></li>         
-        	<li><a href="javascript:void(0);" opratorid="100001" id="phoneBillCtcc">中国电信</a></li>
+        	<li><a href="javascript:void(0);" opratorid="10" class="current" id="phoneBillCmcc" >中国移动</a></li>         
+        	<li><a href="javascript:void(0);" opratorid="11" id="phoneBillCtcc">中国电信</a></li>
          	<li>
-         		<a href="javascript:void(0);" opratorid="100003" id="phoneBillCucc">中国联通</a>
+         		<a href="javascript:void(0);" opratorid="12" id="phoneBillCucc">中国联通</a>
          		<input type="hidden" id="phoneOprator">
          	</li>
         </ul>
@@ -254,10 +245,10 @@
         
        	 <div class="plist-right-title-tow">
         <ul>
-        <li><a href="javascript:void(0);" opratorid="100002" class="current" id="flowCmcc">中国移动</a></li>         
-        <li><a href="javascript:void(0);" opratorid="100001" id="flowCtcc">中国电信</a></li>
+        <li><a href="javascript:void(0);" opratorid="10" class="current" id="flowCmcc">中国移动</a></li>         
+        <li><a href="javascript:void(0);" opratorid="11" id="flowCtcc">中国电信</a></li>
         <li>
-        	<a href="javascript:void(0);" opratorid="100003" id="flowCucc">中国联通</a>
+        	<a href="javascript:void(0);" opratorid="12" id="flowCucc">中国联通</a>
         	<input type="hidden" id="flowOprator">
         </li>
         </ul>
@@ -339,6 +330,16 @@
                 	</ul>
                 </a>
 </script>
+<script type="text/javascript">
+			var pager;
+			(function () {
+				seajs.use('app/jsp/producthome/productHome', function (ProductHomePager) {
+					pager = new ProductHomePager({element: document.body});
+					pager.render();
+				});
+			})();
+			
+		</script>
 </body>
 
 </html>
