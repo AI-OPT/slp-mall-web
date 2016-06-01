@@ -22,7 +22,7 @@
         <div class="fsast-logo">
             <ul>
                 <li><a href="#"><img src="${_slpbase }/images/login-logo.png"></a></li>
-                <li>快充支付</li>
+                <li>账户中心</li>
             </ul>
         </div>
         <div class="fsast-bav">
@@ -60,46 +60,8 @@
     <div class="big-wrapper"><!--内侧居中框架-->
     <!--我的订单-->
     <!--我的订单左侧-->
-    <div class="my-order-menu">
-        <ul>
-            <li class="img"><img src="${_slpbase }/images/order-menu-iocn1.png"></li>
-            <li class="word">
-                <p class="">订单中心</p>
-                <p class="active"><A href="#">我的订单</A></p>
-                <p><A href="#">评价管理</A></p>
-                <p><A href="#">订单回收站</A></p>
-            </li>
-        </ul>
-        <ul>
-            <li class="img"><img src="${_slpbase }/images/order-menu-iocn2.png"></li>
-            <li class="word">
-                <p class="">资产中心</p>
-                <p><A href="#">账户余额</A></p>
-                <p><A href="#">充值卡券</A></p>
-                <p><A href="#">我的授信</A></p>
-            </li>
-        </ul>
-        <ul>
-            <li class="img"><img src="${_slpbase }/images/order-menu-iocn3.png"></li>
-            <li class="word">
-                <p class="">关注中心</p>
-                <p><A href="#">收藏夹</A></p>
-                <p><A href="#">我的足迹</A></p>
-                <p><A href="#">新消息（0）</A></p>
-            </li>
-        </ul>
-        <ul>
-            <li class="img"><img src="${_slpbase }/images/order-menu-iocn5.png"></li>
-            <li class="word">
-                <p class="">账户设置</p>
-                <p><A href="#">个人资料</A></p>
-                <p><A href="#">通讯录</A></p>
-                <p><A href="#">我的API</A></p>
-                <p><A href="#">安全设置</A></p>
-            </li>
-        </ul>
-    </div>
- <!--／我的订单左侧结束-->  
+  	<%@ include file="/inc/user-leftmenu.jsp" %>
+ 	<!--／我的订单左侧结束-->  
  <!--我的订单右侧-->  
   <div class="my-order-cnt">
        <div class="payment-title">
@@ -108,29 +70,50 @@
       </div>
       <div class="order-list-bj">
          <div class="advanced-search">
+           <input id="searchType" style="display:none" value="1"/>
            <ul>
-               <li class="close"><select class="select-small"><option>近三个月订单</option></select></li>
                <li>
                    <p class="word">订单类型</p>
-                   <p><select class="select-small"><option>全部</option></select></p>
+                   <p>
+                   	<select id="orderType" class="select-small">
+                   		<option value="">全部</option>
+                   		<option value="100000">购买话费卡包</option>
+						<option value="100001">购买流量卡包</option>
+						<option value="100010">购买话费直充</option>
+						<option value="100011">购买流量直充</option>
+						<option value="110000">购买实物类商品</option>
+                   	</select></p>
                </li>
                <li>
                    <p class="word">订单号</p>
-                   <p><input type="text" class="int-small" placeholder="请输入订单号查询"></p>
+                   <p><input id="orderId" type="text" class="int-small" placeholder="请输入订单号查询"></p>
                </li>
-               <li><input type="button" class="order-btn" value="搜索"></li>
-               <li class="av"><a href="#" class="is">高级搜索<i class="icon-angle-down"></i></a></li>
+               <li class="close" id="selectTimeDiv">
+	               	<select id="selectTime" class="select-small">
+	               		<option value="1">近三个月订单</option>
+	               		<option value="2">今年历史订单</option>
+	               		<option value="3">所有历史订单</option>
+	               	</select>
+               </li>
+               <li><input id="searchOrderBtn" type="button" class="order-btn" value="搜索"></li>
+               <li class="av"><a id="changeSearchType" class="is">高级搜索<i class="icon-angle-down"></i></a></li>
            </ul>
            <ul class="open-gaoj" style=" display:none;">
               <li>
-                   <p class="word1">下单时间</p>
-                   <p><input type="text" class="int-small" ><A href="#"><i class="icon-calendar"></i></A></p>
+                   <p class="word">下单时间</p>
+                   <p id="timeBeginId" ><input id="orderTimeBegin" type="text" class="int-small" readonly><A href="javascript:void(0);"><i class="icon-calendar"></i></A></p>
                    <p>-</p>
-                   <p><input type="text" class="int-small" ><A href="#"><i class="icon-calendar"></i></A></p>
+                   <p id="timeEndId"><input id="orderTimeEnd" type="text" class="int-small" readonly><A href="javascript:void(0);"><i class="icon-calendar"></i></A></p>
                </li>
                <li>
                    <p class="word">支付方式</p>
-                   <p><select class="select-small"><option>全部</option></select></p>
+                   <p>
+                   		<select id="payStyle" class="select-small">
+                   			<option value="">全部</option>
+                   			<option value="21">支付宝</option>
+                   			<option value="22">银联</option>
+                   		</select>
+                   </p>
                </li>
            </ul>
           </div> 
@@ -144,9 +127,8 @@
            <li><a href="#" class="current">全部</a></li>
            <li><a href="#">待支付</a></li>
            <li><a href="#">已成功</a></li>
-           <li><a href="#">已关闭</a></li>
-           <li><a href="#">已退款</a></li>
-           <p><a href="#"><i class="icon-trash"></i>订单回收站</a></p>
+           <li><a href="#" style="border-right-style: none;">已关闭</a></li>
+           <!-- <p><a href="#"><i class="icon-trash"></i>订单回收站</a></p> -->
            </ul>                                        
            </div>
             <!--选择订单信息 table结束-->
@@ -187,6 +169,15 @@
                                                 <p>订单金额:</p>
                                                 <p>¥{{:adjustFee}}</p>
                                             </li>
+											{{if state !='11'}}
+											<li>	
+												<p>支付方式:</p>
+                                                <p>{{:payStyleName}}</p>
+                                            </li>
+                                            <!-- <li class="right">
+                                                <p><A href="#"><i class="icon-trash"></i></A></p>
+                                            </li>-->
+											{{/if}}
                                         </ul>
                                     </div>
                                 </td>
@@ -206,8 +197,8 @@
                                     </table>
                                 </td>
                                 <td class="ash" width="10%">¥{{:salePrice}}</td>
-                                <td width="10%">1</td>
-                                <td width="10%" class="strong">{{:adjustFee}}</td>
+                                <td width="10%">{{:buySum}}</td>
+                                <td width="10%" class="strong">¥{{:adjustFee}}</td>
 								{{if #getIndex() == 0}}
                                 <td width="10%" rowspan="{{:~size}}"> 
                                     <div class="number">
