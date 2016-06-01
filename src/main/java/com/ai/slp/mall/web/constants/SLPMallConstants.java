@@ -255,4 +255,68 @@ public final class SLPMallConstants {
 
     }
 
+    /**
+     * 支付请求来源 Date: 2016年6月1日 <br>
+     * Copyright (c) 2016 asiainfo.com <br>
+     * 
+     * @author zhangxw
+     */
+    public static class PayState {
+        public static final String PAY_SUCCESS = "00"; // BSS网上营业厅收款（订单类）
+
+        public static final String PAY_FAILED = "01";// BSS网上营业厅充值缴费（缴费类）
+    }
+
+    /**
+     * 订单支付支付方式
+     * 
+     * @Description
+     * @author Administrator
+     * @date 2015年6月1日 下午4:29:23
+     * @version V1.3.1
+     */
+    public static class OrderPayType {
+        /** 现金 */
+        public static final String COUNTER_PAY = "1";
+
+        /** 在线支付 */
+        public static final String ONLINE_PAY = "2";
+
+        /** 充值卡 */
+        public static final String RECHARGE_CARD_PAY = "3";
+
+        /** 赠送预存 */
+        public static final String GIVE_DESPOIT_PAY = "4";
+
+        /** 积分 */
+        public static final String ACCUMULATE_PAY = "5";
+
+        /** POS机 */
+        public static final String POS_PAY = "6";
+
+        /** 货到付款 */
+        public static final String DELI_PAY = "7";
+
+        /** 优惠券 */
+        public static final String COUPONS_PAY = "8";
+    }
+    /**
+     * 后场返回code
+     * Date: 2016年6月1日 <br>
+     * Copyright (c) 2016 asiainfo.com <br>
+     * 
+     * @author zhangxw
+     */
+    public static class DUBBO {
+        //调用后场返回的成功code
+        public static final String SUCCESS = "000000";
+
+        //调用后场查询无记录code
+        public static final String NO_DATA = "000001";
+        
+        //号码已经被预占
+        public static final String NUMBER_RESERVE_OLREADY="105011";
+        
+    }
+
 }
