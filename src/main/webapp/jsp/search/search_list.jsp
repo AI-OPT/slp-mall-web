@@ -230,7 +230,7 @@
 								<ul>
                             		<li class="img"><a href="#"><img src="{{:picUrl}}"></a></li>
                             		<li class="word"><a href="#">{{:prodName}}</a> </li>
-                            		<li class="left"><span>￥{{:~liToYuan(salePrice)}}</span><a href="#" class="pj">{{:commentIdCount}}评价</a></li>
+                            		<li class="left"><span>￥{{:~liToYuan(salePrice)}}</span></li>
                         		</ul>
 							</div>
 						</script>
@@ -262,7 +262,7 @@
                    			</div>
 							<div class="single-word">
                					<ul>
-               						<li class="word">¥{{:~liToYuan(salePrice)}}<a href="#" class="pj">{{:commentIdCount}}评价</a></li>
+               						<li class="word">¥{{:~liToYuan(salePrice)}}</li>
                						<li><a href="#">{{:prodName}}</a></li>
                					</ul>
                				</div>
