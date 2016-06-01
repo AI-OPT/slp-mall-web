@@ -35,7 +35,7 @@ public class OrderPayController {
     private static final Logger logger = Logger.getLogger(OrderPayController.class);
 
     // 订单支付服务
-    @Autowired
+    //@Autowired
     private IOrderPaySV iOrderPaySV;
 
     /***

@@ -86,12 +86,12 @@
       			 <div id="producSKUData"></div>
       			 <script id="producSKUTemple" type="text/template">
                    <ul class="details-title">
-                       <li class="word">{{:productName}}</li>
+                       <li class="word">{{:prodName}}</li>
                        <li class="color">{{:productSellPoint}}</li>
                    </ul>
                    <ul class="details-list">
                        <li class="word">价格：</li>
-                       <li class="color">￥{{:salePrice}}元</li>
+                       <li class="color">￥{{:~liToYuan(salePrice)}}元</li>
                    </ul>
                    <ul class="details-list">
                        <li class="word">所在地：</li>

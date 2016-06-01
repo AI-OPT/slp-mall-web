@@ -46,20 +46,17 @@ public class ProductController {
 			String attrImageSize = "30x30";
 
 			String skuId = StringUtil.toString(request.getParameter("skuId"));
+			String skuAttrs = StringUtil.toString(request.getParameter("skuAttrs"));
 			IProductDetailSV iProductDetailSV = DubboConsumerFactory.getService("iProductDetailSV");
 			ProductSKURequest productskurequest = new ProductSKURequest();
+			productskurequest.setSkuId(skuId);
+			productskurequest.setSkuAttrs(skuAttrs);
+			
 			productskurequest.setSkuId("0001");
+			productskurequest.setTenantId("SLP");
 			ProductSKUResponse producSKU = iProductDetailSV.queryProducSKUById(productskurequest);
 			ResponseHeader responseHeader = producSKU.getResponseHeader();
 			if (responseHeader.isSuccess()) {
-				// producSKU.setActiveType("2");
-				// producSKU.setActiveTime(DateUtils.parseDate("2016-01-01",
-				// "yyyy-MM-dd"));
-				// producSKU.setInactiveTime(DateUtils.parseDate("2018-01-01",
-				// "yyyy-MM-dd"));
-				// producSKU.setActiveCycle(15);
-				// producSKU.setUnit("天");
-
 				// 设置商品属性中的图片
 				changeAttrImage(attrImageSize, producSKU);
 				String producSKUJson = JSonUtil.toJSon(producSKU);
@@ -193,7 +190,13 @@ public class ProductController {
 		try {
 			IProductDetailSV iProductDetailSV = DubboConsumerFactory.getService("iProductDetailSV");
 			ProductSKURequest productSKURequest = new ProductSKURequest();
+			String skuId = StringUtil.toString(request.getParameter("skuId"));
+			String skuAttrs = StringUtil.toString(request.getParameter("skuAttrs"));
+			productSKURequest.setSkuId(skuId);
+			productSKURequest.setSkuAttrs(skuAttrs);
+			
 			productSKURequest.setSkuId("0001");
+			productSKURequest.setTenantId("SLP");
 			ProductSKUConfigResponse productSKUConfig = iProductDetailSV.queryProductSKUConfig(productSKURequest);
 			ResponseHeader responseHeader = productSKUConfig.getResponseHeader();
 			if(responseHeader.isSuccess()){
