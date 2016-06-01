@@ -24,14 +24,10 @@ import com.ai.paas.ipaas.image.IImageClient;
 import com.ai.paas.ipaas.util.JSonUtil;
 import com.ai.slp.mall.web.constants.SLPMallConstants.ProductImageConstant;
 import com.ai.slp.mall.web.model.product.ProductImageVO;
-import com.ai.slp.mall.web.util.ImageUtil;
 import com.ai.slp.product.api.webfront.interfaces.IProductDetailSV;
-import com.ai.slp.product.api.webfront.interfaces.ISearchProductSV;
-import com.ai.slp.product.api.webfront.param.ProductData;
 import com.ai.slp.product.api.webfront.param.ProductImage;
 import com.ai.slp.product.api.webfront.param.ProductSKUAttr;
 import com.ai.slp.product.api.webfront.param.ProductSKUAttrValue;
-import com.ai.slp.product.api.webfront.param.ProductSKUConfigParamter;
 import com.ai.slp.product.api.webfront.param.ProductSKUConfigResponse;
 import com.ai.slp.product.api.webfront.param.ProductSKURequest;
 import com.ai.slp.product.api.webfront.param.ProductSKUResponse;
@@ -65,7 +61,7 @@ public class ProductController {
 				// producSKU.setUnit("天");
 
 				// 设置商品属性中的图片
-				changeAttrIamge(attrImageSize, producSKU);
+				changeAttrImage(attrImageSize, producSKU);
 				String producSKUJson = JSonUtil.toJSon(producSKU);
 				model.put("productSKU", producSKUJson);
 				// 获得商品图片
@@ -123,10 +119,10 @@ public class ProductController {
 		if (productImageList != null && productImageList.size() > 0) {
 			IImageClient imageClient = IDPSClientFactory.getImageClient(ProductImageConstant.IDPSNS);
 			for (ProductImage productImage : productImageList) {
-				String idpsId = productImage.getVfsid();
-				String extension = productImage.getImagetype();
-				String bigImageUrl = imageClient.getImageUrl(idpsId, extension, productImageBigSize);
-				String smallImageUrl = imageClient.getImageUrl(idpsId, extension, productImageSmailSize);
+				String vfsId = productImage.getVfsId();
+				String picType = productImage.getPicType();
+				String bigImageUrl = imageClient.getImageUrl(vfsId, picType, productImageBigSize);
+				String smallImageUrl = imageClient.getImageUrl(vfsId, picType, productImageSmailSize);
 				ProductImageVO productImageVO = new ProductImageVO();
 				productImageVO.setBigImageUrl(bigImageUrl);
 				productImageVO.setSmallImageUrl(smallImageUrl);
@@ -142,53 +138,48 @@ public class ProductController {
 	 * @param attrImageSize
 	 * @param productSKUVO
 	 */
-	private Long changeAttrIamge(String attrImageSize, ProductSKUResponse productSKUVO) {
+	private void changeAttrImage(String attrImageSize, ProductSKUResponse productSKUVO) {
 		List<ProductSKUAttr> productAttrList = productSKUVO.getProductAttrList();
 		// 获取imageClient
 		IImageClient imageClient = IDPSClientFactory.getImageClient(ProductImageConstant.IDPSNS);
-		Long defAttrValueId = null;
 		for (ProductSKUAttr productSKUAttr : productAttrList) {
 			List<ProductSKUAttrValue> attrValueList = productSKUAttr.getAttrValueList();
 			for (ProductSKUAttrValue attrValue : attrValueList) {
-				if (defAttrValueId == null) {
-					defAttrValueId = attrValue.getAttrvalueDefId();
-				}
 				ProductImage image = attrValue.getImage();
 				if (image != null) {
-					String idpsId = image.getVfsid();
-					String extension = image.getImagetype();
-					String imageUrl = imageClient.getImageUrl(idpsId, extension, attrImageSize);
+					String vfsId = image.getVfsId();
+					String picType = image.getPicType();
+					String imageUrl = imageClient.getImageUrl(vfsId, picType, attrImageSize);
 					attrValue.setImageUrl(imageUrl);
 				}
 			}
 		}
-		return defAttrValueId;
 	}
 
-	/**
-	 * 热销商品查询
-	 * 
-	 * @param request
-	 * @return
-	 */
-	@RequestMapping("/getHotProduct")
-	@ResponseBody
-	public ResponseData<List<ProductData>> getHotProduct(HttpServletRequest request) {
-		ISearchProductSV iPaymentQuerySV = DubboConsumerFactory.getService("iSearchProductSV");
-		ResponseData<List<ProductData>> responseData = null;
-		try {
-			List<ProductData> resultInfo = iPaymentQuerySV.queryHotSellProduct();
-			for (ProductData data : resultInfo) {
-				data.setPictureUrl(ImageUtil.getHotImage());
-			}
-			resultInfo.get(0).setPictureUrl(ImageUtil.getHotImage());
-			responseData = new ResponseData<List<ProductData>>(ResponseData.AJAX_STATUS_SUCCESS, "查询成功", resultInfo);
-		} catch (Exception e) {
-			responseData = new ResponseData<List<ProductData>>(ResponseData.AJAX_STATUS_FAILURE, "查询失败");
-			LOG.error("获取信息出错：", e);
-		}
-		return responseData;
-	}
+//	/**
+//	 * 热销商品查询
+//	 * 
+//	 * @param request
+//	 * @return
+//	 */
+//	@RequestMapping("/getHotProduct")
+//	@ResponseBody
+//	public ResponseData<List<ProductData>> getHotProduct(HttpServletRequest request) {
+//		ISearchProductSV iPaymentQuerySV = DubboConsumerFactory.getService("iSearchProductSV");
+//		ResponseData<List<ProductData>> responseData = null;
+//		try {
+//			List<ProductData> resultInfo = iPaymentQuerySV.queryHotSellProduct();
+//			for (ProductData data : resultInfo) {
+//				data.setPictureUrl(ImageUtil.getHotImage());
+//			}
+//			resultInfo.get(0).setPictureUrl(ImageUtil.getHotImage());
+//			responseData = new ResponseData<List<ProductData>>(ResponseData.AJAX_STATUS_SUCCESS, "查询成功", resultInfo);
+//		} catch (Exception e) {
+//			responseData = new ResponseData<List<ProductData>>(ResponseData.AJAX_STATUS_FAILURE, "查询失败");
+//			LOG.error("获取信息出错：", e);
+//		}
+//		return responseData;
+//	}
 	
 	/**
 	 * 查询商品配置参数
@@ -197,8 +188,8 @@ public class ProductController {
 	 */
 	@RequestMapping("/getProductConfigParameter")
 	@ResponseBody
-	public ResponseData<List<ProductSKUConfigParamter>> getProductConfigParamter(HttpServletRequest request) {
-		ResponseData<List<ProductSKUConfigParamter>> responseData = null;
+	public ResponseData<List<ProductSKUAttr>> getProductConfigParamter(HttpServletRequest request) {
+		ResponseData<List<ProductSKUAttr>> responseData = null;
 		try {
 			IProductDetailSV iProductDetailSV = DubboConsumerFactory.getService("iProductDetailSV");
 			ProductSKURequest productSKURequest = new ProductSKURequest();
@@ -206,11 +197,11 @@ public class ProductController {
 			ProductSKUConfigResponse productSKUConfig = iProductDetailSV.queryProductSKUConfig(productSKURequest);
 			ResponseHeader responseHeader = productSKUConfig.getResponseHeader();
 			if(responseHeader.isSuccess()){
-				List<ProductSKUConfigParamter> configParamterList = productSKUConfig.getConfigParamterList();
-				responseData = new ResponseData<List<ProductSKUConfigParamter>>(ResponseData.AJAX_STATUS_SUCCESS, "查询成功", configParamterList);
+				List<ProductSKUAttr> configParamterList = productSKUConfig.getProductAttrList();
+				responseData = new ResponseData<List<ProductSKUAttr>>(ResponseData.AJAX_STATUS_SUCCESS, "查询成功", configParamterList);
 			}
 		} catch (Exception e) {
-			responseData = new ResponseData<List<ProductSKUConfigParamter>>(ResponseData.AJAX_STATUS_FAILURE, "查询失败", null);
+			responseData = new ResponseData<List<ProductSKUAttr>>(ResponseData.AJAX_STATUS_FAILURE, "查询失败", null);
 			LOG.error("商品详情查询报错：", e);
 			e.printStackTrace();
 		}

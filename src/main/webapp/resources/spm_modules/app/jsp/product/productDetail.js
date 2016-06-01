@@ -133,7 +133,7 @@ define('app/jsp/product/productDetail', function (require, exports, module) {
 						dataType: "json",
 						processing: false,
 						//message: "查询中，请等待...",
-						url: _base+"/product/getHotProduct",
+						url: _base+"/search/getHotProduct",
 						data:'',
 						success: function(data){
 							if(data.data){
