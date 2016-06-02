@@ -10,11 +10,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.ai.opt.base.vo.BaseResponse;
+import com.ai.opt.sdk.dubbo.util.DubboConsumerFactory;
 import com.ai.opt.sdk.util.StringUtil;
 import com.ai.slp.mall.web.constants.SLPMallConstants;
 import com.ai.slp.mall.web.util.ConfigUtil;
@@ -29,14 +30,42 @@ import com.ai.slp.order.api.orderpay.param.OrderPayRequest;
  * 
  * @author zhangxw
  */
-@Controller
-@RequestMapping(value = "/pay")
+@RestController
+@RequestMapping("/pay")
 public class OrderPayController {
     private static final Logger logger = Logger.getLogger(OrderPayController.class);
 
-    // 订单支付服务
-    @Autowired
-    private IOrderPaySV iOrderPaySV;
+    /**
+     * 首页
+     * 
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     * @author LiangMeng
+     * @ApiDocMethod
+     */
+    @RequestMapping("/index")
+    public ModelAndView index(HttpServletRequest request, HttpServletResponse response)
+            throws Exception {
+        /* 1.组织参数 */
+        String basePath = request.getScheme() + "://" + request.getServerName() + ":"
+                + request.getServerPort() + request.getContextPath();
+        System.out.println("测试支付:" + basePath);
+        String tenantId = ConfigUtil.getProperty("TENANT_ID");
+        String returnUrl = basePath + "/demo/returnUrl";
+        String notifyUrl = basePath + "/demo/notifyUrl";
+        String orderAmount = "1";
+        String subject = "苹果 6 plus plus";
+        request.setAttribute("tenantId", tenantId);
+        request.setAttribute("orderId", "123456789");
+        request.setAttribute("returnUrl", returnUrl);
+        request.setAttribute("notifyUrl", notifyUrl);
+        request.setAttribute("orderAmount", orderAmount);
+        request.setAttribute("subject", subject);
+        ModelAndView view = new ModelAndView("jsp/pay/index");
+        return view;
+    }
 
     /***
      * 订单支付
@@ -54,8 +83,8 @@ public class OrderPayController {
         String basePath = request.getScheme() + "://" + request.getServerName() + ":"
                 + request.getServerPort() + request.getContextPath();
         String tenantId = ConfigUtil.getProperty("TENANT_ID");
-        String returnUrl = basePath + "/orderPay/returnUrl";
-        String notifyUrl = basePath + "/orderPay/notifyUrl";
+        String returnUrl = basePath + "/pay/returnUrl";
+        String notifyUrl = basePath + "/pay/notifyUrl";
         String orderId = request.getParameter("orderId");
         String tempAmount = request.getParameter("orderAmount");
         String orderAmount = String.valueOf(new BigDecimal(tempAmount).divide(new BigDecimal(100)));
@@ -96,20 +125,21 @@ public class OrderPayController {
      * @author zhangxw
      * @ApiDocMethod
      */
-    @RequestMapping(value = "/returnUrl")
-    public String returnUrl(HttpServletRequest request, HttpServletResponse response)
+    @RequestMapping("/returnUrl")
+    public ModelAndView returnUrl(HttpServletRequest request, HttpServletResponse response)
             throws Exception {
         logger.info("前台回调...");
+        ModelAndView view = null;
         String orderId = request.getParameter("orderId"); // 订单号
         String payStates = request.getParameter("payStates"); // 交易状态
+        System.out.println("支付状态为:"+payStates);
         String orderAmount = request.getParameter("orderAmount"); // 订单金额
         request.setAttribute("orderId", orderId);
         request.setAttribute("orderAmount", orderAmount);
         if (SLPMallConstants.PayState.PAY_SUCCESS.equals(payStates)) {
-            return "orderPay/paySuccess";
-        } else {
-            return null;
+            view=new ModelAndView("jsp/pay/paySuccess");
         }
+        return view;
     }
 
     /**
@@ -121,9 +151,10 @@ public class OrderPayController {
      * @author zhangxw
      * @ApiDocMethod
      */
-    @RequestMapping(value = "/notifyUrl")
+    @RequestMapping("/notifyUrl")
     public void notifyUrl(HttpServletRequest request, HttpServletResponse response)
             throws Exception {
+        System.out.println("开始调用后台通知");
         logger.info("==================开始调用后台通知=======================================");
         /************************************** 从返回报文中获取数据 ****************************************/
         String outOrderId_ = request.getParameter("outOrderId"); // 第三方支付平台交易流水号
@@ -158,12 +189,11 @@ public class OrderPayController {
                 }
                 payRequest.setOrderIds(orderIds);
                 if (!StringUtil.isBlank(orderAmount_)) {
-                    // payRequest.setPayFee(Long.parseLong(orderAmount_));
                     payRequest.setPayFee(parseLong(Double.valueOf(orderAmount_) * 100));// 转换成分
                 }
                 payRequest.setExternalId(outOrderId_);
                 payRequest.setPayType(SLPMallConstants.OrderPayType.ONLINE_PAY);
-
+                IOrderPaySV iOrderPaySV = DubboConsumerFactory.getService("iOrderPaySV");
                 payResponse = iOrderPaySV.pay(payRequest);
                 String resultCode = payResponse.getResponseHeader().getResultCode().toString();
                 if (!StringUtil.isBlank(resultCode)
@@ -178,6 +208,7 @@ public class OrderPayController {
                 }
             }
         } else {
+            System.out.println("开始调用后台通知:========================");
             logger.error("加密信息不匹配：orderId=" + orderId_);
         }
 

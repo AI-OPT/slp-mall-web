@@ -25,7 +25,8 @@
 		<div class="fsast-head">
 			<div class="fsast-logo">
 				<ul>
-					<li><a href="#"><img src="images/login-logo.png"></a></li>
+					<li><a href="#"><img
+							src="${_slpbase }/images/login-logo.png"></a></li>
 					<li>快充支付</li>
 				</ul>
 			</div>
@@ -62,75 +63,52 @@
 							<td width="15%">数量</td>
 							<td width="15%">小计</td>
 						</tr>
-						</table>
-						</div>
+					</table>
+				</div>
+				<script id="orderListTemple" type="text/x-jsrender">
+				<div class="shopping-cart mar">
+					<table width="100%" border="0">
+					  {{for ordProductResList}}     
 						<tr>
 							<td class="sp">
 								<table width="100%" border="0">
 									<tr>
-										<td class="word" width="25%"><img src="images/sim.png"></td>
-										<td><A href="#">中国电信手机充值北京手机充值10远电信手机充值电信手机充值</A></td>
+										<td class="word" width="25%"><img src="${_slpbase }/images/sim.png"></td>
+										<td><A href="#">${skuName}</A></td>
 									</tr>
 								</table>
 							</td>
-							<td class="ash">¥300.00</td>
-							<td>1</td>
-							<td class="bold">¥300.00</td>
+							<td class="ash">¥${salePrice}</td>
+							<td>${bugSum}</td>
+							<td class="bold">¥${skuTotalFee}</td>
 						</tr>
-						<tr>
-							<td class="sp">
-								<table width="100%" border="0">
-									<tr>
-										<td class="word" width="25%"><img src="images/sim.png"></td>
-										<td><A href="#">中国电信手机充值北京手机充值10远电信手机充值电信手机充值</A></td>
-									</tr>
-								</table>
-							</td>
-							<td class="ash">¥300.00</td>
-							<td>1</td>
-							<td class="bold">¥300.00</td>
-						</tr>
-						<tr>
-							<td class="sp">
-								<table width="100%" border="0">
-									<tr>
-										<td class="word" width="25%"><img src="images/sim.png"></td>
-										<td><A href="#">中国电信手机充值北京手机充值10远电信手机充值电信手机充值</A></td>
-									</tr>
-								</table>
-							</td>
-							<td class="ash">¥300.00</td>
-							<td>1</td>
-							<td class="bold">¥300.00</td>
-						</tr>
-						<!--不可点击-->
-
+					{{/for}}
 
 					</table>
 				</div>
-
+				</script>
 				<div class="total-amount">
 					<ul>
 						<li>
-							<p class="word">3件商品总计:</p>
-							<p class="right">¥2300.00</p>
+							<p class="word">${prodNum}件商品总计:</p>
+							<p class="right">¥${totalFee }</p>
 						</li>
 						<li>
 							<p class="word">运费:</p>
-							<p class="right">＋¥20.00</p>
+							<p class="right">＋¥${expFee}</p>
 						</li>
 						<li>
 							<p class="word">活动优惠:</p>
-							<p class="right">－¥20.00</p>
+							<p class="right">－¥${discountFee}</p>
 						</li>
 						<li>
 							<p class="word">账户余额:</p>
-							<p class="right">－¥300.00</p>
+							<p class="right">－¥${balanceFee }</p>
 						</li>
 						<li>
 							<p class="word">实付款:</p>
 							<p class="right">
-								<span>¥2300.00</span>
+								<span id="adjustFee">¥${adjustFee }</span>
 							</p>
 						</li>
 					</ul>
@@ -142,26 +120,27 @@
 				<!--白色背景-->
 				<div class="balance-title">
 					<p>
-						<input type="checkbox" class="checkbox">
+						<input id="useBalanceChk" type="checkbox" class="checkbox">
 					</p>
-					<p>使用账户余额 （89.0元可用）</p>
+					<p>使用账户余额 （${balance}元可用）</p>
 				</div>
 				<div class="balance-table" style="display: none;">
 					<ul>
 						<li>
 							<p>本次使用余额</p>
 							<p>
-								<input type="text" class="int-mini">
+								<input id="useBalance" type="text" class="int-mini">
 							</p>
 							<p>元</p>
 						</li>
 						<li>
 							<p>账户支付密码</p>
 							<p>
-								<input type="password" class="int-small">
+								<input id="userPassword" type="password" class="int-small">
 							</p>
 							<p>
-								<input type="button" class="slp-btn immedtl-btn" value="确认使用">
+								<input id="useBalanceBtn" type="button"
+									class="slp-btn immedtl-btn" value="确认使用">
 							</p>
 							<p class="color">
 								<A href="#">忘记密码</A>／<A href="#">未设置密码？</A>
@@ -174,12 +153,13 @@
 			<div class="recharge-bj-tow recharge-bj-three">
 				<!--白色背景-->
 				<div class="right-btn">
-					<input type="button" class="slp-btn topay-btn" value="去支付">
+					<input id="orderId" type=hidden value=${orderId}>
+					<input id="gotoPayBtn" type="button" class="slp-btn topay-btn"
+						value="去支付">
 				</div>
 			</div>
 
 		</div>
-	</div>
 	</div>
 	<!--底部-->
 	<%@ include file="/inc/foot.jsp"%>

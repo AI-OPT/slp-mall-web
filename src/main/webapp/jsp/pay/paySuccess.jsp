@@ -25,7 +25,7 @@
 		<div class="fsast-head">
 			<div class="fsast-logo">
 				<ul>
-					<li><a href="#"><img src="images/login-logo.png"></a></li>
+					<li><a href="#"><img src="${_slpbase }/images/login-logo.png"></a></li>
 					<li>快充支付</li>
 				</ul>
 			</div>
@@ -45,14 +45,14 @@
 		<!--支付成功-->
 		<div class="payment-success">
 			<p>
-				<img src="images/zhif-cg.png">
+				<img src="${_slpbase }/images/zhif-cg.png">
 			</p>
 			<p class="word">您的订单已经支付成功！</p>
 			<p>订单号：${orderId} 实付金额：${orderAmount}元</p>
 			<p class="alink">
 				<A href="#">查看订单</A>|<A href="#">账户中心</A>|<A href="#">返回首页</A>
 			</p>
-			<p class="blod">10秒后自动跳转至“我的订单”</p>
+			<p class="blod""><span id="timeAlartSp">10</span>秒后自动跳转至“我的订单”</p>
 			</ul>
 		</div>
 	</div>
@@ -63,8 +63,8 @@
 	<script type="text/javascript">
 		var pager;
 		(function() {
-			seajs.use('app/jsp/order/orderSubmit', function(OrderSubmitPager) {
-				pager = new OrderSubmitPager({
+			seajs.use('app/jsp/pay/paySuccess', function(PaySuccessPager) {
+				pager = new PaySuccessPager({
 					element : document.body
 				});
 				pager.render();

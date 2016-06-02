@@ -70,7 +70,7 @@ public class OrderController {
 			QueryOrderListResponse orderListResponse = iOrderListSV.queryOrderList(queryRequest);
 			ResponseHeader responseHeader = orderListResponse.getResponseHeader();
 			if(responseHeader.isSuccess()){
-				PageInfo<OrdOrderVo> pageInfo=orderListResponse.getPageInfo() ;
+				PageInfo<OrdOrderVo> pageInfo=null;
 				responseData = new ResponseData<PageInfo<OrdOrderVo>>(ExceptionCode.SUCCESS, "查询成功", pageInfo);
 			}else{
 				responseData = new ResponseData<PageInfo<OrdOrderVo>>(ExceptionCode.SYSTEM_ERROR, "查询失败", null);

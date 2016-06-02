@@ -1,4 +1,4 @@
-define('app/jsp/order/orderSubmit', function (require, exports, module) {
+define('app/jsp/pay/paySuccess', function (require, exports, module) {
     'use strict';
     var $=require('jquery'),
     Widget = require('arale-widget/1.2.0/widget'),
@@ -17,47 +17,35 @@ define('app/jsp/order/orderSubmit', function (require, exports, module) {
     //实例化AJAX控制处理对象
     var ajaxController = new AjaxController();
     //定义页面组件类
-    var OrderSubmitPager = Widget.extend({
+    var PaySuccessPager = Widget.extend({
     	
     	Implements:SendMessageUtil,
     	//属性，使用时由类的构造函数传入
     	attrs: {
     	},
     	Statics: {
-    		DEFAULT_PAGE_SIZE: 10
     	},
     	//事件代理
     	events: {
-    		//查询
-            "click #gotoPayBtn":"_gotoPayBtnClick"
         },
     	//重写父类
     	setup: function () {
-    		OrderListPager.superclass.setup.call(this);
+    		PaySuccessPager.superclass.setup.call(this);
+    		this._timeoutGo();
     	},
-    	_gotoPayBtnClick:function(){
-      		var	param={
-					orderId: $("#orderId").val(),
-					orderAmount:$("#adjustFee").val()
-				   };
-      		ajaxController.ajax({
-						type: "post",
-						dataType: "json",
-						processing: true,
-						message: "支付中，请等待...",
-						url: _base+"/pay/orderPay",
-						data:param,
-						success: function(data){
-							if(data.data){
-								
-							}
-						}
-					}
-      		);
-      	}
-    	
+    	_timeoutGo: function(){
+    		var i = 10;
+    		var myTimer = setInterval(function(){
+    			$('#timeAlartSp').text(i);
+    			i--;
+    			if(i == -1){
+        			clearInterval(myTimer);
+        			window.location.href = _base+"/order/list";
+        		}
+    		},1000);
+    	}
     });
     
-    module.exports = OrderSubmitPager
+    module.exports = PaySuccessPager
 });
 

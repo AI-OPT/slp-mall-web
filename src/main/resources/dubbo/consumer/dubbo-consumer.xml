@@ -26,7 +26,7 @@
 	<dubbo:protocol name="${dubbo.protocol}" port="${dubbo.protocol.port}" />
 	<dubbo:consumer timeout="${dubbo.provider.timeout}" />
 
-	<context:component-scan base-package="com.ai.baas" />
+	<context:component-scan base-package="com.ai.slp" />
 	
 	<dubbo:reference id="iAccountManageSV" 
 		interface="com.ai.opt.uac.api.account.interfaces.IAccountManageSV" 
@@ -72,7 +72,7 @@
 		registry="baasRegistry"
 		/>
 		
-	<dubbo:reference id="IOrderPaySV"
+	<dubbo:reference id="iOrderPaySV"
 		interface="com.ai.slp.order.api.orderpay.interfaces.IOrderPaySV"
 		registry="baasRegistry"
 		/>
