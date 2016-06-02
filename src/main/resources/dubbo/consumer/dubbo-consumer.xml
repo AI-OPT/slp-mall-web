@@ -76,4 +76,13 @@
 		interface="com.ai.slp.order.api.orderpay.interfaces.IOrderPaySV"
 		registry="baasRegistry"
 		/>
+		
+	<dubbo:reference id="iCreateSeqSV"
+		interface="com.ai.slp.user.api.seq.interfaces.ICreateSeqSV"/>
+		
+	<dubbo:reference id="sMSServices"
+		interface="com.ai.runner.center.mmp.api.manager.interfaces.SMSServices"/>
+	
+	<dubbo:reference id="iRegisterSV"
+		interface="com.ai.slp.user.api.register.interfaces.IRegisterSV"/>
 </beans>
