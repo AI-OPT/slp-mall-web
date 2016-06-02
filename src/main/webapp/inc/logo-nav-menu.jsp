@@ -4,8 +4,8 @@
       <!--搜索区-->
           <div class="searchBar">
               <ul class="searchTxt">
-                  <li><input type="text" class="int-xxlarge"></li>
-                  <li><A href="#"><i class="icon-search"></i></A></li>
+                  <li><input type="text" class="int-xxlarge" id="serachName"></li>
+                  <li><A href="#" id="BTN_SEARCH"><i class="icon-search"></i></A></li>
               </ul>
                <ul class="word">
                   <li><A href="#">搜索商品1</A></li>
@@ -33,6 +33,16 @@
 			(function () {
 				seajs.use('app/jsp/logonavmenu/logoNavMenu', function (HeadPager) {
 					pager = new HeadPager({element: document.body});
+					pager.render();
+				});
+			})();
+			
+		</script>
+		<script type="text/javascript">
+			var pager;
+			(function () {
+				seajs.use('app/jsp/search/search', function (SearchPager) {
+					pager = new SearchPager({element: document.body});
 					pager.render();
 				});
 			})();

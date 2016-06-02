@@ -49,6 +49,7 @@ define('app/jsp/producthome/productHome', function (require, exports, module) {
     		this._getFlowProduct();
     		this._getHotProduct();
     	},
+    	
     	_getPhoneBill:function(){
     		//类目
     		var oprator;
@@ -64,7 +65,7 @@ define('app/jsp/producthome/productHome', function (require, exports, module) {
       			$("#phoneOprator").val($("#phoneBillCucc").attr("opratorid"));
       		}
       		var	param={
-					areaCode:"81",  
+					areaCode:"11",  
 					productCatId: "10000010010000",	   
 					basicOrgIdIs:$("#phoneOprator").val()
 				   };
@@ -102,7 +103,7 @@ define('app/jsp/producthome/productHome', function (require, exports, module) {
           			$("#flowOprator").val($("#flowCucc").attr("opratorid"));
           		}
           		var	param={
-    					areaCode:"81",  
+    					areaCode:"11",  
     					productCatId: "10000010020000",	   
     					basicOrgIdIs:$("#flowOprator").val()
     				   };
@@ -151,7 +152,7 @@ define('app/jsp/producthome/productHome', function (require, exports, module) {
 				processing: true,
 				message: "查询中，请等待...",
 				url: _base+"/getHotProduct",
-				data:{areaCode:"81"},
+				data:{areaCode:"11"},
 				success: function(data){
 					if(data.data){
 						var template = $.templates("#hotTmpl");

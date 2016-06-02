@@ -29,7 +29,7 @@ define('app/jsp/product/searchProduct', function (require, exports, module) {
     	//事件代理
     	events: {
     		//查询
-            "click #BTN_SEARCH":"_searchBtnClick"
+            "click #BTN_SEARCH":"_search"
             //"click #thumbnailId":"_changeImage",
             //"click #crruntImageId":"_changeCurrentImage"
         },
@@ -37,8 +37,47 @@ define('app/jsp/product/searchProduct', function (require, exports, module) {
     	setup: function () {
     		QueryProductPager.superclass.setup.call(this);
     		//初始化执行搜索
-    		this._searchBtnClick(1,QueryProductPager.DEFAULT_PAGE_SIZE);
+    		var sourceFlag = $("#sourceFlag").val();
+    		var name = $("#skuName").val();
+    		$("#skuNameId").val(name);
+    		if(sourceFlag=="00"){
+    			this._search();
+    		}else{
+    			this._searchBtnClick();
+    		}
     		this._getHotProduct();
+    	},
+    	_search: function(){
+    		var	param={
+					areaCode:"81",  
+					skuName:$("#skuName").val()
+				   };
+    		var _this = this;
+    		var url = _base+"/search/commonSearch";
+    		$("#pagination-ul").runnerPagination({
+	 			url: url,
+	 			method: "POST",
+	 			dataType: "json",
+	 			processing: true,
+	            data : param,
+	           	pageSize: QueryProductPager.DEFAULT_PAGE_SIZE,
+	           	visiblePages:5,
+	            message: "正在为您查询数据..",
+	            render: function (data) {
+	            	if(data != null && data != 'undefined' && data.length>0){
+	            		var template = $.templates("#productListTemple");
+    					var htmlOutput = template.render(data);
+    					$("#productData").html(htmlOutput);
+	            	}else{
+    					$("#productData").html("没有搜索到相关信息");
+	            	}
+	            },
+	            callback: function(data){
+					 $("#totalcount").text(data.count);
+					 $("#pageno").text(data.pageNo);
+					 $("#pagecount").text(data.pageCount);
+				},
+    		});
     	},
     	_searchBtnClick: function(){
     		var	param={
