@@ -1,5 +1,6 @@
 package com.ai.slp.mall.web.controller.shopcart;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -18,6 +19,7 @@ import com.ai.opt.base.exception.BusinessException;
 import com.ai.opt.base.exception.SystemException;
 import com.ai.opt.sdk.dubbo.util.DubboConsumerFactory;
 import com.ai.opt.sdk.web.model.ResponseData;
+import com.ai.paas.ipaas.util.JSonUtil;
 import com.ai.slp.order.api.shopcart.interfaces.IShopCartSV;
 import com.ai.slp.order.api.shopcart.param.CartProd;
 import com.ai.slp.order.api.shopcart.param.CartProdInfo;
@@ -70,22 +72,25 @@ public class ShopCartController {
     @RequestMapping("/cartDetails")
     @ResponseBody
     public ModelAndView queryCartDetails(HttpServletRequest request){
-    	System.out.println(request.toString());
     	Map<String, Object> model = new HashMap<String, Object>();
     	try{
-    		String tenantId = request.getParameter("tenantId");
-    		String userId = request.getParameter("userId");
+//    		String tenantId = request.getParameter("tenantId");
+//    		String userId = request.getParameter("userId");
     		IShopCartSV iShopCartSV = DubboConsumerFactory.getService("IShopCartSV");
     		UserInfo userInfo = new UserInfo();
-    		userInfo.setTenantId(tenantId);
-            userInfo.setUserId(userId);
-            List<CartProdInfo> cartProdInfoList = iShopCartSV.queryCartOfUser(userInfo);
+    		userInfo.setTenantId("SLP");
+//            userInfo.setUserId(userId);
+//            List<CartProdInfo> cartProdInfoList = iShopCartSV.queryCartOfUser(userInfo);
+    		List<CartProdInfo> cartProdInfoList = new ArrayList<>();
             CartProdInfo cartProdInfo = new CartProdInfo();
+            cartProdInfo.setSkuId("111");
+            
             cartProdInfo.setBuyNum(3);
             cartProdInfo.setProductName("小黄鸭");
             cartProdInfo.setSalePrice(300l);
             cartProdInfoList.add(cartProdInfo);
-            model.put("cartProdList", cartProdInfoList);
+            String cartProdInfoJSON = JSonUtil.toJSon(cartProdInfoList);
+            model.put("cartProdList", cartProdInfoJSON);
     	}catch(Exception e){
     		e.printStackTrace();
     		LOG.error("查询购物车商品详情出错",e);
