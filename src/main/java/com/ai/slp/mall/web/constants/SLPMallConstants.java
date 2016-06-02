@@ -173,17 +173,19 @@ public final class SLPMallConstants {
 
         /** 邮件验证方式 */
         public static final String CHECK_TYPE_EMAIL = "2";
-
-        /** 邮件主题 */
-        public static final String EMAIL_SUBJECT = "绑定邮箱地址";
-
-        /** 邮箱模板路径 */
-        public static final String TEMPLATE_EMAIL_URL = "email/template/uac-bandemail-mail.xml";
-
-        /** 邮箱模板路径 */
+        /**邮件主题*/
+        public static final String EMAIL_SUBJECT="绑定邮箱地址";
+       
+        /**绑定邮箱邮箱模板路径*/
+        public static final String TEMPLATE_BAND_EMAIL_URL = "email/template/uac-bandemail-mail.xml";
+        
+        /**设置邮箱模板路径*/
         public static final String TEMPLATE_SETEMAIL_URL = "email/template/uac-setemail-mail.xml";
-
-        /** 缓存命名空间 */
+        
+        /**修改邮箱模板路径*/
+        public static final String TEMPLATE_UPDATE_EMAIL_URL = "email/template/uac-updateemail-mail.xml";
+        
+        /** 缓存命名空间*/
         public static final String CACHE_NAMESPACE = "com.ai.opt.uac.bandemail.cache";
 
         /** 邮箱验证码缓存key */
@@ -212,8 +214,18 @@ public final class SLPMallConstants {
 
         /** IP发送邮件次数key */
         public static final String CACHE_KEY_IP_SEND_EMAIL_NUM = "band-email-ip-send-email-num";
+        
+       /** 邮件未认证标志*/
+        public static final String EMAIL_NOT_CERTIFIED = "11";
+        /** 邮件已认证标志*/
+        public static final String EMAIL_CERTIFIED = "10";
+        /**
+         * 手机号已经注册
+         */
+        public static final String PHONE_NOTONE_ERROR="10003";
+        
     }
-
+    
     /**
      * 支付终端来源 Date: 2016年5月31日 <br>
      * Copyright (c) 2016 asiainfo.com <br>
@@ -318,5 +330,4 @@ public final class SLPMallConstants {
         public static final String NUMBER_RESERVE_OLREADY="105011";
         
     }
-
 }
