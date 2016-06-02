@@ -225,7 +225,8 @@ public final class SLPMallConstants {
          * 手机号已经注册
          */
         public static final String PHONE_NOTONE_ERROR="10003";
-        
+        /** 邮箱已经注册ID */
+        public static final String EMAIL_NOTONE_ERROR = "10004";
     }
     
     /**
@@ -331,5 +332,13 @@ public final class SLPMallConstants {
         //号码已经被预占
         public static final String NUMBER_RESERVE_OLREADY="105011";
         
+    }
+    
+    public static final class UUID{
+        private UUID(){}
+        /*** 失效时间*/
+        public static final int OVERTIME = 300;
+        /*** 失效时间*/
+        public static final String KEY_NAME = "k";
     }
 }
