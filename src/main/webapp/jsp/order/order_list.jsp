@@ -123,11 +123,12 @@
        <div class="order-list-bj">
            <!--选择订单信息 table-->
            <div class="order-list-table">
+           <input id="searchOrderState" value="" style="display:none"/>
            <ul>
-           <li><a href="#" class="current">全部</a></li>
-           <li><a href="#">待支付</a></li>
-           <li><a href="#">已成功</a></li>
-           <li><a href="#" style="border-right-style: none;">已关闭</a></li>
+           <li><a href="javascript:void(0)" class="current" id="state_0" onclick='pager._changeOrderState(this)'>全部</a></li>
+           <li><a href="javascript:void(0)" id="state_1" onclick='pager._changeOrderState(this,11)'>待支付</a></li>
+           <li><a href="javascript:void(0)" id="state_2" onclick='pager._changeOrderState(this,111)'>已成功</a></li>
+           <li><a href="javascript:void(0)" style="border-right-style: none;" id="state_3" onclick='pager._changeOrderState(this,91)'>已关闭</a></li>
            <!-- <p><a href="#"><i class="icon-trash"></i>订单回收站</a></p> -->
            </ul>                                        
            </div>
@@ -140,12 +141,12 @@
              <div class="shopping-cart addto-title">
             		 <table>
                         <tr class="order-bj-s">
-                            <td width="50%">商品信息</td>
+                            <td width="45%">商品信息</td>
                             <td width="10%">单价</td>
                             <td width="10%">数量</td>
                             <td width="10%">实付款</td>
                             <td width="10%">订单状态</td>
-                            <td width="15%">操作</td>
+                            <td width="20%">操作</td>
                         </tr>
                    </table>
              </div>
@@ -167,7 +168,7 @@
                                             </li>
                                                 <li>
                                                 <p>订单金额:</p>
-                                                <p>¥{{:adjustFee}}</p>
+                                                <p>¥{{:~liToYuan(adjustFee)}}</p>
                                             </li>
 											{{if state !='11'}}
 											<li>	
@@ -196,9 +197,9 @@
                                           </tr>
                                     </table>
                                 </td>
-                                <td class="ash" width="10%">¥{{:salePrice}}</td>
+                                <td class="ash" width="10%">¥{{:~liToYuan(salePrice)}}</td>
                                 <td width="10%">{{:buySum}}</td>
-                                <td width="10%" class="strong">¥{{:adjustFee}}</td>
+                                <td width="10%" class="strong">¥{{:~liToYuan(adjustFee)}}</td>
 								{{if #getIndex() == 0}}
                                 <td width="10%" rowspan="{{:~size}}"> 
                                     <div class="number">
@@ -206,7 +207,7 @@
                                     <p><a href="#">订单详情</a></p>
                                     </div>
                                 </td>
-                                <td width="15%" class="none-borer" rowspan="{{:~size}}">
+                                <td width="20%" class="none-borer" rowspan="{{:~size}}">
                                     <div class="number">
 									{{if ~parentState=='11'}}
                                     <p><input type="button" class="immedtl-btn" value="立即支付"></p>

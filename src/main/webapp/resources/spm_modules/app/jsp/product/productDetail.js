@@ -33,6 +33,8 @@ define('app/jsp/product/productDetail', function (require, exports, module) {
             "change #productQty":"_modifyProductQty",
             //增加数量
             "click #addQtyBtn":"_addProductQty",
+            //查看更多配置信息
+            "click #seeMoreConfigBtn":"_seeMoreConfig",
             //加入购物车
             "click #joinShopCart":"_joinShopCartClick"
         },
@@ -42,6 +44,7 @@ define('app/jsp/product/productDetail', function (require, exports, module) {
     		this._renderProducSKUTemple();
     		this._renderImageBigTemple();
     		this._renderImageSmallTemple();
+    		
     		this._controlActiveDate();
     		this._controlBtn();
     		this._getHotProduct();
@@ -64,6 +67,9 @@ define('app/jsp/product/productDetail', function (require, exports, module) {
     		var template = $.templates("#producSKUTemple");
 			var htmlOutput = template.render(producSKU);
 			$("#producSKUData").html(htmlOutput);
+    	},
+    	_renderProductInfo:function(){
+    		$("#porductInfoDiv").html(producSKU.proDetailContent);
     	},
     	//控制按钮
     	_controlBtn:function(){
@@ -142,6 +148,12 @@ define('app/jsp/product/productDetail', function (require, exports, module) {
         	var re = /^[1-9][0-9]*$/ ; 
         	return re.test(num) 
         },
+        _seeMoreConfig:function(){
+        	$("#productInfoTab").removeClass("current");
+        	$("#productConfigTab").attr("class","current");
+        	this._displayHideUI("date1");
+        	this._displayShowUI("date2");
+        },
         _getHotProduct:function(){
       		ajaxController.ajax({
 						type: "post",
@@ -173,6 +185,10 @@ define('app/jsp/product/productDetail', function (require, exports, module) {
 								var template = $.templates("#configParameterTemple");
 								var htmlOut = template.render(data.data);
 								$("#configParameterData").html(htmlOut);
+								
+								var template2 = $.templates("#configBriefParameterTemple");
+								var htmlOut2 = template2.render(data.data);
+								$("#configBriefParameterData").html(htmlOut2);
 							}
 						}
 					}

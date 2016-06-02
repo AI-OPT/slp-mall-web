@@ -66,6 +66,12 @@ define('app/jsp/order/orderList', function (require, exports, module) {
 				beginCalendar.range([null,endDate]);
 			}
 		},
+		_changeOrderState:function(orderStateDiv,state){
+			$(".order-list-table a").removeClass("current");
+			orderStateDiv.className="current";
+			$("#searchOrderState").val(state);
+			this._searchOrderList();
+		},
 		_getSysDate:function(){
 			var sysDate = new Date();
   			var year = sysDate.getFullYear();    //获取完整的年份(4位,1970-????)
@@ -152,7 +158,8 @@ define('app/jsp/order/orderList', function (require, exports, module) {
     			"orderId":jQuery.trim($("#orderId").val()),
     			"orderTimeBegin":jQuery.trim($("#orderTimeBegin").val()),
     			"orderTimeEnd":jQuery.trim($("#orderTimeEnd").val()),
-    			"payStyle":jQuery.trim($("#payStyle option:selected").val())
+    			"payStyle":jQuery.trim($("#payStyle option:selected").val()),
+    			"state":jQuery.trim($("#searchOrderState").val())
     		}
     	}
     });
