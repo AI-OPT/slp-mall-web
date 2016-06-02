@@ -177,13 +177,13 @@ public final class SLPMallConstants {
         public static final String EMAIL_SUBJECT="绑定邮箱地址";
        
         /**绑定邮箱邮箱模板路径*/
-        public static final String TEMPLATE_BAND_EMAIL_URL = "email/template/uac-bandemail-mail.xml";
+        public static final String TEMPLATE_BAND_EMAIL_URL = "email/template/user-bandemail-mail.xml";
         
         /**设置邮箱模板路径*/
-        public static final String TEMPLATE_SETEMAIL_URL = "email/template/uac-setemail-mail.xml";
+        public static final String TEMPLATE_SETEMAIL_URL = "email/template/user-setemail-mail.xml";
         
         /**修改邮箱模板路径*/
-        public static final String TEMPLATE_UPDATE_EMAIL_URL = "email/template/uac-updateemail-mail.xml";
+        public static final String TEMPLATE_UPDATE_EMAIL_URL = "email/template/user-updateemail-mail.xml";
         
         /** 缓存命名空间*/
         public static final String CACHE_NAMESPACE = "com.ai.opt.uac.bandemail.cache";
