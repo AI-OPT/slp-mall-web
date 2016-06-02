@@ -19,8 +19,8 @@ import com.ai.paas.ipaas.ccs.IConfigClient;
 import com.ai.paas.ipaas.mcs.interfaces.ICacheClient;
 import com.ai.runner.center.mmp.api.manager.interfaces.SMSServices;
 import com.ai.runner.center.mmp.api.manager.param.SMDataInfoNotify;
+import com.ai.slp.mall.web.constants.SLPMallConstants.ExceptionCode;
 import com.ai.slp.mall.web.constants.VerifyConstants;
-import com.ai.slp.mall.web.constants.Constants.ResultCode;
 import com.ai.slp.mall.web.constants.VerifyConstants.PictureVerifyConstants;
 import com.ai.slp.mall.web.constants.VerifyConstants.ResultCodeConstants;
 import com.ai.slp.mall.web.model.user.SendEmailRequest;
@@ -134,7 +134,7 @@ public final class VerifyUtil {
         if (msgSeqResponse != null) {
             ResponseHeader responseHeader = msgSeqResponse.getResponseHeader();
             String resultCode = responseHeader.getResultCode();
-            if (ResultCode.SUCCESS_CODE.equals(resultCode)) {
+            if (ExceptionCode.SUCCESS.equals(resultCode)) {
                 return msgSeqResponse.getMsgSeqId();
             }
         }
