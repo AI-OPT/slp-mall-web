@@ -32,9 +32,9 @@ import com.ai.paas.ipaas.ccs.IConfigClient;
 import com.ai.paas.ipaas.mcs.interfaces.ICacheClient;
 import com.ai.runner.center.mmp.api.manager.param.SMData;
 import com.ai.runner.center.mmp.api.manager.param.SMDataInfoNotify;
-import com.ai.slp.mall.web.constants.Constants;
-import com.ai.slp.mall.web.constants.Constants.ResultCode;
+import com.ai.slp.mall.web.constants.SLPMallConstants;
 import com.ai.slp.mall.web.constants.SLPMallConstants.BandEmail;
+import com.ai.slp.mall.web.constants.SLPMallConstants.ExceptionCode;
 import com.ai.slp.mall.web.constants.VerifyConstants;
 import com.ai.slp.mall.web.constants.VerifyConstants.EmailVerifyConstants;
 import com.ai.slp.mall.web.constants.VerifyConstants.PhoneVerifyConstants;
@@ -209,7 +209,7 @@ public class VerifyController {
                 smDataInfoNotify.setDataList(dataList);
                 smDataInfoNotify.setMsgSeq(VerifyUtil.createPhoneMsgSeq());
                 smDataInfoNotify.setTenantId("0");
-                smDataInfoNotify.setSystemId(Constants.SYSTEM_ID);
+                smDataInfoNotify.setSystemId(SLPMallConstants.SYSTEM_ID);
                 boolean flag = VerifyUtil.sendPhoneInfo(smDataInfoNotify);
                 if (flag) {
                     // 成功
@@ -318,8 +318,8 @@ public class VerifyController {
         // 用户信息放入缓存
         String uuid = UUIDUtil.genId32();
         SSOClientUser userClient = (SSOClientUser) request.getSession().getAttribute(SSOClientConstants.USER_SESSION_KEY);
-        CacheUtil.setValue(uuid, Constants.UUID.OVERTIME, userClient, Constants.BandEmail.CACHE_NAMESPACE);
-        responseData = new ResponseData<String>(ResponseData.AJAX_STATUS_SUCCESS, "正确", "/center/bandEmail/setEmail?" + Constants.UUID.KEY_NAME + "=" + uuid);
+        CacheUtil.setValue(uuid, SLPMallConstants.UUID.OVERTIME, userClient, BandEmail.CACHE_NAMESPACE);
+        responseData = new ResponseData<String>(ResponseData.AJAX_STATUS_SUCCESS, "正确", "/center/bandEmail/setEmail?" + SLPMallConstants.UUID.KEY_NAME + "=" + uuid);
         ResponseHeader responseHeader = new ResponseHeader(true, VerifyConstants.ResultCodeConstants.SUCCESS_CODE, "正确");
         responseData.setResponseHeader(responseHeader);
         return responseData;
@@ -347,8 +347,8 @@ public class VerifyController {
     @ResponseBody
     public ResponseData<String> sendEmail(HttpServletRequest request, String email,String emailType) {
         ResponseData<String> responseData = null;
-        String uuid = request.getParameter(Constants.UUID.KEY_NAME);
-        SLPClientUser userClient = (SLPClientUser) CacheUtil.getValue(uuid, Constants.BandEmail.CACHE_NAMESPACE, SLPClientUser.class);
+        String uuid = request.getParameter(SLPMallConstants.UUID.KEY_NAME);
+        SLPClientUser userClient = (SLPClientUser) CacheUtil.getValue(uuid, BandEmail.CACHE_NAMESPACE, SLPClientUser.class);
         IConfigClient configClient = CCSClientFactory.getDefaultConfigClient();
         try {
                 // 检查ip发送验证码次数
@@ -417,8 +417,8 @@ public class VerifyController {
     public ResponseData<String> sendEmailVerifyCode(HttpServletRequest request, String email,String emailType) {
         ResponseData<String> responseData = null;
         ResponseHeader responseHeader = null;
-        String uuid = request.getParameter(Constants.UUID.KEY_NAME);
-        SLPClientUser userClient = (SLPClientUser) CacheUtil.getValue(uuid, Constants.BandEmail.CACHE_NAMESPACE, SLPClientUser.class);
+        String uuid = request.getParameter(SLPMallConstants.UUID.KEY_NAME);
+        SLPClientUser userClient = (SLPClientUser) CacheUtil.getValue(uuid, SLPMallConstants.BandEmail.CACHE_NAMESPACE, SLPClientUser.class);
         IConfigClient configClient = CCSClientFactory.getDefaultConfigClient();
         try {
             if (userClient == null) {
@@ -523,8 +523,8 @@ public class VerifyController {
     public ResponseData<String> setNewEmail(HttpServletRequest request, String email, String verifyCode) {
         ResponseData<String> responseData = null;
         ResponseHeader responseHeader = null;
-        String uuid = request.getParameter(Constants.UUID.KEY_NAME);
-        SSOClientUser userClient = (SSOClientUser) CacheUtil.getValue(uuid, Constants.BandEmail.CACHE_NAMESPACE, SSOClientUser.class);
+        String uuid = request.getParameter(SLPMallConstants.UUID.KEY_NAME);
+        SSOClientUser userClient = (SSOClientUser) CacheUtil.getValue(uuid, BandEmail.CACHE_NAMESPACE, SSOClientUser.class);
         if (userClient == null) {
             responseData = new ResponseData<String>(ResponseData.AJAX_STATUS_SUCCESS, "身份认证失效", "/center/bandEmail/confirminfo");
             responseHeader = new ResponseHeader(false, VerifyConstants.ResultCodeConstants.USER_INFO_NULL, "认证身份失效");
@@ -546,15 +546,15 @@ public class VerifyController {
                 accountEmailRequest.setEmail(email);
                 accountEmailRequest.setUpdateAccountId(userClient.getAccountId());
                 BaseResponse resultData = accountSecurityManageSV.setEmailData(accountEmailRequest);
-                if (ResultCode.SUCCESS_CODE.equals(resultData.getResponseHeader().getResultCode())) {
+                if (ExceptionCode.SUCCESS.equals(resultData.getResponseHeader().getResultCode())) {
                     String newuuid = UUIDUtil.genId32();
                     userClient.setEmail(email);// 更改为新邮箱
-                    CacheUtil.setValue(newuuid, Constants.UUID.OVERTIME, userClient, Constants.BandEmail.CACHE_NAMESPACE);
-                    responseData = new ResponseData<String>(ResponseData.AJAX_STATUS_SUCCESS, "修改邮箱成功", "/center/bandEmail/success?" + Constants.UUID.KEY_NAME + "=" + newuuid);
+                    CacheUtil.setValue(newuuid, SLPMallConstants.UUID.OVERTIME, userClient, BandEmail.CACHE_NAMESPACE);
+                    responseData = new ResponseData<String>(ResponseData.AJAX_STATUS_SUCCESS, "修改邮箱成功", "/center/bandEmail/success?" + SLPMallConstants.UUID.KEY_NAME + "=" + newuuid);
                     responseHeader = new ResponseHeader(true, VerifyConstants.ResultCodeConstants.SUCCESS_CODE, "修改邮箱成功");
                     responseData.setResponseHeader(responseHeader);
-                    CacheUtil.deletCache(uuid, Constants.BandEmail.CACHE_NAMESPACE);
-                } else if (ResultCode.EMAIL_NOTONE_ERROR.equals(resultData.getResponseHeader().getResultCode())) {
+                    CacheUtil.deletCache(uuid, BandEmail.CACHE_NAMESPACE);
+                } else if (BandEmail.EMAIL_NOTONE_ERROR.equals(resultData.getResponseHeader().getResultCode())) {
                     responseData = new ResponseData<String>(ResponseData.AJAX_STATUS_SUCCESS, "该邮箱已经被注册，请使用其它邮箱", null);
                     responseHeader = new ResponseHeader(true, VerifyConstants.ResultCodeConstants.EMAIL_ERROR, "该邮箱已经被注册，请使用其它邮箱");
                     responseData.setResponseHeader(responseHeader);
