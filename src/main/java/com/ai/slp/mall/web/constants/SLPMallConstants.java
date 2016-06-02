@@ -4,6 +4,8 @@ public final class SLPMallConstants {
     private SLPMallConstants() {
     }
 
+    public static final String SYSTEM_ID = "opt-uac";
+    
     public static final String PAGESIZE = "pageSize";
 
     public static final String PAGENO = "pageNo";
