@@ -129,7 +129,7 @@
                            <p><input id="productQty" type="text" class="details-int" value="1"></p>
                            <p><input id="addQtyBtn"type="button" class="details-jia" value="+"></p>
                        </li>
-					   <li class="word">库存:<li><li id="usableNum">{{:usableNum}}</li>
+					   <li class="right"><span class="word1">库存:</span><span id="usableNum">{{:usableNum}}</span></li>
                    	</ul>
                    	<ul class="details-list">
                        <li class="word">销量：</li>
@@ -140,7 +140,7 @@
                    <ul class="details-list btm-magin">
                    <li class="btn-mar" id="buyBtnId"><input type="button" class="slp-btn details-btn" value="立即购买"></li>
                    <li id="addCarBtnId"><input type="button" class="slp-btn details-btn" id="joinShopCart" value="加入购物车"></li>
-                   <li id="invalidBtnId" ><input type="button" class="slp--ash-btn" value="已下架"></li>
+                   <li id="invalidBtnId" ><input id="invalidBtn" type="button" class="slp--ash-btn" value="已下架"></li>
                    </ul>
                
                </div>

@@ -68,10 +68,19 @@ define('app/jsp/product/productDetail', function (require, exports, module) {
     	//控制按钮
     	_controlBtn:function(){
     		if(producSKU.state == 1){
-    			this._displayShowUI("buyBtnId");
-    			this._displayShowUI("addCarBtnId");
-    			this._displayHideUI("invalidBtnId");
+    			var usableNum = Number($("#usableNum").text());
+    			if(usableNum<=0){
+    				$("#invalidBtn").val("无货");
+    				this._displayHideUI("buyBtnId");
+        			this._displayHideUI("addCarBtnId");
+        			this._displayShowUI("invalidBtnId");
+    			}else{
+	    			this._displayShowUI("buyBtnId");
+	    			this._displayShowUI("addCarBtnId");
+	    			this._displayHideUI("invalidBtnId");
+    			}
     		}else{
+    			$("#invalidBtn").val("已下架");
     			this._displayHideUI("buyBtnId");
     			this._displayHideUI("addCarBtnId");
     			this._displayShowUI("invalidBtnId");
