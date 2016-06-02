@@ -134,7 +134,7 @@
                    	<ul class="details-list">
                        <li class="word">销量：</li>
                        <li>{{:saleNum}}</li>
-                       <li class="right"><span class="word1">评价：</span><span>{{:commentNum}}</span></li>
+                       <!--<li class="right"><span class="word1">评价：</span><span>{{:commentNum}}</span></li>-->
                    	</ul>
 					</script>
                    <ul class="details-list btm-magin">
@@ -175,60 +175,46 @@
         <div class="parameter-right">
               <div class="parameter-right-tilit">
                   <ul>
-                      <li class="current">商品详情</li>
-                      <li>规格参数</li>
+                      <li class="current" id="productInfoTab">商品详情</li>
+                      <li id="productConfigTab">规格参数</li>
                   </ul>                  
               </div>
               <div id="date1">
                   <div class="commodity-word">
-                      <ul>
-                          <li>
-                              <p>运营商:</p>
-                              <p>中国移动</p>
-                          </li>
-                           <li>
-                              <p>归属地:</p>
-                              <p>北京</p>
-                          </li>
-                           <li>
-                              <p>充值面额:</p>
-                              <p>50元</p>
-                          </li>
-                           <li>
-                              <p>有效期:</p>
-                              <p>2016-5-8 10:30</p>
-                          </li>
-                           <li>
-                              <p>充值方式:</p>
-                              <p>自动快充</p>
-                          </li>
+                      <ul id="configBriefParameterData">
                       </ul>
-                      
+                      <script id="configBriefParameterTemple" type="text/template">
+							{{if #index<6}}
+							<li>
+                               <p>{{:attrName}}:</p>
+                               {{for attrValueList}}
+                               <p>{{:attrValueName}}</p>
+							   {{/for}}
+                            </li>
+							{{/if}}
+				  	  </script>
                       <ul>
-                      <li class="worde"><a href="#">更多参数</a></li>
+                      <li class="worde"><a href="javascript:void(0);" id="seeMoreConfigBtn" >更多参数</a></li>
                       </ul>
                   </div>
                    
-                  <div class="commodity-list">
-                      <p><A href="#"><img src="${_slpbase }/images/parameter-a.png"></A></p>
-                      <p><img src="${_slpbase }/images/parameter-b.png"></p>
-                      <p><img src="${_slpbase }/images/parameter-c.png"></p>
-                      <p><img src="${_slpbase }/images/parameter-d.jpg"></p>
-                      <p><img src="${_slpbase }/images/parameter-e.png"></p>
+                  <div class="commodity-list" id="porductInfoDiv">
+                  	${productInfo}
                   </div>
         		</div>
                 <div id="date2" style=" display:none;">
                    <div class="specification">
                        	<ul id="configParameterData">
 						</ul>
-                      	<script id="configParameterTemple" type="text/template">
-							<li>
-                               <p class="word">{{:configName}}</p>
-                               <p>{{:configValue}}</p>
-                            </li>
-						</script>
                    </div>
-                  
+                  <script id="configParameterTemple" type="text/template">
+							<li>
+                               <p class="word">{{:attrName}}</p>
+							   {{for attrValueList}}
+                               <p>{{:attrValueName}}</p>
+							   {{/for}}
+                            </li>
+				  </script>
                   
         		</div>
          
