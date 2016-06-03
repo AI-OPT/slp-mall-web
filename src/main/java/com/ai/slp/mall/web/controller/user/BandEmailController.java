@@ -1,15 +1,9 @@
 package com.ai.slp.mall.web.controller.user;
 
-import java.awt.image.BufferedImage;
-import java.io.IOException;
 import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
 import java.util.Map;
 
-import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang.ObjectUtils;
 import org.slf4j.Logger;
@@ -33,16 +27,12 @@ import com.ai.opt.sso.client.filter.SSOClientConstants;
 import com.ai.opt.sso.client.filter.SSOClientUser;
 import com.ai.paas.ipaas.ccs.IConfigClient;
 import com.ai.paas.ipaas.mcs.interfaces.ICacheClient;
-import com.ai.runner.center.mmp.api.manager.param.SMData;
-import com.ai.runner.center.mmp.api.manager.param.SMDataInfoNotify;
 import com.ai.slp.mall.web.constants.SLPMallConstants;
 import com.ai.slp.mall.web.constants.SLPMallConstants.BandEmail;
 import com.ai.slp.mall.web.constants.SLPMallConstants.ExceptionCode;
 import com.ai.slp.mall.web.constants.VerifyConstants;
 import com.ai.slp.mall.web.constants.VerifyConstants.EmailVerifyConstants;
-import com.ai.slp.mall.web.constants.VerifyConstants.PhoneVerifyConstants;
 import com.ai.slp.mall.web.constants.VerifyConstants.ResultCodeConstants;
-import com.ai.slp.mall.web.model.user.AccountData;
 import com.ai.slp.mall.web.model.user.SafetyConfirmData;
 import com.ai.slp.mall.web.model.user.SendEmailRequest;
 import com.ai.slp.mall.web.util.CacheUtil;
@@ -63,268 +53,27 @@ public class BandEmailController {
     @RequestMapping("/securitySettings")
     public ModelAndView securitySettings(HttpServletRequest request) {
        SLPClientUser userClient = (SLPClientUser) request.getSession().getAttribute(SSOClientConstants.USER_SESSION_KEY);
-        if (userClient != null) {
-            /*Map<String, AccountData> model = new HashMap<String, AccountData>();
-            String phone = userClient.getUserMp();
-            String email = userClient.getUserEmail();
-            AccountData confirmInfo = new AccountData(phone, email);
-            model.put("confirmInfo", confirmInfo);
-            if (StringUtil.isBlank(email)) {
-                return new ModelAndView("jsp/center/band-email-start", model);
-            } else {
-                return new ModelAndView("redirect:/center/email/confirminfo");
-            }**/
-            IUcUserSV ucUserSV = DubboConsumerFactory.getService("iUcUserSV");
-            SearchUserRequest reachUserRequest = new SearchUserRequest();
-            reachUserRequest.setUserId(userClient.getUserId());
-            SearchUserResponse response = ucUserSV.queryBaseInfo(reachUserRequest);
-            Map<String, SearchUserResponse> model = new HashMap<String, SearchUserResponse>();
-            model.put("userInfo", response);
-            return new ModelAndView("jsp/user/security_settings", model);
-        } else {
-            return new ModelAndView("jsp/user/security_settings");
-        }
+       IUcUserSV ucUserSV = DubboConsumerFactory.getService("iUcUserSV");
+       SearchUserRequest reachUserRequest = new SearchUserRequest();
+       reachUserRequest.setUserId(userClient.getUserId());
+       SearchUserResponse response = ucUserSV.queryBaseInfo(reachUserRequest);
+       Map<String, SearchUserResponse> model = new HashMap<String, SearchUserResponse>();
+       model.put("userInfo", response);
+       return new ModelAndView("jsp/user/security_settings", model);
     }
     
     
     @RequestMapping("/bandEmailStart")
     public ModelAndView bandEmailStart(HttpServletRequest request) {
+        String uuid = UUIDUtil.genId32();
         SLPClientUser userClient = (SLPClientUser) request.getSession().getAttribute(SSOClientConstants.USER_SESSION_KEY);
-        if (userClient != null) {
-            Map<String, AccountData> model = new HashMap<String, AccountData>();
-            String phone = userClient.getUserMp();
-            String email = userClient.getUserEmail();
-            AccountData confirmInfo = new AccountData(phone, email);
-            model.put("confirmInfo", confirmInfo);
-            if (StringUtil.isBlank(email)) {
-                return new ModelAndView("jsp/user/band-email-start", model);
-            } else {
-                return new ModelAndView("redirect:/user/email/confirminfo");
-            }
-        } else {
-            return new ModelAndView("jsp/user/band-email-start");
-        }
+        CacheUtil.setValue(uuid, SLPMallConstants.UUID.OVERTIME, userClient, BandEmail.CACHE_NAMESPACE);
+        Map<String,String> model = new HashMap<String,String>();
+        model.put("uuid", uuid);
+        model.put("confirminfo", "");
+        return new ModelAndView("jsp/user/email/band-email-start",model);
     }
 
-    @RequestMapping("/getImageVerifyCode")
-    @ResponseBody
-    public void getImageVerifyCode(HttpServletRequest request, HttpServletResponse response) {
-        String cacheKey = BandEmail.CACHE_KEY_VERIFY_PICTURE + request.getSession().getId();
-        BufferedImage image = VerifyUtil.getImageVerifyCode(BandEmail.CACHE_NAMESPACE, cacheKey, 100, 38);
-        try {
-            ImageIO.write(image, "PNG", response.getOutputStream());
-        } catch (IOException e) {
-            LOGGER.error("生成图片验证码错误：" + e);
-            e.printStackTrace();
-        }
-    }
-
-    /**
-     * 发送验证码
-     * 
-     * @return
-     */
-    @RequestMapping("/sendVerify")
-    @ResponseBody
-    public ResponseData<String> sendVerify(HttpServletRequest request, String confirmType) {
-        SLPClientUser userClient = (SLPClientUser) request.getSession().getAttribute(SSOClientConstants.USER_SESSION_KEY);
-        ResponseData<String> responseData = null;
-        String sessionId = request.getSession().getId();
-        IConfigClient defaultConfigClient = CCSClientFactory.getDefaultConfigClient();
-        try {
-           // if (userClient != null) {
-                if (BandEmail.CHECK_TYPE_PHONE.equals(confirmType)) {
-                    // 检查ip发送验证码次数
-                    ResponseData<String> checkIpSendPhone = VerifyUtil.checkIPSendPhoneCount(BandEmail.CACHE_NAMESPACE, IPUtil.getIp(request)
-                            + BandEmail.CACHE_KEY_IP_SEND_PHONE_NUM);
-                    if (!checkIpSendPhone.getResponseHeader().isSuccess()) {
-                        return checkIpSendPhone;
-                    }
-                    // 发送手机验证码
-                    String isSuccess = sendPhoneVerifyCode(sessionId, userClient);
-                    if ("0000".equals(isSuccess)) {
-                        responseData = new ResponseData<String>(ResponseData.AJAX_STATUS_SUCCESS, "短信验证码发送成功", null);
-                        ResponseHeader header = new ResponseHeader();
-                        header.setIsSuccess(true);
-                        header.setResultCode(ResultCodeConstants.SUCCESS_CODE);
-                        responseData.setResponseHeader(header);
-                        return responseData;
-                    } else if ("0002".equals(isSuccess)) {
-                        String maxTimeStr = defaultConfigClient.get(PhoneVerifyConstants.SEND_VERIFY_MAX_TIME_KEY);
-                        int maxTime = Integer.valueOf(maxTimeStr) / 60;
-                        String errorMsg = maxTime + "分钟内不可重复发送";
-                        responseData = new ResponseData<String>(ResponseData.AJAX_STATUS_SUCCESS, errorMsg, null);
-                        ResponseHeader header = new ResponseHeader();
-                        header.setIsSuccess(false);
-                        header.setResultCode(ResultCodeConstants.REGISTER_VERIFY_ERROR);
-                        header.setResultMessage(errorMsg);
-                        responseData.setResponseHeader(header);
-                        return responseData;
-                    } else {
-                        responseData = new ResponseData<String>(ResponseData.AJAX_STATUS_FAILURE, "短信验证码发送失败", null);
-                        ResponseHeader header = new ResponseHeader();
-                        header.setIsSuccess(false);
-                        header.setResultCode(ResultCodeConstants.ERROR_CODE);
-                        responseData.setResponseHeader(header);
-                        return responseData;
-                    }
-
-                } else if (BandEmail.CHECK_TYPE_EMAIL.equals(confirmType)) {
-                    // 检查ip发送验证码次数
-                    ResponseData<String> checkIpSendEmail = VerifyUtil.checkIPSendEmailCount(BandEmail.CACHE_NAMESPACE, IPUtil.getIp(request)
-                            + BandEmail.CACHE_KEY_IP_SEND_EMAIL_NUM);
-                    if (!checkIpSendEmail.getResponseHeader().isSuccess()) {
-                        return checkIpSendEmail;
-                    }
-                    // 发送邮件验证码
-                    String isSuccess = sendEmailVerifyCode(sessionId, userClient);
-                    if ("0000".equals(isSuccess)) {
-                        responseData = new ResponseData<String>(ResponseData.AJAX_STATUS_SUCCESS, "验证码发送成功", null);
-                        ResponseHeader header = new ResponseHeader(true, ResultCodeConstants.SUCCESS_CODE, "验证码发送成功");
-                        responseData.setResponseHeader(header);
-                        return responseData;
-                    } else if ("0002".equals(isSuccess)) {
-                        String maxTimeStr = defaultConfigClient.get(EmailVerifyConstants.SEND_VERIFY_MAX_TIME_KEY);
-                        int maxTime = Integer.valueOf(maxTimeStr) / 60;
-                        String errorMsg = maxTime + "分钟内不可重复发送";
-                        responseData = new ResponseData<String>(ResponseData.AJAX_STATUS_SUCCESS, errorMsg, null);
-                        ResponseHeader header = new ResponseHeader();
-                        header.setIsSuccess(false);
-                        header.setResultCode(ResultCodeConstants.REGISTER_VERIFY_ERROR);
-                        header.setResultMessage(errorMsg);
-                        responseData.setResponseHeader(header);
-                        return responseData;
-                    } else {
-                        responseData = new ResponseData<String>(ResponseData.AJAX_STATUS_FAILURE, "短信验证码发送失败", null);
-                        ResponseHeader header = new ResponseHeader();
-                        header.setIsSuccess(false);
-                        header.setResultCode(ResultCodeConstants.ERROR_CODE);
-                        responseData.setResponseHeader(header);
-                        return responseData;
-                    }
-                } else {
-                    responseData = new ResponseData<String>(ResponseData.AJAX_STATUS_FAILURE, "验证码发送失败", null);
-                    ResponseHeader responseHeader = new ResponseHeader(false, VerifyConstants.ResultCodeConstants.ERROR_CODE, "验证码发送失败");
-                    responseData.setResponseHeader(responseHeader);
-                    return responseData;
-                }
-           /* } else {
-                responseData = new ResponseData<String>(ResponseData.AJAX_STATUS_SUCCESS, "认证信息失效", "/center/bandEmail/confirminfo");
-                ResponseHeader responseHeader = new ResponseHeader(false, VerifyConstants.ResultCodeConstants.USER_INFO_NULL, "认证信息失效");
-                responseData.setResponseHeader(responseHeader);
-                return responseData;
-            }*/
-        } catch (Exception e) {
-            LOGGER.error("发送验证码错误：" + e);
-        }
-        return responseData;
-    }
-
-    /**
-     * 发送手机验证码
-     * 
-     * @param userClient
-     */
-    private String sendPhoneVerifyCode(String sessionId, SLPClientUser userClient) {
-        SMDataInfoNotify smDataInfoNotify = new SMDataInfoNotify();
-        String phoneVerifyCode = RandomUtil.randomNum(PhoneVerifyConstants.VERIFY_SIZE);
-        // 查询是否发送过短信
-        String smstimes = "1";
-        String smskey = BandEmail.CACHE_KEY_CONFIRM_SEND_PHONE_NUM + "13718206604";
-        ICacheClient cacheClient = MCSClientFactory.getCacheClient(BandEmail.CACHE_NAMESPACE);
-        IConfigClient configClient = CCSClientFactory.getDefaultConfigClient();
-        String times = cacheClient.get(smskey);
-        try {
-            if (StringUtil.isBlank(times)) {
-                // 将验证码放入缓存
-                String cacheKey = BandEmail.CACHE_KEY_VERIFY_PHONE + sessionId;
-                String overTimeStr = configClient.get(PhoneVerifyConstants.VERIFY_OVERTIME_KEY);
-                cacheClient.setex(cacheKey, Integer.valueOf(overTimeStr), phoneVerifyCode);
-                // 将发送次数放入缓存
-                String maxTimeStr = configClient.get(PhoneVerifyConstants.SEND_VERIFY_MAX_TIME_KEY);
-                cacheClient.setex(smskey, Integer.valueOf(maxTimeStr), smstimes);
-                // 设置短息信息
-                List<SMData> dataList = new LinkedList<SMData>();
-                SMData smData = new SMData();
-                smData.setGsmContent("${VERIFY}:" + phoneVerifyCode + "^${VALIDMINS}:" + Integer.valueOf(overTimeStr) / 60);
-                //smData.setPhone(userClient.getUserMp());
-                smData.setPhone("13718206604");
-                smData.setTemplateId(PhoneVerifyConstants.TEMPLATE_RETAKE_PASSWORD_ID);
-                smData.setServiceType(PhoneVerifyConstants.SERVICE_TYPE);
-                dataList.add(smData);
-                smDataInfoNotify.setDataList(dataList);
-                smDataInfoNotify.setMsgSeq(VerifyUtil.createPhoneMsgSeq());
-                //smDataInfoNotify.setTenantId(userClient.getTenantId());
-                smDataInfoNotify.setTenantId("0");
-                smDataInfoNotify.setSystemId(SLPMallConstants.SYSTEM_ID);
-                boolean flag = VerifyUtil.sendPhoneInfo(smDataInfoNotify);
-                if (flag) {
-                    // 成功
-                    return "0000";
-                } else {
-                    // 失败
-                    return "0001";
-                }
-            } else {
-                // 已发送
-                return "0002";
-            }
-        } catch (Exception e) {
-            LOGGER.error("发送验证码错误：" + e);
-        }
-        return null;
-    }
-
-    /**
-     * 发送邮件验证码
-     * 
-     * @param accountInfo
-     */
-    private String sendEmailVerifyCode(String sessionId, SLPClientUser userClient) {
-        // 查询是否发送过短信
-        String smstimes = "1";
-        String smskey = BandEmail.CACHE_KEY_CONFIRM_SEND_EMAIL_NUM + userClient.getUserEmail();
-        ICacheClient cacheClient = MCSClientFactory.getCacheClient(BandEmail.CACHE_NAMESPACE);
-        IConfigClient configClient = CCSClientFactory.getDefaultConfigClient();
-        String times = cacheClient.get(smskey);
-        try {
-            if (StringUtil.isBlank(times)) {
-                // 邮箱验证
-                String email = userClient.getUserEmail();
-                String nickName = userClient.getUserNickname();
-                SendEmailRequest emailRequest = new SendEmailRequest();
-                emailRequest.setTomails(new String[] { email });
-                emailRequest.setTemplateURL(BandEmail.TEMPLATE_SETEMAIL_URL);
-                emailRequest.setSubject(BandEmail.EMAIL_SUBJECT);
-                // 验证码
-                String verifyCode = RandomUtil.randomNum(EmailVerifyConstants.VERIFY_SIZE);
-                // 将验证码放入缓存
-                String cacheKey = BandEmail.CACHE_KEY_VERIFY_EMAIL + sessionId;
-                String overTimeStr = configClient.get(EmailVerifyConstants.VERIFY_OVERTIME_KEY);
-                cacheClient.setex(cacheKey, Integer.valueOf(overTimeStr), verifyCode);
-                // 将发送次数放入缓存
-                String maxTimeStr = configClient.get(EmailVerifyConstants.SEND_VERIFY_MAX_TIME_KEY);
-                cacheClient.setex(smskey, Integer.valueOf(maxTimeStr), smstimes);
-                // 超时时间
-                String overTime = ObjectUtils.toString(Integer.valueOf(overTimeStr) / 60);
-                emailRequest.setData(new String[] { nickName, verifyCode, overTime });
-                boolean flag = VerifyUtil.sendEmail(emailRequest);
-                if (flag) {
-                    // 成功
-                    return "0000";
-                } else {
-                    // 失败
-                    return "0001";
-                }
-            } else {
-                // 重复发送
-                return "0002";
-            }
-        } catch (Exception e) {
-            LOGGER.error("发送验证码错误：" + e);
-        }
-        return null;
-    }
 
     /**
      * 身份认证
@@ -364,9 +113,9 @@ public class BandEmailController {
         }
         // 用户信息放入缓存
         String uuid = UUIDUtil.genId32();
-        SSOClientUser userClient = (SSOClientUser) request.getSession().getAttribute(SSOClientConstants.USER_SESSION_KEY);
+        SLPClientUser userClient = (SLPClientUser) request.getSession().getAttribute(SSOClientConstants.USER_SESSION_KEY);
         CacheUtil.setValue(uuid, SLPMallConstants.UUID.OVERTIME, userClient, BandEmail.CACHE_NAMESPACE);
-        responseData = new ResponseData<String>(ResponseData.AJAX_STATUS_SUCCESS, "正确", "/center/bandEmail/setEmail?" + SLPMallConstants.UUID.KEY_NAME + "=" + uuid);
+        responseData = new ResponseData<String>(ResponseData.AJAX_STATUS_SUCCESS, "正确", "/user/bandEmail/updateEmailAuthenticate?" + SLPMallConstants.UUID.KEY_NAME + "=" + uuid);
         ResponseHeader responseHeader = new ResponseHeader(true, VerifyConstants.ResultCodeConstants.SUCCESS_CODE, "正确");
         responseData.setResponseHeader(responseHeader);
         return responseData;
@@ -380,18 +129,21 @@ public class BandEmailController {
      */
     @RequestMapping("/setEmail")
     public ModelAndView BandEmailPage(HttpServletRequest request) {
-        String uuid = request.getParameter(SLPMallConstants.UUID.KEY_NAME);
-        /*SSOClientUser userClient = (SSOClientUser) CacheUtil.getValue(uuid, Constants.BandEmail.CACHE_NAMESPACE, SSOClientUser.class);
+        SLPClientUser userClient = (SLPClientUser) request.getSession().getAttribute(SSOClientConstants.USER_SESSION_KEY);
         if (userClient == null) {
             return new ModelAndView("redirect:/user/bandEmail/confirminfo");
         }
-        String email = userClient.getEmail();
-        if (!StringUtil.isBlank(email)) {
-            return new ModelAndView("redirect:/user/email/confirminfo");
-        }*/
+        IUcUserSV ucUserSV = DubboConsumerFactory.getService("iUcUserSV");
+        SearchUserRequest reachUserRequest = new SearchUserRequest();
+        reachUserRequest.setUserId(userClient.getUserId());
+        SearchUserResponse response = ucUserSV.queryBaseInfo(reachUserRequest);
         Map<String, Object> model = new HashMap<String, Object>();
+        String uuid = UUIDUtil.genId32();
+        response.setUserId(uuid);
+        model.put("userInfo", response);
         model.put("uuid", uuid);
-        return new ModelAndView("jsp/user/update-email-start", model);
+        model.put("confirminfo", "");
+        return new ModelAndView("jsp/user/email/update-email-start", model);
     }
 
     /**
@@ -407,9 +159,6 @@ public class BandEmailController {
         // 检查是否重复
         return VerifyUtil.checkEmailOnly(email);
     }
-
-    
-    
     
     
     /**
@@ -419,8 +168,7 @@ public class BandEmailController {
     @ResponseBody
     public ResponseData<String> sendEmail(HttpServletRequest request, String email,String emailType) {
         ResponseData<String> responseData = null;
-        String uuid = request.getParameter(SLPMallConstants.UUID.KEY_NAME);
-        SLPClientUser userClient = (SLPClientUser) CacheUtil.getValue(uuid, BandEmail.CACHE_NAMESPACE, SLPClientUser.class);
+        SLPClientUser userClient = (SLPClientUser) request.getSession().getAttribute(SSOClientConstants.USER_SESSION_KEY);
         IConfigClient configClient = CCSClientFactory.getDefaultConfigClient();
         try {
                 // 检查ip发送验证码次数
@@ -443,11 +191,12 @@ public class BandEmailController {
                     header.setIsSuccess(true);
                     header.setResultCode(ResultCodeConstants.SUCCESS_CODE);
                     responseData.setResponseHeader(header);
+                    
                     SearchUserRequest searchUserReqeust = new SearchUserRequest();
-                    searchUserReqeust.setUserId("000000000000000159");
+                    searchUserReqeust.setUserId(userClient.getUserId());
                     searchUserReqeust.setUserEmail(email);
                     searchUserReqeust.setEmailValidateFlag(BandEmail.EMAIL_NOT_CERTIFIED);
-                    searchUserReqeust.setTenantId("0");
+                    searchUserReqeust.setTenantId(userClient.getTenantId());
                     IUcUserSV ucUser = DubboConsumerFactory.getService("iUcUserSV");
                     ucUser.updateBaseInfo(searchUserReqeust);
                     return responseData;
@@ -480,88 +229,31 @@ public class BandEmailController {
     @ResponseBody
     public ModelAndView sendBandEmailSuccess(HttpServletRequest request, String email) {
         
-        return new ModelAndView("/jsp/user/band_email_verification");
+        return new ModelAndView("/jsp/user/email/band_email_verification");
     }
     
     @RequestMapping("/sendUpdateEmailSuccess")
     @ResponseBody
     public ModelAndView sendUpdateEmailSuccess(HttpServletRequest request, String email) {
-        
-        return new ModelAndView("/jsp/user/update_email_verification");
+        String uuid =UUIDUtil.genId32();
+        Map<String,String> model = new HashMap<String,String>();
+        model.put("uuid", uuid);
+        return new ModelAndView("/jsp/user/email/update_email_verification",model);
     }
-    /**
-     * 发送邮件验证码(修改新邮箱时验证)
-     * 
-     * @param request
-     * @param sessionId
-     * @param email
-     * @return
-     */
-    @RequestMapping("/sendEmailVerify")
-    @ResponseBody
-    public ResponseData<String> sendEmailVerifyCode(HttpServletRequest request, String email,String emailType) {
-        ResponseData<String> responseData = null;
-        ResponseHeader responseHeader = null;
-        String uuid = request.getParameter(SLPMallConstants.UUID.KEY_NAME);
-        SLPClientUser userClient = (SLPClientUser) CacheUtil.getValue(uuid, BandEmail.CACHE_NAMESPACE, SLPClientUser.class);
-        IConfigClient configClient = CCSClientFactory.getDefaultConfigClient();
-        try {
-            if (userClient == null) {
-                responseData = new ResponseData<String>(ResponseData.AJAX_STATUS_SUCCESS, "身份认证失效", "/center/bandEmail/confirminfo");
-                responseHeader = new ResponseHeader(false, VerifyConstants.ResultCodeConstants.USER_INFO_NULL, "认证身份失效");
-                responseData.setResponseHeader(responseHeader);
-                return responseData;
-            } else {
-                // 检查ip发送验证码次数
-                ResponseData<String> checkIpSendEmail = VerifyUtil.checkIPSendEmailCount(BandEmail.CACHE_NAMESPACE, IPUtil.getIp(request) + BandEmail.CACHE_KEY_IP_SEND_EMAIL_NUM);
-                if (!checkIpSendEmail.getResponseHeader().isSuccess()) {
-                    return checkIpSendEmail;
-                }
-                String rasultCode = sendBandEmailVerifyCode(request, email, userClient,emailType);
-                if ("0000".equals(rasultCode)) {
-                    responseData = new ResponseData<String>(ResponseData.AJAX_STATUS_SUCCESS, "短信验证码发送成功", "短信验证码发送成功");
-                    ResponseHeader header = new ResponseHeader();
-                    header.setIsSuccess(true);
-                    header.setResultCode(ResultCodeConstants.SUCCESS_CODE);
-                    responseData.setResponseHeader(header);
-                    return responseData;
-                } else if ("0002".equals(rasultCode)) {
-                    String maxTimeStr = configClient.get(EmailVerifyConstants.SEND_VERIFY_MAX_TIME_KEY);
-                    String errorMsg = Integer.valueOf(maxTimeStr) / 60 + "分钟内不可重复发送";
-                    responseData = new ResponseData<String>(ResponseData.AJAX_STATUS_SUCCESS, errorMsg, errorMsg);
-                    ResponseHeader header = new ResponseHeader();
-                    header.setIsSuccess(false);
-                    header.setResultCode(ResultCodeConstants.REGISTER_VERIFY_ERROR);
-                    header.setResultMessage(errorMsg);
-                    responseData.setResponseHeader(header);
-                    return responseData;
-                } else {
-                    responseData = new ResponseData<String>(ResponseData.AJAX_STATUS_FAILURE, "短信验证码发送失败", "服务器连接超时");
-                    ResponseHeader header = new ResponseHeader();
-                    header.setIsSuccess(false);
-                    header.setResultCode(ResultCodeConstants.ERROR_CODE);
-                    responseData.setResponseHeader(header);
-                    return responseData;
-                }
-            }
-        } catch (Exception e) {
-            LOGGER.error("发送邮件验证码错误：" + e);
-        }
-        return null;
-    }
-
+    
+    
     private String sendBandEmailVerifyCode(HttpServletRequest request, String email, SLPClientUser userClient,String templateUrl) {
         // 查询是否发送过邮件
         String smstimes = "1";
         String smskey = BandEmail.CACHE_KEY_UPDATE_SEND_EMAIL_NUM + email + request.getSession().getId();
-        ;
         ICacheClient cacheClient = MCSClientFactory.getCacheClient(BandEmail.CACHE_NAMESPACE);
         IConfigClient configClient = CCSClientFactory.getDefaultConfigClient();
         String times = cacheClient.get(smskey);
+        
+        String uuid = request.getParameter(SLPMallConstants.UUID.KEY_NAME);
         try {
             if (StringUtil.isBlank(times)) {
-                //String nickName = userClient.getNickName();
-                String nickName = "zhangyuehong";
+                String loginName = userClient.getUsername();
                 SendEmailRequest emailRequest = new SendEmailRequest();
                 emailRequest.setTomails(new String[] { email });
                 emailRequest.setTemplateURL(templateUrl);
@@ -577,9 +269,11 @@ public class BandEmailController {
                 cacheClient.setex(smskey, Integer.valueOf(maxTimeStr), smstimes);
                 // 超时时间
                 String overTime = ObjectUtils.toString(Integer.valueOf(overTimeStr) / 60);
-                emailRequest.setData(new String[] { nickName, verifyCode, overTime });
+                emailRequest.setData(new String[] { loginName, uuid, overTime });
                 boolean isSuccess = VerifyUtil.sendEmail(emailRequest);
                 if (isSuccess) {
+                    userClient.setUserEmail(email);
+                    CacheUtil.setValue(uuid, SLPMallConstants.UUID.OVERTIME, userClient, BandEmail.CACHE_NAMESPACE); 
                     // 成功
                     return "0000";
                 } else {
@@ -654,59 +348,90 @@ public class BandEmailController {
         return responseData;
     }
 
-    @RequestMapping("/setSuccess")
-    public ModelAndView successPage(HttpServletRequest request,String emailType) {
+    @RequestMapping("/bandEmailAuthenticate")
+    public ModelAndView bandEmailAuthenticate(HttpServletRequest request) {
         String uuid = request.getParameter(SLPMallConstants.UUID.KEY_NAME);
-        SSOClientUser userClient = (SSOClientUser) CacheUtil.getValue(uuid, BandEmail.CACHE_NAMESPACE, SSOClientUser.class);
-        /*if (userClient == null) {
-            return new ModelAndView("redirect:/user/bandEmail/confirminfo");
-        }*/
-        /*request.getSession().setAttribute(SSOClientConstants.USER_SESSION_KEY, userClient);
-        CacheUtil.deletCache(uuid, Constants.BandEmail.CACHE_NAMESPACE);*/
+        SLPClientUser userClient = (SLPClientUser) CacheUtil.getValue(uuid, BandEmail.CACHE_NAMESPACE, SLPClientUser.class);
+        if (userClient == null) {
+            Map<String,String> model = new HashMap<String,String>();
+            model.put("confirminfo", "fail");
+            return new ModelAndView("jsp/user/email/band-email-start",model);
+        }
+        request.getSession().setAttribute(SSOClientConstants.USER_SESSION_KEY, userClient);
+        CacheUtil.deletCache(uuid, BandEmail.CACHE_NAMESPACE);
         SearchUserRequest searchUserReqeust = new SearchUserRequest();
-        searchUserReqeust.setUserId("000000000000000159");
+        searchUserReqeust.setUserId(userClient.getUserId());
         searchUserReqeust.setEmailValidateFlag(BandEmail.EMAIL_CERTIFIED);
-        searchUserReqeust.setTenantId("0");
-        searchUserReqeust.setUserEmail("178070754@qq.com");
+        searchUserReqeust.setTenantId(userClient.getTenantId());
+        searchUserReqeust.setUserEmail(userClient.getUserEmail());
+        searchUserReqeust.setEmailValidateFlag(BandEmail.EMAIL_CERTIFIED);
         IUcUserSV ucUser = DubboConsumerFactory.getService("iUcUserSV");
         ucUser.updateBaseInfo(searchUserReqeust);
-        return new ModelAndView("jsp/user/band-email-finish");
+        return new ModelAndView("redirect:/user/bandEmail/bandEmailAuthenticateSuccess");
     }
     
-    @RequestMapping("/updateSuccess")
-    public ModelAndView updateSuccess(HttpServletRequest request,String emailType) {
-        String uuid = request.getParameter(SLPMallConstants.UUID.KEY_NAME);
-        SSOClientUser userClient = (SSOClientUser) CacheUtil.getValue(uuid, BandEmail.CACHE_NAMESPACE, SSOClientUser.class);
-        /*if (userClient == null) {
-            return new ModelAndView("redirect:/user/bandEmail/confirminfo");
-        }*/
-        /*request.getSession().setAttribute(SSOClientConstants.USER_SESSION_KEY, userClient);
-        CacheUtil.deletCache(uuid, Constants.BandEmail.CACHE_NAMESPACE);*/
-        SearchUserRequest searchUserReqeust = new SearchUserRequest();
-        searchUserReqeust.setUserId("000000000000000159");
-        searchUserReqeust.setEmailValidateFlag(BandEmail.EMAIL_CERTIFIED);
-        searchUserReqeust.setTenantId("0");
-        IUcUserSV ucUser = DubboConsumerFactory.getService("iUcUserSV");
-        ucUser.updateBaseInfo(searchUserReqeust);
-        return new ModelAndView("jsp/user/band-email-new");
+    @RequestMapping("/bandEmailAuthenticateSuccess")
+    public ModelAndView bandEmailAuthenticateSuccess(HttpServletRequest request){
+        Map<String,String> model = new HashMap<String,String>();
+        model.put("uuid", UUIDUtil.genId32());
+        return new ModelAndView("jsp/user/band-email-finish",model);
     }
+    
+    
+    @RequestMapping("/updateEmailAuthenticate")
+    public ModelAndView updateSuccess(HttpServletRequest request) {
+        String uuid = request.getParameter(SLPMallConstants.UUID.KEY_NAME);
+        SLPClientUser userClient = (SLPClientUser) CacheUtil.getValue(uuid, BandEmail.CACHE_NAMESPACE, SLPClientUser.class);
+        if (userClient == null) {
+            SLPClientUser usClient = (SLPClientUser) request.getSession().getAttribute(SSOClientConstants.USER_SESSION_KEY);
+            Map<String,Object> model = new HashMap<String,Object>();
+            SearchUserResponse response = new SearchUserResponse();
+            response.setUserEmail(usClient.getUserEmail());
+            model.put("confirminfo", "fail");
+            model.put("userInfo", response);
+            return new ModelAndView("jsp/user/email/update-email-start",model);
+        }
+        request.getSession().setAttribute(SSOClientConstants.USER_SESSION_KEY, userClient);
+        CacheUtil.deletCache(uuid, BandEmail.CACHE_NAMESPACE);
+        Map<String,String> model = new HashMap<String,String>();
+        model.put("uuid", UUIDUtil.genId32());
+        return new ModelAndView("redirect:/user/bandEmail/updateEmailAuthenticateSuccess");
+    }
+    
+    @RequestMapping("/updateEmailAuthenticateSuccess")
+    public ModelAndView updateEmailAuthenticateSuccess(HttpServletRequest request){
+        Map<String,String> model = new HashMap<String,String>();
+        model.put("uuid", UUIDUtil.genId32());
+        return new ModelAndView("jsp/user/email/band-email-new",model);
+    }
+    
+    @RequestMapping("/updateBandEmailAuthenticate")
+    public ModelAndView updateBandEmailAuthenticate(HttpServletRequest request){
+        String uuid = request.getParameter(SLPMallConstants.UUID.KEY_NAME);
+        SLPClientUser userClient = (SLPClientUser) CacheUtil.getValue(uuid, BandEmail.CACHE_NAMESPACE, SLPClientUser.class);
+        if(userClient==null){
+            return new ModelAndView("jsp/user/email/update-email-start");
+        }
+        request.getSession().setAttribute(SSOClientConstants.USER_SESSION_KEY, userClient);
+        CacheUtil.deletCache(uuid, BandEmail.CACHE_NAMESPACE);
+        return new ModelAndView("redirect:/user/bandEmail/updateFinishSuccess");
+    }
+    
     
     @RequestMapping("/updateFinishSuccess")
-    public ModelAndView updateFinishSuccess(HttpServletRequest request,String emailType) {
-        String uuid = request.getParameter(SLPMallConstants.UUID.KEY_NAME);
-        SSOClientUser userClient = (SSOClientUser) CacheUtil.getValue(uuid, BandEmail.CACHE_NAMESPACE, SSOClientUser.class);
-        /*if (userClient == null) {
-            return new ModelAndView("redirect:/user/bandEmail/confirminfo");
-        }*/
-        /*request.getSession().setAttribute(SSOClientConstants.USER_SESSION_KEY, userClient);
-        CacheUtil.deletCache(uuid, Constants.BandEmail.CACHE_NAMESPACE);*/
+    public ModelAndView updateFinishSuccess(HttpServletRequest request) {
+        SLPClientUser userClient = (SLPClientUser) request.getSession().getAttribute(SSOClientConstants.USER_SESSION_KEY);
+        request.getSession().setAttribute(SSOClientConstants.USER_SESSION_KEY, userClient);
         SearchUserRequest searchUserReqeust = new SearchUserRequest();
-        searchUserReqeust.setUserId("000000000000000159");
+        searchUserReqeust.setUserId(userClient.getUserId());
         searchUserReqeust.setEmailValidateFlag(BandEmail.EMAIL_CERTIFIED);
-        searchUserReqeust.setTenantId("0");
+        searchUserReqeust.setTenantId(userClient.getTenantId());
+        searchUserReqeust.setUserEmail(userClient.getUserEmail());
         IUcUserSV ucUser = DubboConsumerFactory.getService("iUcUserSV");
         ucUser.updateBaseInfo(searchUserReqeust);
-        return new ModelAndView("jsp/user/update-email-finish");
+        Map<String,String> model = new HashMap<String,String>();
+        model.put("email", userClient.getUserEmail());
+        return new ModelAndView("jsp/user/email/update-email-finish",model);
     }
    
 }
