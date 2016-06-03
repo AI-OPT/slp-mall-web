@@ -54,20 +54,6 @@ define('app/jsp/shoppingcart/shopCartDetails', function (require, exports, modul
     		oldNum--;
     		text.value = oldNum;
     		this._computedPrice(btn,oldNum);
-//    		// 获取单价
-//    		var td = btn.parentNode.parentNode.parentNode.previousElementSibling;
-//    		var price = parseFloat(td.innerHTML.replace("￥",""));
-//    		// 转成厘
-//    		var priceLi = this._yuanToLi(price);
-//    		// 计算金额
-//    		var moneyLi = this._productNum(priceLi,oldNum);
-//    		// 厘转成元
-//    		var money = this._liToYuan(moneyLi);
-//    		// 获取金额元素
-//    		var td2 = btn.parentNode.parentNode.parentNode.nextElementSibling;
-//    		// 改变金额
-//    		td2.innerHTML = "￥"+money;
-//    		// 求和
     	},
     	// 增加数量
     	_addQtyBtn:function(btn){
@@ -78,20 +64,6 @@ define('app/jsp/shoppingcart/shopCartDetails', function (require, exports, modul
     		oldNum++;
     		text.value = oldNum;
     		this._computedPrice(btn,oldNum);
-//    		// 获取单价
-//    		var td = btn.parentNode.parentNode.parentNode.previousElementSibling;
-//    		var price = parseFloat(td.innerHTML.replace("￥",""));
-//    		// 转成厘
-//    		var priceLi = this._yuanToLi(price);
-//    		// 计算金额
-//    		var moneyLi = this._productNum(priceLi,oldNum);
-//    		// 转成元
-//    		var money = this._liToYuan(moneyLi);
-//    		// 获取金额元素
-//    		var td2 = btn.parentNode.parentNode.parentNode.nextElementSibling;
-//    		// 改变金额
-//    		td2.innerHTML = "￥"+money;
-//    		// 求和
     	},
     	//计算价格
     	_computedPrice:function(btn,num){
