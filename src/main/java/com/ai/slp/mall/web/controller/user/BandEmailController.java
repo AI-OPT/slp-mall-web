@@ -269,7 +269,16 @@ public class BandEmailController {
                 cacheClient.setex(smskey, Integer.valueOf(maxTimeStr), smstimes);
                 // 超时时间
                 String overTime = ObjectUtils.toString(Integer.valueOf(overTimeStr) / 60);
-                emailRequest.setData(new String[] { loginName, uuid, overTime });
+                String service_url = CCSClientFactory.getDefaultConfigClient().get(SLPMallConstants.URLConstant.INDEX_URL_KEY);
+                //String service_url="http://localhost:8090/slp-mall";
+                if(BandEmail.TEMPLATE_SETEMAIL_URL.equals(templateUrl)){
+                    service_url=service_url+"/user/bandEmail/bandEmailAuthenticate";
+                }else if(BandEmail.TEMPLATE_BAND_EMAIL_URL.equals(templateUrl)){
+                    service_url=service_url+"/user/bandEmail/updateBandEmailAuthenticate";
+                }else if(BandEmail.TEMPLATE_UPDATE_EMAIL_URL.equals(templateUrl)){
+                    service_url=service_url+"/user/bandEmail/updateEmailAuthenticate";
+                }
+                emailRequest.setData(new String[] { loginName,overTime,service_url, uuid});
                 boolean isSuccess = VerifyUtil.sendEmail(emailRequest);
                 if (isSuccess) {
                     userClient.setUserEmail(email);
@@ -351,8 +360,11 @@ public class BandEmailController {
     @RequestMapping("/bandEmailAuthenticate")
     public ModelAndView bandEmailAuthenticate(HttpServletRequest request) {
         String uuid = request.getParameter(SLPMallConstants.UUID.KEY_NAME);
-        SLPClientUser userClient = (SLPClientUser) CacheUtil.getValue(uuid, BandEmail.CACHE_NAMESPACE, SLPClientUser.class);
-        if (userClient == null) {
+        //验证时使用
+        SLPClientUser userAuthenticateClient = (SLPClientUser) CacheUtil.getValue(uuid, BandEmail.CACHE_NAMESPACE, SLPClientUser.class);
+        //单点登录时的client
+        SLPClientUser userClient = (SLPClientUser) request.getSession().getAttribute(SSOClientConstants.USER_SESSION_KEY);
+        if (userAuthenticateClient == null) {
             Map<String,String> model = new HashMap<String,String>();
             model.put("confirminfo", "fail");
             return new ModelAndView("jsp/user/email/band-email-start",model);
@@ -367,14 +379,14 @@ public class BandEmailController {
         searchUserReqeust.setEmailValidateFlag(BandEmail.EMAIL_CERTIFIED);
         IUcUserSV ucUser = DubboConsumerFactory.getService("iUcUserSV");
         ucUser.updateBaseInfo(searchUserReqeust);
-        return new ModelAndView("redirect:/user/bandEmail/bandEmailAuthenticateSuccess");
+        return new ModelAndView("redirect:/user/bandEmail/bandEmailAuthenticateSuccess?email="+userClient.getUserEmail());
     }
     
     @RequestMapping("/bandEmailAuthenticateSuccess")
-    public ModelAndView bandEmailAuthenticateSuccess(HttpServletRequest request){
+    public ModelAndView bandEmailAuthenticateSuccess(HttpServletRequest request,String email){
         Map<String,String> model = new HashMap<String,String>();
-        model.put("uuid", UUIDUtil.genId32());
-        return new ModelAndView("jsp/user/band-email-finish",model);
+        model.put("email", email);
+        return new ModelAndView("jsp/user/email/band-email-finish",model);
     }
     
     

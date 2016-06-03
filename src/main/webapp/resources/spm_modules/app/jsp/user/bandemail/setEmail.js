@@ -170,6 +170,7 @@ define('app/jsp/user/bandemail/setEmail', function (require, exports, module) {
 					var resultCode = data.responseHeader.resultCode;
 					if(resultCode == "100000"){
 						var url = data.data;
+						$("#emailMsgError").hide();
 					}else{
 						if(resultCode=="000000"){
 							var step = 59;
@@ -190,11 +191,12 @@ define('app/jsp/user/bandemail/setEmail', function (require, exports, module) {
 							$("#sendEmailBtn").removeAttr("disabled");
 						}
 						if(resultCode=="100002"){
-							_this._controlMsgText("verifyCodeMsg",data.statusInfo);
-							_this._controlMsgAttr("verifyCodeMsg",2);
+							$("#emailMsgError").show();
+							_this._controlMsgText("emailMsg",data.statusInfo);
+							_this._controlMsgAttr("emailMsg",2);
 			        	}else{
-			        		_this._controlMsgText("verifyCodeMsg","");
-			        		_this._controlMsgAttr("verifyCodeMsg",1);
+			        		_this._controlMsgText("emailMsg","");
+			        		_this._controlMsgAttr("emailMsg",1);
 			        	}
 					}
 				},
