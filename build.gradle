@@ -109,7 +109,9 @@ dependencies {
     //订单支付
     compile 'com.ai.slp.order:orderpay:1.0-SNAPSHOT'
     //地区
-     compile 'com.ai.slp.common:area:1.0-SNAPSHOT'
+    compile 'com.ai.slp.common:area:1.0-SNAPSHOT'
+    //缓存
+    compile 'com.ai.slp.common:cache:1.0-SNAPSHOT'
 	
     testCompile(
             "org.springframework:spring-test:4.1.7.RELEASE",

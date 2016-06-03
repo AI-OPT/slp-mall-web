@@ -73,7 +73,7 @@
            <input id="searchType" style="display:none" value="1"/>
            <ul>
                <li>
-                   <p class="word">订单类型</p>
+                   <p class="word1">订单类型</p>
                    <p>
                    	<select id="orderType" class="select-small">
                    		<option value="">全部</option>
@@ -100,7 +100,7 @@
            </ul>
            <ul class="open-gaoj" style=" display:none;">
               <li>
-                   <p class="word">下单时间</p>
+                   <p class="word1">下单时间</p>
                    <p id="timeBeginId" ><input id="orderTimeBegin" type="text" class="int-small" readonly><A href="javascript:void(0);"><i class="icon-calendar"></i></A></p>
                    <p>-</p>
                    <p id="timeEndId"><input id="orderTimeEnd" type="text" class="int-small" readonly><A href="javascript:void(0);"><i class="icon-calendar"></i></A></p>
