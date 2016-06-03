@@ -12,15 +12,30 @@
 </head>
 
 <script type="text/javascript">
-	function goToBandEmail(){
-		window.location.href = _base+"/center/bandEmail/confirminfo";
+
+
+	function showClass(){
+		$('.active').removeClass('active');
+   		$("#securitySettings").addClass("active");
+	}
+
+	function goToBandEmail(str){
+		if(str=="bandEmail"){
+		    window.location.href = _base+"/user/bandEmail/bandEmailStart";
+		}else{
+			window.location.href = _base+"/user/bandEmail/setEmail";
+		}
 	}
 	function toChangePassword(){
 		window.location.href = _base+"/user/toChangePassword";
 	}
+	
+	function toChangePayPassword(){
+		window.location.href = _base+"/user/payPassword/updatePayPassword";
+	}
 </script>
 
-<body>
+<body onload="showClass()">
  <!--顶部菜单-->
  <%@ include file="/inc/top-menu.jsp" %>
 <!--顶部菜单结束-->
@@ -156,10 +171,10 @@
         				</div>
         				<div class="state-list-word">绑定邮箱后，可用于密码重置及接受消息提醒</div>
         				<c:if test="${userInfo.userEmail==null}">
-        					<div class="state-list-btn"><input type="button" class="sta-btn" value="绑定邮箱" onclick="goToBandEmail()"></div>
+        					<div class="state-list-btn"><input type="button" class="sta-btn" value="绑定邮箱" onclick="goToBandEmail('bandEmail')"></div>
         				</c:if>
         				<c:if test="${userInfo.userEmail!=null}">
-        					<div class="state-list-btn"><input type="button" class="sta-btn" value="修改" onclick="goToBandEmail()"></div>
+        					<div class="state-list-btn"><input type="button" class="sta-btn" value="修改" onclick="goToBandEmail('updateEmail')"></div>
         				</c:if>
         			</div>
         			<div class="state-list">
@@ -170,7 +185,7 @@
         				<div class="state-list-strength">
         					<ul>
         						<li class="word">
-        							<p><img src="${_slpbase }/images/pass-c.png"></p>
+        							<p><img src="${_slpbase}/images/pass-c.png"></p>
         							<p>密码强度高</p>
         						</li>
         						<li class="bj-color">
@@ -178,11 +193,10 @@
         						</li>
         					</ul>
         				</div>
-        				<div class="state-list-word">绑定邮箱后，可用于密码重置及接受消息提醒</div>
-        				<div class="state-list-btn"><input type="button" class="sta-btn" value="修改"></div>
+        				<div class="state-list-word">建议启用支付密码，保证资金安全，使用大小写字母等特殊字符的组合</div>
+        				<div class="state-list-btn"><input type="button" class="sta-btn" id="updatePayPassword" value="修改" onclick="toChangePayPassword()"></div>
         			</div>
         		</div>
-        	
       </div>
 
   </div>  
@@ -192,84 +206,7 @@
      </div>
  </div>
    <!--底部-->
-    <div class="footer-wrapper">
-    <!--底部－help-->
-      <div class="footer">
-        <div class="footer-main">
-          <div class="footer-title">
-              <ul>
-                  <li>
-                      <p><img src="${_slpbase }/images/foot-a.png"></p>
-                      <p>话费流量全面支持</p>
-                  </li>
-                  <li>
-                      <p><img src="${_slpbase }/images/foot-b.png"></p>
-                      <p>价格更低优惠更多</p>
-                  </li>
-                  <li>
-                      <p><img src="${_slpbase }/images/foot-c.png"></p>
-                      <p>即时到账安全便捷</p>
-                  </li>
-                  <li>
-                      <p><img src="${_slpbase }/images/foot-d.png"></p>
-                      <p>企业充值轻松无忧</p>
-                  </li>
-              </ul>
-          </div>
-          
-          <div class="footer-title-list">
-          <ul>
-          <li class="word">商品分类</li>
-          <li><a href="#">话费快充</a></li>
-          <li><a href="#">流量快充</a></li>
-          <li><a href="#">话费卡</a></li>
-          <li><a href="#">流量卡</a></li>
-          </ul>
-          <ul>
-          <li class="word">帮助中心</li>
-          <li><a href="#">话费充值</a></li>
-          <li><a href="#">账户使用</a></li>
-          <li><a href="#">支付购买</a></li>
-          <li><a href="#">订单相关</a></li>
-          </ul>
-          <ul>
-          <li class="word">商家合作</li>
-          <li><a href="#">企业采购</a></li>
-          <li><a href="#">代理商申请</a></li>
-          <li><a href="#">供货商合作</a></li>
-          <li><a href="#">招商平台</a></li>
-          </ul>
-          <ul class="bor-none">
-          <li class="word">网站导航</li>
-          <li><a href="#">网站地图</a></li>
-          <li><a href="#">亚信官网</a></li>
-          <li><a href="#">亚信国际</a></li>
-          <li><a href="#">亚信数据</a></li>
-          </ul>
-          </div>
-        </div>
-      </div>
-   <!--底部－about-->
-      <div class="footer-alink">
-      <ul>
-      <li>
-      <a href="#">关于我们</a>
-      <a href="#">联系我们</a>
-      <a href="#">企业采购</a>
-      <a href="#">代理商申请</a>
-      <a href="#">供货合作</a>
-      <a href="#">API文档</a>
-      <a href="#">亚信官网</a>
-      <a href="#">网站地图</a>
-      </li>
-      <li>京ICP备11005544号-15                京公网安备110108007119号</li>
-      <li>©2016-2018 亚信旗下话费充值平台，版权所有  All Rights Reserved</li>
-      </ul>
-                                                                                                   
-      </div>
-    
-    
-    </div>
+   <%@ include file="/inc/foot.jsp" %>
    <!--底部 结束-->
 
 </body>
