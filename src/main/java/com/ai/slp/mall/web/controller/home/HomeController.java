@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.ai.opt.sdk.dubbo.util.DubboConsumerFactory;
+import com.ai.opt.sdk.util.CollectionUtil;
 import com.ai.opt.sdk.web.model.ResponseData;
 import com.ai.slp.mall.web.model.product.ProductHomeVO;
 import com.ai.slp.mall.web.util.ImageUtil;
@@ -36,18 +37,22 @@ public class HomeController {
     @ResponseBody
     public ResponseData<List<ProductHomeVO>> getFlow(HttpServletRequest request,ProductHomeRequest proRequest){
         IProductHomeSV iHomeProductSV = DubboConsumerFactory.getService("iProductHomeSV");
+        proRequest.setTenantId("SLP");
         ResponseData<List<ProductHomeVO>> responseData = null;
         List<ProductHomeVO> resultList = new ArrayList<ProductHomeVO>();
         try {
             List<ProductHomeResponse> list  = iHomeProductSV.queryHomeDataProduct(proRequest);
-            for(ProductHomeResponse data:list){
-                ProductHomeVO vo = new ProductHomeVO();
-                vo.setPicUrl(ImageUtil.getImage(data.getProductImage().getVfsId(),data.getProductImage().getPicType()));
-                vo.setProdId(data.getProdId());
-                vo.setProdName(data.getProdName());
-                vo.setSalePrice(data.getSalePrice());
-                resultList.add(vo);
-            }
+           if(!CollectionUtil.isEmpty(list)){
+               for(ProductHomeResponse data:list){
+                   ProductHomeVO vo = new ProductHomeVO();
+                   vo.setPicUrl(ImageUtil.getImage(data.getProductImage().getVfsId(),data.getProductImage().getPicType()));
+                   vo.setProdId(data.getProdId());
+                   vo.setProdName(data.getProdName());
+                   vo.setSalePrice(data.getSalePrice());
+                   resultList.add(vo);
+               }
+           }
+            
             responseData = new ResponseData<List<ProductHomeVO>>(ResponseData.AJAX_STATUS_SUCCESS, "查询成功", resultList);
         } catch (Exception e) {
             responseData = new ResponseData<List<ProductHomeVO>>(ResponseData.AJAX_STATUS_FAILURE, "查询失败");
@@ -63,18 +68,22 @@ public class HomeController {
     @ResponseBody
     public ResponseData<List<ProductHomeVO>> getPhoneBill(HttpServletRequest request,ProductHomeRequest proRequest){
         IProductHomeSV iHomeProductSV = DubboConsumerFactory.getService("iProductHomeSV");
+        proRequest.setTenantId("SLP");
         ResponseData<List<ProductHomeVO>> responseData = null;
         List<ProductHomeVO> resultList = new ArrayList<ProductHomeVO>();
         try {
             List<ProductHomeResponse> list  = iHomeProductSV.queryHomeDataProduct(proRequest);
-            for(ProductHomeResponse data:list){
-                ProductHomeVO vo = new ProductHomeVO();
-                vo.setPicUrl(ImageUtil.getImage(data.getProductImage().getVfsId(),data.getProductImage().getPicType()));
-                vo.setProdId(data.getProdId());
-                vo.setProdName(data.getProdName());
-                vo.setSalePrice(data.getSalePrice());
-                resultList.add(vo);
+            if(!CollectionUtil.isEmpty(list)){
+                for(ProductHomeResponse data:list){
+                    ProductHomeVO vo = new ProductHomeVO();
+                    vo.setPicUrl(ImageUtil.getImage(data.getProductImage().getVfsId(),data.getProductImage().getPicType()));
+                    vo.setProdId(data.getProdId());
+                    vo.setProdName(data.getProdName());
+                    vo.setSalePrice(data.getSalePrice());
+                    resultList.add(vo);
+                }
             }
+            
             responseData = new ResponseData<List<ProductHomeVO>>(ResponseData.AJAX_STATUS_SUCCESS, "查询成功", resultList);
         } catch (Exception e) {
             responseData = new ResponseData<List<ProductHomeVO>>(ResponseData.AJAX_STATUS_FAILURE, "查询失败");
@@ -90,19 +99,23 @@ public class HomeController {
     @ResponseBody
     public ResponseData<List<ProductHomeVO>> getHotProduct(HttpServletRequest request,ProductHomeRequest proRequest){
         IProductHomeSV iHomeProductSV = DubboConsumerFactory.getService("iProductHomeSV");
+        proRequest.setTenantId("SLP");
         ResponseData<List<ProductHomeVO>> responseData = null;
         List<ProductHomeVO> resultList = new ArrayList<ProductHomeVO>();
         try {
             List<ProductHomeResponse> list  = iHomeProductSV.queryHotProduct(proRequest);
-            for(ProductHomeResponse data:list){
-                ProductHomeVO vo = new ProductHomeVO();
-                vo.setPicUrl(ImageUtil.getImage(data.getProductImage().getVfsId(),data.getProductImage().getPicType()));
-                vo.setProdId(data.getProdId());
-                vo.setProdName(data.getProdName());
-                vo.setSalePrice(data.getSalePrice());
-                vo.setProductSellPoint(data.getProductSellPoint());
-                resultList.add(vo);
+            if(!CollectionUtil.isEmpty(list)){
+                for(ProductHomeResponse data:list){
+                    ProductHomeVO vo = new ProductHomeVO();
+                    vo.setPicUrl(ImageUtil.getImage(data.getProductImage().getVfsId(),data.getProductImage().getPicType()));
+                    vo.setProdId(data.getProdId());
+                    vo.setProdName(data.getProdName());
+                    vo.setSalePrice(data.getSalePrice());
+                    vo.setProductSellPoint(data.getProductSellPoint());
+                    resultList.add(vo);
+                } 
             }
+            
         responseData = new ResponseData<List<ProductHomeVO>>(ResponseData.AJAX_STATUS_SUCCESS, "查询成功", resultList);
     } catch (Exception e) {
         responseData = new ResponseData<List<ProductHomeVO>>(ResponseData.AJAX_STATUS_FAILURE, "查询失败");

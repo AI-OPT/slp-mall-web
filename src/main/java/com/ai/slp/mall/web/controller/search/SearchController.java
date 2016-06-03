@@ -59,6 +59,7 @@ public class SearchController {
     @ResponseBody
     public ResponseData<PageInfo<ProductDataVO>> getList(HttpServletRequest request,ProductQueryRequest req){
         ISearchProductSV iPaymentQuerySV = DubboConsumerFactory.getService("iSearchProductSV");
+        req.setTenantId("SLP");
         ResponseData<PageInfo<ProductDataVO>> responseData = null;
         PageInfo<ProductData> pageInfo = new PageInfo<ProductData> ();
         String strPageNo=(null==request.getParameter("pageNo"))?"1":request.getParameter("pageNo");
@@ -69,32 +70,35 @@ public class SearchController {
             req.setPageInfo(pageInfo);
             ProductQueryResponse resultInfo = iPaymentQuerySV.queryProductPage(req);
             PageInfo<ProductData> result= resultInfo.getPageInfo();
-            List<ProductData> proList = result.getResult();
             List<ProductDataVO> results = new ArrayList<ProductDataVO>();
             PageInfo<ProductDataVO> pageVo = new PageInfo<ProductDataVO>();
-            pageVo.setPageCount(result.getPageCount());
-            pageVo.setPageNo(result.getPageNo());
-            pageVo.setPageSize(result.getPageSize());
-            pageVo.setCount(result.getCount());
-            for(ProductData data:proList){
-                ProductDataVO vo = new ProductDataVO();
-                vo.setProdId(data.getProdId());
-                vo.setProdName(data.getProdName());
-                vo.setSalePrice(data.getSalePrice());
-                vo.setPicUrl(ImageUtil.getImage(data.getImageinfo().getVfsId(),data.getImageinfo().getPicType()));
-                //获取缩略图id
-               List<ProductImage> iamgeList = data.getThumbnail();
-               Map<String,String> map = new HashMap<String,String>();
-               
-               //List<String> vsidList = new ArrayList<String>();
-               if(!CollectionUtil.isEmpty(iamgeList)){
-                   for(ProductImage img:iamgeList){
-                      // map.set(img.getVfsId());
-                       map.put(img.getVfsId(), img.getPicType());
-                   }  
-               }
-                vo.setThumnailUrl(ImageUtil.getImages(map));
-                results.add(vo);
+            if(result!=null){
+                List<ProductData> proList = result.getResult();
+                pageVo.setPageCount(result.getPageCount());
+                pageVo.setPageNo(result.getPageNo());
+                pageVo.setPageSize(result.getPageSize());
+                pageVo.setCount(result.getCount());
+                if(!CollectionUtil.isEmpty(proList)){
+                    for(ProductData data:proList){
+                        ProductDataVO vo = new ProductDataVO();
+                        vo.setProdId(data.getProdId());
+                        vo.setProdName(data.getProdName());
+                        vo.setSalePrice(data.getSalePrice());
+                        vo.setPicUrl(ImageUtil.getImage(data.getImageinfo().getVfsId(),data.getImageinfo().getPicType()));
+                        //获取缩略图id
+                       List<ProductImage> iamgeList = data.getThumbnail();
+                       Map<String,String> map = new HashMap<String,String>();
+                       //List<String> vsidList = new ArrayList<String>();
+                       if(!CollectionUtil.isEmpty(iamgeList)){
+                           for(ProductImage img:iamgeList){
+                              // map.set(img.getVfsId());
+                               map.put(img.getVfsId(), img.getPicType());
+                           }  
+                       }
+                        vo.setThumnailUrl(ImageUtil.getImages(map));
+                        results.add(vo);
+                    }
+                }
             }
             pageVo.setResult(results);
             LOG.debug("商品查询出参:"+JSONArray.fromObject(resultInfo).toString());
@@ -116,16 +120,19 @@ public class SearchController {
     @ResponseBody
     public ResponseData<List<ProductDataVO>> getHotProduct(HttpServletRequest request,ProductQueryRequest req){
         ISearchProductSV iPaymentQuerySV = DubboConsumerFactory.getService("iSearchProductSV");
+        req.setTenantId("SLP");
         ResponseData<List<ProductDataVO>> responseData = null;
         try {
             List<ProductData> resultInfo = iPaymentQuerySV.queryHotSellProduct(req);
             List<ProductDataVO> voList = new ArrayList<ProductDataVO>();
-            for(ProductData data:resultInfo){
-                ProductDataVO vo  =new ProductDataVO();
-                vo.setSalePrice(data.getSalePrice());
-                vo.setProdName(data.getProdName());
-                vo.setPicUrl(ImageUtil.getHotImage());
-                voList.add(vo);
+            if(!CollectionUtil.isEmpty(resultInfo)){
+                for(ProductData data:resultInfo){
+                    ProductDataVO vo  =new ProductDataVO();
+                    vo.setSalePrice(data.getSalePrice());
+                    vo.setProdName(data.getProdName());
+                    vo.setPicUrl(ImageUtil.getHotImage());
+                    voList.add(vo);
+                }
             }
             LOG.debug("商品查询出参:"+JSONArray.fromObject(resultInfo).toString());
             responseData = new ResponseData<List<ProductDataVO>>(ResponseData.AJAX_STATUS_SUCCESS, "查询成功", voList);
@@ -144,8 +151,11 @@ public class SearchController {
     @ResponseBody
     public ResponseData<PageInfo<ProductDataVO>> search(HttpServletRequest request,ProductQueryRequest req){
         ISearchProductSV iPaymentQuerySV = DubboConsumerFactory.getService("iSearchProductSV");
+        req.setTenantId("SLP");
         ResponseData<PageInfo<ProductDataVO>> responseData = null;
         PageInfo<ProductData> pageInfo = new PageInfo<ProductData> ();
+        List<ProductDataVO> results = new ArrayList<ProductDataVO>();
+        PageInfo<ProductDataVO> pageVo = new PageInfo<ProductDataVO>();
         String strPageNo=(null==request.getParameter("pageNo"))?"1":request.getParameter("pageNo");
         String strPageSize=(null==request.getParameter("pageSize"))?"10":request.getParameter("pageSize");
         pageInfo.setPageNo(Integer.parseInt(strPageNo));
@@ -154,29 +164,31 @@ public class SearchController {
             req.setPageInfo(pageInfo);
             ProductQueryResponse resultInfo = iPaymentQuerySV.searchProduct(req);
             PageInfo<ProductData> result= resultInfo.getPageInfo();
-            List<ProductData> proList = result.getResult();
-            List<ProductDataVO> results = new ArrayList<ProductDataVO>();
-            PageInfo<ProductDataVO> pageVo = new PageInfo<ProductDataVO>();
-            pageVo.setPageCount(result.getPageCount());
-            pageVo.setPageNo(result.getPageNo());
-            pageVo.setPageSize(result.getPageSize());
-            pageVo.setCount(result.getCount());
-            for(ProductData data:proList){
-                ProductDataVO vo = new ProductDataVO();
-                vo.setProdId(data.getProdId());
-                vo.setProdName(data.getProdName());
-                vo.setSalePrice(data.getSalePrice());
-                vo.setPicUrl(ImageUtil.getImage(data.getImageinfo().getVfsId(),data.getImageinfo().getPicType()));
-                //获取缩略图id
-               List<ProductImage> iamgeList = data.getThumbnail();
-               Map<String,String> map = new HashMap<String,String>();
-               if(!CollectionUtil.isEmpty(iamgeList)){
-                   for(ProductImage img:iamgeList){
-                       map.put(img.getVfsId(), img.getPicType());
-                   }  
-               }
-                vo.setThumnailUrl(ImageUtil.getImages(map));
-                results.add(vo);
+            if(result!=null){
+                pageVo.setPageCount(result.getPageCount());
+                pageVo.setPageNo(result.getPageNo());
+                pageVo.setPageSize(result.getPageSize());
+                pageVo.setCount(result.getCount());
+                List<ProductData> proList = result.getResult();
+                if(!CollectionUtil.isEmpty(proList)){
+                    for(ProductData data:proList){
+                        ProductDataVO vo = new ProductDataVO();
+                        vo.setProdId(data.getProdId());
+                        vo.setProdName(data.getProdName());
+                        vo.setSalePrice(data.getSalePrice());
+                        vo.setPicUrl(ImageUtil.getImage(data.getImageinfo().getVfsId(),data.getImageinfo().getPicType()));
+                        //获取缩略图id
+                       List<ProductImage> iamgeList = data.getThumbnail();
+                       Map<String,String> map = new HashMap<String,String>();
+                       if(!CollectionUtil.isEmpty(iamgeList)){
+                           for(ProductImage img:iamgeList){
+                               map.put(img.getVfsId(), img.getPicType());
+                           }  
+                       }
+                        vo.setThumnailUrl(ImageUtil.getImages(map));
+                        results.add(vo);
+                    }
+                }
             }
             pageVo.setResult(results);
             LOG.debug("商品查询出参:"+JSONArray.fromObject(resultInfo).toString());
