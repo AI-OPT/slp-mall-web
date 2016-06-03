@@ -55,6 +55,10 @@ public class ProductController {
 
 			productskurequest.setTenantId("SLP");
 			ProductSKUResponse producSKU = iProductDetailSV.queryProducSKUById(productskurequest);
+			
+			//TODO 测试数据 
+			//producSKU = demoResponse();
+			
 			ResponseHeader responseHeader = producSKU.getResponseHeader();
 			if (responseHeader.isSuccess()) {
 				String productInfoHtml = producSKU.getProDetailContent();
@@ -83,6 +87,111 @@ public class ProductController {
 			LOG.error("商品详情查询报错：", e);
 		}
 		return new ModelAndView("jsp/product/product_detail", model);
+	}
+	
+	/**
+	 * 示例返回值
+	 *
+	 * @return
+     */
+	private ProductSKUResponse demoResponse(){
+		ProductSKUResponse productSKUResponse = new ProductSKUResponse();
+
+		productSKUResponse.setCommentNum(1000L);
+		productSKUResponse.setProdId("0001");
+		productSKUResponse.setProdName("小米5 全网通 标准版 ");
+		productSKUResponse.setProductSellPoint("套餐更实惠，千元畅机！高通晓龙650处理器，轻薄4000mAH电池，5.5英寸1080p高清大屏！5.5英寸1080p高清大屏！");
+		productSKUResponse.setSaleNum(2000L);
+		productSKUResponse.setSalePrice(1999l);
+		productSKUResponse.setSkuId("0001");
+		productSKUResponse.setSkuName("小米5 全网通 标准版");
+		productSKUResponse.setUsableNum(5000L);
+		productSKUResponse.setState("1");
+		// 设置属性
+		List<ProductSKUAttr> productAttrList = new LinkedList<ProductSKUAttr>();
+		ProductSKUAttr skuAttr1 = new ProductSKUAttr();
+		skuAttr1.setAttrId(1l);
+		skuAttr1.setAttrName("选择颜色");
+		List<ProductSKUAttrValue> attrValueList = new LinkedList<ProductSKUAttrValue>();
+		ProductSKUAttrValue skuAttrValue1 = new ProductSKUAttrValue();
+		skuAttrValue1.setAttrvalueDefId("1001");
+		skuAttrValue1.setAttrValueName("白色");
+		skuAttrValue1.setIsOwn(true);
+		ProductImage image1 = new ProductImage();
+		image1.setVfsId("57454f50d601800009c0b0cf");
+		image1.setPicType(".jpg");
+		skuAttrValue1.setImage(image1);
+		attrValueList.add(skuAttrValue1);
+		skuAttr1.setAttrValueList(attrValueList);
+		ProductSKUAttrValue skuAttrValue2 = new ProductSKUAttrValue();
+		skuAttrValue2.setAttrvalueDefId("1002");
+		skuAttrValue2.setAttrValueName("黑色");
+		skuAttrValue2.setIsOwn(false);
+		ProductImage image2 = new ProductImage();
+		image2.setVfsId("574551b4d601800009c0b0d9");
+		image2.setPicType(".jpg");
+		skuAttrValue2.setImage(image2);
+		attrValueList.add(skuAttrValue2);
+		skuAttr1.setAttrValueList(attrValueList);
+		ProductSKUAttrValue skuAttrValue3 = new ProductSKUAttrValue();
+		skuAttrValue3.setAttrvalueDefId("1002");
+		skuAttrValue3.setAttrValueName("紫色");
+		skuAttrValue3.setIsOwn(false);
+		ProductImage image3 = new ProductImage();
+		image3.setVfsId("57455205d601800009c0b0df");
+		image3.setPicType(".jpg");
+		skuAttrValue3.setImage(image3);
+		attrValueList.add(skuAttrValue3);
+		skuAttr1.setAttrValueList(attrValueList);
+		productAttrList.add(skuAttr1);
+
+		ProductSKUAttr skuAttr2 = new ProductSKUAttr();
+		skuAttr2.setAttrId(2l);
+		skuAttr2.setAttrName("选择版本");
+		List<ProductSKUAttrValue> attrValueList2 = new LinkedList<ProductSKUAttrValue>();
+		ProductSKUAttrValue skuAttrValue4 = new ProductSKUAttrValue();
+		skuAttrValue4.setAttrvalueDefId("1004");
+		skuAttrValue4.setAttrValueName("标准版");
+		skuAttrValue4.setIsOwn(false);
+		attrValueList2.add(skuAttrValue4);
+		skuAttr2.setAttrValueList(attrValueList);
+		ProductSKUAttrValue skuAttrValue5 = new ProductSKUAttrValue();
+		skuAttrValue5.setAttrvalueDefId("1005");
+		skuAttrValue5.setAttrValueName("高配版");
+		skuAttrValue5.setIsOwn(true);
+		attrValueList2.add(skuAttrValue5);
+		skuAttr2.setAttrValueList(attrValueList);
+		ProductSKUAttrValue skuAttrValue6 = new ProductSKUAttrValue();
+		skuAttrValue6.setAttrvalueDefId("1006");
+		skuAttrValue6.setAttrValueName("尊享版");
+		skuAttrValue6.setIsOwn(false);
+		attrValueList2.add(skuAttrValue6);
+		skuAttr2.setAttrValueList(attrValueList2);
+		productAttrList.add(skuAttr2);
+		productSKUResponse.setProductAttrList(productAttrList);
+
+		// 设置图片
+		List<ProductImage> productImageList = new LinkedList<ProductImage>();
+		ProductImage productImage1 = new ProductImage();
+		productImage1.setPicType(".jpg");
+		productImage1.setVfsId("57454f50d601800009c0b0cf");
+		productImageList.add(productImage1);
+		ProductImage productImage2 = new ProductImage();
+		productImage2.setPicType(".jpg");
+		productImage2.setVfsId("5745516fd601800009c0b0d5");
+		productImageList.add(productImage2);
+		ProductImage productImage3 = new ProductImage();
+		productImage3.setPicType(".jpg");
+		productImage3.setVfsId("57455191d601800009c0b0d7");
+		productImageList.add(productImage3);
+		productSKUResponse.setProductImageList(productImageList);
+		String productInfoHtml = "<p><A><img src=\"/slp-mall/resources/slpmall/images/parameter-a.png\"></A></p>" + "<p><img src=\"/slp-mall/resources/slpmall/images/parameter-b.png\"></p>"
+				+ "<p><img src=\"/slp-mall/resources/slpmall/images/parameter-c.png\"></p>" + "<p><img src=\"${_slpbase }/images/parameter-d.jpg\"></p>"
+				+ "<p><img src=\"/slp-mall/resources/slpmall/images/parameter-e.png\"></p>";
+		productSKUResponse.setProDetailContent(productInfoHtml);
+		ResponseHeader responseHeader = new ResponseHeader(true, "000000", "查询成功");
+		productSKUResponse.setResponseHeader(responseHeader);
+		return productSKUResponse;
 	}
 
 	/**
@@ -159,37 +268,6 @@ public class ProductController {
 		}
 	}
 
-	// /**
-	// * 热销商品查询
-	// *
-	// * @param request
-	// * @return
-	// */
-	// @RequestMapping("/getHotProduct")
-	// @ResponseBody
-	// public ResponseData<List<ProductData>> getHotProduct(HttpServletRequest
-	// request) {
-	// ISearchProductSV iPaymentQuerySV =
-	// DubboConsumerFactory.getService("iSearchProductSV");
-	// ResponseData<List<ProductData>> responseData = null;
-	// try {
-	// List<ProductData> resultInfo = iPaymentQuerySV.queryHotSellProduct();
-	// for (ProductData data : resultInfo) {
-	// data.setPictureUrl(ImageUtil.getHotImage());
-	// }
-	// resultInfo.get(0).setPictureUrl(ImageUtil.getHotImage());
-	// responseData = new
-	// ResponseData<List<ProductData>>(ResponseData.AJAX_STATUS_SUCCESS, "查询成功",
-	// resultInfo);
-	// } catch (Exception e) {
-	// responseData = new
-	// ResponseData<List<ProductData>>(ResponseData.AJAX_STATUS_FAILURE,
-	// "查询失败");
-	// LOG.error("获取信息出错：", e);
-	// }
-	// return responseData;
-	// }
-
 	/**
 	 * 查询商品配置参数
 	 * 
@@ -202,24 +280,17 @@ public class ProductController {
 		ResponseData<List<ProductSKUAttr>> responseData = null;
 		try {
 			IProductDetailSV iProductDetailSV = DubboConsumerFactory.getService("iProductDetailSV");
-			// ProductSKURequest productSKURequest = new ProductSKURequest();
-			// String skuId =
-			// StringUtil.toString(request.getParameter("skuId"));
-			// String skuAttrs =
-			// StringUtil.toString(request.getParameter("skuAttrs"));
-			// productSKURequest.setSkuId(skuId);
-			// productSKURequest.setSkuAttrs(skuAttrs);
-
-			// productSKURequest.setSkuId("0001");
 			productSKURequest.setTenantId("SLP");
 			ProductSKUConfigResponse productSKUConfig = iProductDetailSV.queryProductSKUConfig(productSKURequest);
 
-			productSKUConfig = demoConfigResponse();
+			//TODO 测试数据 
+			//productSKUConfig = demoConfigResponse();
 
-			ResponseHeader responseHeader = productSKUConfig.getResponseHeader();
-			if (responseHeader.isSuccess()) {
+			if (productSKUConfig != null && productSKUConfig.getResponseHeader().isSuccess()) {
 				List<ProductSKUAttr> configParamterList = productSKUConfig.getProductAttrList();
 				responseData = new ResponseData<List<ProductSKUAttr>>(ResponseData.AJAX_STATUS_SUCCESS, "查询成功", configParamterList);
+			}else{
+				responseData = new ResponseData<List<ProductSKUAttr>>(ResponseData.AJAX_STATUS_SUCCESS, "无数据", null);
 			}
 		} catch (Exception e) {
 			responseData = new ResponseData<List<ProductSKUAttr>>(ResponseData.AJAX_STATUS_FAILURE, "查询失败", null);

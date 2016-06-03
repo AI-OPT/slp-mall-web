@@ -64,12 +64,10 @@ define('app/jsp/product/productDetail', function (require, exports, module) {
     	},
     	//渲染商品基本信息
     	_renderProducSKUTemple:function(){
+    		$("#producSKUData").html("");
     		var template = $.templates("#producSKUTemple");
 			var htmlOutput = template.render(producSKU);
 			$("#producSKUData").html(htmlOutput);
-    	},
-    	_renderProductInfo:function(){
-    		$("#porductInfoDiv").html(producSKU.proDetailContent);
     	},
     	//控制按钮
     	_controlBtn:function(){
@@ -192,6 +190,7 @@ define('app/jsp/product/productDetail', function (require, exports, module) {
         	this._displayShowUI("date2");
         },
         _getHotProduct:function(){
+        	$("#hotProductData").html("");
       		ajaxController.ajax({
 						type: "post",
 						dataType: "json",
@@ -210,6 +209,7 @@ define('app/jsp/product/productDetail', function (require, exports, module) {
       		);
       	},
       	_getProductConfigParameter:function(){
+      		var _this = this;
       		ajaxController.ajax({
 						type: "post",
 						dataType: "json",
@@ -219,6 +219,8 @@ define('app/jsp/product/productDetail', function (require, exports, module) {
 						data:{"skuId":skuId,"skuAttrs":skuAttrs},
 						success: function(data){
 							if(data.data){
+								_this._displayShowUI("seeMoreConfigBtn");
+								_this._displayShowUI("date2");
 								var template = $.templates("#configParameterTemple");
 								var htmlOut = template.render(data.data);
 								$("#configParameterData").html(htmlOut);
@@ -226,6 +228,9 @@ define('app/jsp/product/productDetail', function (require, exports, module) {
 								var template2 = $.templates("#configBriefParameterTemple");
 								var htmlOut2 = template2.render(data.data);
 								$("#configBriefParameterData").html(htmlOut2);
+							}else{
+								_this._displayHideUI("seeMoreConfigBtn");
+								_this._displayHideUI("date2");
 							}
 						}
 					}
