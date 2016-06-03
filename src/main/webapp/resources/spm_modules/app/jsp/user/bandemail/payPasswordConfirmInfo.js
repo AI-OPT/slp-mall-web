@@ -1,4 +1,4 @@
-define('app/jsp/user/bandemail/confirmInfo', function (require, exports, module) {
+define('app/jsp/user/bandemail/payPasswordConfirmInfo', function (require, exports, module) {
     'use strict';
     var $=require('jquery'),
     Widget = require('arale-widget/1.2.0/widget'),
@@ -23,7 +23,7 @@ define('app/jsp/user/bandemail/confirmInfo', function (require, exports, module)
     	//事件代理
     	events: {
     		//key的格式: 事件+空格+对象选择器;value:事件方法
-    		"click [id='sendEmailBtn']":"_confirmInfo",
+    		"click [id='submitBtn']":"_confirmInfo",
     		"click [id='sendVerify']":"_sendVerify",
     		"click [id='random_img']":"_getImageRandomCode",
     		"click [id='changeImage']":"_getImageRandomCode",
@@ -50,8 +50,7 @@ define('app/jsp/user/bandemail/confirmInfo', function (require, exports, module)
 		//初始化展示页面
 		_initShowView:function(){
 			 //左侧菜单显示样式
-			$('.active').removeClass('active');
-	   		$("#securitySettings").addClass("active");
+	   		$("#setEmail").addClass("current");
 	   		//标题显示
 	   		$("#set_title_id").html("绑定邮箱");
 	   		$("#updateEmail").addClass("current");
@@ -62,7 +61,7 @@ define('app/jsp/user/bandemail/confirmInfo', function (require, exports, module)
 		_getImageRandomCode:function(){
 			var timestamp = (new Date()).valueOf();
 			$("#pictureVerifyCode").val("");
-			$("#random_img").attr("src",_base+"/user/verify/getImageVerifyCode?timestamp="+timestamp);
+			$("#random_img").attr("src",_base+"/user/bandEmail/getImageVerifyCode?timestamp="+timestamp);
 		},
 		_sendVerify:function(){
 			var _this = this;
@@ -72,7 +71,7 @@ define('app/jsp/user/bandemail/confirmInfo', function (require, exports, module)
 				data : {
 				},
 				dataType: 'json',
-				url :_base+"/user/verify/sendPhoneVerify",
+				url :_base+"/user/bandEmail/sendVerify?confirmType=1",
 				processing: true,
 				message : "正在处理中，请稍候...",
 				success : function(data) {
@@ -189,8 +188,7 @@ define('app/jsp/user/bandemail/confirmInfo', function (require, exports, module)
 				success : function(data) {
 					var status = data.responseHeader.resultCode;
 					if(status == "000000"){
-						alert(_base+data.data)
-						window.location.href=_base+data.data;
+						window.location.href=_base+"/user/bandEmail/updateSuccess"
 					}else{
 						var msg = data.statusInfo;
 						//验证码
@@ -222,7 +220,7 @@ define('app/jsp/user/bandemail/confirmInfo', function (require, exports, module)
 				type : "POST",
 				data : _this._getSafetyConfirmData(),
 				dataType: 'json',
-				url :_base+"/user/verify/confirmInfo",
+				url :_base+"/user/bandEmail/confirmInfo",
 				processing: true,
 				message : "正在处理中，请稍候...",
 				success : function(data) {
@@ -246,7 +244,7 @@ define('app/jsp/user/bandemail/confirmInfo', function (require, exports, module)
 								"emailType":emailType
 							},
 							dataType: 'json',
-							url :_base+"/user/bandEmail/sendEmail?k="+uuid,
+							url :_base+"/user/bandEmail/sendEmail",
 							processing: true,
 							message : "正在处理中，请稍候...",
 							success : function(data) {
@@ -515,7 +513,7 @@ define('app/jsp/user/bandemail/confirmInfo', function (require, exports, module)
     	_passwordNext:function(){
 			ajaxController.ajax({
 				type : "POST",
-				data : _this._getSafetyConfirmData(),
+				data : this._getSafetyConfirmData(),
 				dataType: 'json',
 				url :_base+"/user/payPassword/confirmInfo",
 				processing: true,
@@ -523,7 +521,7 @@ define('app/jsp/user/bandemail/confirmInfo', function (require, exports, module)
 				success : function(data) {
 					var status = data.responseHeader.resultCode;
 					if(status == "000000"){
-						window.location.href=_base+"/user/bandEmail/setPayPassword"
+						window.location.href=_base+"/user/payPassword/setPayPassword"
 					}else{
 						var msg = data.statusInfo;
 						//验证码

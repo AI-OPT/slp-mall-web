@@ -45,7 +45,8 @@ define('app/jsp/user/bandemail/setEmail', function (require, exports, module) {
 		},
     	_showClass: function(){
     		 //左侧菜单显示样式
-	   		$("#setEmail").addClass("current");
+    		$('.active').removeClass('active');
+	   		$("#securitySettings").addClass("active");
 	   		//标题显示
 	   		$("#set_title_id").html("绑定邮箱");
 	   		$("#updateEmail").addClass("current");
@@ -91,7 +92,7 @@ define('app/jsp/user/bandemail/setEmail', function (require, exports, module) {
 					}
 				},
 				dataType: 'json',
-				url :_base+"/center/bandEmail/checkEmailValue",
+				url :_base+"/user/bandEmail/checkEmailValue",
 				async: false,
 				processing: true,
 				message : "正在处理中，请稍候...",
@@ -158,17 +159,17 @@ define('app/jsp/user/bandemail/setEmail', function (require, exports, module) {
 				data : {
 					"email": function(){
 						return $("#email").val()
-					}
+					},
+					"emailType":"setEmail"
 				},
 				dataType: 'json',
-				url :_base+"/center/bandEmail/sendEmailVerify?k="+uuid,
+				url :_base+"/user/bandEmail/sendEmail?k="+uuid,
 				processing: true,
 				message : "正在处理中，请稍候...",
 				success : function(data) {
 					var resultCode = data.responseHeader.resultCode;
 					if(resultCode == "100000"){
 						var url = data.data;
-						window.location.href = _base+url;
 					}else{
 						if(resultCode=="000000"){
 							var step = 59;
@@ -184,6 +185,7 @@ define('app/jsp/user/bandemail/setEmail', function (require, exports, module) {
 				                clearInterval(_res);//清除setInterval
 				                }
 				            },1000);
+				            window.location.href = _base+"/user/bandEmail/sendBandEmailSuccess";
 						}else{
 							$("#sendEmailBtn").removeAttr("disabled");
 						}
@@ -216,7 +218,7 @@ define('app/jsp/user/bandemail/setEmail', function (require, exports, module) {
 				type : "POST",
 				data : _this._getSafetyConfirmData(),
 				dataType: 'json',
-				url :_base+"/center/bandEmail/setNewEmail?k="+uuid,
+				url :_base+"/user/bandEmail/setNewEmail?k="+uuid,
 				processing: true,
 				message : "正在处理中，请稍候...",
 				success : function(data) {
