@@ -91,4 +91,7 @@
 	<!-- 缓存 -->	
 	<dubbo:reference id="iCacheSV"
 		interface="com.ai.slp.common.api.cache.interfaces.ICacheSV"/>	
+		<!-- 根据手机号查询 -->	
+	<dubbo:reference id="iServiceNumSV"
+		interface="com.ai.slp.common.api.servicenum.interfaces.IServiceNumSV"/>	
 </beans>
