@@ -52,7 +52,7 @@ public class ProductController {
 			ProductSKURequest productskurequest = new ProductSKURequest();
 			productskurequest.setSkuId(skuId);
 			productskurequest.setSkuAttrs(skuAttrs);
-			
+
 			productskurequest.setTenantId("SLP");
 			ProductSKUResponse producSKU = iProductDetailSV.queryProducSKUById(productskurequest);
 			ResponseHeader responseHeader = producSKU.getResponseHeader();
@@ -69,6 +69,8 @@ public class ProductController {
 				model.put("imageArrayList", productImageJson);
 				// 设置skuID
 				model.put("skuId", skuId);
+				// 设置skuAttrs
+				model.put("skuAttrs", skuAttrs);
 				// 设置商品有效期
 				String activeType = producSKU.getActiveType();
 				String activeValue = getActiveDateValue(producSKU, activeType);
@@ -157,56 +159,65 @@ public class ProductController {
 		}
 	}
 
-//	/**
-//	 * 热销商品查询
-//	 * 
-//	 * @param request
-//	 * @return
-//	 */
-//	@RequestMapping("/getHotProduct")
-//	@ResponseBody
-//	public ResponseData<List<ProductData>> getHotProduct(HttpServletRequest request) {
-//		ISearchProductSV iPaymentQuerySV = DubboConsumerFactory.getService("iSearchProductSV");
-//		ResponseData<List<ProductData>> responseData = null;
-//		try {
-//			List<ProductData> resultInfo = iPaymentQuerySV.queryHotSellProduct();
-//			for (ProductData data : resultInfo) {
-//				data.setPictureUrl(ImageUtil.getHotImage());
-//			}
-//			resultInfo.get(0).setPictureUrl(ImageUtil.getHotImage());
-//			responseData = new ResponseData<List<ProductData>>(ResponseData.AJAX_STATUS_SUCCESS, "查询成功", resultInfo);
-//		} catch (Exception e) {
-//			responseData = new ResponseData<List<ProductData>>(ResponseData.AJAX_STATUS_FAILURE, "查询失败");
-//			LOG.error("获取信息出错：", e);
-//		}
-//		return responseData;
-//	}
-	
+	// /**
+	// * 热销商品查询
+	// *
+	// * @param request
+	// * @return
+	// */
+	// @RequestMapping("/getHotProduct")
+	// @ResponseBody
+	// public ResponseData<List<ProductData>> getHotProduct(HttpServletRequest
+	// request) {
+	// ISearchProductSV iPaymentQuerySV =
+	// DubboConsumerFactory.getService("iSearchProductSV");
+	// ResponseData<List<ProductData>> responseData = null;
+	// try {
+	// List<ProductData> resultInfo = iPaymentQuerySV.queryHotSellProduct();
+	// for (ProductData data : resultInfo) {
+	// data.setPictureUrl(ImageUtil.getHotImage());
+	// }
+	// resultInfo.get(0).setPictureUrl(ImageUtil.getHotImage());
+	// responseData = new
+	// ResponseData<List<ProductData>>(ResponseData.AJAX_STATUS_SUCCESS, "查询成功",
+	// resultInfo);
+	// } catch (Exception e) {
+	// responseData = new
+	// ResponseData<List<ProductData>>(ResponseData.AJAX_STATUS_FAILURE,
+	// "查询失败");
+	// LOG.error("获取信息出错：", e);
+	// }
+	// return responseData;
+	// }
+
 	/**
 	 * 查询商品配置参数
+	 * 
 	 * @param request
 	 * @return
 	 */
 	@RequestMapping("/getProductConfigParameter")
 	@ResponseBody
-	public ResponseData<List<ProductSKUAttr>> getProductConfigParamter(HttpServletRequest request) {
+	public ResponseData<List<ProductSKUAttr>> getProductConfigParamter(HttpServletRequest request, ProductSKURequest productSKURequest) {
 		ResponseData<List<ProductSKUAttr>> responseData = null;
 		try {
 			IProductDetailSV iProductDetailSV = DubboConsumerFactory.getService("iProductDetailSV");
-			ProductSKURequest productSKURequest = new ProductSKURequest();
-			String skuId = StringUtil.toString(request.getParameter("skuId"));
-			String skuAttrs = StringUtil.toString(request.getParameter("skuAttrs"));
-			productSKURequest.setSkuId(skuId);
-			productSKURequest.setSkuAttrs(skuAttrs);
-			
-			productSKURequest.setSkuId("0001");
+			// ProductSKURequest productSKURequest = new ProductSKURequest();
+			// String skuId =
+			// StringUtil.toString(request.getParameter("skuId"));
+			// String skuAttrs =
+			// StringUtil.toString(request.getParameter("skuAttrs"));
+			// productSKURequest.setSkuId(skuId);
+			// productSKURequest.setSkuAttrs(skuAttrs);
+
+			// productSKURequest.setSkuId("0001");
 			productSKURequest.setTenantId("SLP");
 			ProductSKUConfigResponse productSKUConfig = iProductDetailSV.queryProductSKUConfig(productSKURequest);
-			
+
 			productSKUConfig = demoConfigResponse();
-			
+
 			ResponseHeader responseHeader = productSKUConfig.getResponseHeader();
-			if(responseHeader.isSuccess()){
+			if (responseHeader.isSuccess()) {
 				List<ProductSKUAttr> configParamterList = productSKUConfig.getProductAttrList();
 				responseData = new ResponseData<List<ProductSKUAttr>>(ResponseData.AJAX_STATUS_SUCCESS, "查询成功", configParamterList);
 			}
@@ -217,7 +228,7 @@ public class ProductController {
 		}
 		return responseData;
 	}
-	
+
 	private ProductSKUConfigResponse demoConfigResponse() {
 		ProductSKUConfigResponse ProductSKUConfigResponse = new ProductSKUConfigResponse();
 		ResponseHeader responseHeader = new ResponseHeader(true, "000000", "查询成功");
