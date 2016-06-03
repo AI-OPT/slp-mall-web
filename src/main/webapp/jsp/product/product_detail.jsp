@@ -101,16 +101,17 @@
                        <li class="word">有效期：</li>
                        <li id="activeDate"></li>
                     </ul>
+					<div id="productAttrDiv">
 					{{for productAttrList}}
 						<ul class="details-list">
-					   		<li class="word">{{:attrName}}：</li>
-                       		<li class="attribute">
-							{{for attrValueList}}
-                           		<p>
+					   		<li class="word" value="{{:attrId}}">{{:attrName}}：</li>
+                       		<li class="attribute" value="" id="attrValue_{{:attrId}}">
+							{{for attrValueList ~attrId=attrId}}
+                           		<p onclick="pager._changeAttr(this,{{:attrvalueDefId}},{{:~attrId}})">
 									{{if isOwn}}
-										<a href="#" class="current">
+										<a href="javascript:void(0);" class="current" name="{{:attrvalueDefId}}">
 									{{else}}
-                               			<a href="#">
+                               			<a href="javascript:void(0); name="{{:attrvalueDefId}}">
 									{{/if}}
 									{{if imageUrl != null}}
                                		<span><img src="{{:imageUrl}}"></span>
@@ -122,6 +123,7 @@
                         	</li>
                    	 </ul>
 					{{/for}}
+					</div>
 					 <ul class="details-list">
                        <li class="word">购买数量：</li>
                        <li class="numbe">
@@ -237,6 +239,7 @@
 	
 	var pager;
 	var skuId = '${skuId}';
+	var skuAttrs = '${skuAttrs}'
 	var producSKU = $.parseJSON('${productSKU}');
 	var imageArrayList = $.parseJSON('${imageArrayList}');
 	var activeDateValue = '${activeDateValue}';

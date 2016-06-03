@@ -148,6 +148,43 @@ define('app/jsp/product/productDetail', function (require, exports, module) {
         	var re = /^[1-9][0-9]*$/ ; 
         	return re.test(num) 
         },
+        //点击修改属性
+        _changeAttr:function(attrValueElmt,attrvalueDefId,attrId){
+        	var attrValueClass = attrValueElmt.getElementsByTagName("a")[0].className;
+        	if(attrValueClass !="current"){
+        		//设置属性变亮
+        		$("#attrValue_"+attrId+" a").removeClass("current");
+        		attrValueElmt.getElementsByTagName("a")[0].className = "current";
+        		attrValueElmt.getElementsByTagName("a")[0].name=attrvalueDefId;
+        		//设置当前属性值
+        		//$("#attrValue_"+attrId).val(attrvalueDefId);
+        		var skuAttrs = this._getProductAttrs();
+        		window.location.href=_base+"/product/detail?skuAttrs="+skuAttrs;
+        	}
+        },
+        //获取属性串
+        _getProductAttrs:function(){
+        	var attrMapArray = document.getElementById("productAttrDiv").children;
+        	var skuAttrs = "";
+        	for(var i=0;i<attrMapArray.length;i++){
+        		var atteArray = attrMapArray[i].children;
+        		var attrName = atteArray[0].value;
+        		var attrValue = "";
+        		var attrValues = atteArray[1].children;
+        		for(var j=0;j<attrValues.length;j++){
+        			if(attrValues[j].getElementsByTagName("a")[0].className == "current"){
+        				attrValue = attrValues[j].getElementsByTagName("a")[0].name;
+        			}
+        		}
+        		if(skuAttrs == ""){
+        			skuAttrs = attrName+":"+attrValue;
+        		}else{
+        			skuAttrs = skuAttrs+";"+attrName+":"+attrValue;
+        		}
+        	}
+        	return skuAttrs;
+        },
+        //查看更多配置属性
         _seeMoreConfig:function(){
         	$("#productInfoTab").removeClass("current");
         	$("#productConfigTab").attr("class","current");
@@ -179,7 +216,7 @@ define('app/jsp/product/productDetail', function (require, exports, module) {
 						processing: false,
 						//message: "查询中，请等待...",
 						url: _base+"/product/getProductConfigParameter",
-						data:'',
+						data:{"skuId":skuId,"skuAttrs":skuAttrs},
 						success: function(data){
 							if(data.data){
 								var template = $.templates("#configParameterTemple");
