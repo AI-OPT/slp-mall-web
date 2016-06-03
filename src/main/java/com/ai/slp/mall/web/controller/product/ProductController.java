@@ -101,7 +101,7 @@ public class ProductController {
 			String inactiveStr = DateUtil.formatDate(inactiveTime, "yyyy-MM-dd");
 			activeValue = activeStr + " ~ " + inactiveStr;
 		} else if ("2".equals(activeType)) {
-			Integer activeCycle = producSKU.getActiveCycle();
+			Short activeCycle = producSKU.getActiveCycle();
 			String unit = producSKU.getUnit();
 			activeValue = "支付后" + activeCycle + unit + "内充值使用";
 		}
