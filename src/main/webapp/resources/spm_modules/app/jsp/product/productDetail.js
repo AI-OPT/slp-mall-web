@@ -33,6 +33,8 @@ define('app/jsp/product/productDetail', function (require, exports, module) {
             "change #productQty":"_modifyProductQty",
             //增加数量
             "click #addQtyBtn":"_addProductQty",
+            //查看更多配置信息
+            "click #seeMoreConfigBtn":"_seeMoreConfig",
             //加入购物车
             "click #joinShopCart":"_joinShopCartClick"
         },
@@ -42,6 +44,7 @@ define('app/jsp/product/productDetail', function (require, exports, module) {
     		this._renderProducSKUTemple();
     		this._renderImageBigTemple();
     		this._renderImageSmallTemple();
+    		
     		this._controlActiveDate();
     		this._controlBtn();
     		this._getHotProduct();
@@ -65,13 +68,25 @@ define('app/jsp/product/productDetail', function (require, exports, module) {
 			var htmlOutput = template.render(producSKU);
 			$("#producSKUData").html(htmlOutput);
     	},
+    	_renderProductInfo:function(){
+    		$("#porductInfoDiv").html(producSKU.proDetailContent);
+    	},
     	//控制按钮
     	_controlBtn:function(){
     		if(producSKU.state == 1){
-    			this._displayShowUI("buyBtnId");
-    			this._displayShowUI("addCarBtnId");
-    			this._displayHideUI("invalidBtnId");
+    			var usableNum = Number($("#usableNum").text());
+    			if(usableNum<=0){
+    				$("#invalidBtn").val("无货");
+    				this._displayHideUI("buyBtnId");
+        			this._displayHideUI("addCarBtnId");
+        			this._displayShowUI("invalidBtnId");
+    			}else{
+	    			this._displayShowUI("buyBtnId");
+	    			this._displayShowUI("addCarBtnId");
+	    			this._displayHideUI("invalidBtnId");
+    			}
     		}else{
+    			$("#invalidBtn").val("已下架");
     			this._displayHideUI("buyBtnId");
     			this._displayHideUI("addCarBtnId");
     			this._displayShowUI("invalidBtnId");
@@ -110,8 +125,11 @@ define('app/jsp/product/productDetail', function (require, exports, module) {
         //修改数量
         _modifyProductQty:function(){
         	var qty = Number($("#productQty").val());
+        	var usableNum = Number($("#usableNum").text());
         	if(!this._isPositiveNum(qty)){
         		$("#productQty").val(1);
+        	}else if(qty>usableNum){
+        		$("#productQty").val(usableNum);
         	}else{
         		$("#productQty").val(qty);
         	}
@@ -119,13 +137,22 @@ define('app/jsp/product/productDetail', function (require, exports, module) {
         //增加数量
         _addProductQty:function(){
         	var qty = Number($("#productQty").val());
-        	qty = qty + 1;
+        	var usableNum = Number($("#usableNum").text());
+        	if(qty<usableNum){
+        		qty = qty + 1;
+        	}
         	$("#productQty").val(qty);
         },
         //是否为正整数 
         _isPositiveNum:function(num){
         	var re = /^[1-9][0-9]*$/ ; 
         	return re.test(num) 
+        },
+        _seeMoreConfig:function(){
+        	$("#productInfoTab").removeClass("current");
+        	$("#productConfigTab").attr("class","current");
+        	this._displayHideUI("date1");
+        	this._displayShowUI("date2");
         },
         _getHotProduct:function(){
       		ajaxController.ajax({
@@ -134,7 +161,7 @@ define('app/jsp/product/productDetail', function (require, exports, module) {
 						processing: false,
 						//message: "查询中，请等待...",
 						url: _base+"/search/getHotProduct",
-						data:'',
+						data:{areaCode:"81"},
 						success: function(data){
 							if(data.data){
 								var template = $.templates("#hotProductListTmpl");
@@ -158,6 +185,10 @@ define('app/jsp/product/productDetail', function (require, exports, module) {
 								var template = $.templates("#configParameterTemple");
 								var htmlOut = template.render(data.data);
 								$("#configParameterData").html(htmlOut);
+								
+								var template2 = $.templates("#configBriefParameterTemple");
+								var htmlOut2 = template2.render(data.data);
+								$("#configBriefParameterData").html(htmlOut2);
 							}
 						}
 					}

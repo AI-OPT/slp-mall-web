@@ -53,6 +53,8 @@
                 <input type="hidden" name="priceId" id="priceId" value="${requestScope.priceId}"/>
              	<input type="hidden" name="billType" id="billType" value="${requestScope.billType}"/>
              	<input type="hidden" name="orgired" id="orgired" value="${requestScope.orgired}"/>
+             	<input type="hidden" name="skuName" id="skuName" value="${requestScope.skuName}"/>
+             		<input type="hidden" name="sourceFlag" id="sourceFlag" value="${requestScope.sourceFlag}"/>
                 <div class="search-main">
                      <ul>
                          <li class="word">运营商:</li>
@@ -126,16 +128,16 @@
                              <p><A href="#">山西</A></p>
                              <p><A href="#">河北</A></p>
                           </li></div>
-                     </ul>  
-                      <ul class="none-border">
+                     </ul>
+                     <!-- 
+                     <ul class="none-border">
                          <li class="word">充值方式:</li>
                          <li>
                              <p class="current"><A href="#">自助充值</A></p>
                              <p><A href="#">卡密充值</A></p>      
                          </li>
                      </ul>
-                     
-                                    
+                      -->  
                 </div>
             
             </div>
@@ -230,7 +232,7 @@
 								<ul>
                             		<li class="img"><a href="#"><img src="{{:picUrl}}"></a></li>
                             		<li class="word"><a href="#">{{:prodName}}</a> </li>
-                            		<li class="left"><span>￥{{:~liToYuan(salePrice)}}</span><a href="#" class="pj">{{:commentIdCount}}评价</a></li>
+                            		<li class="left"><span>￥{{:~liToYuan(salePrice)}}</span></li>
                         		</ul>
 							</div>
 						</script>
@@ -262,7 +264,7 @@
                    			</div>
 							<div class="single-word">
                					<ul>
-               						<li class="word">¥{{:~liToYuan(salePrice)}}<a href="#" class="pj">{{:commentIdCount}}评价</a></li>
+               						<li class="word">¥{{:~liToYuan(salePrice)}}</li>
                						<li><a href="#">{{:prodName}}</a></li>
                					</ul>
                				</div>

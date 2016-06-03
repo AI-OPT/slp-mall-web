@@ -1,4 +1,4 @@
-define('app/jsp/product/productDetail', function (require, exports, module) {
+define('app/jsp/shoppingcart/shopCartDetails', function (require, exports, module) {
     'use strict';
     var $=require('jquery'),
     Widget = require('arale-widget/1.2.0/widget'),
@@ -27,13 +27,14 @@ define('app/jsp/product/productDetail', function (require, exports, module) {
     	},
     	//事件代理
     	events: {
-            //加入购物车
-            "click #joinShopCart":"_joinShopCartClick"
+            //减少数量
+//    		"click #delQtyBtn":"_delProductQty",
         },
     	//重写父类
     	setup: function () {
     		ProductDeatilPager.superclass.setup.call(this);
-    		this._renderProducSKUTemple();
+    		this._renderCartProdTemple();
+//    		this._delQtyBtn(this);
     	},
     	//渲染商品信息
     	_renderCartProdTemple:function(){
@@ -41,6 +42,22 @@ define('app/jsp/product/productDetail', function (require, exports, module) {
 			var htmlOutput = template.render(cartProdList);
 			$("#shopCart").html(htmlOutput);
     	},
+//    	//减少数量
+//    	_delQtyBtn:function(this){
+//    		var nowNum = btn.next().val();
+//    		var oldNum = parseInt(nowNum);
+//    		if(oldNum<=1){
+//    			return;
+//    		}
+//    		var newNum = oldNum--;
+//    		btn.next().val(newNum);
+//    	},
+//    	//增加数量
+//    	_addQtyBtn:function(this){
+//    		var oldNum = btn.prev().val();
+//    		var newNum = oldNum++;
+//    		btn.prev().val(newNum);
+//    	}
     	
     });
     

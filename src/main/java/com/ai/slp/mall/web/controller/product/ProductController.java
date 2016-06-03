@@ -1,5 +1,6 @@
 package com.ai.slp.mall.web.controller.product;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -46,20 +47,18 @@ public class ProductController {
 			String attrImageSize = "30x30";
 
 			String skuId = StringUtil.toString(request.getParameter("skuId"));
+			String skuAttrs = StringUtil.toString(request.getParameter("skuAttrs"));
 			IProductDetailSV iProductDetailSV = DubboConsumerFactory.getService("iProductDetailSV");
 			ProductSKURequest productskurequest = new ProductSKURequest();
-			productskurequest.setSkuId("0001");
+			productskurequest.setSkuId(skuId);
+			productskurequest.setSkuAttrs(skuAttrs);
+			
+			productskurequest.setTenantId("SLP");
 			ProductSKUResponse producSKU = iProductDetailSV.queryProducSKUById(productskurequest);
 			ResponseHeader responseHeader = producSKU.getResponseHeader();
 			if (responseHeader.isSuccess()) {
-				// producSKU.setActiveType("2");
-				// producSKU.setActiveTime(DateUtils.parseDate("2016-01-01",
-				// "yyyy-MM-dd"));
-				// producSKU.setInactiveTime(DateUtils.parseDate("2018-01-01",
-				// "yyyy-MM-dd"));
-				// producSKU.setActiveCycle(15);
-				// producSKU.setUnit("天");
-
+				String productInfoHtml = producSKU.getProDetailContent();
+				producSKU.setProDetailContent("");
 				// 设置商品属性中的图片
 				changeAttrImage(attrImageSize, producSKU);
 				String producSKUJson = JSonUtil.toJSon(producSKU);
@@ -74,6 +73,8 @@ public class ProductController {
 				String activeType = producSKU.getActiveType();
 				String activeValue = getActiveDateValue(producSKU, activeType);
 				model.put("activeDateValue", activeValue);
+				// 设置商品详情展示信息
+				model.put("productInfo", productInfoHtml);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -193,8 +194,17 @@ public class ProductController {
 		try {
 			IProductDetailSV iProductDetailSV = DubboConsumerFactory.getService("iProductDetailSV");
 			ProductSKURequest productSKURequest = new ProductSKURequest();
+			String skuId = StringUtil.toString(request.getParameter("skuId"));
+			String skuAttrs = StringUtil.toString(request.getParameter("skuAttrs"));
+			productSKURequest.setSkuId(skuId);
+			productSKURequest.setSkuAttrs(skuAttrs);
+			
 			productSKURequest.setSkuId("0001");
+			productSKURequest.setTenantId("SLP");
 			ProductSKUConfigResponse productSKUConfig = iProductDetailSV.queryProductSKUConfig(productSKURequest);
+			
+			productSKUConfig = demoConfigResponse();
+			
 			ResponseHeader responseHeader = productSKUConfig.getResponseHeader();
 			if(responseHeader.isSuccess()){
 				List<ProductSKUAttr> configParamterList = productSKUConfig.getProductAttrList();
@@ -206,5 +216,27 @@ public class ProductController {
 			e.printStackTrace();
 		}
 		return responseData;
+	}
+	
+	private ProductSKUConfigResponse demoConfigResponse() {
+		ProductSKUConfigResponse ProductSKUConfigResponse = new ProductSKUConfigResponse();
+		ResponseHeader responseHeader = new ResponseHeader(true, "000000", "查询成功");
+		ProductSKUConfigResponse.setResponseHeader(responseHeader);
+		List<ProductSKUAttr> configParamterList = new LinkedList<ProductSKUAttr>();
+		String[] keyArray = new String[] { "品牌", "型号", "颜色", "上市年份", "输入方式", "智能机", "操作系统版本", "CPU品牌", "CPU型号", "CPU频率" };
+		String[] valueArray = new String[] { "小米（MI）", "小米手机 5", "白色", "2016年", "触控", "是", "MIUI", "Qualcomm 骁龙", "骁龙820", "最高主频 1.8GHz" };
+		for (int i = 0; i < keyArray.length; i++) {
+			ProductSKUAttr configParamter = new ProductSKUAttr();
+			configParamter.setAttrId(new Long(i));
+			configParamter.setAttrName(keyArray[i]);
+			configParamter.setAttrValueList(new ArrayList<ProductSKUAttrValue>());
+			ProductSKUAttrValue attrValue = new ProductSKUAttrValue();
+			attrValue.setAttrvalueDefId(Integer.toString(i + 5));
+			attrValue.setAttrValueName(valueArray[i]);
+			configParamter.getAttrValueList().add(attrValue);
+			configParamterList.add(configParamter);
+		}
+		ProductSKUConfigResponse.setProductAttrList(configParamterList);
+		return ProductSKUConfigResponse;
 	}
 }

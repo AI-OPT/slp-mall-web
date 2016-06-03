@@ -53,8 +53,9 @@
                                 <td>小计</td>
                                 <td>操作</td>
                               </tr>
-								{{for cartProdList}}
+{{for productAttrList}}
                               <tr>
+								<input type="hidden" id="skuId" value={{:skuId}}/>
                                 <td><input type="checkbox" class="checkbox-medium"></td>
                                 <td class="sp">
                                     <table width="100%" border="0">
@@ -67,9 +68,9 @@
                                 <td class="ash">￥{{:salePrice}}</td>
                                 <td class="clp-btn">
                                     <div class="number">
-                                        <p><input id="delQtyBtn" type="button" value="-" class="small-xbtn"></p>
-                                        <p><input id="productQty" type="text" value={{:buyNum}} class="xz-int"></p>
-                                        <p><input id="addQtyBtn" type="button" value="+" class="small-xbtn"></p>
+                                        <p><input type="button" value="-" class="small-xbtn" onclick="pager._delQtyBtn(this);"></p>
+                                        <p><input type="text" value={{:buyNum}} class="xz-int" ></p>
+                                        <p><input type="button" value="+" class="small-xbtn" onclick="pager._addQtyBtn(this);"></p>
                                     </div>
                                 </td>
                                 <td id="prodPrice" class="bold">¥{{:salePrice}}*{{:buyNum}}</td>
@@ -79,7 +80,7 @@
                                 </div>
                                 </td>
                               </tr>
-								{{/for}}
+{{/for}}
                   </table>   
                     </script>
                   </div>
@@ -113,7 +114,14 @@
 	<script src="${_slpbase }/scripts/jquery-1.11.1.min.js" type="text/javascript"></script>
 	<script src="${_slpbase }/scripts/frame.js" type="text/javascript"></script>
 	<script type="text/javascript">
+		var pager;
 		var cartProdList = $.parseJSON('${cartProdList}');
+		(function () {
+			seajs.use('app/jsp/shoppingcart/shopCartDetails', function (shopCartDetailsPager) {
+				pager = new shopCartDetailsPager({element: document.body});
+				pager.render();
+			});
+		})();
 	</script>
 </body>
 </html>
