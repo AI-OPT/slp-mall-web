@@ -4,7 +4,9 @@
      <div class="top-menu-main">
      <ul class="left">
          <li>所在地</li>
-         <li class="city"><a href="#" >北京<img src="${_slpbase }/images/open-a.png"></a>
+         <li class="city"><a href="javascript:void(0)" id="currentCity">北京<img src="${_slpbase }/images/open-a.png">
+         
+         </a>
          <!--选择所在地城市-->
                  <div class="city-hover" style=" display:none;">
                       <ul class="title">
@@ -15,38 +17,10 @@
                           <li><A href="#">浙江</A></li> 
                           <li><A href="#">江苏</A></li>                             
                       </ul>
-                       <ul class="city-list">
-                          <li><A href="#">北京</A></li>
-                          <li><A href="#">上海</A></li>
-                          <li><A href="#">天津</A></li>
-                          <li><A href="#">重庆</A></li>
-                          <li><A href="#">河北</A></li> 
-                          <li><A href="#">山西</A></li>
-                          <li><A href="#">河南</A></li>
-                          <li><A href="#">辽宁</A></li>
-                          <li><A href="#">吉林</A></li>
-                          <li><A href="#">黑龙江</A></li>
-                          <li><A href="#">内蒙古</A></li> 
-                          <li><A href="#">江苏</A></li>
-                          <li><A href="#">山东</A></li>
-                          <li><A href="#">安徽</A></li>
-                          <li><A href="#">浙江</A></li>
-                          <li><A href="#">福建</A></li>
-                          <li><A href="#">湖北</A></li>
-                          <li><A href="#">广东</A></li>
-                          <li><A href="#">海南</A></li> 
-                          <li><A href="#">四川</A></li>
-                          <li><A href="#">贵州</A></li>  
-                          <li><A href="#">云南</A></li>
-                          <li><A href="#">北京</A></li>
-                          <li><A href="#">西藏</A></li>
-                          <li><A href="#">甘肃</A></li>
-                          <li><A href="#">青海</A></li>
-                          <li><A href="#">宁夏</A></li> 
-                          <li><A href="#">新疆</A></li>
-                          <li><A href="#">台湾</A></li>
-                          <li><A href="#">香港</A></li>
-                          <li><A href="#">澳门</A></li>                           
+                       <ul class="city-list" id="cityShowData">
+                       <script id="cityTmpl" type="text/x-jsrender">
+							<li><A href="javascript:void(0)" areaCodeId="{{:areaCode}}" areaNameId="{{:areaName}}"class="ATTs_BTN">{{:areaName}}</A></li>
+					   </script>
                       </ul>
                   </div>
                   
@@ -94,3 +68,15 @@
  
  </div>
 <!--顶部菜单结束-->
+<script type="text/javascript">
+			var pager;
+			(function () {
+				seajs.use('app/jsp/top/top', function (TopPager) {
+					pager = new TopPager({
+						element: document.body
+					});
+					pager.render();
+				});
+			})();
+			
+</script>
