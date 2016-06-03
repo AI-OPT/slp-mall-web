@@ -15,16 +15,19 @@ public class productDetailTest {
 		IImageClient im = IDPSClientFactory.getImageClient(idpsns);
 
 		// 待上传的图片路径
-		String filepath = "C:\\Users\\jiaxs\\Pictures\\slp-test\\xiaomi-zi-03.jpg";
-		// 将路径转换为byte[]
-		byte[] buff = ImageByteUtil.image2byte(filepath);
-		// 上传图片，获取上传后的ID
-		String idpsId = im.upLoadImage(buff, "xiaomi-zi-03.jpg");
-		System.out.println(filepath + "  idpsId=" + idpsId);
-		// 获取上传图片的URL
-		System.out.println(im.getImageUrl(idpsId, ".jpg"));
-		// 获取上传图片指定尺寸的URL
-		//System.out.println(im.getImageUrl(idpsId, ".jpg", "100x80"));
+		String filepath = "C:\\Users\\jiaxs\\Pictures\\slp-test\\";
+		String[] fileNames = new String[]{"G.png","2G.png","3G.png","4G.png"};
+		for(int i=0;i<fileNames.length;i++){
+			// 将路径转换为byte[]
+			byte[] buff = ImageByteUtil.image2byte(filepath+fileNames[i]);
+			// 上传图片，获取上传后的ID
+			String idpsId = im.upLoadImage(buff, fileNames[i]);
+			System.out.println(filepath+fileNames[i] + "  idpsId=" + idpsId);
+			// 获取上传图片的URL
+			System.out.println(im.getImageUrl(idpsId, ".png"));
+			// 获取上传图片指定尺寸的URL
+			//System.out.println(im.getImageUrl(idpsId, ".jpg", "100x80"));
+		}
 	}
 	
 	@Test

@@ -17,42 +17,7 @@
   <!--顶部菜单结束-->
 
 <!--导航区域-->
-<div class="fsast-bj">
- <div class="fsast-head">
-        <div class="fsast-logo">
-            <ul>
-                <li><a href="#"><img src="${_slpbase }/images/login-logo.png"></a></li>
-                <li>账户中心</li>
-            </ul>
-        </div>
-        <div class="fsast-bav">
-            <ul>
-                <li><a href="#">首页</a></li>
-                <li><a href="#">我的订单</a></li>
-                <li class="shez"><a href="#">账户设置<i class="icon-angle-down"></i></a>
-                <div class="setgs" style=" display:none;">
-                    <ul>
-                        <li><a href="#">资质认证</a></li>
-                        <li><a href="#">安全设置</a></li>
-                        <li><a href="#">登录密码</a></li>
-                        <li><a href="#">支付密码</a></li>
-                        <li><a href="#">手机绑定</a></li>
-                        <li><a href="#">邮箱绑定</a></li>
-                    </ul>
-                </div>
-                </li>
-                <li><a href="#">消息</a><p class="icon">4</p></li>                          
-            </ul>
-        </div>
-        <div class="fsast-search">
-             <ul>
-                  <li><input type="text" class="fsast-xlarge"></li>
-                  <li><A href="#"><i class="icon-search"></i></A></li>
-             </ul>
-            
-        </div>
-    </div>
- </div>
+ <%@ include file="/inc/user-nav.jsp" %>
 <!--导航区域结束-->
      
      <!--订单详情-->
@@ -77,11 +42,6 @@
                    <p>
                    	<select id="orderType" class="select-small">
                    		<option value="">全部</option>
-                   		<option value="100000">购买话费卡包</option>
-						<option value="100001">购买流量卡包</option>
-						<option value="100010">购买话费直充</option>
-						<option value="100011">购买流量直充</option>
-						<option value="110000">购买实物类商品</option>
                    	</select></p>
                </li>
                <li>
@@ -110,8 +70,6 @@
                    <p>
                    		<select id="payStyle" class="select-small">
                    			<option value="">全部</option>
-                   			<option value="21">支付宝</option>
-                   			<option value="22">银联</option>
                    		</select>
                    </p>
                </li>
@@ -140,7 +98,7 @@
              <div class="shopping-cart addto-title">
             		 <table>
                         <tr class="order-bj-s">
-                            <td width="50%">商品信息</td>
+                            <td width="45%">商品信息</td>
                             <td width="10%">单价</td>
                             <td width="10%">数量</td>
                             <td width="10%">实付款</td>
@@ -167,7 +125,7 @@
                                             </li>
                                                 <li>
                                                 <p>订单金额:</p>
-                                                <p>¥{{:adjustFee}}</p>
+                                                <p>¥{{:~liToYuan(adjustFee)}}</p>
                                             </li>
 											{{if state !='11'}}
 											<li>	
@@ -196,9 +154,9 @@
                                           </tr>
                                     </table>
                                 </td>
-                                <td class="ash" width="10%">¥{{:salePrice}}</td>
+                                <td class="ash" width="10%">¥{{:~liToYuan(salePrice)}}</td>
                                 <td width="10%">{{:buySum}}</td>
-                                <td width="10%" class="strong">¥{{:adjustFee}}</td>
+                                <td width="10%" class="strong">¥{{:~liToYuan(adjustFee)}}</td>
 								{{if #getIndex() == 0}}
                                 <td width="10%" rowspan="{{:~size}}"> 
                                     <div class="number">
@@ -242,6 +200,8 @@
  <!--底部 结束-->
 <script type="text/javascript">
 var pager;
+var payStyleParams = $.parseJSON('${payStyleParams}');
+var orderStyleParams = $.parseJSON('${orderStyleParams}');
 (function () {
 	seajs.use('app/jsp/order/orderList', function (OrderListPager) {
 		pager = new OrderListPager({element: document.body});

@@ -1,5 +1,9 @@
 package com.ai.slp.mall.web.controller.order;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.log4j.Logger;
@@ -10,11 +14,13 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.ai.net.xss.util.StringUtil;
 import com.ai.opt.base.vo.PageInfo;
-import com.ai.opt.base.vo.ResponseHeader;
 import com.ai.opt.sdk.dubbo.util.DubboConsumerFactory;
 import com.ai.opt.sdk.util.BeanUtils;
 import com.ai.opt.sdk.util.DateUtil;
 import com.ai.opt.sdk.web.model.ResponseData;
+import com.ai.paas.ipaas.util.JSonUtil;
+import com.ai.slp.common.api.cache.interfaces.ICacheSV;
+import com.ai.slp.common.api.cache.param.SysParam;
 import com.ai.slp.mall.web.constants.SLPMallConstants.ExceptionCode;
 import com.ai.slp.mall.web.model.order.OrderListQueryParams;
 import com.ai.slp.order.api.orderlist.interfaces.IOrderListSV;
@@ -30,7 +36,15 @@ public class OrderController {
 
 	@RequestMapping("/list")
 	public ModelAndView orderList(HttpServletRequest request) {
-		return new ModelAndView("jsp/order/order_list");
+		ICacheSV iCacheSV = DubboConsumerFactory.getService("iCacheSV");
+		List<SysParam> payStyleParamList = iCacheSV.getSysParams("SLP", "ORD_OD_FEE_TOTAL", "PAY_STYLE");
+		String payStyleParams = JSonUtil.toJSon(payStyleParamList);
+		List<SysParam> orderStyleParamList = iCacheSV.getSysParams("SLP", "ORD_ORDER", "ORDER_TYPE");
+		String orderStyleParams = JSonUtil.toJSon(orderStyleParamList);
+		Map<String, String> model = new HashMap<String,String>();
+		model.put("payStyleParams",payStyleParams);
+		model.put("orderStyleParams",orderStyleParams);
+		return new ModelAndView("jsp/order/order_list",model);
 	}
 	
 	@RequestMapping("/getOrderListData")
@@ -68,9 +82,8 @@ public class OrderController {
 			}
 			IOrderListSV iOrderListSV = DubboConsumerFactory.getService("iOrderListSV");
 			QueryOrderListResponse orderListResponse = iOrderListSV.queryOrderList(queryRequest);
-			ResponseHeader responseHeader = orderListResponse.getResponseHeader();
-			if(responseHeader.isSuccess()){
-				PageInfo<OrdOrderVo> pageInfo=null;
+			if(orderListResponse != null && orderListResponse.getResponseHeader().isSuccess()){
+				PageInfo<OrdOrderVo> pageInfo=orderListResponse.getPageInfo();
 				responseData = new ResponseData<PageInfo<OrdOrderVo>>(ExceptionCode.SUCCESS, "查询成功", pageInfo);
 			}else{
 				responseData = new ResponseData<PageInfo<OrdOrderVo>>(ExceptionCode.SYSTEM_ERROR, "查询失败", null);

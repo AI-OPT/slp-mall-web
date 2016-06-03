@@ -39,8 +39,22 @@ define('app/jsp/order/orderList', function (require, exports, module) {
     	//重写父类
     	setup: function () {
     		OrderListPager.superclass.setup.call(this);
+    		this._initOrderType();
+    		this._initPayStyle();
     		this._searchOrderList();
     		this._bindCalendar();
+    	},
+    	_initOrderType:function(){
+    		var orderTypeElmt = document.getElementById("orderType");
+    		for(var i=0;i<orderStyleParams.length;i++){
+    			orderTypeElmt.options.add(new Option(orderStyleParams[i].columnDesc,orderStyleParams[i].columnValue));
+    		}
+    	},
+    	_initPayStyle:function(){
+    		var orderTypeElmt = document.getElementById("payStyle");
+    		for(var i=0;i<payStyleParams.length;i++){
+    			orderTypeElmt.options.add(new Option(payStyleParams[i].columnDesc,payStyleParams[i].columnValue));
+    		}
     	},
     	_bindCalendar:function(){
     		var beginCalendar = new Calendar({trigger: '#timeBeginId',output:"#orderTimeBegin"});
