@@ -28,8 +28,7 @@ define('app/jsp/user/bandemail/confirmInfo', function (require, exports, module)
     		"click [id='random_img']":"_getImageRandomCode",
     		"click [id='changeImage']":"_getImageRandomCode",
     		"blur [id='email']":"_checkEmail",
-    		"click [id='next']":"_next",
-    		"click [id='passwordNext']":"_passwordNext"
+    		"click [id='next']":"_next"
         },
         init: function(){
         	_initShowView();
@@ -52,12 +51,6 @@ define('app/jsp/user/bandemail/confirmInfo', function (require, exports, module)
 			 //左侧菜单显示样式
 			$('.active').removeClass('active');
 	   		$("#securitySettings").addClass("active");
-	   		//标题显示
-	   		$("#set_title_id").html("绑定邮箱");
-	   		$("#updateEmail").addClass("current");
-			$("#confirmType").val("1");
-			$("#confirmTypeName").html("已验证手机");
-			$("#verifyName").html("短信校验码");
 		},
 		_getImageRandomCode:function(){
 			var timestamp = (new Date()).valueOf();
@@ -343,7 +336,7 @@ define('app/jsp/user/bandemail/confirmInfo', function (require, exports, module)
 					}else{
 						if(resultCode=="000000"){
 							var step = 59;
-				            $('#sendPhoneBtn').val('重新发送60');
+				            $('#sendEmailBtn').val('重新发送60');
 				            $("#sendEmailBtn").attr("disabled", true);
 				            var _res = setInterval(function(){
 				                $("#sendEmailBtn").attr("disabled", true);//设置disabled属性
@@ -455,95 +448,6 @@ define('app/jsp/user/bandemail/confirmInfo', function (require, exports, module)
 		//隐藏手机提示信息
     	_hidePhoneError: function(){
     		$("#errorPhoneMsg").attr("style","display:none");
-    	},
-    	//校验手机
-    	_validServicePho: function(){
-    		$("#errorPhoneMsg").attr("style","display:none");
-    		var phone = $('#phone').val();
-    		if (phone==""){
-    			$("#phoneText").show();
-    			$('#showPhoneMsg').text("请输入手机号码");
-    			$("#errorPhoneMsg").attr("style","display:");
-    			$('#errorPhoneFlag').val("0");
-    			$('#phoneImage').attr('src',_base+'/theme/slp/images/icon-a.png');
-				return false;
-			}else if( /^0?1[3|4|5|8][0-9]\d{8}$/.test(phone)){
-				var	param={
-    					userMp:$("#phone").val()
-    				   };
-        		ajaxController.ajax({
-    			        type: "post",
-    			        processing: false,
-    			        url: _base+"/user/payPassword/checkPhone",
-    			        dataType: "json",
-    			        data: param,
-    			        message: "正在加载数据..",
-    			        success: function (data) {
-    			         if(data.responseHeader.resultCode=="10003"){
-    			        	    $("#errorPhoneMsg").show();
-    			        	 	$("#phoneText").show();
-    			        	 	$("#showPhoneMsg").show();
-    			        	 	$("#phoneImage").show();
-    			        		$('#phoneText').text("手机号码已注册");
-    			        		$('#phoneImage').attr('src',_base+'/theme/slp/images/icon-a.png');
-    							$('#errorPhoneFlag').val("0");
-    							return false;
-    			        	}else if(data.responseHeader.resultCode=="000000"){
-    			        		$("#errorPhoneMsg").show();
-    			        		$("#phoneText").hide();
-    			        		$('#errorPhoneFlag').val("1");
-    			        		$('#phoneImage').attr('src',_base+'/theme/slp/images/icon-b.png');
-    			        	}
-    			        	
-    			        },
-    			        error: function(XMLHttpRequest, textStatus, errorThrown) {
-    						 alert(XMLHttpRequest.status);
-    						 alert(XMLHttpRequest.readyState);
-    						 alert(textStatus);
-    						}
-    			        
-    			    }); 
-			}else{
-				$("#errorPhoneMsg").attr("style","display:");
-				$("#phoneText").show();
-				$('#phoneImage').attr('src',_base+'/theme/slp/images/icon-a.png');
-				$('#showPhoneMsg').text("请输入正确有效的手机号码");
-				$('#errorPhoneFlag').val("0");
-				return false;
-			}
-    	},
-    	_passwordNext:function(){
-			ajaxController.ajax({
-				type : "POST",
-				data : _this._getSafetyConfirmData(),
-				dataType: 'json',
-				url :_base+"/user/payPassword/confirmInfo",
-				processing: true,
-				message : "正在处理中，请稍候...",
-				success : function(data) {
-					var status = data.responseHeader.resultCode;
-					if(status == "000000"){
-						window.location.href=_base+"/user/bandEmail/setPayPassword"
-					}else{
-						var msg = data.statusInfo;
-						//验证码
-						if(status == "100002"){
-							$("#phoneVerifyCodeError").show();
-							_this._controlMsgText("phoneVerifyCodeMsg",msg);
-							_this._controlMsgAttr("phoneVerifyCodeMsg",2);
-						}else{
-							$("#phoneVerifyCodeError").hide();
-							_this._controlMsgText("phoneVerifyCodeMsg","");
-							_this._controlMsgAttr("phoneVerifyCodeMsg",1);
-						}
-					}
-				},
-				error : function(){
-					alert("网络连接超时，请重新修改登录密码");
-				}
-			});
-		
-    		
     	}
     });
     

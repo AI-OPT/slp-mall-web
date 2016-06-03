@@ -174,7 +174,7 @@ define('app/jsp/user/bandemail/setEmail', function (require, exports, module) {
 					}else{
 						if(resultCode=="000000"){
 							var step = 59;
-				            $('#sendPhoneBtn').val('重新发送60');
+				            $('#sendEmailBtn').val('重新发送60');
 				            $("#sendEmailBtn").attr("disabled", true);
 				            var _res = setInterval(function(){
 				                $("#sendEmailBtn").attr("disabled", true);//设置disabled属性
