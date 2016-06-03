@@ -134,7 +134,7 @@ public class VerifyController {
         String phoneVerifyCode = RandomUtil.randomNum(PhoneVerifyConstants.VERIFY_SIZE);
         // 查询是否发送过短信
         String smstimes = "1";
-        String smskey = BandEmail.CACHE_KEY_CONFIRM_SEND_PHONE_NUM + "13718206604";
+        String smskey = BandEmail.CACHE_KEY_CONFIRM_SEND_PHONE_NUM + userClient.getUserMp();
         ICacheClient cacheClient = MCSClientFactory.getCacheClient(BandEmail.CACHE_NAMESPACE);
         IConfigClient configClient = CCSClientFactory.getDefaultConfigClient();
         String times = cacheClient.get(smskey);
@@ -216,7 +216,7 @@ public class VerifyController {
         }
         // 用户信息放入缓存
         String uuid = UUIDUtil.genId32();
-        SSOClientUser userClient = (SSOClientUser) request.getSession().getAttribute(SSOClientConstants.USER_SESSION_KEY);
+        SLPClientUser userClient = (SLPClientUser) request.getSession().getAttribute(SSOClientConstants.USER_SESSION_KEY);
         CacheUtil.setValue(uuid, SLPMallConstants.UUID.OVERTIME, userClient, BandEmail.CACHE_NAMESPACE);
         responseData = new ResponseData<String>(ResponseData.AJAX_STATUS_SUCCESS, "正确", "/center/bandEmail/setEmail?" + SLPMallConstants.UUID.KEY_NAME + "=" + uuid);
         ResponseHeader responseHeader = new ResponseHeader(true, VerifyConstants.ResultCodeConstants.SUCCESS_CODE, "正确");
