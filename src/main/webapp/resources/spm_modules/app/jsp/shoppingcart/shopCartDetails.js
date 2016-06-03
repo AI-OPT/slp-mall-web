@@ -41,39 +41,27 @@ define('app/jsp/shoppingcart/shopCartDetails', function (require, exports, modul
 			var htmlOutput = template.render(cartProdList);
 			$("#cartProdData").html(htmlOutput);
     	},
-    	// 减少数量
-    	_delQtyBtn:function(btn){
+    	// 修改数量
+    	_changeProdNum:function(prodId,btn,prodNum,salePrice){
     		// 获取当前商品数量
-    		var text = btn.parentNode.nextElementSibling.children[0];
-    		var oldNum = parseInt(text.value);
+			var proNum = $("#"+prodId+"_prodnum");
+    		var oldNum = parseInt(proNum.val());
     		// 判断数量
     		if(oldNum<=1){
     			return;
     		}
     		// 重新赋值
-    		oldNum--;
-    		text.value = oldNum;
+    		oldNum+=prodNum;
+			proNum.val(oldNum);
     		this._computedPrice(btn,oldNum);
     	},
-    	// 增加数量
-    	_addQtyBtn:function(btn){
-    		// 获取当前商品数量
-    		var text = btn.parentNode.previousElementSibling.children[0];
-    		var oldNum = parseInt(text.value);
-    		// 重新赋值
-    		oldNum++;
-    		text.value = oldNum;
-    		this._computedPrice(btn,oldNum);
-    	},
+
     	//计算价格
-    	_computedPrice:function(btn,num){
+    	_computedPrice:function(btn,num,salePrice){
     		// 获取单价
     		var td = btn.parentNode.parentNode.parentNode.previousElementSibling;
-    		var price = parseFloat(td.innerHTML.replace("￥",""));
-    		// 转成厘
-    		var priceLi = this._yuanToLi(price);
     		// 计算金额
-    		var moneyLi = this._productNum(priceLi,num);
+    		var moneyLi = this._productNum(salePrice,num);
     		// 转成元
     		var money = this._liToYuan(moneyLi);
     		// 获取金额元素
@@ -83,15 +71,13 @@ define('app/jsp/shoppingcart/shopCartDetails', function (require, exports, modul
     		// 求和
     	},
     	 // 修改数量
-        _modifyCartProdQty:function(btn){
+        _modifyCartProdQty:function(btn,salePrice){
         	var qty = parseInt(btn.value);
         	if(!this._isPosNum(qty)){
-        		btn.value=1;
-        		this._computedPrice(btn,1);
-        	}else{
-        		btn.value=qty;
-        		this._computedPrice(btn,qty);
+				qty = 1;
         	}
+			btn.value=qty;
+			this._computedPrice(btn,qty,salePrice);
         },
         // 是否为正整数
         _isPosNum:function(num){

@@ -58,7 +58,7 @@
                    <script id="cartProdTemple" type="text/template">
 {{if state == '5'}}
 							<tr>
-                                <td><input type="checkbox" name="checkOne" class="checkbox-medium"></td>
+                                <td><input id="{{:skuId}}" type="checkbox" name="checkOne" class="checkbox-medium"></td>
                                 <td class="sp">
                                     <table width="100%" border="0">
                                           <tr>
@@ -70,9 +70,9 @@
                                 <td class="ash">￥{{:~liToYuan(salePrice)}}</td>
                                 <td class="clp-btn">
                                     <div class="number">
-                                        <p><input type="button" value="-" class="small-xbtn" onclick="pager._delQtyBtn(this);"></p>
-                                        <p><input type="text" value={{:buyNum}} class="xz-int" onchange="pager._modifyCartProdQty(this);"></p>
-                                        <p><input type="button" value="+" class="small-xbtn" onclick="pager._addQtyBtn(this);"></p>
+                                        <p><input type="button" value="-" class="small-xbtn" onclick="pager._changeProdNum('{{:skuId}}',this,-1,{{:salePrice}});"></p>
+                                        <p><input id="{{:skuId}}_prodnum" type="text" value={{:buyNum}} class="xz-int" onchange="pager._modifyCartProdQty(this,{{:salePrice}});"></p>
+                                        <p><input type="button" value="+" class="small-xbtn" onclick="pager._changeProdNum('{{:skuId}}',this,1,{{:salePrice}});"></p>
                                     </div>
                                 </td>
                                 <td id="prodPrice" class="bold">¥{{:~shopCartPrices(salePrice, buyNum)}}</td>
@@ -84,7 +84,7 @@
 							</tr>
 {{else}}
 <tr class="none-color">
-                                <td><input type="checkbox" disabled="true" class="checkbox-medium"></td>
+                                <td><input id="{{:skuId}}" type="checkbox" disabled="true" class="checkbox-medium"></td>
                                 <td class="sp">
                                     <table width="100%" border="0">
                                           <tr>
@@ -144,6 +144,7 @@
 	<script type="text/javascript">
 		var pager;
 		var cartProdList = $.parseJSON('${cartProdList}');
+        var prodTotal = 0;
 		(function () {
 			seajs.use('app/jsp/shoppingcart/shopCartDetails', function (shopCartDetailsPager) {
 				pager = new shopCartDetailsPager({element: document.body});
