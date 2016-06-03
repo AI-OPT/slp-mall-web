@@ -27,7 +27,7 @@ minor-fareast;mso-hansi-font-family:Cambria;mso-hansi-theme-font:minor-latin'>�
 					<span
 						style='font-family:宋体;mso-ascii-font-family:Cambria;
 mso-ascii-theme-font:minor-latin;mso-fareast-font-family:宋体;mso-fareast-theme-font:
-minor-fareast;mso-hansi-font-family:Cambria;mso-hansi-theme-font:minor-latin'>您正在设置安全邮箱,请在{2}分钟内点击下面链接完成验证。</span>
+minor-fareast;mso-hansi-font-family:Cambria;mso-hansi-theme-font:minor-latin'>您正在设置安全邮箱,请在{1}分钟内点击下面链接完成验证。</span>
 				</p>
 				<p>
 					<span>
@@ -37,7 +37,7 @@ minor-fareast;mso-hansi-font-family:Cambria;mso-hansi-theme-font:minor-latin'>�
 					<span
 						style='font-family:宋体;mso-ascii-font-family:Cambria;mso-ascii-theme-font:minor-latin;
 mso-fareast-font-family:宋体;mso-fareast-theme-font:minor-fareast;mso-hansi-font-family:
-Cambria;mso-hansi-theme-font:minor-latin'>http://localhost:8090/slp-mall/user/bandEmail/bandEmailAuthenticate?k={1}</span>
+Cambria;mso-hansi-theme-font:minor-latin'>{2}?k={3}</span>
 					
 				</p>
 
