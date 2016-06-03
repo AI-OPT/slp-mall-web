@@ -42,21 +42,23 @@
      	<div class="big-wrapper"><!--内侧居中框架-->
        		<div class="payment-title"><p>全部<span>（20）</span></p></div>
            <div class="recharge-bj-tow"><!--白色背景-->
-                <div id="shopCart" class="shopping-cart">
-                   <script id="cartProdTemple" type="text/template">
+                
+                <div class="shopping-cart">
                  <table width="100%" border="0">
                               <tr class="bj">
-                                <td width="10%"><input type="checkbox" class="checkbox-medium" style=" display:inline-block;">全选</td>
+                                <td width="10%"><input type="checkbox" name="checkAll" onclick="pager._checkAll(this);" class="checkbox-medium" style=" display:inline-block;">全选</td>
                                 <td width="35%">商品信息</td>
                                 <td>单价</td>
                                 <td  width="11%">数量</td>
                                 <td>小计</td>
                                 <td>操作</td>
                               </tr>
-{{for productAttrList}}
-                              <tr>
-								<input type="hidden" id="skuId" value={{:skuId}}/>
-                                <td><input type="checkbox" class="checkbox-medium"></td>
+                              <tbody id="cartProdData"></tbody>
+                  </table>
+                   <script id="cartProdTemple" type="text/template">
+{{if state == '5'}}
+							<tr>
+                                <td><input type="checkbox" name="checkOne" class="checkbox-medium"></td>
                                 <td class="sp">
                                     <table width="100%" border="0">
                                           <tr>
@@ -65,31 +67,58 @@
                                           </tr>
                                     </table>
                                 </td>
-                                <td class="ash">￥{{:salePrice}}</td>
+                                <td class="ash">￥{{:~liToYuan(salePrice)}}</td>
                                 <td class="clp-btn">
                                     <div class="number">
                                         <p><input type="button" value="-" class="small-xbtn" onclick="pager._delQtyBtn(this);"></p>
-                                        <p><input type="text" value={{:buyNum}} class="xz-int" ></p>
+                                        <p><input type="text" value={{:buyNum}} class="xz-int" onchange="pager._modifyCartProdQty(this);"></p>
                                         <p><input type="button" value="+" class="small-xbtn" onclick="pager._addQtyBtn(this);"></p>
                                     </div>
                                 </td>
-                                <td id="prodPrice" class="bold">¥{{:salePrice}}*{{:buyNum}}</td>
+                                <td id="prodPrice" class="bold">¥{{:~shopCartPrices(salePrice, buyNum)}}</td>
                                 <td>
                                 <div class="number">
-                                <p><a href="#"><i class="icon-remove"></i>删除</a></p>
+                                <p><a href="#" onclick="pager._delCartProd(this);"><i class="icon-remove"></i>删除</a></p>
                                 </div>
                                 </td>
-                              </tr>
-{{/for}}
-                  </table>   
-                    </script>
-                  </div>
+							</tr>
+{{else}}
+<tr class="none-color">
+                                <td><input type="checkbox" disabled="true" class="checkbox-medium"></td>
+                                <td class="sp">
+                                    <table width="100%" border="0">
+                                          <tr>
+                                            <td class="word" width="25%"><img src="${_slpbase }/images/sim.png"></td>
+                                            <td><a href="#">{{:productName}}</a></td>
+                                          </tr>
+                                    </table>
+                                </td>
+                                <td class="ash">￥{{:~liToYuan(salePrice)}}</td>
+                                <td class="clp-btn">
+                                    <div class="number">
+                                        <p><input type="button" disabled="true" value="-" class="small-xbtn"></p>
+                                        <p><input type="text" disabled="true" value={{:buyNum}} class="xz-int" ></p>
+                                        <p><input type="button" disabled="true" value="+" class="small-xbtn"></p>
+                                    </div>
+                               		 	<span>暂时无货</span>
+                                </td>
+                                <td id="prodPrice" class="bold">¥{{:~shopCartPrices(salePrice, buyNum)}}</td>
+                                <td>
+                                <div class="number">
+                                <p><a href="#" onclick="pager._delCartProd(this);"><i class="icon-remove"></i>删除</a></p>
+                                </div>
+                                </td>
+							</tr>
+{{/if}}
+						</script>
+						
+						</div>
          </div>
          
           <div class="recharge-bj-tow recharge-bj-three"> <!--白色背景-->
           <div class="left-chix">
               <ul>
-                  <li><input type="checkbox" class="checkbox-medium" style=" margin-top:26px; float:left;">全选</li>
+                  <li><input type="checkbox" name="checkAll" class="checkbox-medium" onclick="pager._checkAll(this);" style=" margin-top:26px; float:left;">全选</li>
                   <li><a href="#">删除选中</a></li>
               </ul>
           </div>
@@ -100,7 +129,6 @@
           <p>应付总计(不含运费):</p>
           <p><span>¥222231.00</span></p> 
           </li>
-         <li>优惠：-¥50.00</li>
          </ul>
           </div>
 

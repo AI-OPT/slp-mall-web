@@ -31,6 +31,26 @@ import net.sf.json.JSONArray;
 /**
  * Created by liutong5 on 16/5/30.
  */
+/**
+ * @author Onle
+ *
+ */
+/**
+ * @author Onle
+ *
+ */
+/**
+ * @author Onle
+ *
+ */
+/**
+ * @author Onle
+ *
+ */
+/**
+ * @author Onle
+ *
+ */
 @Controller
 @RequestMapping("/shopcart")
 public class ShopCartController {
@@ -84,11 +104,20 @@ public class ShopCartController {
     		List<CartProdInfo> cartProdInfoList = new ArrayList<>();
             CartProdInfo cartProdInfo = new CartProdInfo();
             cartProdInfo.setSkuId("111");
-            
+            cartProdInfo.setState("5");
             cartProdInfo.setBuyNum(3);
             cartProdInfo.setProductName("小黄鸭");
             cartProdInfo.setSalePrice(300l);
             cartProdInfoList.add(cartProdInfo);
+            
+            CartProdInfo cartProdInfo2 = new CartProdInfo();
+            cartProdInfo2.setSkuId("222");
+            
+            cartProdInfo2.setBuyNum(2);
+            cartProdInfo2.setProductName("小黄鸭2");
+            cartProdInfo2.setSalePrice(3002l);
+            cartProdInfoList.add(cartProdInfo2);
+            
             String cartProdInfoJSON = JSonUtil.toJSon(cartProdInfoList);
             model.put("cartProdList", cartProdInfoJSON);
     	}catch(Exception e){
@@ -96,5 +125,12 @@ public class ShopCartController {
     		LOG.error("查询购物车商品详情出错",e);
     	}
         return new ModelAndView("jsp/shopcart/shopping_cart",model);
+    }
+    /**
+     * 判断是否有库存量
+     * @return
+     */
+    public boolean queryCartProdStorage(){
+    	return false;
     }
 }

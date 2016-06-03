@@ -1,6 +1,20 @@
 define(function (require, exports, module) {
 
-
+	
+/**
+ * 单个商品总价-购物车
+ */
+$.views.helpers({
+	"shopCartPrices": function (salePrice, buyNum){
+		var li = accMul(salePrice, buyNum);
+		var result = '0.00';
+		if(isNaN(li) || !li){
+			return result;
+		}
+        return fmoney(parseInt(li)/1000, 2);
+		}
+});
+	
 /**
  * 格式化金额
  */
