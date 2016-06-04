@@ -42,7 +42,7 @@ define('app/jsp/shoppingcart/shopCartDetails', function (require, exports, modul
 			$("#cartProdData").html(htmlOutput);
     	},
     	// 修改数量
-    	_changeProdNum:function(prodId,btn,prodNum,salePrice){
+    	_changeProdNum:function(prodId,prodNum,salePrice){
     		// 获取当前商品数量
 			var proNum = $("#"+prodId+"_prodnum");
     		var oldNum = parseInt(proNum.val());
@@ -53,31 +53,28 @@ define('app/jsp/shoppingcart/shopCartDetails', function (require, exports, modul
     		// 重新赋值
     		oldNum+=prodNum;
 			proNum.val(oldNum);
-    		this._computedPrice(btn,oldNum);
+    		this._computedPrice(prodId,oldNum,salePrice);
     	},
-
     	//计算价格
-    	_computedPrice:function(btn,num,salePrice){
-    		// 获取单价
-    		var td = btn.parentNode.parentNode.parentNode.previousElementSibling;
+    	_computedPrice:function(prodId,num,salePrice){
     		// 计算金额
     		var moneyLi = this._productNum(salePrice,num);
-    		// 转成元
+    		// 获取金额元素转成元
     		var money = this._liToYuan(moneyLi);
-    		// 获取金额元素
-    		var td2 = btn.parentNode.parentNode.parentNode.nextElementSibling;
-    		// 改变金额
-    		td2.innerHTML = "￥"+money;
+    		// 改变金额小计
+    		var td = $("#"+prodId+"_prodPriceSubtotal");
+    		alert(td);
+    		td.html("￥"+money);
     		// 求和
     	},
     	 // 修改数量
-        _modifyCartProdQty:function(btn,salePrice){
+        _modifyCartProdQty:function(prodId,btn,salePrice){
         	var qty = parseInt(btn.value);
         	if(!this._isPosNum(qty)){
 				qty = 1;
         	}
 			btn.value=qty;
-			this._computedPrice(btn,qty,salePrice);
+			this._computedPrice(prodId,qty,salePrice);
         },
         // 是否为正整数
         _isPosNum:function(num){
