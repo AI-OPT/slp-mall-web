@@ -1,4 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<script type="text/javascript" src="${_base }/scripts/jQuery.Ajax.js">
+</script>
 <!--账户余额右侧-->  
   <div class="my-order-cnt">
        <div class="payment-title">
