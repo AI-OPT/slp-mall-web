@@ -133,7 +133,7 @@
               <ul>
               <li><input type="text" class="int-dex" id="phoneNum1" maxlength="11" placeholder="请输入手机号码"></li>
               <li><select id="phoneFee" class="int-dex"></select></li>
-              <li class="word">售价:<span>¥29.5-¥30</span></li>
+              <li class="word">售价:<span id="realFee">¥29.5-¥30</span></li>
               <li><input type="button" value="立即充值" class="slp-btn dex-btn"></li>
               </ul>
               </div>

@@ -43,8 +43,8 @@ define('app/jsp/producthome/productHome', function (require, exports, module) {
             "click #flowCtcc":"_getFlowProduct",
             "click #flowCucc":"_getFlowProduct",
             "keyup  #phoneNum1":"_getPhoneInfo"	,
-            "keyup  #phoneNum2":"_getGprs"	
-            
+            "keyup  #phoneNum2":"_getGprs",	
+            "change #phoneFee":"_changeHuafei"
         },
     	//重写父类
     	setup: function () {
@@ -89,8 +89,8 @@ define('app/jsp/producthome/productHome', function (require, exports, module) {
 									if(d){
 										var phoneFee=d.phoneFee;
 										$.each(phoneFee,function(index,item){
-											var paramName = phoneFee[index].content.denomination;
-											var paramCode = phoneFee[index].content.denomination;
+											var paramName = phoneFee[index].content;
+											var paramCode = phoneFee[index].skuInfo.salePrice;
 											$("#phoneFee").append('<option value="'+paramCode+'">'+paramName+'</option>');
 										})
 									}
@@ -102,6 +102,10 @@ define('app/jsp/producthome/productHome', function (require, exports, module) {
 				});
     		}
     	
+    	},
+    	_changeHuafei:function(){
+    		console.log(this._liToYuan($("#phoneFee").val()));
+    		$("#realFee").text(this._liToYuan($("#phoneFee").val()));//liToYuan
     	},
     	_getGprs:function(){
     		
@@ -262,6 +266,24 @@ define('app/jsp/producthome/productHome', function (require, exports, module) {
       			window.location.href = _base + '/search/list?priceId='+price+"&billType="+type+"&orgired="+orgired;
       		}
       	},
+      	_fmoney:function(s, n) {
+      		n = n > 0 && n <= 20 ? n : 2;
+      		s = parseFloat((s + "").replace(/[^\d\.-]/g, "")).toFixed(n) + "";
+      		var l = s.split(".")[0].split("").reverse(),
+      		r = s.split(".")[1];
+      		t = "";
+      		for(i = 0; i < l.length; i ++ ){   
+      			t += l[i] + ((i + 1) % 3 == 0 && (i + 1) != l.length ? "," : "");
+      		}
+      		return t.split("").reverse().join("") + "." + r;
+      	},
+      		_liToYuan:function(li){
+      			var result = '0.00';
+      			if(isNaN(li) || !li){
+      				return result;
+      			}
+      	        return this._fmoney(parseInt(li)/1000, 2);
+      		},
       	_getHotProduct: function(){
       		ajaxController.ajax({
 				type: "post",

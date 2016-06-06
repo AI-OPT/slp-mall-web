@@ -192,12 +192,10 @@ public class HomeController {
         	 List<PhoneFee> phoneFee =new ArrayList<PhoneFee>();
         	 for(Entry<String, FastSkuProdInfo> map:PhoneInfoMap.entrySet()){
         		 PhoneFee fee=new PhoneFee();
-        		 Map<String,String> content=new HashMap<String,String>();
-        		 content.put("denomination", map.getKey());
-        		 fee.setContent(content);
-        		 Map<String, FastSkuProdInfo> skuinfo=new HashMap<String, FastSkuProdInfo>();
-        		 skuinfo.put("skuinfo", map.getValue());
-        		 fee.setSkuInfo(skuinfo);
+        		
+        		 fee.setContent( map.getKey());
+        		
+        		 fee.setSkuInfo( map.getValue());
         		 phoneFee.add(fee);
         	 }
         	 feeRes.setPhoneFee(phoneFee);
