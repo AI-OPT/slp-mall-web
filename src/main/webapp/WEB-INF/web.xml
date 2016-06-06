@@ -57,7 +57,10 @@
   </listener> -->
   <context-param>
     <param-name>contextConfigLocation</param-name>
-    <param-value>classpath:context/core-context.xml</param-value>
+    <param-value>
+    	classpath:context/core-context.xml
+    	classpath*:spring/velocity/spring-velocity.xml
+    </param-value>
   </context-param>
   <listener>
     <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
