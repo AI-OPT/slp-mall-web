@@ -75,7 +75,7 @@
 .plist-left-list p{ float:left; height:293px; width:100%;}
 .plist-left-list .mar-img{margin-top:20px;}
 /**图片列表右侧**/
-.plist-right{ width:976px; float:left;}
+.plist-right{ width:976px;float:left;height: 660px;}
 .plist-right-title,.plist-right-title-tow{ width:100%; float:left; height:45px;}
 .plist-right-title ul,.plist-right-title-tow ul{ float:right;}
 .plist-right-title ul li,.plist-right-title-tow ul li{ float:left; margin-right:12px;}
@@ -87,16 +87,16 @@
 .plist-right-title ul li a{ color:#333;}
 .plist-right-title ul li .current{ background:#f4792c; padding:5px 8px; color:#fff;}
 .plist-right-list{ width:100%; float:left;}
-.plist-right-list ul{ width:230px; height:293px; float:left;background:#fafafa; }
-.plist-right-list a{ width:230px;height:313px;float:left;  margin-left:14px;}
+.plist-right-list ul{ width:230px; height:293px; float:left;background:#fafafa;padding:0 12px; }
+.plist-right-list a{ width:230px;height:313px;float:left;margin-left:14px;}
 .plist-right-list ul:hover{margin-top:-5px;float:left;-webkit-box-shadow:3px 3px 3px #e2dcdc;-moz-box-shadow:3px 3px 3px #e2dcdc;box-shadow: 3px 3px 3px #e2dcdc;  }
 
 .plist-right-list ul li{text-align:center; line-height:25px; font-size:16px;}
 .plist-right-list ul img{ margin-top:20px; width:140px; height:140px;}
 .plist-right-list ul .ash{ color:#7c7c7c;}
-.plist-right-list ul .dred{ color:#f4792c;}
+.plist-right-list ul .dred{ color:#f4792c;text-align:left;margin-top:10px;}
 .plist-right-list ul .dred img{ width:64px; height:64px;}
-.plist-right-list ul .tit{ margin-top:20px; color:#333;}
+.plist-right-list ul .tit{height:40px;margin-top:30px; color:#333; text-align:left;}
 .plist-right-list ul .tit1{ margin-top:70px; color:#333; font-size:24px;}
 /**推荐**/
 .recommend{width:1200px;margin:0 auto; margin-top:30px;}
@@ -113,7 +113,7 @@
 .recommend-list ul:hover{margin-top:-5px;float:left;-webkit-box-shadow:3px 3px 3px #e2dcdc;-moz-box-shadow:3px 3px 3px #e2dcdc;box-shadow: 3px 3px 3px #e2dcdc; }
 .recommend-list  .mar-none{ margin-left:0px;}
 .recommend-list ul li{ width:100%;ine-height:28px; color:#333; text-align:center;}
-.recommend-list ul .word{ margin-top:30px; font-size:18px; text-align:left;}
+.recommend-list ul .word{ margin-top:30px; font-size:18px; text-align:left;height:50px;}
 .recommend-list ul .ash{ font-size:14px; color:#7c7c7c;text-align:left;}
 .recommend-list ul .dred{ font-size:18px; color:#e3020c;text-align:left;}
 .recommend-list ul li img{ text-align:center; width:140px; height:140px;}
