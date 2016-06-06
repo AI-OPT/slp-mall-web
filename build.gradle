@@ -78,8 +78,6 @@ dependencies {
 	compile 'com.ai.opt.uni.session:opt-uni-session:2.0-SNAPSHOT'
 	compile 'com.ai.opt.sso.client:opt-sso-client:1.0.2-SNAPSHOT'
     compile "com.ai:ipaas-idps:0.3"
-    compile 'org.apache.velocity:velocity:1.7-SNAPSHOT'
-	compile 'slp-web-frame-velocity:slp-web-frame-velocity:2.2'
 	//cache
 	compile 'com.ai.runner.center.mmp:manager:1.0.0-SNAPSHOT'
 	//短信验证等
