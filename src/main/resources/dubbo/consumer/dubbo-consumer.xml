@@ -97,5 +97,8 @@
 
 	<dubbo:reference id="iFundQuerySV"
 		interface="com.ai.slp.balance.api.fundquery.interfaces.IFundQuerySV"/>
-				   
+	
+	<dubbo:reference id="iPaymentQuerySV"
+		interface="com.ai.slp.charge.api.paymentquery.interfaces.IPaymentQuerySV"/>
+					   
 </beans>
