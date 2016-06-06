@@ -13,13 +13,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.ai.baas.amc.api.fundquery.interfaces.IFundQuerySV;
-import com.ai.baas.amc.api.fundquery.param.FundBookQueryRequest;
-import com.ai.baas.amc.api.fundquery.param.FundBookQueryResponse;
 import com.ai.opt.sdk.dubbo.util.DubboConsumerFactory;
 import com.ai.opt.sdk.web.model.ResponseData;
-import com.ai.slp.mall.web.util.ImageUtil;
-import com.ai.slp.product.api.webfront.interfaces.IProductHomeSV;
+import com.ai.slp.balance.api.fundquery.interfaces.IFundQuerySV;
+import com.ai.slp.balance.api.fundquery.param.AccountIdParam;
+import com.ai.slp.balance.api.fundquery.param.FundInfo;
 import com.ai.slp.web.frame.velocity.VelocityBuilder;
 import com.alibaba.fastjson.JSON;
 
@@ -109,11 +107,12 @@ public class BalanceController {
 	@RequestMapping(value="/account/queryUsableFund",method = RequestMethod.POST, produces = "text/html;charset=UTF-8")
 	@ResponseBody
 	public String queryUsableFund(HttpServletRequest request) {
-		FundBookQueryRequest fundBookQueryRequest = new FundBookQueryRequest();
-		fundBookQueryRequest.setAccountId(ACCOUNT_ID);
+		AccountIdParam accountIdParam = new AccountIdParam();
+		accountIdParam.setAccountId(new Long(ACCOUNT_ID));
+		
 		//
-		FundBookQueryResponse fundBookQueryResponse = DubboConsumerFactory.getService(IFundQuerySV.class).queryUsableFund(fundBookQueryRequest);
-		Long balance = fundBookQueryResponse.getBalance();
+		FundInfo fundInfo = DubboConsumerFactory.getService(IFundQuerySV.class).queryUsableFund(accountIdParam);
+		Long balance = fundInfo.getBalance();
 		//
 		return balance.toString();
     }

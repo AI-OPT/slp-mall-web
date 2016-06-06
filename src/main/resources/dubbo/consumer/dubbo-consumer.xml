@@ -96,6 +96,6 @@
 		interface="com.ai.slp.common.api.servicenum.interfaces.IServiceNumSV"/>	
 
 	<dubbo:reference id="iFundQuerySV"
-		interface="com.ai.baas.amc.api.fundquery.interfaces.IFundQuerySV"/>
+		interface="com.ai.slp.balance.api.fundquery.interfaces.IFundQuerySV"/>
 				   
 </beans>
