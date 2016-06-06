@@ -16,6 +16,9 @@ define('app/jsp/producthome/productHome', function (require, exports, module) {
     
     //实例化AJAX控制处理对象
     var ajaxController = new AjaxController();
+    
+    var serviceNum={};
+    
     //定义页面组件类
     var ProductHomePager = Widget.extend({
     	
@@ -38,8 +41,10 @@ define('app/jsp/producthome/productHome', function (require, exports, module) {
             "click #phoneBillCtcc":"_getPhoneBill",
             "click #flowCmcc":"_getFlowProduct",
             "click #flowCtcc":"_getFlowProduct",
-            "click #flowCucc":"_getFlowProduct"
-            	
+            "click #flowCucc":"_getFlowProduct",
+            "keyup  #phoneNum1":"_getPhoneInfo"	,
+            "keyup  #phoneNum2":"_getGprs"	
+            
         },
     	//重写父类
     	setup: function () {
@@ -49,7 +54,119 @@ define('app/jsp/producthome/productHome', function (require, exports, module) {
     		this._getFlowProduct();
     		this._getHotProduct();
     	},
+    	_getPhoneInfo:function(){
+    		//如果等于11去查询，如果小于11把之前查询出来的信息清除
+    		if($.trim($("#phoneNum1").val()).length==11){
+    			
+    			ajaxController.ajax({
+					type: "post",
+					dataType: "json",
+				
+					url: _base+"/getPhoneInfo",
+					data:{
+						phoneNum:$.trim($("#phoneNum1").val()).substr(0,7)
+						},
+					success: function(data){
+						var d=data.data;
+						if(d){
+							serviceNum=data;
+							//var productCatId="10000010010000";
+							var provCode=d.provinceCode;
+							var basicOrgId=d.basicOrgCode;
+							//userType 
+							//userId
+							ajaxController.ajax({
+								type: "post",
+								dataType: "json",
+							
+								url: _base+"/getFastInfo",
+								data:{
+									provCode:provCode,
+									basicOrgId:basicOrgId
+									},
+								success: function(data){
+									var d=data.data;
+									if(d){
+										var phoneFee=d.phoneFee;
+										$.each(phoneFee,function(index,item){
+											var paramName = phoneFee[index].content.denomination;
+											var paramCode = phoneFee[index].content.denomination;
+											$("#phoneFee").append('<option value="'+paramCode+'">'+paramName+'</option>');
+										})
+									}
+								}
+							});
+							
+						}
+					}
+				});
+    		}
     	
+    	},
+    	_getGprs:function(){
+    		
+            if($.trim($("#phoneNum2").val()).length==11){
+    			
+    			ajaxController.ajax({
+					type: "post",
+					dataType: "json",
+				
+					url: _base+"/getPhoneInfo",
+					data:{
+						phoneNum:$.trim($("#phoneNum2").val()).substr(0,7)
+						},
+					success: function(data){
+						var d=data.data;
+						if(d){
+							serviceNum=data;
+							//var productCatId="10000010010000";
+							var provCode=d.provinceCode;
+							var basicOrgId=d.basicOrgCode;
+							//userType 
+							//userId
+							ajaxController.ajax({
+								type: "post",
+								dataType: "json",
+							
+								url: _base+"/getFastGprs",
+								data:{
+									provCode:provCode,
+									basicOrgId:basicOrgId
+									},
+								success: function(data){
+									var d=data.data;
+									/*if(d){
+										var phoneFee=d.phoneFee;
+										$.each(phoneFee,function(index,item){
+											var paramName = phoneFee[index].content.denomination;
+											var paramCode = phoneFee[index].content.denomination;
+											$("#phoneFee").append('<option value="'+paramCode+'">'+paramName+'</option>');
+										})
+									}*/
+								}
+							});
+							
+						}
+					}
+				});
+    		}
+    	},
+    	_getFastPhoneInfo:function(provCode,basicOrgId){
+    		ajaxController.ajax({
+				type: "post",
+				dataType: "json",
+			
+				url: _base+"/getFastInfo",
+				data:{
+					provCode:provCode,
+					basicOrgId:basicOrgId
+					},
+				success: function(data){
+					var d=data.data;
+					console.log(data);
+				}
+			});
+    	},
     	_getPhoneBill:function(){
     		//类目
     		var oprator;

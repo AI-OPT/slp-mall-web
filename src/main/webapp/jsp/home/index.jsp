@@ -131,8 +131,8 @@
           <div id="date1">
               <div class="charge-list">
               <ul>
-              <li><input type="text" class="int-dex" placeholder="请输入手机号码"></li>
-              <li><select class="int-dex"></select></li>
+              <li><input type="text" class="int-dex" id="phoneNum1" maxlength="11" placeholder="请输入手机号码"></li>
+              <li><select id="phoneFee" class="int-dex"></select></li>
               <li class="word">售价:<span>¥29.5-¥30</span></li>
               <li><input type="button" value="立即充值" class="slp-btn dex-btn"></li>
               </ul>
@@ -141,7 +141,7 @@
           <div id="date2" style=" display:none;">
               <div class="charge-list">
               <ul>
-              <li><input type="text" class="int-dex" placeholder="请输入手机号码"></li>
+              <li><input type="text" class="int-dex" maxlength="11" id="phoneNum2" placeholder="请输入手机号码"></li>
               <li class="congz"><p><select class="select-cz"></select></p><p class="se-mar"><select  class="select-cz"></select></p></li>
               <li class="word">售价:<span>¥29.5-¥30</span></li>
               <li><input type="button" value="立即充值" class="slp-btn dex-btn"></li>

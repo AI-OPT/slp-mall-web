@@ -115,6 +115,7 @@ dependencies {
     //缓存
     compile 'com.ai.slp.common:cache:1.0-SNAPSHOT'
     compile 'com.ai.slp.common:servicenum:1.0.1-SNAPSHOT'
+    compile 'com.ai.slp.product:webfront:1.1-SNAPSHOT'
 	//账户余额 zhangzd
 	compile 'com.ai.slp.balance:fundquery:1.0-SNAPSHOT'
 	compile 'com.ai.slp.charge:paymentquery:1.0-SNAPSHOT'
