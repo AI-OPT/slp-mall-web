@@ -29,6 +29,7 @@ define('app/jsp/shoppingcart/shopCartDetails', function (require, exports, modul
     	events: {
             // 全选
     		"click input[name='checkOne']":"_checkOne",
+    		"click #deleteSelectProd":"_delSelectProd",
         },
     	// 重写父类
     	setup: function () {
@@ -47,13 +48,18 @@ define('app/jsp/shoppingcart/shopCartDetails', function (require, exports, modul
 			var proNum = $("#"+prodId+"_prodnum");
     		var oldNum = parseInt(proNum.val());
     		// 判断数量
-    		if(oldNum<=1){
+    		if(oldNum<=1 || oldNum>=99){
     			return;
     		}
     		// 重新赋值
     		oldNum+=prodNum;
 			proNum.val(oldNum);
+    		//调用后场修改数量
+    		this._changeCartNum(prodId,oldNum);
+    		//计算价格并求和
     		this._computedPrice(prodId,oldNum,salePrice);
+    		// 求和
+    		this._sumPriceAndNum();
     	},
     	//计算价格
     	_computedPrice:function(prodId,num,salePrice){
@@ -63,9 +69,7 @@ define('app/jsp/shoppingcart/shopCartDetails', function (require, exports, modul
     		var money = this._liToYuan(moneyLi);
     		// 改变金额小计
     		var td = $("#"+prodId+"_prodPriceSubtotal");
-    		alert(td);
     		td.html("￥"+money);
-    		// 求和
     	},
     	 // 修改数量
         _modifyCartProdQty:function(prodId,btn,salePrice){
@@ -73,13 +77,20 @@ define('app/jsp/shoppingcart/shopCartDetails', function (require, exports, modul
         	if(!this._isPosNum(qty)){
 				qty = 1;
         	}
+        	if(qty>=99){
+    			return;
+    		}
 			btn.value=qty;
+			//调用后场修改数量
+    		this._changeCartNum(prodId,qty);
 			this._computedPrice(prodId,qty,salePrice);
+			// 求和
+    		this._sumPriceAndNum();
         },
         // 是否为正整数
         _isPosNum:function(num){
         	var re = /^[1-9][0-9]*$/ ; 
-        	return re.test(num) 
+        	return re.test(num) ;
         },
         // 格式化金额
     	_fmoneyOf2:function (s, n) {
@@ -93,11 +104,102 @@ define('app/jsp/shoppingcart/shopCartDetails', function (require, exports, modul
     		}
     		return t.split("").reverse().join("") + "." + r;
     	},
-    	// 删除单个
-    	_delCartProd:function(btn){
-    		btn.parentNode.parentNode.parentNode.parentNode.remove();
+    	// 删除商品单个
+    	_delCartProd:function(prodId){
+    		//移除当前商品列表
+    		$("#"+prodId+"_tr").remove();
+    		var prodIdList = new Array();
+    		prodIdList.push(prodId);
     		// 获取ID调用AJAX删除商品服务
+    		this._delPitchOnProd(prodIdList);
     		// 求和
+    		this._sumPriceAndNum();
+    	},
+    	// 删除商品多个
+    	_delSelectProd:function(){
+    		var prodIdList = new Array();
+    		//移除选中商品列表
+    		$("input[name='checkOne']").each(function(i){  
+			    var isCheck = $(this).prop("checked");
+			    if('checked' == isCheck || isCheck){
+			        //若被选中则获取ID并添加到list集合
+			    	var id = $(this).prop("id");
+			    	prodIdList.push(id);
+			    	//移除当前商品列表
+		    		$("#"+id+"_tr").remove();
+			    }
+			});
+    		//若没有选中的则不往下进行
+    		if(prodIdList.length<=0){
+    			return;
+    		}
+    		// 获取ID调用AJAX删除商品服务
+    		this._delPitchOnProd(prodIdList);
+    		// 求和
+    		this._sumPriceAndNum();
+    	},
+    	// 删除和删除选中
+    	_delPitchOnProd:function(prodIdList){
+    		alert(prodIdList);
+    		//如果点击的是删除
+    		ajaxController.ajax({
+				type: "post",
+				dataType: "json",
+				processing: false,
+				// message: "删除中，请等待...",
+				url: _base+"/shopcart/deleteProd",
+				data:{"skuList":prodIdList},
+				success: function(data){
+					if("0"===data.statusCode){
+						var d = Dialog({
+							content:"修改失败",
+							ok:function(){
+								this.close();
+							}
+						});
+						d.show();
+					}
+				}
+			});
+    	},
+    	//求和-包括商品总量\已选商品量\商品价格
+    	_sumPriceAndNum: function(){
+    		var prodTotal = 0;
+    		var prodNum = 0;
+    		var allProdNum = 0;
+    		//循环计算已选商品量/商品价格
+    		$("input[name='checkOne']").each(function(i){  
+			    var isCheck = $(this).prop("checked");
+			    if('checked' == isCheck || isCheck){
+			        //获取ID并添加到list集合
+			        var id = $(this).prop("id");
+			        var price = Number($("#"+id+"_prodPriceSubtotal").html().replace("¥", ""));
+			        //计算价格
+			        prodTotal += price;
+			        var num = Number($("#"+id+"_prodnum").val());
+			        //计算购买商品量
+			        prodNum += num;
+			        //计算总量
+			        allProdNum += num;
+			    }else{
+			    	var id = $(this).prop("id");
+			        var num = Number($("#"+id+"_prodnum").val());
+			        //计算总量
+			        allProdNum += num;
+			    }
+			});
+    		$("#cartProdTotal").html(Number(prodTotal));
+    		alert(prodTotal);
+    		$("#checkProductNum").html(prodNum);
+    		//商品总量
+    		$("input[name='outOfStockProd']").each(function(i){  
+		        //获取ID并添加到list集合
+		        var id = $(this).prop("id");
+		        var num = Number($("#"+id+"_prodnum").val());
+		        //计算总量
+		        allProdNum += num;
+			});
+    		$("#allProductNum").html("("+allProdNum+")");
     	},
     	//金额转换（元->厘）
     	_yuanToLi: function(yuan){
@@ -114,25 +216,6 @@ define('app/jsp/shoppingcart/shopCartDetails', function (require, exports, modul
     			return result;
     		}
             return this._fmoneyOf2(parseInt(li)/1000, 2);
-    	},
-    	// 全选
-    	// 删除选中
-    	_delPitchOn:function(){
-    		ajaxController.ajax({
-				type: "post",
-				dataType: "json",
-				processing: false,
-				// message: "查询中，请等待...",
-				url: _base+"/search/getHotProduct",
-				data:{areaCode:"81"},
-				success: function(data){
-					if(data.data){
-						var template = $.templates("#hotProductListTmpl");
-						var htmlOut = template.render(data.data);
-						$("#hotProductData").html(htmlOut);
-					}
-				}
-			});
     	},
     	
     	// 精确计算两数乘积
@@ -151,29 +234,47 @@ define('app/jsp/shoppingcart/shopCartDetails', function (require, exports, modul
     	    return Number(s1.replace(".", "")) * Number(s2.replace(".", "")) / Math.pow(10, m);
     	},
     	
-    	// 全选反选
+    	// 全选
     	_checkAll:function(btn){
     		if(btn.checked){
     		  $("input[name='checkAll']").prop("checked",true);
     		  $("input[name='checkOne']").prop("checked",true);
-    		  
-//    		  $("#chkAll").html(""); 
     		}else{
     		  $("input[name='checkAll']").prop("checked",false);
     		  $("input[name='checkOne']").prop("checked",false);
-//    		  $("#chkAll").html("");
     		}
     		//求和
+    		this._sumPriceAndNum();
     	},
     	//单个选中或取消
     	_checkOne:function(){
-    		alert(this);
-    		if(this.checked){
-    			
-    		}else{
-    			
-    		}
-    	}
+			//如果当前复选框取消选中同事取消全选中
+			$("input[name='checkAll']").prop("checked",false);
+			//求和
+    		this._sumPriceAndNum();
+    	},
+    	//调整购物车数量
+    	_changeCartNum:function(skuId,buyNum){
+    		ajaxController.ajax({
+				type: "post",
+				dataType: "json",
+				processing: false,
+				// message: "调整中，请等待...",
+				url: _base+"/shopcart/updateProdNum",
+				data:{"skuId":skuId,"buyNum":buyNum},
+				success: function(data){
+					if("0"===data.statusCode){
+						var d = Dialog({
+							content:"修改失败",
+							ok:function(){
+								this.close();
+							}
+						});
+						d.show();
+					}
+				}
+			});
+    	},
     });
     
     module.exports = shopCartDetailsPager

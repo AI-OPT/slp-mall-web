@@ -40,7 +40,7 @@
      <!--购物车-->
 <div class="fsast-charge">
      	<div class="big-wrapper"><!--内侧居中框架-->
-       		<div class="payment-title"><p>全部<span id="allProductNum">（20）</span></p></div>
+       		<div class="payment-title"><p>全部<span id="allProductNum">（${prodTotal}）</span></p></div>
            <div class="recharge-bj-tow"><!--白色背景-->
                 
                 <div class="shopping-cart">
@@ -56,8 +56,8 @@
                               <tbody id="cartProdData"></tbody>
                   </table>
                    <script id="cartProdTemple" type="text/template">
-{{if state == '5'}}
-							<tr>
+					{{if state == '5'}}
+							<tr id="{{:skuId}}_tr">
                                 <td><input id="{{:skuId}}" type="checkbox" name="checkOne" class="checkbox-medium"></td>
                                 <td class="sp">
                                     <table width="100%" border="0">
@@ -78,13 +78,13 @@
                                 <td id="{{:skuId}}_prodPriceSubtotal" class="bold">¥{{:~shopCartPrices(salePrice, buyNum)}}</td>
                                 <td>
                                 <div class="number">
-                                <p><a href="#" onclick="pager._delCartProd(this);"><i class="icon-remove"></i>删除</a></p>
+                                <p><a href="#" onclick="pager._delCartProd('{{:skuId}}');"><i class="icon-remove"></i>删除</a></p>
                                 </div>
                                 </td>
 							</tr>
-{{else}}
-<tr class="none-color">
-                                <td><input id="{{:skuId}}" type="checkbox" disabled="true" class="checkbox-medium"></td>
+						{{else}}
+							<tr id="{{:skuId}}_tr" class="none-color">
+                                <td><input id="{{:skuId}}" type="checkbox" name="outOfStockProd" disabled="true" class="checkbox-medium"></td>
                                 <td class="sp">
                                     <table width="100%" border="0">
                                           <tr>
@@ -105,7 +105,7 @@
                                 <td class="bold">¥{{:~shopCartPrices(salePrice, buyNum)}}</td>
                                 <td>
                                 <div class="number">
-                                <p><a href="#" onclick="pager._delCartProd(this);"><i class="icon-remove"></i>删除</a></p>
+                                <p><a href="#" onclick="pager._delCartProd('{{:skuId}}');"><i class="icon-remove"></i>删除</a></p>
                                 </div>
                                 </td>
 							</tr>
@@ -119,15 +119,15 @@
           <div class="left-chix">
               <ul>
                   <li><input type="checkbox" name="checkAll" class="checkbox-medium" onclick="pager._checkAll(this);" style=" margin-top:26px; float:left;">全选</li>
-                  <li><a href="#">删除选中</a></li>
+                  <li><a href="#" id="deleteSelectProd">删除选中</a></li>
               </ul>
           </div>
           <div class="order-amount">
           <ul>
           <li>
-          <p>已选中<span id="checkProductNum">25</span>件商品</p>
+          <p>已选中<span id="checkProductNum">0</span>件商品</p>
           <p>应付总计(不含运费):</p>
-          <p><span id="prodTotal">${prodTotal}</span></p> 
+          <p><span id="cartProdTotal">0</span></p> 
           </li>
          </ul>
           </div>
@@ -144,7 +144,6 @@
 	<script type="text/javascript">
 		var pager;
 		var cartProdList = $.parseJSON('${cartProdList}');
-        var prodTotal = 10;
 		(function () {
 			seajs.use('app/jsp/shoppingcart/shopCartDetails', function (shopCartDetailsPager) {
 				pager = new shopCartDetailsPager({element: document.body});
