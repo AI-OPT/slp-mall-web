@@ -94,4 +94,8 @@
 		<!-- 根据手机号查询 -->	
 	<dubbo:reference id="iServiceNumSV"
 		interface="com.ai.slp.common.api.servicenum.interfaces.IServiceNumSV"/>	
+
+	<dubbo:reference id="iFundQuerySV"
+		interface="com.ai.baas.amc.api.fundquery.interfaces.IFundQuerySV"/>
+				   
 </beans>
