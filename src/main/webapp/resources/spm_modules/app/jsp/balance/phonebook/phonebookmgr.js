@@ -95,9 +95,7 @@ define('app/jsp/balance/phonebook/phonebookmgr', function (require, exports, mod
 					telGroupName: $.trim($("#TEL_GROUP_NAME").val())
 				},
 				success: function(data){
-					if(data.data){
-						
-					}
+					alert("处理成功"); 
 				}
 			});
     	}
