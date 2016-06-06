@@ -13,7 +13,8 @@
         http://code.alibabatech.com/schema/dubbo/dubbo.xsd
 	">
 
-	<bean id="dubboConfig" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+	<bean id="dubboConfig"
+		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
 		<property name="order" value="1" />
 		<property name="ignoreUnresolvablePlaceholders" value="true" />
 		<property name="locations" value="classpath:dubbo.properties" />
@@ -27,78 +28,78 @@
 	<dubbo:consumer timeout="${dubbo.provider.timeout}" />
 
 	<context:component-scan base-package="com.ai.slp" />
-	
-	<dubbo:reference id="iAccountManageSV" 
-		interface="com.ai.opt.uac.api.account.interfaces.IAccountManageSV" 
+
+	<dubbo:reference id="iAccountManageSV"
+		interface="com.ai.opt.uac.api.account.interfaces.IAccountManageSV"
 		registry="baasRegistry" />
-		
-	<dubbo:reference id="iIndustryManageSV" 
-		interface="com.ai.opt.uac.api.account.interfaces.IIndustryManageSV" 
+
+	<dubbo:reference id="iIndustryManageSV"
+		interface="com.ai.opt.uac.api.account.interfaces.IIndustryManageSV"
 		registry="baasRegistry" />
-		
-	<dubbo:reference id="iTenantManageSV" 
-		interface="com.ai.opt.uac.api.account.interfaces.ITenantManageSV" 
+
+	<dubbo:reference id="iTenantManageSV"
+		interface="com.ai.opt.uac.api.account.interfaces.ITenantManageSV"
 		registry="baasRegistry" />
-		
+
 	<!-- 商品查询服务 -->
 	<dubbo:reference id="iSearchProductSV"
-		interface="com.ai.slp.product.api.webfront.interfaces.ISearchProductSV"/>
+		interface="com.ai.slp.product.api.webfront.interfaces.ISearchProductSV" />
 
-	<dubbo:reference id="iProductDetailSV" 
-		interface="com.ai.slp.product.api.webfront.interfaces.IProductDetailSV" 
+	<dubbo:reference id="iProductDetailSV"
+		interface="com.ai.slp.product.api.webfront.interfaces.IProductDetailSV"
 		registry="baasRegistry" />
-		
-	<dubbo:reference id="iProductHomeSV" 
-		interface="com.ai.slp.product.api.webfront.interfaces.IProductHomeSV" 
+
+	<dubbo:reference id="iProductHomeSV"
+		interface="com.ai.slp.product.api.webfront.interfaces.IProductHomeSV"
 		registry="baasRegistry" />
-		
+
 	<!-- 购物车 -->
-	<dubbo:reference id="IShopCartSV" 
-		interface="com.ai.slp.order.api.shopcart.interfaces.IShopCartSV" 
-		registry="baasRegistry" />	
-		
+	<dubbo:reference id="IShopCartSV"
+		interface="com.ai.slp.order.api.shopcart.interfaces.IShopCartSV"
+		registry="baasRegistry" />
+
 	<!-- 订单查询 -->
-	<dubbo:reference id="iOrderListSV" 
-		interface="com.ai.slp.order.api.orderlist.interfaces.IOrderListSV" 
-		registry="baasRegistry" />	
-		
-     <dubbo:reference id="iUcUserSV"
-		interface="com.ai.slp.user.api.ucuser.intefaces.IUcUserSV"
-		registry="baasRegistry"
-		/>
-		
+	<dubbo:reference id="iOrderListSV"
+		interface="com.ai.slp.order.api.orderlist.interfaces.IOrderListSV"
+		registry="baasRegistry" />
+
+	<dubbo:reference id="iUcUserSV"
+		interface="com.ai.slp.user.api.ucuser.intefaces.IUcUserSV" registry="baasRegistry" />
+
 	<dubbo:reference id="IUcUserSecurityManageSV"
 		interface="com.ai.slp.user.api.ucUserSecurity.interfaces.IUcUserSecurityManageSV"
-		registry="baasRegistry"
-		/>
-		
+		registry="baasRegistry" />
+
 	<dubbo:reference id="iOrderPaySV"
 		interface="com.ai.slp.order.api.orderpay.interfaces.IOrderPaySV"
-		registry="baasRegistry"
-		/>
-		
+		registry="baasRegistry" />
+
 	<dubbo:reference id="iCreateSeqSV"
-		interface="com.ai.slp.user.api.seq.interfaces.ICreateSeqSV"/>
-		
+		interface="com.ai.slp.user.api.seq.interfaces.ICreateSeqSV" />
+
 	<dubbo:reference id="sMSServices"
-		interface="com.ai.runner.center.mmp.api.manager.interfaces.SMSServices"/>
-	
+		interface="com.ai.runner.center.mmp.api.manager.interfaces.SMSServices" />
+
 	<dubbo:reference id="iRegisterSV"
-		interface="com.ai.slp.user.api.register.interfaces.IRegisterSV"/>
+		interface="com.ai.slp.user.api.register.interfaces.IRegisterSV" />
+
+	<dubbo:reference id="iUserPhoneBooksSV"
+		interface="com.ai.slp.user.api.ucuserphonebooks.interfaces.IUserPhoneBooksSV" />
+
 	<!-- 地区查询 -->
 	<dubbo:reference id="iGnAreaQuerySV"
-		interface="com.ai.slp.common.api.area.interfaces.IGnAreaQuerySV"/>	
-	<!-- 缓存 -->	
+		interface="com.ai.slp.common.api.area.interfaces.IGnAreaQuerySV" />
+	<!-- 缓存 -->
 	<dubbo:reference id="iCacheSV"
-		interface="com.ai.slp.common.api.cache.interfaces.ICacheSV"/>	
-		<!-- 根据手机号查询 -->	
+		interface="com.ai.slp.common.api.cache.interfaces.ICacheSV" />
+	<!-- 根据手机号查询 -->
 	<dubbo:reference id="iServiceNumSV"
-		interface="com.ai.slp.common.api.servicenum.interfaces.IServiceNumSV"/>	
+		interface="com.ai.slp.common.api.servicenum.interfaces.IServiceNumSV" />
 
 	<dubbo:reference id="iFundQuerySV"
-		interface="com.ai.slp.balance.api.fundquery.interfaces.IFundQuerySV"/>
-	
+		interface="com.ai.slp.balance.api.fundquery.interfaces.IFundQuerySV" />
+
 	<dubbo:reference id="iPaymentQuerySV"
-		interface="com.ai.slp.charge.api.paymentquery.interfaces.IPaymentQuerySV"/>
-					   
+		interface="com.ai.slp.charge.api.paymentquery.interfaces.IPaymentQuerySV" />
+
 </beans>

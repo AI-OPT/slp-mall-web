@@ -98,6 +98,8 @@ dependencies {
 	compile 'com.ai.slp.user:ucUserSecurity:1.0-SNAPSHOT'
 	//用户
 	compile 'com.ai.slp.user:ucuser:1.0-SNAPSHOT'
+	//通讯录组
+	compile 'com.ai.slp.user:ucuserphonebooks:1.0-SNAPSHOT'
 	//创建手机验证码
 	compile 'com.ai.slp.user:seq:1.0-SNAPSHOT'
 	//用户注册信息

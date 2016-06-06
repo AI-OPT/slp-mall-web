@@ -84,6 +84,22 @@ define('app/jsp/balance/phonebook/phonebookmgr', function (require, exports, mod
 			}else{
 				$("#LBL_ADD_TEL_GROUP").hide().find("#SPAN_ADD_TEL_GROUP_TIP").html("");
 			}
+			ajaxController.ajax({
+				type: "post",
+				dataType: "json",
+				processing: true,
+				message: "正在处理...",
+				url: _base+"/account/phonebook/submitNewTelGroup",
+				data: {
+					userId: this.get("userId"),
+					telGroupName: $.trim($("#TEL_GROUP_NAME").val())
+				},
+				success: function(data){
+					if(data.data){
+						
+					}
+				}
+			});
     	}
     	
     	
