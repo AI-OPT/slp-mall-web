@@ -7,6 +7,7 @@ import com.ai.opt.sdk.components.ccs.CCSClientFactory;
 import com.ai.opt.sdk.constants.SDKConstants;
 import com.ai.paas.ipaas.ccs.IConfigClient;
 import com.ai.paas.ipaas.ccs.constants.ConfigException;
+import com.ai.slp.mall.web.constants.SLPMallConstants.BandEmail;
 
 public class IConfigCenterClientTest {
 
@@ -21,7 +22,7 @@ public class IConfigCenterClientTest {
     //@Ignore
     public void addMcsConfig() throws ConfigException {
         // 缓存服务主机
-        String baasopwebRedisHost = "MCS004";
+        String baasopwebRedisHost = "MCS005";
         // 缓存空间
         String cachesnsConfig = "{\"com.ai.opt.uni.session.sessionclient.slpmallweb\":\"" + baasopwebRedisHost
                 //+ "\",\"com.ai.baas.op.register.cache\":\"" + baasopwebRedisHost
@@ -29,10 +30,10 @@ public class IConfigCenterClientTest {
         
 
         // 缓存空间配置
-        if (!client.exists(SDKConstants.PAAS_CACHENS_MCS_MAPPED_PATH))
-            client.add(SDKConstants.PAAS_CACHENS_MCS_MAPPED_PATH, cachesnsConfig);
+        if (!client.exists(BandEmail.CACHE_KEY_IP_SEND_PHONE_NUM))
+            client.add(BandEmail.CACHE_KEY_IP_SEND_PHONE_NUM, "0");
         else {
-            client.modify(SDKConstants.PAAS_CACHENS_MCS_MAPPED_PATH, cachesnsConfig);
+            client.modify(SDKConstants.PAAS_CACHENS_MCS_MAPPED_PATH, "0");
         }
     }
     
@@ -48,15 +49,15 @@ public class IConfigCenterClientTest {
     
     @Test
     public void addServiceIdPwdMap() throws ConfigException {
-        String cachesnsConfig = "{\"MCS004\":\"" + "123456"
+        String cachesnsConfig = "{\"MCS005\":\"" + "1q2w3e4r"
                 + "\"}";
 
         // paas serviceid password 映射配置
-        if (!client.exists(SDKConstants.PAAS_SERVICE_PWD_MAPPED_PATH))
-            client.add(SDKConstants.PAAS_SERVICE_PWD_MAPPED_PATH,
+        if (!client.exists(BandEmail.CACHE_KEY_IP_SEND_PHONE_NUM))
+            client.add(BandEmail.CACHE_KEY_IP_SEND_PHONE_NUM,
                     cachesnsConfig);
         else {
-            client.modify(SDKConstants.PAAS_SERVICE_PWD_MAPPED_PATH,
+            client.modify(BandEmail.CACHE_KEY_IP_SEND_PHONE_NUM,
                     cachesnsConfig);
         }
     }
