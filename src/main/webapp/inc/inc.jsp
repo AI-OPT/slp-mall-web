@@ -10,6 +10,12 @@
     
     String _slpbase=_base+"/resources/slpmall";
     request.setAttribute("_slpbase", _slpbase);
+    
+    String accountBalanceLink=_base+"/account/balance/index";
+    request.setAttribute("accountBalanceLink", accountBalanceLink);
+
+    String accountRechargeOneLink=_base+"/account/recharge/one";
+    request.setAttribute("accountRechargeOneLink", accountRechargeOneLink);
 %>
 <script>
     var _base = "${_base}";
