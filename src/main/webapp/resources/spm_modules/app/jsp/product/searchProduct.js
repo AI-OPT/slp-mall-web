@@ -47,6 +47,7 @@ define('app/jsp/product/searchProduct', function (require, exports, module) {
     		}
     		this._getHotProduct();
     	},
+    	//搜索操作
     	_search: function(){
     		var	param={
 					areaCode:"81",  
@@ -65,6 +66,8 @@ define('app/jsp/product/searchProduct', function (require, exports, module) {
 	            message: "正在为您查询数据..",
 	            render: function (data) {
 	            	if(data != null && data != 'undefined' && data.length>0){
+	            		//获取公共数据
+    					_this._getCommonBySearch();
 	            		var template = $.templates("#productListTemple");
     					var htmlOutput = template.render(data);
     					$("#productData").html(htmlOutput);
@@ -76,9 +79,11 @@ define('app/jsp/product/searchProduct', function (require, exports, module) {
 					 $("#totalcount").text(data.count);
 					 $("#pageno").text(data.pageNo);
 					 $("#pagecount").text(data.pageCount);
+					 
 				},
     		});
     	},
+    	//首页搜索跳转操作
     	_searchBtnClick: function(){
     		var	param={
 					areaCode:"81",  
@@ -102,6 +107,8 @@ define('app/jsp/product/searchProduct', function (require, exports, module) {
 	            		var template = $.templates("#productListTemple");
     					var htmlOutput = template.render(data);
     					$("#productData").html(htmlOutput);
+    					//获取公共数据
+    					_this._getCommonProduct();
 	            	}else{
     					$("#productData").html("没有搜索到相关信息");
 	            	}
@@ -113,6 +120,7 @@ define('app/jsp/product/searchProduct', function (require, exports, module) {
 				},
     		});
     	},
+
     	_getHotProduct:function(){
       		ajaxController.ajax({
 						type: "post",
@@ -131,6 +139,64 @@ define('app/jsp/product/searchProduct', function (require, exports, module) {
 					}
       		);
       	},
+      	//搜索获取公共数据
+      	_getCommonBySearch:function(){
+      		var	param={
+					areaCode:"81",  
+					skuName:$("#skuName").val()
+				   };
+      		ajaxController.ajax({
+						type: "post",
+						dataType: "json",
+						processing: true,
+						message: "查询中，请等待...",
+						url: _base+"/search/getCommonBySearch",
+						data:param,
+						pageSize: QueryProductPager.DEFAULT_PAGE_SIZE,
+						success: function(data){
+							var template = $.templates("#agentTmpl");
+							var htmlOut = template.render(data.data);
+							$("#agentData").html(htmlOut);
+							var template1 = $.templates("#accountTmpl");
+							var htmlOut1 = template1.render(data.data);
+							$("#accountData").html(htmlOut1);
+							var template2 = $.templates("#areaTmpl");
+							var htmlOut2 = template2.render(data.data);
+							$("#areaData").html(htmlOut2);
+						}
+					}
+      		);
+      	},
+      	//获取公共数据
+      	_getCommonProduct:function(){
+      		var	param={
+					areaCode:"81",  
+					productCatId: $("#billType").val(),
+					basicOrgIdIs:"12",
+					attrDefId:$("#priceId").val()
+				   };
+      		ajaxController.ajax({
+						type: "post",
+						dataType: "json",
+						processing: true,
+						message: "查询中，请等待...",
+						url: _base+"/search/getCommon",
+						data:param,
+						pageSize: QueryProductPager.DEFAULT_PAGE_SIZE,
+						success: function(data){
+							var template = $.templates("#agentTmpl");
+							var htmlOut = template.render(data.data);
+							$("#agentData").html(htmlOut);
+							var template1 = $.templates("#accountTmpl");
+							var htmlOut1 = template1.render(data.data);
+							$("#accountData").html(htmlOut1);
+							var template2 = $.templates("#areaTmpl");
+							var htmlOut2 = template2.render(data.data);
+							$("#areaData").html(htmlOut2);
+						}
+					}
+      		);
+      	}
     	
     });
     

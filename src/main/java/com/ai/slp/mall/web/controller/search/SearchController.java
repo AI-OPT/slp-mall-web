@@ -18,6 +18,7 @@ import com.ai.opt.sdk.dubbo.util.DubboConsumerFactory;
 import com.ai.opt.sdk.util.CollectionUtil;
 import com.ai.opt.sdk.util.StringUtil;
 import com.ai.opt.sdk.web.model.ResponseData;
+import com.ai.slp.mall.web.model.product.ProductCommonVO;
 import com.ai.slp.mall.web.model.product.ProductDataVO;
 import com.ai.slp.mall.web.util.ImageUtil;
 import com.ai.slp.product.api.webfront.interfaces.ISearchProductSV;
@@ -81,6 +82,9 @@ public class SearchController {
                 if(!CollectionUtil.isEmpty(proList)){
                     for(ProductData data:proList){
                         ProductDataVO vo = new ProductDataVO();
+                        vo.setAccountList(data.getAccountList());
+                        vo.setAgentList(data.getAgentList());
+                        vo.setAreaList(data.getAreaList());
                         vo.setProdId(data.getProdId());
                         vo.setProdName(data.getProdName());
                         vo.setSalePrice(data.getSalePrice());
@@ -199,5 +203,63 @@ public class SearchController {
         }
         return responseData;
     }
-    
+    @RequestMapping("/getCommon")
+    @ResponseBody
+    public ResponseData<ProductCommonVO> getCommon(HttpServletRequest request,ProductQueryRequest req){
+        ISearchProductSV iSearchProductSV = DubboConsumerFactory.getService("iSearchProductSV");
+        req.setTenantId("SLP");
+        ResponseData<ProductCommonVO> responseData = null;
+        PageInfo<ProductData> pageInfo = new PageInfo<ProductData> ();
+        String strPageNo=(null==request.getParameter("pageNo"))?"1":request.getParameter("pageNo");
+        String strPageSize=(null==request.getParameter("pageSize"))?"10":request.getParameter("pageSize");
+        pageInfo.setPageNo(Integer.parseInt(strPageNo));
+        pageInfo.setPageSize(Integer.parseInt(strPageSize));
+        try {
+            req.setPageInfo(pageInfo);
+            ProductQueryResponse resultInfo = iSearchProductSV.queryProductPage(req);
+            PageInfo<ProductData> result= resultInfo.getPageInfo();
+            ProductCommonVO commonVo = new ProductCommonVO();
+            if(result!=null){
+                commonVo.setAccountList(result.getResult().get(0).getAccountList());
+                commonVo.setAgentList(result.getResult().get(0).getAgentList());
+                commonVo.setAreaList(result.getResult().get(0).getAreaList());
+            }
+            LOG.debug("商品查询出参:"+JSONArray.fromObject(resultInfo).toString());
+            responseData = new ResponseData<ProductCommonVO>(ResponseData.AJAX_STATUS_SUCCESS, "查询成功", commonVo);
+        } catch (Exception e) {
+            responseData = new ResponseData<ProductCommonVO>(ResponseData.AJAX_STATUS_FAILURE, "查询失败");
+            LOG.error("获取信息出错：", e);
+        }
+        return responseData;
+    }
+    //搜索操作获取公共数据
+    @RequestMapping("/getCommonBySearch")
+    @ResponseBody
+    public ResponseData<ProductCommonVO> getCommonBySearch(HttpServletRequest request,ProductQueryRequest req){
+        ISearchProductSV iSearchProductSV = DubboConsumerFactory.getService("iSearchProductSV");
+        req.setTenantId("SLP");
+        ResponseData<ProductCommonVO> responseData = null;
+        PageInfo<ProductData> pageInfo = new PageInfo<ProductData> ();
+        String strPageNo=(null==request.getParameter("pageNo"))?"1":request.getParameter("pageNo");
+        String strPageSize=(null==request.getParameter("pageSize"))?"10":request.getParameter("pageSize");
+        pageInfo.setPageNo(Integer.parseInt(strPageNo));
+        pageInfo.setPageSize(Integer.parseInt(strPageSize));
+        try {
+            req.setPageInfo(pageInfo);
+            ProductQueryResponse resultInfo = iSearchProductSV.searchProduct(req);
+            PageInfo<ProductData> result= resultInfo.getPageInfo();
+            ProductCommonVO commonVo = new ProductCommonVO();
+            if(result!=null){
+                commonVo.setAccountList(result.getResult().get(0).getAccountList());
+                commonVo.setAgentList(result.getResult().get(0).getAgentList());
+                commonVo.setAreaList(result.getResult().get(0).getAreaList());
+            }
+            LOG.debug("商品查询出参:"+JSONArray.fromObject(resultInfo).toString());
+            responseData = new ResponseData<ProductCommonVO>(ResponseData.AJAX_STATUS_SUCCESS, "查询成功", commonVo);
+        } catch (Exception e) {
+            responseData = new ResponseData<ProductCommonVO>(ResponseData.AJAX_STATUS_FAILURE, "查询失败");
+            LOG.error("获取信息出错：", e);
+        }
+        return responseData;
+    }
 }
