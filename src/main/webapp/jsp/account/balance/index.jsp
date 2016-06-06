@@ -9,7 +9,6 @@
 <link href="${_slpbase }/styles/global.css" rel="stylesheet" type="text/css">
 <link href="${_slpbase }/styles/frame.css" rel="stylesheet" type="text/css">
 <link href="${_slpbase }/styles/font-awesome.css" rel="stylesheet" type="text/css">
-<script src="${_slpbase }/scripts/jQuery.Ajax.js"></script>
 <script type="text/javascript">
 	var url = "${_base}/account/test";
 	//alert(url);

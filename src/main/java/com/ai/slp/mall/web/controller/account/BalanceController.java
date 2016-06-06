@@ -1,5 +1,8 @@
 package com.ai.slp.mall.web.controller.account;
 
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -124,7 +127,13 @@ public class BalanceController {
 		ChargeInfoQueryByAcctIdParam chargeInfoQueryByAcctIdParam = new ChargeInfoQueryByAcctIdParam();
 		chargeInfoQueryByAcctIdParam.setAccountId(new Long(ACCOUNT_ID));
 		chargeInfoQueryByAcctIdParam.setTenantId(TENANT_ID);
-		chargeInfoQueryByAcctIdParam.setStartTime(DateUtil.getSysDate());
+		//
+		Calendar cal = Calendar.getInstance();
+		cal.add(5, -7);
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		String sevenDaysAgo = sdf.format(cal.getTime());
+		//
+		chargeInfoQueryByAcctIdParam.setStartTime(Timestamp.valueOf(sevenDaysAgo));
 		chargeInfoQueryByAcctIdParam.setEndTime(DateUtil.getSysDate());
 		//
 		DubboConsumerFactory.getService(IPaymentQuerySV.class).queryChargeBaseInfoByAcctId(chargeInfoQueryByAcctIdParam);

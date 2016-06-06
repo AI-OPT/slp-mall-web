@@ -1,6 +1,4 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<script type="text/javascript" src="${_slpbase }/scripts/jquery.page.js"></script>
-<link href="${_slpbase }/styles/jquery-page.css" rel="stylesheet" type="text/css"> 
 <!--账户余额右侧-->  
   <div class="my-order-cnt">
        <div class="payment-title">
@@ -206,8 +204,7 @@
             <div class="paging-large">
                 
                 <ul>
-            		<div class="tcdPageCode"></div>    	
-                    <!-- 
+            		    	
                     <li>共100页</li>
                     <li class="prev-up"><a href="#">&lt;上一页</a> </li>
                     <li class="active"> <a href="#">1 </a> </li>
@@ -223,21 +220,9 @@
                         <span>页</span>
                         <span class="btn-span"><a class="but-determine">确定</a></span>
                     </li>
-                     -->
                  </ul>
                  
-                 <script type="text/javascript">
-		
-					$(".tcdPageCode").createPage({
-								pageCount:20,
-								current:2,
-								pageSize : 6,
-								totalCount:120,
-								backFn:function(p){
-									//pageSearch4Select(p);
-								}
-							});
-				 </script>
+                 
               </div>   
      	 </div>
              
