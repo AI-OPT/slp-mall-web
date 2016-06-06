@@ -27,8 +27,8 @@ import com.alibaba.fastjson.JSON;
 @RestController
 public class BalanceController {
 	//
-	private static final String ACCOUNT_ID = "";
-	private static final String TENANT_ID = "";
+	private static final String ACCOUNT_ID = "1111";
+	private static final String TENANT_ID = "1111";
 	//
 	@RequestMapping("/account/balance/index")
 	public ModelAndView index(HttpServletRequest request) {
