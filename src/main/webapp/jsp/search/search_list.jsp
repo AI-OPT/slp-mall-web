@@ -61,7 +61,7 @@
                          <li id="agentData">
                          <script id="agentTmpl" type="text/x-jsrender">
 							{{for agentList}}
-						 		<p><A href="#" value="{{:attrDefId}}">{{:attrDefValue}}</A></p>
+						 		<p><A href="javascript:void(0);" value="{{:attrDefId}}">{{:attrDefValue}}</A></p>
 							{{/for}}
 							</script>
                          </li>
@@ -71,7 +71,7 @@
                          <li id="accountData">
                          <script id="accountTmpl" type="text/x-jsrender">
 							{{for accountList}}
-						 		<p><A href="#" value="{{:attrDefId}}">{{:attrDefValue}}</A></p>
+						 		<p><A href="javascript:void(0);" value="{{:attrDefId}}">{{:attrDefValue}}</A></p>
 							{{/for}}
 							</script>
                          </li>
@@ -81,40 +81,24 @@
                          <li class="word-height" id="areaData">
                           <script id="areaTmpl" type="text/x-jsrender">
 							{{for areaList}}
-								{{if #index==12}}	
-										<p><A href="#">更多</A></p>
-								{{else}}
-									<p><A href="#" value="{{:attrDefId}}">{{:attrDefValue}}</A></p>
+								{{if #index<17}}	
+									<p><A href="javascript:void(0);" value="{{:attrDefId}}">{{:attrDefValue}}</A></p>
+								{{/if}}
+								{{if #index==17}}
+									<p class="more"><A href="javascript:void(0);" id="moreId">更多<i class="icon-angle-down"></i></A></p>
 								{{/if}}
 							{{/for}}
 						</script>
                           </li>
-                          <div class="more-ctn" style=" display:none;">
-                           <li class="word-height">
-                             <p><A href="#">广西</A></p>
-                             <p><A href="#">云南</A></p>
-                             <p><A href="#">河北</A></p>
-                             <p><A href="#">更多</A></p>
-                             <p><A href="#">河南</A></p>
-                             <p><A href="#">山东</A></p>
-                             <p><A href="#">山西</A></p>
-                             <p><A href="#">河北</A></p>
-                              <p><A href="#">广西</A></p>
-                             <p><A href="#">云南</A></p>
-                             <p><A href="#">河北</A></p>
-                             <p><A href="#">更多</A></p>
-                             <p><A href="#">河南</A></p>
-                             <p><A href="#">山东</A></p>
-                             <p><A href="#">山西</A></p>
-                             <p><A href="#">河北</A></p>
-                              <p><A href="#">广西</A></p>
-                             <p><A href="#">云南</A></p>
-                             <p><A href="#">河北</A></p>
-                             <p><A href="#">更多</A></p>
-                             <p><A href="#">河南</A></p>
-                             <p><A href="#">山东</A></p>
-                             <p><A href="#">山西</A></p>
-                             <p><A href="#">河北</A></p>
+                          <div class="more-ctn" style=" display:none;" id="lastArea">
+                           <li class="word-height" id="lastAreaData">
+                           	<script id="lastAreaTmpl" type="text/x-jsrender">
+							{{for areaList}}
+								{{if #index>=17}}	
+									<p><A href="javascript:void(0);" value="{{:attrDefId}}">{{:attrDefValue}}</A></p>
+								{{/if}}
+							{{/for}}
+						</script>
                           </li></div>
                      </ul>
                      <!-- 

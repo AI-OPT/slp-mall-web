@@ -29,9 +29,8 @@ define('app/jsp/product/searchProduct', function (require, exports, module) {
     	//事件代理
     	events: {
     		//查询
-            "click #BTN_SEARCH":"_search"
-            //"click #thumbnailId":"_changeImage",
-            //"click #crruntImageId":"_changeCurrentImage"
+            "click #BTN_SEARCH":"_search",
+            "click #moreId":"_more"
         },
     	//重写父类
     	setup: function () {
@@ -39,7 +38,7 @@ define('app/jsp/product/searchProduct', function (require, exports, module) {
     		//初始化执行搜索
     		var sourceFlag = $("#sourceFlag").val();
     		var name = $("#skuName").val();
-    		$("#skuNameId").val(name);
+    		$("#serachName").val(name);
     		if(sourceFlag=="00"){
     			this._search();
     		}else{
@@ -51,7 +50,7 @@ define('app/jsp/product/searchProduct', function (require, exports, module) {
     	_search: function(){
     		var	param={
 					areaCode:"81",  
-					skuName:$("#skuName").val()
+					skuName:$("#serachName").val()
 				   };
     		var _this = this;
     		var url = _base+"/search/commonSearch";
@@ -120,7 +119,15 @@ define('app/jsp/product/searchProduct', function (require, exports, module) {
 				},
     		});
     	},
-
+		_more: function(){
+			var isCmcc = $("#lastArea").is(":visible");
+			if(isCmcc){
+				$("#lastArea").attr("style","display:none");
+			}else{
+				$("#lastArea").attr("style","display:");
+			}
+			
+		},
     	_getHotProduct:function(){
       		ajaxController.ajax({
 						type: "post",
@@ -143,7 +150,7 @@ define('app/jsp/product/searchProduct', function (require, exports, module) {
       	_getCommonBySearch:function(){
       		var	param={
 					areaCode:"81",  
-					skuName:$("#skuName").val()
+					skuName:$("#serachName").val()
 				   };
       		ajaxController.ajax({
 						type: "post",
@@ -163,6 +170,9 @@ define('app/jsp/product/searchProduct', function (require, exports, module) {
 							var template2 = $.templates("#areaTmpl");
 							var htmlOut2 = template2.render(data.data);
 							$("#areaData").html(htmlOut2);
+							var template3 = $.templates("#lastAreaTmpl");
+							var htmlOut3 = template3.render(data.data);
+							$("#lastAreaData").html(htmlOut3);
 						}
 					}
       		);
@@ -193,6 +203,10 @@ define('app/jsp/product/searchProduct', function (require, exports, module) {
 							var template2 = $.templates("#areaTmpl");
 							var htmlOut2 = template2.render(data.data);
 							$("#areaData").html(htmlOut2);
+							var template3 = $.templates("#lastAreaTmpl");
+							var htmlOut3 = template3.render(data.data);
+							$("#lastAreaData").html(htmlOut3);
+							
 						}
 					}
       		);
