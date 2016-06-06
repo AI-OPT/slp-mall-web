@@ -9,6 +9,8 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -17,18 +19,22 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.ai.opt.sdk.dubbo.util.DubboConsumerFactory;
 import com.ai.opt.sdk.util.DateUtil;
+import com.ai.runner.base.vo.PageInfo;
 import com.ai.slp.balance.api.fundquery.interfaces.IFundQuerySV;
 import com.ai.slp.balance.api.fundquery.param.AccountIdParam;
 import com.ai.slp.balance.api.fundquery.param.FundInfo;
 import com.ai.slp.charge.api.paymentquery.interfaces.IPaymentQuerySV;
+import com.ai.slp.charge.api.paymentquery.param.ChargeBaseInfo;
 import com.ai.slp.charge.api.paymentquery.param.ChargeInfoQueryByAcctIdParam;
 import com.alibaba.fastjson.JSON;
 
 @RestController
 public class BalanceController {
+	private static final Logger log = LoggerFactory.getLogger(BalanceController.class);
 	//
-	private static final String ACCOUNT_ID = "1111";
-	private static final String TENANT_ID = "1111";
+	private static final String ACCOUNT_ID = "10001";
+	private static final String TENANT_ID = "BIS-ST";
+	//private static final int 
 	//
 	@RequestMapping("/account/balance/index")
 	public ModelAndView index(HttpServletRequest request) {
@@ -109,9 +115,14 @@ public class BalanceController {
 		accountIdParam.setTenantId(TENANT_ID);
 		//
 		FundInfo fundInfo = DubboConsumerFactory.getService(IFundQuerySV.class).queryUsableFund(accountIdParam);
-		Long balance = fundInfo.getBalance();
+		long balance = 0;
+		if(null != fundInfo){
+			balance = fundInfo.getBalance();
+		}
+		
+		log.info("账户余额："+balance);
 		//
-		return balance.toString();
+		return String.valueOf(balance);
     }
 	/**
 	 * 查询近七天收支记录
@@ -121,23 +132,28 @@ public class BalanceController {
 	 * @ApiDocMethod
 	 * @ApiCode
 	 */
-	@RequestMapping(value="/account/queryChargeBaseInfoByAcctId",method = RequestMethod.POST, produces = "text/html;charset=UTF-8")
+	@RequestMapping(value="/account/queryChargeBaseInfoByAcctId",method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
 	@ResponseBody
-	public String queryChargeBaseInfoByAcctId(HttpServletRequest request) {
+	public PageInfo<ChargeBaseInfo> queryChargeBaseInfoByAcctId(HttpServletRequest request) {
 		ChargeInfoQueryByAcctIdParam chargeInfoQueryByAcctIdParam = new ChargeInfoQueryByAcctIdParam();
 		chargeInfoQueryByAcctIdParam.setAccountId(new Long(ACCOUNT_ID));
 		chargeInfoQueryByAcctIdParam.setTenantId(TENANT_ID);
+		PageInfo<ChargeBaseInfo> chargeBaseInfoPageInfo = new PageInfo<ChargeBaseInfo>();
+		chargeBaseInfoPageInfo.setPageNo(1);
+		chargeBaseInfoPageInfo.setPageSize(10);
+		chargeInfoQueryByAcctIdParam.setPageInfo(chargeBaseInfoPageInfo);
 		//
 		Calendar cal = Calendar.getInstance();
-		cal.add(5, -7);
+		cal.add(5, -777);
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		String sevenDaysAgo = sdf.format(cal.getTime());
 		//
 		chargeInfoQueryByAcctIdParam.setStartTime(Timestamp.valueOf(sevenDaysAgo));
 		chargeInfoQueryByAcctIdParam.setEndTime(DateUtil.getSysDate());
 		//
-		DubboConsumerFactory.getService(IPaymentQuerySV.class).queryChargeBaseInfoByAcctId(chargeInfoQueryByAcctIdParam);
+		PageInfo<ChargeBaseInfo> pageInfo = DubboConsumerFactory.getService(IPaymentQuerySV.class).queryChargeBaseInfoByAcctId(chargeInfoQueryByAcctIdParam);
 		//
-		return null;
+		System.out.println("json:"+JSON.toJSONString(pageInfo));
+		return pageInfo;
     }
 }
