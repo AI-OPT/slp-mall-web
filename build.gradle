@@ -117,6 +117,7 @@ dependencies {
     compile 'com.ai.slp.common:servicenum:1.0.1-SNAPSHOT'
 	//账户余额 zhangzd
 	compile 'com.ai.slp.balance:fundquery:1.0-SNAPSHOT'
+	compile 'com.ai.slp.charge:paymentquery:1.0-SNAPSHOT'
     testCompile(
             "org.springframework:spring-test:4.1.7.RELEASE",
             "junit:junit:4.12"

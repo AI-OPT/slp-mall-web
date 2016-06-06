@@ -27,6 +27,7 @@ public class BalanceController {
 	private VelocityBuilder velocityBuilder;
 	//
 	private static final String ACCOUNT_ID = "";
+	private static final String TENANT_ID = "";
 	//
 	@RequestMapping("/account/balance/index")
 	public ModelAndView index(HttpServletRequest request) {
@@ -109,7 +110,7 @@ public class BalanceController {
 	public String queryUsableFund(HttpServletRequest request) {
 		AccountIdParam accountIdParam = new AccountIdParam();
 		accountIdParam.setAccountId(new Long(ACCOUNT_ID));
-		
+		accountIdParam.setTenantId(TENANT_ID);
 		//
 		FundInfo fundInfo = DubboConsumerFactory.getService(IFundQuerySV.class).queryUsableFund(accountIdParam);
 		Long balance = fundInfo.getBalance();
