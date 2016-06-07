@@ -71,7 +71,7 @@ define('app/jsp/product/productDetail', function (require, exports, module) {
     	},
     	//控制按钮
     	_controlBtn:function(){
-    		if(producSKU.state == 1){
+    		if(producSKU.state == 5){
     			var usableNum = Number($("#usableNum").text());
     			if(usableNum<=0){
     				$("#invalidBtn").val("无货");
