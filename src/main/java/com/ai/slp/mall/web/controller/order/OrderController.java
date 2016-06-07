@@ -1,5 +1,6 @@
 package com.ai.slp.mall.web.controller.order;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -7,9 +8,10 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.log4j.Logger;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.ai.net.xss.util.StringUtil;
@@ -18,25 +20,40 @@ import com.ai.opt.sdk.components.idps.IDPSClientFactory;
 import com.ai.opt.sdk.dubbo.util.DubboConsumerFactory;
 import com.ai.opt.sdk.util.BeanUtils;
 import com.ai.opt.sdk.util.DateUtil;
+import com.ai.opt.sdk.util.UUIDUtil;
 import com.ai.opt.sdk.web.model.ResponseData;
 import com.ai.paas.ipaas.image.IImageClient;
 import com.ai.paas.ipaas.util.JSonUtil;
 import com.ai.slp.common.api.cache.interfaces.ICacheSV;
 import com.ai.slp.common.api.cache.param.SysParam;
+import com.ai.slp.mall.web.constants.SLPMallConstants;
 import com.ai.slp.mall.web.constants.SLPMallConstants.ExceptionCode;
 import com.ai.slp.mall.web.constants.SLPMallConstants.ProductImageConstant;
+import com.ai.slp.mall.web.model.order.InfoJsonVo;
 import com.ai.slp.mall.web.model.order.OrderListQueryParams;
+import com.ai.slp.mall.web.model.order.PayOrderRequest;
+import com.ai.slp.mall.web.util.CacheUtil;
 import com.ai.slp.order.api.orderlist.interfaces.IOrderListSV;
 import com.ai.slp.order.api.orderlist.param.OrdOrderVo;
 import com.ai.slp.order.api.orderlist.param.OrdProductVo;
 import com.ai.slp.order.api.orderlist.param.ProductImage;
+import com.ai.slp.order.api.orderlist.param.ProdExtendInfoVo;
 import com.ai.slp.order.api.orderlist.param.QueryOrderListRequest;
 import com.ai.slp.order.api.orderlist.param.QueryOrderListResponse;
 import com.ai.slp.order.api.orderlist.param.QueryOrderRequest;
 import com.ai.slp.order.api.orderlist.param.QueryOrderResponse;
+import com.ai.slp.order.api.ordertradecenter.interfaces.IOrderTradeCenterSV;
+import com.ai.slp.order.api.ordertradecenter.param.OrdBaseInfo;
+import com.ai.slp.order.api.ordertradecenter.param.OrdExtendInfo;
+import com.ai.slp.order.api.ordertradecenter.param.OrdFeeInfo;
+import com.ai.slp.order.api.ordertradecenter.param.OrdProductInfo;
+import com.ai.slp.order.api.ordertradecenter.param.OrdProductResInfo;
+import com.ai.slp.order.api.ordertradecenter.param.OrderTradeCenterRequest;
+import com.ai.slp.order.api.ordertradecenter.param.OrderTradeCenterResponse;
 import com.alibaba.dubbo.common.utils.StringUtils;
+import com.alibaba.fastjson.JSON;
 
-@RestController
+@Controller
 @RequestMapping("/order")
 public class OrderController {
 
@@ -202,4 +219,79 @@ public class OrderController {
 		}
 		return responseData;
 	}
+	/**
+	 * 下单并且跳转到支付页面
+	 */
+	@RequestMapping("/orderCommit")
+	@ResponseBody
+	public ResponseData<String> toPayOrder(HttpServletRequest request, PayOrderRequest orderReq) {
+		// 接口入参
+		// OrderTradeCenterRequest
+		// OrdBaseInfo
+		// List<OrdProductInfo>
+		// InfoJsonVo 扩展信息
+		ResponseData<String> resData = null;
+		try {
+			String orderKey = UUIDUtil.genId32();
+			orderReq.setUserId("900000000000000000");//先写死
+			CacheUtil.setValue(orderKey, 300, orderReq, SLPMallConstants.Order.CACHE_NAMESPACE);
+			resData=new ResponseData<String>(ExceptionCode.SUCCESS, "查询成功", orderKey);
+			
+		} catch (Exception e) {
+			resData=new ResponseData<String>(ExceptionCode.SYSTEM_ERROR, "查询失败", null);
+		}
+		
+		
+		return resData;
+
+	}
+	@RequestMapping("/toOrderPay")
+	public String toOrderPay(HttpServletRequest request,Model model){
+		String orderKey=request.getParameter("orderKey");
+		PayOrderRequest res=(PayOrderRequest)CacheUtil.getValue(orderKey, SLPMallConstants.Order.CACHE_NAMESPACE, PayOrderRequest.class);
+		OrderTradeCenterRequest orderrequest=new OrderTradeCenterRequest();
+		orderrequest.setTenantId("SLP");
+		OrdBaseInfo baseInfo=new OrdBaseInfo();
+		baseInfo.setUserId(res.getUserId());
+		baseInfo.setOrderType(res.getOrderType());
+		orderrequest.setOrdBaseInfo(baseInfo);
+		
+		List<OrdProductInfo> list=new ArrayList<OrdProductInfo>();
+		OrdProductInfo opInfo=new OrdProductInfo();
+		opInfo.setBasicOrgId(res.getBasicOrgId());
+		opInfo.setBuySum(Integer.valueOf(res.getBuySum()));
+		opInfo.setProvinceCode(res.getProvinceCode());
+		opInfo.setSkuId(res.getSkuId());
+		opInfo.setChargeFee(res.getChargeFee());
+		list.add(opInfo);
+		orderrequest.setOrdProductInfoList(list);
+		OrdExtendInfo exInfo=new OrdExtendInfo();
+        List<ProdExtendInfoVo> listVo=new ArrayList<ProdExtendInfoVo>();
+		InfoJsonVo vo=new InfoJsonVo();
+		ProdExtendInfoVo pvo=new ProdExtendInfoVo();
+		pvo.setProdExtendInfoValue(res.getPhoneNum());
+		listVo.add(pvo);
+		vo.setProdExtendInfoVoList(listVo);
+		exInfo.setInfoJson(JSON.toJSONString(vo));
+		orderrequest.setOrdExtendInfo(exInfo);
+		IOrderTradeCenterSV iOrderTradeCenterSV=DubboConsumerFactory.getService(com.ai.slp.order.api.ordertradecenter.interfaces.IOrderTradeCenterSV.class);
+		 OrderTradeCenterResponse response=iOrderTradeCenterSV.apply(orderrequest);
+		 List<OrdProductResInfo> ordProductResList = response.getOrdProductResList();
+		 OrdFeeInfo ordFeeInfo = response.getOrdFeeInfo();
+		 model.addAttribute("ordProductResList",ordProductResList);
+		 model.addAttribute("prodNum",ordProductResList==null?0:ordProductResList.size());
+		 model.addAttribute("totalFee", ordFeeInfo.getTotalFee());
+		 model.addAttribute("expFee", 0);
+		 model.addAttribute("totalFee", ordFeeInfo.getTotalFee());
+		 model.addAttribute("discountFee", ordFeeInfo.getDiscountFee());
+		 model.addAttribute("balanceFee", 0);
+		 model.addAttribute("adjustFee", ordFeeInfo.getTotalFee());
+		 model.addAttribute("orderId", response.getOrderId());
+		 model.addAttribute("balance", 0);
+		 
+		System.out.println("____>"+JSON.toJSONString(response));
+		return "jsp/order/order_submit";
+	}
+	
+	
 }
