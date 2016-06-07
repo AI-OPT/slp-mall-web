@@ -1,4 +1,13 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<script type="text/javascript">
+	var pager;
+	(function () {
+		seajs.use('app/jsp/account/balance_detail/balanceDetailList', function (BalanceDetailListPager) {
+			pager = new BalanceDetailListPager({element: document.body});
+			pager.render();
+		});
+	})();
+</script>
 <!--账户余额右侧-->  
   <div class="my-order-cnt">
        <div class="payment-title">
@@ -10,13 +19,15 @@
      <div class="account-bj-none"><!--外侧-->
         <div class="advanced-search account-search">
            <ul>
-               <li class="close"><select class="select-small"><option>近三个月订单</option></select></li>
+               <li class="close"><select id="select_date_id" class="select-small"><option id="threeMonthAgo">近三个月订单</option></select></li>
            	  <li>
-                   <p><input type="text" class="int-small" ><A href="#"><i class="icon-calendar"></i></A></p>
+           	  	   <!-- <p><input id="effectDate_be" name="effectDate" class="int-medium" type="text" readonly /><A href="javascript:void(0);" id="effectDate" ><i class="icon-calendar date-nothing"></i> </A></p>	
+                    -->
+                   <p><input id="startDate_be" name="startDate" type="text" class="int-small" ><A href="javascript:void(0);" id="startDate" ><i class="icon-calendar"></i></A></p>
                    <p>-</p>
-                   <p><input type="text" class="int-small" ><A href="#"><i class="icon-calendar"></i></A></p>
+                   <p><input id="endDate_be" name="endDate" type="text" class="int-small" ><A href="javascript:void(0);" id="endDate"><i class="icon-calendar"></i></A></p>
                </li>
-               <li><input type="button" class="order-btn" value="搜索"></li>
+               <li><input id="search_button_id" type="button" class="order-btn" value="搜索"></li>
            </ul>
            </div>
        
@@ -24,10 +35,11 @@
       <div class="order-list-bj">	
             <!--选择订单信息 table-->
            <div class="order-list-table">
+           <input type="text" id="busiType_id" name="busiType_id" value=""/>
            <ul>
-           <li><a href="#" class="current">支付记录</a></li>
-           <li><a href="#">充值记录</a></li>
-           <li><a href="#">全部</a></li>
+           <li><a id="pay_id" href="#" class="current">支付记录</a></li>
+           <li><a id="charge_id" href="#">充值记录</a></li>
+           <li><a id="all_id" href="#">全部</a></li>
            </ul>                                        
            </div>
             <!--选择订单信息 table结束-->
@@ -41,49 +53,34 @@
                         <td>流水号</td>
                         <td>交易金额</td>
                         <td>备注</td>
-                      </tr>                                                                                                                                                                           
-                      <tr>
-                        <td>2016-2-19  10:30</td>
-                        <td>交易支出</td>
-                        <td>11234568945</td>
-                        <td class="color">40.00</td>
-                        <td><a href="#">订单号：1323434434</a></td>
                       </tr>
-                     <tr>
-                        <td>2016-2-19  10:30</td>
-                        <td>交易支出</td>
-                        <td>11234568945</td>
-                        <td class="color-balck">10.00</td>
-                        <td>网银支付</td>
-                      </tr>
-                       <tr>
-                        <td>2016-2-19  10:30</td>
-                        <td>交易支出</td>
-                        <td>11234568945</td>
-                        <td class="color">10.00</td>
-                        <td><a href="#">订单号：1323434434</a></td>
-                      </tr>
-                     <tr>
-                        <td>2016-2-19  10:30</td>
-                        <td>交易支出</td>
-                        <td>11234568945</td>
-                        <td class="color-balck">10.00</td>
-                        <td>网银支付</td>
-                      </tr>
-                       <tr>
-                        <td>2016-2-19  10:30</td>
-                        <td>交易支出</td>
-                        <td>11234568945</td>
-                        <td class="color">10.00</td>
-                        <td><a href="#">订单号：1323434434</a></td>
-                      </tr>
-                     <tr>
-                        <td>2016-2-19  10:30</td>
-                        <td>交易支出</td>
-                        <td>11234568945</td>
-                        <td class="color-balck">10.00</td>
-                        <td>网银支付</td>
-                      </tr>
+                      <tbody id="table_info_id">
+                      	
+                      </tbody>                                                                                                                                                                           
+                      <script id="balanceSevenDaysAgoTmpl" type="text/x-jsrender">
+					  	{{for}}
+						<tr>
+                        	<td>{{:~timestampToDate('yyyy-MM-dd hh:mm:ss', lastStatusDate)}}</td>
+                       	 	<td>
+							 {{if busiType == '1'}}	
+								订单收费
+							 {{/if}}
+							 {{if busiType == '2'}}	
+								充值缴费
+							 {{/if}}
+							</td>
+                        	<td>{{:orderId}}</td>
+                        	<td class="color">{{:totalFee/1000}}</td>
+                        	<td><a href="#">{{:remark}}</a></td>
+                      	</tr>
+						{{/for}}
+						
+					  </script>                                                                                                                                                                          
+                      <script id="balanceSevenDaysAgoNullTmpl" type="text/x-jsrender">
+							<tr>
+								<td colspan="5">交易记录为空</td>
+							</tr>
+					  </script>
 					</table>
                 </div>
             </div>
@@ -199,7 +196,7 @@
 					</table>
                 </div>
             </div>    
-            <!--分页-->
+            <!--分页
             
             <div class="paging-large">
                 
@@ -223,7 +220,15 @@
                  </ul>
                  
                  
-              </div>   
+              </div> 
+              -->
+              <div  class="paging-large">
+                  <nav style="text-align: right">
+                      <ul id="pagination">
+                      </ul>
+                  </nav>
+              </div>
+                  
      	 </div>
              
   </div>  

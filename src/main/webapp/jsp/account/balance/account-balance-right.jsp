@@ -59,7 +59,7 @@
 								充值缴费
 							 {{/if}}
 							</td>
-                        	<td>{{:chlId}}</td>
+                        	<td>{{:orderId}}</td>
                         	<td class="color">{{:totalFee/1000}}</td>
                         	<td><a href="#">{{:remark}}</a></td>
                       	</tr>
