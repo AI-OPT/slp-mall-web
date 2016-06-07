@@ -33,6 +33,10 @@
 	function toChangePayPassword(){
 		window.location.href = _base+"/user/payPassword/updatePayPassword";
 	}
+	
+	function toChangePhone(){
+		window.location.href = _base+"/user/phone/toChangePhone";
+	}
 </script>
 
 <body onload="showClass()">
@@ -138,7 +142,7 @@
         				 <div class="state-list-btn"><input type="button" class="sta-btn" value="绑定手机"></div>
         				</c:if>
         				<c:if test="${userInfo.userMp!=null}">
-        				 <div class="state-list-btn"><input type="button" class="sta-btn" value="修改"></div>
+        				 <div class="state-list-btn"><input type="button" class="sta-btn" onclick="toChangePhone();" value="修改"></div>
         				</c:if>
         			</div>
         			<div class="state-list">
