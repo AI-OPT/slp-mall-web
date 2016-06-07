@@ -228,8 +228,9 @@ public class BandEmailController {
     @RequestMapping("/sendBandEmailSuccess")
     @ResponseBody
     public ModelAndView sendBandEmailSuccess(HttpServletRequest request, String email) {
-        
-        return new ModelAndView("/jsp/user/email/band_email_verification");
+        Map<String,String> model = new HashMap<String,String>();
+        model.put("email", email);
+        return new ModelAndView("/jsp/user/email/band_email_verification",model);
     }
     
     @RequestMapping("/sendUpdateEmailSuccess")
@@ -238,6 +239,7 @@ public class BandEmailController {
         String uuid =UUIDUtil.genId32();
         Map<String,String> model = new HashMap<String,String>();
         model.put("uuid", uuid);
+        model.put("email", email);
         return new ModelAndView("/jsp/user/email/update_email_verification",model);
     }
     
@@ -258,12 +260,8 @@ public class BandEmailController {
                 emailRequest.setTomails(new String[] { email });
                 emailRequest.setTemplateURL(templateUrl);
                 emailRequest.setSubject(BandEmail.EMAIL_SUBJECT);
-                // 验证码
-                String verifyCode = RandomUtil.randomNum(EmailVerifyConstants.VERIFY_SIZE);
-                // 将验证码放入缓存
-                String cacheKey = BandEmail.CACHE_KEY_VERIFY_SETEMAIL + email + request.getSession().getId();
+                
                 String overTimeStr = configClient.get(EmailVerifyConstants.VERIFY_OVERTIME_KEY);
-                cacheClient.setex(cacheKey, Integer.valueOf(overTimeStr), verifyCode);
                 // 将发送次数放入缓存
                 String maxTimeStr = configClient.get(EmailVerifyConstants.SEND_VERIFY_MAX_TIME_KEY);
                 cacheClient.setex(smskey, Integer.valueOf(maxTimeStr), smstimes);
