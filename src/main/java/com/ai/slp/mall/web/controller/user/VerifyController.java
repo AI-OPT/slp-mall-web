@@ -8,6 +8,7 @@ import java.util.List;
 import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -23,7 +24,6 @@ import com.ai.opt.sdk.util.UUIDUtil;
 import com.ai.opt.sdk.web.model.ResponseData;
 import com.ai.opt.sso.client.filter.SLPClientUser;
 import com.ai.opt.sso.client.filter.SSOClientConstants;
-import com.ai.opt.sso.client.filter.SSOClientUser;
 import com.ai.paas.ipaas.ccs.IConfigClient;
 import com.ai.paas.ipaas.mcs.interfaces.ICacheClient;
 import com.ai.runner.center.mmp.api.manager.param.SMData;
@@ -54,7 +54,7 @@ public class VerifyController {
     @ResponseBody
     public void getImageVerifyCode(HttpServletRequest request, HttpServletResponse response) {
         String cacheKey = BandEmail.CACHE_KEY_VERIFY_PICTURE + request.getSession().getId();
-        BufferedImage image = VerifyUtil.getImageVerifyCode(BandEmail.CACHE_NAMESPACE, cacheKey, 100, 38);
+        BufferedImage image = VerifyUtil.getImageVerifyCode(BandEmail.CACHE_NAMESPACE, cacheKey, 100, 35);
         try {
             ImageIO.write(image, "PNG", response.getOutputStream());
         } catch (IOException e) {

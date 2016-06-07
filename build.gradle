@@ -98,6 +98,8 @@ dependencies {
 	compile 'com.ai.slp.user:ucUserSecurity:1.0-SNAPSHOT'
 	//用户
 	compile 'com.ai.slp.user:ucuser:1.0-SNAPSHOT'
+	//通讯录组
+	compile 'com.ai.slp.user:ucuserphonebooks:1.0-SNAPSHOT'
 	//创建手机验证码
 	compile 'com.ai.slp.user:seq:1.0-SNAPSHOT'
 	//用户注册信息
@@ -112,8 +114,11 @@ dependencies {
     compile 'com.ai.slp.common:area:1.0-SNAPSHOT'
     //缓存
     compile 'com.ai.slp.common:cache:1.0-SNAPSHOT'
-    compile 'com.ai.slp.common:servicenum:1.0-SNAPSHOT'
-	
+    compile 'com.ai.slp.common:servicenum:1.0.1-SNAPSHOT'
+    compile 'com.ai.slp.product:webfront:1.1-SNAPSHOT'
+	//账户余额 zhangzd
+	compile 'com.ai.slp.balance:fundquery:1.0-SNAPSHOT'
+	compile 'com.ai.slp.charge:paymentquery:1.0-SNAPSHOT'
     testCompile(
             "org.springframework:spring-test:4.1.7.RELEASE",
             "junit:junit:4.12"
