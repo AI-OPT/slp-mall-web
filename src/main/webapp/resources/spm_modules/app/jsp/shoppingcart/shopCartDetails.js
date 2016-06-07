@@ -173,29 +173,30 @@ define('app/jsp/shoppingcart/shopCartDetails', function (require, exports, modul
 			    if('checked' == isCheck || isCheck){
 			        //获取ID并添加到list集合
 			        var id = $(this).prop("id");
-			        var price = Number($("#"+id+"_prodPriceSubtotal").html().replace("¥", ""));
+			        var price = parseFloat($("#"+id+"_prodPriceSubtotal").html().replace("¥", ""));
+			        alert(price);
 			        //计算价格
 			        prodTotal += price;
-			        var num = Number($("#"+id+"_prodnum").val());
+			        var num = parseInt($("#"+id+"_prodnum").val());
 			        //计算购买商品量
 			        prodNum += num;
 			        //计算总量
 			        allProdNum += num;
 			    }else{
 			    	var id = $(this).prop("id");
-			        var num = Number($("#"+id+"_prodnum").val());
+			        var num = parseInt($("#"+id+"_prodnum").val());
 			        //计算总量
 			        allProdNum += num;
 			    }
 			});
-    		$("#cartProdTotal").html(Number(prodTotal));
+    		$("#cartProdTotal").html(prodTotal);
     		alert(prodTotal);
     		$("#checkProductNum").html(prodNum);
     		//商品总量
     		$("input[name='outOfStockProd']").each(function(i){  
 		        //获取ID并添加到list集合
 		        var id = $(this).prop("id");
-		        var num = Number($("#"+id+"_prodnum").val());
+		        var num = parseInt($("#"+id+"_prodnum").val());
 		        //计算总量
 		        allProdNum += num;
 			});
