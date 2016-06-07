@@ -90,7 +90,7 @@ dependencies {
 	
 	compile 'com.ai.baas.smc:sysparamcache:2.0-SNAPSHOT'
     //购物车
-    compile 'com.ai.slp.order:shopcart:1.0-SNAPSHOT'
+    compile 'com.ai.slp.order:shopcart:1.0.1-SNAPSHOT'
     //订单
     compile 'com.ai.slp.order:orderlist:1.0-SNAPSHOT'
 	compile 'com.ai.slp.order:ordertradecenter:1.0-SNAPSHOT'
