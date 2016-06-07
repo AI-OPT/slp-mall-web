@@ -124,7 +124,7 @@
         							<c:if test="${userInfo.userMp!=null}">
         								<p><img src="${_slpbase }/images/icon-b.png"></p>
         								<p>已绑定</p>
-        							</c:if>
+        							</c:if> 
         						</li>
         						<li>
         							<c:if test="${userInfo.userMp!=''}">
