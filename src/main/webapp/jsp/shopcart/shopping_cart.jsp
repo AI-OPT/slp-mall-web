@@ -61,7 +61,7 @@
                                 <td class="sp">
                                     <table width="100%" border="0">
                                           <tr>
-                                            <td class="word" width="25%"><img src="${_slpbase }/images/sim.png"></td>
+                                            <td class="word" width="25%"><img src="{{:picUrl}}"></td>
                                             <td><a href="${_base}/product/detail?skuId={{:skuId}}">{{:productName}}</a></td>
                                           </tr>
                                     </table>
@@ -88,7 +88,7 @@
                                 <td class="sp">
                                     <table width="100%" border="0">
                                           <tr>
-                                            <td class="word" width="25%"><img src="${_slpbase }/images/sim.png"></td>
+                                            <td class="word" width="25%"><img src="{{:picUrl}}"></td>
                                             <td><a href="${_base}/product/detail?skuId={{:skuId}}">{{:productName}}</a></td>
                                           </tr>
                                     </table>
