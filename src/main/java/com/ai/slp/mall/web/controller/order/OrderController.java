@@ -27,6 +27,9 @@ import com.ai.slp.order.api.orderlist.interfaces.IOrderListSV;
 import com.ai.slp.order.api.orderlist.param.OrdOrderVo;
 import com.ai.slp.order.api.orderlist.param.QueryOrderListRequest;
 import com.ai.slp.order.api.orderlist.param.QueryOrderListResponse;
+import com.ai.slp.order.api.orderlist.param.QueryOrderRequest;
+import com.ai.slp.order.api.orderlist.param.QueryOrderResponse;
+import com.alibaba.dubbo.common.utils.StringUtils;
 
 @RestController
 @RequestMapping("/order")
@@ -131,5 +134,42 @@ public class OrderController {
 			startDateStr = year+"-"+ startMonth +"-01 00:00:00";
 		}
 		return startDateStr;
+	}
+	
+	@RequestMapping("/detail")
+	public ModelAndView orderDetail(HttpServletRequest request,QueryOrderRequest orderRequest) {
+		OrdOrderVo orderDetail = getOrderDetail(request, orderRequest);
+		Map<String,String> model  = new HashMap<String,String>();
+		if(orderDetail != null){
+			String orderJSon = JSonUtil.toJSon(orderDetail);
+			model.put("orderDetail", orderJSon);
+		}
+		String orderType = request.getParameter("orderType");
+		if(StringUtils.isContains("100010,100011", orderType)){
+			return new ModelAndView("jsp/order/order_info_detail",model);
+		}else{
+			return new ModelAndView("jsp/order/order_product_detail",model);
+		}
+	}
+	
+	/**
+	 * 订单详情查询
+	 * @param request
+	 * @param orderRequest
+	 * @return
+	 */
+	private OrdOrderVo getOrderDetail(HttpServletRequest request,QueryOrderRequest orderRequest){
+		OrdOrderVo responseData = null;
+		try {
+			orderRequest.setTenantId("SLP");
+			IOrderListSV iOrderListSV = DubboConsumerFactory.getService("iOrderListSV");
+			QueryOrderResponse orderInfo = iOrderListSV.queryOrder(orderRequest);
+			if(orderInfo != null && orderInfo.getResponseHeader().isSuccess()){
+				responseData = orderInfo.getOrdOrderVo();
+			}
+		} catch (Exception e) {
+			LOG.error("查询订单失败：", e);
+		}
+		return responseData;
 	}
 }

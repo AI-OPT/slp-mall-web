@@ -33,8 +33,8 @@ define('app/jsp/order/orderList', function (require, exports, module) {
     		//查询
             "click [id='searchOrderBtn']":"_searchOrderList",
             "click [id='changeSearchType']":"_changeSearchType",
-            "blur [id='orderTimeBegin']":"_changeBeginDate",
-            "blur [id='orderTimeEnd']":"_changeEndDate"
+            "blur [id='orderTimeBeginQ']":"_changeBeginDate",
+            "blur [id='orderTimeEndQ']":"_changeEndDate"
         },
     	//重写父类
     	setup: function () {
@@ -45,25 +45,25 @@ define('app/jsp/order/orderList', function (require, exports, module) {
     		this._bindCalendar();
     	},
     	_initOrderType:function(){
-    		var orderTypeElmt = document.getElementById("orderType");
+    		var orderTypeElmt = document.getElementById("orderTypeQ");
     		for(var i=0;i<orderStyleParams.length;i++){
     			orderTypeElmt.options.add(new Option(orderStyleParams[i].columnDesc,orderStyleParams[i].columnValue));
     		}
     	},
     	_initPayStyle:function(){
-    		var orderTypeElmt = document.getElementById("payStyle");
+    		var orderTypeElmt = document.getElementById("payStyleQ");
     		for(var i=0;i<payStyleParams.length;i++){
     			orderTypeElmt.options.add(new Option(payStyleParams[i].columnDesc,payStyleParams[i].columnValue));
     		}
     	},
     	_bindCalendar:function(){
-    		var beginCalendar = new Calendar({trigger: '#timeBeginId',output:"#orderTimeBegin"});
-    		var endCalendar = new Calendar({trigger: '#timeEndId',output:"#orderTimeEnd"});
+    		var beginCalendar = new Calendar({trigger: '#timeBeginId',output:"#orderTimeBeginQ"});
+    		var endCalendar = new Calendar({trigger: '#timeEndId',output:"#orderTimeEndQ"});
 		},
 		_changeBeginDate:function(){
 			var sysDataStr = this._getSysDate();
-			var beginDate = $("#orderTimeBegin").val();
-			var endCalendar = new Calendar({trigger: '#timeEndId',output:"#orderTimeEnd"});
+			var beginDate = $("#orderTimeBeginQ").val();
+			var endCalendar = new Calendar({trigger: '#timeEndId',output:"#orderTimeEndQ"});
 			if(beginDate == null || beginDate == "" || beginDate == undefined){
 				endCalendar.range([null,null]);
 			}else{
@@ -72,8 +72,8 @@ define('app/jsp/order/orderList', function (require, exports, module) {
 		},
 		_changeEndDate:function(){
 			var sysDataStr = this._getSysDate();
-			var endDate = $("#orderTimeEnd").val();
-			var beginCalendar = new Calendar({trigger: '#timeBeginId',output:"#orderTimeBegin"});
+			var endDate = $("#orderTimeEndQ").val();
+			var beginCalendar = new Calendar({trigger: '#timeBeginId',output:"#orderTimeBeginQ"});
 			if(endDate == null || endDate == "" || endDate == undefined){
 				beginCalendar.range([null,null]);
 			}else{
@@ -104,17 +104,17 @@ define('app/jsp/order/orderList', function (require, exports, module) {
     			$("#changeSearchType").children('i').toggleClass("icon-angle-down  icon-angle-up");
     			$("#changeSearchType").parents().children('.open-gaoj').slideToggle(100);
     			
-    			$("#payStyle").val("");
-    			$("orderTimeBegin").val("");
-    			$("orderTimeEnd").val("");
+    			$("#payStyleQ").val("");
+    			$("orderTimeBeginQ").val("");
+    			$("orderTimeEndQ").val("");
     			var searchType = $("#searchType").val();
     			if(searchType == "1"){
     				$("#searchType").val("2");
-    				$("#selectTime").val("");
+    				$("#selectTimeQ").val("");
     				this._visibilityHideUI("selectTimeDiv");
     			}else{
     				$("#searchType").val("1");
-    				$("#selectTime").val("1");
+    				$("#selectTimeQ").val("1");
     				this._visibilityShowUI("selectTimeDiv");
     			}
     	},
@@ -167,12 +167,12 @@ define('app/jsp/order/orderList', function (require, exports, module) {
     	_getSearchParams:function(){
     		return {
     			"searchType":jQuery.trim($("#searchType").val()),
-    			"selectTime":jQuery.trim($("#selectTime option:selected").val()),
-    			"orderType":jQuery.trim($("#orderType option:selected").val()),
-    			"orderId":jQuery.trim($("#orderId").val()),
-    			"orderTimeBegin":jQuery.trim($("#orderTimeBegin").val()),
-    			"orderTimeEnd":jQuery.trim($("#orderTimeEnd").val()),
-    			"payStyle":jQuery.trim($("#payStyle option:selected").val()),
+    			"selectTime":jQuery.trim($("#selectTimeQ option:selected").val()),
+    			"orderType":jQuery.trim($("#orderTypeQ option:selected").val()),
+    			"orderId":jQuery.trim($("#orderIdQ").val()),
+    			"orderTimeBegin":jQuery.trim($("#orderTimeBeginQ").val()),
+    			"orderTimeEnd":jQuery.trim($("#orderTimeEndQ").val()),
+    			"payStyle":jQuery.trim($("#payStyleQ option:selected").val()),
     			"state":jQuery.trim($("#searchOrderState").val())
     		}
     	}

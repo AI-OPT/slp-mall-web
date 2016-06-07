@@ -35,9 +35,9 @@ public class HeadController {
     @RequestMapping("/getArea")
     @ResponseBody
     public ResponseData<List<GnAreaVo>> getArea(HttpServletRequest request){
-        IGnAreaQuerySV iGnAreaQuerySV = DubboConsumerFactory.getService("iGnAreaQuerySV");
         ResponseData<List<GnAreaVo>> responseData = null;
         try {
+            IGnAreaQuerySV iGnAreaQuerySV = DubboConsumerFactory.getService("iGnAreaQuerySV");
             List<GnAreaVo> resultInfo = iGnAreaQuerySV.getProvinceList();
             LOG.debug("地区查询出参:"+JSONArray.fromObject(resultInfo).toString());
             responseData = new ResponseData<List<GnAreaVo>>(ResponseData.AJAX_STATUS_SUCCESS, "查询成功", resultInfo);

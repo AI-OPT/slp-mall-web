@@ -39,10 +39,11 @@
 .payment-title .close a:hover{color:#e11111;}
 /**路径结束**/
 .payment-method{ width:100%; float:left; border-bottom:1px solid #e7e7e7; padding-bottom:16px; font-size:16px;}
-.payment-method p,.payment-method  ul{ width:100%;float:left; padding-left:24px; margin-top:20px;}
+.payment-method p,.payment-method  ul{ width:100%;float:left; padding-left:24px; margin-top:20px;font-size:16px;}
 .payment-method ul li a{ width:170px; height:52px;float:left; border:1px solid #e7e7e7; margin-right:12px; text-align:center;}
 .payment-method ul .current a{ width:170px; height:52px; float:left; border:1px solid #f4792c;  background: url(../images/kc-a.png) right bottom no-repeat;margin-right:12px;}
-.information-title{ width:100%; float:left;margin-top:22px; font-size:16px; padding-left:24px;}
+.information-title{ width:100%; float:left;margin-top:22px; padding-left:24px;}
+.information-title p{font-size:16px;}
 .information-list{width:820px;float:left; margin-left:80px; padding-top:30px;padding-bottom:20px;}
 .information-list ul{ width:100%;float:left; margin-top:20px;}
 .information-list ul li{float:left;margin-right:15px; line-height:20px;}
@@ -58,8 +59,8 @@
 .balance-title p img{ float:left; margin:6px 4px 0 0;}
 
 
-.balance-table{ width:1100px; height:150px; float:left; margin:12px 50px; background:#fffaf8; border:1px solid #fed3c2;}
-.balance-table ul{ width:1000px; float:left; margin:10px 0 0 50px;}
+.balance-table{ width:1100px; height:130px; float:left; margin:12px 50px; background:#fffaf8; border:1px solid #fed3c2;}
+.balance-table ul{ width:1000px; float:left; margin:25px 0 0 50px;}
 .balance-table ul li{width:100%;float:left; margin-bottom:16px;}
 .balance-table ul li p{ float:left; line-height:30px; margin-right:14px;}
 .balance-table ul li p a{ color:#666;}
@@ -430,15 +431,15 @@
 .list-int{ width:760px; margin:90px auto; }
 .list-int ul{ width:100%; float:left; height:58px;}
 .list-int ul li{ float:left; line-height:30px; margin-left:10px;}
-.list-int ul .word{ width:120px; text-align:right;}
+.list-int ul .word{ width:140px; text-align:right;}
 .list-int ul .word span{ color:red;}
 .list-int ul .lable { font-size:12px;}
 .list-int ul .lable img{ float:left; margin-top:7px; margin-right:4px;}
 .list-int ul .lable .red{ color:red;}
 .list-int ul .re-btn{ margin-left:4px;}
-.list-int ul .checx-word{ float:left; margin-left:140px;}
+.list-int ul .checx-word{ float:left; margin-left:160px;}
 .list-int ul .checx-word a{ color:#005aa0;}
-.list-int ul label{ width:100%; float:left; padding-left:140px; margin-top:7px; font-size:12px; color:#999;}
+.list-int ul label{ width:100%; float:left; padding-left:160px; margin-top:7px; font-size:12px; color:#999;}
 .list-int ul label img{ float:left; margin-right:4px;}
 .list-int ul  li .jine{ color:#f4792c; font-size:22px; font-weight:bold;}
 .list-int ul li a{ width:170px; height:52px;float:left; border:1px solid #e7e7e7; margin-right:12px; text-align:center;}
@@ -473,8 +474,8 @@
 .small-risk{ width:900px; margin-left:0; margin-bottom:20px;}
 
 .mar-account-title{width:100%; margin-bottom:20px; float:left;}
-.account-title{ width:100%; float:left;font-size:16px;}
-.account-title p{ width:100%; float:left;}
+.account-title{ width:100%; float:left;}
+.account-title p{ width:100%; float:left;font-size:16px;}
 .account-title a{ float:right; color:#f4792c; font-size:14px;}
 .account-title i{ float:right; font-size:18px; color:#666; cursor:pointer;}
 .account-title i:hover{ color:#f4792c;}
@@ -694,4 +695,6 @@
 .agent-step .step-img li{ text-align:center;line-height:30px;}
 .agent-step .step-img li span{color:#f4792c;font-weight:bold;}
 .agent-step .border{width:120px;float:left; border-bottom: 1px dashed #aaa;margin:40px 10px 0}
-
+/**个人企业用户无订单纪录**/
+.none-orderlist{width:100%;float:left; padding:100px  0  100px 170px;}
+.none-orderlist p{float:left;line-height: 140px;margin-right: 20px;font-size:16px;}

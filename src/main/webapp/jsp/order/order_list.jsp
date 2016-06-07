@@ -40,16 +40,16 @@
                <li>
                    <p class="word1">订单类型</p>
                    <p>
-                   	<select id="orderType" class="select-small">
+                   	<select id="orderTypeQ" class="select-small">
                    		<option value="">全部</option>
                    	</select></p>
                </li>
                <li>
                    <p class="word">订单号</p>
-                   <p><input id="orderId" type="text" class="int-small" placeholder="请输入订单号查询"></p>
+                   <p><input id="orderIdQ" type="text" class="int-small" placeholder="请输入订单号查询"></p>
                </li>
                <li class="close" id="selectTimeDiv">
-	               	<select id="selectTime" class="select-small">
+	               	<select id="selectTimeQ" class="select-small">
 	               		<option value="1">近三个月订单</option>
 	               		<option value="2">今年历史订单</option>
 	               		<option value="3">所有历史订单</option>
@@ -61,14 +61,14 @@
            <ul class="open-gaoj" style=" display:none;">
               <li>
                    <p class="word1">下单时间</p>
-                   <p id="timeBeginId" ><input id="orderTimeBegin" type="text" class="int-small" readonly><A href="javascript:void(0);"><i class="icon-calendar"></i></A></p>
+                   <p id="timeBeginId" ><input id="orderTimeBeginQ" type="text" class="int-small" readonly><A href="javascript:void(0);"><i class="icon-calendar"></i></A></p>
                    <p>-</p>
-                   <p id="timeEndId"><input id="orderTimeEnd" type="text" class="int-small" readonly><A href="javascript:void(0);"><i class="icon-calendar"></i></A></p>
+                   <p id="timeEndId"><input id="orderTimeEndQ" type="text" class="int-small" readonly><A href="javascript:void(0);"><i class="icon-calendar"></i></A></p>
                </li>
                <li>
                    <p class="word">支付方式</p>
                    <p>
-                   		<select id="payStyle" class="select-small">
+                   		<select id="payStyleQ" class="select-small">
                    			<option value="">全部</option>
                    		</select>
                    </p>
@@ -115,6 +115,7 @@
                                 <tr class="order-bj-s">
                                 <td colspan="6">
                                     <div class="purchase-list">
+										<input id="orderType" value="{{:orderType}}" style="display:none">
                                         <ul>
                                             <li>
                                                 <p>订单号:</p>
@@ -156,7 +157,7 @@
                                 </td>
                                 <td class="ash" width="10%">¥{{:~liToYuan(salePrice)}}</td>
                                 <td width="10%">{{:buySum}}</td>
-                                <td width="10%" class="strong">¥{{:~liToYuan(adjustFee)}}</td>
+                                <td width="10%" class="strong">¥{{:~liToYuan(totalFee)}}</td>
 								{{if #getIndex() == 0}}
                                 <td width="10%" rowspan="{{:~size}}"> 
                                     <div class="number">

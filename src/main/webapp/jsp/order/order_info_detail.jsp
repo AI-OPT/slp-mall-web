@@ -3,60 +3,25 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>订单详情-快充话费－已成功</title>
-<link href="styles/modular.css" rel="stylesheet" type="text/css">
-<link href="styles/global.css" rel="stylesheet" type="text/css">
-<link href="styles/frame.css" rel="stylesheet" type="text/css">
-<link href="styles/font-awesome.css" rel="stylesheet" type="text/css">
+<title>订单详情</title>
+<%@ include file="/inc/inc.jsp" %>
+<link href="${_slpbase }/styles/modular.css" rel="stylesheet" type="text/css">
+<link href="${_slpbase }/styles/global.css" rel="stylesheet" type="text/css">
+<link href="${_slpbase }/styles/frame.css" rel="stylesheet" type="text/css">
+<link href="${_slpbase }/styles/font-awesome.css" rel="stylesheet" type="text/css">
 </head>
 
 <body>
-<!--弹出删除弹出框  中-->
+<!--弹出框-->
 <div class="eject-big">
 		<div class="eject-medium">
 			<div class="eject-medium-title">
 				<p>明细</p>
-				<p class="img"><A href="#"></A></p>
+				<p class="img"><a href="javaScript:void(0)" id="colsePhoneDialog"></a></p>
 			</div>
 			<div class="eject-medium-list">
-				<div class="eject-contacts-list eject-bie-height">
-					<p>135455555555 </p>
-					<p>135455555555 </p>
-					<p>135455555555 </p>
-					<p>135455555555 </p>
-					<p>135455555555 </p>
-					<p>135455555555 </p>
-					<p>135455555555 </p>
-					<p>135455555555 </p>
-					<p>135455555555 </p>
-					<p>135455555555 </p>
-					<p>135455555555 </p>
-					<p>135455555555 </p>
-					<p>135455555555 </p>
-					<p>135455555555 </p>
-					<p>135455555555 </p>
-					<p>135455555555 </p>
-					<p>135455555555 </p>
-					<p>135455555555 </p>
-					<p>135455555555 </p>
-					<p>135455555555 </p>
-					<p>135455555555 </p>
-					<p>135455555555 </p>
-					<p>135455555555 </p>
-					<p>135455555555 </p>
-					<p>135455555555 </p>
-					<p>135455555555 </p>
-					<p>135455555555 </p>
-					<p>135455555555 </p>
-					<p>135455555555 </p>
-					<p>135455555555 </p>
-					<p>135455555555 </p>
-					<p>135455555555 </p>
-					<p>135455555555 </p>
-					<p>135455555555 </p>
-					<p>135455555555 </p>
+				<div class="eject-contacts-list eject-bie-height" id="phoneListData">
 				</div>
-				
 			</div>	
 		</div>	
 		<div class="eject-mask"></div>	
@@ -72,7 +37,7 @@
      
      <!--订单详情-->
 <div class="fsast-charge">
-    <div class="big-wrapper" id="orderData"><!--内侧居中框架-->
+    <div class="big-wrapper" id="orderData"></div><!--内侧居中框架-->
     	<script id="orderTemple" type="text/x-jsrender">
 			<div class="payment-title">
                  <p><a href="#">账户中心</a>&gt;</p>
@@ -118,8 +83,8 @@
                       <tr class="click">
                         <td>{{:basicOrgName}}</td>
                         <td>{{:provinceName}}</td>
-                        <td>{{:prodExtendInfo.split(",").length}}/<span class="batch">明细</span></td>
-                        <td>{{:~liToYuan(chargeFee)}}元</td>
+                        <td>{{:prodExtendInfo.split(",").length}}/<span class="batch" onclick="pager._showPhoneInfo('{{:prodExtendInfo}}')">明细</span></td>
+                        <td>{{:chargeFee}}</td>
                         <td>￥{{:~liToYuan(salePrice)}}</td>
                         <td class="color">￥{{:~liToYuan(totalFee)}}</td>
                       </tr>
@@ -133,7 +98,7 @@
             		<ul>
                       <li>
                           <p>充值手机:</p>
-                          <p class="color">45个</p>
+                          <p class="color">{{:phoneCount}}个</p>
                       </li>  
                       <li>
                           <p>需支付总额:</p>
@@ -146,37 +111,43 @@
          <div class="recharge-bj-tow"><!--白色背景-->
           		<div class="information-title"><p>付款信息</p></div>
                  <div class="pay-list">
+					{{if state=='90'}}
                      <ul>
                          <li>
                              <p>实付总金额:</p>
                              <p class="color">¥{{:~liToYuan(paidFee)}}</p>
                          </li>
+						 {{for payDataList}}
                          <li>
-                             <p>支付方式:</p>
-                             <p>{{:payStyleName}}</p>
+                             <p>{{:payStyleName}}:</p>
+                             <p class="color">¥{{:~liToYuan(paidFee)}}</p>
                          </li>
-                         <li>
-                             <p>余额:</p>
-                             <p class="color">¥329.00</p>
-                         </li>
-                         <li>
-                             <p>支付宝:</p>
-                             <p class="color">¥329.00</p>
-                         </li>
+						 {{/for}}
                      </ul>
+					{{else state='11'}}
+						<div class="pay-fail">您还没有完成付款！</div>
+					{{else state='91'}}
+						<div class="pay-fail">订单已经关闭！</div>
+					{{/if}}
                  </div> 
          </div> 
 		</script>
-    </div>
-     </div>
- </div>
+  </div>
  <!--底部-->
 <%@ include file="/inc/foot.jsp" %>
  <!--底部 结束-->
-
+<script src="${_slpbase }/scripts/frame.js" type="text/javascript"></script>
+<script type="text/javascript">
+var pager;
+var orderDetail = $.parseJSON('${orderDetail}');
+(function () {
+	seajs.use('app/jsp/order/orderInfoDetail', function (OrderInfoDetailPager) {
+		pager = new OrderInfoDetailPager({element: document.body});
+		pager.render();
+	});
+})();
+</script>
 </body>
 </html>
-<script src="scripts/jquery-1.11.1.min.js" type="text/javascript"></script>
-<script src="scripts/frame.js" type="text/javascript"></script>
 
 
