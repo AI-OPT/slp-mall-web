@@ -9,19 +9,25 @@
 	<link href="${_slpbase }/styles/frame.css" rel="stylesheet" type="text/css"/>
 	<link href="${_slpbase }/styles/font-awesome.css" rel="stylesheet" type="text/css"/>
 	<script type="text/javascript">
+		
 		(function() {
-			seajs.use([ 'app/jsp/user/bandemail/confirmInfo'], function(ConfirmInfoPager) {
+			seajs.use([ 'app/jsp/user/bandemail/payPasswordConfirmInfo'], function(ConfirmInfoPager) {
 				var pager = new ConfirmInfoPager({
 					element : document.body
 				});
 				pager.render();
 			});
-		})(); 
+		})();
+		
+		function clearPasswordInputValue(){
+			$("#passwordInput").val("");
+		}
+		 
   </script>
 </head>
  
 
-<body>
+<body onload="clearPasswordInputValue()">
  <!--顶部菜单-->
  <%@ include file="/inc/top-menu.jsp" %>
 <!--顶部菜单结束-->
@@ -74,17 +80,23 @@
               <div class="list-int">
                    <ul>
                         <li class="word">请输入支付密码:</li>
-                        <li><input type="password" class="int-medium" placeholder="请输入支付密码"/></li>
-                        <li class="lable"><img src="${_slpbase }/images/icon-c.png"/><span>6-20个字符，可用字母、数字及符号的组合</span></li>
-                        <label><img src="${_slpbase }/images/pass-a.png"/><img src="${_slpbase }/images/pass-b.png"/><img src="${_slpbase }/images/pass-c.png"/>有被盗风险,建议使用字母、数字和符号两种及以上组合</label>
+                        <li><input type="password" class="int-medium" placeholder="请输入支付密码"  id="passwordInput" value=""/></li>
+                        <li class="lable" id="errorPawMsg" style="display: none;">
+                        	<img src="${_slpbase }/images/icon-d.png" id="passwordImage"/><span id="showPawMsg">6-20个字符，可用字母、数字及符号的组合</span>
+                        </li>
+                        <label>
+                          <span id="strength_L" style="display: none;"><img src="${_slpbase }/images/pass-a.png" />有被盗风险,建议使用字母、数字和符号两种及以上组合</span>
+                          <span id="strength_M" style="display: none;"><img src="${_slpbase }/images/pass-b.png" />安全强度适中，可以使用三种以上的组合来提高安全强度</span>
+                          <span id="strength_H" style="display: none;"><img src="${_slpbase }/images/pass-c.png" id="strength_H"/>你的密码很安全</span>
+                         </label>
                     </ul>
                     <ul>
                         <li class="word">确认支付密码:</li>
-                        <li><input type="password" class="int-medium" placeholder="再次确认密码"/></li>
-                        <li class="lable"><img src="${_slpbase }/images/icon-e.png"/><span>两次输入的密码不一致</span></li>
+                        <li><input type="password" class="int-medium" placeholder="再次确认密码" id="confirmationPassword"/></li>
+                        <li class="lable" id="errorPasswordMsg" style="display: none;"><img src="${_slpbase }/images/icon-e.png" id="confirmationPasswordImage"/><span id="showPasswordMsg">两次输入的密码不一致</span></li>
                     </ul>
                       <ul>
-                        <li class="checx-word"><input type="button" class="slp-btn regsiter-btn" value="提交"/></li>
+                        <li class="checx-word"><input type="button" class="slp-btn regsiter-btn" id="submitBtn" value="提交"/></li>
                     </ul>
                 </div>
       </div>
