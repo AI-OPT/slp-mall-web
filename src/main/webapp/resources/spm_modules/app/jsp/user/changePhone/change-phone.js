@@ -28,7 +28,7 @@ define(
 				//_hideInfo : function() {},
 				// 带下划线的方法，约定为内部私有方法
 				_bindHandle : function() {
-					$("#password").on("blur", this._checkPassword);
+					$("#password").on("blur", this._checkPasswordEmpty);
 					$("#password").on("focus", this._hidePassword);
 					$("#newPhone").on("blur", this._validServiceNewPho);
 					$("#newPhone").on("focus", this._hideNewPhone);
@@ -38,212 +38,260 @@ define(
 					$("#phoneCode").on("focus", this._HidePhoneCode);
 					$("#PHONE_IDENTIFY1").on("click", this._getPhoneVitentify1);
 					$("#PHONE_IDENTIFY2").on("click", this._getPhoneVitentify2);
-					$("#next1").on("click", this._next1);
-					$("#next1").on("click", this._next2);
+					$("#CHECKPAYPASSWORD").on("click", this._validatePayPassword);
+					$("#next").on("click", this._next);
 					$("#submit").on("click", this._submit);
 					},
-						//检查验证码是否为空
-						_checkValidateCodeEmpty : function(){
-							$("#validateCodeErrMsg").attr("style", "display:none");
-							var validateCode = $('#validateCode').val();
-							if(validateCode==""){
-								$("#validateCodeErrMsgShow").text("验证码不能为空");
-								$("#validateCodeErrMsg").show();
-								$("#validateCodeEmptyFlag").val("0");
-							}
-						},
-						//检查验证码是否为空
-						_checkPhoneCodeEmpty : function(){
-							$("#phoneCodeErrMsg").attr("style", "display:none");
-							var phoneCode = $('#phoneCode').val();
-							if(phoneCode==""){
-								$("#phoneCodeErrMsgShow").text("手机验证码不能为空");
-								$("#phoneCodeErrMsg").show();
-								$("#phoneCodeEmptyFlag").val("0");
-							}
-						},
-						//检查支付密码是否为空
-						_checkPasswordEmpty : function(){
-							$("#passwordErrMsg").attr("style", "display:none");
-							var password = $('#password').val();
-							if(password==""){
-								$("#passwordErrMsgShow").text("支付密码不能为空");
-								$("#passwordErrMsg").show();
-								$("#passwordEmptyFlag").val("0");
-							}
-						},
-						//隐藏手机号错误提示
-						_hidePhone : function(){
-							$("#phoneErrMsg").attr("style", "display:none");
-						},
-						//隐藏新手机号错误提示
-						_hideNewPhone : function(){
-							$("#newPhoneErrMsg").attr("style", "display:none");
-						},
-						//隐藏验证码错误提示
-						_hideValidateCode : function(){
-							$("#validateCodeErrMsg").attr("style", "display:none");
-						},
-						//隐藏验证码错误提示
-						_hidePhoneCode : function(){
-							$("#phoneCodeErrMsg").attr("style", "display:none");
-						},
-						//隐藏密码错误提示
-						_hidePassword : function(){
-							$("#passwordErrMsg").attr("style", "display:none");
-						},
+				//检查验证码是否为空
+				_checkValidateCodeEmpty : function(){
+					$("#validateCodeErrMsg").attr("style", "display:none");
+					var validateCode = $('#validateCode').val();
+					if(validateCode==""){
+						$("#validateCodeErrMsgShow").text("验证码不能为空");
+						$("#validateCodeErrMsg").show();
+						$("#validateCodeEmptyFlag").val("0");
+					}
+				},
+				//检查验证码是否为空
+				_checkPhoneCodeEmpty : function(){
+					$("#phoneCodeErrMsg").attr("style", "display:none");
+					var phoneCode = $('#phoneCode').val();
+					if(phoneCode==""){
+						$("#phoneCodeErrMsgShow").text("手机验证码不能为空");
+						$("#phoneCodeErrMsg").show();
+						$("#phoneCodeEmptyFlag").val("0");
+					}
+				},
+				//检查支付密码是否为空
+				_checkPasswordEmpty : function(){
+					$("#passwordErrMsg").attr("style", "display:none");
+					var password = $('#password').val();
+					if(password==""){
+						$("#passwordErrMsgShow").text("支付密码不能为空");
+						$("#passwordErrMsg").show();
+						$("#passwordEmptyFlag").val("0");
+					}
+				},
+				//隐藏新手机号错误提示
+				_hideNewPhone : function(){
+					$("#newPhoneErrMsg").attr("style", "display:none");
+				},
+				//隐藏验证码错误提示
+				_hideValidateCode : function(){
+					$("#validateCodeErrMsg").attr("style", "display:none");
+				},
+				//隐藏验证码错误提示
+				_hidePhoneCode : function(){
+					$("#phoneCodeErrMsg").attr("style", "display:none");
+				},
+				//隐藏密码错误提示
+				_hidePassword : function(){
+					$("#passwordErrMsg").attr("style", "display:none");
+				},
 
-						// 点击下一步用户信息显示
-						_next : function() {
-							$("#passwordEmptyFlag").val("1");
-							$("#passwordErrFlag").val("1");
-							if($('#password').val()==""){
-								$("#passwordErrMsgShow").text("密码不能为空");
-								$("#passwordErrMsg").show();
-								$("#passwordEmptyFlag").val("0");
-							}
-							var param = {
-									password : hex_md5($("#password").val())
-								};
-								ajaxController.ajax({
-									type : "post",
-									processing : false,
-									async: false, 
-									url : _base + "/user/validatePassword",
-									dataType : "json",
-									data : param,
-									message : "正在加载数据..",
-									success : function(data) {
-										if (data.responseHeader.resultCode == "11110") {
-											$("#passwordErrMsg").show();
-											$("#passwordErrFlag").val("0");
-											return false;
-										} else if (data.responseHeader.resultCode == "11111") {
-											$("#passwordErrFlag").val("1");
-										}
-									},
-										error : function(XMLHttpRequest,
-												textStatus, errorThrown) {
-											alert(XMLHttpRequest.status);
-											alert(XMLHttpRequest.readyState);
-											alert(textStatus);
-											}
-										});
-								var passwordEmptyFlag = $("#passwordEmptyFlag").val();
-								var passwordErrFlag = $("#passwordErrFlag").val();
-								if(passwordEmptyFlag!=0&&passwordErrFlag!=0){
-								$("#changePasswordBorder2").removeClass()
-								.addClass("yellow-border");
-								$("#changePasswordYuan2").removeClass().addClass(
-										"yellow-yuan");
-								$("#changePasswordWord2").removeClass().addClass(
-										"yellow-word");
-								$("#change-password1").hide();
-								$("#change-password2").show();
-								$("#change-password3").hide();
-						}
-						},
-
-						// 点击下一步用户信息显示
-						_submit : function() {
-							$("#newPasswordEmptyFlag").val("1");
-							$("#newPasswordErrFlag").val("1");
-							$("#newPasswordConfirmEmptyFlag").val("1");
-							$("#passwordNotEqualFlag").val("1");
-							
-							if($('#newPassword').val()==""){
-								$("#newPasswordErrMsgShow").text("密码不能为空");
-								$("#newPasswordErrMsg").show();
-								$("#newPasswordEmptyFlag").val("0");
-							}
-							if($('#newPasswordConfirm').val()==""){
-								$("#newPasswordConfirmErrMsgShow").text("密码不能为空");
-								$("#newPasswordConfirmErrMsg").show();
-								$("#newPasswordConfirmEmptyFlag").val("0");
-							}
-							var newPasswordEmptyFlag=$("#newPasswordEmptyFlag").val();
-							var newPasswordErrFlag=$("#newPasswordErrFlag").val();
-							var newPasswordConfirmEmptyFlag=$("#newPasswordConfirmEmptyFlag").val();
-							var passwordNotEqualFlag=$("#passwordNotEqualFlag").val();
-							if(newPasswordEmptyFlag!=0&&newPasswordErrFlag!=0&&newPasswordConfirmEmptyFlag!=0&&passwordNotEqualFlag!=0){
-							var param = {
-									password : hex_md5($("#newPassword").val())
-							};
-							ajaxController.ajax({
-								type : "post",
-								processing : false,
-								async: false, 
-								url : _base + "/user/updatePassword",
-								dataType : "json",
-								data : param,
-								message : "正在加载数据..",
-								success : function(data) {
-									if (data.responseHeader.resultCode == "11112") {
-										$("#changePasswordBorder3").removeClass()
-										.addClass("yellow-border");
-										$("#changePasswordYuan3").removeClass().addClass(
-										"yellow-yuan");
-										$("#changePasswordWord3").removeClass().addClass(
-										"yellow-word");
-										$("#change-password1").hide();
-										$("#change-password2").hide();
-										$("#change-password3").show();
-									}
-								},
-								error : function(XMLHttpRequest,
-										textStatus, errorThrown) {
-									alert(XMLHttpRequest.status);
-									alert(XMLHttpRequest.readyState);
-									alert(textStatus);
-								}
-							});
-						}
-						},
-						// 密码校验
-						_passwordConfirmation : function() {
-							var inputPassword = $("#newPassword").val();
-							var confirmationPassword = $("#newPasswordConfirm").val();
-							
-							if (inputPassword != confirmationPassword) {
-								/*$("#confirmationPasswordImage").attr('src',
-										_base + '/theme/slp/images/icon-a.png');*/
-								$("#newPasswordConfirmErrMsgShow").text("两次输入的密码不一致");
-								$("#newPasswordConfirmErrMsg").show();
-								$("#passwordNotEqualFlag").val("0");
+				
+				//通过支付密码验证账户
+				__validatePayPassword : function(){
+					$("#validateCodeFlag").val("1");
+					$("#validateCodeErrMsg").attr("style", "display:none");
+					var validateCode = $('#validateCode').val();
+					if(validateCode==""){
+						$("#validateCodeErrMsgShow").text("验证码不能为空");
+						$("#validateCodeErrMsg").show();
+						$("#validateCodeEmptyFlag").val("0");
+						return false;
+					}
+					
+					var	param={
+						userMp:$("#phone").val(),
+						phoneVerifyCode:$("#validateCode").val()
+    				   };
+					ajaxController.ajax({
+				        type: "post",
+				        processing: false,
+				        url: _base+"/reg/checkPhoneVerifyCode",
+				        dataType: "json",
+				        data: param,
+				        message: "正在加载数据..",
+				        success: function (data) {
+				         if(data.responseHeader.resultCode=="000007"){
+				        		$('#validateCodeErrMsgShow').text("手机与发送短信手机不一致");
+								$("#validateCodeErrMsg").attr("style","display:");
+								$('#validateCodeFlag').val("0");
 								return false;
-							} else {
-								$("#newPasswordConfirmErrMsg").hide();
-								$("#passwordNotEqualFlag").val("1");
-								return true;
+				        	}else if(data.responseHeader.resultCode=="000004"){
+				        		$('#validateCodeErrMsgShow').text("验证码已失效");
+				        		$("#validateCodeErrMsg").attr("style","display:");
+								$('#validateCodeFlag').val("0");
+								return false;
+				        	}else if(data.responseHeader.resultCode=="000003"){
+				        		$('#validateCodeErrMsgShow').text("短信验证码错误");
+								$("#validateCodeErrMsg").attr("style","display:");
+								$('#validateCodeFlag').val("0");
+								return false;
+				        	}else if(data.responseHeader.resultCode=="000000"){
+				        		$('#validateCodeFlag').val("1");
+								$("#validateCodeErrMsg").attr("style","display:none");
+				        	}
+				        	
+				        },
+				        error: function(XMLHttpRequest, textStatus, errorThrown) {
+							 alert(XMLHttpRequest.status);
+							 alert(XMLHttpRequest.readyState);
+							 alert(textStatus);
+							}
+		    			        
+		    			    }); 
+					
+				},
+				
+				// 点击下一步用户信息显示
+				_next : function() {
+					$("#validateCodeFlag").val("1");
+					$("#validateCodeErrMsg").attr("style", "display:none");
+					var validateCode = $('#validateCode').val();
+					if(validateCode==""){
+						$("#validateCodeErrMsgShow").text("验证码不能为空");
+						$("#validateCodeErrMsg").show();
+						$("#validateCodeEmptyFlag").val("0");
+					}
+					if($("#validateCodeFlag").val()!='0'){
+					var	param={
+							userMp:$("#phone").val(),
+							verifyCode:$("#validateCode").val()
+	    				   };
+						ajaxController.ajax({
+					        type: "post",
+					        processing: false,
+					        url: _base+"/user/phone/checkPhoneVerifyCode",
+					        dataType: "json",
+					        data: param,
+					        message: "正在加载数据..",
+					        success: function (data) {
+					         if(data.responseHeader.resultCode=="100002"){
+					        		$('#validateCodeErrMsgShow').text("短信验证码错误");
+									$("#validateCodeErrMsg").attr("style","display:");
+									$('#validateCodeFlag').val("0");
+									return false;
+					        	}
+					         if(data.responseHeader.resultCode=="000000"){
+					        		$("#changePhoneBorder2").removeClass()
+									.addClass("yellow-border");
+									$("#changePhoneYuan2").removeClass().addClass(
+									"yellow-yuan");
+									$("#changePhoneWord2").removeClass().addClass(
+									"yellow-word");
+									$("#change-phone1").hide();
+									$("#change-phone2").show();
+									$("#change-phone3").hide();
+					        	}
+					        	
+					        },
+					        error: function(XMLHttpRequest, textStatus, errorThrown) {
+								 alert(XMLHttpRequest.status);
+								 alert(XMLHttpRequest.readyState);
+								 alert(textStatus);
+								}
+			    			        
+			    			    }); 
+					}
+					},
+
+				// 点击下一步用户信息显示
+				_submit : function() {
+					$("#phoneCodeFlag").val("1");
+					
+					var	param={
+							userMp:$("#newPhone").val(),
+							verifyCode:$("#phoneCode").val()
+	    				   };
+						ajaxController.ajax({
+					        type: "post",
+					        processing: false,
+					        url: _base+"/user/phone/checkPhoneVerifyCode",
+					        dataType: "json",
+					        data: param,
+					        message: "正在加载数据..",
+					        success: function (data) {
+					         if(data.responseHeader.resultCode=="100002"){
+					        		$('#validateCodeErrMsgShow').text("短信验证码错误");
+									$("#validateCodeErrMsg").attr("style","display:");
+									$('#validateCodeFlag').val("0");
+									return false;
+					        	}
+					        },
+					        error: function(XMLHttpRequest, textStatus, errorThrown) {
+								 alert(XMLHttpRequest.status);
+								 alert(XMLHttpRequest.readyState);
+								 alert(textStatus);
+								}
+			    			    }); 
+					var phoneCodeFlag = $("#phoneCodeFlag").val();
+					if(phoneCodeFlag!=0){
+					var param = {
+							userMp : $("#newPhone").val()
+					};
+					ajaxController.ajax({
+						type : "post",
+						processing : false,
+						async: false, 
+						url : _base + "/user/phone/updatePhone",
+						dataType : "json",
+						data : param,
+						message : "正在加载数据..",
+						success : function(data) {
+							if (data.responseHeader.resultCode == "10003") {
+								$('#newPhoneCodeErrMsgShow').text("手机号已注册");
+								$("#newPhoneCodeErrMsg").attr("style","display:");
+								$('#phoneCodeFlag').val("0");
+								return false;
+							}
+							if(data.responseHeader.resultCode=='11112'){
+								$("#changePhoneBorder3").removeClass()
+								.addClass("yellow-border");
+								$("#changePhoneYuan3").removeClass().addClass(
+								"yellow-yuan");
+								$("#changePhoneWord3").removeClass().addClass(
+								"yellow-word");
+								$("#change-phone1").hide();
+								$("#change-phone2").hide();
+								$("#change-phone3").show();
 							}
 						},
-			
-			
+						error : function(XMLHttpRequest,
+								textStatus, errorThrown) {
+							alert(XMLHttpRequest.status);
+							alert(XMLHttpRequest.readyState);
+							alert(textStatus);
+						}
+					});
+				}
+				},
+	
 			// 获取绑定手机短信验证码
 			_getPhoneVitentify1 : function() {
 				$("#phoneCodeErrMsg").attr("style", "display:none");
 				var phoneFlag = $('#phoneFlag').val();
 				if (phoneFlag != "0") {
 					var step = 59;
-					$('#PHONE_IDENTIFY').val('重新发送60');
-					$("#PHONE_IDENTIFY").attr("disabled", true);
-					var _res = setInterval(
-						function() {
-						$("#PHONE_IDENTIFY").attr(
+					$('#PHONE_IDENTIFY1').val('重新发送60');
+					$("#PHONE_IDENTIFY1").attr("disabled", true);
+					var _res = setInterval(function() {
+						$("#PHONE_IDENTIFY1").attr(
 								"disabled", true);// 设置disabled属性
-						$('#PHONE_IDENTIFY').val(
+						$('#PHONE_IDENTIFY1').val(
 								step + 's后重新发送');
 						step -= 1;
 						if (step <= 0) {
-							$("#PHONE_IDENTIFY")
+							$("#PHONE_IDENTIFY1")
 									.removeAttr("disabled"); // 移除disabled属性
-							$('#PHONE_IDENTIFY').val(
+							$('#PHONE_IDENTIFY1').val(
 									'获取验证码');
 							clearInterval(_res);// 清除setInterval
 							}
 						}, 1000);
 					var param = {
-						phone : $("#phone").val()
+						userMp : $("#phone").val()
 					};
 					ajaxController.ajax({
 						type : "post",
@@ -274,7 +322,6 @@ define(
 
 							});
 				}
-
 			},
 			// 获取新手机短信验证码
 			_getPhoneVitentify2 : function() {
@@ -282,80 +329,54 @@ define(
 				var phoneFlag = $('#phoneFlag').val();
 				if (phoneFlag != "0") {
 					var step = 59;
-					$('#PHONE_IDENTIFY').val('重新发送60');
-					$("#PHONE_IDENTIFY").attr("disabled", true);
-					var _res = setInterval(
-							function() {
-								$("#PHONE_IDENTIFY").attr(
-										"disabled", true);// 设置disabled属性
-								$('#PHONE_IDENTIFY').val(
-										step + 's后重新发送');
-								step -= 1;
-								if (step <= 0) {
-									$("#PHONE_IDENTIFY")
+					$('#PHONE_IDENTIFY2').val('重新发送60');
+					$("#PHONE_IDENTIFY2").attr("disabled", true);
+					var _res = setInterval(function() {
+						$("#PHONE_IDENTIFY2").attr(
+								"disabled", true);// 设置disabled属性
+						$('#PHONE_IDENTIFY2').val(
+								step + 's后重新发送');
+						step -= 1;
+						if (step <= 0) {
+							$("#PHONE_IDENTIFY2")
 									.removeAttr("disabled"); // 移除disabled属性
-									$('#PHONE_IDENTIFY').val(
+							$('#PHONE_IDENTIFY2').val(
 									'获取验证码');
-									clearInterval(_res);// 清除setInterval
-								}
-							}, 1000);
+							clearInterval(_res);// 清除setInterval
+							}
+						}, 1000);
 					var param = {
-							phone : $("#newPhone").val()
+						userMp : $("#newPhone").val()
 					};
 					ajaxController.ajax({
 						type : "post",
 						processing : false,
-						url : _base + "/user/toSendPhone",
+						url : _base + "/user/verify/sendPhoneVerify",
 						dataType : "json",
 						data : param,
 						message : "正在加载数据..",
 						success : function(data) {
 							if (data.responseHeader.resultCode == "9999") {
-								$('#phoneCodeErrMsg').text("1分钟后可重复发送 ");
-								$("#phoneCodeErrMsg").attr("style","display:");
-								$("#phoneCodeFlag").val("0");
+								$('#newPhoneCodeErrMsg').text("1分钟后可重复发送 ");
+								$("#newPhoneCodeErrMsg").attr("style","display:");
+								$("#newPhoneCodeFlag").val("0");
 								return false;
 							} else if (data.responseHeader.resultCode == "100002") {
 								var msg = data.statusInfo;
-								$('#phoneCodeErrMsg').text(msg);
-								$("#phoneCodeErrMsg").attr("style","display:");
+								$('#newPhoneCodeErrMsg').text(msg);
+								$("#newPhoneCodeErrMsg").attr("style","display:");
 								return false;
 							}
 						},
-						error : function(XMLHttpRequest,
-								textStatus, errorThrown) {
-							alert(XMLHttpRequest.status);
-							alert(XMLHttpRequest.readyState);
-							alert(textStatus);
-						}
-						
-					});
+							error : function(XMLHttpRequest,
+									textStatus, errorThrown) {
+								alert(XMLHttpRequest.status);
+								alert(XMLHttpRequest.readyState);
+								alert(textStatus);
+								}
+
+							});
 				}
-				
-			},
-			
-			// 校验手机
-			_validServicePho : function() {
-				$("#phoneErrMsg").attr("style", "display:none");
-				var phone = $('#phone').val();
-				if (phone == "") {
-					$("#phoneErrMsg").attr("style", "display:");
-					$('#phoneErrMsg').attr('src',
-							_base + '/theme/slp/images/icon-a.png');
-					$('#phoneErrMsgShow').text("手机号不能为空");
-					$("#phoneErrMsg").show();
-					$('#phoneErrFlag').val("0");
-					return false;
-				} else if (!(/^0?1[3|4|5|8][0-9]\d{8}$/.test(phone))) {
-					$("#phoneErrMsg").attr("style", "display:");
-					$('#phoneErrMsg').attr('src',
-							_base + '/theme/slp/images/icon-a.png');
-					$('#phoneErrMsgShow').text("请输入正确有效的手机号码");
-					$("#phoneErrMsg").show();
-					$('#phoneErrFlag').val("0");
-					return false;
-				} 
-					
 			},
 			
 			// 校验新手机
@@ -381,6 +402,7 @@ define(
 				} 
 					
 			}
+			
 		});
 			module.exports = ChangePhonePager
 		});
