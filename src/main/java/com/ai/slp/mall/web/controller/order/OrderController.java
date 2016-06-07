@@ -279,6 +279,7 @@ public class OrderController {
 		 List<OrdProductResInfo> ordProductResList = response.getOrdProductResList();
 		 OrdFeeInfo ordFeeInfo = response.getOrdFeeInfo();
 		 model.addAttribute("ordProductResList",ordProductResList);
+		 model.addAttribute("prodNum",ordProductResList==null?0:ordProductResList.size());
 		 model.addAttribute("totalFee", ordFeeInfo.getTotalFee());
 		 model.addAttribute("expFee", 0);
 		 model.addAttribute("totalFee", ordFeeInfo.getTotalFee());

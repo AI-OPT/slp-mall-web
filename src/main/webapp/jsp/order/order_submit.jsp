@@ -65,28 +65,25 @@
 						</tr>
 					</table>
 				</div>
-				<script id="orderListTemple" type="text/x-jsrender">
 				<div class="shopping-cart mar">
 					<table width="100%" border="0">
-					  {{for ordProductResList}}     
+					<c:forEach var="ordProductRes" varStatus="status" items="${ordProductResList }">
 						<tr>
 							<td class="sp">
 								<table width="100%" border="0">
 									<tr>
 										<td class="word" width="25%"><img src="${_slpbase }/images/sim.png"></td>
-										<td><A href="#">{{:skuName}}</A></td>
+										<td><A href="#">${ordProductRes.skuName}</A></td>
 									</tr>
 								</table>
 							</td>
-							<td class="ash">¥{{:salePrice}}</td>
-							<td>${bugSum}</td>
-							<td class="bold">¥{{:skuTotalFee}}</td>
+							<td class="ash">¥${ordProductRes.salePrice}</td>
+							<td>${ordProductRes.bugSum}</td>
+							<td class="bold">¥${ordProductRes.skuTotalFee}</td>
 						</tr>
-					{{/for}}
-
+					</c:forEach>
 					</table>
 				</div>
-				</script>
 				<div class="total-amount">
 					<ul>
 						<li>
