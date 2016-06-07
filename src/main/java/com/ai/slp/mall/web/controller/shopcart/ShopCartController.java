@@ -2,8 +2,10 @@ package com.ai.slp.mall.web.controller.shopcart;
 
 import com.ai.opt.base.exception.BusinessException;
 import com.ai.opt.base.exception.SystemException;
+import com.ai.opt.sdk.components.ccs.CCSClientFactory;
 import com.ai.opt.sdk.dubbo.util.DubboConsumerFactory;
 import com.ai.opt.sdk.web.model.ResponseData;
+import com.ai.paas.ipaas.ccs.constants.ConfigException;
 import com.ai.paas.ipaas.util.JSonUtil;
 import com.ai.slp.mall.web.constants.ComParamsConstants;
 import com.ai.slp.order.api.shopcart.interfaces.IShopCartSV;
@@ -38,6 +40,10 @@ public class ShopCartController {
         IShopCartSV iShopCartSV = DubboConsumerFactory.getService("IShopCartSV");
         ResponseData<CartProdOptRes> responseData = null;
         try{
+            int skuNumLimit = getSkuNumLimit();
+            if (skuNumLimit>0 && buyNum>skuNumLimit){
+                throw new BusinessException("","此商品添加数量超过限制,不允许添加");
+            }
             //设置参数
             CartProd cartProd = new CartProd();
             cartProd.setBuyNum(buyNum);
@@ -77,6 +83,7 @@ public class ShopCartController {
             String cartProdInfoJSON = JSonUtil.toJSon(cartProdInfoList);
             model.put("cartProdList", cartProdInfoJSON);
             model.put("prodTotal", prodTotal);
+            model.put("skuNumLimit",getSkuNumLimit());
     	}catch(Exception e){
     		e.printStackTrace();
     		LOG.error("查询购物车商品详情出错",e);
@@ -92,6 +99,10 @@ public class ShopCartController {
         IShopCartSV iShopCartSV = DubboConsumerFactory.getService("IShopCartSV");
         ResponseData<CartProdOptRes> responseData = null;
         try {
+            int skuNumLimit = getSkuNumLimit();
+            if (skuNumLimit>0 && buyNum>skuNumLimit){
+                throw new BusinessException("","此商品添加数量超过限制,不允许添加");
+            }
             //设置参数
             CartProd cartProd = new CartProd();
             cartProd.setBuyNum(buyNum);
@@ -142,6 +153,21 @@ public class ShopCartController {
     private String getUserId(HttpSession session){
 //        SLPClientUser user = (SLPClientUser) session.getAttribute(SSOClientConstants.USER_SESSION_KEY);
         return "234";
+    }
+
+    /**
+     * 获取购物车中单个商品的数量限制
+     * @return
+     */
+    private int getSkuNumLimit (){
+        String limitNum = null;
+        try {
+            limitNum = CCSClientFactory.getDefaultConfigClient().get("/shop_cart_sku_num_limit");
+        } catch (ConfigException e) {
+            LOG.error("获取配置信息失败",e);
+            e.printStackTrace();
+        }
+        return Integer.parseInt(limitNum);
     }
     
 }
