@@ -157,7 +157,7 @@
                                 </td>
                                 <td class="ash" width="10%">¥{{:~liToYuan(salePrice)}}</td>
                                 <td width="10%">{{:buySum}}</td>
-                                <td width="10%" class="strong">¥{{:~liToYuan(adjustFee)}}</td>
+                                <td width="10%" class="strong">¥{{:~liToYuan(totalFee)}}</td>
 								{{if #getIndex() == 0}}
                                 <td width="10%" rowspan="{{:~size}}"> 
                                     <div class="number">

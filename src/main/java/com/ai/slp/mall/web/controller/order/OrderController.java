@@ -148,7 +148,7 @@ public class OrderController {
 		if(StringUtils.isContains("100010,100011", orderType)){
 			return new ModelAndView("jsp/order/order_info_detail",model);
 		}else{
-			return new ModelAndView("jsp/order/order_info_detail",model);
+			return new ModelAndView("jsp/order/order_product_detail",model);
 		}
 	}
 	

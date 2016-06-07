@@ -12,21 +12,6 @@
 </head>
 
 <body>
-<!--弹出框-->
-<div class="eject-big">
-		<div class="eject-medium">
-			<div class="eject-medium-title">
-				<p>明细</p>
-				<p class="img"><a href="javaScript:void(0)" id="colsePhoneDialog"></a></p>
-			</div>
-			<div class="eject-medium-list">
-				<div class="eject-contacts-list eject-bie-height" id="phoneListData">
-				</div>
-			</div>	
-		</div>	
-		<div class="eject-mask"></div>	
-</div>
-<!--弹出删除弹出框  中结束-->	
 <!--顶部菜单-->
  <%@ include file="/inc/top-menu.jsp" %>
 <!--顶部菜单结束-->
@@ -38,8 +23,8 @@
      <!--订单详情-->
 <div class="fsast-charge">
     <div class="big-wrapper" id="orderData"></div><!--内侧居中框架-->
-    	<script id="orderTemple" type="text/x-jsrender">
-			<div class="payment-title">
+    <script id="orderTemple" type="text/x-jsrender">
+            <div class="payment-title">
                  <p><a href="#">账户中心</a>&gt;</p>
                  <p><a href="#">我的订单</a>&gt;</p>
                  <p><a href="#">订单号:</a></p>
@@ -53,7 +38,7 @@
                              <p>{{:orderId}}</p>
                          </li>
                          <li>
-                             <p>订单状态:</p>
+                             <p>退款状态:</p>
                              <p class="color">{{:stateName}}</p>
                          </li>
                          <li>
@@ -68,38 +53,37 @@
                  </div>
            <!--订单状态结束-->    
           <div class="recharge-bj-tow"><!--白色背景-->
-          		<div class="information-title"><p>交易信息</p></div>
-               <div class="information-table">
-                  <table width="100%" border="0">
-                      <tr class="bj">
-                        <td>运营商</td>
-                        <td>归属地</td>
-                        <td>手机号/数量</td>
-                        <td>充值额</td>
-                        <td>单价</td>
-                        <td>小计</td>
+          		<div class="information-title"><p>充值信息</p></div>
+                <div class="shopping-cart mar">
+                 <table width="100%" border="0">
+                     <tr class="bj-s">
+                        <td width="35%">商品信息</td>
+                        <td width="35%">单价</td>
+                        <td width="15%">数量</td>
+                        <td width="15%">小计</td>
+                     </tr>
+					{{for productList}}                                                                                                                                                                       
+                     <tr>
+						<td class="sp">
+                         <table width="100%" border="0">
+                             <tr>
+                                <td class="word" width="25%"><img src="{{:imageUrl}}"></td>
+                                <td><A href="#">{{:prodName}}</A></td>
+                             </tr>
+                         </table>
+                        </td>
+                        <td class="ash">¥{{:~liToYuan(salePrice)}}</td>
+                        <td>{{:buySum}}</td>
+                        <td class="bold">¥{{:~liToYuan(totalFee)}}</td>
                       </tr>
-					  {{for productList}}                                                                                                                                                                       
-                      <tr class="click">
-                        <td>{{:basicOrgName}}</td>
-                        <td>{{:provinceName}}</td>
-                        <td>{{:prodExtendInfo.split(",").length}}/<span class="batch" onclick="pager._showPhoneInfo('{{:prodExtendInfo}}')">明细</span></td>
-                        <td>{{:chargeFee}}</td>
-                        <td>￥{{:~liToYuan(salePrice)}}</td>
-                        <td class="color">￥{{:~liToYuan(totalFee)}}</td>
-                      </tr>
-					  {{/for}} 
-					</table>
-                </div> 
+					{{/for}} 
+                  </table>   
+               </div>
           </div>
           
           <!--订单支付总价-->
                 <div class="order-total">
             		<ul>
-                      <li>
-                          <p>充值手机:</p>
-                          <p class="color">{{:phoneCount}}个</p>
-                      </li>  
                       <li>
                           <p>需支付总额:</p>
                           <p class="color">¥{{:~liToYuan(totalFee)}}</p>
@@ -110,8 +94,8 @@
        
          <div class="recharge-bj-tow"><!--白色背景-->
           		<div class="information-title"><p>付款信息</p></div>
-                 <div class="pay-list">
-					{{if state=='90'}}
+                <div class="pay-list">
+                     {{if state=='90'}}
                      <ul>
                          <li>
                              <p>实付总金额:</p>
@@ -129,10 +113,12 @@
 					{{else state='91'}}
 						<div class="pay-fail">订单已经关闭！</div>
 					{{/if}}
-                 </div> 
-         </div> 
-		</script>
+                 </div>
+         </div>       
+
+   </script>
   </div>
+    
  <!--底部-->
 <%@ include file="/inc/foot.jsp" %>
  <!--底部 结束-->
@@ -141,8 +127,8 @@
 var pager;
 var orderDetail = $.parseJSON('${orderDetail}');
 (function () {
-	seajs.use('app/jsp/order/orderInfoDetail', function (OrderInfoDetailPager) {
-		pager = new OrderInfoDetailPager({element: document.body});
+	seajs.use('app/jsp/order/orderProductDetail', function (OrderProductDetail) {
+		pager = new OrderProductDetail({element: document.body});
 		pager.render();
 	});
 })();
