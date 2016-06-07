@@ -50,15 +50,27 @@
                       <script id="balanceSevenDaysAgoTmpl" type="text/x-jsrender">
 					  	{{for}}
 						<tr>
-                        	<td>{{:createTime}}</td>
-                       	 	<td>{{:checkStatus}}</td>
+                        	<td>{{:~timestampToDate('yyyy-MM-dd hh:mm:ss', lastStatusDate)}}</td>
+                       	 	<td>
+							 {{if busiType == '1'}}	
+								订单收费
+							 {{/if}}
+							 {{if busiType == '2'}}	
+								充值缴费
+							 {{/if}}
+							</td>
                         	<td>{{:chlId}}</td>
-                        	<td class="color">{{:operDiscountFee}}</td>
-                        	<td><a href="#">订单号：{{:orderId}}</a></td>
+                        	<td class="color">{{:totalFee/1000}}</td>
+                        	<td><a href="#">{{:remark}}</a></td>
                       	</tr>
 						{{/for}}
+						
 					  </script>                                                                                                                                                                          
-                      
+                      <script id="balanceSevenDaysAgoNullTmpl" type="text/x-jsrender">
+							<tr>
+								<td colspan="5">交易记录为空</td>
+							</tr>
+					  </script>
 					</table>
                 </div>
       </div>

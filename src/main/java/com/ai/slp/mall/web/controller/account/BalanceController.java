@@ -34,6 +34,7 @@ public class BalanceController {
 	//
 	private static final String ACCOUNT_ID = "10001";
 	private static final String TENANT_ID = "BIS-ST";
+	private static final int AMOUNT = -7;
 	//private static final int 
 	//
 	@RequestMapping("/account/balance/index")
@@ -144,7 +145,7 @@ public class BalanceController {
 		chargeInfoQueryByAcctIdParam.setPageInfo(chargeBaseInfoPageInfo);
 		//
 		Calendar cal = Calendar.getInstance();
-		cal.add(5, -777);
+		cal.add(5, AMOUNT);
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		String sevenDaysAgo = sdf.format(cal.getTime());
 		//

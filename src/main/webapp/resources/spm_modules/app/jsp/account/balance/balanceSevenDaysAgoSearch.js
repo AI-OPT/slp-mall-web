@@ -54,6 +54,11 @@ define('app/jsp/account/balance/balanceSevenDaysAgoSearch', function (require, e
 								//alert(data.result);
 								$("#table_title_id").append(htmlOut);
 							}
+							if(data.result.length == 0){
+								var template = $.templates("#balanceSevenDaysAgoNullTmpl");
+								var htmlOut = template.render("");
+								$("#table_title_id").append(htmlOut);
+							}
 						}
 					}
       		);
