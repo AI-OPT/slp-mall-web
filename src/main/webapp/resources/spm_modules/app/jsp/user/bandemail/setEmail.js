@@ -104,10 +104,12 @@ define('app/jsp/user/bandemail/setEmail', function (require, exports, module) {
 						window.location.href = _base+url;
 					}else{
 						if(resultCode=="100006"){
+							$("#emailMsgError").show();
 				        	_this._controlMsgText("emailMsg",data.statusInfo);
 							_this._controlMsgAttr("emailMsg",2);
 							isOk = false;
 				        }else{
+				        	$("#emailMsgError").hide();
 				        	_this._controlMsgText("emailMsg","");
 				        	_this._controlMsgAttr("emailMsg",1);
 				        	isOk = true;
@@ -186,7 +188,7 @@ define('app/jsp/user/bandemail/setEmail', function (require, exports, module) {
 				                clearInterval(_res);//清除setInterval
 				                }
 				            },1000);
-				            window.location.href = _base+"/user/bandEmail/sendBandEmailSuccess";
+				            window.location.href = _base+"/user/bandEmail/sendBandEmailSuccess?email="+$("#email").val();
 						}else{
 							$("#sendEmailBtn").removeAttr("disabled");
 						}

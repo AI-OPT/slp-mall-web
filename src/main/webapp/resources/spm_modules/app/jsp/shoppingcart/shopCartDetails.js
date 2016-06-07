@@ -141,7 +141,6 @@ define('app/jsp/shoppingcart/shopCartDetails', function (require, exports, modul
     	// 删除和删除选中
     	_delPitchOnProd:function(prodIdList){
 			var prodIds = JSON.stringify(prodIdList);
-    		alert(prodIds);
     		//如果点击的是删除
     		ajaxController.ajax({
 				type: "post",
@@ -179,7 +178,6 @@ define('app/jsp/shoppingcart/shopCartDetails', function (require, exports, modul
 			        var id = $(this).prop("id");
 					var prodPrice = $("#"+id+"_prodPriceSubtotal").text().replace("¥", "");
 			        var price = parseFloat(prodPrice);
-			        alert(price);
 			        //计算价格
 			        prodTotal += price;
 			        var num = parseInt($("#"+id+"_prodnum").val());
@@ -195,7 +193,6 @@ define('app/jsp/shoppingcart/shopCartDetails', function (require, exports, modul
 			    }
 			});
     		$("#cartProdTotal").html(prodTotal);
-    		alert(prodTotal);
     		$("#checkProductNum").html(prodNum);
     		//商品总量
     		$("input[name='outOfStockProd']").each(function(i){  

@@ -40,6 +40,7 @@ define('app/jsp/top/top', function (require, exports, module) {
 					var cityCode = $(_this).attr('areaCodeId');
 					var cityName = $(_this).attr('areaNameId');
 					$("#currentCity").attr("currentCityCode",cityCode);
+					$("#currentCity").attr("currentCityName",cityName);
 		    		document.getElementById("currentCity").innerHTML=cityName;
 				})
 		},

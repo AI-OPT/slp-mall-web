@@ -9,15 +9,7 @@
 <link href="${_slpbase }/styles/font-awesome.css" rel="stylesheet" type="text/css">
 <script src="${_slpbase }/scripts/frame.js" type="text/javascript"></script>
 <script src="${_slpbase }/scripts/imgloop.js" type="text/javascript"></script>
-<script type="text/javascript">
-			var pager;
-			(function () {
-				seajs.use('app/jsp/product/searchProduct', function (QueryProductPager) {
-					pager = new QueryProductPager({element: document.body});
-					pager.render();
-				});
-			})();
-		</script>
+
 </head>
 
 <body>
@@ -41,27 +33,36 @@
         <div class="big-wrapper"><!--内侧居中框架--> 
             <div class="payment-title">
                 <p><a href="#">全部商品</a>></p>
-                <p><a href="#">话费充值</a>></p>
-                <p><a href="#">地域:</a></p>
-                <p class="close">全国通用<A href="#"><i class="icon-remove"></i></A></p>
-                <p class="close">全国通用<A href="#"><i class="icon-remove"></i></A></p>
+                <p><a href="#" id="typeTitleId">话费充值</a>></p>
+                <p><a href="#" id="areaTile">地域:</a></p>
             </div>
         </div>
          <!--搜索结果查询条件-->
-        <div class="search-wrapper">
+        <div class="search-wrapper" >
             <div class="big-wrapper"><!--内侧居中框架--> 
                 <input type="hidden" name="priceId" id="priceId" value="${requestScope.priceId}"/>
              	<input type="hidden" name="billType" id="billType" value="${requestScope.billType}"/>
              	<input type="hidden" name="orgired" id="orgired" value="${requestScope.orgired}"/>
              	<input type="hidden" name="skuName" id="skuName" value="${requestScope.skuName}"/>
-             		<input type="hidden" name="sourceFlag" id="sourceFlag" value="${requestScope.sourceFlag}"/>
-                <div class="search-main">
+             	<input type="hidden" name="sourceFlag" id="sourceFlag" value="${requestScope.sourceFlag}"/>
+                <!-- 公共查询条件数据 start-->
+                <input type="hidden" id="agentSearch" value="100001"/>
+                <input type="hidden" id="areaSearch" value="10"/>
+                <input type="hidden" id="priceSearch" value="100004"/>
+                <input type="hidden" id="phoneProductCatSearch" value="10000010010000"/>
+                <input type="hidden" id="flowProductCatSearch" value="10000010020000"/>
+                <!-- 公共查询条件数据 end-->
+                <div class="search-main"   id="commonId">
                      <ul>
                          <li class="word">运营商:</li>
                          <li id="agentData">
                          <script id="agentTmpl" type="text/x-jsrender">
 							{{for agentList}}
-						 		<p><A href="javascript:void(0);" value="{{:attrDefId}}">{{:attrDefValue}}</A></p>
+								{{if #index==0}}
+									<p id="{{:attrDefId}}" class="current"><A href="javascript:void(0);" onclick="pager._changeAgent('{{:attrDefId}}')" value="{{:attrDefId}}">{{:attrDefValue}}</A></p>
+								{{else}}
+						 		<p id="{{:attrDefId}}"><A href="javascript:void(0);" onclick="pager._changeAgent('{{:attrDefId}}')"  value="{{:attrDefId}}">{{:attrDefValue}}</A></p>
+								{{/if}}							
 							{{/for}}
 							</script>
                          </li>
@@ -71,8 +72,12 @@
                          <li id="accountData">
                          <script id="accountTmpl" type="text/x-jsrender">
 							{{for accountList}}
-						 		<p><A href="javascript:void(0);" value="{{:attrDefId}}">{{:attrDefValue}}</A></p>
-							{{/for}}
+								{{if #index==0}}
+						 			<p  id="{{:attrDefId}}" class="current"><A href="javascript:void(0);" onclick="pager._changePrice('{{:attrDefId}}')" value="{{:attrDefId}}">{{:attrDefValue}}</A></p>
+								{{else}}
+									<p id="{{:attrDefId}}"><A href="javascript:void(0);" onclick="pager._changePrice('{{:attrDefId}}')" value="{{:attrDefId}}">{{:attrDefValue}}</A></p>
+								{{/if}}							
+								{{/for}}
 							</script>
                          </li>
                      </ul>
@@ -81,8 +86,10 @@
                          <li class="word-height" id="areaData">
                           <script id="areaTmpl" type="text/x-jsrender">
 							{{for areaList}}
-								{{if #index<17}}	
-									<p><A href="javascript:void(0);" value="{{:attrDefId}}">{{:attrDefValue}}</A></p>
+								{{if #index==0}}	
+									<p id="{{:attrDefId}}" class="current"><A onclick="pager._changeArea('{{:attrDefId}}')" href="javascript:void(0);" value="{{:attrDefId}}">{{:attrDefValue}}</A></p>
+								{{else #index<17}}
+										<p id="{{:attrDefId}}"><A href="javascript:void(0);" onclick="pager._changeArea('{{:attrDefId}}')" value="{{:attrDefId}}">{{:attrDefValue}}</A></p>
 								{{/if}}
 								{{if #index==17}}
 									<p class="more"><A href="javascript:void(0);" id="moreId">更多<i class="icon-angle-down"></i></A></p>
@@ -95,21 +102,13 @@
                            	<script id="lastAreaTmpl" type="text/x-jsrender">
 							{{for areaList}}
 								{{if #index>=17}}	
-									<p><A href="javascript:void(0);" value="{{:attrDefId}}">{{:attrDefValue}}</A></p>
+									<p id="{{:attrDefId}}"><A onclick="pager._changeArea('{{:attrDefId}}')" href="javascript:void(0);" value="{{:attrDefId}}">{{:attrDefValue}}</A></p>
 								{{/if}}
 							{{/for}}
 						</script>
                           </li></div>
                      </ul>
-                     <!-- 
-                     <ul class="none-border">
-                         <li class="word">充值方式:</li>
-                         <li>
-                             <p class="current"><A href="#">自助充值</A></p>
-                             <p><A href="#">卡密充值</A></p>      
-                         </li>
-                     </ul>
-                      -->  
+                    
                 </div>
             
             </div>
@@ -131,7 +130,7 @@
                    </div>
                     <div class="results-left-city">
                          <ul>
-                         <li>所在地:</li>
+                         <li>配送至:</li>
                              <li class="city"><a href="#" >北京<img src="${_slpbase }/images/open-a.png"></a>
                              <!--选择所在地城市-->
                                      <div class="city-hover" style="display:none;">
@@ -202,15 +201,14 @@
                          <script id="hotProductListTmpl" type="text/x-jsrender">
 							<div class="left-tow-list">
 								<ul>
-                            		<li class="img"><a href="#"><img src="{{:picUrl}}"></a></li>
-                            		<li class="word"><a href="#">{{:prodName}}</a> </li>
+                            		<li class="img"><a onclick="pager._detailPage('{{:skuId}}')" href="javascript:void(0)" ><img src="{{:picUrl}}"></a></li>
+                            		<li class="word"><a onclick="pager._detailPage('{{:skuId}}')" href="javascript:void(0)" >{{:prodName}}</a> </li>
                             		<li class="left"><span>￥{{:~liToYuan(salePrice)}}</span></li>
                         		</ul>
 							</div>
 						</script>
                         </div>
                   </div>
-          
           </div>
           <!--热销产品右侧-->
            <div class="product-list-right">
@@ -222,7 +220,7 @@
                				<div class="single-top">
 							 <div class="picture-carousel">
                     			<div class="tb-booth tb-pic tb-s310">
-                            		<a href="#"><img src="{{:picUrl}}"  class="jqzoom" id="bigPic"/></a>
+                            		<a onclick="pager._detailPage('{{:skuId}}')" href="javascript:void(0)"><img src="{{:picUrl}}"  class="jqzoom" id="bigPic"/></a>
                         		</div>
                         		<ul class="tb-thumb" id="thumblist">
 									{{for thumnailUrl}}
@@ -237,7 +235,7 @@
 							<div class="single-word">
                					<ul>
                						<li class="word">¥{{:~liToYuan(salePrice)}}</li>
-               						<li><a href="#">{{:prodName}}</a></li>
+               						<li><a  href="javascript:void(0)" onclick="pager._detailPage('{{:skuId}}')">{{:prodName}}</a></li>
                					</ul>
                				</div>
 						</div>
@@ -262,7 +260,15 @@
    <!--底部-->
     <%@ include file="/inc/foot.jsp" %>
    <!--底部 结束-->
-
+<script type="text/javascript">
+			var pager;
+			(function () {
+				seajs.use('app/jsp/product/searchProduct', function (QueryProductPager) {
+					pager = new QueryProductPager({element: document.body});
+					pager.render();
+				});
+			})();
+		</script>
 </body>
 </html>
 

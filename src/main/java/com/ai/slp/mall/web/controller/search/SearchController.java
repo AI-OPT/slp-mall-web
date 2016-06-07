@@ -87,6 +87,7 @@ public class SearchController {
                         vo.setAreaList(data.getAreaList());
                         vo.setProdId(data.getProdId());
                         vo.setProdName(data.getProdName());
+                        vo.setSkuId(data.getSkuId());
                         vo.setSalePrice(data.getSalePrice());
                         vo.setPicUrl(ImageUtil.getImage(data.getImageinfo().getVfsId(),data.getImageinfo().getPicType()));
                         //获取缩略图id
@@ -135,6 +136,7 @@ public class SearchController {
                     vo.setSalePrice(data.getSalePrice());
                     vo.setProdName(data.getProdName());
                     vo.setPicUrl(ImageUtil.getHotImage());
+                    vo.setSkuId(data.getSkuId());
                     voList.add(vo);
                 }
             }
@@ -178,6 +180,7 @@ public class SearchController {
                     for(ProductData data:proList){
                         ProductDataVO vo = new ProductDataVO();
                         vo.setProdId(data.getProdId());
+                        vo.setSkuId(data.getSkuId());
                         vo.setProdName(data.getProdName());
                         vo.setSalePrice(data.getSalePrice());
                         vo.setPicUrl(ImageUtil.getImage(data.getImageinfo().getVfsId(),data.getImageinfo().getPicType()));
