@@ -8,6 +8,7 @@
 		});
 	})();
 </script>
+
 <!--账户余额右侧-->  
   <div class="my-order-cnt">
        <div class="payment-title">
@@ -35,7 +36,7 @@
       <div class="order-list-bj">	
             <!--选择订单信息 table-->
            <div class="order-list-table">
-           <input type="text" id="busiType_id" name="busiType_id" value=""/>
+           <input type="hidden" id="busiType_id" name="busiType_id" value="1"/>
            <ul>
            <li><a id="pay_id" href="#" class="current">支付记录</a></li>
            <li><a id="charge_id" href="#">充值记录</a></li>
@@ -54,33 +55,10 @@
                         <td>交易金额</td>
                         <td>备注</td>
                       </tr>
-                      <tbody id="table_info_id">
+                      <tbody id="table_info_id_pay_id">
                       	
                       </tbody>                                                                                                                                                                           
-                      <script id="balanceSevenDaysAgoTmpl" type="text/x-jsrender">
-					  	{{for}}
-						<tr>
-                        	<td>{{:~timestampToDate('yyyy-MM-dd hh:mm:ss', lastStatusDate)}}</td>
-                       	 	<td>
-							 {{if busiType == '1'}}	
-								订单收费
-							 {{/if}}
-							 {{if busiType == '2'}}	
-								充值缴费
-							 {{/if}}
-							</td>
-                        	<td>{{:orderId}}</td>
-                        	<td class="color">{{:totalFee/1000}}</td>
-                        	<td><a href="#">{{:remark}}</a></td>
-                      	</tr>
-						{{/for}}
-						
-					  </script>                                                                                                                                                                          
-                      <script id="balanceSevenDaysAgoNullTmpl" type="text/x-jsrender">
-							<tr>
-								<td colspan="5">交易记录为空</td>
-							</tr>
-					  </script>
+                      
 					</table>
                 </div>
             </div>
@@ -95,48 +73,9 @@
                         <td>交易金额</td>
                         <td>备注</td>
                       </tr>                                                                                                                                                                           
-                      <tr>
-                        <td>2016-2-19  10:30</td>
-                        <td>交易支出</td>
-                        <td>11234568945</td>
-                        <td class="color">30.00</td>
-                        <td><a href="#">订单号：1323434434</a></td>
-                      </tr>
-                     <tr>
-                        <td>2016-2-19  10:30</td>
-                        <td>交易支出</td>
-                        <td>11234568945</td>
-                        <td class="color-balck">10.00</td>
-                        <td>网银支付</td>
-                      </tr>
-                       <tr>
-                        <td>2016-2-19  10:30</td>
-                        <td>交易支出</td>
-                        <td>11234568945</td>
-                        <td class="color">10.00</td>
-                        <td><a href="#">订单号：1323434434</a></td>
-                      </tr>
-                     <tr>
-                        <td>2016-2-19  10:30</td>
-                        <td>交易支出</td>
-                        <td>11234568945</td>
-                        <td class="color-balck">10.00</td>
-                        <td>网银支付</td>
-                      </tr>
-                       <tr>
-                        <td>2016-2-19  10:30</td>
-                        <td>交易支出</td>
-                        <td>11234568945</td>
-                        <td class="color">10.00</td>
-                        <td><a href="#">订单号：1323434434</a></td>
-                      </tr>
-                     <tr>
-                        <td>2016-2-19  10:30</td>
-                        <td>交易支出</td>
-                        <td>11234568945</td>
-                        <td class="color-balck">10.00</td>
-                        <td>网银支付</td>
-                      </tr>
+                      <tbody id="table_info_id_charge_id">
+                      	
+                      </tbody> 
 					</table>
                 </div>
             </div>  
@@ -151,48 +90,9 @@
                         <td>交易金额</td>
                         <td>备注</td>
                       </tr>                                                                                                                                                                           
-                      <tr>
-                        <td>2016-2-19  10:30</td>
-                        <td>交易支出</td>
-                        <td>11234568945</td>
-                        <td class="color">20.00</td>
-                        <td><a href="#">订单号：1323434434</a></td>
-                      </tr>
-                     <tr>
-                        <td>2016-2-19  10:30</td>
-                        <td>交易支出</td>
-                        <td>11234568945</td>
-                        <td class="color-balck">10.00</td>
-                        <td>网银支付</td>
-                      </tr>
-                       <tr>
-                        <td>2016-2-19  10:30</td>
-                        <td>交易支出</td>
-                        <td>11234568945</td>
-                        <td class="color">10.00</td>
-                       <td><a href="#">订单号：1323434434</a></td>
-                      </tr>
-                     <tr>
-                        <td>2016-2-19  10:30</td>
-                        <td>交易支出</td>
-                        <td>11234568945</td>
-                        <td class="color-balck">10.00</td>
-                        <td>网银支付</td>
-                      </tr>
-                       <tr>
-                        <td>2016-2-19  10:30</td>
-                        <td>交易支出</td>
-                        <td>11234568945</td>
-                        <td class="color">10.00</td>
-                        <td><a href="#">订单号：1323434434</a></td>
-                      </tr>
-                     <tr>
-                        <td>2016-2-19  10:30</td>
-                        <td>交易支出</td>
-                        <td>11234568945</td>
-                        <td class="color-balck">10.00</td>
-                        <td>网银支付</td>
-                      </tr>
+                      <tbody id="table_info_id_all_id">
+                      	
+                      </tbody> 
 					</table>
                 </div>
             </div>    
@@ -230,5 +130,28 @@
               </div>
                   
      	 </div>
-             
+       	 <script id="balanceSevenDaysAgoTmpl" type="text/x-jsrender">
+					  	{{for}}
+						<tr>
+                        	<td>{{:~timestampToDate('yyyy-MM-dd hh:mm:ss', lastStatusDate)}}</td>
+                       	 	<td>
+							 {{if busiType == '1'}}	
+								订单收费
+							 {{/if}}
+							 {{if busiType == '2'}}	
+								充值缴费
+							 {{/if}}
+							</td>
+                        	<td>{{:orderId}}</td>
+                        	<td class="color">{{:totalFee/1000}}</td>
+                        	<td><a href="#">{{:remark}}</a></td>
+                      	</tr>
+						{{/for}}
+						
+					  </script>                                                                                                                                                                          
+					  <script id="balanceSevenDaysAgoNullTmpl" type="text/x-jsrender">
+							<tr>
+								<td colspan="5">交易记录为空</td>
+							</tr>
+					  </script>      
   </div>  

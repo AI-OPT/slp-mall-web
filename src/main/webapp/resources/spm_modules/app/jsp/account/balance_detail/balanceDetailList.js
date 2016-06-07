@@ -70,31 +70,67 @@ define('app/jsp/account/balance_detail/balanceDetailList', function (require, ex
     	},
     	_queryParam:function(){
     		var _this = this;
+    		
+    		
+    		//
     		$("#search_button_id").click(function () {
 				var objId = $(this).attr("id");
-				_this._queryAccountBalanceDetailList();
+				var busiTypeValue = $('#busiType_id').val();
+				if(busiTypeValue == '1'){
+					$("#pay_id").click();
+				}
+				if(busiTypeValue == '2'){
+					$("#charge_id").click();
+				}
+				if(busiTypeValue == ''){
+					$("#all_id").click();
+				}
+				
 			});
     		$("#pay_id").click(function () {
 				var objId = $(this).attr("id");
 				$('#busiType_id').val("1");
-				_this._queryAccountBalanceDetailList();
-				//alert(objId);
+				_this._queryAccountBalanceDetailList(objId);
+//				alert(objId);
 			});
     		$("#charge_id").click(function () {
 				var objId = $(this).attr("id");
 				$('#busiType_id').val("2");
-				_this._queryAccountBalanceDetailList();
-				//alert(objId);
+				_this._queryAccountBalanceDetailList(objId);
+//				alert(objId);
 			});
     		$("#all_id").click(function () {
 				var objId = $(this).attr("id");
 				$('#busiType_id').val("");
-				_this._queryAccountBalanceDetailList();
+				_this._queryAccountBalanceDetailList(objId);
 				//alert(objId);
 			});
+    		
+    		//刷新页面的时候调用
+    		var busiTypeValue = $('#busiType_id').val();
+//    		alert('busiTypeValue:'+busiTypeValue);
+			if(busiTypeValue == '1'){
+				$("#pay_id").click();
+				$("#pay_id").attr("class","current");
+				$("#charge_id").attr("class","");
+				$("#all_id").attr("class","");
+				
+			}
+			if(busiTypeValue == '2'){
+				$("#charge_id").click();
+				$("#pay_id").attr("class","");
+				$("#charge_id").attr("class","current");
+				$("#all_id").attr("class","");
+			}
+			if(busiTypeValue == ''){
+				$("#all_id").click();
+				$("#pay_id").attr("class","");
+				$("#charge_id").attr("class","");
+				$("#all_id").attr("class","current");
+			}
     	},
-    	_queryAccountBalanceDetailList:function(){
-    		//alert('aaa');
+    	_queryAccountBalanceDetailList:function(objId){
+    		//alert('objId'+objId);
     		$("#pagination").runnerPagination({
 				url: _base+"/account/queryAccountBalanceDetailList",
 				method: "POST",
@@ -112,7 +148,11 @@ define('app/jsp/account/balance_detail/balanceDetailList', function (require, ex
 						var template = $.templates("#balanceSevenDaysAgoTmpl");
 						var htmlOut = template.render(data);
 						//alert(data.result);
-						$("#table_info_id").html(htmlOut);
+						if(objId == undefined){
+							$("#table_info_id_pay_id").html(htmlOut);
+						}else{
+							$("#table_info_id_"+objId).html(htmlOut);
+						}
 					}
 					
 					
