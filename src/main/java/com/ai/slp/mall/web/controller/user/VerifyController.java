@@ -70,7 +70,7 @@ public class VerifyController {
      */
     @RequestMapping("/sendPhoneVerify")
     @ResponseBody
-    public ResponseData<String> sendVerify(HttpServletRequest request, String confirmType) {
+    public ResponseData<String> sendVerify(HttpServletRequest request,String userMp) {
         SLPClientUser userClient = (SLPClientUser) request.getSession().getAttribute(SSOClientConstants.USER_SESSION_KEY);
         ResponseData<String> responseData = null;
         String sessionId = request.getSession().getId();
@@ -84,6 +84,7 @@ public class VerifyController {
                         return checkIpSendPhone;
                     }
                     // 发送手机验证码
+                    userClient.setUserMp(userMp);
                     String isSuccess = sendPhoneVerifyCode(sessionId, userClient);
                     if ("0000".equals(isSuccess)) {
                         responseData = new ResponseData<String>(ResponseData.AJAX_STATUS_SUCCESS, "短信验证码发送成功", null);
