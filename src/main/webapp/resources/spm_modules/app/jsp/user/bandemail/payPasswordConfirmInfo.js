@@ -23,13 +23,12 @@ define('app/jsp/user/bandemail/payPasswordConfirmInfo', function (require, expor
     	//事件代理
     	events: {
     		//key的格式: 事件+空格+对象选择器;value:事件方法
-    		"click [id='submitBtn']":"_confirmInfo",
-    		"click [id='sendVerify']":"_sendVerify",
-    		"click [id='random_img']":"_getImageRandomCode",
-    		"click [id='changeImage']":"_getImageRandomCode",
-    		"blur [id='email']":"_checkEmail",
-    		"click [id='next']":"_next",
-    		"click [id='passwordNext']":"_passwordNext"
+    		"keyup [id='passwordInput']":"_pwStrength",
+    		"focus [id='passwordInput']":"_passShow",
+    		"click [id='sendVerify']":"_sendPhoneVerifyCode",
+    		"blur [id='confirmationPassword']":"_passwordConfirmation",
+    		"click [id='passwordNext']" :"_next",
+    		"click [id='submitBtn']":"_submit"
         },
         init: function(){
         	_initShowView();
@@ -58,20 +57,182 @@ define('app/jsp/user/bandemail/payPasswordConfirmInfo', function (require, expor
 			$("#confirmTypeName").html("已验证手机");
 			$("#verifyName").html("短信校验码");
 		},
-		_getImageRandomCode:function(){
-			var timestamp = (new Date()).valueOf();
-			$("#pictureVerifyCode").val("");
-			$("#random_img").attr("src",_base+"/user/bandEmail/getImageVerifyCode?timestamp="+timestamp);
+		//控制显示内容
+		_controlMsgText: function(id,msg){
+			var doc = document.getElementById(id+"");
+			doc.innerText=msg;
 		},
-		_sendVerify:function(){
+		//控制显隐属性 1:隐藏 2：显示
+		_controlMsgAttr: function(id,flag){
+			var doc = document.getElementById(id+"");
+			if(flag == 1){
+				doc.setAttribute("style","display:none");
+			}else if(flag == 2){
+				doc.setAttribute("style","display");
+			}
+		},
+		_passShow: function(){
+			$("#strength_L").hide();
+			$("#strength_M").hide();
+			$("#strength_H").hide();
+    		$("#errorPawMsg").show();
+    		$("#passwordImage").show();
+    		$("#showPawMsg").show();
+    		$("#showPawMsg").text("6-20个字符，可用字母、数字及符号的组合");
+    		$("#passwordImage").attr("src",_base+"/resources/slpmall/images/icon-d.png");
+    		
+    	},
+		//校验密码
+    	_validServicePaw:function(){
+    		$("#errorShowPM").attr("style","display:none");
+    		$("#errorPawMsg").attr("style","display:none");
+    		var password = $('#passwordInput').val();
+    		if(password==""){
+    			$('#passwordImage').attr('src',_base+'/resources/slpmall/images/icon-a.png');
+    			$('#showPawMsg').text("请输入密码");
+    			$("#showPawMsg").show();
+    			$("#errorPawMsg").show();
+				return false;
+    		}else if(/[\x01-\xFF]*/.test(password)){
+    				if(/^\S*$/.test(password)){
+    					if(/^[\x21-\x7E]{6,20}$/.test(password)){
+    						$("#errorPawMsg").show();
+    						$("#showPawMsg").hide();
+    						$('#passwordImage').attr('src',_base+'/resources/slpmall/images/icon-b.png');
+    						$('#errorPassFlag').val("1");
+    						return true;
+    					}else{
+    						$("#errorPawMsg").show();
+    						$("#passwordImage").show();
+    						$('#showPawMsg').show();
+    						$('#passwordImage').attr('src',_base+'/resources/slpmall/images/icon-a.png');
+    						$('#showPawMsg').text("6-20个字符，可用字母、数字及符号的组合 ");
+    		    			$('#errorPassFlag').val("0");
+    						return false;
+    					}
+    				}else{
+    					$("#errorPawMsg").show();
+						$("#passwordImage").show();
+						$('#showPawMsg').show();
+						$('#passwordImage').attr('src',_base+'/resources/slpmall/images/icon-a.png');
+    					$('#showPawMsg').text("不允许有空格 ");
+            			$('#errorPassFlag').val("0");
+        				return false;
+    				}
+    			}else{
+    				$('#showPawMsg').text("支持数字、字母、符号组合 ");
+        			$("#errorPawMsg").attr("style","display:");
+        			$('#errorPassFlag').val("0");
+    				return false;
+    			}
+    	},
+		//判断输入密码的类型  
+		_charMode:function(iN){
+			if (iN>=48 && iN <=57) //数字  
+				return 1;  
+				if (iN>=65 && iN <=90) //大写  
+					return 2;  
+				if (iN>=97 && iN <=122) //小写  
+					return 4;  
+				else  
+					return 8; 
+		},
+		//bitTotal函数  
+		//计算密码模式  
+		_bitTotal:function(num){
+			var modes=0;  
+			for (var i=0;i<4;i++){  
+				if (num & 1) modes++;  
+				num>>>=1;  
+			}  
+			return modes; 
+		},
+		//返回强度级别
+		_checkStrong:function(sPW){
+			if (sPW.length<=6)  
+				return 0; //密码太短  
+				var Modes=0;  
+				for (var i=0;i<sPW.length;i++){  
+					//密码模式  
+					Modes|=this._charMode(sPW.charCodeAt(i));  
+				}  
+			return this._bitTotal(Modes); 
+		},
+		//显示密码强度
+		_pwStrength:function(){
+			var flag = this._validServicePaw();
+			if(!flag) return;
+			var pwd = $("#passwordInput").val();
+			var S_level=this._checkStrong(pwd);  
+			switch(S_level) {  
+			case 0:  
+				$("#strength_L").show();
+				$("#strength_M").hide();
+				$("#strength_H").hide();
+				break; 
+			case 1:  
+				$("#strength_L").show();
+				$("#strength_M").hide();
+				$("#strength_H").hide(); 
+				break;  
+			case 2:  
+				$("#strength_L").hide();
+				$("#strength_M").show();
+				$("#strength_H").hide(); 
+				break;  
+			default:  
+				$("#strength_L").hide();
+				$("#strength_M").hide();
+				$("#strength_H").show(); 
+			  }  
+		},
+		//密码校验
+    	_passwordConfirmation:function(){
+    		var inputPassword = $("#passwordInput").val();
+    		if(inputPassword==""){
+    			$("#errorPawMsg").show();
+    			$("#showPawMsg").text("请输入密码");
+    			return false;
+    		}
+    		var confirmationPassword = $("#confirmationPassword").val();
+    		if(inputPassword!=""&&confirmationPassword==""){
+    			$("#errorPasswordMsg").show();
+    			$("#showPasswordMsg").show();
+    			$("#showPasswordMsg").text("请输入确认密码");
+    			return false;
+    		}else{
+    			$("#errorPasswordMsg").hide();
+    			$("#showPasswordMsg").hide();
+    		}
+    		if(inputPassword!=confirmationPassword){
+    			$("#confirmationPasswordImage").attr('src',_base+'/resources/slpmall/images/icon-a.png');
+    			$("#showPasswordMsg").text("两次输入的密码不一致");
+    			$("#errorPasswordMsg").show();
+    			$("#showPasswordMsg").show();
+    			$("#errorPassEqualsFlag").val("0");
+    			return false;
+    		}else{
+    			$("#errorPasswordMsg").show();
+    			$("#showPasswordMsg").hide();
+    			$("#errorPassEqualsFlag").val("1");
+    			$("#confirmationPasswordImage").attr('src',_base+'/resources/slpmall/images/icon-b.png');
+    			return true;
+    		}
+    	},
+    	_submit:function(){
+    		
+    	},
+    	_sendPhoneVerifyCode:function(){
 			var _this = this;
 			$("#sendVerify").attr("disabled", true);
+			var	param={
+					userMp:$("#phone").html()
+				   };
 			ajaxController.ajax({
 				type : "POST",
-				data : {
-				},
+				data : param,
 				dataType: 'json',
-				url :_base+"/user/bandEmail/sendVerify?confirmType=1",
+				url :_base+"/user/verify/sendPhoneVerify?confirmType=1",
 				processing: true,
 				message : "正在处理中，请稍候...",
 				success : function(data) {
@@ -114,67 +275,23 @@ define('app/jsp/user/bandemail/payPasswordConfirmInfo', function (require, expor
 				}
 			});
 		},
-		//检查验证码
-		_checkVerifyCode: function(){
-			var verifyCode = jQuery.trim($("#pictureVerifyCode").val());
-			if(verifyCode == "" || verifyCode == null || verifyCode == undefined){
-				$("#verifyCodeErrorMsg").show();
-	    		this._controlMsgText("verifyCodeMsg","请输入验证码");
-				this._controlMsgAttr("verifyCodeMsg",2);
-				return false;
-			}else{
-				$("#verifyCodeErrorMsg").hide();
-				this._controlMsgText("verifyCodeMsg","");
-				this._controlMsgAttr("verifyCodeMsg",1);
-				return true;
-			}
-			
-		},
-		//检查验证码
-		_checkPictureVerifyCode: function(){
-			var verifyCode = jQuery.trim($("#pictureVerifyCode").val());
-			if(verifyCode == "" || verifyCode == null || verifyCode == undefined){
-				this._controlMsgText("pictureVerifyMsg","请输入图形验证码");
-				this._controlMsgAttr("pictureVerifyMsg",2);
-				return false;
-			}else{
-				this._controlMsgText("pictureVerifyMsg","");
-				this._controlMsgAttr("pictureVerifyMsg",1);
-				return true;
-			}
-		},
 		_checkPhoneVerifyCode: function(){
-			var verifyCode = jQuery.trim($("#phoneVerifyCode").val());
+			var verifyCode = jQuery.trim($("#phone").val());
 			if(verifyCode == "" || verifyCode == null || verifyCode == undefined){
-				$("#phoneVerifyCodeError").show();
-				this._controlMsgText("phoneVerifyCodeMsg","请输入手机验证码");
-				this._controlMsgAttr("phoneVerifyCodeMsg",2);
+				$("#errorSmsMsg").show();
+				this._controlMsgText("phoneText","请输入手机验证码");
+				this._controlMsgAttr("phoneText",2);
 				return false;
 			}else{
-				$("#phoneVerifyCodeError").hide();
-				this._controlMsgText("phoneVerifyCodeMsg","");
-				this._controlMsgAttr("phoneVerifyCodeMsg",1);
+				$("#errorSmsMsg").hide();
+				this._controlMsgText("phoneText","");
+				this._controlMsgAttr("phoneText",1);
 				return true;
-			}
-		},
-		//控制显示内容
-		_controlMsgText: function(id,msg){
-			var doc = document.getElementById(id+"");
-			doc.innerText=msg;
-		},
-		//控制显隐属性 1:隐藏 2：显示
-		_controlMsgAttr: function(id,flag){
-			var doc = document.getElementById(id+"");
-			if(flag == 1){
-				doc.setAttribute("style","display:none");
-			}else if(flag == 2){
-				doc.setAttribute("style","display");
 			}
 		},
 		_next:function(){
 			var _this = this;
 			var checkPhoneVerifyCode = this._checkPhoneVerifyCode();
-			alert(checkPhoneVerifyCode);
 			if(!checkPhoneVerifyCode){
     			return false;
     		}
@@ -182,340 +299,7 @@ define('app/jsp/user/bandemail/payPasswordConfirmInfo', function (require, expor
 				type : "POST",
 				data : _this._getSafetyConfirmData(),
 				dataType: 'json',
-				url :_base+"/user/bandEmail/confirmInfo",
-				processing: true,
-				message : "正在处理中，请稍候...",
-				success : function(data) {
-					var status = data.responseHeader.resultCode;
-					if(status == "000000"){
-						window.location.href=_base+"/user/bandEmail/updateSuccess"
-					}else{
-						var msg = data.statusInfo;
-						//验证码
-						if(status == "100002"){
-							$("#phoneVerifyCodeError").show();
-							_this._controlMsgText("phoneVerifyCodeMsg",msg);
-							_this._controlMsgAttr("phoneVerifyCodeMsg",2);
-						}else{
-							$("#phoneVerifyCodeError").hide();
-							_this._controlMsgText("phoneVerifyCodeMsg","");
-							_this._controlMsgAttr("phoneVerifyCodeMsg",1);
-						}
-					}
-				},
-				error : function(){
-					alert("网络连接超时，请重新修改登录密码");
-				}
-			});
-		
-		},
-		//检查身份信息
-		_confirmInfo:function(){
-			var _this = this;
-			var checkVerifyCode = this._checkVerifyCode();
-			if(!checkVerifyCode){
-    			return false;
-    		}
-			ajaxController.ajax({
-				type : "POST",
-				data : _this._getSafetyConfirmData(),
-				dataType: 'json',
-				url :_base+"/user/bandEmail/confirmInfo",
-				processing: true,
-				message : "正在处理中，请稍候...",
-				success : function(data) {
-					var status = data.responseHeader.resultCode;
-					if(status == "000000"){
-						var url = data.data;
-						var bandNewEmail = $("#bandNewEmail").val();
-						var emailType = "updateEmail";
-						if(bandNewEmail != "" && bandNewEmail != null && bandNewEmail != undefined){
-							emailType = "bandEmail";
-						}
-						var email = $("#email").html();
-						if(email==""||email==null){
-							email = $("#email").val();
-						}
-						
-						ajaxController.ajax({
-							type : "POST",
-							data : {
-								"email":email,
-								"emailType":emailType
-							},
-							dataType: 'json',
-							url :_base+"/user/bandEmail/sendEmail",
-							processing: true,
-							message : "正在处理中，请稍候...",
-							success : function(data) {
-								var resultCode = data.responseHeader.resultCode;
-								if(resultCode == "100000"){
-									var url = data.data;
-								}else{
-									if(resultCode=="000000"){
-										var step = 59;
-							            $('#submitBtn').val('重新发送60');
-							            $("#submitBtn").attr("disabled", true);
-							            var _res = setInterval(function(){
-							                $("#submitBtn").attr("disabled", true);//设置disabled属性
-							                $('#submitBtn').val('重新发送'+step);
-							                step-=1;
-							                if(step <= 0){
-							                $("#submitBtn").removeAttr("disabled"); //移除disabled属性
-							                $('#submitBtn').val('获取验证码');
-							                clearInterval(_res);//清除setInterval
-							                }
-							            },1000);
-							            window.location.href = _base+"/user/bandEmail/sendUpdateEmailSuccess";
-									}else{
-										$("#sendEmailBtn").removeAttr("disabled");
-									}
-									if(resultCode=="100002"){
-										$("#verifyCodeErrorMsg").show();
-										_this._controlMsgText("verifyCodeMsg",data.statusInfo);
-										_this._controlMsgAttr("verifyCodeMsg",2);
-						        	}else{
-						        		_this._controlMsgText("verifyCodeMsg","");
-						        		_this._controlMsgAttr("verifyCodeMsg",1);
-						        	}
-								}
-							},
-							failure : function(){
-								$("#sendEmailBtn").removeAttr("disabled"); //移除disabled属性
-							},
-							error : function(){
-								alert("网络连接超时!");
-							}
-						});
-					}else{
-						var msg = data.statusInfo;
-						//验证码
-						if(status == "100002"){
-							_this._controlMsgText("verifyCodeMsg",msg);
-							_this._controlMsgAttr("verifyCodeMsg",2);
-						}else{
-							_this._controlMsgText("verifyCodeMsg","");
-							_this._controlMsgAttr("verifyCodeMsg",1);
-						}
-						//图片验证码
-						if(status == "100001"){
-							$("#verifyCodeErrorMsg").show();
-							_this._controlMsgText("verifyCodeMsg",msg);
-							_this._controlMsgAttr("verifyCodeMsg",2);
-						}else{
-							$("#verifyCodeErrorMsg").hide();
-							_this._controlMsgText("verifyCodeMsg","");
-							_this._controlMsgAttr("verifyCodeMsg",1);
-						}
-					}
-				},
-				error : function(){
-					alert("网络连接超时，请重新修改登录密码");
-				}
-			});
-		},
-		_checkEmail:function(){
-    		var isOk = this._checkEmailFormat();
-    		if(isOk){
-    			isOk = this._checkEmailValue();
-    		}
-    		return isOk;
-    	},
-    	_sendEmail:function(){
-			ajaxController.ajax({
-				type : "POST",
-				data : {
-					"email": function(){
-						return $("#email").val()
-					}
-				},
-				dataType: 'json',
-				url :_base+"/user/bandEmail/sendEmail",
-				processing: true,
-				message : "正在处理中，请稍候...",
-				success : function(data) {
-					var resultCode = data.responseHeader.resultCode;
-					if(resultCode == "100000"){
-						var url = data.data;
-						window.location.href = _base+"/user/bandEmail/sendEmailSuccess";
-					}else{
-						if(resultCode=="000000"){
-							var step = 59;
-				            $('#sendPhoneBtn').val('重新发送60');
-				            $("#sendEmailBtn").attr("disabled", true);
-				            var _res = setInterval(function(){
-				                $("#sendEmailBtn").attr("disabled", true);//设置disabled属性
-				                $('#sendEmailBtn').val('重新发送'+step);
-				                step-=1;
-				                if(step <= 0){
-				                $("#sendEmailBtn").removeAttr("disabled"); //移除disabled属性
-				                $('#sendEmailBtn').val('获取验证码');
-				                clearInterval(_res);//清除setInterval
-				                }
-				            },1000);
-				            window.location.href = _base+"/user/bandEmail/sendEmailSuccess";
-						}else{
-							$("#sendEmailBtn").removeAttr("disabled");
-						}
-						if(resultCode=="100002"){
-							_this._controlMsgText("verifyCodeMsg",data.statusInfo);
-							_this._controlMsgAttr("verifyCodeMsg",2);
-			        	}else{
-			        		_this._controlMsgText("verifyCodeMsg","");
-			        		_this._controlMsgAttr("verifyCodeMsg",1);
-			        	}
-					}
-				},
-				failure : function(){
-					$("#sendEmailBtn").removeAttr("disabled"); //移除disabled属性
-				},
-				error : function(){
-					alert("网络连接超时!");
-				}
-			});
-		},
-    	//检查邮件格式
-		_checkEmailFormat: function(){
-			var email = jQuery.trim($("#email").val());
-			var msg = "";
-			if(email == "" || email == null || email == undefined){
-				$("#emailMsgError").show();
-				msg = "请输入邮箱地址";
-			}else if(!/^(\w-*\.*)+@(\w-?)+(\.\w{2,})+$/.test(email)){
-				$("#emailMsgError").show();
-				msg = "邮箱地址格式错误";
-			}
-			if(msg == ""){
-				this._controlMsgText("emailMsg","");
-				this._controlMsgAttr("emailMsg",1);
-				$("#emailMsgError").hide();
-				return true;
-			}else{
-				this._controlMsgText("emailMsg",msg);
-				this._controlMsgAttr("emailMsg",2);
-				return false;
-			}
-		},
-		//检查新邮箱是否唯一
-		_checkEmailValue: function(){
-			var _this = this;
-			var isOk = false;
-			ajaxController.ajax({
-				type : "POST",
-				data : {
-					"email": function(){
-						return $("#email").val()
-					}
-				},
-				dataType: 'json',
-				url :_base+"/user/bandEmail/checkEmailValue",
-				async: false,
-				processing: true,
-				message : "正在处理中，请稍候...",
-				success : function(data) {
-					var resultCode = data.responseHeader.resultCode;
-					if(resultCode == "100000"){
-						isOk = false;
-						var url = data.data;
-						window.location.href = _base+url;
-					}else{
-						if(resultCode=="100006"){
-				        	_this._controlMsgText("emailMsg",data.statusInfo);
-							_this._controlMsgAttr("emailMsg",2);
-							isOk = false;
-				        }else{
-				        	_this._controlMsgText("emailMsg","");
-				        	_this._controlMsgAttr("emailMsg",1);
-				        	isOk = true;
-				        }
-					}
-				},
-				error : function(){
-					alert("网络连接超时!");
-				}
-			});
-			return isOk;
-		},
-		//获取界面填写验证信息
-		_getSafetyConfirmData:function(){
-			return{
-				"confirmType":function () {
-			        return $('input:radio:checked').val();
-			    },
-				"pictureVerifyCode":function () {
-			        return jQuery.trim($("#pictureVerifyCode").val())
-			    },
-				"verifyCode":function () {
-			        return jQuery.trim($("#phoneVerifyCode").val())
-			    }
-			}
-		},
-		//隐藏手机提示信息
-    	_hidePhoneError: function(){
-    		$("#errorPhoneMsg").attr("style","display:none");
-    	},
-    	//校验手机
-    	_validServicePho: function(){
-    		$("#errorPhoneMsg").attr("style","display:none");
-    		var phone = $('#phone').val();
-    		if (phone==""){
-    			$("#phoneText").show();
-    			$('#showPhoneMsg').text("请输入手机号码");
-    			$("#errorPhoneMsg").attr("style","display:");
-    			$('#errorPhoneFlag').val("0");
-    			$('#phoneImage').attr('src',_base+'/theme/slp/images/icon-a.png');
-				return false;
-			}else if( /^0?1[3|4|5|8][0-9]\d{8}$/.test(phone)){
-				var	param={
-    					userMp:$("#phone").val()
-    				   };
-        		ajaxController.ajax({
-    			        type: "post",
-    			        processing: false,
-    			        url: _base+"/user/payPassword/checkPhone",
-    			        dataType: "json",
-    			        data: param,
-    			        message: "正在加载数据..",
-    			        success: function (data) {
-    			         if(data.responseHeader.resultCode=="10003"){
-    			        	    $("#errorPhoneMsg").show();
-    			        	 	$("#phoneText").show();
-    			        	 	$("#showPhoneMsg").show();
-    			        	 	$("#phoneImage").show();
-    			        		$('#phoneText').text("手机号码已注册");
-    			        		$('#phoneImage').attr('src',_base+'/theme/slp/images/icon-a.png');
-    							$('#errorPhoneFlag').val("0");
-    							return false;
-    			        	}else if(data.responseHeader.resultCode=="000000"){
-    			        		$("#errorPhoneMsg").show();
-    			        		$("#phoneText").hide();
-    			        		$('#errorPhoneFlag').val("1");
-    			        		$('#phoneImage').attr('src',_base+'/theme/slp/images/icon-b.png');
-    			        	}
-    			        	
-    			        },
-    			        error: function(XMLHttpRequest, textStatus, errorThrown) {
-    						 alert(XMLHttpRequest.status);
-    						 alert(XMLHttpRequest.readyState);
-    						 alert(textStatus);
-    						}
-    			        
-    			    }); 
-			}else{
-				$("#errorPhoneMsg").attr("style","display:");
-				$("#phoneText").show();
-				$('#phoneImage').attr('src',_base+'/theme/slp/images/icon-a.png');
-				$('#showPhoneMsg').text("请输入正确有效的手机号码");
-				$('#errorPhoneFlag').val("0");
-				return false;
-			}
-    	},
-    	_passwordNext:function(){
-			ajaxController.ajax({
-				type : "POST",
-				data : this._getSafetyConfirmData(),
-				dataType: 'json',
-				url :_base+"/user/payPassword/confirmInfo",
+				url :_base+"/user/verify/confirmInfo?confirmType=1",
 				processing: true,
 				message : "正在处理中，请稍候...",
 				success : function(data) {
@@ -527,12 +311,12 @@ define('app/jsp/user/bandemail/payPasswordConfirmInfo', function (require, expor
 						//验证码
 						if(status == "100002"){
 							$("#phoneVerifyCodeError").show();
-							_this._controlMsgText("phoneVerifyCodeMsg",msg);
-							_this._controlMsgAttr("phoneVerifyCodeMsg",2);
+							_this._controlMsgText("showSmsMsg",msg);
+							_this._controlMsgAttr("showSmsMsg",2);
 						}else{
 							$("#phoneVerifyCodeError").hide();
-							_this._controlMsgText("phoneVerifyCodeMsg","");
-							_this._controlMsgAttr("phoneVerifyCodeMsg",1);
+							_this._controlMsgText("showSmsMsg","");
+							_this._controlMsgAttr("showSmsMsg",1);
 						}
 					}
 				},
@@ -541,10 +325,21 @@ define('app/jsp/user/bandemail/payPasswordConfirmInfo', function (require, expor
 				}
 			});
 		
-    		
-    	}
+		},
+		//获取界面填写验证信息
+		_getSafetyConfirmData:function(){
+			return{
+				"userMp":function () {
+					return jQuery.trim($("#phone").html())
+			    },
+				"pictureVerifyCode":function () {
+			        return jQuery.trim($("#pictureVerifyCode").val())
+			    },
+				"verifyCode":function () {
+			        return jQuery.trim($("#phoneVerifyCode").val())
+			    }
+			}
+		}
     });
-    
-    
     module.exports = ConfirmInfoPager
 });
