@@ -132,7 +132,7 @@
               <div class="charge-list">
               <ul>
               <li><input type="text" class="int-dex" id="phoneNum1" maxlength="11" placeholder="请输入手机号码"></li>
-              <li><select id="phoneFee" class="int-dex"></select></li>
+              <li><select id="phoneFee" class="int-dex"><option value="30">30 元</option></select></li>
               <li class="word">售价:<span id="realFee">¥29.5-¥30</span></li>
               <li><input type="button" value="立即充值" class="slp-btn dex-btn"></li>
               </ul>
@@ -143,8 +143,8 @@
               <ul>
               <li><input type="text" class="int-dex" maxlength="11" id="phoneNum2" placeholder="请输入手机号码"></li>
               <li class="congz"><p><select id="location" class="select-cz"><option value="local">本地</option><option value="national">全国</option></select></p>
-              <p class="se-mar"><select id="gprs"  class="select-cz"></select></p></li>
-              <li class="word">售价:<span>¥29.5-¥30</span></li>
+              <p class="se-mar"><select id="gprs"  class="select-cz"><option value="500MB">500MB</select></p></li>
+              <li class="word">售价:<span id="realFee1">¥29.5-¥30</span></li>
               <li><input type="button" value="立即充值" class="slp-btn dex-btn"></li>
               </ul>
               </div>

@@ -56,6 +56,7 @@ define('app/jsp/producthome/productHome', function (require, exports, module) {
     		this._getHotProduct();
     	},
     	_getPhoneInfo:function(){
+    		var _this=this;
     		//如果等于11去查询，如果小于11把之前查询出来的信息清除
     		if($.trim($("#phoneNum1").val()).length==11){
     			
@@ -87,12 +88,14 @@ define('app/jsp/producthome/productHome', function (require, exports, module) {
 									},
 								success: function(data){
 									var d=data.data;
+									$("#phoneFee").html("");
 									if(d){
 										var phoneFee=d.phoneFee;
 										$.each(phoneFee,function(index,item){
 											var paramName = phoneFee[index].content;
-											var paramCode = phoneFee[index].skuInfo.salePrice;
+											var paramCode = phoneFee[index].skuInfo.salePrice+";"+phoneFee[index].skuInfo.skuId;
 											$("#phoneFee").append('<option value="'+paramCode+'">'+paramName+'</option>');
+											_this._changeHuafei();
 										})
 									}
 								}
@@ -105,11 +108,11 @@ define('app/jsp/producthome/productHome', function (require, exports, module) {
     	
     	},
     	_changeHuafei:function(){
-    		console.log(this._liToYuan($("#phoneFee").val()));
-    		$("#realFee").text(this._liToYuan($("#phoneFee").val()));//liToYuan
+    		//console.log($("#phoneFee").val().substr(0,$("#phoneFee").val().indexOf(";")));
+    		$("#realFee").text(this._liToYuan($("#phoneFee").val().substr(0,$("#phoneFee").val().indexOf(";"))));//liToYuan
     	},
     	_getGprs:function(){
-    		
+    		var _this=this;
             if($.trim($("#phoneNum2").val()).length==11){
     			
     			ajaxController.ajax({
@@ -141,12 +144,14 @@ define('app/jsp/producthome/productHome', function (require, exports, module) {
 									},
 								success: function(data){
 									var d=data.data;
+									$("#gprs").html("");
 									if(d){
 										var phoneFee=d.phoneFee;
 										$.each(phoneFee,function(index,item){
 											var paramName = phoneFee[index].content;
-											var paramCode = phoneFee[index].content;
+											var paramCode = phoneFee[index].skuInfo.salePrice+";"+phoneFee[index].skuInfo.skuId;
 											$("#gprs").append('<option value="'+paramCode+'">'+paramName+'</option>');
+											_this._changeGprsValue();
 										})
 									}
 								}
@@ -158,6 +163,7 @@ define('app/jsp/producthome/productHome', function (require, exports, module) {
     		}
     	},
     	_changeLocation:function(){
+    		var _this=this;
     		ajaxController.ajax({
 				type: "post",
 				dataType: "json",
@@ -172,12 +178,16 @@ define('app/jsp/producthome/productHome', function (require, exports, module) {
 						var phoneFee=d.phoneFee;
 						$.each(phoneFee,function(index,item){
 							var paramName = phoneFee[index].content;
-							var paramCode = phoneFee[index].content;
+							var paramCode = phoneFee[index].skuInfo.salePrice+";"+phoneFee[index].skuInfo.skuId;
 							$("#gprs").append('<option value="'+paramCode+'">'+paramName+'</option>');
+							_this._changeGprsValue();
 						})
 					}
 				}
 			});
+    	},
+    	_changeGprsValue:function(){
+    		$("#realFee1").text(this._liToYuan($("#gprs").val().substr(0,$("#gprs").val().indexOf(";"))));//liToYuan
     	},
     	_getFastPhoneInfo:function(provCode,basicOrgId){
     		ajaxController.ajax({
