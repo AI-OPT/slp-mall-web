@@ -69,7 +69,7 @@ define('app/jsp/shoppingcart/shopCartDetails', function (require, exports, modul
     		var money = this._liToYuan(moneyLi);
     		// 改变金额小计
     		var td = $("#"+prodId+"_prodPriceSubtotal");
-    		td.html("￥"+money);
+    		td.text("¥"+money);
     	},
     	 // 修改数量
         _modifyCartProdQty:function(prodId,btn,salePrice){
@@ -140,7 +140,8 @@ define('app/jsp/shoppingcart/shopCartDetails', function (require, exports, modul
     	},
     	// 删除和删除选中
     	_delPitchOnProd:function(prodIdList){
-    		alert(prodIdList);
+			var prodIds = JSON.stringify(prodIdList);
+    		alert(prodIds);
     		//如果点击的是删除
     		ajaxController.ajax({
 				type: "post",
@@ -148,7 +149,7 @@ define('app/jsp/shoppingcart/shopCartDetails', function (require, exports, modul
 				processing: false,
 				// message: "删除中，请等待...",
 				url: _base+"/shopcart/deleteProd",
-				data:{"skuList":prodIdList},
+				data:{"skuList":prodIds},
 				success: function(data){
 					if("0"===data.statusCode){
 						var d = Dialog({
@@ -164,8 +165,11 @@ define('app/jsp/shoppingcart/shopCartDetails', function (require, exports, modul
     	},
     	//求和-包括商品总量\已选商品量\商品价格
     	_sumPriceAndNum: function(){
+			//已选商品总价
     		var prodTotal = 0;
+			//选中商品总数量
     		var prodNum = 0;
+			//购物中所有商品总数量
     		var allProdNum = 0;
     		//循环计算已选商品量/商品价格
     		$("input[name='checkOne']").each(function(i){  
@@ -173,7 +177,8 @@ define('app/jsp/shoppingcart/shopCartDetails', function (require, exports, modul
 			    if('checked' == isCheck || isCheck){
 			        //获取ID并添加到list集合
 			        var id = $(this).prop("id");
-			        var price = parseFloat($("#"+id+"_prodPriceSubtotal").html().replace("¥", ""));
+					var prodPrice = $("#"+id+"_prodPriceSubtotal").text().replace("¥", "");
+			        var price = parseFloat(prodPrice);
 			        alert(price);
 			        //计算价格
 			        prodTotal += price;
