@@ -65,14 +65,14 @@
            </div>                                          
           <!--/步骤结束-->
                <div class="list-int" id="change-phone1">
-              		<ul>
+              		<!-- <ul>
                         <li class="word">身份验证方式:</li>
                         <li class="checkbox-box"><span><input name="radio" class="int-chec radioa" type="radio" checked="">手机验证</span><span><input name="radio" class="int-chec radioc" type="radio">支付密码验证</span></li>
-               	 	</ul>
+               	 	</ul> -->
                	 	<div class="phone">
                     <ul>
                         <li class="word">当前手机号:</li>
-                        <li><input type="text" disabled="disabled" id="phone" value="${phone}"></li>
+                        <li><input type="text" class="int-small" disabled="disabled" id="phone" value="${phone}"></li>
                     </ul>
                     <ul>
                         <li class="word">验证码:</li>
