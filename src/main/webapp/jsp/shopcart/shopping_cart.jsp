@@ -42,7 +42,6 @@
      	<div class="big-wrapper"><!--内侧居中框架-->
        		<div class="payment-title"><p>全部<span id="allProductNum">（${prodTotal}）</span></p></div>
            <div class="recharge-bj-tow"><!--白色背景-->
-                
                 <div class="shopping-cart">
                  <table width="100%" border="0">
                               <tr class="bj">
@@ -70,9 +69,10 @@
                                 <td class="ash">￥{{:~liToYuan(salePrice)}}</td>
                                 <td class="clp-btn">
                                     <div class="number">
-                                        <p><input type="button" value="-" class="small-xbtn" onclick="pager._changeProdNum('{{:skuId}}',-1,{{:salePrice}});"></p>
-                                        <p><input id="{{:skuId}}_prodnum" type="text" value={{:buyNum}} class="xz-int" onchange="pager._modifyCartProdQty('{{:skuId}}',this,{{:salePrice}});"></p>
-                                        <p><input type="button" value="+" class="small-xbtn" onclick="pager._changeProdNum('{{:skuId}}',1,{{:salePrice}});"></p>
+										<input type="hidden" id="{{:skuId}}_oldProdNum" value={{:buyNum}} />
+                                        <p><input type="button" value="-" class="small-xbtn" onclick="pager._changeProdNum('{{:skuId}}',-1,{{:salePrice}},{{:usableNum}});"></p>
+                                        <p><input id="{{:skuId}}_prodnum" type="text" value={{:buyNum}} class="xz-int" onchange="pager._modifyCartProdQty('{{:skuId}}',this,{{:salePrice}},{{:usableNum}});"></p>
+                                        <p><input type="button" value="+" class="small-xbtn" onclick="pager._changeProdNum('{{:skuId}}',1,{{:salePrice}},{{:usableNum}});"></p>
                                     </div>
                                 </td>
                                 <td id="{{:skuId}}_prodPriceSubtotal" class="bold">¥{{:~shopCartPrices(salePrice, buyNum)}}</td>
@@ -109,7 +109,7 @@
                                 </div>
                                 </td>
 							</tr>
-{{/if}}
+						  {{/if}}
 						</script>
 						
 						</div>
@@ -144,6 +144,7 @@
 	<script type="text/javascript">
 		var pager;
 		var cartProdList = $.parseJSON('${cartProdList}');
+		var skuNumLimit = '${skuNumLimit}';
 		(function () {
 			seajs.use('app/jsp/shoppingcart/shopCartDetails', function (shopCartDetailsPager) {
 				pager = new shopCartDetailsPager({element: document.body});

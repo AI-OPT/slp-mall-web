@@ -43,20 +43,32 @@ define('app/jsp/shoppingcart/shopCartDetails', function (require, exports, modul
 			$("#cartProdData").html(htmlOutput);
     	},
     	// 修改数量
-    	_changeProdNum:function(prodId,prodNum,salePrice){
+    	_changeProdNum:function(prodId,prodNum,salePrice,stockNum){
     		// 获取当前商品数量
 			var proNum = $("#"+prodId+"_prodnum");
     		var oldNum = parseInt(proNum.val());
+    		// 获取保存数量隐藏域
+    		var oldProdNum = $("#"+prodId+"_oldProdNum").val();
     		// 判断数量
-    		if(oldNum<=1 || oldNum>=99){
+    		if(prodNum==-1 && oldNum<=1){
+    			//如果是减不能小于1
+    			return;
+    		}
+    		if(prodNum==-1 && oldNum>=stockNum){
+    			//如果大于库存量则改为当前库存量
+    			oldNum = stockNum;
+    			return;
+    		}
+    		alert(skuNumLimit);
+    		if(prodNum==1 && (oldNum>=skuNumLimit || oldNum>=stockNum)){
     			return;
     		}
     		// 重新赋值
     		oldNum+=prodNum;
 			proNum.val(oldNum);
-    		//调用后场修改数量
-    		this._changeCartNum(prodId,oldNum);
-    		//计算价格并求和
+    		// 调用后场修改数量
+    		this._changeCartNum(prodId,oldNum,oldProdNum);
+    		// 计算价格并求和
     		this._computedPrice(prodId,oldNum,salePrice);
     		// 求和
     		this._sumPriceAndNum();
@@ -72,17 +84,21 @@ define('app/jsp/shoppingcart/shopCartDetails', function (require, exports, modul
     		td.text("¥"+money);
     	},
     	 // 修改数量
-        _modifyCartProdQty:function(prodId,btn,salePrice){
+        _modifyCartProdQty:function(prodId,btn,salePrice,stockNum){
+        	// 获取保存数量隐藏域
+    		var oldProdNum = $("#"+prodId+"_oldProdNum").val();
+    		// 获取修改后的值
         	var qty = parseInt(btn.value);
         	if(!this._isPosNum(qty)){
-				qty = 1;
+				qty = oldProdNum;
         	}
-        	if(qty>=99){
+        	if(qty>=skuNumLimit || qty>=stockNum){
+        		$("#"+prodId+"_prodnum").val(oldProdNum);
     			return;
     		}
 			btn.value=qty;
 			//调用后场修改数量
-    		this._changeCartNum(prodId,qty);
+    		this._changeCartNum(prodId,qty,oldProdNum);
 			this._computedPrice(prodId,qty,salePrice);
 			// 求和
     		this._sumPriceAndNum();
@@ -251,13 +267,24 @@ define('app/jsp/shoppingcart/shopCartDetails', function (require, exports, modul
     	},
     	//单个选中或取消
     	_checkOne:function(){
-			//如果当前复选框取消选中同事取消全选中
-			$("input[name='checkAll']").prop("checked",false);
+    		$("input[name='checkOne']").each(function(i){  
+    			var count = 0;
+			    var isCheck = $(this).prop("checked");
+			    if('checked' == isCheck || isCheck){
+			    	count++;
+			    	if(i==count){
+			    		$("input[name='checkAll']").prop("checked",true);
+			    	}
+			    }else{
+			    	//如果当前复选框取消选中同时取消全选中
+			    	$("input[name='checkAll']").prop("checked",false);
+			    }
+			});
 			//求和
     		this._sumPriceAndNum();
     	},
     	//调整购物车数量
-    	_changeCartNum:function(skuId,buyNum){
+    	_changeCartNum:function(skuId,buyNum,oldNum){
     		ajaxController.ajax({
 				type: "post",
 				dataType: "json",
@@ -267,6 +294,8 @@ define('app/jsp/shoppingcart/shopCartDetails', function (require, exports, modul
 				data:{"skuId":skuId,"buyNum":buyNum},
 				success: function(data){
 					if("0"===data.statusCode){
+						// 失败把原始数据返回
+						$("#"+prodId+"_oldProdNum").val(oldNum);
 						var d = Dialog({
 							content:"修改失败",
 							ok:function(){
