@@ -60,10 +60,12 @@ define('app/jsp/user/bandemail/confirmInfo', function (require, exports, module)
 		_sendVerify:function(){
 			var _this = this;
 			$("#sendVerify").attr("disabled", true);
+			var	param={
+					userMp:$("#phone").html()
+				   };
 			ajaxController.ajax({
 				type : "POST",
-				data : {
-				},
+				data : param,
 				dataType: 'json',
 				url :_base+"/user/verify/sendPhoneVerify",
 				processing: true,
@@ -168,7 +170,6 @@ define('app/jsp/user/bandemail/confirmInfo', function (require, exports, module)
 		_next:function(){
 			var _this = this;
 			var checkPhoneVerifyCode = this._checkPhoneVerifyCode();
-			alert(checkPhoneVerifyCode);
 			if(!checkPhoneVerifyCode){
     			return false;
     		}
@@ -182,7 +183,6 @@ define('app/jsp/user/bandemail/confirmInfo', function (require, exports, module)
 				success : function(data) {
 					var status = data.responseHeader.resultCode;
 					if(status == "000000"){
-						alert(_base+data.data)
 						window.location.href=_base+data.data;
 					}else{
 						var msg = data.statusInfo;
@@ -202,7 +202,6 @@ define('app/jsp/user/bandemail/confirmInfo', function (require, exports, module)
 					alert("网络连接超时，请重新修改登录密码");
 				}
 			});
-		
 		},
 		//检查身份信息
 		_confirmInfo:function(){
@@ -399,7 +398,7 @@ define('app/jsp/user/bandemail/confirmInfo', function (require, exports, module)
 				type : "POST",
 				data : {
 					"email": function(){
-						return $("#email").val()
+						return $("#email").val();
 					}
 				},
 				dataType: 'json',
@@ -409,12 +408,14 @@ define('app/jsp/user/bandemail/confirmInfo', function (require, exports, module)
 				message : "正在处理中，请稍候...",
 				success : function(data) {
 					var resultCode = data.responseHeader.resultCode;
+					alert(resultCode);
 					if(resultCode == "100000"){
 						isOk = false;
 						var url = data.data;
 						window.location.href = _base+url;
 					}else{
 						if(resultCode=="100006"){
+							$("#emailMsgError").show();
 				        	_this._controlMsgText("emailMsg",data.statusInfo);
 							_this._controlMsgAttr("emailMsg",2);
 							isOk = false;
