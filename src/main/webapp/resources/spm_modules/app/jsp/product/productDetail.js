@@ -220,7 +220,7 @@ define('app/jsp/product/productDetail', function (require, exports, module) {
 						success: function(data){
 							if(data.data){
 								_this._displayShowUI("seeMoreConfigBtn");
-								_this._displayShowUI("date2");
+								_this._displayHideUI("date2");
 								var template = $.templates("#configParameterTemple");
 								var htmlOut = template.render(data.data);
 								$("#configParameterData").html(htmlOut);

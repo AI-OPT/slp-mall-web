@@ -140,9 +140,9 @@
                    	</ul>
 					</script>
                    <ul class="details-list btm-magin">
-                   <li class="btn-mar" id="buyBtnId"><input type="button" class="slp-btn details-btn" value="立即购买"></li>
-                   <li id="addCarBtnId"><input type="button" class="slp-btn details-btn" id="joinShopCart" value="加入购物车"></li>
-                   <li id="invalidBtnId" ><input id="invalidBtn" type="button" class="slp--ash-btn" value="已下架"></li>
+                   <li class="btn-mar" id="buyBtnId" style="display:none"><input type="button" class="slp-btn details-btn" value="立即购买"></li>
+                   <li id="addCarBtnId" style="display:none"><input type="button" class="slp-btn details-btn" id="joinShopCart" value="加入购物车"></li>
+                   <li id="invalidBtnId" style="display:none"><input id="invalidBtn" type="button" class="slp--ash-btn" value="已下架"></li>
                    </ul>
                
                </div>
@@ -159,7 +159,7 @@
              <div class="parameter-left-none"><img src="${_slpbase }/images/left-1.png"></div>
              <div class="parameter-left-tow">
                  <div class="parameter-left-tow-title"><p>热销推荐</p></div>
-                 	 <div class="left-tow-list" id="hotProductData">
+                 	 <div class="left-tow-list" id="hotProductData"></div>
                          <script id="hotProductListTmpl" type="text/x-jsrender">
 							<div class="left-tow-list">
 								<ul>
@@ -169,7 +169,6 @@
                         		</ul>
 							</div>
 						</script>
-                        </div>
               </div>   
        </div>
        <!--左侧-结束-->
