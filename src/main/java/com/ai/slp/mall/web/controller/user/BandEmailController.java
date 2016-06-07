@@ -192,13 +192,20 @@ public class BandEmailController {
                     header.setResultCode(ResultCodeConstants.SUCCESS_CODE);
                     responseData.setResponseHeader(header);
                     
+                    ResponseData<String> emailResponseData = VerifyUtil.checkEmailOnly(email);
+                    String emailResultCode =  emailResponseData.getResponseHeader().getResultCode();
+                    String emailValidateFlag = BandEmail.EMAIL_NOT_CERTIFIED;
+                     if(VerifyConstants.ResultCodeConstants.EMAIL_ERROR.equals(emailResultCode)){
+                         emailValidateFlag = BandEmail.EMAIL_CERTIFIED;
+                     }
                     SearchUserRequest searchUserReqeust = new SearchUserRequest();
                     searchUserReqeust.setUserId(userClient.getUserId());
                     searchUserReqeust.setUserEmail(email);
-                    searchUserReqeust.setEmailValidateFlag(BandEmail.EMAIL_NOT_CERTIFIED);
+                    searchUserReqeust.setEmailValidateFlag(emailValidateFlag);
                     searchUserReqeust.setTenantId(userClient.getTenantId());
                     IUcUserSV ucUser = DubboConsumerFactory.getService("iUcUserSV");
                     ucUser.updateBaseInfo(searchUserReqeust);
+                    
                     return responseData;
                 } else if ("0002".equals(rasultCode)) {
                     String maxTimeStr = configClient.get(EmailVerifyConstants.SEND_VERIFY_MAX_TIME_KEY);
@@ -223,24 +230,6 @@ public class BandEmailController {
             LOGGER.error("发送邮件验证码错误：" + e);
         }
         return null;
-    }
-    
-    @RequestMapping("/sendBandEmailSuccess")
-    @ResponseBody
-    public ModelAndView sendBandEmailSuccess(HttpServletRequest request, String email) {
-        Map<String,String> model = new HashMap<String,String>();
-        model.put("email", email);
-        return new ModelAndView("/jsp/user/email/band_email_verification",model);
-    }
-    
-    @RequestMapping("/sendUpdateEmailSuccess")
-    @ResponseBody
-    public ModelAndView sendUpdateEmailSuccess(HttpServletRequest request, String email) {
-        String uuid =UUIDUtil.genId32();
-        Map<String,String> model = new HashMap<String,String>();
-        model.put("uuid", uuid);
-        model.put("email", email);
-        return new ModelAndView("/jsp/user/email/update_email_verification",model);
     }
     
     
@@ -355,13 +344,33 @@ public class BandEmailController {
         return responseData;
     }
 
+    
+
+    @RequestMapping("/sendBandEmailSuccess")
+    @ResponseBody
+    public ModelAndView sendBandEmailSuccess(HttpServletRequest request, String email) {
+        Map<String,String> model = new HashMap<String,String>();
+        model.put("email", email);
+        return new ModelAndView("/jsp/user/email/band_email_verification",model);
+    }
+    
+    @RequestMapping("/sendUpdateEmailSuccess")
+    @ResponseBody
+    public ModelAndView sendUpdateEmailSuccess(HttpServletRequest request, String email) {
+        String uuid =UUIDUtil.genId32();
+        Map<String,String> model = new HashMap<String,String>();
+        model.put("uuid", uuid);
+        model.put("email", email);
+        return new ModelAndView("/jsp/user/email/update_email_verification",model);
+    }
+    
     @RequestMapping("/bandEmailAuthenticate")
     public ModelAndView bandEmailAuthenticate(HttpServletRequest request) {
         String uuid = request.getParameter(SLPMallConstants.UUID.KEY_NAME);
         //验证时使用
         SLPClientUser userAuthenticateClient = (SLPClientUser) CacheUtil.getValue(uuid, BandEmail.CACHE_NAMESPACE, SLPClientUser.class);
         //单点登录时的client
-        SLPClientUser userClient = (SLPClientUser) request.getSession().getAttribute(SSOClientConstants.USER_SESSION_KEY);
+        SLPClientUser userClient = (SLPClientUser) CacheUtil.getValue(uuid, BandEmail.CACHE_NAMESPACE, SLPClientUser.class);
         if (userAuthenticateClient == null) {
             Map<String,String> model = new HashMap<String,String>();
             model.put("confirminfo", "fail");
