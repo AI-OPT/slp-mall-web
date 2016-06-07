@@ -58,11 +58,7 @@
                          <li id="agentData">
                          <script id="agentTmpl" type="text/x-jsrender">
 							{{for agentList}}
-								{{if #index==0}}
-									<p id="{{:attrDefId}}" class="current"><A href="javascript:void(0);" onclick="pager._changeAgent('{{:attrDefId}}')" value="{{:attrDefId}}">{{:attrDefValue}}</A></p>
-								{{else}}
 						 		<p id="{{:attrDefId}}"><A href="javascript:void(0);" onclick="pager._changeAgent('{{:attrDefId}}')"  value="{{:attrDefId}}">{{:attrDefValue}}</A></p>
-								{{/if}}							
 							{{/for}}
 							</script>
                          </li>
@@ -72,12 +68,8 @@
                          <li id="accountData">
                          <script id="accountTmpl" type="text/x-jsrender">
 							{{for accountList}}
-								{{if #index==0}}
-						 			<p  id="{{:attrDefId}}" class="current"><A href="javascript:void(0);" onclick="pager._changePrice('{{:attrDefId}}')" value="{{:attrDefId}}">{{:attrDefValue}}</A></p>
-								{{else}}
 									<p id="{{:attrDefId}}"><A href="javascript:void(0);" onclick="pager._changePrice('{{:attrDefId}}')" value="{{:attrDefId}}">{{:attrDefValue}}</A></p>
-								{{/if}}							
-								{{/for}}
+							{{/for}}
 							</script>
                          </li>
                      </ul>
@@ -86,9 +78,7 @@
                          <li class="word-height" id="areaData">
                           <script id="areaTmpl" type="text/x-jsrender">
 							{{for areaList}}
-								{{if #index==0}}	
-									<p id="{{:attrDefId}}" class="current"><A onclick="pager._changeArea('{{:attrDefId}}')" href="javascript:void(0);" value="{{:attrDefId}}">{{:attrDefValue}}</A></p>
-								{{else #index<17}}
+								{{if #index<17}}
 										<p id="{{:attrDefId}}"><A href="javascript:void(0);" onclick="pager._changeArea('{{:attrDefId}}')" value="{{:attrDefId}}">{{:attrDefValue}}</A></p>
 								{{/if}}
 								{{if #index==17}}
@@ -235,7 +225,10 @@
 							<div class="single-word">
                					<ul>
                						<li class="word">¥{{:~liToYuan(salePrice)}}</li>
-               						<li><a  href="javascript:void(0)" onclick="pager._detailPage('{{:skuId}}')">{{:prodName}}</a></li>
+               						<li>
+										<a  href="javascript:void(0)" onclick="pager._detailPage('{{:skuId}}')">{{:prodName}}</a>
+										<input type="hidden" id="catType" value="{{:productCatId}}">
+									</li>
                					</ul>
                				</div>
 						</div>

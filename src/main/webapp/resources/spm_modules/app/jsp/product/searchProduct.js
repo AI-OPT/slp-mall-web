@@ -48,8 +48,9 @@ define('app/jsp/product/searchProduct', function (require, exports, module) {
     	},
     	//搜索操作
     	_search: function(){
+    		var code =$("#currentCity").attr("currentCityCode");
     		var	param={
-					areaCode:"81",  
+					areaCode:code,  
 					skuName:$("#serachName").val()
 				   };
     		var _this = this;
@@ -70,6 +71,16 @@ define('app/jsp/product/searchProduct', function (require, exports, module) {
 	            		var template = $.templates("#productListTemple");
     					var htmlOutput = template.render(data);
     					$("#productData").html(htmlOutput);
+    					//设置title
+    					var type = $("#catType").val();
+    					if(type=="10000010010000"){
+    						document.getElementById("typeTitleId").innerHTML="话费充值";
+    					}else{
+    						document.getElementById("typeTitleId").innerHTML="流量充值";
+    					}
+    					//获取所在地code
+    					var name ="地域:"+$("#currentCity").attr("currentCityName");
+    					document.getElementById("areaTile").innerHTML=name;
 	            	}else{
 	            		//隐藏公共信息
 	            		$("#commonId").attr("style","display: none");
@@ -95,10 +106,11 @@ define('app/jsp/product/searchProduct', function (require, exports, module) {
 				document.getElementById("typeTitleId").innerHTML="流量充值";
 			}
 			//获取所在地code
+			var code =$("#currentCity").attr("currentCityCode");
 			var name ="地域:"+$("#currentCity").attr("currentCityName");
 			document.getElementById("areaTile").innerHTML=name;
     		var	param={
-					areaCode:"81",  
+					areaCode:code,  
 					productCatId: $("#billType").val(),
 					basicOrgIdIs: 11,
 					attrDefId:$("#priceId").val()
@@ -145,13 +157,15 @@ define('app/jsp/product/searchProduct', function (require, exports, module) {
 		},
 		//热门推荐
     	_getHotProduct:function(){
+    		//获取所在地code
+			var code =$("#currentCity").attr("currentCityCode");
       		ajaxController.ajax({
 						type: "post",
 						dataType: "json",
 						processing: true,
 						message: "查询中，请等待...",
 						url: _base+"/search/getHotProduct",
-						data:{areaCode:"81"},
+						data:{areaCode:code},
 						success: function(data){
 							if(data.data){
 								var template = $.templates("#hotProductListTmpl");
@@ -164,8 +178,9 @@ define('app/jsp/product/searchProduct', function (require, exports, module) {
       	},
       	//搜索获取公共数据
       	_getCommonBySearch:function(){
+      		var code =$("#currentCity").attr("currentCityCode");
       		var	param={
-					areaCode:"81",  
+					areaCode:code,  
 					skuName:$("#serachName").val()
 				   };
       		ajaxController.ajax({
@@ -195,8 +210,9 @@ define('app/jsp/product/searchProduct', function (require, exports, module) {
       	},
       	//获取公共数据
       	_getCommonProduct:function(){
+      		var code =$("#currentCity").attr("currentCityCode");
       		var	param={
-					areaCode:"81",  
+					areaCode:code,  
 					productCatId: $("#billType").val(),
 					basicOrgIdIs:"12",
 					attrDefId:$("#priceId").val()
