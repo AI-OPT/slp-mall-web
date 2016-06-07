@@ -44,7 +44,8 @@ define('app/jsp/producthome/productHome', function (require, exports, module) {
             "click #flowCucc":"_getFlowProduct",
             "keyup  #phoneNum1":"_getPhoneInfo"	,
             "keyup  #phoneNum2":"_getGprs",	
-            "change #phoneFee":"_changeHuafei"
+            "change #phoneFee":"_changeHuafei",
+            "change #location":"_changeLocation"
         },
     	//重写父类
     	setup: function () {
@@ -135,18 +136,19 @@ define('app/jsp/producthome/productHome', function (require, exports, module) {
 								url: _base+"/getFastGprs",
 								data:{
 									provCode:provCode,
-									basicOrgId:basicOrgId
+									basicOrgId:basicOrgId,
+									location:$("#location").val()
 									},
 								success: function(data){
 									var d=data.data;
-									/*if(d){
+									if(d){
 										var phoneFee=d.phoneFee;
 										$.each(phoneFee,function(index,item){
-											var paramName = phoneFee[index].content.denomination;
-											var paramCode = phoneFee[index].content.denomination;
-											$("#phoneFee").append('<option value="'+paramCode+'">'+paramName+'</option>');
+											var paramName = phoneFee[index].content;
+											var paramCode = phoneFee[index].content;
+											$("#gprs").append('<option value="'+paramCode+'">'+paramName+'</option>');
 										})
-									}*/
+									}
 								}
 							});
 							
@@ -154,6 +156,28 @@ define('app/jsp/producthome/productHome', function (require, exports, module) {
 					}
 				});
     		}
+    	},
+    	_changeLocation:function(){
+    		ajaxController.ajax({
+				type: "post",
+				dataType: "json",
+				url: _base+"/getOneGprs",
+				data:{
+					location:$("#location").val()
+					},
+				success: function(data){
+					var d=data.data;
+					$("#gprs").html("");
+					if(d&&d.phoneFee){
+						var phoneFee=d.phoneFee;
+						$.each(phoneFee,function(index,item){
+							var paramName = phoneFee[index].content;
+							var paramCode = phoneFee[index].content;
+							$("#gprs").append('<option value="'+paramCode+'">'+paramName+'</option>');
+						})
+					}
+				}
+			});
     	},
     	_getFastPhoneInfo:function(provCode,basicOrgId){
     		ajaxController.ajax({

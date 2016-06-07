@@ -50,7 +50,7 @@
     <%@ include file="/inc/user-leftmenu.jsp" %>
  <!--／我的订单左侧结束-->  
  <!--账户余额右侧-->  
-   <%@ include file="/inc/account/balance/account-balance-right.jsp" %>
+   <%@ include file="/jsp/account/balance/account-balance-right.jsp" %>
    
     </div>
      </div>

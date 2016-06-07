@@ -84,6 +84,7 @@ public class VerifyController {
                         return checkIpSendPhone;
                     }
                     // 发送手机验证码
+                    userClient.setUserMp(request.getParameter("userMp"));
                     String isSuccess = sendPhoneVerifyCode(sessionId, userClient);
                     if ("0000".equals(isSuccess)) {
                         responseData = new ResponseData<String>(ResponseData.AJAX_STATUS_SUCCESS, "短信验证码发送成功", null);

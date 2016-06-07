@@ -287,8 +287,7 @@ public final class VerifyUtil {
             accountReq.setUserEmail(email);
             SearchUserResponse accountQueryResponse = iAccountManageSV.queryByEmail(accountReq);
             if (accountQueryResponse != null) {
-                //String resultCode = accountQueryResponse.getResponseHeader().getResultCode();
-                String resultCode = "000001";
+                String resultCode = accountQueryResponse.getResponseHeader().getResultCode();
                 if (resultCode.equals(ResultCodeConstants.SUCCESS_CODE)) {
                     header = new ResponseHeader(false, VerifyConstants.ResultCodeConstants.EMAIL_ERROR, "该邮箱已经注册");
                     responseData = new ResponseData<String>(ResponseData.AJAX_STATUS_SUCCESS, "该邮箱已经注册", null);

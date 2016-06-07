@@ -124,7 +124,7 @@
                 <div class="mail" id="phoneValidate" style="display: none;">
                     <ul>
                         <li class="word">账户注册手机号:</li>
-                        <li>${userInfo.userMp}</li>
+                        <li id="phone">${userInfo.userMp}</li>
                     </ul>
                     <ul>
                         <li class="word">手机验证码:</li>

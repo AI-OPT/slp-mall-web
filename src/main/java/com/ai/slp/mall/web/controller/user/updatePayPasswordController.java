@@ -247,7 +247,7 @@ public class updatePayPasswordController {
         
         // 用户信息放入缓存
         String uuid = UUIDUtil.genId32();
-        SSOClientUser userClient = (SSOClientUser) request.getSession().getAttribute(SSOClientConstants.USER_SESSION_KEY);
+        SLPClientUser userClient = (SLPClientUser) request.getSession().getAttribute(SSOClientConstants.USER_SESSION_KEY);
         CacheUtil.setValue(uuid, SLPMallConstants.UUID.OVERTIME, userClient, BandEmail.CACHE_NAMESPACE);
         responseData = new ResponseData<String>(ResponseData.AJAX_STATUS_SUCCESS, "正确", "/center/bandEmail/setEmail?" + SLPMallConstants.UUID.KEY_NAME + "=" + uuid);
         ResponseHeader responseHeader = new ResponseHeader(true, VerifyConstants.ResultCodeConstants.SUCCESS_CODE, "正确");
