@@ -68,8 +68,8 @@
              <div class="verify-mailbox">
              	<ul>
              		<li><img src="${_slpbase }/images/icon-mail.png"/></li>
-             		<li class="word">邮箱绑定邮件已发送至您的邮箱：178070754@163.com</li>
-             		<li><a href="#">请在邮件中点击验证链接完成邮箱绑定<span>（验证链接24小时内有效)</span></a></li>
+             		<li class="word">邮箱绑定邮件已发送至您的邮箱：${email}</li>
+             		<li><a href="#">请在邮件中点击验证链接完成邮箱绑定<span>（验证链接30分钟内有效)</span></a></li>
              		<li class="vermail-btn"><input type="button" class="slp-btn regsiter-btn" value="查看验证邮件"></li>	
              	</ul>
              </div>
