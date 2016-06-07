@@ -74,13 +74,13 @@
 								<table width="100%" border="0">
 									<tr>
 										<td class="word" width="25%"><img src="${_slpbase }/images/sim.png"></td>
-										<td><A href="#">${skuName}</A></td>
+										<td><A href="#">{{:skuName}}</A></td>
 									</tr>
 								</table>
 							</td>
-							<td class="ash">¥${salePrice}</td>
+							<td class="ash">¥{{:salePrice}}</td>
 							<td>${bugSum}</td>
-							<td class="bold">¥${skuTotalFee}</td>
+							<td class="bold">¥{{:skuTotalFee}}</td>
 						</tr>
 					{{/for}}
 
