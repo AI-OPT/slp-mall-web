@@ -81,11 +81,12 @@
        <div class="order-list-bj">
            <!--选择订单信息 table-->
            <div class="order-list-table">
+           <input id="searchOrderState" value="" style="display:none"/>
            <ul>
-           <li><a href="#" class="current">全部</a></li>
-           <li><a href="#">待支付</a></li>
-           <li><a href="#">已成功</a></li>
-           <li><a href="#" style="border-right-style: none;">已关闭</a></li>
+           <li><a href="javaScript:void(0)" onclick="pager._changeOrderState(this)" class="current">全部</a></li>
+           <li><a href="javaScript:void(0)" onclick="pager._changeOrderState(this,'11')">待支付</a></li>
+           <li><a href="javaScript:void(0)" onclick="pager._changeOrderState(this,'90')">已成功</a></li>
+           <li><a href="javaScript:void(0)" onclick="pager._changeOrderState(this,'91')" style="border-right-style: none;" >已关闭</a></li>
            <!-- <p><a href="#"><i class="icon-trash"></i>订单回收站</a></p> -->
            </ul>                                        
            </div>
@@ -141,7 +142,7 @@
                                     </div>
                                 </td>
                               </tr>   
-                              {{for productList ~parentState=state ~parentStateName=stateName ~size=productList.length}}     
+                              {{for productList ~parentState=state ~parentStateName=stateName ~size=productList.length ~orderType=orderType}}     
                               <tr class="tr-border">
                                <td class="sp"  width="45%">
                                     <table width="100%" border="0">
@@ -149,7 +150,7 @@
                                             <td class="word" width="25%"><img src="{{:imageUrl}}"></td>
                                             <td>
                                              <div class="number">
-                                             <p><a href="#">{{:prodName}}</a></p>
+                                             <p><a href="${_base}/product/detail?skuId={{:skuId}}">{{:prodName}}</a></p>
                                              </div>
                                             </td>	
                                           </tr>
@@ -162,7 +163,7 @@
                                 <td width="10%" rowspan="{{:~size}}"> 
                                     <div class="number">
 									<p>{{:~parentStateName}}</p>
-                                    <p><a href="#">订单详情</a></p>
+                                    <p><a href="${_base}/order/detail?orderId={{:orderId}}&orderType={{:~orderType}}">订单详情</a></p>
                                     </div>
                                 </td>
                                 <td width="15%" class="none-borer" rowspan="{{:~size}}">
