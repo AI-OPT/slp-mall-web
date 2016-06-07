@@ -71,6 +71,8 @@ define('app/jsp/product/searchProduct', function (require, exports, module) {
     					var htmlOutput = template.render(data);
     					$("#productData").html(htmlOutput);
 	            	}else{
+	            		//隐藏公共信息
+	            		$("#commonId").attr("style","display: none");
     					$("#productData").html("没有搜索到相关信息");
 	            	}
 	            },
@@ -82,12 +84,23 @@ define('app/jsp/product/searchProduct', function (require, exports, module) {
 				},
     		});
     	},
+    	
     	//首页搜索跳转操作
     	_searchBtnClick: function(){
+    		//设置title
+			var type = $("#billType").val();
+			if(type=="10000010010000"){
+				document.getElementById("typeTitleId").innerHTML="话费充值";
+			}else{
+				document.getElementById("typeTitleId").innerHTML="流量充值";
+			}
+			//获取所在地code
+			var name ="地域:"+$("#currentCity").attr("currentCityName");
+			document.getElementById("areaTile").innerHTML=name;
     		var	param={
 					areaCode:"81",  
 					productCatId: $("#billType").val(),
-					basicOrgIdIs:"12",
+					basicOrgIdIs: 11,
 					attrDefId:$("#priceId").val()
 				   };
     		var _this = this;
@@ -109,6 +122,7 @@ define('app/jsp/product/searchProduct', function (require, exports, module) {
     					//获取公共数据
     					_this._getCommonProduct();
 	            	}else{
+	            		$("#commonId").attr("style","display: none");
     					$("#productData").html("没有搜索到相关信息");
 	            	}
 	            },
@@ -119,6 +133,7 @@ define('app/jsp/product/searchProduct', function (require, exports, module) {
 				},
     		});
     	},
+    	//地区显示
 		_more: function(){
 			var isCmcc = $("#lastArea").is(":visible");
 			if(isCmcc){
@@ -128,6 +143,7 @@ define('app/jsp/product/searchProduct', function (require, exports, module) {
 			}
 			
 		},
+		//热门推荐
     	_getHotProduct:function(){
       		ajaxController.ajax({
 						type: "post",
@@ -210,7 +226,84 @@ define('app/jsp/product/searchProduct', function (require, exports, module) {
 						}
 					}
       		);
-      	}
+      	},
+      //详情页面
+    	_detailPage: function(skuId){
+    		alert(skuId);
+    		window.location.href = _base +'/product/detail?skuId='+skuId;
+    	},
+    	//改变运营商查询条件
+    	_changeAgent: function(agentId){
+    		var _this = this;
+    		//删除原来样式
+    		var oldAgent = $("#agentSearch").val();
+    		document.getElementById(oldAgent).className="";
+    		$("#agentSearch").val(agentId);
+    		var newAgent=  "#"+agentId;
+    		$(newAgent).addClass("current");
+    		_this._changeDataClick();
+    		
+    	},
+    	//改变面额
+    	_changePrice: function(priceId){
+    		var _this = this;
+    		//删除原来样式
+    		var oldPrice = $("#priceSearch").val();
+    		document.getElementById(oldPrice).className="";
+    		$("#priceSearch").val(priceId);
+    		var newPrice=  "#"+priceId;
+    		$(newPrice).addClass("current");
+    		_this._changeDataClick();
+    	},
+    	//改变地区
+    	_changeArea: function(areaId){
+    		var _this = this;
+    		//删除原来样式
+    		var oldArea = $("#areaSearch").val();
+    		document.getElementById(oldArea).className="";
+    		$("#areaSearch").val(areaId);
+    		var newArea=  "#"+areaId;
+    		$(newArea).addClass("current");
+    		_this._changeDataClick();
+    	},
+    	//根据选择条件进行查询
+    	_changeDataClick: function(){
+    		var	param={
+					areaCode:$("#areaSearch").val(),
+					productCatId: $("#phoneProductCatSearch").val(),
+					basicOrgIdIs: $("#agentSearch").val(),
+					attrDefId:$("#priceSearch").val()
+				   };
+    		var _this = this;
+    		var url = _base+"/search/getProduct";
+    		$("#pagination-ul").runnerPagination({
+	 			url: url,
+	 			method: "POST",
+	 			dataType: "json",
+	 			processing: true,
+	            data : param,
+	           	pageSize: QueryProductPager.DEFAULT_PAGE_SIZE,
+	           	visiblePages:5,
+	            message: "正在为您查询数据..",
+	            render: function (data) {
+	            	if(data != null && data != 'undefined' && data.length>0){
+	            		var template = $.templates("#productListTemple");
+    					var htmlOutput = template.render(data);
+    					$("#productData").html(htmlOutput);
+    					//获取公共数据
+    					//_this._getCommonBySearch();
+	            	}else{
+	            		//$("#commonId").attr("style","display: none");
+    					$("#productData").html("没有搜索到相关信息");
+	            	}
+	            },
+	            callback: function(data){
+					 $("#totalcount").text(data.count);
+					 $("#pageno").text(data.pageNo);
+					 $("#pagecount").text(data.pageCount);
+				},
+    		});
+    	},
     	
     });
     
