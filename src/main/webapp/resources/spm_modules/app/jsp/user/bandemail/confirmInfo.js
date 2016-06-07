@@ -260,7 +260,7 @@ define('app/jsp/user/bandemail/confirmInfo', function (require, exports, module)
 							                clearInterval(_res);//清除setInterval
 							                }
 							            },1000);
-							            window.location.href = _base+"/user/bandEmail/sendUpdateEmailSuccess";
+							            window.location.href = _base+"/user/bandEmail/sendUpdateEmailSuccess?email="+email;
 									}else{
 										$("#sendEmailBtn").removeAttr("disabled");
 									}
