@@ -101,5 +101,7 @@
 
 	<dubbo:reference id="iPaymentQuerySV"
 		interface="com.ai.slp.charge.api.paymentquery.interfaces.IPaymentQuerySV" />
-
+	<dubbo:reference id="iOrderTradeCenterSV"
+		interface="com.ai.slp.order.api.ordertradecenter.interfaces.IOrderTradeCenterSV" />
+ 
 </beans>
