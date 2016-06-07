@@ -46,7 +46,9 @@ define('app/jsp/producthome/productHome', function (require, exports, module) {
             "keyup  #phoneNum2":"_getGprs",	
             "change #phoneFee":"_changeHuafei",
             "change #location":"_changeLocation",
-            "click #CZ_BTN":"_submitOrder"	
+            "click #CZ_BTN":"_submitOrder",
+            "click #GPRS_BTN":"_submitGprs"
+           
             
         },
     	//重写父类
@@ -56,6 +58,30 @@ define('app/jsp/producthome/productHome', function (require, exports, module) {
     		this._getPhoneBill();
     		this._getFlowProduct();
     		this._getHotProduct();
+    	},
+    	_submitGprs:function(){//话费的
+    		var _this=this;
+    		var start=$("#gprs").val().indexOf(";")+1;
+    		ajaxController.ajax({
+				type: "post",
+				dataType: "json",
+				url: _base+"/order/orderCommit",
+				data:{
+					orderType:"100011",//暂时传运营商的县官信息
+					skuId:$("#gprs").val().substr(start,$("#gprs").val().length),
+					buySum:"1",
+					basicOrgId:$("#gbasicOrgId").val(),
+					provinceCode:$("#PCode").val(),
+					chargeFee:$("#gprs option:selected").text(),
+					phoneNum:$("#phoneNum2").val()
+					},
+				success: function(data){
+					var key=data.data;
+					window.location.href = _base
+					+ "/order/toOrderPay?orderKey="+key;
+
+				}
+			});
     	},
     	_submitOrder:function(){//话费的
     		var _this=this;
@@ -157,6 +183,9 @@ define('app/jsp/producthome/productHome', function (require, exports, module) {
 						if(d){
 							serviceNum=data;
 							//var productCatId="10000010010000";
+							$("#gbasicOrgId").val(d.basicOrgCode);
+							$("#PCode1").val(d.provinceCode);
+							
 							var provCode=d.provinceCode;
 							var basicOrgId=d.basicOrgCode;
 							//userType 
@@ -164,7 +193,6 @@ define('app/jsp/producthome/productHome', function (require, exports, module) {
 							ajaxController.ajax({
 								type: "post",
 								dataType: "json",
-							
 								url: _base+"/getFastGprs",
 								data:{
 									provCode:provCode,
