@@ -33,6 +33,10 @@
 	function toChangePayPassword(){
 		window.location.href = _base+"/user/payPassword/updatePayPassword";
 	}
+	
+	function toChangePhone(){
+		window.location.href = _base+"/user/phone/toChangePhone";
+	}
 </script>
 
 <body onload="showClass()">
@@ -124,7 +128,7 @@
         							<c:if test="${userInfo.userMp!=null}">
         								<p><img src="${_slpbase }/images/icon-b.png"></p>
         								<p>已绑定</p>
-        							</c:if>
+        							</c:if> 
         						</li>
         						<li>
         							<c:if test="${userInfo.userMp!=''}">
@@ -134,11 +138,11 @@
         					</ul>
         				</div>
         				<div class="state-list-word">绑定您常用的手机号，确保能及时收到短信提醒</div>
-        				<c:if test="${userInfo.userMp==null}">
+        				<c:if test="${userInfo.userMp==null||userInfo.userMp==''}">
         				 <div class="state-list-btn"><input type="button" class="sta-btn" value="绑定手机"></div>
         				</c:if>
         				<c:if test="${userInfo.userMp!=null}">
-        				 <div class="state-list-btn"><input type="button" class="sta-btn" value="修改"></div>
+        				 <div class="state-list-btn"><input type="button" class="sta-btn" onclick="toChangePhone();" value="修改"></div>
         				</c:if>
         			</div>
         			<div class="state-list">
@@ -149,7 +153,7 @@
         				<div class="state-list-strength">
         					<ul>
         						<li class="word word-margin">
-        						 <c:if test="${userInfo.userEmail==null }">
+        						 <c:if test="${userInfo.userEmail==null|| userInfo.userEmail==''}">
         							<p><img src="${_slpbase }/images/icon-c.png"></p>
         							<p>未绑定</p>
         						</c:if>
@@ -170,10 +174,10 @@
         					</ul>
         				</div>
         				<div class="state-list-word">绑定邮箱后，可用于密码重置及接受消息提醒</div>
-        				<c:if test="${userInfo.userEmail==null}">
+        				<c:if test="${userInfo.userEmail==null||userInfo.userEmail==''}">
         					<div class="state-list-btn"><input type="button" class="sta-btn" value="绑定邮箱" onclick="goToBandEmail('bandEmail')"></div>
         				</c:if>
-        				<c:if test="${userInfo.userEmail!=null}">
+        				<c:if test="${userInfo.userEmail!=null&&userInfo.userEmail!=''}">
         					<div class="state-list-btn"><input type="button" class="sta-btn" value="修改" onclick="goToBandEmail('updateEmail')"></div>
         				</c:if>
         			</div>

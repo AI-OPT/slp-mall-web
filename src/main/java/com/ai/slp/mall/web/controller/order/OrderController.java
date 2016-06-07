@@ -14,17 +14,22 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.ai.net.xss.util.StringUtil;
 import com.ai.opt.base.vo.PageInfo;
+import com.ai.opt.sdk.components.idps.IDPSClientFactory;
 import com.ai.opt.sdk.dubbo.util.DubboConsumerFactory;
 import com.ai.opt.sdk.util.BeanUtils;
 import com.ai.opt.sdk.util.DateUtil;
 import com.ai.opt.sdk.web.model.ResponseData;
+import com.ai.paas.ipaas.image.IImageClient;
 import com.ai.paas.ipaas.util.JSonUtil;
 import com.ai.slp.common.api.cache.interfaces.ICacheSV;
 import com.ai.slp.common.api.cache.param.SysParam;
 import com.ai.slp.mall.web.constants.SLPMallConstants.ExceptionCode;
+import com.ai.slp.mall.web.constants.SLPMallConstants.ProductImageConstant;
 import com.ai.slp.mall.web.model.order.OrderListQueryParams;
 import com.ai.slp.order.api.orderlist.interfaces.IOrderListSV;
 import com.ai.slp.order.api.orderlist.param.OrdOrderVo;
+import com.ai.slp.order.api.orderlist.param.OrdProductVo;
+import com.ai.slp.order.api.orderlist.param.ProductImage;
 import com.ai.slp.order.api.orderlist.param.QueryOrderListRequest;
 import com.ai.slp.order.api.orderlist.param.QueryOrderListResponse;
 import com.ai.slp.order.api.orderlist.param.QueryOrderRequest;
@@ -87,6 +92,7 @@ public class OrderController {
 			QueryOrderListResponse orderListResponse = iOrderListSV.queryOrderList(queryRequest);
 			if(orderListResponse != null && orderListResponse.getResponseHeader().isSuccess()){
 				PageInfo<OrdOrderVo> pageInfo=orderListResponse.getPageInfo();
+				setProductImageUrl(pageInfo);
 				responseData = new ResponseData<PageInfo<OrdOrderVo>>(ExceptionCode.SUCCESS, "查询成功", pageInfo);
 			}else{
 				responseData = new ResponseData<PageInfo<OrdOrderVo>>(ExceptionCode.SYSTEM_ERROR, "查询失败", null);
@@ -97,6 +103,30 @@ public class OrderController {
 			responseData = new ResponseData<PageInfo<OrdOrderVo>>(ExceptionCode.SYSTEM_ERROR, "查询失败", null);
 		}
 		return responseData;
+	}
+
+	/**
+	 * 设置商品图片
+	 * @param pageInfo
+	 */
+	private void setProductImageUrl(PageInfo<OrdOrderVo> pageInfo) {
+		// 获取imageClient
+		IImageClient imageClient = IDPSClientFactory.getImageClient(ProductImageConstant.IDPSNS);
+		List<OrdOrderVo> orderList = pageInfo.getResult();
+		if(orderList != null && orderList.size()>0){
+			for(OrdOrderVo orderVo : orderList){
+				List<OrdProductVo> productList = orderVo.getProductList();
+				if(productList != null && productList.size()>0){
+					for(OrdProductVo productVo: productList){
+						ProductImage productImage = productVo.getProductImage();
+						String picType = productImage.getPicType();
+						String vfsId = productImage.getVfsId();
+						String imageUrl = imageClient.getImageUrl(vfsId, picType, "60x60");
+						productVo.setImageUrl(imageUrl);
+					}
+				}
+			}
+		}
 	}
 	
 	/**

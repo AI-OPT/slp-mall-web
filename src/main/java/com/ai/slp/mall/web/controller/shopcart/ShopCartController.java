@@ -3,14 +3,19 @@ package com.ai.slp.mall.web.controller.shopcart;
 import com.ai.opt.base.exception.BusinessException;
 import com.ai.opt.base.exception.SystemException;
 import com.ai.opt.sdk.components.ccs.CCSClientFactory;
+import com.ai.opt.sdk.components.idps.IDPSClientFactory;
 import com.ai.opt.sdk.dubbo.util.DubboConsumerFactory;
 import com.ai.opt.sdk.web.model.ResponseData;
 import com.ai.paas.ipaas.ccs.constants.ConfigException;
+import com.ai.paas.ipaas.image.IImageClient;
 import com.ai.paas.ipaas.util.JSonUtil;
 import com.ai.slp.mall.web.constants.ComParamsConstants;
+import com.ai.slp.mall.web.constants.SLPMallConstants;
+import com.ai.slp.order.api.ordertradecenter.interfaces.IOrderTradeCenterSV;
 import com.ai.slp.order.api.shopcart.interfaces.IShopCartSV;
 import com.ai.slp.order.api.shopcart.param.*;
 import com.alibaba.fastjson.JSON;
+import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -77,8 +82,21 @@ public class ShopCartController {
             List<CartProdInfo> cartProdInfoList = iShopCartSV.queryCartOfUser(userInfo);
     		//统计商品数量
     		int prodTotal = 0;
-    		for(CartProdInfo cartProdInfo : cartProdInfoList){
+            IImageClient imageClient = IDPSClientFactory.getImageClient(SLPMallConstants.ProductImageConstant.IDPSNS);
+    		String attrImageSize = "75x48";
+            for(CartProdInfo cartProdInfo : cartProdInfoList){
     			prodTotal+=cartProdInfo.getBuyNum();
+                //产生图片地址
+                if (StringUtils.isNotBlank(cartProdInfo.getVfsId())){
+                    String vfsId = cartProdInfo.getVfsId();
+                    String picType = cartProdInfo.getPicType();
+                    if (StringUtils.isBlank(picType))
+                        picType = ".jpg";
+                    if (!picType.startsWith("."))
+                        picType = "."+picType;
+                    String imageUrl = imageClient.getImageUrl(vfsId, picType, attrImageSize);
+                    cartProdInfo.setPicUrl(imageUrl);
+                }
     		}
             String cartProdInfoJSON = JSonUtil.toJSon(cartProdInfoList);
             model.put("cartProdList", cartProdInfoJSON);
@@ -148,6 +166,29 @@ public class ShopCartController {
             LOG.error("删除购物车商品出错", e);
         }
         return responseData;
+    }
+
+    /**
+     * 购物车中下订单
+     * @return
+     */
+    @RequestMapping("/applyOrder")
+    public ModelAndView applyOrder(HttpSession session){
+        IOrderTradeCenterSV ordertradeSV = DubboConsumerFactory.getService("iOrderTradeCenterSV");
+
+//        try {
+//            OrderTradeCenterRequest orderTradeReq = new OrderTradeCenterRequest();
+//            ordertradeSV.apply(orderTradeReq);
+//            responseData = new ResponseData<CartProdOptRes>(ResponseData.AJAX_STATUS_SUCCESS, "修改成功", cartProdOptRes);
+//        } catch (BusinessException | SystemException e) {
+//            responseData = new ResponseData<CartProdOptRes>(ResponseData.AJAX_STATUS_FAILURE, "修改失败:" + e.getMessage());
+//            LOG.error("修改购物车数量出错", e);
+//        } catch (Exception e) {
+//            responseData = new ResponseData<CartProdOptRes>(ResponseData.AJAX_STATUS_FAILURE, "修改失败,出现未知异常");
+//            LOG.error("修改购物车数量出错", e);
+//        }
+        ModelAndView view = new ModelAndView("");
+        return view;
     }
 
     private String getUserId(HttpSession session){

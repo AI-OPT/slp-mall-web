@@ -126,6 +126,8 @@ define('app/jsp/product/productDetail', function (require, exports, module) {
         	var usableNum = Number($("#usableNum").text());
         	if(!this._isPositiveNum(qty)){
         		$("#productQty").val(1);
+        	}else if(usableNum>99 && qty>99){
+        		$("#productQty").val(99);
         	}else if(qty>usableNum){
         		$("#productQty").val(usableNum);
         	}else{
@@ -136,7 +138,7 @@ define('app/jsp/product/productDetail', function (require, exports, module) {
         _addProductQty:function(){
         	var qty = Number($("#productQty").val());
         	var usableNum = Number($("#usableNum").text());
-        	if(qty<usableNum){
+        	if(qty<usableNum && qty<99){
         		qty = qty + 1;
         	}
         	$("#productQty").val(qty);

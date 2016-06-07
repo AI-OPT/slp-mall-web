@@ -4,7 +4,7 @@
      <div class="top-menu-main">
      <ul class="left">
          <li>所在地</li>
-         <li class="city"><a href="javascript:void(0)" id="currentCity">北京<img src="${_slpbase }/images/open-a.png">
+         <li class="city"><a href="javascript:void(0)" currentCityCode="11" currentCityName="北京" id="currentCity">北京<img src="${_slpbase }/images/open-a.png">
          
          </a>
          <!--选择所在地城市-->
