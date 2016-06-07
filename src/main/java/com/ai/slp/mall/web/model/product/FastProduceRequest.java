@@ -5,7 +5,7 @@ public class FastProduceRequest {
 	
 	private String provCode;
 	private String basicOrgId;
-	
+	private String location;
 	public String getProvCode() {
 		return provCode;
 	}
@@ -17,6 +17,12 @@ public class FastProduceRequest {
 	}
 	public void setBasicOrgId(String basicOrgId) {
 		this.basicOrgId = basicOrgId;
+	}
+	public String getLocation() {
+		return location;
+	}
+	public void setLocation(String location) {
+		this.location = location;
 	}
 	
 }
