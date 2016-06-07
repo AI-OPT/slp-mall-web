@@ -43,7 +43,7 @@
                      <li><A href="#">充值卡券</A></li>
                      <li><A href="#">收藏夹</A></li>
                      <li><A href="#">通讯录</A></li>
-                     <li><A href="#">安全设置</A></li>
+                     <li><A href="${_base}/user/bandEmail/securitySettings">安全设置</A></li>
                  </ul>
              </div>
              <!--账户展开结束-->
