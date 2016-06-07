@@ -342,6 +342,11 @@ public final class SLPMallConstants {
         /*** 失效时间*/
         public static final String KEY_NAME = "k";
     }
-    
+    public static final class Order{
+    	private Order(){}
+    	//订单的命名空间
+    	public static final String CACHE_NAMESPACE="com.ai.slp.mall.order.cache";
+    	
+    }
     
 }
