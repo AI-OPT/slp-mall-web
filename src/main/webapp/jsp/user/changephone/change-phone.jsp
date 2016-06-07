@@ -20,12 +20,6 @@
 			pager.render();
 		});
 	})();
-	$(function(){
-		var phone=${phone};
-		if(phone==''){
-			phone='未绑定手机号';
-		}
-	});
 </script>
 </head>
 <body>
@@ -70,27 +64,40 @@
                </ul>
            </div>                                          
           <!--/步骤结束-->
-              <div class="center-main">
-          		<div class="center-table-list">
-               	<div class="list-int">
+               <div class="list-int" id="change-phone1">
+              		<ul>
+                        <li class="word">身份验证方式:</li>
+                        <li class="checkbox-box"><span><input name="radio" class="int-chec radioa" type="radio" checked="">手机验证</span><span><input name="radio" class="int-chec radioc" type="radio">支付密码验证</span></li>
+               	 	</ul>
+               	 	<div class="phone">
                     <ul>
-                        <li class="word">绑定手机号:</li>
-                        <li><input type="text" id="phone" class="int-medium" placeholder="" disabled="disabled" value="${phone }"></li>
-                     <!--    <li class="lable"><img src="../images/icon-c.png"><span>请输入正确有效的手机号</span></li> -->
+                        <li class="word">当前手机号:</li>
+                        <li><input type="text" disabled="disabled" id="phone" value="${phone}"></li>
                     </ul>
                     <ul>
-                        <li class="word">手机验证码:</li>
-                        <li><input type="text" class="int-small"></li>
-                        <li class="re-btn"><input type="button" class="int-btn" value="获取短信验证码" id="PHONE_IDENTIFY1"></li>
-                        <li class="lable" style="display: none" id="phoneVerifyMsg"><img src="${_slpbase }/images/icon-e.png"><span class="red">验证码错误</span></li>
+                        <li class="word">验证码:</li>
+                        <li><input type="text" class="int-small" id="validateCode"></li>
+                        <li class="re-btn"><input type="button" class="int-btn" id="PHONE_IDENTIFY1" value="获取短信验证码"></li>
+                        <li class="lable" id="validateCodeErrMsg" style="display:none"><img src="${_slpbase }/images/icon-e.png"><span class="red" id="validateCodeErrMsgShow">验证码错误</span></li>
+                        </ul>
+                      <ul>
+                        <li class="checx-word"><input type="button" id="next" class="slp-btn regsiter-btn" value="下一步"></li>
+                    </ul>
+                 </div>
+               
+                 <div class="password" style="display: none;">
+                    <ul>
+                        <li class="word">支付密码:</li>
+                        <li><input type="password" class="int-medium" placeholder="" id="password"></li>
+                          <li class="lable" id="validateCodeErrMsg" style="display:none"><img src="${_slpbase }/images/icon-e.png"><span class="red" id="validateCodeErrMsgShow">验证码错误</span></li>
                     </ul>
                       <ul>
-                        <li class="checx-word"><input type="button" class="slp-btn regsiter-btn" value="下一步"></li>
+                        <li class="checx-word"><input type="button" class="slp-btn regsiter-btn" id="CHECKPAYPASSWORD" value="下一步"></li>
                     </ul>
-                	</div>
+                 </div>
                  </div>
                  
-                  <div class="list-int" style="display:none;" id="changePhone2">
+                  <div class="list-int" style="display:none;" id="change-phone2">
                     <ul>
                         <li class="word">请输入新绑定手机号:</li>
                         <li><input type="text" class="int-medium" placeholder="" id="newPhone"></li>
@@ -99,28 +106,27 @@
                     <ul>
                         <li class="word">手机验证码:</li>
                         <li><input type="text" class="int-small" id="phoneCode"></li>
-                        <li class="re-btn"><input type="button" class="int-btn" id="PHONE_IDENTIFY" value="获取短信验证码"></li>
-                        <li class="lable" id="phoneCodeErrMsg" style="display:none;"><img src="${_slpbase }/images/icon-e.png"><span class="red" id="phoneCodeErrMsgShow">验证码错误</span></li>
+                        <li class="re-btn"><input type="button" class="int-btn" id="PHONE_IDENTIFY2" value="获取短信验证码"></li>
+                        <li class="lable" id="newPhoneCodeErrMsg" style="display:none;"><img src="${_slpbase }/images/icon-e.png"><span class="red" id="phoneCodeErrMsgShow">验证码错误</span></li>
                     </ul>
                       <ul>
-                        <li class="checx-word"><input type="button" id="SENDEMAIL" class="slp-btn regsiter-btn" value="发送验证邮件"></li>
+                        <li class="checx-word"><input type="button" id="submit" class="slp-btn regsiter-btn" value="下一步"></li>
                     </ul>
                 </div>
                  
-                 <div class="recharge-success" style="display:none" id="changePhone3">
+                 <div class="recharge-success" style="display:none" id="change-phone3">
                  <p><img src="${_slpbase }/images/succ.png"></p>
                  <p class="word">您已经成功绑定新的手机号:</p>
                  <p class="success-box"><a href="#">查看个人资料</a><a href="#">查看账户安全</a><a href="#">账户中心</a></p>
               </div>
              	<ul>
 					<li class="checx-word">
-					<input type="hidden" id="phoneFlag"/>
+					<input type="hidden" id="newPhoneFlag"/>
+					<input type="hidden" id="validateCodeFlag"/>
 					<input type="hidden" id="phoneCodeFlag"/>
 		         	<input type="hidden" id="tenantId" value="0"/>
 		         	</li>
 				</ul>
-           </div>
-           </div>
            </div>
            </div>
            </div>
