@@ -5,8 +5,8 @@ define('app/jsp/shoppingcart/shopCartDetails', function (require, exports, modul
     Dialog = require("artDialog/src/dialog"),
     Paging = require('paging/0.0.1/paging-debug'),
     AjaxController = require('opt-ajax/1.0.0/index');
-    require("jsviews/jsrender");
-    require("jsviews/jsviews");
+    require("jsviews/jsrender.min");
+    require("jsviews/jsviews.min");
     require("bootstrap-paginator/bootstrap-paginator.min");
     require("app/util/jsviews-ext");
     

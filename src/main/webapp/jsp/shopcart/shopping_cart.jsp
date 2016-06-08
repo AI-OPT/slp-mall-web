@@ -75,7 +75,7 @@
                                         <p><input type="button" value="+" class="small-xbtn" onclick="pager._changeProdNum('{{:skuId}}',1,{{:salePrice}},{{:usableNum}});"></p>
                                     </div>
                                 </td>
-                                <td id="{{:skuId}}_prodPriceSubtotal" class="bold">¥{{:~shopCartPrices(salePrice, buyNum)}}</td>
+                                <td id="{{:skuId}}_prodPriceSubtotal" class="bold">¥{{:~liToYuan(prodPrice)}}</td>
                                 <td>
                                 <div class="number">
                                 <p><a href="#" onclick="pager._delCartProd('{{:skuId}}');"><i class="icon-remove"></i>删除</a></p>
@@ -102,7 +102,7 @@
                                     </div>
                                		 	<span>暂时无货</span>
                                 </td>
-                                <td class="bold">¥{{:~shopCartPrices(salePrice, buyNum)}}</td>
+                                <td class="bold">¥{{:~liToYuan(prodPrice)}}</td>
                                 <td>
                                 <div class="number">
                                 <p><a href="#" onclick="pager._delCartProd('{{:skuId}}');"><i class="icon-remove"></i>删除</a></p>
