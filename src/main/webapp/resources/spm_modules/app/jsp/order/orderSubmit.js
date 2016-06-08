@@ -29,31 +29,15 @@ define('app/jsp/order/orderSubmit', function (require, exports, module) {
     	//事件代理
     	events: {
     		//查询
-            "click #gotoPayBtn":"_gotoPayBtnClick"
+            //"click #gotoPayBtn":"_gotoPayBtnClick"
         },
     	//重写父类
     	setup: function () {
     		OrderListPager.superclass.setup.call(this);
     	},
     	_gotoPayBtnClick:function(){
-      		var	param={
-					orderId: $("#orderId").val(),
-					orderAmount:$("#adjustFee").text()
-				   };
-      		ajaxController.ajax({
-						type: "post",
-						dataType: "json",
-						processing: true,
-						message: "支付中，请等待...",
-						url: _base+"/pay/orderPay",
-						data:param,
-						success: function(data){
-							if(data.data){
-								
-							}
-						}
-					}
-      		);
+      		var url=_base+"/pay/orderPay?orderId="+$("#orderId").val();
+      		window.location.href=url;
       	}
     	
     });

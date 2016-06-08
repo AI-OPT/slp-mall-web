@@ -107,7 +107,7 @@
                         <li class="word">手机验证码:</li>
                         <li><input type="text" class="int-small" id="phoneCode"></li>
                         <li class="re-btn"><input type="button" class="int-btn" id="PHONE_IDENTIFY2" value="获取短信验证码"></li>
-                        <li class="lable" id="newPhoneCodeErrMsg" style="display:none;"><img src="${_slpbase }/images/icon-e.png"><span class="red" id="phoneCodeErrMsgShow">验证码错误</span></li>
+                        <li class="lable" id="newPhoneCodeErrMsg" style="display:none;"><img src="${_slpbase }/images/icon-e.png"><span class="red" id="newPhoneCodeErrMsgShow">验证码错误</span></li>
                     </ul>
                       <ul>
                         <li class="checx-word"><input type="button" id="submit" class="slp-btn regsiter-btn" value="下一步"></li>
@@ -116,8 +116,9 @@
                  
                  <div class="recharge-success" style="display:none" id="change-phone3">
                  <p><img src="${_slpbase }/images/succ.png"></p>
-                 <p class="word">您已经成功绑定新的手机号:</p>
-                 <p class="success-box"><a href="#">查看个人资料</a><a href="#">查看账户安全</a><a href="#">账户中心</a></p>
+                 <p class="word">您已经成功绑定新的手机号:<span id="phoneStr"></span>
+                 </p>
+                 <p class="success-box"><a href="#">查看个人资料</a><a href="#" onclick="jumptoCount();">查看账户安全</a><a href="#" onclick="">账户中心</a></p>
               </div>
              	<ul>
 					<li class="checx-word">

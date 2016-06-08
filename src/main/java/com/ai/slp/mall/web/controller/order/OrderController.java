@@ -139,7 +139,8 @@ public class OrderController {
 		queryRequest.setTenantId("SLP");
 		HttpSession session = request.getSession();
 		SLPClientUser user = (SLPClientUser) session.getAttribute(SSOClientConstants.USER_SESSION_KEY);
-		queryRequest.setUserId(user.getUserId());
+		//queryRequest.setUserId(user.getUserId());
+		queryRequest.setUserId("234");
 		return queryRequest;
 	}
 
@@ -230,7 +231,7 @@ public class OrderController {
 			model.put("orderDetail", orderJSon);
 		}
 		String orderType = request.getParameter("orderType");
-		if (StringUtils.isContains("100010,100011", orderType)) {
+		if (StringUtils.isContains("100010", orderType)) {
 			return new ModelAndView("jsp/order/order_info_detail", model);
 		} else {
 			return new ModelAndView("jsp/order/order_product_detail", model);
