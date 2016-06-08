@@ -87,8 +87,8 @@
 				<div class="total-amount">
 					<ul>
 						<li>
-							<p class="word">${prodNum}件商品总计:</p>
-							<p class="right">¥${totalFee }</p>
+							<p class="word">${ordProductResList.size()}件商品总计:</p>
+							<p class="right">¥${ordFeeInfo.totalFee }</p>
 						</li>
 						<li>
 							<p class="word">运费:</p>
@@ -96,7 +96,7 @@
 						</li>
 						<li>
 							<p class="word">活动优惠:</p>
-							<p class="right">－¥${discountFee}</p>
+							<p class="right">－¥${ordFeeInfo.discountFee}</p>
 						</li>
 						<li>
 							<p class="word">账户余额:</p>
@@ -105,7 +105,7 @@
 						<li>
 							<p class="word">实付款:</p>
 							<p class="right">
-								<span id="adjustFee">¥${adjustFee }</span>
+								<span id="adjustFee">¥${ordFeeInfo.totalFee }</span>
 							</p>
 						</li>
 					</ul>
