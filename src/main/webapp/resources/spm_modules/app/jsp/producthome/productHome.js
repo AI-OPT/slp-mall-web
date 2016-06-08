@@ -61,6 +61,34 @@ define('app/jsp/producthome/productHome', function (require, exports, module) {
     	},
     	_submitGprs:function(){//话费的
     		var _this=this;
+    		var phoneNum=$.trim($("#phoneNum2").val());
+    		if(phoneNum==null||phoneNum==""||phoneNum==undefined){
+    			Dialog({
+							title : '提示',
+							width : '200px',
+							height : '50px',
+							content : "手机号不能为空",
+							okValue : "确定",
+							ok : function() {
+								this.close;
+							}
+						}).showModal();
+    			return false;
+    		}
+    		var phoneFee=$.trim($("#gprs").val());
+    		if(phoneFee==null||phoneFee==""||phoneFee==undefined){
+    			Dialog({
+					title : '提示',
+					width : '200px',
+					height : '50px',
+					content : "请选择充值费用",
+					okValue : "确定",
+					ok : function() {
+						this.close;
+					}
+				}).showModal();
+    			return false;
+    		}
     		var start=$("#gprs").val().indexOf(";")+1;
     		ajaxController.ajax({
 				type: "post",
@@ -85,6 +113,35 @@ define('app/jsp/producthome/productHome', function (require, exports, module) {
     	},
     	_submitOrder:function(){//话费的
     		var _this=this;
+    		var phoneNum=$.trim($("#phoneNum1").val());
+    		if(phoneNum==null||phoneNum==""||phoneNum==undefined){
+    			Dialog({
+							title : '提示',
+							width : '200px',
+							height : '50px',
+							content : "手机号不能为空",
+							okValue : "确定",
+							ok : function() {
+								this.close;
+							}
+						}).showModal();
+    			return false;
+    		}
+    		var phoneFee=$.trim($("#phoneFee").val());
+    		if(phoneFee==null||phoneFee==""||phoneFee==undefined){
+    			Dialog({
+					title : '提示',
+					width : '200px',
+					height : '50px',
+					content : "请选择充值费用",
+					okValue : "确定",
+					ok : function() {
+						this.close;
+					}
+				}).showModal();
+    			return false;
+    		}
+    		
     		var start=$("#phoneFee").val().indexOf(";")+1;
     		ajaxController.ajax({
 				type: "post",
@@ -112,7 +169,21 @@ define('app/jsp/producthome/productHome', function (require, exports, module) {
     		var _this=this;
     		//如果等于11去查询，如果小于11把之前查询出来的信息清除
     		if($.trim($("#phoneNum1").val()).length==11){
-    			
+    			 var mobileReg = /^0?1[3|4|5|8|7][0-9]\d{8}$/; 
+    			 if(mobileReg.test($.trim($("#phoneNum1").val()))==false){
+    				 Dialog({
+    						title : '提示',
+    						width : '200px',
+    						height : '50px',
+    						content : "手机号格式不对，请重新输入",
+    						okValue : "确定",
+    						ok : function() {
+    							this.close;
+    						}
+    					}).showModal();
+    	    			return false;
+
+    			 }
     			ajaxController.ajax({
 					type: "post",
 					dataType: "json",
@@ -336,8 +407,15 @@ define('app/jsp/producthome/productHome', function (require, exports, module) {
 			});
       	},
       	_getMore: function(){
-      		window.location.href = _base + '/search/list';
+      		var agent = $("#flowOprator").val();
+      		alert(agent);
+      		var productCatId ="10000010020000";
+      		window.location.href = _base + '/search/list?billType='+productCatId+"&orgired="+agent;;
       	},
+      //详情页面
+    	_detailPage: function(skuId){
+    		window.location.href = _base +'/product/detail?skuId='+skuId;
+    	},
       	_jumpToSearch: function(price,type){
       		//获取运营商类目
       		var isCmcc = $("#cmccShowId").is(":visible");

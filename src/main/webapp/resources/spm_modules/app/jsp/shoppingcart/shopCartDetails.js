@@ -36,7 +36,21 @@ define('app/jsp/shoppingcart/shopCartDetails', function (require, exports, modul
     	setup: function () {
     		shopCartDetailsPager.superclass.setup.call(this);
     		this._renderCartProdTemple();
+			this._showErrMsg();
     	},
+		//显示错误信息
+		_showErrMsg:function(){
+			if (errMsg==null || errMsg==''){
+				return;
+			}
+			var d = Dialog({
+				content:errMsg,
+				ok:function(){
+					this.close();
+				}
+			});
+			d.show();
+		},
     	// 渲染商品信息
     	_renderCartProdTemple:function(){
     		var template = $.templates("#cartProdTemple");
@@ -313,6 +327,16 @@ define('app/jsp/shoppingcart/shopCartDetails', function (require, exports, modul
 					orderSku.push(prodObj);
 				}
 			});
+			//若未选中任何项,则不提交
+			if (orderSku.length <1){
+				var d = Dialog({
+					content:"请选择要下单商品",
+					ok:function(){
+						this.close();
+					}
+				});
+				return;
+			}
 			$("#submitForm").append("<input type='hidden' name='prodObj' value='"+JSON.stringify(orderSku)+"'/>")
 			//放入隐藏域
 			$("#submitForm").submit();

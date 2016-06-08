@@ -6,10 +6,11 @@ import com.ai.opt.sdk.components.ccs.CCSClientFactory;
 import com.ai.opt.sdk.components.idps.IDPSClientFactory;
 import com.ai.opt.sdk.dubbo.util.DubboConsumerFactory;
 import com.ai.opt.sdk.web.model.ResponseData;
+import com.ai.opt.sso.client.filter.SLPClientUser;
+import com.ai.opt.sso.client.filter.SSOClientConstants;
 import com.ai.paas.ipaas.ccs.constants.ConfigException;
 import com.ai.paas.ipaas.image.IImageClient;
 import com.ai.paas.ipaas.util.JSonUtil;
-import com.ai.slp.mall.web.constants.ComParamsConstants;
 import com.ai.slp.mall.web.constants.SLPMallConstants;
 import com.ai.slp.order.api.ordertradecenter.interfaces.IOrderTradeCenterSV;
 import com.ai.slp.order.api.ordertradecenter.param.OrdBaseInfo;
@@ -20,8 +21,10 @@ import com.ai.slp.order.api.shopcart.interfaces.IShopCartSV;
 import com.ai.slp.order.api.shopcart.param.*;
 import com.alibaba.fastjson.JSON;
 import org.apache.commons.lang.StringUtils;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -29,6 +32,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpSession;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -39,7 +43,7 @@ import java.util.Map;
 @Controller
 @RequestMapping("/shopcart")
 public class ShopCartController {
-    private static final Logger LOG = Logger.getLogger(ShopCartController.class);
+    private static final Logger LOG = LoggerFactory.getLogger(ShopCartController.class);
     /**
      * 购物车中添加商品
      */
@@ -58,7 +62,7 @@ public class ShopCartController {
             CartProd cartProd = new CartProd();
             cartProd.setBuyNum(buyNum);
             cartProd.setSkuId(skuId);
-            cartProd.setTenantId(ComParamsConstants.COM_TENANT_ID);
+            cartProd.setTenantId(SLPMallConstants.COM_TENANT_ID);
             cartProd.setUserId(getUserId(session));
             CartProdOptRes cartProdOptRes = iShopCartSV.addProd(cartProd);
             LOG.debug("添加购物车商品出参:"+ JSonUtil.toJSon(cartProdOptRes));
@@ -82,7 +86,7 @@ public class ShopCartController {
     	try{
     		IShopCartSV iShopCartSV = DubboConsumerFactory.getService("IShopCartSV");
     		UserInfo userInfo = new UserInfo();
-            userInfo.setTenantId(ComParamsConstants.COM_TENANT_ID);
+            userInfo.setTenantId(SLPMallConstants.COM_TENANT_ID);
     		userInfo.setUserId(getUserId(session));
             List<CartProdInfo> cartProdInfoList = iShopCartSV.queryCartOfUser(userInfo);
     		//统计商品数量
@@ -130,7 +134,7 @@ public class ShopCartController {
             CartProd cartProd = new CartProd();
             cartProd.setBuyNum(buyNum);
             cartProd.setSkuId(skuId);
-            cartProd.setTenantId(ComParamsConstants.COM_TENANT_ID);
+            cartProd.setTenantId(SLPMallConstants.COM_TENANT_ID);
             cartProd.setUserId(getUserId(session));
             CartProdOptRes cartProdOptRes = iShopCartSV.updateProdNum(cartProd);
             LOG.debug("修改购物车数量出参:" + JSonUtil.toJSon(cartProdOptRes));
@@ -151,16 +155,10 @@ public class ShopCartController {
     @RequestMapping("/deleteProd")
     @ResponseBody
     public ResponseData<CartProdOptRes> deleteMultiProd(HttpSession session, String skuList) {
-        IShopCartSV iShopCartSV = DubboConsumerFactory.getService("IShopCartSV");
         ResponseData<CartProdOptRes> responseData = null;
         try {
             List<String> skuIds = JSON.parseArray(skuList, String.class);
-            //设置参数
-            MultiCartProd multiCartProd = new MultiCartProd();
-            multiCartProd.setTenantId(ComParamsConstants.COM_TENANT_ID);
-            multiCartProd.setUserId(getUserId(session));
-            multiCartProd.setSkuIdList(skuIds);
-            CartProdOptRes cartProdOptRes = iShopCartSV.deleteMultiProd(multiCartProd);
+            CartProdOptRes cartProdOptRes = delProdOfCart(session,skuIds);
             LOG.debug("删除购物车商品出参:" + JSonUtil.toJSon(cartProdOptRes));
             responseData = new ResponseData<CartProdOptRes>(ResponseData.AJAX_STATUS_SUCCESS, "删除成功", cartProdOptRes);
         } catch (BusinessException | SystemException e) {
@@ -178,35 +176,47 @@ public class ShopCartController {
      * @return
      */
     @RequestMapping("/applyOrder")
-    public String applyOrder(HttpSession session,String prodObj,RedirectAttributes redirectAttributes){
+    public String applyOrder(HttpSession session, String prodObj, Model uiModel,RedirectAttributes redirectAttributes){
         IOrderTradeCenterSV ordertradeSV = DubboConsumerFactory.getService("iOrderTradeCenterSV");
         String viewStr = "jsp/order/order_submit";
         try {
             OrderTradeCenterRequest orderTradeReq = new OrderTradeCenterRequest();
-            orderTradeReq.setTenantId(ComParamsConstants.COM_TENANT_ID);
+            orderTradeReq.setTenantId(SLPMallConstants.COM_TENANT_ID);
             OrdBaseInfo ordBaseInfo = new OrdBaseInfo();
             ordBaseInfo.setUserId(getUserId(session));
+            ordBaseInfo.setOrderType(SLPMallConstants.SHOP_CART_ORDE_TYPE);
             orderTradeReq.setOrdBaseInfo(ordBaseInfo);
             List<OrdProductInfo> infoList = JSON.parseArray(prodObj, OrdProductInfo.class);
             orderTradeReq.setOrdProductInfoList(infoList);
             OrderTradeCenterResponse response = ordertradeSV.apply(orderTradeReq);
-            redirectAttributes.addAttribute("ordProductResList",response.getOrdProductResList());
-            redirectAttributes.addAttribute("orderId",response.getOrderId());
-        } catch (BusinessException | SystemException e) {
+            uiModel.addAttribute("ordProductResList",response.getOrdProductResList());
+            uiModel.addAttribute("orderId",response.getOrderId());
+            uiModel.addAttribute("ordFeeInfo", response.getOrdFeeInfo());
+            uiModel.addAttribute("expFee", 0);
+            uiModel.addAttribute("balanceFee", 0);
+            uiModel.addAttribute("balance", 0);
+            //从购物车中删除商品.
+            List<String> skuIds = new ArrayList<>();
+            for (OrdProductInfo productInfo:infoList){
+                skuIds.add(productInfo.getSkuId());
+            }
+            delProdOfCart(session,skuIds);
+        } catch (BusinessException e) {
+            LOG.error("提交订单出错", e);
             redirectAttributes.addFlashAttribute("errMsg","订单提交错误:"+e.getMessage());
-            viewStr = "redirect:shopcart/cartDetails";
-            LOG.error("提交订单出错", e);
+            viewStr = "redirect:cartDetails";
         } catch (Exception e) {
-            redirectAttributes.addFlashAttribute("errMsg","订单提交错误:未知异常");
-            viewStr = "redirect:shopcart/cartDetails";
             LOG.error("提交订单出错", e);
+            redirectAttributes.addFlashAttribute("errMsg","订单提交错误:未知异常");
+            viewStr = "redirect:cartDetails";
         }
         return viewStr;
     }
 
     private String getUserId(HttpSession session){
-//        SLPClientUser user = (SLPClientUser) session.getAttribute(SSOClientConstants.USER_SESSION_KEY);
+        SLPClientUser user = (SLPClientUser) session.getAttribute(SSOClientConstants.USER_SESSION_KEY);
         return "234";
+//        return user.getUserId();
     }
 
     /**
@@ -222,6 +232,19 @@ public class ShopCartController {
             e.printStackTrace();
         }
         return Integer.parseInt(limitNum);
+    }
+
+    /**
+     * 删除购物车中商品
+     */
+    private CartProdOptRes delProdOfCart(HttpSession session,List<String> skuIds){
+        IShopCartSV iShopCartSV = DubboConsumerFactory.getService("IShopCartSV");
+        //设置参数
+        MultiCartProd multiCartProd = new MultiCartProd();
+        multiCartProd.setTenantId(SLPMallConstants.COM_TENANT_ID);
+        multiCartProd.setUserId(getUserId(session));
+        multiCartProd.setSkuIdList(skuIds);
+        return iShopCartSV.deleteMultiProd(multiCartProd);
     }
     
 }

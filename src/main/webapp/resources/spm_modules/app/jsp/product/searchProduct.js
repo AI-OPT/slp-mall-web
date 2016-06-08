@@ -103,6 +103,7 @@ define('app/jsp/product/searchProduct', function (require, exports, module) {
 			if(type=="10000010010000"){
 				document.getElementById("typeTitleId").innerHTML="话费充值";
 			}else{
+				document.getElementById("xsWord").innerHTML="流量:";
 				document.getElementById("typeTitleId").innerHTML="流量充值";
 			}
 			//获取所在地code
@@ -112,7 +113,7 @@ define('app/jsp/product/searchProduct', function (require, exports, module) {
     		var	param={
 					areaCode:code,  
 					productCatId: $("#billType").val(),
-					basicOrgIdIs: 11,
+					basicOrgIdIs: $("#orgired").val(),
 					attrDefId:$("#priceId").val()
 				   };
     		var _this = this;
@@ -214,7 +215,7 @@ define('app/jsp/product/searchProduct', function (require, exports, module) {
       		var	param={
 					areaCode:code,  
 					productCatId: $("#billType").val(),
-					basicOrgIdIs:"12",
+					basicOrgIdIs:$("#orgired").val(),
 					attrDefId:$("#priceId").val()
 				   };
       		ajaxController.ajax({
@@ -245,7 +246,6 @@ define('app/jsp/product/searchProduct', function (require, exports, module) {
       	},
       //详情页面
     	_detailPage: function(skuId){
-    		alert(skuId);
     		window.location.href = _base +'/product/detail?skuId='+skuId;
     	},
     	//改变运营商查询条件
@@ -286,7 +286,7 @@ define('app/jsp/product/searchProduct', function (require, exports, module) {
     	_changeDataClick: function(){
     		var	param={
 					areaCode:$("#areaSearch").val(),
-					productCatId: $("#phoneProductCatSearch").val(),
+					productCatId: $("#catType").val(),
 					basicOrgIdIs: $("#agentSearch").val(),
 					attrDefId:$("#priceSearch").val()
 				   };

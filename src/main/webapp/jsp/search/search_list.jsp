@@ -64,7 +64,7 @@
                          </li>
                      </ul>
                        <ul>
-                         <li class="word">面额:</li>
+                         <li class="word" id="xsWord">面额:</li>
                          <li id="accountData">
                          <script id="accountTmpl" type="text/x-jsrender">
 							{{for accountList}}

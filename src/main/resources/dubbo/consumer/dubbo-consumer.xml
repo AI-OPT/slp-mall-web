@@ -103,5 +103,10 @@
 		interface="com.ai.slp.charge.api.paymentquery.interfaces.IPaymentQuerySV" />
 	<dubbo:reference id="iOrderTradeCenterSV"
 		interface="com.ai.slp.order.api.ordertradecenter.interfaces.IOrderTradeCenterSV" />
- 
+ 	<!-- 缴费订单接口-->
+ 	<dubbo:reference id="iPayOrderSV"
+		interface="com.ai.slp.charge.api.payment.interfaces.IPayOrderSV" />
+ 	<!-- 存款接口 -->
+ 	<dubbo:reference id="iDepositSV"
+		interface="com.ai.slp.balance.api.deposit.interfaces.IDepositSV" />
 </beans>
