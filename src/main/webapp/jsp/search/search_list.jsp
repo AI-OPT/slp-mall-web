@@ -108,20 +108,20 @@
       	  <div class="big-wrapper"><!--内侧居中框架-->    
         <!--筛选结果--> 
        		 <div class="screening-results">
-      			 <div class="results-left">
+      			 <div class="results-left" id="commonData">
                    <div class="results-left-title">
                        <ul>
                            <li><a href="#">综合排序</a></li>
-                           <li><a href="#">销量<img src="${_slpbase }/images/s.png"></a></li>
+                           <li><a href="#" id="saleOrder" value="" onclick="pager._changeSaleOrder()">销量<img src="${_slpbase }/images/s.png"></a></li>
                            <li><a href="#">评论量</a></li>
-                           <li class="rise"><a href="#">价格<img src="${_slpbase }/images/s.png"></a></li>
-                           <li class="decline" style="display:none;"><a href="#">价格<img src="${_slpbase }/images/x.png"></a></li>
+                           <li ><a href="#" id="priceOrder" value="" onclick="pager._changePriceOder()">价格<img src="${_slpbase }/images/s.png"></a></li>
+                           <!-- <li class="decline" style="display:none;"><a href="#">价格<img src="${_slpbase }/images/x.png"></a></li> -->
                        </ul>
                    </div>
                     <div class="results-left-city">
                          <ul>
                          <li>配送至:</li>
-                             <li class="city"><a href="#" >北京<img src="${_slpbase }/images/open-a.png"></a>
+                             <li class="city"><a href="#" id="currentDispatch">北京<img src="${_slpbase }/images/open-a.png"></a>
                              <!--选择所在地城市-->
                                      <div class="city-hover" style="display:none;">
                                           <ul class="title">
@@ -132,41 +132,12 @@
                                               <li><A href="#">浙江</A></li> 
                                               <li><A href="#">江苏</A></li>                             
                                           </ul>
-                                           <ul class="city-list">
-                                              <li><A href="#">北京</A></li>
-                                              <li><A href="#">上海</A></li>
-                                              <li><A href="#">天津</A></li>
-                                              <li><A href="#">重庆</A></li>
-                                              <li><A href="#">河北</A></li> 
-                                              <li><A href="#">山西</A></li>
-                                              <li><A href="#">河南</A></li>
-                                              <li><A href="#">辽宁</A></li>
-                                              <li><A href="#">吉林</A></li>
-                                              <li><A href="#">黑龙江</A></li>
-                                              <li><A href="#">内蒙古</A></li> 
-                                              <li><A href="#">江苏</A></li>
-                                              <li><A href="#">山东</A></li>
-                                              <li><A href="#">安徽</A></li>
-                                              <li><A href="#">浙江</A></li>
-                                              <li><A href="#">福建</A></li>
-                                              <li><A href="#">湖北</A></li>
-                                              <li><A href="#">广东</A></li>
-                                              <li><A href="#">海南</A></li> 
-                                              <li><A href="#">四川</A></li>
-                                              <li><A href="#">贵州</A></li>  
-                                              <li><A href="#">云南</A></li>
-                                              <li><A href="#">北京</A></li>
-                                              <li><A href="#">西藏</A></li>
-                                              <li><A href="#">甘肃</A></li>
-                                              <li><A href="#">青海</A></li>
-                                              <li><A href="#">宁夏</A></li> 
-                                              <li><A href="#">新疆</A></li>
-                                              <li><A href="#">台湾</A></li>
-                                              <li><A href="#">香港</A></li>
-                                              <li><A href="#">澳门</A></li>                           
+                                           <ul class="city-list" id="dispatchCityShowData">
+                                           <script id="dispatchCityTmpl" type="text/x-jsrender">
+												<li><A href="javascript:void(0)" areaCodeId="{{:areaCode}}" areaNameId="{{:areaName}}"class="DSP_BTN">{{:areaName}}</A></li>
+					   						</script>
                                           </ul>
                                       </div>
-                                      
                              </li> 
                            <!--选择所在地城市结束-->   
                          </ul>
