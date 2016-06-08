@@ -95,7 +95,7 @@ define('app/jsp/producthome/productHome', function (require, exports, module) {
 				dataType: "json",
 				url: _base+"/order/orderCommit",
 				data:{
-					orderType:"100011",//暂时传运营商的县官信息
+					orderType:"100010",//暂时传运营商的县官信息
 					skuId:$("#gprs").val().substr(start,$("#gprs").val().length),
 					buySum:"1",
 					basicOrgId:$("#gbasicOrgId").val(),
@@ -259,6 +259,7 @@ define('app/jsp/producthome/productHome', function (require, exports, module) {
 							
 							var provCode=d.provinceCode;
 							var basicOrgId=d.basicOrgCode;
+							$("#gprs").html("");
 							//userType 
 							//userId
 							ajaxController.ajax({
@@ -272,7 +273,7 @@ define('app/jsp/producthome/productHome', function (require, exports, module) {
 									},
 								success: function(data){
 									var d=data.data;
-									$("#gprs").html("");
+									
 									if(d){
 										var phoneFee=d.phoneFee;
 										$.each(phoneFee,function(index,item){
@@ -292,16 +293,21 @@ define('app/jsp/producthome/productHome', function (require, exports, module) {
     	},
     	_changeLocation:function(){
     		var _this=this;
+    		$("#gprs").html("");
     		ajaxController.ajax({
 				type: "post",
 				dataType: "json",
-				url: _base+"/getOneGprs",
+				url: _base+"/getFastGprs",
 				data:{
+					provCode:$("#PCode1").val(),
+					basicOrgId:$("#gbasicOrgId").val(),
 					location:$("#location").val()
 					},
 				success: function(data){
+					
+					
+					
 					var d=data.data;
-					$("#gprs").html("");
 					if(d&&d.phoneFee){
 						var phoneFee=d.phoneFee;
 						$.each(phoneFee,function(index,item){

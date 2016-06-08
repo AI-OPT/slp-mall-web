@@ -279,20 +279,23 @@ public class HomeController {
 				}
 				feeRes.setPhoneFee(phoneFee);
 				// 缓存本地的数据
-				localCache = feeRes;
+				//localCache = feeRes;
 			} else {// 全国
-				for (Entry<String, FastSkuProdInfo> map : sortMapByKey(res.getNationMap()).entrySet()) {
-					PhoneFee fee = new PhoneFee();
+				if(res.getNationMap()!=null){
+					for (Entry<String, FastSkuProdInfo> map : sortMapByKey(res.getNationMap()).entrySet()) {
+						PhoneFee fee = new PhoneFee();
 
-					fee.setContent(map.getKey());
+						fee.setContent(map.getKey());
 
-					fee.setSkuInfo(map.getValue());
-					phoneFee.add(fee);
+						fee.setSkuInfo(map.getValue());
+						phoneFee.add(fee);
+					}
 				}
+				
 				feeRes.setPhoneFee(phoneFee);
 
 				// 缓存全国的数据
-				nationCache = feeRes;
+				//nationCache = feeRes;
 			}
 
 			System.out.println(JSON.toJSONString(res));
