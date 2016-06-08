@@ -222,7 +222,7 @@ define('app/jsp/shoppingcart/shopCartDetails', function (require, exports, modul
 			        allProdNum += num;
 			    }
 			});
-    		$("#cartProdTotal").html(prodTotal);
+    		$("#cartProdTotal").html("¥"+this._fmoneyOf2(prodTotal,2));
     		$("#checkProductNum").html(prodNum);
     		//商品总量
     		$("input[name='outOfStockProd']").each(function(i){  
