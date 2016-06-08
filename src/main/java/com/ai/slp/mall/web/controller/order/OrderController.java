@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
@@ -22,6 +23,8 @@ import com.ai.opt.sdk.util.BeanUtils;
 import com.ai.opt.sdk.util.DateUtil;
 import com.ai.opt.sdk.util.UUIDUtil;
 import com.ai.opt.sdk.web.model.ResponseData;
+import com.ai.opt.sso.client.filter.SLPClientUser;
+import com.ai.opt.sso.client.filter.SSOClientConstants;
 import com.ai.paas.ipaas.image.IImageClient;
 import com.ai.paas.ipaas.util.JSonUtil;
 import com.ai.slp.common.api.cache.interfaces.ICacheSV;
@@ -36,8 +39,8 @@ import com.ai.slp.mall.web.util.CacheUtil;
 import com.ai.slp.order.api.orderlist.interfaces.IOrderListSV;
 import com.ai.slp.order.api.orderlist.param.OrdOrderVo;
 import com.ai.slp.order.api.orderlist.param.OrdProductVo;
-import com.ai.slp.order.api.orderlist.param.ProductImage;
 import com.ai.slp.order.api.orderlist.param.ProdExtendInfoVo;
+import com.ai.slp.order.api.orderlist.param.ProductImage;
 import com.ai.slp.order.api.orderlist.param.QueryOrderListRequest;
 import com.ai.slp.order.api.orderlist.param.QueryOrderListResponse;
 import com.ai.slp.order.api.orderlist.param.QueryOrderRequest;
@@ -78,38 +81,12 @@ public class OrderController {
 		ResponseData<PageInfo<OrdOrderVo>> responseData = null;
 		try {
 			String searchType = queryParams.getSearchType();
-			QueryOrderListRequest queryRequest = new QueryOrderListRequest();
-			BeanUtils.copyProperties(queryRequest, queryParams);
-			if("1".equals(searchType)){
-				String selectTime = queryParams.getSelectTime();
-				queryRequest.setOrderTimeBegin(null);
-				queryRequest.setOrderTimeEnd(null);
-				if("1".equals(selectTime)){//3月内
-					String startDateStr = getBeforeMonthDate(3);
-					queryRequest.setOrderTimeBegin(startDateStr);
-					String endDateStr = DateUtil.getDateString("yyyy-MM-dd HH:mm:ss");
-					queryRequest.setOrderTimeEnd(endDateStr);
-				}else if("2".equals(selectTime)){//当年
-					String startDateStr = getYearBeginDate();
-					queryRequest.setOrderTimeBegin(startDateStr);
-					String endDateStr = DateUtil.getDateString("yyyy-MM-dd HH:mm:ss");
-					queryRequest.setOrderTimeEnd(endDateStr);
-				}
-			}else{
-				String orderTimeBegin = queryRequest.getOrderTimeBegin();
-				if(!StringUtil.isBlank(orderTimeBegin)){
-					queryRequest.setOrderTimeBegin(orderTimeBegin+" 00:00:00");
-				}
-				String orderTimeEnd = queryRequest.getOrderTimeEnd();
-				if(!StringUtil.isBlank(orderTimeEnd)){
-					queryRequest.setOrderTimeEnd(orderTimeEnd+" 23:59:59");
-				}
-			}
+			QueryOrderListRequest queryRequest = getQueryOrderListParams(request, queryParams, searchType);
 			IOrderListSV iOrderListSV = DubboConsumerFactory.getService("iOrderListSV");
 			QueryOrderListResponse orderListResponse = iOrderListSV.queryOrderList(queryRequest);
 			if(orderListResponse != null && orderListResponse.getResponseHeader().isSuccess()){
 				PageInfo<OrdOrderVo> pageInfo=orderListResponse.getPageInfo();
-				setProductImageUrl(pageInfo);
+				setOrderListImageUrl(pageInfo);
 				responseData = new ResponseData<PageInfo<OrdOrderVo>>(ExceptionCode.SUCCESS, "查询成功", pageInfo);
 			}else{
 				responseData = new ResponseData<PageInfo<OrdOrderVo>>(ExceptionCode.SYSTEM_ERROR, "查询失败", null);
@@ -123,25 +100,75 @@ public class OrderController {
 	}
 
 	/**
+	 * 获取查询订单列表参数
+	 * @param queryParams
+	 * @param searchType
+	 * @return
+	 */
+	private QueryOrderListRequest getQueryOrderListParams(HttpServletRequest request,OrderListQueryParams queryParams, String searchType) {
+		QueryOrderListRequest queryRequest = new QueryOrderListRequest();
+		BeanUtils.copyProperties(queryRequest, queryParams);
+		if("1".equals(searchType)){
+			String selectTime = queryParams.getSelectTime();
+			queryRequest.setOrderTimeBegin(null);
+			queryRequest.setOrderTimeEnd(null);
+			if("1".equals(selectTime)){//3月内
+				String startDateStr = getBeforeMonthDate(3);
+				queryRequest.setOrderTimeBegin(startDateStr);
+				String endDateStr = DateUtil.getDateString("yyyy-MM-dd HH:mm:ss");
+				queryRequest.setOrderTimeEnd(endDateStr);
+			}else if("2".equals(selectTime)){//当年
+				String startDateStr = getYearBeginDate();
+				queryRequest.setOrderTimeBegin(startDateStr);
+				String endDateStr = DateUtil.getDateString("yyyy-MM-dd HH:mm:ss");
+				queryRequest.setOrderTimeEnd(endDateStr);
+			}
+		}else{
+			String orderTimeBegin = queryRequest.getOrderTimeBegin();
+			if(!StringUtil.isBlank(orderTimeBegin)){
+				queryRequest.setOrderTimeBegin(orderTimeBegin+" 00:00:00");
+			}
+			String orderTimeEnd = queryRequest.getOrderTimeEnd();
+			if(!StringUtil.isBlank(orderTimeEnd)){
+				queryRequest.setOrderTimeEnd(orderTimeEnd+" 23:59:59");
+			}
+		}
+		queryRequest.setTenantId("SLP");
+		HttpSession session=request.getSession();
+		SLPClientUser user = (SLPClientUser) session.getAttribute(SSOClientConstants.USER_SESSION_KEY);
+		queryRequest.setUserId(user.getUserId());
+		return queryRequest;
+	}
+
+	/**
 	 * 设置商品图片
 	 * @param pageInfo
 	 */
-	private void setProductImageUrl(PageInfo<OrdOrderVo> pageInfo) {
+	private void setOrderListImageUrl(PageInfo<OrdOrderVo> pageInfo) {
 		// 获取imageClient
 		IImageClient imageClient = IDPSClientFactory.getImageClient(ProductImageConstant.IDPSNS);
 		List<OrdOrderVo> orderList = pageInfo.getResult();
 		if(orderList != null && orderList.size()>0){
 			for(OrdOrderVo orderVo : orderList){
 				List<OrdProductVo> productList = orderVo.getProductList();
-				if(productList != null && productList.size()>0){
-					for(OrdProductVo productVo: productList){
-						ProductImage productImage = productVo.getProductImage();
-						String picType = productImage.getPicType();
-						String vfsId = productImage.getVfsId();
-						String imageUrl = imageClient.getImageUrl(vfsId, picType, "60x60");
-						productVo.setImageUrl(imageUrl);
-					}
-				}
+				setProductImageUrl(imageClient, productList);
+			}
+		}
+	}
+
+	/**
+	 * 设置商品图片url
+	 * @param imageClient
+	 * @param productList
+	 */
+	private void setProductImageUrl(IImageClient imageClient, List<OrdProductVo> productList) {
+		if(productList != null && productList.size()>0){
+			for(OrdProductVo productVo: productList){
+				ProductImage productImage = productVo.getProductImage();
+				String picType = productImage.getPicType();
+				String vfsId = productImage.getVfsId();
+				String imageUrl = imageClient.getImageUrl(vfsId, picType, "60x60");
+				productVo.setImageUrl(imageUrl);
 			}
 		}
 	}
@@ -188,6 +215,10 @@ public class OrderController {
 		OrdOrderVo orderDetail = getOrderDetail(request, orderRequest);
 		Map<String,String> model  = new HashMap<String,String>();
 		if(orderDetail != null){
+			// 获取imageClient
+			IImageClient imageClient = IDPSClientFactory.getImageClient(ProductImageConstant.IDPSNS);
+			List<OrdProductVo> productList = orderDetail.getProductList();
+			setProductImageUrl(imageClient, productList);
 			String orderJSon = JSonUtil.toJSon(orderDetail);
 			model.put("orderDetail", orderJSon);
 		}
@@ -279,10 +310,14 @@ public class OrderController {
 		 List<OrdProductResInfo> ordProductResList = response.getOrdProductResList();
 		 OrdFeeInfo ordFeeInfo = response.getOrdFeeInfo();
 		 model.addAttribute("ordProductResList",ordProductResList);
-		 model.addAttribute("ordFeeInfo", ordFeeInfo);
-		 model.addAttribute("orderId", response.getOrderId());
+		 model.addAttribute("prodNum",ordProductResList==null?0:ordProductResList.size());
+		 model.addAttribute("totalFee", ordFeeInfo.getTotalFee());
 		 model.addAttribute("expFee", 0);
+		 model.addAttribute("totalFee", ordFeeInfo.getTotalFee());
+		 model.addAttribute("discountFee", ordFeeInfo.getDiscountFee());
 		 model.addAttribute("balanceFee", 0);
+		 model.addAttribute("adjustFee", ordFeeInfo.getTotalFee());
+		 model.addAttribute("orderId", response.getOrderId());
 		 model.addAttribute("balance", 0);
 		 
 		System.out.println("____>"+JSON.toJSONString(response));
