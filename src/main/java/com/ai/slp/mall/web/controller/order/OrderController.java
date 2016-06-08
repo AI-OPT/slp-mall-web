@@ -291,7 +291,14 @@ public class OrderController {
 		PayOrderRequest res = (PayOrderRequest) CacheUtil.getValue(orderKey, SLPMallConstants.Order.CACHE_NAMESPACE,
 				PayOrderRequest.class);
 		OrderTradeCenterRequest orderrequest = new OrderTradeCenterRequest();
-		orderrequest.setTenantId("SLP");
+		HttpSession session = request.getSession();
+		SLPClientUser user = (SLPClientUser) session.getAttribute(SSOClientConstants.USER_SESSION_KEY);
+		if(null==user){
+			orderrequest.setTenantId("SLP");
+		}else{
+			orderrequest.setTenantId(user.getTenantId());
+		}
+		
 		OrdBaseInfo baseInfo = new OrdBaseInfo();
 		baseInfo.setUserId(res.getUserId());
 		baseInfo.setOrderType(res.getOrderType());
@@ -321,8 +328,7 @@ public class OrderController {
 
 		String orderId = String.valueOf(response.getOrderId());
 
-		List<OrdProductResInfo> ordProductResList = response.getOrdProductResList();
-		OrdFeeInfo ordFeeInfo = response.getOrdFeeInfo();
+		
 		
 
 		return "redirect:/order/pay?orderId=" + orderId;
