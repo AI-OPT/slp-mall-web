@@ -243,7 +243,7 @@ define('app/jsp/product/productDetail', function (require, exports, module) {
       	//立即购买
       	_buyProduct:function(){
     		var _this=this;
-    		var data = _getBuyProductData();
+    		var data = this._getBuyProductData();
     		ajaxController.ajax({
 				type: "post",
 				dataType: "json",
