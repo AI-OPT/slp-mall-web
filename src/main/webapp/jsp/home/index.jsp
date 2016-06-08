@@ -295,8 +295,8 @@
  <script id="phoneBillTmpl" type="text/x-jsrender">
 				<a href="#">
                 	<ul>
-                		<li><img src="{{:picUrl}}"></li>
-                		<li class="tit">{{:prodName}}</li>
+                		<li onclick="pager._detailPage('{{:skuId}}')"><img src="{{:picUrl}}"></li>
+                		<li class="tit" onclick="pager._detailPage('{{:skuId}}')">{{:prodName}}</li>
                 		<li class="dred">{{:~liToYuan(salePrice)}}元</li> 
                 	</ul>
                 </a>
@@ -305,19 +305,19 @@
          {{if #index%4==0}}
 				<a href="#" class="mar-none">
                 	<ul>
-                		<li class="word">{{:prodName}}</li>
+                		<li class="word" onclick="pager._detailPage('{{:skuId}}')">{{:prodName}}</li>
           				<li class="ash">{{:productSellPoint}}</li>
           				<li class="dred">¥{{:~liToYuan(salePrice)}}</li>
-          				<li><img src="{{:picUrl}}"></li> 
+          				<li onclick="pager._detailPage('{{:skuId}}')"><img src="{{:picUrl}}"></li> 
                 	</ul>
                 </a>
 		{{else}}
 				<a href="#">
                 	<ul>
-                		<li class="word">{{:prodName}}</li>
+                		<li class="word" onclick="pager._detailPage('{{:skuId}}')">{{:prodName}}</li>
           				<li class="ash">{{:productSellPoint}}</li>
           				<li class="dred">¥{{:~liToYuan(salePrice)}}</li>
-          				<li><img src="{{:picUrl}}"></li> 
+          				<li onclick="pager._detailPage('{{:skuId}}')"><img src="{{:picUrl}}"></li> 
                 	</ul>
                 </a>
 		{{/if}}
@@ -325,8 +325,8 @@
 <script id="flowTmpl" type="text/x-jsrender">
 				<a href="#">
                 	<ul>
-                		<li><img src="{{:picUrl}}"></li>
-                		<li class="tit">{{:prodName}}</li>
+                		<li onclick="pager._detailPage('{{:skuId}}')"><img src="{{:picUrl}}"></li>
+                		<li class="tit" onclick="pager._detailPage('{{:skuId}}')" >{{:prodName}}</li>
                 		<li class="dred">{{:~liToYuan(salePrice)}}元</li> 
                 	</ul>
                 </a>

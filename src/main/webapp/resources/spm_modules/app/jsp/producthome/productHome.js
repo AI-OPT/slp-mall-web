@@ -407,8 +407,15 @@ define('app/jsp/producthome/productHome', function (require, exports, module) {
 			});
       	},
       	_getMore: function(){
-      		window.location.href = _base + '/search/list';
+      		var agent = $("#flowOprator").val();
+      		alert(agent);
+      		var productCatId ="10000010020000";
+      		window.location.href = _base + '/search/list?billType='+productCatId+"&orgired="+agent;;
       	},
+      //详情页面
+    	_detailPage: function(skuId){
+    		window.location.href = _base +'/product/detail?skuId='+skuId;
+    	},
       	_jumpToSearch: function(price,type){
       		//获取运营商类目
       		var isCmcc = $("#cmccShowId").is(":visible");
