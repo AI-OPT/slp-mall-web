@@ -55,13 +55,12 @@ define('app/jsp/shoppingcart/shopCartDetails', function (require, exports, modul
     			//如果是减不能小于1
     			return;
     		}
-    		if(prodNum==-1 && oldNum>=stockNum){
+    		if(prodNum==-1 && oldNum>stockNum){
     			//如果大于库存量则改为当前库存量
     			oldNum = stockNum;
     			return;
     		}
-    		alert(skuNumLimit);
-    		if(prodNum==1 && (oldNum>=skuNumLimit || oldNum>=stockNum)){
+    		if(prodNum==1 && (oldNum>skuNumLimit || oldNum>stockNum)){
     			return;
     		}
     		// 重新赋值
@@ -193,7 +192,7 @@ define('app/jsp/shoppingcart/shopCartDetails', function (require, exports, modul
 			    if('checked' == isCheck || isCheck){
 			        //获取ID并添加到list集合
 			        var id = $(this).prop("id");
-					var prodPrice = $("#"+id+"_prodPriceSubtotal").text().replace("¥", "");
+					var prodPrice = $("#"+id+"_prodPriceSubtotal").text().replace("¥", "").replace(",", "");
 			        var price = parseFloat(prodPrice);
 			        //计算价格
 			        prodTotal += price;
@@ -273,7 +272,7 @@ define('app/jsp/shoppingcart/shopCartDetails', function (require, exports, modul
 			    var isCheck = $(this).prop("checked");
 			    if('checked' == isCheck || isCheck){
 			    	count++;
-			    	if(i==count){
+			    	if(i==count-1){
 			    		$("input[name='checkAll']").prop("checked",true);
 			    	}
 			    }else{
@@ -294,17 +293,10 @@ define('app/jsp/shoppingcart/shopCartDetails', function (require, exports, modul
 				url: _base+"/shopcart/updateProdNum",
 				data:{"skuId":skuId,"buyNum":buyNum},
 				success: function(data){
-					if("0"===data.statusCode){
-						// 失败把原始数据返回
-						$("#"+prodId+"_oldProdNum").val(oldNum);
-						var d = Dialog({
-							content:"修改失败",
-							ok:function(){
-								this.close();
-							}
-						});
-						d.show();
-					}
+				},
+				failure:function(domObj,data){
+					// 失败把原始数据返回
+					$("#"+skuId+"_prodnum").val(oldNum);
 				}
 			});
     	},
