@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
@@ -22,6 +23,8 @@ import com.ai.opt.sdk.util.BeanUtils;
 import com.ai.opt.sdk.util.DateUtil;
 import com.ai.opt.sdk.util.UUIDUtil;
 import com.ai.opt.sdk.web.model.ResponseData;
+import com.ai.opt.sso.client.filter.SLPClientUser;
+import com.ai.opt.sso.client.filter.SSOClientConstants;
 import com.ai.paas.ipaas.image.IImageClient;
 import com.ai.paas.ipaas.util.JSonUtil;
 import com.ai.slp.common.api.cache.interfaces.ICacheSV;
@@ -36,8 +39,8 @@ import com.ai.slp.mall.web.util.CacheUtil;
 import com.ai.slp.order.api.orderlist.interfaces.IOrderListSV;
 import com.ai.slp.order.api.orderlist.param.OrdOrderVo;
 import com.ai.slp.order.api.orderlist.param.OrdProductVo;
-import com.ai.slp.order.api.orderlist.param.ProductImage;
 import com.ai.slp.order.api.orderlist.param.ProdExtendInfoVo;
+import com.ai.slp.order.api.orderlist.param.ProductImage;
 import com.ai.slp.order.api.orderlist.param.QueryOrderListRequest;
 import com.ai.slp.order.api.orderlist.param.QueryOrderListResponse;
 import com.ai.slp.order.api.orderlist.param.QueryOrderRequest;
@@ -232,8 +235,17 @@ public class OrderController {
 		// InfoJsonVo 扩展信息
 		ResponseData<String> resData = null;
 		try {
+			HttpSession session = request.getSession();
+			
+	        SLPClientUser user = (SLPClientUser) session.getAttribute(SSOClientConstants.USER_SESSION_KEY);
+	        if(null==user){
+	        	orderReq.setUserId("900000000000000000");//先写死
+	        }else{
+	        	orderReq.setUserId(user.getUserId());
+	        }
+
 			String orderKey = UUIDUtil.genId32();
-			orderReq.setUserId("900000000000000000");//先写死
+			
 			CacheUtil.setValue(orderKey, 300, orderReq, SLPMallConstants.Order.CACHE_NAMESPACE);
 			resData=new ResponseData<String>(ExceptionCode.SUCCESS, "查询成功", orderKey);
 			

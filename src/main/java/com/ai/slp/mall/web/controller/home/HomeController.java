@@ -7,6 +7,7 @@ import java.util.Map.Entry;
 import java.util.TreeMap;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,6 +18,8 @@ import org.springframework.web.servlet.ModelAndView;
 import com.ai.opt.sdk.dubbo.util.DubboConsumerFactory;
 import com.ai.opt.sdk.util.CollectionUtil;
 import com.ai.opt.sdk.web.model.ResponseData;
+import com.ai.opt.sso.client.filter.SLPClientUser;
+import com.ai.opt.sso.client.filter.SSOClientConstants;
 import com.ai.slp.common.api.servicenum.interfaces.IServiceNumSV;
 import com.ai.slp.common.api.servicenum.param.ServiceNum;
 import com.ai.slp.mall.web.model.compare.MapKeyComparator;
@@ -182,11 +185,21 @@ public class HomeController {
 		IProductHomeSV iProductHomeSV = DubboConsumerFactory.getService(IProductHomeSV.class);
 		ResponseData<FastProductResponse> responseData = null;
 		try {
+			HttpSession session = request.getSession();
+			SLPClientUser user = (SLPClientUser) session.getAttribute(SSOClientConstants.USER_SESSION_KEY);
 			FastProductReq req = new FastProductReq();
-			req.setTenantId("SLP");
+			if(null==user){
+				req.setTenantId("SLP");
+				req.setUserType("10");
+			}else{
+				req.setTenantId(user.getTenantId());
+				req.setUserType(user.getUserType());
+			}
+			
+			
 			req.setBasicOrgId(fastProduct.getBasicOrgId());
 			req.setProductCatId("10000010010000");
-			req.setUserType("10");
+			
 			req.setProvCode(Integer.valueOf(fastProduct.getProvCode()));
 			FastProductInfoRes res = iProductHomeSV.queryFastProduct(req);
 
@@ -232,17 +245,27 @@ public class HomeController {
 		IProductHomeSV iProductHomeSV = DubboConsumerFactory.getService(IProductHomeSV.class);
 		ResponseData<FastProductResponse> responseData = null;
 		try {
+			HttpSession session = request.getSession();
+			SLPClientUser user = (SLPClientUser) session.getAttribute(SSOClientConstants.USER_SESSION_KEY);
+			
 			FastProductReq req = new FastProductReq();
-			req.setTenantId("SLP");
+			if(null==user){
+				req.setTenantId("SLP");
+				req.setUserType("10");
+			}else{
+				req.setTenantId(user.getTenantId());
+				req.setUserType(user.getUserType());
+			}
+			
 			req.setBasicOrgId(fastProduct.getBasicOrgId());
 			req.setProductCatId("10000010020000");
-			req.setUserType("10");
+			
 			req.setProvCode(Integer.valueOf(fastProduct.getProvCode()));
 			FastProductInfoRes res = iProductHomeSV.queryFastProduct(req);
 			FastProductResponse feeRes = new FastProductResponse();
 			List<PhoneFee> phoneFee = new ArrayList<PhoneFee>();
 			if ("local".equals(fastProduct.getLocation())) {// 本地
-				
+
 				for (Entry<String, FastSkuProdInfo> map : sortMapByKey(res.getLocalMap()).entrySet()) {
 					PhoneFee fee = new PhoneFee();
 
@@ -291,11 +314,9 @@ public class HomeController {
 
 			if ("local".equals(fastProduct.getLocation())) {// 本地
 
-				
 				feeRes = localCache;
 			} else {// 全国
 
-				
 				feeRes = nationCache;
 			}
 
@@ -307,12 +328,14 @@ public class HomeController {
 
 		return responseData;
 	}
+
 	/**
 	 * 使用 Map按key进行排序
+	 * 
 	 * @param map
 	 * @return
 	 */
-	
+
 	public static Map<String, FastSkuProdInfo> sortMapByKey(Map<String, FastSkuProdInfo> map) {
 		if (map == null || map.isEmpty()) {
 			return null;
@@ -324,7 +347,6 @@ public class HomeController {
 
 		return sortMap;
 	}
-	//比较器类  
-	
+	// 比较器类
 
 }
