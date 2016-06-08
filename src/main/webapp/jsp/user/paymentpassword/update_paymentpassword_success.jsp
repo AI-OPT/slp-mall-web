@@ -9,8 +9,18 @@
 	<link href="${_slpbase }/styles/frame.css" rel="stylesheet" type="text/css"/>
 	<link href="${_slpbase }/styles/font-awesome.css" rel="stylesheet" type="text/css"/>
 
+<script type="">
+(function() {
+			seajs.use([ 'app/jsp/user/bandemail/payPasswordConfirmInfo'], function(ConfirmInfoPager) {
+				var pager = new ConfirmInfoPager({
+					element : document.body
+				});
+				pager.render();
+			});
+		})();
+</script>
 </head>
- 
+
 
 <body>
  <!--顶部菜单-->
@@ -37,11 +47,6 @@
       </div>
       <div class="account-bj">
     
-       <!--提示风险-->
-        <div class="prompt-risk">
-            <p>提示：支付密码未启用。在使用账户余额等资产时，需要输入支付密码，提升账户安全度。支付密码不允许与登录密码相同！</p>
-            <p class="img"><img src="${_slpbase }/images/yue-1.png"/></p>
-        </div>
       
        <!--步骤-->
            <div class="steps">
@@ -56,10 +61,9 @@
                      <li class="yellow-word">设置支付密码</li>
                      </ul>
                       <ul>
-                     <li class="ash-border"></li>
-                     <li class="ash-yuan">3</li>
-                     <li class="ash-word">完成</li>
-                     </ul>
+                     <li class="yellow-border"></li>
+                     <li class="yellow-yuan">3</li>
+                     <li class="yellow-word">完成</li>
            </div>                                          
           <!--/步骤结束-->
               <div class="recharge-success">
