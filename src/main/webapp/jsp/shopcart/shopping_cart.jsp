@@ -131,8 +131,10 @@
           </li>
          </ul>
           </div>
+            <form id="submitForm" action="${_base}/shopcart/applyOrder" method="post">
 
-          <div class="right-btn"><input type="button" class="slp-btn topay-btn" value="提交订单"></div>
+            </form>
+          <div class="right-btn"><input id="submitOrder" type="button" class="slp-btn topay-btn" value="提交订单"></div>
          </div>
      </div>
  </div>

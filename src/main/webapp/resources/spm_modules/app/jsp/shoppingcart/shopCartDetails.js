@@ -30,6 +30,7 @@ define('app/jsp/shoppingcart/shopCartDetails', function (require, exports, modul
             // 全选
     		"click input[name='checkOne']":"_checkOne",
     		"click #deleteSelectProd":"_delSelectProd",
+			"click #submitOrder":"_submitOrder"
         },
     	// 重写父类
     	setup: function () {
@@ -307,6 +308,23 @@ define('app/jsp/shoppingcart/shopCartDetails', function (require, exports, modul
 				}
 			});
     	},
+		_submitOrder:function(){
+			var orderSku = new Array();
+			//循环计算已选商品
+			$("input[name='checkOne']").each(function(i){
+				var isCheck = $(this).prop("checked");
+				if('checked' == isCheck || isCheck){
+					//获取ID并添加到list集合
+					var skuId = $(this).prop("id");
+					var proNum = $("#"+skuId+"_prodnum").val();
+					var prodObj = {"skuId":skuId,"buySum":proNum};
+					orderSku.push(prodObj);
+				}
+			});
+			$("#submitForm").append("<input type='hidden' name='prodObj' value='"+JSON.stringify(orderSku)+"'/>")
+			//放入隐藏域
+			$("#submitForm").submit();
+		}
     });
     
     module.exports = shopCartDetailsPager

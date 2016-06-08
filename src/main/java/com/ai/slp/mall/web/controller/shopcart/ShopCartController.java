@@ -12,6 +12,10 @@ import com.ai.paas.ipaas.util.JSonUtil;
 import com.ai.slp.mall.web.constants.ComParamsConstants;
 import com.ai.slp.mall.web.constants.SLPMallConstants;
 import com.ai.slp.order.api.ordertradecenter.interfaces.IOrderTradeCenterSV;
+import com.ai.slp.order.api.ordertradecenter.param.OrdBaseInfo;
+import com.ai.slp.order.api.ordertradecenter.param.OrdProductInfo;
+import com.ai.slp.order.api.ordertradecenter.param.OrderTradeCenterRequest;
+import com.ai.slp.order.api.ordertradecenter.param.OrderTradeCenterResponse;
 import com.ai.slp.order.api.shopcart.interfaces.IShopCartSV;
 import com.ai.slp.order.api.shopcart.param.*;
 import com.alibaba.fastjson.JSON;
@@ -22,6 +26,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpSession;
 import java.util.HashMap;
@@ -173,22 +178,30 @@ public class ShopCartController {
      * @return
      */
     @RequestMapping("/applyOrder")
-    public ModelAndView applyOrder(HttpSession session){
+    public String applyOrder(HttpSession session,String prodObj,RedirectAttributes redirectAttributes){
         IOrderTradeCenterSV ordertradeSV = DubboConsumerFactory.getService("iOrderTradeCenterSV");
-
-//        try {
-//            OrderTradeCenterRequest orderTradeReq = new OrderTradeCenterRequest();
-//            ordertradeSV.apply(orderTradeReq);
-//            responseData = new ResponseData<CartProdOptRes>(ResponseData.AJAX_STATUS_SUCCESS, "修改成功", cartProdOptRes);
-//        } catch (BusinessException | SystemException e) {
-//            responseData = new ResponseData<CartProdOptRes>(ResponseData.AJAX_STATUS_FAILURE, "修改失败:" + e.getMessage());
-//            LOG.error("修改购物车数量出错", e);
-//        } catch (Exception e) {
-//            responseData = new ResponseData<CartProdOptRes>(ResponseData.AJAX_STATUS_FAILURE, "修改失败,出现未知异常");
-//            LOG.error("修改购物车数量出错", e);
-//        }
-        ModelAndView view = new ModelAndView("");
-        return view;
+        String viewStr = "jsp/order/order_submit";
+        try {
+            OrderTradeCenterRequest orderTradeReq = new OrderTradeCenterRequest();
+            orderTradeReq.setTenantId(ComParamsConstants.COM_TENANT_ID);
+            OrdBaseInfo ordBaseInfo = new OrdBaseInfo();
+            ordBaseInfo.setUserId(getUserId(session));
+            orderTradeReq.setOrdBaseInfo(ordBaseInfo);
+            List<OrdProductInfo> infoList = JSON.parseArray(prodObj, OrdProductInfo.class);
+            orderTradeReq.setOrdProductInfoList(infoList);
+            OrderTradeCenterResponse response = ordertradeSV.apply(orderTradeReq);
+            redirectAttributes.addAttribute("ordProductResList",response.getOrdProductResList());
+            redirectAttributes.addAttribute("orderId",response.getOrderId());
+        } catch (BusinessException | SystemException e) {
+            redirectAttributes.addFlashAttribute("errMsg","订单提交错误:"+e.getMessage());
+            viewStr = "redirect:shopcart/cartDetails";
+            LOG.error("提交订单出错", e);
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("errMsg","订单提交错误:未知异常");
+            viewStr = "redirect:shopcart/cartDetails";
+            LOG.error("提交订单出错", e);
+        }
+        return viewStr;
     }
 
     private String getUserId(HttpSession session){
