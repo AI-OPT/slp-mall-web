@@ -183,6 +183,7 @@ public class SearchController {
                         vo.setSkuId(data.getSkuId());
                         vo.setProdName(data.getProdName());
                         vo.setSalePrice(data.getSalePrice());
+                        vo.setProductCatId(data.getProductCatId());
                         vo.setPicUrl(ImageUtil.getImage(data.getImageinfo().getVfsId(),data.getImageinfo().getPicType()));
                         //获取缩略图id
                        List<ProductImage> iamgeList = data.getThumbnail();

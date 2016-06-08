@@ -62,7 +62,7 @@
                                 <td class="sp">
                                     <table width="100%" border="0">
                                           <tr>
-                                            <td class="word" width="25%"><img src="${_slpbase }/images/sim.png"></td>
+                                            <td class="word" width="25%"><img src="{{:picUrl}}"></td>
                                             <td><a href="${_base}/product/detail?skuId={{:skuId}}">{{:productName}}</a></td>
                                           </tr>
                                     </table>
@@ -88,7 +88,7 @@
                                 <td class="sp">
                                     <table width="100%" border="0">
                                           <tr>
-                                            <td class="word" width="25%"><img src="${_slpbase }/images/sim.png"></td>
+                                            <td class="word" width="25%"><img src="{{:picUrl}}"></td>
                                             <td><a href="${_base}/product/detail?skuId={{:skuId}}">{{:productName}}</a></td>
                                           </tr>
                                     </table>
@@ -131,8 +131,10 @@
           </li>
          </ul>
           </div>
+            <form id="submitForm" action="${_base}/shopcart/applyOrder" method="post">
 
-          <div class="right-btn"><input type="button" class="slp-btn topay-btn" value="提交订单"></div>
+            </form>
+          <div class="right-btn"><input id="submitOrder" type="button" class="slp-btn topay-btn" value="提交订单"></div>
          </div>
      </div>
  </div>

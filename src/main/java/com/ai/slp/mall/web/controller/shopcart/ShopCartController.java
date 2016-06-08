@@ -3,20 +3,30 @@ package com.ai.slp.mall.web.controller.shopcart;
 import com.ai.opt.base.exception.BusinessException;
 import com.ai.opt.base.exception.SystemException;
 import com.ai.opt.sdk.components.ccs.CCSClientFactory;
+import com.ai.opt.sdk.components.idps.IDPSClientFactory;
 import com.ai.opt.sdk.dubbo.util.DubboConsumerFactory;
 import com.ai.opt.sdk.web.model.ResponseData;
 import com.ai.paas.ipaas.ccs.constants.ConfigException;
+import com.ai.paas.ipaas.image.IImageClient;
 import com.ai.paas.ipaas.util.JSonUtil;
 import com.ai.slp.mall.web.constants.ComParamsConstants;
+import com.ai.slp.mall.web.constants.SLPMallConstants;
+import com.ai.slp.order.api.ordertradecenter.interfaces.IOrderTradeCenterSV;
+import com.ai.slp.order.api.ordertradecenter.param.OrdBaseInfo;
+import com.ai.slp.order.api.ordertradecenter.param.OrdProductInfo;
+import com.ai.slp.order.api.ordertradecenter.param.OrderTradeCenterRequest;
+import com.ai.slp.order.api.ordertradecenter.param.OrderTradeCenterResponse;
 import com.ai.slp.order.api.shopcart.interfaces.IShopCartSV;
 import com.ai.slp.order.api.shopcart.param.*;
 import com.alibaba.fastjson.JSON;
+import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpSession;
 import java.util.HashMap;
@@ -77,8 +87,21 @@ public class ShopCartController {
             List<CartProdInfo> cartProdInfoList = iShopCartSV.queryCartOfUser(userInfo);
     		//统计商品数量
     		int prodTotal = 0;
-    		for(CartProdInfo cartProdInfo : cartProdInfoList){
+            IImageClient imageClient = IDPSClientFactory.getImageClient(SLPMallConstants.ProductImageConstant.IDPSNS);
+    		String attrImageSize = "75x48";
+            for(CartProdInfo cartProdInfo : cartProdInfoList){
     			prodTotal+=cartProdInfo.getBuyNum();
+                //产生图片地址
+                if (StringUtils.isNotBlank(cartProdInfo.getVfsId())){
+                    String vfsId = cartProdInfo.getVfsId();
+                    String picType = cartProdInfo.getPicType();
+                    if (StringUtils.isBlank(picType))
+                        picType = ".jpg";
+                    if (!picType.startsWith("."))
+                        picType = "."+picType;
+                    String imageUrl = imageClient.getImageUrl(vfsId, picType, attrImageSize);
+                    cartProdInfo.setPicUrl(imageUrl);
+                }
     		}
             String cartProdInfoJSON = JSonUtil.toJSon(cartProdInfoList);
             model.put("cartProdList", cartProdInfoJSON);
@@ -148,6 +171,37 @@ public class ShopCartController {
             LOG.error("删除购物车商品出错", e);
         }
         return responseData;
+    }
+
+    /**
+     * 购物车中下订单
+     * @return
+     */
+    @RequestMapping("/applyOrder")
+    public String applyOrder(HttpSession session,String prodObj,RedirectAttributes redirectAttributes){
+        IOrderTradeCenterSV ordertradeSV = DubboConsumerFactory.getService("iOrderTradeCenterSV");
+        String viewStr = "jsp/order/order_submit";
+        try {
+            OrderTradeCenterRequest orderTradeReq = new OrderTradeCenterRequest();
+            orderTradeReq.setTenantId(ComParamsConstants.COM_TENANT_ID);
+            OrdBaseInfo ordBaseInfo = new OrdBaseInfo();
+            ordBaseInfo.setUserId(getUserId(session));
+            orderTradeReq.setOrdBaseInfo(ordBaseInfo);
+            List<OrdProductInfo> infoList = JSON.parseArray(prodObj, OrdProductInfo.class);
+            orderTradeReq.setOrdProductInfoList(infoList);
+            OrderTradeCenterResponse response = ordertradeSV.apply(orderTradeReq);
+            redirectAttributes.addAttribute("ordProductResList",response.getOrdProductResList());
+            redirectAttributes.addAttribute("orderId",response.getOrderId());
+        } catch (BusinessException | SystemException e) {
+            redirectAttributes.addFlashAttribute("errMsg","订单提交错误:"+e.getMessage());
+            viewStr = "redirect:shopcart/cartDetails";
+            LOG.error("提交订单出错", e);
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("errMsg","订单提交错误:未知异常");
+            viewStr = "redirect:shopcart/cartDetails";
+            LOG.error("提交订单出错", e);
+        }
+        return viewStr;
     }
 
     private String getUserId(HttpSession session){
