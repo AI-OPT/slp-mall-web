@@ -109,4 +109,10 @@
  	<!-- 存款接口 -->
  	<dubbo:reference id="iDepositSV"
 		interface="com.ai.slp.balance.api.deposit.interfaces.IDepositSV" />
+	<!-- 登录 -->
+	<dubbo:reference id="iLoginSV"
+		interface="com.ai.slp.user.api.login.interfaces.ILoginSV" />
+	<!-- 支付密码查询 -->
+ 	<dubbo:reference id="iAccountQuerySV"
+		interface="com.ai.slp.balance.api.accountquery.interfaces.IAccountQuerySV" />
 </beans>
