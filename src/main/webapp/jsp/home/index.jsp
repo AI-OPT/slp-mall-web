@@ -47,14 +47,14 @@
                  </ul>
                   <ul>
                 	   <p>充流量</p>
-                     <li ><A href="#">10元 </A></li>
-                     <li><A href="#">20元</A></li>
-                     <li><A href="#">30元 </A></li>
-                     <li><A href="#">50元</A></li>
-                     <li><A href="#">100元 </A></li>
-                     <li><A href="#">200元</A></li>
-                     <li><A href="#">300元</A></li>
-                     <li><A href="#">500元</A></li>
+                     <li ><A href="#" onclick="pager._jumpToSearch('100047','10000010020000')">10MB</A></li>
+                     <li><A href="#" onclick="pager._jumpToSearch('100048','10000010020000')">20MB</A></li>
+                     <li><A href="#" onclick="pager._jumpToSearch('100049','10000010020000')">50MB</A></li>
+                     <li><A href="#"onclick="pager._jumpToSearch('100050','10000010020000')">70MB</A></li>
+                     <li><A href="#" onclick="pager._jumpToSearch('100051','10000010020000')">100MB</A></li>
+                     <li><A href="#" onclick="pager._jumpToSearch('100052','10000010020000')">200MB</A></li>
+                     <li><A href="#" onclick="pager._jumpToSearch('100053','10000010020000')">250MB</A></li>
+                     <li><A href="#" onclick="pager._jumpToSearch('100054','10000010020000')">500MB</A></li>
                  </ul>
              </div>
             <!---->
@@ -62,27 +62,27 @@
             <li  class="Unicom"><a href="#"><img src="${_slpbase }/images/left-b.png"></a>
              <!--弹出-->
              <div class="Unicom-hover" style="display:none;" id="ctccShowId">
-                 <ul>
+                  <ul>
                 	   <p>充话费</p>
-                     <li class="current"><A href="#">10元 </A></li>
-                     <li><A href="#">20元</A></li>
-                     <li><A href="#">30元 </A></li>
-                     <li><A href="#">50元</A></li>
-                     <li><A href="#">100元 </A></li>
-                     <li><A href="#">200元</A></li>
-                     <li><A href="#">300元</A></li>
-                     <li><A href="#">500元</A></li>
+                     <li class="current"><A href="#" onclick="pager._jumpToSearch('100004','10000010010000')">10元 </A></li>
+                     <li><A href="#" onclick="pager._jumpToSearch('100005','10000010010000')">20元</A></li>
+                     <li><A href="#" onclick="pager._jumpToSearch('100006','10000010010000')">30元 </A></li>
+                     <li><A href="#" onclick="pager._jumpToSearch('100007','10000010010000')">50元</A></li>
+                     <li><A href="#" onclick="pager._jumpToSearch('100008','10000010010000')">100元 </A></li>
+                     <li><A href="#" onclick="pager._jumpToSearch('100009','10000010010000')">200元</A></li>
+                     <li><A href="#" onclick="pager._jumpToSearch('100010','10000010010000')">300元</A></li>
+                     <li><A href="#" onclick="pager._jumpToSearch('100011','10000010010000')">500元</A></li>
                  </ul>
                   <ul>
                 	   <p>充流量</p>
-                     <li><A href="#">10元 </A></li>
-                     <li><A href="#">20元</A></li>
-                     <li><A href="#">30元 </A></li>
-                     <li><A href="#">50元</A></li>
-                     <li><A href="#">100元 </A></li>
-                     <li><A href="#">200元</A></li>
-                     <li><A href="#">300元</A></li>
-                     <li><A href="#">500元</A></li>
+                     <li ><A href="#" onclick="pager._jumpToSearch('100047','10000010020000')">10MB</A></li>
+                     <li><A href="#" onclick="pager._jumpToSearch('100048','10000010020000')">20MB</A></li>
+                     <li><A href="#" onclick="pager._jumpToSearch('100049','10000010020000')">50MB</A></li>
+                     <li><A href="#"onclick="pager._jumpToSearch('100050','10000010020000')">70MB</A></li>
+                     <li><A href="#" onclick="pager._jumpToSearch('100051','10000010020000')">100MB</A></li>
+                     <li><A href="#" onclick="pager._jumpToSearch('100052','10000010020000')">200MB</A></li>
+                     <li><A href="#" onclick="pager._jumpToSearch('100053','10000010020000')">250MB</A></li>
+                     <li><A href="#" onclick="pager._jumpToSearch('100054','10000010020000')">500MB</A></li>
                  </ul>
              </div>
             <!---->
@@ -90,27 +90,27 @@
             <li class="telecom"><a href="#"><img src="${_slpbase }/images/left-c.png"></a>
              <!--弹出-->
              <div class="telecom-hover" style="display:none;"  id="cuccShowId">
-                 <ul>
+                  <ul>
                 	   <p>充话费</p>
-                     <li class="current"><A href="#">10元 </A></li>
-                     <li><A href="#">20元</A></li>
-                     <li><A href="#">30元 </A></li>
-                     <li><A href="#">50元</A></li>
-                     <li><A href="#">100元 </A></li>
-                     <li><A href="#">200元</A></li>
-                     <li><A href="#">300元</A></li>
-                     <li><A href="#">500元</A></li>
+                     <li class="current"><A href="#" onclick="pager._jumpToSearch('100004','10000010010000')">10元 </A></li>
+                     <li><A href="#" onclick="pager._jumpToSearch('100005','10000010010000')">20元</A></li>
+                     <li><A href="#" onclick="pager._jumpToSearch('100006','10000010010000')">30元 </A></li>
+                     <li><A href="#" onclick="pager._jumpToSearch('100007','10000010010000')">50元</A></li>
+                     <li><A href="#" onclick="pager._jumpToSearch('100008','10000010010000')">100元 </A></li>
+                     <li><A href="#" onclick="pager._jumpToSearch('100009','10000010010000')">200元</A></li>
+                     <li><A href="#" onclick="pager._jumpToSearch('100010','10000010010000')">300元</A></li>
+                     <li><A href="#" onclick="pager._jumpToSearch('100011','10000010010000')">500元</A></li>
                  </ul>
                   <ul>
                 	   <p>充流量</p>
-                     <li><A href="#">10元 </A></li>
-                     <li><A href="#">20元</A></li>
-                     <li><A href="#">30元 </A></li>
-                     <li><A href="#">50元</A></li>
-                     <li><A href="#">100元 </A></li>
-                     <li><A href="#">200元</A></li>
-                     <li><A href="#">300元</A></li>
-                     <li><A href="#">500元</A></li>
+                     <li ><A href="#" onclick="pager._jumpToSearch('100047','10000010020000')">10MB</A></li>
+                     <li><A href="#" onclick="pager._jumpToSearch('100048','10000010020000')">20MB</A></li>
+                     <li><A href="#" onclick="pager._jumpToSearch('100049','10000010020000')">50MB</A></li>
+                     <li><A href="#"onclick="pager._jumpToSearch('100050','10000010020000')">70MB</A></li>
+                     <li><A href="#" onclick="pager._jumpToSearch('100051','10000010020000')">100MB</A></li>
+                     <li><A href="#" onclick="pager._jumpToSearch('100052','10000010020000')">200MB</A></li>
+                     <li><A href="#" onclick="pager._jumpToSearch('100053','10000010020000')">250MB</A></li>
+                     <li><A href="#" onclick="pager._jumpToSearch('100054','10000010020000')">500MB</A></li>
                  </ul>
              </div>
             <!---->
@@ -132,7 +132,7 @@
               <div class="charge-list">
               <ul>
               <li><input type="text" class="int-dex" id="phoneNum1" maxlength="11" placeholder="请输入手机号码"><input type="text" id="basicOrgId1" style="display:none;"><input type="text" id="PCode" style="display:none;"></li>
-              <li><select id="phoneFee" class="int-dex"><option value="30">30 元</option></select></li>
+              <li><select id="phoneFee" class="int-dex"><option value="">30 元</option></select></li>
               <li class="word">售价:<span id="realFee">¥29.5-¥30</span></li>
               <li><input type="button" id="CZ_BTN" value="立即充值" class="slp-btn dex-btn"></li>
               </ul>
@@ -143,7 +143,7 @@
               <ul>
               <li><input type="text" class="int-dex" maxlength="11" id="phoneNum2" placeholder="请输入手机号码"><input type="text" id="gbasicOrgId" style="display:none;"><input type="text" id="PCode1" style="display:none;"></li>
               <li class="congz"><p><select id="location" class="select-cz"><option value="local">本地</option><option value="national">全国</option></select></p>
-              <p class="se-mar"><select id="gprs"  class="select-cz"><option value="500MB">500MB</select></p></li>
+              <p class="se-mar"><select id="gprs"  class="select-cz"><option value="">500MB</select></p></li>
               <li class="word">售价:<span id="realFee1">¥29.5-¥30</span></li>
               <li><input type="button" id="GPRS_BTN" value="立即充值" class="slp-btn dex-btn"></li>
               </ul>

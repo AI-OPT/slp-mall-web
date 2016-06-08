@@ -73,6 +73,7 @@ public class HomeController {
 					vo.setProdId(data.getProdId());
 					vo.setProdName(data.getProdName());
 					vo.setSalePrice(data.getSalePrice());
+					vo.setSkuId(data.getSkuId());
 					resultList.add(vo);
 				}
 			}
@@ -106,6 +107,7 @@ public class HomeController {
 							ImageUtil.getImage(data.getProductImage().getVfsId(), data.getProductImage().getPicType()));
 					vo.setProdId(data.getProdId());
 					vo.setProdName(data.getProdName());
+					vo.setSkuId(data.getSkuId());
 					vo.setSalePrice(data.getSalePrice());
 					resultList.add(vo);
 				}
@@ -142,6 +144,7 @@ public class HomeController {
 					vo.setProdName(data.getProdName());
 					vo.setSalePrice(data.getSalePrice());
 					vo.setProductSellPoint(data.getProductSellPoint());
+					vo.setSkuId(data.getSkuId());
 					resultList.add(vo);
 				}
 			}

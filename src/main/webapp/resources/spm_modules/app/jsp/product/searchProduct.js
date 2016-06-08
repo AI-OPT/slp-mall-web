@@ -112,7 +112,7 @@ define('app/jsp/product/searchProduct', function (require, exports, module) {
     		var	param={
 					areaCode:code,  
 					productCatId: $("#billType").val(),
-					basicOrgIdIs: 11,
+					basicOrgIdIs: $("#orgired").val(),
 					attrDefId:$("#priceId").val()
 				   };
     		var _this = this;
@@ -286,7 +286,7 @@ define('app/jsp/product/searchProduct', function (require, exports, module) {
     	_changeDataClick: function(){
     		var	param={
 					areaCode:$("#areaSearch").val(),
-					productCatId: $("#phoneProductCatSearch").val(),
+					productCatId: $("#catType").val(),
 					basicOrgIdIs: $("#agentSearch").val(),
 					attrDefId:$("#priceSearch").val()
 				   };
