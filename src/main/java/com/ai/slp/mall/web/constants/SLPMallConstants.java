@@ -4,6 +4,15 @@ public final class SLPMallConstants {
     private SLPMallConstants() {
     }
 
+    /**
+     * 通用租户标识
+     */
+    public static final String COM_TENANT_ID = "SLP";
+    /**
+     * 购物车下单类型
+     */
+    public static final String SHOP_CART_ORDE_TYPE = "11";
+
     public static final String SYSTEM_ID = "opt-uac";
     
     public static final String PAGESIZE = "pageSize";
