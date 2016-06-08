@@ -111,7 +111,7 @@ public class ShopCartController {
                 }
                 CartProdInfoView infoView = new CartProdInfoView();
                 BeanUtils.copyProperties(infoView,cartProdInfo);
-                infoView.setProdPrice(infoView.getBuyNum()*infoView.getSalePrice());
+//                infoView.setProdPrice(infoView.getBuyNum()*infoView.getSalePrice());
                 infoViews.add(infoView);
     		}
             String cartProdInfoJSON = JSonUtil.toJSon(infoViews);

@@ -38,7 +38,7 @@
                              <p>{{:orderId}}</p>
                          </li>
                          <li>
-                             <p>退款状态:</p>
+                             <p>状态:</p>
                              <p class="color">{{:stateName}}</p>
                          </li>
                          <li>

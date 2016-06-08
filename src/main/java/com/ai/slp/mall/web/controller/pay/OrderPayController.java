@@ -86,8 +86,8 @@ public class OrderPayController {
         String returnUrl = basePath + "/pay/returnUrl";
         String notifyUrl = basePath + "/pay/notifyUrl";
         String orderId = request.getParameter("orderId");
-        String tempAmount = request.getParameter("orderAmount");
-        String orderAmount = String.valueOf(new BigDecimal(tempAmount).divide(new BigDecimal(100)));
+        String tempAmount = "10";//根据订单ID去调订单详情服务查询出来
+        String orderAmount = String.valueOf(new BigDecimal(tempAmount).divide(new BigDecimal(1000)));
         String requestSource = SLPMallConstants.RequestSource.WEB;
         String payChannel = SLPMallConstants.PayChannel.BSS_SK;
         String subject = "";

@@ -3,6 +3,7 @@ package com.ai.slp.mall.web.filter;
 import java.io.IOException;
 import java.lang.reflect.Field;
 import java.security.Principal;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.Filter;
@@ -20,8 +21,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.ai.opt.sdk.dubbo.util.DubboConsumerFactory;
+import com.ai.opt.sdk.util.CollectionUtil;
 import com.ai.opt.sso.client.filter.SLPClientUser;
 import com.ai.opt.sso.client.filter.SSOClientConstants;
+import com.ai.slp.balance.api.accountquery.interfaces.IAccountQuerySV;
+import com.ai.slp.balance.api.accountquery.param.AccountInfoVo;
+import com.ai.slp.balance.api.accountquery.param.CustIdParam;
+import com.ai.slp.mall.web.constants.SLPMallConstants;
 import com.ai.slp.user.api.ucuser.intefaces.IUcUserSV;
 import com.ai.slp.user.api.ucuser.param.SearchUserRequest;
 import com.ai.slp.user.api.ucuser.param.SearchUserResponse;
@@ -113,6 +119,8 @@ public class AssembleUserInfoFilter implements Filter {
                         }
                     }
                 }
+                //获取账户的acctId
+                fillAcctIdByUserId(user);
                 
             }
         } catch (Exception e) {
@@ -120,6 +128,17 @@ public class AssembleUserInfoFilter implements Filter {
         }
         return user;
     }
+
+	private void fillAcctIdByUserId(SLPClientUser user) {
+		CustIdParam param=new CustIdParam();
+		param.setTenantId(SLPMallConstants.COM_TENANT_ID);
+		param.setCustId(user.getUserId());
+		IAccountQuerySV accSv=DubboConsumerFactory.getService(IAccountQuerySV.class);
+		List<AccountInfoVo> resList=accSv.queryAccontByCustId(param);
+		if(!CollectionUtil.isEmpty(resList)){
+			user.setAcctId(resList.get(0).getAcctId());
+		}
+	}
 
     private boolean shouldFilter(HttpServletRequest req) {
         if (ignor_suffix != null && ignor_suffix.length > 0) {

@@ -133,12 +133,7 @@
 						<tr>
                         	<td>{{:~timestampToDate('yyyy-MM-dd hh:mm:ss', lastStatusDate)}}</td>
                        	 	<td>
-							 {{if busiType == '1'}}	
-								订单收费
-							 {{/if}}
-							 {{if busiType == '2'}}	
-								充值缴费
-							 {{/if}}
+							 {{:busiType}}
 							</td>
                         	<td>{{:orderId}}</td>
                         	<td class="color">{{:totalFee/1000}}</td>

@@ -93,7 +93,7 @@ dependencies {
     compile 'com.ai.slp.order:shopcart:1.0.1-SNAPSHOT'
     //订单
     compile 'com.ai.slp.order:orderlist:1.0-SNAPSHOT'
-	compile 'com.ai.slp.order:ordertradecenter:1.0.1-SNAPSHOT'
+	compile 'com.ai.slp.order:ordertradecenter:1.0.2-SNAPSHOT'
 	//安全设置
 	compile 'com.ai.slp.user:ucUserSecurity:1.0-SNAPSHOT'
 	//用户
