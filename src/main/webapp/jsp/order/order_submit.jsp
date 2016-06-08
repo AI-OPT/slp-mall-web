@@ -40,7 +40,7 @@
 		</div>
 	</div>
 	<!--导航区域结束-->
-
+	<form action="${_base}/pay/orderPay" target="_blank" method="post">
 	<!--提交订单-->
 	<div class="fsast-charge">
 		<div class="big-wrapper">
@@ -150,14 +150,15 @@
 			<div class="recharge-bj-tow recharge-bj-three">
 				<!--白色背景-->
 				<div class="right-btn">
-					<input id="orderId" type=hidden value=${orderId}>
-					<input id="gotoPayBtn" type="button" class="slp-btn topay-btn"
+					<input id="orderId" name="orderId"  type=hidden value=${orderId}>
+					<input id="gotoPayBtn" type="submit" class="slp-btn topay-btn"
 						value="去支付">
 				</div>
 			</div>
 
 		</div>
 	</div>
+	</form>
 	<!--底部-->
 	<%@ include file="/inc/foot.jsp"%>
 	<!--底部 结束-->
