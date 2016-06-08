@@ -78,7 +78,7 @@
 								</table>
 							</td>
 							<td class="ash">¥${ordProductRes.salePrice}</td>
-							<td>${ordProductRes.bugSum}</td>
+							<td>${ordProductRes.buySum}</td>
 							<td class="bold">¥${ordProductRes.skuTotalFee}</td>
 						</tr>
 					</c:forEach>
