@@ -157,9 +157,42 @@ public class BalanceController {
 		//
 		PageInfo<ChargeBaseInfo> pageInfo = DubboConsumerFactory.getService(IPaymentQuerySV.class).queryChargeBaseInfoByAcctId(chargeInfoQueryByAcctIdParam);
 		//
-		System.out.println("json:"+JSON.toJSONString(pageInfo));
+		pageInfo = this.getChargeBaseInfoPageInfo(pageInfo);
+		//
+		log.info("json:"+JSON.toJSONString(pageInfo));
 		return pageInfo;
     }
+	/**
+	 * 检索字典表对应的信息 封装后返回
+	 * @param pageInfo
+	 * @return
+	 * @author zhangzd
+	 * @ApiDocMethod
+	 * @ApiCode
+	 */
+	public PageInfo<ChargeBaseInfo> getChargeBaseInfoPageInfo(PageInfo<ChargeBaseInfo> pageInfo){
+		//
+		PageInfo<ChargeBaseInfo> pageInfoNew = new PageInfo<ChargeBaseInfo>();
+		pageInfoNew.setCount(pageInfo.getCount());
+		pageInfoNew.setPageCount(pageInfo.getPageCount());
+		pageInfoNew.setPageNo(pageInfo.getPageNo());
+		pageInfoNew.setPageSize(pageInfo.getPageSize());
+		List<ChargeBaseInfo> chargeBaseInfoList = pageInfo.getResult();
+		//
+		List<ChargeBaseInfo> chargeBaseInfoListNew = new ArrayList<ChargeBaseInfo>();
+		//
+		String typeCode = "BUSI_TYPE";
+		String paramCode = "BUSI_TYPE_PARAM";
+		for(ChargeBaseInfo chargeBaseInfo : chargeBaseInfoList){
+			SysParam sysParam = DubboConsumerFactory.getService(ICacheSV.class).getSysParam(TENANT_ID, typeCode, paramCode, chargeBaseInfo.getBusiType());
+			chargeBaseInfo.setBusiType(sysParam.getColumnDesc());
+			//
+			chargeBaseInfoListNew.add(chargeBaseInfo);
+		}
+		pageInfoNew.setResult(chargeBaseInfoListNew);
+		//
+		return pageInfoNew;
+	}
 	/**
 	 * 返回日期 几月前 几天前
 	 * @param DateType
@@ -251,6 +284,8 @@ public class BalanceController {
 		//
 		PageInfo<ChargeBaseInfo> pageInfo = DubboConsumerFactory.getService(IPaymentQuerySV.class).queryChargeBaseInfoByAcctId(chargeInfoQueryByAcctIdParam);
 		//
+		pageInfo = this.getChargeBaseInfoPageInfo(pageInfo);
+		//
 		System.out.println(" queryAccountBalanceDetailList json:"+JSON.toJSONString(pageInfo));
 		//
 		responseData = new ResponseData<PageInfo<ChargeBaseInfo>>(ResponseData.AJAX_STATUS_SUCCESS,"可销售产品列表查询成功",pageInfo);
@@ -283,4 +318,5 @@ public class BalanceController {
 		
 		return sysParamList;
 	}
+	
 }
