@@ -95,7 +95,7 @@
            </div>                                          
           <!--/步骤结束-->
               <div class="list-int">
-              		<ul>
+              		<ul> 
                         <li class="word">身份验证方式:</li>
                         <li class="checkbox-box">
                            <span><input name="radio" class="int-chec radioa" type="radio" name="confirmType1" id="emailType" checked="checked" value="2"/>邮箱验证</span>
