@@ -26,6 +26,8 @@
 <script src="${_base}/resources/spm_modules/seajs/2.3.0/dist/sea.js"></script>
 <script src="${_base}/resources/spm_modules/seajs/seajs-css.js"></script>
 <script src="${_base}/resources/spm_modules/app/core/config.js"></script>
+<%-- <script src="${_base}/resources/spm_modules/jsviews/jsrender.min.js"></script>
+<script src="${_base}/resources/spm_modules/jsviews/jsviews.min.js"></script> --%>
 
 <link rel="stylesheet" type="text/css" href="${_base}/resources/slpmall/styles/bootstrap.css">
 

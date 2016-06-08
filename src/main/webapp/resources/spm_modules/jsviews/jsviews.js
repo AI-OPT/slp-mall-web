@@ -7,6 +7,9 @@
 * Released under the MIT License.
 */
 
+
+define(function(require, exports, module){
+
 (function(global, jQuery, undefined) {
 	// global is the this object, which is window when running in the usual browser environment.
 	"use strict";
@@ -4170,3 +4173,7 @@
 	topView._.onRender = addBindingMarkers;
 
 })(this, this.jQuery);
+
+
+
+});
