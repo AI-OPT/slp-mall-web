@@ -42,7 +42,7 @@ define('app/jsp/balance/phonebook/phonebookmgr', function (require, exports, mod
     	},
     	
     	_init: function(){
-    		
+    		this._loadTelGroups();
     	},
     	
     	_showAddTelGroupWindow: function(){
@@ -62,6 +62,7 @@ define('app/jsp/balance/phonebook/phonebookmgr', function (require, exports, mod
     	},
     	
     	_submitNewTelGroup: function(){
+    		var _this = this;
     		var validator = new $.ValueValidator();
     		validator.addRule({
 				labelName: "通信录组",
@@ -96,9 +97,95 @@ define('app/jsp/balance/phonebook/phonebookmgr', function (require, exports, mod
 				},
 				success: function(data){
 					alert("处理成功"); 
+					//$('.eject-big').fadeOut(100);
+					_this._loadTelGroups();
+				}
+			});
+    	},
+    	
+    	_loadTelGroups: function(){
+    		var _this = this;
+    		ajaxController.ajax({
+				type: "post",
+				dataType: "json",
+				processing: false,
+				message: "正在处理...",
+				url: _base+"/account/phonebook/queryTelGroups",
+				data: {
+					userId: this.get("userId")
+				},
+				success: function(data){
+					var d = data.data; 
+					var template = $.templates("#TelGroupImpl");
+                    var htmlOutput = template.render(d?d:[]);
+                    $("#TBODY_TEL_GROUP").html(htmlOutput);
+                    _this.renderTelGroupList();
+				}
+			});
+    	},
+    	
+    	renderTelGroupList: function(){
+    		var _this = this;
+    		$("[name='BTN_DEL_TEL_GROUP']").bind("click",function(){
+    			var telGroupId =$(this).attr("telGroupId");
+    			_this.deleteTelGroup(telGroupId);
+    		});
+    		
+    		$("[name='BTN_MODIFY_TEL_GROUP']").bind("click",function(){
+    			var telGroupId =$(this).attr("telGroupId");
+    			$("#SPAN_TEL_GROUP_TEXT_"+telGroupId).hide();
+    			$("#SPAN_TEL_GROUP_INPUT_"+telGroupId).show();
+    			$(this).hide();
+    		});
+    		
+    		$("[name='BTN_SAVE_TEL_GROUP']").bind("click",function(){
+    			var telGroupId = $(this).attr("telGroupId");
+    			var telGroupName = $("#INPUT_TEL_GROUP_"+telGroupId).val();
+    			if($.trim(telGroupName)==""){
+    				alert("名称不能为空");
+    				return ;
+    			}
+    			_this.modifyTelGroup(telGroupId,telGroupName);
+    		});
+    	},
+    	
+    	deleteTelGroup: function(telGroupId){
+    		var _this = this;
+    		ajaxController.ajax({
+				type: "post",
+				dataType: "json",
+				processing: true,
+				message: "正在处理...",
+				url: _base+"/account/phonebook/deleteUcTelGroup",
+				data: {
+					userId: this.get("userId"),
+					telGroupId: telGroupId
+				},
+				success: function(data){
+					_this._loadTelGroups();
+				}
+			});
+    	},
+    	
+    	modifyTelGroup: function(telGroupId,telGroupName){
+    		var _this = this;
+    		ajaxController.ajax({
+				type: "post",
+				dataType: "json",
+				processing: true,
+				message: "正在处理...",
+				url: _base+"/account/phonebook/modifyUcTelGroup",
+				data: {
+					userId: this.get("userId"),
+					telGroupId: telGroupId,
+					telGroupName: telGroupName
+				},
+				success: function(data){
+					_this._loadTelGroups();
 				}
 			});
     	}
+    	
     	
     	
     });

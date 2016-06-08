@@ -64,93 +64,17 @@
 								<td>最后更新日期</td>
 								<td>操作</td>
 							</tr>
-							<tbody>
-								<tr class="current">
-									<td width="10%">1</td>
-									<td>默认分组<a href="#" class="click"><i
-											class="icon-pencil"></i></a><a href="#" class="trash-close"><i
-											class="icon-trash"></i></a></td>
-									<td>1</td>
-									<td></td>
-									<td><a href="通讯录详情.html">管理联系人</a><a href="#"
-										class="charge-phone">充话费</a><a href="#" class="charge-flow">充流量</a>
-									</td>
-								</tr>
-								<tr class="hover" style="display: none;">
-									<td>1</td>
-									<td><input type="text" class="table-int-mini"
-										value="13545446557"><input type="button"
-										class="mail-btn" value="保存"></td>
-									<td>0</td>
-									<td>中国联通</td>
-									<td><a href="通讯录详情.html">管理联系人</a><a href="#"
-										class="charge-phone">充话费</a><a href="#" class="charge-flow">充流量</a>
-									</td>
-								</tr>
-							</tbody>
-							<tbody>
-								<tr class="current">
-									<td width="10%">2</td>
-									<td>默认分组<a href="#" class="click"><i
-											class="icon-pencil"></i></a><a href="#"><i
-											class=" icon-trash"></i></a></td>
-									<td>1</td>
-									<td></td>
-									<td><a href="通讯录详情.html">管理联系人</a><a href="#"
-										class="charge-phone">充话费</a><a href="#" class="charge-flow">充流量</a>
-									</td>
-								</tr>
-								<tr class="hover" style="display: none;">
-									<td>1</td>
-									<td><input type="text" class="table-int-mini"
-										value="13545446557"><input type="button"
-										class="mail-btn" value="保存"></td>
-									<td>0</td>
-									<td>中国联通</td>
-									<td><a href="通讯录详情.html">管理联系人</a><a href="#"
-										class="charge-phone">充话费</a><a href="#" class="charge-flow">充流量</a>
-									</td>
-								</tr>
-							</tbody>
-							<tbody>
-								<tr class="current">
-									<td width="10%">3</td>
-									<td>默认分组<a href="#" class="click"><i
-											class="icon-pencil"></i></a><a href="#"><i
-											class=" icon-trash"></i></a></td>
-									<td>1</td>
-									<td></td>
-									<td><a href="通讯录详情.html">管理联系人</a><a href="#"
-										class="charge-phone">充话费</a><a href="#" class="charge-flow">充流量</a>
-									</td>
-								</tr>
-								<tr class="hover" style="display: none;">
-									<td>1</td>
-									<td><input type="text" class="table-int-mini"
-										value="13545446557"><input type="button"
-										class="mail-btn" value="保存"></td>
-									<td>0</td>
-									<td>中国联通</td>
-									<td><a href="通讯录详情.html">管理联系人</a><a href="#"
-										class="charge-phone">充话费</a><a href="#" class="charge-flow">充流量</a>
-									</td>
-								</tr>
-							</tbody>
-
-
+							<tbody id="TBODY_TEL_GROUP">
+							</tbody> 
 						</table>
-					</div>
-
-
-
+					</div> 
 				</div>
 
 			</div>
 
 			<!--右侧 end-->
 		</div>
-	</div>
-	</div>
+	</div> 
 	<!--底部-->
 	<%@ include file="/inc/foot.jsp"%>
 
@@ -194,10 +118,24 @@
 		});
 	})();
 	</script>
-
 </body>
 
 </html>
 <script src="${_slpbase }/scripts/frame.js" type="text/javascript"></script>
 <script src="${_slpbase }/scripts/flickity-docs.min.js"></script>
+
+<script id="TelGroupImpl" type="text/x-jsrender">
+								<tr class="current">
+									<td width="10%">{{:telGroupId}}</td>
+									<td><span id="SPAN_TEL_GROUP_TEXT_{{:telGroupId}}">{{:telGroupName}}</span><span id="SPAN_TEL_GROUP_INPUT_{{:telGroupId}}" style="display:none"><input type="text" value="{{:telGroupName}}" id="INPUT_TEL_GROUP_{{:telGroupId}}" class="table-int-mini"/><input type="button" name="BTN_SAVE_TEL_GROUP" telGroupId="{{:telGroupId}}" class="mail-btn" value="保存"></span><a href="#" class="click"><i
+											class="icon-pencil" name="BTN_MODIFY_TEL_GROUP" id="BTN_MODIFY_TEL_GROUP_{{:telGroupId}}" telGroupId="{{:telGroupId}}"></i></a><a href="#" class="trash-close"><i
+											class="icon-trash" name="BTN_DEL_TEL_GROUP" telGroupId="{{:telGroupId}}"></i></a></td>
+									<td>{{:count}}</td>
+									<td>{{:updateTimeStr}}</td>
+									<td><a href="通讯录详情.html">管理联系人</a><a href="#"
+										class="charge-phone">充话费</a><a href="#" class="charge-flow">充流量</a>
+									</td>
+								</tr>
+	
+</script>
 
