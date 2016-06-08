@@ -20,7 +20,7 @@
      <div class="account-bj-none"><!--外侧-->
         <div class="advanced-search account-search">
            <ul>
-               <li class="close"><select id="select_date_id" class="select-small"><option id="threeMonthAgo">近三个月订单</option></select></li>
+               <li class="close"><select id="select_date_id" class="select-small"></select></li>
            	  <li>
            	  	   <!-- <p><input id="effectDate_be" name="effectDate" class="int-medium" type="text" readonly /><A href="javascript:void(0);" id="effectDate" ><i class="icon-calendar date-nothing"></i> </A></p>	
                     -->
@@ -122,11 +122,9 @@
                  
               </div> 
               -->
-              <div  class="paging-large">
-                  <nav style="text-align: right">
+              <div  style="text-align: right">
                       <ul id="pagination">
                       </ul>
-                  </nav>
               </div>
                   
      	 </div>

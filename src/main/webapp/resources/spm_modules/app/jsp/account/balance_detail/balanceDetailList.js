@@ -42,11 +42,35 @@ define('app/jsp/account/balance_detail/balanceDetailList', function (require, ex
     	//重写父类
     	setup: function () {
     		BalanceDetailListPager.superclass.setup.call(this);
+    		//加载时间查询下拉框 
+    		this._searchDateList();
     		//
     		this._queryAccountBalanceDetailList();
     		this._queryParam();
     		this._bindCalendar();
+    		
     	},
+    	//加载时间查询下拉框
+    	_searchDateList:function(){
+      		ajaxController.ajax({
+						type: "post",
+						dataType: "json",
+						processing: true,
+						message: "查询中，请等待...",
+						url: _base+"/account/searchDateList",
+						data:"",
+						success: function(data){
+							//alert(data.length);
+							var option = "<option value=''>--请选择--</option>";
+							for(var i=0; i<data.length; i++){
+								option+= "<option value='"+data[i].columnValue+"'>"+data[i].columnDesc+"</option>";
+							}
+							//alert(option);
+							$('#select_date_id').html(option);
+						}
+					}
+      		);
+      	},
     	//日期
     	_bindCalendar: function(){
     		new Calendar({
@@ -138,7 +162,8 @@ define('app/jsp/account/balance_detail/balanceDetailList', function (require, ex
 				processing: true,
 				data : {"startTime":$('#startDate_be').val(),
 					"endTime":$('#endDate_be').val(),
-					"busiType":$('#busiType_id').val()
+					"busiType":$('#busiType_id').val(),
+					"selectDateId":$("#select_date_id option:selected").val()
 				},
 				pageSize: 10,
 				visiblePages:5,
