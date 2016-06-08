@@ -90,7 +90,7 @@ dependencies {
 	
 	compile 'com.ai.baas.smc:sysparamcache:2.0-SNAPSHOT'
     //购物车
-    compile 'com.ai.slp.order:shopcart:1.0-SNAPSHOT'
+    compile 'com.ai.slp.order:shopcart:1.0.1-SNAPSHOT'
     //订单
     compile 'com.ai.slp.order:orderlist:1.0-SNAPSHOT'
 	compile 'com.ai.slp.order:ordertradecenter:1.0-SNAPSHOT'
@@ -119,6 +119,10 @@ dependencies {
 	//账户余额 zhangzd
 	compile 'com.ai.slp.balance:fundquery:1.0-SNAPSHOT'
 	compile 'com.ai.slp.charge:paymentquery:1.0-SNAPSHOT'
+    //充值缴费
+    compile 'com.ai.slp.charge:payment:1.0-SNAPSHOT'
+    //存款取款
+    compile 'com.ai.slp.balance:deposit:1.0-SNAPSHOT'
     testCompile(
             "org.springframework:spring-test:4.1.7.RELEASE",
             "junit:junit:4.12"

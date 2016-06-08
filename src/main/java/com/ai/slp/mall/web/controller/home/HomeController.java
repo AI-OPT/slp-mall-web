@@ -1,10 +1,10 @@
 package com.ai.slp.mall.web.controller.home;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.TreeMap;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -19,6 +19,7 @@ import com.ai.opt.sdk.util.CollectionUtil;
 import com.ai.opt.sdk.web.model.ResponseData;
 import com.ai.slp.common.api.servicenum.interfaces.IServiceNumSV;
 import com.ai.slp.common.api.servicenum.param.ServiceNum;
+import com.ai.slp.mall.web.model.compare.MapKeyComparator;
 import com.ai.slp.mall.web.model.product.FastProduceRequest;
 import com.ai.slp.mall.web.model.product.FastProductInfo;
 import com.ai.slp.mall.web.model.product.FastProductResponse;
@@ -199,7 +200,7 @@ public class HomeController {
 			info.setPhoneInfoMap(PhoneInfoMap);
 			FastProductResponse feeRes = new FastProductResponse();
 			List<PhoneFee> phoneFee = new ArrayList<PhoneFee>();
-			for (Entry<String, FastSkuProdInfo> map : PhoneInfoMap.entrySet()) {
+			for (Entry<String, FastSkuProdInfo> map : sortMapByKey(PhoneInfoMap).entrySet()) {
 				PhoneFee fee = new PhoneFee();
 
 				fee.setContent(map.getKey());
@@ -241,7 +242,8 @@ public class HomeController {
 			FastProductResponse feeRes = new FastProductResponse();
 			List<PhoneFee> phoneFee = new ArrayList<PhoneFee>();
 			if ("local".equals(fastProduct.getLocation())) {// 本地
-				for (Entry<String, FastSkuProdInfo> map : res.getLocalMap().entrySet()) {
+				
+				for (Entry<String, FastSkuProdInfo> map : sortMapByKey(res.getLocalMap()).entrySet()) {
 					PhoneFee fee = new PhoneFee();
 
 					fee.setContent(map.getKey());
@@ -253,7 +255,7 @@ public class HomeController {
 				// 缓存本地的数据
 				localCache = feeRes;
 			} else {// 全国
-				for (Entry<String, FastSkuProdInfo> map : res.getNationMap().entrySet()) {
+				for (Entry<String, FastSkuProdInfo> map : sortMapByKey(res.getNationMap()).entrySet()) {
 					PhoneFee fee = new PhoneFee();
 
 					fee.setContent(map.getKey());
@@ -305,4 +307,24 @@ public class HomeController {
 
 		return responseData;
 	}
+	/**
+	 * 使用 Map按key进行排序
+	 * @param map
+	 * @return
+	 */
+	
+	public static Map<String, FastSkuProdInfo> sortMapByKey(Map<String, FastSkuProdInfo> map) {
+		if (map == null || map.isEmpty()) {
+			return null;
+		}
+
+		Map<String, FastSkuProdInfo> sortMap = new TreeMap<String, FastSkuProdInfo>(new MapKeyComparator());
+
+		sortMap.putAll(map);
+
+		return sortMap;
+	}
+	//比较器类  
+	
+
 }

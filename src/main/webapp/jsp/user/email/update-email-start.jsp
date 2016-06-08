@@ -95,12 +95,12 @@
            </div>                                          
           <!--/步骤结束-->
               <div class="list-int">
-              		<ul>
+              		<ul> 
                         <li class="word">身份验证方式:</li>
                         <li class="checkbox-box">
                            <span><input name="radio" class="int-chec radioa" type="radio" name="confirmType1" id="emailType" checked="checked" value="2"/>邮箱验证</span>
                            <span><input name="radio" class="int-chec radiob" type="radio" name="confirmType1" id="phoneType" value="1"/>手机号验证</span>
-                           <span><input name="radio" class="int-chec radioc" type="radio" name="confirmType1" id="passwordType" value="3"/>支付密码验证</span>
+                           <!-- <span><input name="radio" class="int-chec radioc" type="radio" name="confirmType1" id="passwordType" value="3"/>支付密码验证</span> -->
                         </li>
                	 	</ul>
                	 	<div class="phone" id="emailValidate">
@@ -136,7 +136,7 @@
                         <li class="checx-word"><input type="button" class="slp-btn regsiter-btn" id="next" value="下一步"/></li>
                     </ul>
                  </div>
-                 <div class="password" style="display: none;" id="paymentPassword">
+                <!--  <div class="password" style="display: none;" id="paymentPassword">
                     <ul>
                         <li class="word">支付密码:</li>
                         <li><input type="password" class="int-medium" placeholder=""/></li>
@@ -145,7 +145,7 @@
                         <li class="checx-word"><input type="button" class="slp-btn regsiter-btn" value="发送验证邮件" id="submitBtn"/>
                         </li>
                     </ul>
-                 </div>
+                 </div> -->
                 </div>
       </div>
 
