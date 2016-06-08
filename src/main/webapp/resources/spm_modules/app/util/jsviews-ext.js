@@ -1,4 +1,7 @@
 define(function (require, exports, module) {
+
+	require("jsviews/jsrender");
+	require("jsviews/jsviews");
 /**
  * 单个商品总价-购物车
  */
