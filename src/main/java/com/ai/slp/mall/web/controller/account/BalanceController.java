@@ -2,6 +2,7 @@ package com.ai.slp.mall.web.controller.account;
 
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
@@ -19,6 +20,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.ai.net.xss.util.StringUtil;
 import com.ai.opt.sdk.dubbo.util.DubboConsumerFactory;
+import com.ai.opt.sdk.util.CollectionUtil;
 import com.ai.opt.sdk.util.DateUtil;
 import com.ai.opt.sdk.web.model.ResponseData;
 import com.ai.opt.base.vo.PageInfo;
@@ -28,15 +30,17 @@ import com.ai.slp.balance.api.fundquery.param.FundInfo;
 import com.ai.slp.charge.api.paymentquery.interfaces.IPaymentQuerySV;
 import com.ai.slp.charge.api.paymentquery.param.ChargeBaseInfo;
 import com.ai.slp.charge.api.paymentquery.param.ChargeInfoQueryByAcctIdParam;
+import com.ai.slp.common.api.cache.interfaces.ICacheSV;
+import com.ai.slp.common.api.cache.param.SysParam;
 import com.alibaba.fastjson.JSON;
 
 @RestController
 public class BalanceController {
 	private static final Logger log = LoggerFactory.getLogger(BalanceController.class);
 	//
-	private static final String ACCOUNT_ID = "10001";
-	private static final String TENANT_ID = "BIS-ST";
-	private static final int AMOUNT = -777;
+	private static final String ACCOUNT_ID = "100001";
+	private static final String TENANT_ID = "1";
+	private static final int AMOUNT = -999;
 	//private static final int 
 	//
 	@RequestMapping("/account/balance/index")
@@ -146,12 +150,9 @@ public class BalanceController {
 		chargeBaseInfoPageInfo.setPageSize(10);
 		chargeInfoQueryByAcctIdParam.setPageInfo(chargeBaseInfoPageInfo);
 		//
-		Calendar cal = Calendar.getInstance();
-		cal.add(5, AMOUNT);
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-		String sevenDaysAgo = sdf.format(cal.getTime());
+		String time = this.getTime(Calendar.DATE, 7);
 		//
-		chargeInfoQueryByAcctIdParam.setStartTime(Timestamp.valueOf(sevenDaysAgo));
+		chargeInfoQueryByAcctIdParam.setStartTime(Timestamp.valueOf(time));
 		chargeInfoQueryByAcctIdParam.setEndTime(DateUtil.getSysDate());
 		//
 		PageInfo<ChargeBaseInfo> pageInfo = DubboConsumerFactory.getService(IPaymentQuerySV.class).queryChargeBaseInfoByAcctId(chargeInfoQueryByAcctIdParam);
@@ -159,7 +160,24 @@ public class BalanceController {
 		System.out.println("json:"+JSON.toJSONString(pageInfo));
 		return pageInfo;
     }
-	
+	/**
+	 * 返回日期 几月前 几天前
+	 * @param DateType
+	 * @param amount
+	 * @return
+	 * @author zhangzd
+	 * @ApiDocMethod
+	 * @ApiCode
+	 */
+	public String getTime(int DateType,int amount){
+		Calendar cal = Calendar.getInstance();
+		cal.add(DateType, -amount);
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		String time = sdf.format(cal.getTime());
+		//
+		return time;
+		
+	}
 	/**
 	 * 高级搜索 账户收支记录查询列表 分页
 	 * @param request
@@ -198,13 +216,23 @@ public class BalanceController {
 		chargeBaseInfoPageInfo.setPageSize(Integer.valueOf(strPageSize));
 		chargeInfoQueryByAcctIdParam.setPageInfo(chargeBaseInfoPageInfo);
 		//
-		Calendar cal = Calendar.getInstance();
-		cal.add(5, AMOUNT);
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-		String sevenDaysAgo = sdf.format(cal.getTime());
+		
 		//快速检索 近三个月  近一个月 近七天 
 		if(!StringUtil.isBlank(selectDateId)){
-			chargeInfoQueryByAcctIdParam.setStartTime(Timestamp.valueOf(sevenDaysAgo));
+			//
+			String time = "";
+			if(selectDateId.startsWith("MONTH_")){
+				String monthAmount = selectDateId.replace("MONTH_", "");
+				time = this.getTime(Calendar.MONTH, Integer.valueOf(monthAmount));
+			}
+			//
+			if(selectDateId.startsWith("DAY_")){
+				String dayAmount = selectDateId.replace("DAY_", "");
+				time = this.getTime(Calendar.DATE, Integer.valueOf(dayAmount));
+			}
+			log.info("selectDate startTime:"+time);
+			//
+			chargeInfoQueryByAcctIdParam.setStartTime(Timestamp.valueOf(time));
 			chargeInfoQueryByAcctIdParam.setEndTime(DateUtil.getSysDate());
 		}else{
 			//如果开始时间和结束时间不为空
@@ -212,7 +240,10 @@ public class BalanceController {
 				chargeInfoQueryByAcctIdParam.setStartTime(DateUtil.getTimestamp(startTime+" 00:00:00",DateUtil.DATETIME_FORMAT));
 				chargeInfoQueryByAcctIdParam.setEndTime(DateUtil.getTimestamp(endTime+" 23:59:59",DateUtil.DATETIME_FORMAT));
 			}else{
-				chargeInfoQueryByAcctIdParam.setStartTime(Timestamp.valueOf(sevenDaysAgo));
+				//默认查询1天前的记录
+				String time = this.getTime(Calendar.DATE, 1);
+				log.info("selectDate default startTime:"+time);
+				chargeInfoQueryByAcctIdParam.setStartTime(Timestamp.valueOf(time));
 				chargeInfoQueryByAcctIdParam.setEndTime(DateUtil.getSysDate());
 			}
 		}
@@ -228,4 +259,28 @@ public class BalanceController {
 		//
 		return responseData;
     }
+	
+	@RequestMapping(value="/account/searchDateList",method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+	@ResponseBody
+	public List<SysParam> searchDateList(HttpServletRequest request) {
+		String typeCode = "SEARCH_DATE_TYPE";
+		String paramCode = "DATE_TIME";
+		//
+		List<SysParam> sysParamList = DubboConsumerFactory.getService(ICacheSV.class).getSysParams(TENANT_ID, typeCode, paramCode);
+		//
+		log.info("sysParamList:"+JSON.toJSONString(sysParamList));
+		if(CollectionUtil.isEmpty(sysParamList)){
+			sysParamList = new ArrayList<SysParam>();
+			SysParam sysParam3Month = new SysParam();
+			sysParam3Month.setTypeCode(typeCode);
+			sysParam3Month.setParamCode(paramCode);
+			sysParam3Month.setColumnValue("MONTH_3");
+			sysParam3Month.setColumnDesc("近三个月");
+			sysParamList.add(sysParam3Month);
+			
+		}
+		
+		
+		return sysParamList;
+	}
 }
