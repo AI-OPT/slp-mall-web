@@ -35,6 +35,8 @@ define('app/jsp/product/productDetail', function (require, exports, module) {
             "click #addQtyBtn":"_addProductQty",
             //查看更多配置信息
             "click #seeMoreConfigBtn":"_seeMoreConfig",
+            //立即购买
+            "click #buyBtn":"_buyProduct",
             //加入购物车
             "click #joinShopCart":"_joinShopCartClick"
         },
@@ -238,6 +240,31 @@ define('app/jsp/product/productDetail', function (require, exports, module) {
 					}
       		);
       	},
+      	//立即购买
+      	_buyProduct:function(){
+    		var _this=this;
+    		var data = _getBuyProductData();
+    		ajaxController.ajax({
+				type: "post",
+				dataType: "json",
+				url: _base+"/order/orderCommit",
+				data:data,
+				success: function(data){
+					var key=data.data;
+					window.location.href = _base
+					+ "/order/toOrderPay?orderKey="+key;
+
+				}
+			});
+    	},
+    	//获得商品购买信息
+    	_getBuyProductData:function(){
+    		return {
+    			orderType:"100000",//暂时传运营商的县官信息
+				skuId:skuId,
+				buySum:$("#productQty").val(),
+    		};
+    	},
       	//加入购物车
     	_joinShopCartClick:function(){
 //			var skuId = $("#skuId").val();
