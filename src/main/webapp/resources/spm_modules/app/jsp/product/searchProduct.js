@@ -215,7 +215,7 @@ define('app/jsp/product/searchProduct', function (require, exports, module) {
       		var	param={
 					areaCode:code,  
 					productCatId: $("#billType").val(),
-					basicOrgIdIs:"12",
+					basicOrgIdIs:$("#orgired").val(),
 					attrDefId:$("#priceId").val()
 				   };
       		ajaxController.ajax({
