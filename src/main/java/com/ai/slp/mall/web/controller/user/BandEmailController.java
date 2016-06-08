@@ -48,20 +48,6 @@ import com.ai.slp.user.api.ucuser.param.SearchUserResponse;
 @Controller
 public class BandEmailController {
     private static final Logger LOGGER = LoggerFactory.getLogger(BandEmailController.class);
-
-    
-    @RequestMapping("/securitySettings")
-    public ModelAndView securitySettings(HttpServletRequest request) {
-       SLPClientUser userClient = (SLPClientUser) request.getSession().getAttribute(SSOClientConstants.USER_SESSION_KEY);
-       IUcUserSV ucUserSV = DubboConsumerFactory.getService("iUcUserSV");
-       SearchUserRequest reachUserRequest = new SearchUserRequest();
-       reachUserRequest.setUserId(userClient.getUserId());
-       SearchUserResponse response = ucUserSV.queryBaseInfo(reachUserRequest);
-       Map<String, SearchUserResponse> model = new HashMap<String, SearchUserResponse>();
-       model.put("userInfo", response);
-       return new ModelAndView("jsp/user/security_settings", model);
-    }
-    
     
     @RequestMapping("/bandEmailStart")
     public ModelAndView bandEmailStart(HttpServletRequest request) {
