@@ -38,7 +38,7 @@ define('app/jsp/order/orderSubmit', function (require, exports, module) {
     	_gotoPayBtnClick:function(){
       		var	param={
 					orderId: $("#orderId").val(),
-					orderAmount:$("#adjustFee").val()
+					orderAmount:$("#adjustFee").text()
 				   };
       		ajaxController.ajax({
 						type: "post",

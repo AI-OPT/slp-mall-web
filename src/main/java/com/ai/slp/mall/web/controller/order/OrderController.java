@@ -279,14 +279,10 @@ public class OrderController {
 		 List<OrdProductResInfo> ordProductResList = response.getOrdProductResList();
 		 OrdFeeInfo ordFeeInfo = response.getOrdFeeInfo();
 		 model.addAttribute("ordProductResList",ordProductResList);
-		 model.addAttribute("prodNum",ordProductResList==null?0:ordProductResList.size());
-		 model.addAttribute("totalFee", ordFeeInfo.getTotalFee());
-		 model.addAttribute("expFee", 0);
-		 model.addAttribute("totalFee", ordFeeInfo.getTotalFee());
-		 model.addAttribute("discountFee", ordFeeInfo.getDiscountFee());
-		 model.addAttribute("balanceFee", 0);
-		 model.addAttribute("adjustFee", ordFeeInfo.getTotalFee());
+		 model.addAttribute("ordFeeInfo", ordFeeInfo);
 		 model.addAttribute("orderId", response.getOrderId());
+		 model.addAttribute("expFee", 0);
+		 model.addAttribute("balanceFee", 0);
 		 model.addAttribute("balance", 0);
 		 
 		System.out.println("____>"+JSON.toJSONString(response));
