@@ -1,5 +1,5 @@
 define(
-		'app/jsp/user/qualification/qualification-select',
+		'app/jsp/user/qualification/agent-select',
 		function(require, exports, module) {
 			'use strict';
 			var $ = require('jquery'), Validator = require('arale-validator/0.10.2/index'), Calendar = require('arale-calendar/1.1.2/index'), Widget = require('arale-widget/1.2.0/widget'), Dialog = require("artDialog/src/dialog"), AjaxController = require('opt-ajax/1.0.0/index');
@@ -33,11 +33,11 @@ define(
 				_toIdentity : function(){
 					var personal = $("#personal");
 					var enterprise = $("#enterprise")
-					if(personal.hasClass("select")&&!enterprise.hasClass("select")){
-						window.location.href = "geren";
+					if(personal.hasClass("current")&&!enterprise.hasClass("current")){
+						window.location.href = _base+"/user/qualification/toAgentPersonalPage";
 					}
-					if(!personal.hasClass("select")&&enterprise.hasClass("select")){
-						window.location.href = "qiye";
+					if(!personal.hasClass("current")&&enterprise.hasClass("current")){
+						window.location.href = _base+"/user/qualification/toAgentEnterprisePage";
 					}
 				}
 			
@@ -46,11 +46,11 @@ define(
 		});
 
 	function addPersonalClass(){
-		$("#personal").removeClass("select").addClass("select");
-		$("#enterprise").removeClass("select");
+		$("#personal").removeClass("current").addClass("current");
+		$("#enterprise").removeClass("current");
 	}
 	
 	function addEnterpriseClass(){
-		$("#personal").removeClass("select");
-		$("#enterprise").removeClass("select").addClass("select");
+		$("#personal").removeClass("current");
+		$("#enterprise").removeClass("current").addClass("current");
 	}

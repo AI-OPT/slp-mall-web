@@ -4,14 +4,14 @@
 <%@ include file="/inc/inc.jsp"%>
 <!--Support IE Text -->
 <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
-<title>修改密码</title>
+<title>资质申请－类型选择</title>
 <link href="${_slpbase }/styles/modular.css" rel="stylesheet" type="text/css">
 <link href="${_slpbase }/styles/global.css" rel="stylesheet" type="text/css">
 <link href="${_slpbase }/styles/frame.css" rel="stylesheet" type="text/css">
 <link href="${_slpbase }/styles/font-awesome.css" rel="stylesheet" type="text/css">
 <script type="text/javascript">
 	(function() {
-		seajs.use('app/jsp/user/qualification/qualification-select', function(
+		seajs.use('app/jsp/user/qualification/agent-select', function(
 				QualificationPager) {
 			var pager = new QualificationPager();
 			pager.render();
@@ -46,12 +46,12 @@
                    <p>选定身份并进行认证后不得随意更改</p>   
               </div>
               <div class="choice-list">
-              <ul class="current">
-              <li><img src="${slpbase}/images/choice-a.png" id="personal" onclick="addPersonalClass();"></li>
+              <ul class="current"  id="personal" onclick="addPersonalClass();">
+              <li><img src="${_slpbase}/images/choice-a.png"></li>
               <li>个人</li>
               </ul>
-              <ul>
-              <li><img src="${slpbase}/images/choice-b.png" id="enterprise" onclick="addEnterpriseClass();"></li>
+              <ul  id="enterprise" onclick="addEnterpriseClass();">
+              <li><img src="${_slpbase}/images/choice-b.png"></li>
               <li>企业</li>
               </ul>
               </div>
