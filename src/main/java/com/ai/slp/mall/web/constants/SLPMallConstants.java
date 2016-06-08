@@ -357,5 +357,20 @@ public final class SLPMallConstants {
     	public static final String CACHE_NAMESPACE="com.ai.slp.mall.order.cache";
     	
     }
-    
+    public static final class PayPassword{
+        private PayPassword(){}
+        /**
+         * 支付密码和登录密码相同
+         */
+        public static final String PASSWORD_EQUALS="10003";
+        /**
+         * 修改密码失败
+         */
+        public static final String UPDATE_PASSWORD_ERROR="000001";
+        /**
+         * 修改密码成功
+         */
+        public static final String UPDATE_PASSWORD_SUCCESS="000000";
+        
+    }
 }
