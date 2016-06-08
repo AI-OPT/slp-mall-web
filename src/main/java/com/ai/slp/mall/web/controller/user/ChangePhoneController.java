@@ -120,7 +120,7 @@ public class ChangePhoneController {
         UcUserPhoneRequest ucUserPhoneRequest = new UcUserPhoneRequest();
         ucUserPhoneRequest.setTenantId(user.getTenantId());
         ucUserPhoneRequest.setAccountId(user.getUserId());
-        ucUserPhoneRequest.setPhone(request.getParameter("phone"));
+        ucUserPhoneRequest.setPhone(request.getParameter("userMp"));
         // 获取dubbo服务
         IUcUserSecurityManageSV ucUserSecurityManageSV = DubboConsumerFactory
                 .getService(IUcUserSecurityManageSV.class);
