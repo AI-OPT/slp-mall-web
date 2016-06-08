@@ -123,6 +123,11 @@ dependencies {
     compile 'com.ai.slp.charge:payment:1.0-SNAPSHOT'
     //存款取款
     compile 'com.ai.slp.balance:deposit:1.0-SNAPSHOT'
+    //登录
+    compile 'com.ai.slp.user:login:1.0-SNAPSHOT'
+    //支付
+    compile 'com.ai.slp.balance:accountmaintain:1.0-SNAPSHOT'
+    compile 'com.ai.slp.balance:accountquery:1.0-SNAPSHOT'
     testCompile(
             "org.springframework:spring-test:4.1.7.RELEASE",
             "junit:junit:4.12"
