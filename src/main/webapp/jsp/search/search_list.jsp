@@ -238,7 +238,7 @@
            
          <!--分页-->
           
-          <div class="paging-large">
+          <div style="text-align: right">
 			 <ul id="pagination-ul"></ul>
 		  </div>
 			 <!--分页-->
