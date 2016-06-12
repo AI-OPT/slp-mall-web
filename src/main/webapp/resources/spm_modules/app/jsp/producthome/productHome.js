@@ -58,6 +58,14 @@ define('app/jsp/producthome/productHome', function (require, exports, module) {
     		this._getPhoneBill();
     		this._getFlowProduct();
     		this._getHotProduct();
+    		this._initFast();
+    		
+    	},
+    	_initFast:function(){
+    		//初始化话费
+    		var _this=this;
+    		$("#phoneFee").append('<option value="¥49.00-¥50.00">50元</option><option value="¥29.5-¥30">30元</option><option value="¥19.50-¥20.00">20元</option><option value="¥9.95-¥10.00">10元</option>');
+    		//_this._changeHuafei1();
     	},
     	_submitGprs:function(){//话费的
     		var _this=this;
@@ -234,7 +242,16 @@ define('app/jsp/producthome/productHome', function (require, exports, module) {
     	},
     	_changeHuafei:function(){
     		//console.log($("#phoneFee").val().substr(0,$("#phoneFee").val().indexOf(";")));
+    	if($("#phoneFee").val().indexOf(";")<0){
+    		$("#realFee").text($("#phoneFee").val());
+    	}else{
     		$("#realFee").text(this._liToYuan($("#phoneFee").val().substr(0,$("#phoneFee").val().indexOf(";"))));//liToYuan
+    	}
+    		
+    	},
+    	_changeHuafei1:function(){
+    		//console.log($("#phoneFee").val().substr(0,$("#phoneFee").val().indexOf(";")));
+    		
     	},
     	_getGprs:function(){
     		var _this=this;
