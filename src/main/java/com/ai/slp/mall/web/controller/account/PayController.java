@@ -14,8 +14,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.ai.opt.sdk.components.sequence.util.SeqUtil;
+import com.ai.opt.base.exception.SystemException;
 import com.ai.opt.sdk.dubbo.util.DubboConsumerFactory;
+import com.ai.opt.sso.client.filter.SLPClientUser;
+import com.ai.opt.sso.client.filter.SSOClientConstants;
 import com.ai.slp.balance.api.deposit.interfaces.IDepositSV;
 import com.ai.slp.balance.api.deposit.param.DepositParam;
 import com.ai.slp.balance.api.deposit.param.TransSummary;
@@ -35,8 +37,6 @@ public class PayController {
 	//
 
     private static final Logger LOG = Logger.getLogger(PayController.class);
-	private static final String ACCOUNT_ID = "1111";
-	private static final String TENANT_ID = "1111";
 
     private static final int STATUS_GOTO_PAY = 1;
     private static final int PAY_CHANNEL = 4;
@@ -67,11 +67,12 @@ public class PayController {
 	@RequestMapping("/recharge/gotoPay")
     public void gotoPay(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String payAmount = request.getParameter("payAmount");
-                
+        String tenantId =  ConfigUtil.getProperty("TENANT_ID");  
+        String accountId = this.getUserId(request).getAcctId()+"";
         IPayOrderSV iPayOrderSV = DubboConsumerFactory.getService(IPayOrderSV.class);
         PayOrderParam payOrderParam = new PayOrderParam();
-        payOrderParam.setTenantId(TENANT_ID);
-        payOrderParam.setAcctId(ACCOUNT_ID);
+        payOrderParam.setTenantId(tenantId);
+        payOrderParam.setAcctId(accountId);
         payOrderParam.setPayAmount(Long.parseLong(payAmount));
         payOrderParam.setStatus(STATUS_GOTO_PAY);
         payOrderParam.setPayChannel(PAY_CHANNEL);
@@ -80,7 +81,6 @@ public class PayController {
         
         String basePath = request.getScheme() + "://" + request.getServerName() + ":"
                 + request.getServerPort() + request.getContextPath();
-        String tenantId = ConfigUtil.getProperty("TENANT_ID");
         String returnUrl = basePath + "/payment/recharge/returnUrl";
         String notifyUrl = basePath + "/payment/recharge/notifyUrl";
         //String tempAmount = request.getParameter("payAmount");
@@ -129,6 +129,8 @@ public class PayController {
 	@RequestMapping("/recharge/notify")
 	public void notifyUrl(HttpServletRequest request) {
 
+        String tenantId =  ConfigUtil.getProperty("TENANT_ID");  
+        long accountId = this.getUserId(request).getAcctId();
         IPayOrderSV iPayOrderSV = DubboConsumerFactory.getService(IPayOrderSV.class);
 	    String orderId = request.getParameter("orderId"); // 订单号
 	    String payAmount = request.getParameter("orderAmount");
@@ -143,10 +145,10 @@ public class PayController {
         List<TransSummary> transSummaryList = new ArrayList<TransSummary>();
         transSummaryList.add(summary);
         param.setTransSummary(transSummaryList);
-        param.setAccountId(Long.parseLong(ACCOUNT_ID));
+        param.setAccountId(accountId);
         param.setBusiDesc(subject);
         param.setBusiSerialNo(orderId);
-        param.setTenantId(TENANT_ID);
+        param.setTenantId(tenantId);
         depositSV.depositFund(param);
         
         PayOrderParam payParam = new PayOrderParam();
@@ -155,8 +157,8 @@ public class PayController {
         payParam.setPayOrgSerial(outOrderId);
         payParam.setStatus(2);        
         PaymentParam paymentParam = new PaymentParam();
-        paymentParam.setTenantId(TENANT_ID);
-        paymentParam.setAcctId(Long.parseLong(ACCOUNT_ID));
+        paymentParam.setTenantId(tenantId);
+        paymentParam.setAcctId(accountId);
         paymentParam.setOrderId(orderId);
         paymentParam.setBusiType("1");
         paymentParam.setBusiOperCode("300000");
@@ -188,5 +190,13 @@ public class PayController {
         paymentParam.setPayTypeDetail(payTypeDetails);
         
         iPayOrderSV.callPayOrder(payParam, paymentParam);
+    }
+	
+	private SLPClientUser getUserId(HttpServletRequest request) {
+        SLPClientUser user = (SLPClientUser) request.getSession().getAttribute(SSOClientConstants.USER_SESSION_KEY);
+        if (user == null) {
+            throw new SystemException("您没有登录，请先登录");
+        }
+        return user;
     }
 }
