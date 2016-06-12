@@ -75,7 +75,7 @@
               <div class="list-int">
                     <ul>
                         <li class="word">我的邮箱:</li>
-                        <li><input type="text" class="int-medium" placeholder="请填写本人邮箱" id="email"/></li>
+                        <li><input type="text" class="int-medium" placeholder="请填写本人邮箱" id="email" value="${email}"/></li>
                         <li class="lable" id="emailMsgError" style="display: none"><img id="emailImages" src="${_slpbase }/images/icon-a.png"/><span id="emailMsg">使用您常用的邮箱</span></li>
                     </ul>
                       <ul>
