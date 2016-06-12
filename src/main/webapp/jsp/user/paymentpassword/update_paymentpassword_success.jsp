@@ -60,10 +60,11 @@
                      <li class="yellow-yuan">2</li>
                      <li class="yellow-word">设置支付密码</li>
                      </ul>
-                      <ul>
+                     <ul>
                      <li class="yellow-border"></li>
                      <li class="yellow-yuan">3</li>
                      <li class="yellow-word">完成</li>
+                     </ul>
            </div>                                          
           <!--/步骤结束-->
               <div class="recharge-success">
