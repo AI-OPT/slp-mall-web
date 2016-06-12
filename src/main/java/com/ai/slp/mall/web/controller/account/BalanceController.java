@@ -307,8 +307,9 @@ public class BalanceController {
 	public List<SysParam> searchDateList(HttpServletRequest request) {
 		String typeCode = "SEARCH_DATE_TYPE";
 		String paramCode = "DATE_TIME";
+		SLPClientUser user = this.getUserInfo(request);
 		//
-		List<SysParam> sysParamList = DubboConsumerFactory.getService(ICacheSV.class).getSysParams(TENANT_ID, typeCode, paramCode);
+		List<SysParam> sysParamList = DubboConsumerFactory.getService(ICacheSV.class).getSysParams(user.getTenantId(), typeCode, paramCode);
 		//
 		log.info("sysParamList:"+JSON.toJSONString(sysParamList));
 		if(CollectionUtil.isEmpty(sysParamList)){
@@ -338,6 +339,8 @@ public class BalanceController {
 		HttpSession session = req.getSession();
         SLPClientUser user = (SLPClientUser) session.getAttribute(SSOClientConstants.USER_SESSION_KEY);
         //
+        log.info("user account:"+user.getAcctId());
+        log.info("user tenantId:"+user.getTenantId());
         return user;
 	}
 }
