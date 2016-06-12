@@ -13,7 +13,7 @@
 
 <body>
 <!--添加购物车提示弹出框  中-->
-<div id="addShopCartSuccess" class="eject-big">
+<div class="eject-big">
 		<div id="shopCartMedium" class="eject-medium">
 			<div class="eject-medium-title">
 				<p>添加购物车提示</p>
