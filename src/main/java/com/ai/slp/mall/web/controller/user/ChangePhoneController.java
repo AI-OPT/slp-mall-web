@@ -39,7 +39,7 @@ public class ChangePhoneController {
         ModelAndView view = new ModelAndView("jsp/user/changephone/change-phone");
         // 根据userId查询密码
         SearchUserRequest searchUserRequest = new SearchUserRequest();
-        searchUserRequest.setTenantId("0");
+        searchUserRequest.setTenantId(user.getTenantId());
         searchUserRequest.setUserId(user.getUserId());
         // 获取dubbo服务
         IUcUserSV ucUserSV = DubboConsumerFactory.getService(IUcUserSV.class);
@@ -60,8 +60,7 @@ public class ChangePhoneController {
         ResponseData<String> responseData = null;
         ResponseHeader responseHeader = null;
         HttpSession session = request.getSession();
-        SLPClientUser user = (SLPClientUser) session
-                .getAttribute(SSOClientConstants.USER_SESSION_KEY);
+        SLPClientUser user = (SLPClientUser) session.getAttribute(SSOClientConstants.USER_SESSION_KEY);
         // 根据userId查询密码
         SearchUserRequest searchUserRequest = new SearchUserRequest();
         searchUserRequest.setUserId(user.getUserId());
@@ -114,9 +113,6 @@ public class ChangePhoneController {
         HttpSession session = request.getSession();
         SLPClientUser user = (SLPClientUser) session.getAttribute(SSOClientConstants.USER_SESSION_KEY);
         
-        if(!"success".equals(validatePhone(request).getResponseHeader().getResultCode())){
-            return validatePhone(request);
-        }else{
         UcUserPhoneRequest ucUserPhoneRequest = new UcUserPhoneRequest();
         ucUserPhoneRequest.setTenantId(user.getTenantId());
         ucUserPhoneRequest.setAccountId(user.getUserId());
@@ -132,11 +128,13 @@ public class ChangePhoneController {
             responseData = new ResponseData<String>("11113", "更新失败", null);
             responseHeader = new ResponseHeader(false, "11113", "更新失败");
         }
-        }
         responseData.setResponseHeader(responseHeader);
         return responseData;
     }
     
+    //校验手机号是否注册
+    @RequestMapping("/validatePhone")
+    @ResponseBody
     private ResponseData<String> validatePhone(HttpServletRequest request){
         ResponseData<String> responseData= new ResponseData<String>("success", "手机未注册", null);
         ResponseHeader responseHeader=new ResponseHeader(true,"success","手机未注册");
@@ -144,7 +142,7 @@ public class ChangePhoneController {
         String userType=user.getUserType();
         String userMp =request.getParameter("userMp");
         QueryBaseInfoRequest queryBaseInfoRequest = new QueryBaseInfoRequest();
-        queryBaseInfoRequest.setTenantId("0");
+        queryBaseInfoRequest.setTenantId(user.getTenantId());
         queryBaseInfoRequest.setUserMp(userMp);
         queryBaseInfoRequest.setUserType(userType);
         IUcUserSV ucUserSV = DubboConsumerFactory.getService(IUcUserSV.class);

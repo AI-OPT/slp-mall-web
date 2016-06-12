@@ -122,10 +122,10 @@
               </div>
              	<ul>
 					<li class="checx-word">
-					<input type="hidden" id="newPhoneFlag"/>
+					<input type="hidden" id="newPhoneErrFlag"/>
 					<input type="hidden" id="validateCodeFlag"/>
 					<input type="hidden" id="phoneCodeFlag"/>
-		         	<input type="hidden" id="tenantId" value="0"/>
+		         	<input type="hidden" id="tenantId" value="SLP"/>
 		         	</li>
 				</ul>
            </div>

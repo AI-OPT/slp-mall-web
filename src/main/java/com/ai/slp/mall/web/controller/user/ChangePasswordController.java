@@ -41,7 +41,7 @@ public class ChangePasswordController {
         //根据userId查询密码
         String pagePassword = request.getParameter("password");
         SearchUserRequest searchUserRequest = new SearchUserRequest();
-        searchUserRequest.setTenantId("0");
+        searchUserRequest.setTenantId(user.getTenantId());
         searchUserRequest.setUserId(user.getUserId());
         //获取dubbo服务
         IUcUserSV ucUserSV = DubboConsumerFactory.getService(IUcUserSV.class);
