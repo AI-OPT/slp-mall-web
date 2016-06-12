@@ -25,6 +25,9 @@ import com.ai.paas.ipaas.image.IImageClient;
 import com.ai.paas.ipaas.util.JSonUtil;
 import com.ai.slp.mall.web.constants.SLPMallConstants.ProductImageConstant;
 import com.ai.slp.mall.web.model.product.ProductImageVO;
+import com.ai.slp.product.api.productcat.interfaces.IProductCatSV;
+import com.ai.slp.product.api.productcat.param.ProductCatInfo;
+import com.ai.slp.product.api.productcat.param.ProductCatUniqueReq;
 import com.ai.slp.product.api.webfront.interfaces.IProductDetailSV;
 import com.ai.slp.product.api.webfront.param.ProductImage;
 import com.ai.slp.product.api.webfront.param.ProductSKUAttr;
@@ -40,7 +43,7 @@ public class ProductController {
 	private static final Logger LOG = Logger.getLogger(ProductController.class);
 
 	@RequestMapping("/detail")
-	public ModelAndView index(HttpServletRequest request) {
+	public ModelAndView detail(HttpServletRequest request) {
 		Map<String, String> model = new HashMap<String, String>();
 		try {
 			// 商品属性图片大小
@@ -55,9 +58,6 @@ public class ProductController {
 
 			productskurequest.setTenantId("SLP");
 			ProductSKUResponse producSKU = iProductDetailSV.queryProducSKUById(productskurequest);
-			
-			//TODO 测试数据 
-			//producSKU = demoResponse();
 			
 			ResponseHeader responseHeader = producSKU.getResponseHeader();
 			if (responseHeader.isSuccess()) {
@@ -81,12 +81,33 @@ public class ProductController {
 				model.put("activeDateValue", activeValue);
 				// 设置商品详情展示信息
 				model.put("productInfo", productInfoHtml);
+				//设置商品类目
+				model.put("productCatId", producSKU.getProductCatId());
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
 			LOG.error("商品详情查询报错：", e);
 		}
 		return new ModelAndView("jsp/product/product_detail", model);
+	}
+	
+	/**
+	 * 获得商品类目集
+	 * @param request
+	 * @return
+	 */
+	@RequestMapping("/getProductCatList")
+	public  ResponseData<List<ProductCatInfo>> getProductCatList(HttpServletRequest request,ProductCatUniqueReq queryParams) {
+		ResponseData<List<ProductCatInfo>> responseData = null;
+		try {
+			IProductCatSV iProductCatSV = DubboConsumerFactory.getService("iProductCatSV");
+			queryParams.setTenantId("SLP");
+			List<ProductCatInfo> queryLinkOfCatById = iProductCatSV.queryLinkOfCatById(queryParams);
+			responseData = new ResponseData<List<ProductCatInfo>>(ResponseData.AJAX_STATUS_SUCCESS, "查询成功", queryLinkOfCatById);
+		} catch (Exception e) {
+			responseData = new ResponseData<List<ProductCatInfo>>(ResponseData.AJAX_STATUS_FAILURE, "查询失败", null);
+		}
+		return responseData;
 	}
 	
 	/**

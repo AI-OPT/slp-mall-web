@@ -48,11 +48,39 @@ define('app/jsp/product/productDetail', function (require, exports, module) {
     		this._renderProducSKUTemple();
     		this._renderImageBigTemple();
     		this._renderImageSmallTemple();
+    		this._renderProductCat();
     		
     		this._controlActiveDate();
     		this._controlBtn();
     		this._getHotProduct();
     		this._getProductConfigParameter();
+    	},
+    	//渲染商品类目
+    	_renderProductCat:function(){
+    		$.ajax({
+				type: "post",
+				dataType: "json",
+				processing: false,
+				//message: "查询中，请等待...",
+				url: _base+"/product/getProductCatList",
+				data:{"productCatId":productCatId},
+				success: function(data){
+					var catList = data.data;
+					if(catList){
+						var htmlStr = "";
+						for(var i=0; i<catList.length;i++){
+							htmlStr = htmlStr +"<p><a href='"+_base+"/search/list?billType="+catList[i].productCatId+"'>"+catList[i].productCatName+"</a>></p>";
+						}
+						var prodName = $("#prodName").text();
+						if(prodName.length>12){
+							prodName = prodName.substring(0,12)+"...";
+						}
+						htmlStr = htmlStr + "<p>"+prodName+"</p>";
+						$("#productCatList").html(htmlStr);
+					}
+				}
+			}
+		);
     	},
     	//渲染大图
     	_renderImageBigTemple:function(){
@@ -203,7 +231,7 @@ define('app/jsp/product/productDetail', function (require, exports, module) {
 						processing: false,
 						//message: "查询中，请等待...",
 						url: _base+"/search/getHotProduct",
-						data:{areaCode:"81"},
+						data:{areaCode:$("#currentCity").attr("currentCityCode")},
 						success: function(data){
 							if(data.data){
 								var template = $.templates("#hotProductListTmpl");
