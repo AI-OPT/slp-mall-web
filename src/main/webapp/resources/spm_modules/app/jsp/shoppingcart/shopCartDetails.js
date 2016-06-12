@@ -1,17 +1,15 @@
 define('app/jsp/shoppingcart/shopCartDetails', function (require, exports, module) {
     'use strict';
     var $=require('jquery'),
-    Widget = require('arale-widget/1.2.0/widget'),
-    Dialog = require("artDialog/src/dialog"),
-    Paging = require('paging/0.0.1/paging-debug'),
-    AjaxController = require('opt-ajax/1.0.0/index');
+		AjaxController = require('opt-ajax/1.0.0/index'),
+    	Widget = require('arale-widget/1.2.0/widget'),
+    	Dialog = require("artDialog/src/dialog");
     require("jsviews/jsrender.min");
     require("jsviews/jsviews.min");
-    require("bootstrap-paginator/bootstrap-paginator.min");
-    require("app/util/jsviews-ext");
-    
+	require("app/util/jsviews-ext");
+	require("twbs-pagination/jquery.twbsPagination.min");
     require("opt-paging/aiopt.pagination");
-    require("twbs-pagination/jquery.twbsPagination.min");
+
     var SendMessageUtil = require("app/util/sendMessage");
     
     // 实例化AJAX控制处理对象
