@@ -48,7 +48,7 @@
 						<a href="${accountRechargeOneLink }">充值</a>&gt;
 					</p>
 					<p>
-						<a href="#">选择支付方式</a>
+						<a href="#">充值确认</a>
 					</p>
 				</div>
 				<div class="account-bj">
@@ -77,16 +77,18 @@
 					</div>
 					<!--/步骤结束-->
 					<div class="list-int">
+					<form name="twoForm" id="twoForm" method="post" action="${_base}/payment/recharge/gotoPay">
+						<input type = "hidden" name="payAmount" id="payAmount" value="${ payAmount}"></input>
 						<ul>
 							<li class="word">充值金额:</li>
-							<li><span class="jine">¥98.00</span></li>
+							<li><span class="jine">¥${ payAmount}</span></li>
 						</ul>
 						<ul>
 							<li class="checx-word"><input type="button"
 								class="slp-btn regsiter-btn" value="下一步"
-								onclick="location.href='${_base}/account/recharge/three'"></li>
+								onclick="pager._formSubmit();"></li>
 						</ul>
-
+					</form>
 					</div>
 				</div>
 
@@ -100,7 +102,17 @@
 	<!--底部 结束-->
 </body>
 
-</html>
+</body><script type="text/javascript">
+	var pager;
+	(function() {
+		seajs.use('app/jsp/account/recharge/two', function(TwoPager) {
+			pager = new TwoPager({
+				element : document.body
+			});
+		});
+	})();
+</script>
 <script src="${_slpbase }/scripts/frame.js" type="text/javascript"></script>
 <script src="${_slpbase }/scripts/flickity-docs.min.js"></script>
+</html>
 

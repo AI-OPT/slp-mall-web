@@ -15,7 +15,6 @@
 	type="text/css">
 
 </head>
-
 <body>
 	<!--顶部菜单-->
 	<%@ include file="/inc/top-menu.jsp"%>
@@ -77,18 +76,19 @@
 					</div>
 					<!--/步骤结束-->
 					<div class="list-int">
-						<ul>
-							<li class="word">充值金额:</li>
-							<li><input type="password" class="int-medium"
-								placeholder="请输入密码"></li>
-							<li class="lable"><img src="${_slpbase }/images/icon-c.png"><span>请填写不少于10元的整数金额</span></li>
-						</ul>
-						<ul>
-							<li class="checx-word"><input type="button"
-								class="slp-btn regsiter-btn" value="下一步"
-								onclick="location.href='${_base}/account/recharge/two'"></li>
-						</ul>
-
+						<form name="oneForm" id="oneForm" method="post" action="${_base}/payment/recharge/two">
+							<ul>
+								<li class="word">充值金额:</li>
+								<li><input type="text" class="int-medium" id="payAmount"  name="payAmount"
+									placeholder="请输入金额"></li>
+								<li class="lable"><img src="${_slpbase }/images/icon-c.png"><span>请填写不少于10元的整数金额</span></li>
+							</ul>
+							<ul>
+								<li class="checx-word"><input type="button" 
+									class="slp-btn regsiter-btn" value="下一步"
+									onclick="pager._formSubmit()"></li>
+							</ul>
+						</form>
 					</div>
 				</div>
 
@@ -100,9 +100,18 @@
 	<%@ include file="/inc/foot.jsp"%>
 
 	<!--底部 结束-->
-</body>
-
-</html>
+</body><script type="text/javascript">
+	var pager;
+	(function() {
+		seajs.use('app/jsp/account/recharge/one', function(OnePager) {
+			pager = new OnePager({
+				element : document.body
+			});
+		});
+	})();
+</script>
 <script src="${_slpbase }/scripts/frame.js" type="text/javascript"></script>
 <script src="${_slpbase }/scripts/flickity-docs.min.js"></script>
+
+</html>
 

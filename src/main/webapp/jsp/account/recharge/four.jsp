@@ -1,4 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!doctype html>
 <html>
 <head>
@@ -76,13 +77,22 @@
 						</ul>
 					</div>
 					<!--/步骤结束-->
-					<div class="recharge-success">
-						<p>
-							<img src="${_slpbase }/images/succ.png">
-						</p>
-						<p class="word">
-							您已经充值成功，充值金额<span class="jine">￥100.00</span>
-						</p>
+					<div class="recharge-success"><c:if  test="${payStates eq '00'}"> 
+							<p> 
+						    <img src="${_slpbase }/images/succ.png">
+							</p>
+							<p class="word">
+								您已经充值成功，充值金额<span class="jine">￥${orderAmount }</span>
+							</p>
+						</c:if>  
+						<c:if  test="${payStates eq '01'}"> 
+						 	<p> 
+						     <img src="${_slpbase }/images/fail.png" width="73px" height="73px">
+							</p>
+							<p class="word">
+								对不起，充值失败<span class="jine">！</span>
+							</p>
+						</c:if> 
 						<p class="success-box">
 							<a href="#">查看余额明细</a><a href="#">设置支付密码</a>
 						</p>
