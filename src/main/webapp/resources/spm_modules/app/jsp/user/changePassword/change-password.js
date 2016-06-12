@@ -130,7 +130,7 @@ define(
 									type : "post",
 									processing : false,
 									async: false, 
-									url : _base + "/user/validatePassword",
+									url : _base + "/user/password/validatePassword",
 									dataType : "json",
 									data : param,
 									message : "正在加载数据..",
@@ -168,9 +168,7 @@ define(
 						// 点击下一步用户信息显示
 						_submit : function() {
 							$("#newPasswordEmptyFlag").val("1");
-							$("#newPasswordErrFlag").val("1");
 							$("#newPasswordConfirmEmptyFlag").val("1");
-							$("#passwordNotEqualFlag").val("1");
 							
 							if($('#newPassword').val()==""){
 								$("#newPasswordErrMsgShow").text("密码不能为空");
@@ -186,7 +184,7 @@ define(
 							var newPasswordErrFlag=$("#newPasswordErrFlag").val();
 							var newPasswordConfirmEmptyFlag=$("#newPasswordConfirmEmptyFlag").val();
 							var passwordNotEqualFlag=$("#passwordNotEqualFlag").val();
-							if(newPasswordEmptyFlag!=0&&newPasswordErrFlag!=0&&newPasswordConfirmEmptyFlag!=0&&passwordNotEqualFlag!=0){
+							if(newPasswordEmptyFlag!='0'&&newPasswordErrFlag!='0'&&newPasswordConfirmEmptyFlag!='0'&&passwordNotEqualFlag!='0'){
 							var param = {
 									password : hex_md5($("#newPassword").val())
 							};
@@ -194,7 +192,7 @@ define(
 								type : "post",
 								processing : false,
 								async: false, 
-								url : _base + "/user/updatePassword",
+								url : _base + "/user/password/updatePassword",
 								dataType : "json",
 								data : param,
 								message : "正在加载数据..",
@@ -226,8 +224,6 @@ define(
 							var confirmationPassword = $("#newPasswordConfirm").val();
 							
 							if (inputPassword != confirmationPassword) {
-								/*$("#confirmationPasswordImage").attr('src',
-										_base + '/theme/slp/images/icon-a.png');*/
 								$("#newPasswordConfirmErrMsgShow").text("两次输入的密码不一致");
 								$("#newPasswordConfirmErrMsg").show();
 								$("#passwordNotEqualFlag").val("0");

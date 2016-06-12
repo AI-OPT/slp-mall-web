@@ -20,7 +20,7 @@ import com.ai.slp.user.api.ucuser.intefaces.IUcUserSV;
 import com.ai.slp.user.api.ucuser.param.SearchUserRequest;
 
 @RestController
-@RequestMapping("/user")
+@RequestMapping("/user/password")
 public class ChangePasswordController {
 
     //跳转修改密码页面

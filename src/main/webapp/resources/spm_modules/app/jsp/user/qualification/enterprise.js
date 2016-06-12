@@ -45,7 +45,7 @@ define(
 				        processing: false,
 				        url: _base+"/user/qualification/saveEnterprise",
 				        dataType: "json",
-				        data: param,
+				        data: params,
 				        message: "正在加载数据..",
 				        success: function (data) {
 				        	

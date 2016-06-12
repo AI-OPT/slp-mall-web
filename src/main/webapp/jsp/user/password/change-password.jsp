@@ -100,12 +100,12 @@
               </div>
                 <ul>
 					<li class="checx-word">
-					<input type="hidden" id="passwordEmptyFlag"/>
-					<input type="hidden" id="passwordErrFlag"/>
-					<input type="hidden" id="newPasswordEmptyFlag"/>
-					<input type="hidden" id="newPasswordErrFlag"/>
-					<input type="hidden" id="newPasswordConfirmEmptyFlag"/>
-					<input type="hidden" id="passwordNotEqualFlag"/>
+					<input type="text" id="passwordEmptyFlag"/>
+					<input type="text" id="passwordErrFlag"/>
+					<input type="text" id="newPasswordEmptyFlag"/>
+					<input type="text" id="newPasswordErrFlag"/>
+					<input type="text" id="newPasswordConfirmEmptyFlag"/>
+					<input type="text" id="passwordNotEqualFlag"/>
 		         	</li>
 				</ul>
       		</div>
