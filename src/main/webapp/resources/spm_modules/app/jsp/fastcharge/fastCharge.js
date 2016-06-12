@@ -104,7 +104,9 @@ define('app/jsp/fastcharge/fastCharge', function (require, exports, module) {
 										 var template = $.templates("#lfeeDataTmpl");
 										 var htmlOutput = template.render(d.phoneFee);
 										 $("#listLfee").html(htmlOutput);
+										
 										 _this._lfeeChange();
+										 $("#listLfee p:first").click();
 									}else{
 										 $("#listLfee").html("");
 									}
@@ -172,7 +174,9 @@ define('app/jsp/fastcharge/fastCharge', function (require, exports, module) {
 										 var template = $.templates("#hfeeDataTmpl");
 										 var htmlOutput = template.render(d.phoneFee);
 										 $("#listHfee").html(htmlOutput);
+										
 										 _this._hfeeChange();
+										 $("#listHfee p:first").click();
 									}else{
 										 $("#listHfee").html("");
 									}
