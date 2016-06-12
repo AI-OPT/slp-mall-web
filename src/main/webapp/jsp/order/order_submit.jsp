@@ -81,16 +81,12 @@
 							<td width="15%">数量</td>
 							<td width="15%">小计</td>
 						</tr>
-					</table>
-				</div>
-				<div class="shopping-cart mar">
-					<table width="100%" border="0">
-					{{for ordProductResList}}
+						{{for ordProductResList}}
 						<tr>
 							<td class="sp">
 								<table width="100%" border="0">
 									<tr>
-										<td class="word" width="25%"><img src="${_slpbase }/images/sim.png"></td>
+										<td class="word" width="25%"><img src="{{:imageUrl}}"></td>
 										<td><A href="#">{{:skuName}}</A></td>
 									</tr>
 								</table>
@@ -102,6 +98,7 @@
 						{{/for}}
 					</table>
 				</div>
+
 				<div class="total-amount">
 					<ul>
 						<li>
