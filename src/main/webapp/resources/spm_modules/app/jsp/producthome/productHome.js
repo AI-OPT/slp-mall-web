@@ -158,7 +158,6 @@ define('app/jsp/producthome/productHome', function (require, exports, module) {
 					},
 				success: function(data){
 					var key=data.data;
-					console.log("zouzozu");
 					window.location.href = _base
 					+ "/order/toOrderPay?orderKey="+key;
 
@@ -304,9 +303,6 @@ define('app/jsp/producthome/productHome', function (require, exports, module) {
 					location:$("#location").val()
 					},
 				success: function(data){
-					
-					
-					
 					var d=data.data;
 					if(d&&d.phoneFee){
 						var phoneFee=d.phoneFee;
@@ -335,7 +331,6 @@ define('app/jsp/producthome/productHome', function (require, exports, module) {
 					},
 				success: function(data){
 					var d=data.data;
-					console.log(data);
 				}
 			});
     	},
