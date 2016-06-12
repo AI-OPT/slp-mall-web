@@ -273,8 +273,15 @@ public class OrderController {
 		// InfoJsonVo 扩展信息
 		ResponseData<String> resData = null;
 		try {
+			HttpSession session = request.getSession();
+			SLPClientUser user = (SLPClientUser) session.getAttribute(SSOClientConstants.USER_SESSION_KEY);
+			if(null!=user){
+				orderReq.setUserId(user.getUserId());
+			}else{
+				orderReq.setUserId("900000000000000000");
+			}
 			String orderKey = UUIDUtil.genId32();
-			orderReq.setUserId("900000000000000000");// 先写死
+			
 			CacheUtil.setValue(orderKey, 300, orderReq, SLPMallConstants.Order.CACHE_NAMESPACE);
 			resData = new ResponseData<String>(ExceptionCode.SUCCESS, "查询成功", orderKey);
 
