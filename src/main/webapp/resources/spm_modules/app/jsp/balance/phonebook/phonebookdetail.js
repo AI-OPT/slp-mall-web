@@ -276,7 +276,7 @@ define('app/jsp/balance/phonebook/phonebookdetail', function (require, exports, 
     		ajaxController.ajax({
 				type: "post",
 				dataType: "json",
-				processing: true,
+				processing: false,
 				message: "正在处理...",
 				url: _base+"/account/phonebook/batchAddUserPhonebooks",
 				data: {
@@ -316,7 +316,7 @@ define('app/jsp/balance/phonebook/phonebookdetail', function (require, exports, 
     		ajaxController.ajax({
 				type: "post",
 				dataType: "json",
-				processing: true,
+				processing: false,
 				message: "正在处理...",
 				url: _base+"/account/phonebook/batchDeleteUserPhonebooks",
 				data: {
@@ -336,7 +336,7 @@ define('app/jsp/balance/phonebook/phonebookdetail', function (require, exports, 
     			url: _base+"/account/phonebook/queryUserPhonebooks",
 	 			method: "POST",
 	 			dataType: "json",
-	 			processing: true,
+	 			processing: false,
 	 			message: "正在查询",
 	            data : {
 					userId: this.get("userId"),
