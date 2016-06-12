@@ -72,7 +72,7 @@
              		<li><a href="#">请在邮件中点击验证链接完成邮箱绑定<span>（验证链接30分钟内有效)</span></a></li>
              		<!-- <li class="vermail-btn"><input type="button" class="slp-btn regsiter-btn" value="查看验证邮件"></li> -->	
              	</ul>
-             </div>
+             </div> 
       </div>
 
 
