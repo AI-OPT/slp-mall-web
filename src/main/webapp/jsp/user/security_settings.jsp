@@ -177,8 +177,11 @@
         				<c:if test="${userInfo.userEmail==null||userInfo.userEmail==''}">
         					<div class="state-list-btn"><input type="button" class="sta-btn" value="绑定邮箱" onclick="goToBandEmail('bandEmail')"></div>
         				</c:if>
-        				<c:if test="${userInfo.userEmail!=null&&userInfo.userEmail!=''}">
+        				<c:if test="${userInfo.userEmail!=null&&userInfo.emailValidateFlag=='10'}">
         					<div class="state-list-btn"><input type="button" class="sta-btn" value="修改" onclick="goToBandEmail('updateEmail')"></div>
+        				</c:if>
+        				<c:if test="${userInfo.userEmail!=null&&userInfo.emailValidateFlag=='11'}">
+        					<div class="state-list-btn"><input type="button" class="sta-btn" value="验证" onclick="goToBandEmail('bandEmail')"></div>
         				</c:if>
         			</div>
         			<div class="state-list">
