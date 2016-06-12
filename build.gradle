@@ -83,7 +83,7 @@ dependencies {
 	//短信验证等
 	compile 'com.ai.opt.uac:account:2.0-SNAPSHOT'
 	//商品web
-	compile 'com.ai.slp.product:webfront:1.2-SNAPSHOT'
+	compile 'com.ai.slp.product:webfront:1.2.1-SNAPSHOT'
 	
 	//jersey
 	compile 'org.glassfish.jersey.core:jersey-client:2.9.1'
@@ -120,7 +120,7 @@ dependencies {
 	compile 'com.ai.slp.balance:fundquery:1.0-SNAPSHOT'
 	compile 'com.ai.slp.charge:paymentquery:1.0-SNAPSHOT'
     //充值缴费
-    compile 'com.ai.slp.charge:payment:1.0-SNAPSHOT'
+    compile 'com.ai.slp.charge:payment:1.1-SNAPSHOT'
     //存款取款
     compile 'com.ai.slp.balance:deposit:1.0-SNAPSHOT'
     //登录
@@ -128,6 +128,8 @@ dependencies {
     //支付
     compile 'com.ai.slp.balance:accountmaintain:1.0-SNAPSHOT'
     compile 'com.ai.slp.balance:accountquery:1.0-SNAPSHOT'
+    //商品类目
+    compile 'com.ai.slp.product:productcat:1.0-SNAPSHOT'
     testCompile(
             "org.springframework:spring-test:4.1.7.RELEASE",
             "junit:junit:4.12"

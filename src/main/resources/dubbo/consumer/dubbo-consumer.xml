@@ -118,4 +118,8 @@
 	
 	<dubbo:reference id="iAccountMaintainSV"
 		interface="com.ai.slp.balance.api.accountmaintain.interfaces.IAccountMaintainSV" />
+	
+	<!-- 商品类目 -->	
+	<dubbo:reference id="iProductCatSV"
+		interface="com.ai.slp.product.api.productcat.interfaces.IProductCatSV" />
 </beans>

@@ -12,6 +12,33 @@
 </head>
 
 <body>
+<!--添加购物车提示弹出框  中-->
+<div class="eject-big">
+		<div id="shopCartMedium" class="eject-medium">
+			<div class="eject-medium-title">
+				<p>添加购物车提示</p>
+				<p class="img"><A href="#"></A></p>
+			</div>
+			<div class="eject-medium-list">
+					<div class="eject-buy">
+						<ul>
+							<li class="img"><img src="${_slpbase }/images/eject-buy.png" /></li>
+							<li class="word">
+								<p class="color">该商品已成功加入购物车！</p>
+								<p>购物车内已有<span id="cartProdTotal">10</span>件商品</p>
+							</li>
+						</ul>
+						<ul>
+							<li><a href="${_base}/shopcart/cartDetails"><input type="button" class="slp-btn eject-buy-btn"  value="购物车结算"/></a></li>
+							<li class="word-eg" id="continueShoping"><a href="#">继续浏览</a></li>
+						</ul>
+						
+					</div>
+			</div>	
+		</div>	
+		<div id="shopCartMask" class="eject-mask"></div>	
+</div>
+<!--添加购物车提示弹出框  中结束-->	
  <!--顶部菜单-->
  <%@ include file="/inc/top-menu.jsp" %>
 <!--顶部菜单结束-->
@@ -30,11 +57,7 @@
      <!--商品详情-->
 <div class="fsast-charge">
      	<div class="big-wrapper"><!--内侧居中框架-->
-       		<div class="payment-title">
-                <p><a href="#">一级分类</a>></p>
-                <p><a href="#">二级分类</a>></p>
-                <p><a href="#">三级分类</a>></p>
-                <p>中国移动充值卡</p>
+       		<div class="payment-title" id="productCatList">
             </div>
          <div class="recharge-bj-tow"><!--白色背景-->
          <!--商品详情-->
@@ -86,7 +109,7 @@
       			 <div id="producSKUData"></div>
       			 <script id="producSKUTemple" type="text/template">
                    <ul class="details-title">
-                       <li class="word">{{:prodName}}</li>
+                       <li class="word" id="prodName">{{:prodName}}</li>
                        <li class="color">{{:productSellPoint}}</li>
                    </ul>
                    <ul class="details-list">
@@ -242,6 +265,7 @@
 	var producSKU = $.parseJSON('${productSKU}');
 	var imageArrayList = $.parseJSON('${imageArrayList}');
 	var activeDateValue = '${activeDateValue}';
+	var productCatId = '${productCatId}';
 	(function () {
 		seajs.use('app/jsp/product/productDetail', function (ProductDetailPager) {
 			pager = new ProductDetailPager({element: document.body});
