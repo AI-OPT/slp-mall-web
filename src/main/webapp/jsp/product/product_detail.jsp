@@ -13,7 +13,7 @@
 
 <body>
 <!--添加购物车提示弹出框  中-->
-<div id="addShopCartSuccess" class="eject-big">
+<div class="eject-big">
 		<div id="shopCartMedium" class="eject-medium">
 			<div class="eject-medium-title">
 				<p>添加购物车提示</p>
@@ -57,11 +57,7 @@
      <!--商品详情-->
 <div class="fsast-charge">
      	<div class="big-wrapper"><!--内侧居中框架-->
-       		<div class="payment-title">
-                <p><a href="#">一级分类</a>></p>
-                <p><a href="#">二级分类</a>></p>
-                <p><a href="#">三级分类</a>></p>
-                <p>中国移动充值卡</p>
+       		<div class="payment-title" id="productCatList">
             </div>
          <div class="recharge-bj-tow"><!--白色背景-->
          <!--商品详情-->
@@ -113,7 +109,7 @@
       			 <div id="producSKUData"></div>
       			 <script id="producSKUTemple" type="text/template">
                    <ul class="details-title">
-                       <li class="word">{{:prodName}}</li>
+                       <li class="word" id="prodName">{{:prodName}}</li>
                        <li class="color">{{:productSellPoint}}</li>
                    </ul>
                    <ul class="details-list">
@@ -269,6 +265,7 @@
 	var producSKU = $.parseJSON('${productSKU}');
 	var imageArrayList = $.parseJSON('${imageArrayList}');
 	var activeDateValue = '${activeDateValue}';
+	var productCatId = '${productCatId}';
 	(function () {
 		seajs.use('app/jsp/product/productDetail', function (ProductDetailPager) {
 			pager = new ProductDetailPager({element: document.body});

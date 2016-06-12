@@ -104,13 +104,14 @@ define('app/jsp/shoppingcart/shopCartDetails', function (require, exports, modul
         	if(!this._isPosNum(qty)){
 				qty = oldProdNum;
         	}
-        	if(qty>=skuNumLimit || qty>=stockNum){
+        	if(qty>skuNumLimit || qty>stockNum){
         		$("#"+prodId+"_prodnum").val(oldProdNum);
     			return;
     		}
 			btn.value=qty;
 			//调用后场修改数量
     		this._changeCartNum(prodId,qty,oldProdNum);
+    		// 计算价格并求和
 			this._computedPrice(prodId,qty,salePrice);
 			// 求和
     		this._sumPriceAndNum();
@@ -230,7 +231,7 @@ define('app/jsp/shoppingcart/shopCartDetails', function (require, exports, modul
 		        //计算总量
 		        allProdNum += num;
 			});
-    		$("#allProductNum").html("("+allProdNum+")");
+    		$("#allProductNum").html("（"+allProdNum+"）");
     	},
     	//金额转换（元->厘）
     	_yuanToLi: function(yuan){
@@ -305,6 +306,8 @@ define('app/jsp/shoppingcart/shopCartDetails', function (require, exports, modul
 				url: _base+"/shopcart/updateProdNum",
 				data:{"skuId":skuId,"buyNum":buyNum},
 				success: function(data){
+					// 成功把新数量更新到隐藏域
+		    		$("#"+skuId+"_oldProdNum").val(buyNum);
 				},
 				failure:function(domObj,data){
 					// 失败把原始数据返回
