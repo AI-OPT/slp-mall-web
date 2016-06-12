@@ -198,7 +198,7 @@ public class PayPasswordUpdateController {
          */
         IAccountMaintainSV accountMaintainSV = DubboConsumerFactory.getService(IAccountMaintainSV.class);
         AccountUpdateParam updateParam = new AccountUpdateParam();
-        updateParam.setTenantId("SLP");
+        updateParam.setTenantId(SLPMallConstants.COM_TENANT_ID);
         updateParam.setAcctId(acctId);
         updateParam.setAcctMailType(0);
         updateParam.setAcctName(userClient.getUsername());
