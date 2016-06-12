@@ -17,6 +17,7 @@ import com.ai.opt.sso.client.filter.SSOClientConstants;
 import com.ai.slp.balance.api.accountquery.interfaces.IAccountQuerySV;
 import com.ai.slp.balance.api.accountquery.param.AccountInfoVo;
 import com.ai.slp.balance.api.accountquery.param.CustIdParam;
+import com.ai.slp.mall.web.constants.SLPMallConstants;
 import com.ai.slp.user.api.ucuser.intefaces.IUcUserSV;
 import com.ai.slp.user.api.ucuser.param.SearchUserRequest;
 import com.ai.slp.user.api.ucuser.param.SearchUserResponse;
@@ -37,7 +38,7 @@ public class SecuritySettingController {
         * 通过userId获取acctId
         */
        CustIdParam accountId  = new CustIdParam();
-       accountId.setTenantId("SLP");
+       accountId.setTenantId(SLPMallConstants.COM_TENANT_ID);
        accountId.setCustId(userClient.getUserId());
        IAccountQuerySV accountQuerySV = DubboConsumerFactory.getService(IAccountQuerySV.class);
        List<AccountInfoVo> accountList = accountQuerySV.queryAccontByCustId(accountId);
