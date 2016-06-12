@@ -47,8 +47,8 @@
              	<input type="hidden" name="skuName" id="skuName" value="${requestScope.skuName}"/>
              	<input type="hidden" name="sourceFlag" id="sourceFlag" value="${requestScope.sourceFlag}"/>
                 <!-- 公共查询条件默认数据 start-->
-                <input type="hidden" id="agentSearch" value="100001"/>
-                <input type="hidden" id="areaSearch" value="10"/>
+                <input type="hidden" id="agentSearch" value="100002"/>
+                <input type="hidden" id="areaSearch" value="11"/>
                 <input type="hidden" id="priceSearch" value="100004"/>
                 <!-- 公共查询条件数据 end-->
                 <div class="search-main"   id="commonId">
