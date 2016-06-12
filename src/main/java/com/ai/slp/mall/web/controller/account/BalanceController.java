@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,6 +24,8 @@ import com.ai.opt.sdk.dubbo.util.DubboConsumerFactory;
 import com.ai.opt.sdk.util.CollectionUtil;
 import com.ai.opt.sdk.util.DateUtil;
 import com.ai.opt.sdk.web.model.ResponseData;
+import com.ai.opt.sso.client.filter.SLPClientUser;
+import com.ai.opt.sso.client.filter.SSOClientConstants;
 import com.ai.opt.base.vo.PageInfo;
 import com.ai.slp.balance.api.fundquery.interfaces.IFundQuerySV;
 import com.ai.slp.balance.api.fundquery.param.AccountIdParam;
@@ -118,8 +121,9 @@ public class BalanceController {
 	@ResponseBody
 	public String queryUsableFund(HttpServletRequest request) {
 		AccountIdParam accountIdParam = new AccountIdParam();
-		accountIdParam.setAccountId(new Long(ACCOUNT_ID));
-		accountIdParam.setTenantId(TENANT_ID);
+		SLPClientUser user = this.getUserInfo(request);
+		accountIdParam.setAccountId(user.getAcctId());//(new Long(ACCOUNT_ID));
+		accountIdParam.setTenantId(user.getTenantId());//(TENANT_ID);
 		//
 		FundInfo fundInfo = DubboConsumerFactory.getService(IFundQuerySV.class).queryUsableFund(accountIdParam);
 		long balance = 0;
@@ -143,8 +147,9 @@ public class BalanceController {
 	@ResponseBody
 	public PageInfo<ChargeBaseInfo> queryChargeBaseInfoByAcctId(HttpServletRequest request) {
 		ChargeInfoQueryByAcctIdParam chargeInfoQueryByAcctIdParam = new ChargeInfoQueryByAcctIdParam();
-		chargeInfoQueryByAcctIdParam.setAccountId(new Long(ACCOUNT_ID));
-		chargeInfoQueryByAcctIdParam.setTenantId(TENANT_ID);
+		SLPClientUser user = this.getUserInfo(request);
+		chargeInfoQueryByAcctIdParam.setAccountId(user.getAcctId());//(new Long(ACCOUNT_ID));
+		chargeInfoQueryByAcctIdParam.setTenantId(user.getTenantId());//(TENANT_ID);
 		PageInfo<ChargeBaseInfo> chargeBaseInfoPageInfo = new PageInfo<ChargeBaseInfo>();
 		chargeBaseInfoPageInfo.setPageNo(1);
 		chargeBaseInfoPageInfo.setPageSize(10);
@@ -185,6 +190,7 @@ public class BalanceController {
 		String paramCode = "BUSI_TYPE_PARAM";
 		for(ChargeBaseInfo chargeBaseInfo : chargeBaseInfoList){
 			SysParam sysParam = DubboConsumerFactory.getService(ICacheSV.class).getSysParam(TENANT_ID, typeCode, paramCode, chargeBaseInfo.getBusiType());
+			
 			chargeBaseInfo.setBusiType(sysParam.getColumnDesc());
 			//
 			chargeBaseInfoListNew.add(chargeBaseInfo);
@@ -238,8 +244,9 @@ public class BalanceController {
 		ResponseData<PageInfo<ChargeBaseInfo>> responseData;
 		//
 		ChargeInfoQueryByAcctIdParam chargeInfoQueryByAcctIdParam = new ChargeInfoQueryByAcctIdParam();
-		chargeInfoQueryByAcctIdParam.setAccountId(new Long(ACCOUNT_ID));
-		chargeInfoQueryByAcctIdParam.setTenantId(TENANT_ID);
+		SLPClientUser user = this.getUserInfo(request);
+		chargeInfoQueryByAcctIdParam.setAccountId(user.getAcctId());//(new Long(ACCOUNT_ID));
+		chargeInfoQueryByAcctIdParam.setTenantId(user.getTenantId());//(TENANT_ID);
 		//
 		if(!StringUtil.isBlank(busiType)){
 			chargeInfoQueryByAcctIdParam.setBusiType(busiType);
@@ -318,5 +325,19 @@ public class BalanceController {
 		
 		return sysParamList;
 	}
-	
+	/**
+	 * 获取用户信息
+	 * @param req
+	 * @return
+	 * @author zhangzd
+	 * @ApiDocMethod
+	 * @ApiCode
+	 */
+	public SLPClientUser getUserInfo(HttpServletRequest req){
+		 
+		HttpSession session = req.getSession();
+        SLPClientUser user = (SLPClientUser) session.getAttribute(SSOClientConstants.USER_SESSION_KEY);
+        //
+        return user;
+	}
 }
