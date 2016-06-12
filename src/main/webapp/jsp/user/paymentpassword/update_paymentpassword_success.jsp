@@ -60,16 +60,20 @@
                      <li class="yellow-yuan">2</li>
                      <li class="yellow-word">设置支付密码</li>
                      </ul>
-                      <ul>
+                     <ul>
                      <li class="yellow-border"></li>
                      <li class="yellow-yuan">3</li>
                      <li class="yellow-word">完成</li>
+                     </ul>
            </div>                                          
           <!--/步骤结束-->
               <div class="recharge-success">
                  <p><img src="${_slpbase }/images/succ.png"/></p>
                  <p class="word">您的支付密码已经设置成功!</p>
-                 <p class="success-box"><a href="#">账户首页</a><a href="#">我的订单</a></p>
+                 <p class="success-box">
+	                 <a href="#">账户首页</a>
+	                 <a href="${_base}/order/list">我的订单</a>
+                 </p>
             </div>
       </div>
 
