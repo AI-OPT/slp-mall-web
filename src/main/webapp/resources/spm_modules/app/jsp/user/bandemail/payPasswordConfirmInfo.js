@@ -233,7 +233,6 @@ define('app/jsp/user/bandemail/payPasswordConfirmInfo', function (require, expor
 					var resultCode = data.responseHeader.resultCode;
 					if(resultCode=="000001"){
 						$("#errorPawMsg").show();
-						$("#passwordImage").show();
 						$("#showPawMsg").text("修改失败请重新输入支付密码");
 					}else{
 						if(resultCode=="000000"){

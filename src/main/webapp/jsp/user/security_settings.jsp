@@ -65,14 +65,14 @@
       <div class="order-list-bj">
         	<!--账户安全企业-->
         	<div class="account-security-title">
-        		<ul>
+        		<!-- <ul>
         			<li>您的账户安全级别为:</li>
         			<li class="word-color">中</li>
         			<li class="bj-color">
         				<p></p>	
         			</li>
         			<li class="label">建议您启动以下安全设置，保障您的账户和资金安全</li>
-        		</ul>	
+        		</ul> -->	
         	</div>
         		<div class="account-security-list">
         			<div class="account-security-list-table">
@@ -96,10 +96,12 @@
         							  <p><img src="${_slpbase }/images/pass-a.png"></p>
         							  <p>密码强度低</p>
         						  </c:if>
-        						  <c:if test="${userInfo.pwdSafetyLevel=='11'}">
+        						 <%--  <c:if test="${userInfo.pwdSafetyLevel=='11'}">
         							  <p><img src="${_slpbase }/images/pass-a.png"></p>
         							  <p>密码强度中</p>
-        						  </c:if>
+        						  </c:if> --%>
+        						  <p><img src="${_slpbase }/images/pass-a.png"></p>
+        						  <p>密码强度中</p>
         						  <c:if test="${userInfo.pwdSafetyLevel=='10'}">
         							  <p><img src="${_slpbase }/images/pass-a.png"></p>
         							  <p>密码强度强</p>
@@ -177,8 +179,11 @@
         				<c:if test="${userInfo.userEmail==null||userInfo.userEmail==''}">
         					<div class="state-list-btn"><input type="button" class="sta-btn" value="绑定邮箱" onclick="goToBandEmail('bandEmail')"></div>
         				</c:if>
-        				<c:if test="${userInfo.userEmail!=null&&userInfo.userEmail!=''}">
+        				<c:if test="${userInfo.userEmail!=null&&userInfo.emailValidateFlag=='10'}">
         					<div class="state-list-btn"><input type="button" class="sta-btn" value="修改" onclick="goToBandEmail('updateEmail')"></div>
+        				</c:if>
+        				<c:if test="${userInfo.userEmail!=null&&userInfo.emailValidateFlag=='11'}">
+        					<div class="state-list-btn"><input type="button" class="sta-btn" value="验证" onclick="goToBandEmail('bandEmail')"></div>
         				</c:if>
         			</div>
         			<div class="state-list">
@@ -195,11 +200,11 @@
 	        						</li>
 	        					</ul>
         					</div>
-        					<div class="state-list-word">您还未启用支付密码，为保障您的账户资金，请完成设置。</div>
+        				 <div class="state-list-word">您还未启用支付密码，为保障您的账户资金，请完成设置。</div>
         				 </c:if>
         				 <c:if test="${payCheckFlag=='1'}">
         				  	<div class="state-list-strength">
-	        					<ul>
+	        					<%-- <ul>
 	        						<li class="word">
 	        							<p><img src="${_slpbase}/images/pass-c.png"></p>
 	        							<p>密码强度高</p>
@@ -207,9 +212,17 @@
 	        						<li class="bj-color">
 	        							<p class="green"></p>
 	        						</li>
+	        					</ul> --%>
+	        					<ul>
+	        						<li class="word">
+	        							<p><img src="${_slpbase }/images/icon-b.png"></p>
+        								<p>已设置</p>
+	        						</li>
 	        					</ul>
         					</div>
+        				 <div class="state-list-word">建议您定期更改密码以保障账户资金安全。</div>
         				 </c:if>
+        				 
         				<c:if test="${payCheckFlag=='0'}">
         					<div class="state-list-btn"><input type="button" class="sta-btn" id="updatePayPassword" value="设置密码" onclick="toChangePayPassword()"></div>
         				</c:if>

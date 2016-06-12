@@ -35,6 +35,7 @@ public class QualificationController {
     //企业页面
     @RequestMapping("/toEnterprisePage")
     public ModelAndView toEnterprisePage() {
+        
         return new ModelAndView("jsp/user/qualification/enterprise");
     }
     

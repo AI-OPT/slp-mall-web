@@ -46,34 +46,35 @@
                         <ul>
                         <li><A href="#" id="phoneBill">话费充值</A></li>
                         <li><A href="#" id="flowBill">流量充值</A></li>
-                        <input type="hidden" name="flowFastFlag" id="flowFastFlag" value="${requestScope.flowFastFlag}"/>
                         </ul>
+                        <input type="hidden" name="flowFastFlag" id="flowFastFlag" value="${requestScope.flowFastFlag}"/>
                    </div>
                 <!--table1-->
                 <div id="regeiter-date1">
            	 <div class="recharge-list">
                     <ul>
-                        <li class="word">请输入充值手机号:</li>
-                        <li><input type="text" class="recharge-xlarge"></li>
+                        <li class="word" >请输入充值手机号:</li>
+                        <li><input type="text" id="phoneNum1" class="recharge-xlarge"></li>
                         <li><a href="#">给多人充值</a></li>
                     </ul>
                     <ul>
                         <li class="word">充值额:</li>
-                        <li class="bder">
-                            <p class="current"><a href="#">500元</a></p>
-                            <p><a href="#">200元</a></p>
-                            <p><a href="#">300元</a></p>
-                            <p><a href="#">100元</a></p>
-                            <p><a href="#">50元</a></p>
-                            <p><a href="#">30元</a></p>
-                            <p><a href="#">20元</a></p>
-                            <p><a href="#">10元</a></p>
+                        <li class="bder" id="listHfee">
+                         
+                           <!--  <p class="hfee current"><a href="javascript:void(0);">500元</a></p>
+                            <p  class="hfee"><a href="javascript:void(0);">200元</a></p>
+                            <p class="hfee"><a href="javascript:void(0);">300元</a></p>
+                            <p class="hfee"><a href="javascript:void(0);">100元</a></p>
+                            <p class="hfee"><a href="javascript:void(0);">50元</a></p>
+                            <p class="hfee"><a href="javascript:void(0);">30元</a></p>
+                            <p class="hfee"><a href="javascript:void(0);">20元</a></p>
+                            <p class="hfee"><a href="javascript:void(0);">10元</a></p> -->
                         </li>
                     </ul>
                   
                     <ul class="color">
                         <li class="word">价格:</li>
-                        <li><span>￥98.00-￥99.8</span></li>
+                        <li><span  id="hPrice">￥98.00-￥99.8</span></li>
                     </ul>
                     <ul>
                         <li class="rech-btn"><input type="button" class="slp-btn cz-btn" value="立即充值"></li>
@@ -85,34 +86,36 @@
                 <div id="regeiter-date2" style=" display:none;">
                <div class="recharge-list">
                     <ul>
-                        <li class="word">请输入充值手机号:</li>
-                        <li><input type="text" class="recharge-xlarge"></li>
+                        <li class="word" >请输入充值手机号:</li>
+                        <li><input type="text" id="phoneNum2" class="recharge-xlarge"></li>
                         <li><a href="#">给多人充值</a></li>
                     </ul>
                     <ul>
                         <li class="word">流量额:</li>
-                        <li class="bder">
-                            <p><a href="#">1G</a></p>
+                        <li class="bder" id="listLfee">
+                         
+                           <!--  <p><a href="#">1G</a></p>
                             <p><a href="#">2G</a></p>
                             <p><a href="#">3G</a></p>
-                            <p class="current"><a href="#">500M</a></p>
+                            <p class="Lfee current"><a href="#">500M</a></p>
                             <p><a href="#">200M</a></p>
                             <p><a href="#">300M</a></p>
                             <p><a href="#">100M</a></p>
                             <p><a href="#">50M</a></p>
                             <p><a href="#">30M</a></p>
                             <p><a href="#">20M</a></p>
-                            <p><a href="#">10M</a></p>
+                            <p><a href="#">10M</a></p> -->
                         </li>
                     </ul>
                     <ul>
                         <li class="word">使用范围:</li>
-                        <li><input type="radio" checked=""><span class="qg">全国</span></li>
-                        <li><input type="radio"><span class="qg">省内</span></li>
+                         <li><input type="radio" name="flowRadio" value="local"  checked><span class="qg">省内</span></li>
+                        <li><input type="radio" name="flowRadio" value="national"><span class="qg">全国</span></li>
+                       
                     </ul>
                     <ul class="color">
                         <li class="word">价格:</li>
-                        <li><span>￥98.00-￥99.8</span></li>
+                        <li><span id="lPrice">￥98.00-￥99.8</span></li>
                     </ul>
                     <ul>
                         <li class="rech-btn"><input type="button" class="slp-btn cz-btn" value="立即充值"></li>
@@ -126,6 +129,12 @@
      </div>
      </div>
    </div>
+    <script id="hfeeDataTmpl" type="text/x-jsrender">
+           <p skuId="{{:skuInfo.skuId}}" salePrice="{{:skuInfo.salePrice}}" class="hfee"><a href="javascript:void(0);">{{:content}}</a></p>
+ 	</script>
+  <script id="lfeeDataTmpl" type="text/x-jsrender">
+           <p  skuId="{{:skuInfo.skuId}}" salePrice="{{:skuInfo.salePrice}}" class="lfee"><a href="javascript:void(0);">{{:content}}</a></p>
+ </script>
 <%@ include file="/inc/foot.jsp" %>
 
 </body>

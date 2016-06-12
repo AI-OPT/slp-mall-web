@@ -1,27 +1,12 @@
 package com.ai.slp.mall.web.controller.shopcart;
 
-import com.ai.opt.base.exception.BusinessException;
-import com.ai.opt.base.exception.SystemException;
-import com.ai.opt.sdk.components.ccs.CCSClientFactory;
-import com.ai.opt.sdk.components.idps.IDPSClientFactory;
-import com.ai.opt.sdk.dubbo.util.DubboConsumerFactory;
-import com.ai.opt.sdk.util.BeanUtils;
-import com.ai.opt.sdk.web.model.ResponseData;
-import com.ai.opt.sso.client.filter.SLPClientUser;
-import com.ai.opt.sso.client.filter.SSOClientConstants;
-import com.ai.paas.ipaas.ccs.constants.ConfigException;
-import com.ai.paas.ipaas.image.IImageClient;
-import com.ai.paas.ipaas.util.JSonUtil;
-import com.ai.slp.mall.web.constants.SLPMallConstants;
-import com.ai.slp.mall.web.model.shopcart.CartProdInfoView;
-import com.ai.slp.order.api.ordertradecenter.interfaces.IOrderTradeCenterSV;
-import com.ai.slp.order.api.ordertradecenter.param.OrdBaseInfo;
-import com.ai.slp.order.api.ordertradecenter.param.OrdProductInfo;
-import com.ai.slp.order.api.ordertradecenter.param.OrderTradeCenterRequest;
-import com.ai.slp.order.api.ordertradecenter.param.OrderTradeCenterResponse;
-import com.ai.slp.order.api.shopcart.interfaces.IShopCartSV;
-import com.ai.slp.order.api.shopcart.param.*;
-import com.alibaba.fastjson.JSON;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.servlet.http.HttpSession;
+
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -33,11 +18,31 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import javax.servlet.http.HttpSession;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import com.ai.opt.base.exception.BusinessException;
+import com.ai.opt.base.exception.SystemException;
+import com.ai.opt.sdk.components.ccs.CCSClientFactory;
+import com.ai.opt.sdk.components.idps.IDPSClientFactory;
+import com.ai.opt.sdk.dubbo.util.DubboConsumerFactory;
+import com.ai.opt.sdk.web.model.ResponseData;
+import com.ai.opt.sso.client.filter.SLPClientUser;
+import com.ai.opt.sso.client.filter.SSOClientConstants;
+import com.ai.paas.ipaas.ccs.constants.ConfigException;
+import com.ai.paas.ipaas.image.IImageClient;
+import com.ai.paas.ipaas.util.JSonUtil;
+import com.ai.slp.mall.web.constants.SLPMallConstants;
+import com.ai.slp.mall.web.model.order.OrderSubmit;
+import com.ai.slp.order.api.ordertradecenter.interfaces.IOrderTradeCenterSV;
+import com.ai.slp.order.api.ordertradecenter.param.OrdBaseInfo;
+import com.ai.slp.order.api.ordertradecenter.param.OrdProductInfo;
+import com.ai.slp.order.api.ordertradecenter.param.OrderTradeCenterRequest;
+import com.ai.slp.order.api.ordertradecenter.param.OrderTradeCenterResponse;
+import com.ai.slp.order.api.shopcart.interfaces.IShopCartSV;
+import com.ai.slp.order.api.shopcart.param.CartProd;
+import com.ai.slp.order.api.shopcart.param.CartProdInfo;
+import com.ai.slp.order.api.shopcart.param.CartProdOptRes;
+import com.ai.slp.order.api.shopcart.param.MultiCartProd;
+import com.ai.slp.order.api.shopcart.param.UserInfo;
+import com.alibaba.fastjson.JSON;
 
 /**
  * Created by liutong5 on 16/5/30.
@@ -95,7 +100,6 @@ public class ShopCartController {
     		int prodTotal = 0;
             IImageClient imageClient = IDPSClientFactory.getImageClient(SLPMallConstants.ProductImageConstant.IDPSNS);
     		String attrImageSize = "75x48";
-            List<CartProdInfoView> infoViews = new ArrayList<>();
             for(CartProdInfo cartProdInfo : cartProdInfoList){
     			prodTotal+=cartProdInfo.getBuyNum();
                 //产生图片地址
@@ -109,12 +113,8 @@ public class ShopCartController {
                     String imageUrl = imageClient.getImageUrl(vfsId, picType, attrImageSize);
                     cartProdInfo.setPicUrl(imageUrl);
                 }
-                CartProdInfoView infoView = new CartProdInfoView();
-                BeanUtils.copyProperties(infoView,cartProdInfo);
-                infoView.setProdPrice(infoView.getBuyNum()*infoView.getSalePrice());
-                infoViews.add(infoView);
     		}
-            String cartProdInfoJSON = JSonUtil.toJSon(infoViews);
+            String cartProdInfoJSON = JSonUtil.toJSon(cartProdInfoList);
             model.put("cartProdList", cartProdInfoJSON);
             model.put("prodTotal", prodTotal);
             model.put("skuNumLimit",getSkuNumLimit());
@@ -196,12 +196,22 @@ public class ShopCartController {
             List<OrdProductInfo> infoList = JSON.parseArray(prodObj, OrdProductInfo.class);
             orderTradeReq.setOrdProductInfoList(infoList);
             OrderTradeCenterResponse response = ordertradeSV.apply(orderTradeReq);
-            uiModel.addAttribute("ordProductResList",response.getOrdProductResList());
+            /*uiModel.addAttribute("ordProductResList",response.getOrdProductResList());
             uiModel.addAttribute("orderId",response.getOrderId());
             uiModel.addAttribute("ordFeeInfo", response.getOrdFeeInfo());
             uiModel.addAttribute("expFee", 0);
             uiModel.addAttribute("balanceFee", 0);
-            uiModel.addAttribute("balance", 0);
+            uiModel.addAttribute("balance", 0);*/
+            
+            OrderSubmit orderSubmit = new OrderSubmit();
+            orderSubmit.setBalanceFee(0);
+            orderSubmit.setExpFee(0);
+            orderSubmit.setOrderId(response.getOrderId());
+            orderSubmit.setOrdFeeInfo(response.getOrdFeeInfo());
+            orderSubmit.setOrdProductResList(response.getOrdProductResList());
+            String orderSubmitJson = JSonUtil.toJSon(orderSubmit);
+            uiModel.addAttribute("orderSubmitJson", orderSubmitJson);
+                        
             //从购物车中删除商品.
             List<String> skuIds = new ArrayList<>();
             for (OrdProductInfo productInfo:infoList){

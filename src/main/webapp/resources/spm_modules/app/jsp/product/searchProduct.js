@@ -36,7 +36,7 @@ define('app/jsp/product/searchProduct', function (require, exports, module) {
     	setup: function () {
     		QueryProductPager.superclass.setup.call(this);
     		//初始化执行搜索
-    		this._getCity();
+    		//this._getCity();
     		var sourceFlag = $("#sourceFlag").val();
     		var name = $("#skuName").val();
     		$("#serachName").val(name);
@@ -82,11 +82,13 @@ define('app/jsp/product/searchProduct', function (require, exports, module) {
     					//获取所在地code
     					var name ="地域:"+$("#currentCity").attr("currentCityName");
     					document.getElementById("areaTile").innerHTML=name;
+    					$("#isHaveDataFlag").val("11");
 	            	}else{
 	            		//隐藏公共信息
 	            		$("#commonId").attr("style","display: none");
-	            		$("#commonData").attr("style","display: none");
+	            		//$("#commonData").attr("style","display: none");
     					$("#productData").html("没有搜索到相关信息");
+    					$("#isHaveDataFlag").val("00");
 	            	}
 	            },
 	            callback: function(data){
@@ -136,9 +138,16 @@ define('app/jsp/product/searchProduct', function (require, exports, module) {
     					$("#productData").html(htmlOutput);
     					//获取公共数据
     					_this._getCommonProduct();
+    					//添加样式
+    		    		var attrDefId = $("#priceId").val();
+    		    		var basic = $("#orgired").val();
+    		    		$(attrDefId).addClass("current");
+    		    		$(basic).addClass("current");
+    		    		$("#isHaveDataFlag").val("11");
 	            	}else{
+	            		$("#isHaveDataFlag").val("00");
 	            		$("#commonId").attr("style","display: none");
-	            		$("#commonData").attr("style","display: none");
+	            		//$("#commonData").attr("style","display: none");
     					$("#productData").html("没有搜索到相关信息");
 	            	}
 	            },
@@ -242,7 +251,6 @@ define('app/jsp/product/searchProduct', function (require, exports, module) {
 							var template3 = $.templates("#lastAreaTmpl");
 							var htmlOut3 = template3.render(data.data);
 							$("#lastAreaData").html(htmlOut3);
-							
 						}
 					}
       		);
@@ -256,7 +264,9 @@ define('app/jsp/product/searchProduct', function (require, exports, module) {
     		var _this = this;
     		//删除原来样式
     		var oldAgent = $("#agentSearch").val();
-    		document.getElementById(oldAgent).className="";
+    		var oldAgentId = "#"+oldAgent;
+    		$(oldAgentId).removeClass("current");
+    		//document.getElementById(oldAgent).className="";
     		$("#agentSearch").val(agentId);
     		var newAgent=  "#"+agentId;
     		$(newAgent).addClass("current");
@@ -268,7 +278,8 @@ define('app/jsp/product/searchProduct', function (require, exports, module) {
     		var _this = this;
     		//删除原来样式
     		var oldPrice = $("#priceSearch").val();
-    		document.getElementById(oldPrice).className="";
+    		var oldPriceId = "#"+oldPrice;
+    		$(oldPriceId).removeClass("current");
     		$("#priceSearch").val(priceId);
     		var newPrice=  "#"+priceId;
     		$(newPrice).addClass("current");
@@ -279,7 +290,9 @@ define('app/jsp/product/searchProduct', function (require, exports, module) {
     		var _this = this;
     		//删除原来样式
     		var oldArea = $("#areaSearch").val();
-    		document.getElementById(oldArea).className="";
+    		var oldAreaId = "#"+oldArea;
+    		$(oldAreaId).removeClass("current");
+    		//document.getElementById(oldArea).className="";
     		$("#areaSearch").val(areaId);
     		var newArea=  "#"+areaId;
     		$(newArea).addClass("current");
@@ -287,15 +300,27 @@ define('app/jsp/product/searchProduct', function (require, exports, module) {
     	},
     	//根据选择条件进行查询
     	_changeDataClick: function(){
+    		var _this = this;
+    		//如果首页跳转的查询条件为首页传入参数，如果是搜索页面，使用默认查询条件
+    		var sourceFlag = $("#sourceFlag").val();
+    		if(sourceFlag=="00"){
+    			var	productCatId = $("#catType").val();
+    			var priceId = $("#priceSearch").val();
+    			var orgired = $("#agentSearch").val();
+    		}else{
+    			var	productCatId = $("#billType").val();
+    			var priceId = $("#priceId").val();
+    			var orgired = $("#orgired").val();
+    		}
     		var	param={
 					areaCode:$("#areaSearch").val(),
-					productCatId: $("#catType").val(),
-					basicOrgIdIs: $("#agentSearch").val(),
-					attrDefId:$("#priceSearch").val(),
+					productCatId: productCatId,
+					basicOrgIdIs: orgired,
+					attrDefId:priceId,
 					priceOrderFlag:$("#priceOrder").attr("value"),
-					saleNumOrderFlag:$("#saleOrder").attr("value")
+					saleNumOrderFlag:$("#saleOrder").attr("value"),
+					distributionArea:$("#currentDispatch").attr("currentDispatchCode")
 				   };
-    		var _this = this;
     		var url = _base+"/search/getProduct";
     		$("#pagination-ul").runnerPagination({
 	 			url: url,
@@ -311,11 +336,13 @@ define('app/jsp/product/searchProduct', function (require, exports, module) {
 	            		var template = $.templates("#productListTemple");
     					var htmlOutput = template.render(data);
     					$("#productData").html(htmlOutput);
+    					$("#isHaveDataFlag").val("11");
     					//获取公共数据
     					//_this._getCommonBySearch();
 	            	}else{
 	            		//$("#commonId").attr("style","display: none");
-	            		$("#commonData").attr("style","display: none");
+	            		//$("#commonData").attr("style","display: none");
+	            		$("#isHaveDataFlag").val("00");
     					$("#productData").html("没有搜索到相关信息");
 	            	}
 	            },
@@ -347,31 +374,57 @@ define('app/jsp/product/searchProduct', function (require, exports, module) {
 			}
 		);
       },
-      _changeDispath : function() {
+      _changeDispath : function(code,name) {
+			var _this = this;
+			$("#currentDispatch").attr("currentDispatchCode",code);
+			$("#currentDispatch").attr("currentDispatchName",name);
+    		document.getElementById("currentDispatch").innerHTML=name;
+    		var flag = $("#isHaveDataFlag").val();
+			if(flag=="00"){
+				return;
+			}else{
+				_this._changeDataClick();
+			}
+    		
+		},
+     /* _changeDispath : function() {
 			$(".DSP_BTN").bind(
 				"click",
 				function() {
 					var _this = this;
 					var cityCode = $(_this).attr('areaCodeId');
+					alert(cityCode);
 					var cityName = $(_this).attr('areaNameId');
 					$("#currentDispatch").attr("currentDispatchCode",cityCode);
 					$("#currentDispatch").attr("currentDispatchName",cityName);
 		    		document.getElementById("currentDispatch").innerHTML=cityName;
+		    		_this._changeDataClick();
 				})
-		},
+		},*/
     	//点击销量触发的事件
 		_changeSaleOrder: function(){
-			var _this = this;
-			$("#priceOrder").attr("value","");
-			$("#saleOrder").attr("value","ASE");
-			_this._changeDataClick();
+			var flag = $("#isHaveDataFlag").val();
+			if(flag=="00"){
+				return;
+			}else{
+				var _this = this;
+				$("#priceOrder").attr("value","");
+				$("#saleOrder").attr("value","ASE");
+				_this._changeDataClick();
+			}
+			
 		 },
 		//点击价格排序触发事件
-		_changePriceOder: function(){
-			var _this = this;
-			$("#saleOrder").attr("value","");
-			$("#priceOrder").attr("value","ASE");
-			_this._changeDataClick();
+		_changePriceOrder: function(){
+			var flag = $("#isHaveDataFlag").val();
+			if(flag=="00"){
+				return;
+			}else{
+				var _this = this;
+				$("#saleOrder").attr("value","");
+				$("#priceOrder").attr("value","ASE");
+				_this._changeDataClick();
+			}
 		 }
     });
     

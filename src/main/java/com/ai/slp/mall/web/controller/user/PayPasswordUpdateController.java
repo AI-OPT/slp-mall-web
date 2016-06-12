@@ -1,5 +1,6 @@
 package com.ai.slp.mall.web.controller.user;
 
+import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -10,6 +11,7 @@ import javax.servlet.http.HttpSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.DigestUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
@@ -19,6 +21,7 @@ import com.ai.opt.base.vo.ResponseHeader;
 import com.ai.opt.sdk.components.mcs.MCSClientFactory;
 import com.ai.opt.sdk.dubbo.util.DubboConsumerFactory;
 import com.ai.opt.sdk.util.CollectionUtil;
+import com.ai.opt.sdk.util.StringUtil;
 import com.ai.opt.sdk.util.UUIDUtil;
 import com.ai.opt.sdk.web.model.ResponseData;
 import com.ai.opt.sso.client.filter.SLPClientUser;
@@ -183,7 +186,7 @@ public class PayPasswordUpdateController {
          * 通过userId获取acctId
          */
         CustIdParam accountId  = new CustIdParam();
-        accountId.setTenantId("SLP");
+        accountId.setTenantId(SLPMallConstants.COM_TENANT_ID);
         accountId.setCustId(userClient.getUserId());
         IAccountQuerySV accountQuerySV = DubboConsumerFactory.getService(IAccountQuerySV.class);
         List<AccountInfoVo> accountList = accountQuerySV.queryAccontByCustId(accountId);
@@ -196,9 +199,15 @@ public class PayPasswordUpdateController {
         /**
          * 修改支付密码
          */
+        try {
+            password = StringUtil.toString(DigestUtils.md5DigestAsHex(password
+                    .getBytes("UTF-8")));
+        } catch (UnsupportedEncodingException e1) {
+            e1.printStackTrace();
+        }
         IAccountMaintainSV accountMaintainSV = DubboConsumerFactory.getService(IAccountMaintainSV.class);
         AccountUpdateParam updateParam = new AccountUpdateParam();
-        updateParam.setTenantId("SLP");
+        updateParam.setTenantId(SLPMallConstants.COM_TENANT_ID);
         updateParam.setAcctId(acctId);
         updateParam.setAcctMailType(0);
         updateParam.setAcctName(userClient.getUsername());

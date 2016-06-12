@@ -66,14 +66,18 @@ public class HomeController {
 		try {
 			List<ProductHomeResponse> list = iHomeProductSV.queryHomeDataProduct(proRequest);
 			if (!CollectionUtil.isEmpty(list)) {
-				for (ProductHomeResponse data : list) {
+			    int size = list.size();
+			    if(size>7){
+			        size = 7;
+			    }
+				for (int i=0;i<size;i++) {
 					ProductHomeVO vo = new ProductHomeVO();
 					vo.setPicUrl(
-							ImageUtil.getImage(data.getProductImage().getVfsId(), data.getProductImage().getPicType()));
-					vo.setProdId(data.getProdId());
-					vo.setProdName(data.getProdName());
-					vo.setSalePrice(data.getSalePrice());
-					vo.setSkuId(data.getSkuId());
+							ImageUtil.getImage(list.get(i).getProductImage().getVfsId(), list.get(i).getProductImage().getPicType()));
+					vo.setProdId(list.get(i).getProdId());
+					vo.setProdName(list.get(i).getProdName());
+					vo.setSalePrice(list.get(i).getSalePrice());
+					vo.setSkuId(list.get(i).getSkuId());
 					resultList.add(vo);
 				}
 			}

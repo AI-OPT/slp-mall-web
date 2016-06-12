@@ -40,7 +40,7 @@
      <!--购物车-->
 <div class="fsast-charge">
      	<div class="big-wrapper"><!--内侧居中框架-->
-       		<div class="payment-title"><p>全部<span id="allProductNum">（${prodTotal}）</span></p></div>
+       		<div class="payment-title"><p>全部<span id="allProductNum">(${prodTotal})</span></p></div>
            <div class="recharge-bj-tow"><!--白色背景-->
                 <div class="shopping-cart">
                  <table width="100%" border="0">
@@ -141,7 +141,6 @@
     <!--底部-->
 <%@ include file="/inc/foot.jsp" %>
    <!--底部 结束-->
-	<script src="${_slpbase }/scripts/jquery-1.11.1.min.js" type="text/javascript"></script>
 	<script src="${_slpbase }/scripts/frame.js" type="text/javascript"></script>
 	<script type="text/javascript">
 		var pager;

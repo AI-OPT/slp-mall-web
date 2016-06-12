@@ -408,7 +408,6 @@ define('app/jsp/user/bandemail/confirmInfo', function (require, exports, module)
 				message : "正在处理中，请稍候...",
 				success : function(data) {
 					var resultCode = data.responseHeader.resultCode;
-					alert(resultCode);
 					if(resultCode == "100000"){
 						isOk = false;
 						var url = data.data;

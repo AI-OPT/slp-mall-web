@@ -308,15 +308,10 @@ define('app/jsp/product/productDetail', function (require, exports, module) {
 					data:{"skuId":skuId,"buyNum":buyNum},
 					success: function(data){
 						if(data.statusCode == "1"){
-							var prodNum = data.data.prodNum;
 							var prodTotal = data.data.prodTotal;
-							var d = Dialog({
-								content:"添加成功,本商品数量:"+prodNum+",商品总数量:"+prodTotal,
-								ok:function(){
-									this.close();
-								}
-							});
-							d.show();
+							$("#cartProdTotal").text(prodTotal);
+							$("#shopCartMedium").show();
+							$("#shopCartMask").show();
 						}else{
 							var d = Dialog({
 								content:"添加失败",
@@ -329,6 +324,11 @@ define('app/jsp/product/productDetail', function (require, exports, module) {
 					}
 				}
 			);
+    	},
+    	//继续浏览
+    	_continueShopingClick:function(){
+    		$("#shopCartMedium").toggle();
+			$("#shopCartMask").toggle();
     	},
     });
     

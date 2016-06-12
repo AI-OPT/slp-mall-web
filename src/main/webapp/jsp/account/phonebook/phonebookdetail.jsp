@@ -56,7 +56,7 @@
 								<p>
 									<select class="select-small" id="provinceCode">
 										<option value="">请选择</option>
-										<option value="10">北京</option> 
+										
 									</select>
 								</p>
 							</li>
@@ -64,10 +64,7 @@
 								<p class="word">号码运营商</p>
 								<p>
 									<select class="select-small" id="basicOrgId">
-										<option value="">请选择</option>
-										<option value="1">中国联通</option>
-										<option value="2">中国移动</option>
-										<option value="3">中国电信</option>
+										<option value="">请选择</option> 
 									</select>
 								</p>
 							</li>
@@ -149,14 +146,14 @@
 						<li>
 							<p>上传通讯录文件:</p>
 							<p>
-								<input type="text" class="int-medium">
+								<input type="text" class="int-medium" id="TEXT_FILE_NAME" readonly>
 							</p>
 							<p class="btn-file">
 								<input type="button" class="eject-liul" value="浏览"><input
-									type="file" class="file">
+									type="file" class="file" id="uploadFile">
 							</p>
 						</li>
-						<li><input type="button" class="slp-btn qu-btn" value="确认上传"></li>
+						<li><input type="button" class="slp-btn qu-btn" id="uploadBtn" value="确认上传"></li>
 					</ul>
 				</div>
 				<div class="medium-list-word">
@@ -175,7 +172,7 @@
 	
 	
 		<!--弹出删除弹出框 大-->
-	<div class="eject-big">
+	<div class="eject-big" id="CLOSE_ADD_PHONEBOOK_WINDOW">
 		<div class="eject-large">
 			<!--弹出多行-->
 			<div class="eject-big">
@@ -239,7 +236,7 @@
 				</div>
 			</div>
 		</div>
-		<div class="eject-mask"></div>
+		<div class="eject-mask" id="WINDOW_PHONEBOOK_BATCHEDIT"></div>
 	</div>
 	<!--弹出删除弹出框 大结束-->
 
@@ -276,7 +273,7 @@
 								<td>{{:#index}}</td>
 								<td><input type="text" class="table-int-mini" index="{{:#index}}" name="BATCH_TEL_NAME" value="{{:telName}}"></td>
 								<td><input type="text" class="table-int-mini" index="{{:#index}}" name="BATCH_TEL_MP" value="{{:telMp}}"></td>
-								<td class="eject-table-img" align="left"><a href="javascript:void(0)"  index="{{:#index}}" name="DEL_BATCH_EDIT_ROW">删除</a></td>
+								<td class="eject-table-img" align="left"><span style="color:red" id="SPAN_ERROR_{{:#index}}">{{:error}}</span><a href="javascript:void(0)"  index="{{:#index}}" name="DEL_BATCH_EDIT_ROW">删除</a></td>
 							</tr>
 </script>
 

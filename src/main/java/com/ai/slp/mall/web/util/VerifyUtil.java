@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
+import java.util.List;
 import java.util.Random;
 
 import com.ai.net.xss.util.StringUtil;
@@ -24,6 +25,7 @@ import com.ai.slp.mall.web.constants.VerifyConstants;
 import com.ai.slp.mall.web.constants.VerifyConstants.PictureVerifyConstants;
 import com.ai.slp.mall.web.constants.VerifyConstants.ResultCodeConstants;
 import com.ai.slp.mall.web.model.user.SendEmailRequest;
+import com.ai.slp.user.api.register.param.UcUserParams;
 import com.ai.slp.user.api.seq.interfaces.ICreateSeqSV;
 import com.ai.slp.user.api.seq.param.PhoneMsgSeqResponse;
 import com.ai.slp.user.api.ucuser.intefaces.IUcUserSV;
@@ -278,7 +280,7 @@ public final class VerifyUtil {
      * @param email
      * @return
      */
-    public static ResponseData<String> checkEmailOnly(String email) {
+    public static ResponseData<String> checkEmailOnly(String userId,String email) {
         ResponseData<String> responseData = null;
         ResponseHeader header = null;
         try {
@@ -286,19 +288,30 @@ public final class VerifyUtil {
             SearchUserRequest accountReq = new SearchUserRequest();
             accountReq.setUserEmail(email);
             SearchUserResponse accountQueryResponse = iAccountManageSV.queryByEmail(accountReq);
-            if (accountQueryResponse != null) {
-                String resultCode = accountQueryResponse.getResponseHeader().getResultCode();
-                if (resultCode.equals(ResultCodeConstants.SUCCESS_CODE)) {
+            List<UcUserParams> resultList = accountQueryResponse.getList();
+            if (accountQueryResponse != null&&resultList!=null) {
+                if(resultList.size()>1){
                     header = new ResponseHeader(false, VerifyConstants.ResultCodeConstants.EMAIL_ERROR, "该邮箱已经注册");
                     responseData = new ResponseData<String>(ResponseData.AJAX_STATUS_SUCCESS, "该邮箱已经注册", null);
                     responseData.setResponseHeader(header);
-                } else {
+                }else if(resultList.size()==1){
+                    UcUserParams ucUserParams = resultList.get(0);
+                    if(ucUserParams.getUserId().equals(userId)){
+                        header = new ResponseHeader(false, VerifyConstants.ResultCodeConstants.SUCCESS_CODE, "成功");
+                        responseData = new ResponseData<String>(ResponseData.AJAX_STATUS_SUCCESS, "成功", null);
+                        responseData.setResponseHeader(header);
+                    }else{
+                        header = new ResponseHeader(false, VerifyConstants.ResultCodeConstants.EMAIL_ERROR, "该邮箱已经注册");
+                        responseData = new ResponseData<String>(ResponseData.AJAX_STATUS_SUCCESS, "该邮箱已经注册", null);
+                        responseData.setResponseHeader(header);
+                    }
+                }else{ 
                     header = new ResponseHeader(false, VerifyConstants.ResultCodeConstants.SUCCESS_CODE, "成功");
                     responseData = new ResponseData<String>(ResponseData.AJAX_STATUS_SUCCESS, "成功", null);
                     responseData.setResponseHeader(header);
                 }
             }
-        } catch (Exception e) {
+        } catch (Exception e) { 
             responseData = new ResponseData<String>(ResponseData.AJAX_STATUS_FAILURE, "邮箱校验失败", null);
         }
         return responseData;

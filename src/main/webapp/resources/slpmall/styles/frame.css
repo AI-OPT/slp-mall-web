@@ -108,7 +108,8 @@
 /**账户安全操作按钮**/
 .sta-btn{width:80px;height:30px; background:#fff;border:1px solid #e7e7e7;text-align: center; line-height: 30px; cursor: pointer;outline:none}
 .sta-btn:hover{ background:#fc721c; color:#fff;border:none;}
-
+/**商品详情购物车弹出**/
+.eject-buy-btn{width:160px;height:40px;margin-top:40px;}
 /**table下面右侧btn**/
 .pst-btn{width:120px; height:40px; margin-left:20px;outline:none}
 
@@ -305,6 +306,7 @@
 .eject-medium-complete .color-bj span{height:12px;background:#f07938;float: left;}
 .eject-medium-complete .color-ash{color:#666; margin-top:10px;}
 /**弹出层中 800框架**/
+.eject-large1{ width:800px; background:#fff; position:fixed;padding:20px 24px;top:50%;left:50%;margin-top:-320px;margin-left:-400px;z-index:99;display: none;}
 .eject-large{ width:800px; background:#fff; position:fixed;padding:20px 24px;top:50%;left:50%;margin-top:-320px;margin-left:-400px;z-index:99;display: none;}
 .eject-large-title{ width:100%; float:left;}
 .eject-large-title p{ float:left; color:#333; font-size: 16px;}
@@ -343,3 +345,13 @@
 .eject-contacts-list{width: 100%;float:left;height:230px; overflow-y:auto;}
 .eject-contacts-list p{width:25%;float:left;margin-top:18px;}
 .eject-bie-height{height: 280px;}
+/**商品详情购物车弹出**/
+.eject-buy{ width: 100%; float:left;}
+.eject-buy ul{width:320px; margin:0 auto;margin-top:60px;}
+.eject-buy ul li{float:left}
+.eject-buy ul .img{padding-top:0px}
+.eject-buy ul .word{margin:8px 0 0 30px;font-size:14px; color: #666;}
+.eject-buy ul .word .color{color:#333;font-size:18px}
+.eject-buy ul .word span{color:#ee2222;}
+.eject-buy ul .word-eg{margin-top:48px;margin-left:10px;}
+.eject-buy ul .word-eg a{font-size:16px; color:#333;}

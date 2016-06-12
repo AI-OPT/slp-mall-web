@@ -4,6 +4,7 @@ define('app/jsp/balance/phonebook/phonebookdetail', function (require, exports, 
     Widget = require('arale-widget/1.2.0/widget'),
     Dialog = require("artDialog/src/dialog"),
     Paging = require('paging/0.0.1/paging-debug'),
+    Uploader = require('arale-upload/1.2.0/index'),
     AjaxController = require('opt-ajax/1.0.0/index'),
     Calendar = require('arale-calendar/1.1.2/index');
     
@@ -41,13 +42,17 @@ define('app/jsp/balance/phonebook/phonebookdetail', function (require, exports, 
             "click [id='HREF_ADD_ONE']":"_addOnePhoneBook",
             "click [id='HREF_ADD_BATCH']":"_showAddBatchPhoneBook",
             "click [id='BTN_INPUT_ROW']":"_confirmInputRow",
-            "click [id='BTN_SAVE_BATCH_ADD']":"_submitBatchSaveEdit"	
+            "click [id='BTN_SAVE_BATCH_ADD']":"_submitBatchSaveEdit",
+            "change [id='uploadFile']":"_setUploadFile",
+            "click [id='uploadBtn']":"_uploadFile"
             	
         },
     	//重写父类
     	setup: function () {
     		PhoneBookDetailPager.superclass.setup.call(this);
     		this._init(); 
+    		this._initProvices();
+    		this._initBasicOrgs();
     	},
     	
     	_init: function(){ 
@@ -65,6 +70,89 @@ define('app/jsp/balance/phonebook/phonebookdetail', function (require, exports, 
     			$('.eject-samll').slideUp(150);
     		}); 
     	},
+    	
+    	_initProvices: function(){
+    		var _this = this;
+    		ajaxController.ajax({
+				type: "post",
+				dataType: "json",
+				processing: false,
+				message: "正在处理...",
+				url: _base+"/account/phonebook/getProvices", 
+				success: function(data){
+					var arr = data.data?data.data:[];
+					$.each(arr,function(i,d){
+						$("#provinceCode").append("<option value='"+ d.areaCode+"'>"+d.areaName+"</option>");
+					});
+				}
+			});
+    	},
+    	
+    	_initBasicOrgs: function(){
+    		var _this = this;
+    		ajaxController.ajax({
+				type: "post",
+				dataType: "json",
+				processing: false,
+				message: "正在处理...",
+				url: _base+"/account/phonebook/getProvices", 
+				success: function(data){
+					var arr = data.data?data.data:[];
+					$.each(arr,function(i,d){
+						$("#basicOrgId").append("<option value='"+ d.columnValue+"'>"+d.columnDesc+"</option>");
+					});
+				}
+			});
+    	},
+    	
+    	_setUploadFile: function(){
+    		var fileName = $("#uploadFile").val();
+    		$("#TEXT_FILE_NAME").val(fileName);
+    	},
+    	_checkUploadFile: function(){
+    		var fileName = $("#uploadFile").val();
+    		if(fileName==""){
+    			alert("请选择文件");
+    			return ;
+    		}
+    		var FileListType="xls,xlsx";
+    		var destStr = fileName.substring(fileName.lastIndexOf(".")+1,fileName.length)
+    		if(FileListType.indexOf(destStr) == -1){
+    		  alert("只允许上传EXCEL文件。格式支撑xls,xlsx");
+    		  return false;
+    		} 
+    		return true;
+    	},
+    	
+		_uploadFile:function(){
+			var _this = this;
+			
+			var valid = _this._checkUploadFile();
+			if(!valid){
+				$("#uploadFile").val("");
+				$("#TEXT_FILE_NAME").val("");
+				return ;
+			}
+			var form = new FormData();
+		    form.append("uploadFile", document.getElementById("uploadFile").files[0]); 
+			
+			// XMLHttpRequest 对象
+		     var xhr = new XMLHttpRequest();
+		     var uploadURL = _base+"/account/phonebook/uploadPhoneBooks?telGroupId="+this.get("telGroupId");
+		     xhr.open("post", uploadURL, true);
+		     
+			 xhr.onreadystatechange = function() {
+				if (xhr.readyState == 4) {// 4 = "loaded"
+					if (xhr.status == 200) {
+						var responseData = $.parseJSON(xhr.response);
+						if(responseData.statusCode=="1"){
+							alert(responseData.data);
+						}
+					}  
+				}
+			 };
+			xhr.send(form);
+		},
     	
     	_delBatchEditRow: function(index){
     		var data = this.batcheditdata?this.batcheditdata:[];
@@ -93,6 +181,8 @@ define('app/jsp/balance/phonebook/phonebookdetail', function (require, exports, 
         		});
     		}
     		this.renderBatchEditPhoneBooks(data);
+    		
+    		$('#samll-block').slideUp(150);
     		
     	},
     	
@@ -167,6 +257,9 @@ define('app/jsp/balance/phonebook/phonebookdetail', function (require, exports, 
     	},
     	
     	_showBatchImportWindow: function(){
+    		$("#uploadFile").val("");
+			$("#TEXT_FILE_NAME").val("");
+			
     		
     	},
     	
@@ -176,32 +269,72 @@ define('app/jsp/balance/phonebook/phonebookdetail', function (require, exports, 
     		$("#INPUT_ROW").val("");
     	},
     	
-    	_submitBatchSaveEdit: function(){
+    	_submitBatchSaveEdit: function(){ 
     		var _this = this;
     		var arr = this.batcheditdata?this.batcheditdata:[];
     		if(arr.length==0){
     			alert("没有需要保存的通信录");
     			return ;
     		}
+    		
+    		var validPass= true;
     		$.each(arr,function(i,o){
+    			var telName = o.telName;
+    			var telMp =o.telMp;
+    			var onepass=true;
+    			if(_this.checkBlank(telName)){
+    				o.error = "请输入姓名";
+    				$("#SPAN_ERROR_"+i).html("请输入姓名");
+    				onepass = false;
+    			}
+    			if(_this.checkBlank(telMp)){
+    				o.error = "请输入手机号码";
+    				$("#SPAN_ERROR_"+i).html("请输入手机号码");
+    				onepass = false;
+    			}
+    			if(!_this.checkMobilePhone(telMp)){
+    				o.error = "手机号码格式有误";
+    				$("#SPAN_ERROR_"+i).html("手机号码格式有误");
+    				onepass = false;
+    			}
+    			if(onepass){
+    				o.error = "";
+    				$("#SPAN_ERROR_"+i).html("");
+    			}else{
+    				validPass = false;
+    			}
     			o.userId = _this.get("userId");
     			o.telGroupId = _this.get("telGroupId");
     		});
+    		if(!validPass){
+    			return ;
+    		}
     		ajaxController.ajax({
 				type: "post",
 				dataType: "json",
-				processing: true,
+				processing: false,
 				message: "正在处理...",
 				url: _base+"/account/phonebook/batchAddUserPhonebooks",
 				data: {
 					datas: JSON.stringify(arr)
 				},
 				success: function(data){
-					alert("删除成功");  
+					alert(data.data);  
 					_this._queryPhoneBooks();
 				}
 			});
     		
+    	},
+    	
+    	checkBlank: function(value){
+    		var v = $.trim(value);
+    		return v==""?true:false;
+    	},
+    	
+    	checkMobilePhone: function(value){
+    		var re = /^1[3|4|5|7|8][0-9]\d{4,8}$/;
+			var valid =  (re.test(value))?true:false;	
+			return valid;
     	},
     	
     	_deletePhoneBooks: function(){
@@ -219,7 +352,7 @@ define('app/jsp/balance/phonebook/phonebookdetail', function (require, exports, 
     		ajaxController.ajax({
 				type: "post",
 				dataType: "json",
-				processing: true,
+				processing: false,
 				message: "正在处理...",
 				url: _base+"/account/phonebook/batchDeleteUserPhonebooks",
 				data: {
@@ -239,7 +372,7 @@ define('app/jsp/balance/phonebook/phonebookdetail', function (require, exports, 
     			url: _base+"/account/phonebook/queryUserPhonebooks",
 	 			method: "POST",
 	 			dataType: "json",
-	 			processing: true,
+	 			processing: false,
 	 			message: "正在查询",
 	            data : {
 					userId: this.get("userId"),

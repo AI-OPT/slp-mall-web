@@ -40,17 +40,16 @@
          <!--搜索结果查询条件-->
         <div class="search-wrapper" >
             <div class="big-wrapper"><!--内侧居中框架--> 
+            	<input type="hidden"  id="isHaveDataFlag" />
                 <input type="hidden" name="priceId" id="priceId" value="${requestScope.priceId}"/>
              	<input type="hidden" name="billType" id="billType" value="${requestScope.billType}"/>
              	<input type="hidden" name="orgired" id="orgired" value="${requestScope.orgired}"/>
              	<input type="hidden" name="skuName" id="skuName" value="${requestScope.skuName}"/>
              	<input type="hidden" name="sourceFlag" id="sourceFlag" value="${requestScope.sourceFlag}"/>
-                <!-- 公共查询条件数据 start-->
+                <!-- 公共查询条件默认数据 start-->
                 <input type="hidden" id="agentSearch" value="100001"/>
                 <input type="hidden" id="areaSearch" value="10"/>
                 <input type="hidden" id="priceSearch" value="100004"/>
-                <input type="hidden" id="phoneProductCatSearch" value="10000010010000"/>
-                <input type="hidden" id="flowProductCatSearch" value="10000010020000"/>
                 <!-- 公共查询条件数据 end-->
                 <div class="search-main"   id="commonId">
                      <ul>
@@ -112,9 +111,9 @@
                    <div class="results-left-title">
                        <ul>
                            <li><a href="#">综合排序</a></li>
-                           <li><a href="#" id="saleOrder" value="" onclick="pager._changeSaleOrder()">销量<img src="${_slpbase }/images/s.png"></a></li>
-                           <li><a href="#">评论量</a></li>
-                           <li ><a href="#" id="priceOrder" value="" onclick="pager._changePriceOder()">价格<img src="${_slpbase }/images/s.png"></a></li>
+                           <li><a href="javascript:void(0)" id="saleOrder" value="" onclick="pager._changeSaleOrder()">销量<img src="${_slpbase }/images/s.png"></a></li>
+                           <li><a href="javascript:void(0)">评论量</a></li>
+                           <li ><a href="javascript:void(0)" id="priceOrder" value="" onclick="pager._changePriceOrder()">价格<img src="${_slpbase }/images/s.png"></a></li>
                            <!-- <li class="decline" style="display:none;"><a href="#">价格<img src="${_slpbase }/images/x.png"></a></li> -->
                        </ul>
                    </div>
@@ -132,10 +131,44 @@
                                               <li><A href="#">浙江</A></li> 
                                               <li><A href="#">江苏</A></li>                             
                                           </ul>
-                                           <ul class="city-list" id="dispatchCityShowData">
+                                           <!--  <ul class="city-list" id="dispatchCityShowData">
                                            <script id="dispatchCityTmpl" type="text/x-jsrender">
 												<li><A href="javascript:void(0)" areaCodeId="{{:areaCode}}" areaNameId="{{:areaName}}"class="DSP_BTN">{{:areaName}}</A></li>
 					   						</script>
+                                          </ul>
+                                          -->
+                                          <ul class="city-list">
+                                              <li><A href="javascript:void(0)" onclick="pager._changeDispath('100013','北京')">北京</A></li>
+                                              <li><A href="javascript:void(0)" onclick="pager._changeDispath('100021','上海')">上海</A></li>
+                                              <li><A href="javascript:void(0)" onclick="pager._changeDispath('100014','天津')">天津</A></li>
+                                              <li><A href="javascript:void(0)" onclick="pager._changeDispath('100034','重庆')">重庆</A></li>
+                                              <li><A href="javascript:void(0)" onclick="pager._changeDispath('100015','河北')">河北</A></li> 
+                                              <li><A href="javascript:void(0)" onclick="pager._changeDispath('100016','山西')">山西</A></li>
+                                              <li><A href="javascript:void(0)" onclick="pager._changeDispath('100028','河南')">河南</A></li>
+                                              <li><A href="javascript:void(0)" onclick="pager._changeDispath('100018','辽宁')">辽宁</A></li>
+                                              <li><A href="javascript:void(0)" onclick="pager._changeDispath('100019','吉林')">吉林</A></li>
+                                              <li><A href="javascript:void(0)" onclick="pager._changeDispath('100020','黑龙江')">黑龙江</A></li>
+                                              <li><A href="javascript:void(0)" onclick="pager._changeDispath('100017','内蒙古')">内蒙古</A></li> 
+                                              <li><A href="javascript:void(0)" onclick="pager._changeDispath('100022','江苏')">江苏</A></li>
+                                              <li><A href="javascript:void(0)" onclick="pager._changeDispath('100027','山东')">山东</A></li>
+                                              <li><A href="javascript:void(0)" onclick="pager._changeDispath('100024','安徽')">安徽</A></li>
+                                              <li><A href="javascript:void(0)" onclick="pager._changeDispath('100023','浙江')">浙江</A></li>
+                                              <li><A href="javascript:void(0)" onclick="pager._changeDispath('100025','福建')">福建</A></li>
+                                              <li><A href="javascript:void(0)" onclick="pager._changeDispath('100029','湖北')">湖北</A></li>
+                                              <li><A href="javascript:void(0)" onclick="pager._changeDispath('100031','广东')">广东</A></li>
+                                              <li><A href="javascript:void(0)" onclick="pager._changeDispath('100033','海南')">海南</A></li> 
+                                              <li><A href="javascript:void(0)" onclick="pager._changeDispath('100035','四川')">四川</A></li>
+                                              <li><A href="javascript:void(0)" onclick="pager._changeDispath('100036','贵州')">贵州</A></li>  
+                                              <li><A href="javascript:void(0)" onclick="pager._changeDispath('100037','云南')">云南</A></li>
+                                              <li><A href="javascript:void(0)" onclick="pager._changeDispath('100038','西藏')">西藏</A></li>
+                                              <li><A href="javascript:void(0)" onclick="pager._changeDispath('100039','陕西')">陕西</A></li>
+                                              <li><A href="javascript:void(0)" onclick="pager._changeDispath('100040','甘肃')">甘肃</A></li>
+                                              <li><A href="javascript:void(0)" onclick="pager._changeDispath('100041','青海')">青海</A></li>
+                                              <li><A href="javascript:void(0)" onclick="pager._changeDispath('100042','宁夏')">宁夏</A></li> 
+                                              <li><A href="javascript:void(0)" onclick="pager._changeDispath('100043','新疆')">新疆</A></li>
+                                              <li><A href="javascript:void(0)" onclick="pager._changeDispath('100044','台湾')">台湾</A></li>
+                                              <li><A href="javascript:void(0)" onclick="pager._changeDispath('100045','香港')">香港</A></li>
+                                              <li><A href="javascript:void(0)" onclick="pager._changeDispath('100046','澳门')">澳门</A></li>                           
                                           </ul>
                                       </div>
                              </li> 
