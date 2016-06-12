@@ -268,18 +268,18 @@ public class HomeController {
 			FastProductResponse feeRes = new FastProductResponse();
 			List<PhoneFee> phoneFee = new ArrayList<PhoneFee>();
 			if ("local".equals(fastProduct.getLocation())) {// 本地
+				if(res.getLocalMap()!=null){
+					for (Entry<String, FastSkuProdInfo> map : sortMapByKey(res.getLocalMap()).entrySet()) {
+						PhoneFee fee = new PhoneFee();
 
-				for (Entry<String, FastSkuProdInfo> map : sortMapByKey(res.getLocalMap()).entrySet()) {
-					PhoneFee fee = new PhoneFee();
+						fee.setContent(map.getKey());
 
-					fee.setContent(map.getKey());
-
-					fee.setSkuInfo(map.getValue());
-					phoneFee.add(fee);
+						fee.setSkuInfo(map.getValue());
+						phoneFee.add(fee);
+					}
+					//feeRes.setPhoneFee(phoneFee);	
 				}
-				feeRes.setPhoneFee(phoneFee);
-				// 缓存本地的数据
-				//localCache = feeRes;
+				
 			} else {// 全国
 				if(res.getNationMap()!=null){
 					for (Entry<String, FastSkuProdInfo> map : sortMapByKey(res.getNationMap()).entrySet()) {
@@ -292,13 +292,10 @@ public class HomeController {
 					}
 				}
 				
-				feeRes.setPhoneFee(phoneFee);
+			//	feeRes.setPhoneFee(phoneFee);
 
-				// 缓存全国的数据
-				//nationCache = feeRes;
 			}
-
-			System.out.println(JSON.toJSONString(res));
+			feeRes.setPhoneFee(phoneFee);
 
 			responseData = new ResponseData<FastProductResponse>(ResponseData.AJAX_STATUS_SUCCESS, "获取信息成功", feeRes);
 		} catch (Exception e) {
