@@ -38,7 +38,9 @@ define('app/jsp/product/productDetail', function (require, exports, module) {
             //立即购买
             "click #buyBtn":"_buyProduct",
             //加入购物车
-            "click #joinShopCart":"_joinShopCartClick"
+            "click #joinShopCart":"_joinShopCartClick",
+            //继续浏览
+            "click #continueShoping":"_continueShopingClick"
         },
     	//重写父类
     	setup: function () {
@@ -278,15 +280,18 @@ define('app/jsp/product/productDetail', function (require, exports, module) {
 					data:{"skuId":skuId,"buyNum":buyNum},
 					success: function(data){
 						if(data.statusCode == "1"){
-							var prodNum = data.data.prodNum;
 							var prodTotal = data.data.prodTotal;
-							var d = Dialog({
-								content:"添加成功,本商品数量:"+prodNum+",商品总数量:"+prodTotal,
-								ok:function(){
-									this.close();
-								}
-							});
-							d.show();
+							$("#cartProdTotal").text(prodTotal);
+							$("#shopCartMedium").show();
+							$("#shopCartMask").show();
+//							var prodNum = data.data.prodNum;
+//							var d = Dialog({
+//								content:"添加成功,本商品数量:"+prodNum+",商品总数量:"+prodTotal,
+//								ok:function(){
+//									this.close();
+//								}
+//							});
+//							d.show();
 						}else{
 							var d = Dialog({
 								content:"添加失败",
@@ -299,6 +304,12 @@ define('app/jsp/product/productDetail', function (require, exports, module) {
 					}
 				}
 			);
+    	},
+    	//继续浏览
+    	_continueShopingClick:function(){
+//    		$("#addShopCartSuccess").close();
+//    		$("#addShopCartSuccess").style.display="none";
+    		$("#addShopCartSuccess").toggle();
     	},
     });
     

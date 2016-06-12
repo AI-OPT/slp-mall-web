@@ -12,6 +12,33 @@
 </head>
 
 <body>
+<!--添加购物车提示弹出框  中-->
+<div id="addShopCartSuccess" class="eject-big">
+		<div id="shopCartMedium" class="eject-medium">
+			<div class="eject-medium-title">
+				<p>添加购物车提示</p>
+				<p class="img"><A href="#"></A></p>
+			</div>
+			<div class="eject-medium-list">
+					<div class="eject-buy">
+						<ul>
+							<li class="img"><img src="${_slpbase }/images/eject-buy.png" /></li>
+							<li class="word">
+								<p class="color">该商品已成功加入购物车！</p>
+								<p>购物车内已有<span id="cartProdTotal">10</span>件商品</p>
+							</li>
+						</ul>
+						<ul>
+							<li><a href="${_base}/shopcart/cartDetails"><input type="button" class="slp-btn eject-buy-btn"  value="购物车结算"/></a></li>
+							<li class="word-eg" id="continueShoping"><a href="#">继续浏览</a></li>
+						</ul>
+						
+					</div>
+			</div>	
+		</div>	
+		<div id="shopCartMask" class="eject-mask"></div>	
+</div>
+<!--添加购物车提示弹出框  中结束-->	
  <!--顶部菜单-->
  <%@ include file="/inc/top-menu.jsp" %>
 <!--顶部菜单结束-->
