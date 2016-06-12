@@ -200,7 +200,7 @@
 	        						</li>
 	        					</ul>
         					</div>
-        					<div class="state-list-word">您还未启用支付密码，为保障您的账户资金，请完成设置。</div>
+        				 <div class="state-list-word">您还未启用支付密码，为保障您的账户资金，请完成设置。</div>
         				 </c:if>
         				 <c:if test="${payCheckFlag=='1'}">
         				  	<div class="state-list-strength">
@@ -220,21 +220,12 @@
 	        						</li>
 	        					</ul>
         					</div>
+        				 <div class="state-list-word">建议您定期更改密码以保障账户资金安全。</div>
         				 </c:if>
-        				  <c:if test="${payCheckFlag=='0'}">
-        				  	<div class="state-list-strength">
-	        					<ul>
-	        						<li class="word">
-	        							<p><img src="${_slpbase }/images/icon-c.png"></p>
-        								<p>未设置</p>
-	        						</li>
-	        					</ul>
-        					</div>
-        				 </c:if>
+        				 
         				<c:if test="${payCheckFlag=='0'}">
         					<div class="state-list-btn"><input type="button" class="sta-btn" id="updatePayPassword" value="设置密码" onclick="toChangePayPassword()"></div>
         				</c:if>
-        				<div class="state-list-word">您还未启用支付密码，为保障您的账户资金，请完成设置。</div>
         				<c:if test="${payCheckFlag=='1'}">
         					<div class="state-list-btn"><input type="button" class="sta-btn" id="updatePayPassword" value="修改" onclick="toChangePayPassword()"></div>
         				</c:if>
