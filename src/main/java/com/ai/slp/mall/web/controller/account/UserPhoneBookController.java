@@ -5,9 +5,15 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.poi.xssf.usermodel.XSSFCell;
+import org.apache.poi.xssf.usermodel.XSSFRow;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartRequest;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.ai.opt.base.exception.BusinessException;
@@ -23,6 +29,7 @@ import com.ai.slp.user.api.ucuserphonebooks.param.UcTelGroupMantainReq;
 import com.ai.slp.user.api.ucuserphonebooks.param.UcTelGroupQueryReq;
 import com.ai.slp.user.api.ucuserphonebooks.param.UcTelGroupQueryResp;
 import com.ai.slp.user.api.ucuserphonebooks.param.UcUserPhonebooksBatchAddReq;
+import com.ai.slp.user.api.ucuserphonebooks.param.UcUserPhonebooksBatchAddResp;
 import com.ai.slp.user.api.ucuserphonebooks.param.UcUserPhonebooksBatchData;
 import com.ai.slp.user.api.ucuserphonebooks.param.UcUserPhonebooksBatchDeleteReq;
 import com.ai.slp.user.api.ucuserphonebooks.param.UcUserPhonebooksQueryReq;
@@ -174,12 +181,62 @@ public class UserPhoneBookController {
 	public ResponseData<String> batchAddUserPhonebooks(String datas) {
 		ResponseData<String> responseData = null;
 		try {
-			List<UcUserPhonebooksBatchData> list =JSON.parseArray(datas, UcUserPhonebooksBatchData.class);
+			List<UcUserPhonebooksBatchData> list = JSON.parseArray(datas, UcUserPhonebooksBatchData.class);
 			UcUserPhonebooksBatchAddReq req = new UcUserPhonebooksBatchAddReq();
 			req.setDatas(list);
-			BaseResponse resp = DubboConsumerFactory.getService(IUserPhoneBooksSV.class).batchAddUserPhonebooks(req);
+			UcUserPhonebooksBatchAddResp resp = DubboConsumerFactory.getService(IUserPhoneBooksSV.class)
+					.batchAddUserPhonebooks(req);
 			if (resp.getResponseHeader().isSuccess()) {
-				responseData = new ResponseData<String>(ResponseData.AJAX_STATUS_SUCCESS, "处理成功", "");
+				responseData = new ResponseData<String>(ResponseData.AJAX_STATUS_SUCCESS, "处理成功", resp.getResult());
+			} else {
+				responseData = new ResponseData<String>(ResponseData.AJAX_STATUS_FAILURE,
+						resp.getResponseHeader().getResultMessage());
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			responseData = new ResponseData<String>(ResponseData.AJAX_STATUS_FAILURE, "处理失败");
+		}
+		return responseData;
+	}
+
+	@RequestMapping("/account/phonebook/uploadPhoneBooks")
+	@ResponseBody
+	public ResponseData<String> uploadPhoneBooks(HttpServletRequest request) {
+		ResponseData<String> responseData = null;
+		try {
+			String telGroupId = request.getParameter("telGroupId");
+			if (StringUtil.isBlank(telGroupId)) {
+				throw new BusinessException(ExceptCodeConstants.Special.PARAM_IS_NULL, "分组ID为空");
+			}
+			String userId = "1000";
+			List<UcUserPhonebooksBatchData> list = new ArrayList<UcUserPhonebooksBatchData>();
+			MultipartRequest multipartRequest = (MultipartRequest) request;
+			MultipartFile uploadFile = multipartRequest.getFile("uploadFile");
+
+			XSSFWorkbook workbook = new XSSFWorkbook(uploadFile.getInputStream());
+			XSSFSheet sheet = workbook.getSheetAt(0);
+			for (int i = 1; i <= sheet.getLastRowNum(); i++) {
+				XSSFRow row = sheet.getRow(i);
+				if (row == null) {
+					continue;
+				}
+				XSSFCell cell0 = row.getCell(0);
+				XSSFCell cell1 = row.getCell(1);
+				String telName = cell0.getStringCellValue();
+				String telMp = cell1.getStringCellValue();
+				UcUserPhonebooksBatchData o = new UcUserPhonebooksBatchData();
+				o.setTelGroupId(telGroupId);
+				o.setUserId(userId);
+				o.setTelName(telName);
+				o.setTelMp(telMp);
+				list.add(o);
+			}
+			UcUserPhonebooksBatchAddReq req = new UcUserPhonebooksBatchAddReq();
+			req.setDatas(list);
+			UcUserPhonebooksBatchAddResp resp = DubboConsumerFactory.getService(IUserPhoneBooksSV.class)
+					.batchAddUserPhonebooks(req);
+			if (resp.getResponseHeader().isSuccess()) {
+				responseData = new ResponseData<String>(ResponseData.AJAX_STATUS_SUCCESS, "处理成功", resp.getResult());
 			} else {
 				responseData = new ResponseData<String>(ResponseData.AJAX_STATUS_FAILURE,
 						resp.getResponseHeader().getResultMessage());
