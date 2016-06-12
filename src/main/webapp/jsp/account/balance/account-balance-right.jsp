@@ -20,7 +20,7 @@
      <div class="account-bj-none"><!--外侧-->
         <div class="balance-title">
                  <p>当前余额:<span id="balanceQueryUsableFundId"></span></p>
-                 <p><input type="button" class="bala-btn" value="充值" onclick="location.href='${_base}/account/recharge/one'"></p>
+                 <p><input type="button" class="bala-btn" value="充值" onclick="location.href='${_base}/payment/recharge/one'"></p>
                  <p class="pass-mar">支付密码安全度:</p>
                  <p><img src="${_slpbase }/images/icon-c.png"><A href="#" class="color">还未启用支付密码</A></p>
                  <p><input type="button" class="slp-btn setes-pass-btn" value="设置支付密码"></p>
