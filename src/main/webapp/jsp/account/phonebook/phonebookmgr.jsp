@@ -132,7 +132,7 @@
 											class="icon-trash" name="BTN_DEL_TEL_GROUP" telGroupId="{{:telGroupId}}"></i></a></td>
 									<td>{{:count}}</td>
 									<td>{{:updateTimeStr}}</td>
-									<td><a href="通讯录详情.html">管理联系人</a><a href="#"
+									<td><a href="..//account/phonebook/phonebookdetail?telGroupId={{:telGroupId}}">管理联系人</a><a href="#"
 										class="charge-phone">充话费</a><a href="#" class="charge-flow">充流量</a>
 									</td>
 								</tr>

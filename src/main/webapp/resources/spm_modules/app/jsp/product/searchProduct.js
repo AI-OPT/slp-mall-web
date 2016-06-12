@@ -36,6 +36,7 @@ define('app/jsp/product/searchProduct', function (require, exports, module) {
     	setup: function () {
     		QueryProductPager.superclass.setup.call(this);
     		//初始化执行搜索
+    		this._getCity();
     		var sourceFlag = $("#sourceFlag").val();
     		var name = $("#skuName").val();
     		$("#serachName").val(name);
@@ -84,6 +85,7 @@ define('app/jsp/product/searchProduct', function (require, exports, module) {
 	            	}else{
 	            		//隐藏公共信息
 	            		$("#commonId").attr("style","display: none");
+	            		$("#commonData").attr("style","display: none");
     					$("#productData").html("没有搜索到相关信息");
 	            	}
 	            },
@@ -136,6 +138,7 @@ define('app/jsp/product/searchProduct', function (require, exports, module) {
     					_this._getCommonProduct();
 	            	}else{
 	            		$("#commonId").attr("style","display: none");
+	            		$("#commonData").attr("style","display: none");
     					$("#productData").html("没有搜索到相关信息");
 	            	}
 	            },
@@ -288,7 +291,9 @@ define('app/jsp/product/searchProduct', function (require, exports, module) {
 					areaCode:$("#areaSearch").val(),
 					productCatId: $("#catType").val(),
 					basicOrgIdIs: $("#agentSearch").val(),
-					attrDefId:$("#priceSearch").val()
+					attrDefId:$("#priceSearch").val(),
+					priceOrderFlag:$("#priceOrder").attr("value"),
+					saleNumOrderFlag:$("#saleOrder").attr("value")
 				   };
     		var _this = this;
     		var url = _base+"/search/getProduct";
@@ -310,6 +315,7 @@ define('app/jsp/product/searchProduct', function (require, exports, module) {
     					//_this._getCommonBySearch();
 	            	}else{
 	            		//$("#commonId").attr("style","display: none");
+	            		$("#commonData").attr("style","display: none");
     					$("#productData").html("没有搜索到相关信息");
 	            	}
 	            },
@@ -320,7 +326,53 @@ define('app/jsp/product/searchProduct', function (require, exports, module) {
 				},
     		});
     	},
-    	
+    	//获取配送地区
+    	_getCity: function(){
+    		var _this = this;
+      		ajaxController.ajax({
+				type: "post",
+				dataType: "json",
+				processing: true,
+				message: "查询中，请等待...",
+				url: _base+"/head/getArea",
+				data:'',
+				success: function(data){
+					if(data.data){
+						var template = $.templates("#dispatchCityTmpl");
+						var htmlOut = template.render(data.data);
+						$("#dispatchCityShowData").html(htmlOut);
+						_this._changeDispath();
+					}
+				}
+			}
+		);
+      },
+      _changeDispath : function() {
+			$(".DSP_BTN").bind(
+				"click",
+				function() {
+					var _this = this;
+					var cityCode = $(_this).attr('areaCodeId');
+					var cityName = $(_this).attr('areaNameId');
+					$("#currentDispatch").attr("currentDispatchCode",cityCode);
+					$("#currentDispatch").attr("currentDispatchName",cityName);
+		    		document.getElementById("currentDispatch").innerHTML=cityName;
+				})
+		},
+    	//点击销量触发的事件
+		_changeSaleOrder: function(){
+			var _this = this;
+			$("#priceOrder").attr("value","");
+			$("#saleOrder").attr("value","ASE");
+			_this._changeDataClick();
+		 },
+		//点击价格排序触发事件
+		_changePriceOder: function(){
+			var _this = this;
+			$("#saleOrder").attr("value","");
+			$("#priceOrder").attr("value","ASE");
+			_this._changeDataClick();
+		 }
     });
     
     module.exports = QueryProductPager

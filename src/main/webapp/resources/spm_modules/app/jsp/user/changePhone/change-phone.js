@@ -59,7 +59,7 @@ define(
 					if(phoneCode==""){
 						$("#phoneCodeErrMsgShow").text("手机验证码不能为空");
 						$("#phoneCodeErrMsg").show();
-						$("#phoneCodeEmptyFlag").val("0");
+						$("#phoneCodeFlag").val("0");
 					}
 				},
 				//检查支付密码是否为空
@@ -82,7 +82,7 @@ define(
 				},
 				//隐藏验证码错误提示
 				_hidePhoneCode : function(){
-					$("#phoneCodeErrMsg").attr("style", "display:none");
+					$("#newPhoneCodeErrMsg").attr("style", "display:none");
 				},
 				//隐藏密码错误提示
 				_hidePassword : function(){
@@ -247,12 +247,15 @@ define(
 								return false;
 							}
 							if(data.responseHeader.resultCode=='11112'){
+							  	var userMp = $("#newPhone").val();
+			                 	var phoneStr = userMp.substring(0,3)+"****"+userMp.substr(7,4);
 								$("#changePhoneBorder3").removeClass()
 								.addClass("yellow-border");
 								$("#changePhoneYuan3").removeClass().addClass(
 								"yellow-yuan");
 								$("#changePhoneWord3").removeClass().addClass(
 								"yellow-word");
+								$("#phoneStr").html(phoneStr);
 								$("#change-phone1").hide();
 								$("#change-phone2").hide();
 								$("#change-phone3").show();

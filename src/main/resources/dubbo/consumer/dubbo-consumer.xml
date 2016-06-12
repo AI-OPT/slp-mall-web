@@ -115,4 +115,7 @@
 	<!-- 支付密码查询 -->
  	<dubbo:reference id="iAccountQuerySV"
 		interface="com.ai.slp.balance.api.accountquery.interfaces.IAccountQuerySV" />
+	
+	<dubbo:reference id="iAccountMaintainSV"
+		interface="com.ai.slp.balance.api.accountmaintain.interfaces.IAccountMaintainSV" />
 </beans>

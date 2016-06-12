@@ -73,12 +73,12 @@ public class SearchController {
             PageInfo<ProductData> result= resultInfo.getPageInfo();
             List<ProductDataVO> results = new ArrayList<ProductDataVO>();
             PageInfo<ProductDataVO> pageVo = new PageInfo<ProductDataVO>();
+            pageVo.setPageCount(result.getPageCount());
+            pageVo.setPageNo(result.getPageNo());
+            pageVo.setPageSize(result.getPageSize());
+            pageVo.setCount(result.getCount());
             if(result!=null){
                 List<ProductData> proList = result.getResult();
-                pageVo.setPageCount(result.getPageCount());
-                pageVo.setPageNo(result.getPageNo());
-                pageVo.setPageSize(result.getPageSize());
-                pageVo.setCount(result.getCount());
                 if(!CollectionUtil.isEmpty(proList)){
                     for(ProductData data:proList){
                         ProductDataVO vo = new ProductDataVO();
@@ -170,11 +170,11 @@ public class SearchController {
             req.setPageInfo(pageInfo);
             ProductQueryResponse resultInfo = iPaymentQuerySV.searchProduct(req);
             PageInfo<ProductData> result= resultInfo.getPageInfo();
+            pageVo.setPageCount(result.getPageCount());
+            pageVo.setPageNo(result.getPageNo());
+            pageVo.setPageSize(result.getPageSize());
+            pageVo.setCount(result.getCount());
             if(result!=null){
-                pageVo.setPageCount(result.getPageCount());
-                pageVo.setPageNo(result.getPageNo());
-                pageVo.setPageSize(result.getPageSize());
-                pageVo.setCount(result.getCount());
                 List<ProductData> proList = result.getResult();
                 if(!CollectionUtil.isEmpty(proList)){
                     for(ProductData data:proList){

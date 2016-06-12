@@ -25,6 +25,7 @@ define('app/jsp/user/bandemail/payPasswordConfirmInfo', function (require, expor
     		//key的格式: 事件+空格+对象选择器;value:事件方法
     		"keyup [id='passwordInput']":"_pwStrength",
     		"focus [id='passwordInput']":"_passShow",
+    		"blur [id='passwordInput']":"_checkPasswordValue",
     		"click [id='sendVerify']":"_sendPhoneVerifyCode",
     		"blur [id='confirmationPassword']":"_passwordConfirmation",
     		"click [id='passwordNext']" :"_next",
@@ -48,14 +49,8 @@ define('app/jsp/user/bandemail/payPasswordConfirmInfo', function (require, expor
 		},
 		//初始化展示页面
 		_initShowView:function(){
-			 //左侧菜单显示样式
-	   		$("#setEmail").addClass("current");
-	   		//标题显示
-	   		$("#set_title_id").html("绑定邮箱");
-	   		$("#updateEmail").addClass("current");
-			$("#confirmType").val("1");
-			$("#confirmTypeName").html("已验证手机");
-			$("#verifyName").html("短信校验码");
+			$('.active').removeClass('active');
+	   		$("#securitySettings").addClass("active");
 		},
 		//控制显示内容
 		_controlMsgText: function(id,msg){
@@ -220,7 +215,40 @@ define('app/jsp/user/bandemail/payPasswordConfirmInfo', function (require, expor
     		}
     	},
     	_submit:function(){
-    		
+    		var validFlag = this._validServicePaw();
+    		if(!validFlag) return;
+    		var passConfirmFlag = this._passwordConfirmation();
+    		if(!passConfirmFlag) return;
+    		var	param={
+    				password:$("#passwordInput").val()
+				   };
+    		ajaxController.ajax({
+				type : "POST",
+				data : param,
+				dataType: 'json',
+				url :_base+"/user/payPassword/updatePayPasswordNew",
+				processing: true,
+				message : "正在处理中，请稍候...",
+				success : function(data) {
+					var resultCode = data.responseHeader.resultCode;
+					if(resultCode=="000001"){
+						$("#errorPawMsg").show();
+						$("#passwordImage").show();
+						$("#showPawMsg").text("修改失败请重新输入支付密码");
+					}else{
+						if(resultCode=="000000"){
+							$("#errorPawMsg").hide();
+							$("#passwordImage").hide();
+							var url = data.data;
+							window.location.href = _base+url;
+						}
+					}
+				},
+				error : function(){
+					alert("网络连接超时!");
+				}
+			
+    		})
     	},
     	_sendPhoneVerifyCode:function(){
 			var _this = this;
@@ -325,6 +353,47 @@ define('app/jsp/user/bandemail/payPasswordConfirmInfo', function (require, expor
 				}
 			});
 		
+		},
+		_checkPasswordValue:function(){
+			var _this=this;
+			var	param={
+					password:hex_md5($("#passwordInput").val())
+				   };
+			ajaxController.ajax({
+				type : "POST",
+				data : param,
+				dataType: 'json',
+				url :_base+"/user/payPassword/checkPasswordValue",
+				processing: true,
+				message : "正在处理中，请稍候...",
+				success : function(data) {
+					var status = data.responseHeader.resultCode;
+					if(status == "000000"){
+						$("#errorPawMsg").show();
+		        		$("#showPawMsg").hide();
+		        		//$('#errorPhoneFlag').val("1");
+		        		$('#passwordImage').attr('src',_base+'/resources/slpmall/images/icon-b.png');
+						//window.location.href=_base+"/user/payPassword/setPayPassword"
+					}else{
+						var msg = data.statusInfo;
+						//验证码
+						if(status == "10003"){
+							$("#errorPawMsg").show();
+							$("#passwordImage").show();
+							$('#passwordImage').attr('src',_base+'/resources/slpmall/images/icon-a.png');
+							_this._controlMsgText("showPawMsg",msg);
+							_this._controlMsgAttr("showPawMsg",2);
+						}else{
+							$("#errorPawMsg").hide();
+							_this._controlMsgText("showPawMsg","");
+							_this._controlMsgAttr("showPawMsg",1);
+						}
+					}
+				},
+				error : function(){
+					alert("网络连接超时，请重新修改支付密码");
+				}
+		});
 		},
 		//获取界面填写验证信息
 		_getSafetyConfirmData:function(){

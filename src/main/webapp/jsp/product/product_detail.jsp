@@ -93,10 +93,10 @@
                        <li class="word">价格：</li>
                        <li class="color">￥{{:~liToYuan(salePrice)}}元</li>
                    </ul>
-                   <ul class="details-list">
+                   <!--<ul class="details-list">
                        <li class="word">所在地：</li>
                        <li><select class="details-large"><option>北京市海淀区</option></select></li>
-                   </ul>
+                   </ul>-->
                     <ul class="details-list" id="activeDateDiv">
                        <li class="word">有效期：</li>
                        <li id="activeDate"></li>
@@ -140,7 +140,7 @@
                    	</ul>
 					</script>
                    <ul class="details-list btm-magin">
-                   <li class="btn-mar" id="buyBtnId" style="display:none"><input type="button" class="slp-btn details-btn" value="立即购买"></li>
+                   <li class="btn-mar" id="buyBtnId" style="display:none"><input id="buyBtn" type="button" class="slp-btn details-btn" value="立即购买"></li>
                    <li id="addCarBtnId" style="display:none"><input type="button" class="slp-btn details-btn" id="joinShopCart" value="加入购物车"></li>
                    <li id="invalidBtnId" style="display:none"><input id="invalidBtn" type="button" class="slp--ash-btn" value="已下架"></li>
                    </ul>
