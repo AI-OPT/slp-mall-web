@@ -26,6 +26,10 @@ import com.ai.opt.sdk.util.StringUtil;
 import com.ai.opt.sdk.web.model.ResponseData;
 import com.ai.opt.sso.client.filter.SLPClientUser;
 import com.ai.opt.sso.client.filter.SSOClientConstants;
+import com.ai.slp.common.api.area.interfaces.IGnAreaQuerySV;
+import com.ai.slp.common.api.area.param.GnAreaVo;
+import com.ai.slp.common.api.cache.interfaces.ICacheSV;
+import com.ai.slp.common.api.cache.param.SysParam;
 import com.ai.slp.user.api.ucuserphonebooks.interfaces.IUserPhoneBooksSV;
 import com.ai.slp.user.api.ucuserphonebooks.param.UcTelGroup;
 import com.ai.slp.user.api.ucuserphonebooks.param.UcTelGroupMantainReq;
@@ -281,6 +285,33 @@ public class UserPhoneBookController {
 			throw new SystemException("您没有登录，请先登录");
 		}
 		return user;
+	}
+
+	@RequestMapping("/account/phonebook/getProvices")
+	@ResponseBody
+	public ResponseData<List<GnAreaVo>> getProvices() {
+		ResponseData<List<GnAreaVo>> responseData = null;
+		try {
+			List<GnAreaVo> list = DubboConsumerFactory.getService(IGnAreaQuerySV.class).getProvinceList();
+			responseData = new ResponseData<List<GnAreaVo>>(ResponseData.AJAX_STATUS_SUCCESS, "处理成功", list);
+		} catch (Exception e) {
+			responseData = new ResponseData<List<GnAreaVo>>(ResponseData.AJAX_STATUS_FAILURE, "处理失败");
+		}
+		return responseData;
+	}
+
+	@RequestMapping("/account/phonebook/getBasicOrgs")
+	@ResponseBody
+	public ResponseData<List<SysParam>> getBasicOrgs() {
+		ResponseData<List<SysParam>> responseData = null;
+		try {
+			List<SysParam> list = DubboConsumerFactory.getService(ICacheSV.class).getSysParams("all",
+					"UC_USER_PHONE_BOOKS", "BASIC_ORG_ID");
+			responseData = new ResponseData<List<SysParam>>(ResponseData.AJAX_STATUS_SUCCESS, "处理成功", list);
+		} catch (Exception e) {
+			responseData = new ResponseData<List<SysParam>>(ResponseData.AJAX_STATUS_FAILURE, "处理失败");
+		}
+		return responseData;
 	}
 
 }
