@@ -305,13 +305,13 @@ public final class VerifyUtil {
                         responseData = new ResponseData<String>(ResponseData.AJAX_STATUS_SUCCESS, "该邮箱已经注册", null);
                         responseData.setResponseHeader(header);
                     }
-                }else{
+                }else{ 
                     header = new ResponseHeader(false, VerifyConstants.ResultCodeConstants.SUCCESS_CODE, "成功");
                     responseData = new ResponseData<String>(ResponseData.AJAX_STATUS_SUCCESS, "成功", null);
                     responseData.setResponseHeader(header);
                 }
             }
-        } catch (Exception e) {
+        } catch (Exception e) { 
             responseData = new ResponseData<String>(ResponseData.AJAX_STATUS_FAILURE, "邮箱校验失败", null);
         }
         return responseData;
