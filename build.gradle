@@ -97,7 +97,7 @@ dependencies {
 	//安全设置
 	compile 'com.ai.slp.user:ucUserSecurity:1.0-SNAPSHOT'
 	//用户
-	compile 'com.ai.slp.user:ucuser:1.0-SNAPSHOT'
+	compile 'com.ai.slp.user:ucuser:1.0.1-SNAPSHOT'
 	//通讯录组
 	compile 'com.ai.slp.user:ucuserphonebooks:1.0-SNAPSHOT'
 	//创建手机验证码
