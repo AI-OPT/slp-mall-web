@@ -5,7 +5,6 @@ import com.ai.opt.base.exception.SystemException;
 import com.ai.opt.sdk.components.ccs.CCSClientFactory;
 import com.ai.opt.sdk.components.idps.IDPSClientFactory;
 import com.ai.opt.sdk.dubbo.util.DubboConsumerFactory;
-import com.ai.opt.sdk.util.BeanUtils;
 import com.ai.opt.sdk.web.model.ResponseData;
 import com.ai.opt.sso.client.filter.SLPClientUser;
 import com.ai.opt.sso.client.filter.SSOClientConstants;
@@ -13,7 +12,6 @@ import com.ai.paas.ipaas.ccs.constants.ConfigException;
 import com.ai.paas.ipaas.image.IImageClient;
 import com.ai.paas.ipaas.util.JSonUtil;
 import com.ai.slp.mall.web.constants.SLPMallConstants;
-import com.ai.slp.mall.web.model.shopcart.CartProdInfoView;
 import com.ai.slp.order.api.ordertradecenter.interfaces.IOrderTradeCenterSV;
 import com.ai.slp.order.api.ordertradecenter.param.OrdBaseInfo;
 import com.ai.slp.order.api.ordertradecenter.param.OrdProductInfo;
@@ -95,7 +93,6 @@ public class ShopCartController {
     		int prodTotal = 0;
             IImageClient imageClient = IDPSClientFactory.getImageClient(SLPMallConstants.ProductImageConstant.IDPSNS);
     		String attrImageSize = "75x48";
-            List<CartProdInfoView> infoViews = new ArrayList<>();
             for(CartProdInfo cartProdInfo : cartProdInfoList){
     			prodTotal+=cartProdInfo.getBuyNum();
                 //产生图片地址
@@ -109,12 +106,8 @@ public class ShopCartController {
                     String imageUrl = imageClient.getImageUrl(vfsId, picType, attrImageSize);
                     cartProdInfo.setPicUrl(imageUrl);
                 }
-                CartProdInfoView infoView = new CartProdInfoView();
-                BeanUtils.copyProperties(infoView,cartProdInfo);
-                infoView.setProdPrice(infoView.getBuyNum()*infoView.getSalePrice());
-                infoViews.add(infoView);
     		}
-            String cartProdInfoJSON = JSonUtil.toJSon(infoViews);
+            String cartProdInfoJSON = JSonUtil.toJSon(cartProdInfoList);
             model.put("cartProdList", cartProdInfoJSON);
             model.put("prodTotal", prodTotal);
             model.put("skuNumLimit",getSkuNumLimit());
