@@ -34,6 +34,7 @@ import com.ai.slp.mall.web.constants.SLPMallConstants.ExceptionCode;
 import com.ai.slp.mall.web.constants.SLPMallConstants.ProductImageConstant;
 import com.ai.slp.mall.web.model.order.InfoJsonVo;
 import com.ai.slp.mall.web.model.order.OrderListQueryParams;
+import com.ai.slp.mall.web.model.order.OrderSubmit;
 import com.ai.slp.mall.web.model.order.PayOrderRequest;
 import com.ai.slp.mall.web.util.CacheUtil;
 import com.ai.slp.order.api.orderlist.interfaces.IOrderListSV;
@@ -378,22 +379,22 @@ public class OrderController {
 			ordProductResList.add(resInfo);
 		}
 		//设置列表
-		model.addAttribute("ordProductResList", ordProductResList);
 		
 		//ordFeeInfo 属性设置
 		OrdFeeInfo ordFeeInfo=new OrdFeeInfo();
 		ordFeeInfo.setTotalFee(vo.getTotalFee());
 		ordFeeInfo.setOperDiscountFee(vo.getDiscountFee());
 		ordFeeInfo.setDiscountFee(vo.getDiscountFee());
-		model.addAttribute("ordFeeInfo", ordFeeInfo);
 		
-		model.addAttribute("orderId", orderId);
-		
-		model.addAttribute("expFee", 0);
-		model.addAttribute("balanceFee", 0);
-		model.addAttribute("balance", 0);
-		
-		
+		OrderSubmit orderSubmit = new OrderSubmit();
+        orderSubmit.setBalance(0);
+        orderSubmit.setBalanceFee(0);
+        orderSubmit.setExpFee(0);
+        orderSubmit.setOrderId(orderId);
+        orderSubmit.setOrdFeeInfo(ordFeeInfo);
+        orderSubmit.setOrdProductResList(ordProductResList);
+        String orderSubmitJson = JSonUtil.toJSon(orderSubmit);
+        model.addAttribute("orderSubmitJson", orderSubmitJson);
 		
 		
 		return "jsp/order/order_submit";
