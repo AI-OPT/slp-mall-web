@@ -30,11 +30,11 @@
          
      </ul>
      <ul class="right">
-         <li><A href="#">免费注册</A></li>
-         <li><A href="#">登录</A>|</li>
+         <li><A href="${slp_uac_host }/reg/toRegister?userType=10">免费注册</A></li>
+         <li><A href="${slp_uac_host }/login">登录</A>|</li>
          <li><A href="${_base}/shopcart/cartDetails"><i class="icon-shopping-cart"></i>购物车</A>|</li>
-         <li><A href="#">我的订单</A>|</li>
-         <li class="use"><A href="${_base}/jsp/user/user_center_index.jsp">账户中心<img src="${_slpbase }/images/open-a.png"></A>|
+         <li><A href="${_base}/order/list">我的订单</A>|</li>
+         <li class="use"><A href="${_base}/order/list">账户中心<img src="${_slpbase }/images/open-a.png"></A>|
              <!--账户展开-->
              <div class="use-hover" style=" display:none;">
                  <ul>

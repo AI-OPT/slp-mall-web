@@ -18,7 +18,7 @@
           <!--主导航-->
           <div class="breadcrumb">
               <ul>
-                  <li><a href="#">首页</a></li>
+                  <li><a href="${_base}">首页</a></li>
                   <li><a href="#" id="phoneBillFastId">话费快充</a></li>
                   <li><a href="#" id="flowFastId">流量快充</a></li>
                   <li><a href="#">话费卡</a></li>
@@ -29,21 +29,21 @@
           <!--主导航结束-->
      </div>
      <script type="text/javascript">
-			var pager;
+			var logo_nav_menu_pager;
 			(function () {
 				seajs.use('app/jsp/logonavmenu/logoNavMenu', function (HeadPager) {
-					pager = new HeadPager({element: document.body});
-					pager.render();
+					logo_nav_menu_pager = new HeadPager({element: document.body});
+					logo_nav_menu_pager.render();
 				});
 			})();
 			
 		</script>
 		<script type="text/javascript">
-			var pager;
+			var index_search_pager;
 			(function () {
 				seajs.use('app/jsp/search/search', function (SearchPager) {
-					pager = new SearchPager({element: document.body});
-					pager.render();
+					index_search_pager = new SearchPager({element: document.body});
+					index_search_pager.render();
 				});
 			})();
 			

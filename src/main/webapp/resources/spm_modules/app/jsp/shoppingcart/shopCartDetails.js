@@ -59,7 +59,7 @@ define('app/jsp/shoppingcart/shopCartDetails', function (require, exports, modul
     	_changeProdNum:function(prodId,prodNum,salePrice,stockNum){
     		// 获取当前商品数量
 			var proNum = $("#"+prodId+"_prodnum");
-    		var oldNum = parseInt(proNum.val());
+    		var oldNum = Number(proNum.val());
     		// 获取保存数量隐藏域
     		var oldProdNum = $("#"+prodId+"_oldProdNum").val();
     		// 判断数量
@@ -100,7 +100,7 @@ define('app/jsp/shoppingcart/shopCartDetails', function (require, exports, modul
         	// 获取保存数量隐藏域
     		var oldProdNum = $("#"+prodId+"_oldProdNum").val();
     		// 获取修改后的值
-        	var qty = parseInt(btn.value);
+        	var qty = Number(btn.value);
         	if(!this._isPosNum(qty)){
 				qty = oldProdNum;
         	}
@@ -209,14 +209,14 @@ define('app/jsp/shoppingcart/shopCartDetails', function (require, exports, modul
 			        var price = parseFloat(prodPrice);
 			        //计算价格
 			        prodTotal += price;
-			        var num = parseInt($("#"+id+"_prodnum").val());
+			        var num = Number($("#"+id+"_prodnum").val());
 			        //计算购买商品量
 			        prodNum += num;
 			        //计算总量
 			        allProdNum += num;
 			    }else{
 			    	var id = $(this).prop("id");
-			        var num = parseInt($("#"+id+"_prodnum").val());
+			        var num = Number($("#"+id+"_prodnum").val());
 			        //计算总量
 			        allProdNum += num;
 			    }
@@ -227,7 +227,7 @@ define('app/jsp/shoppingcart/shopCartDetails', function (require, exports, modul
     		$("input[name='outOfStockProd']").each(function(i){  
 		        //获取ID并添加到list集合
 		        var id = $(this).prop("id");
-		        var num = parseInt($("#"+id+"_prodnum").val());
+		        var num = Number($("#"+id+"_prodnum").val());
 		        //计算总量
 		        allProdNum += num;
 			});
