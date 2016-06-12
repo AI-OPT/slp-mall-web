@@ -1,6 +1,7 @@
 package com.ai.slp.mall.web.controller.user;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -38,6 +39,7 @@ import com.ai.slp.mall.web.model.user.SendEmailRequest;
 import com.ai.slp.mall.web.util.CacheUtil;
 import com.ai.slp.mall.web.util.IPUtil;
 import com.ai.slp.mall.web.util.VerifyUtil;
+import com.ai.slp.user.api.register.param.UcUserParams;
 import com.ai.slp.user.api.ucUserSecurity.interfaces.IUcUserSecurityManageSV;
 import com.ai.slp.user.api.ucUserSecurity.param.UcUserEmailRequest;
 import com.ai.slp.user.api.ucuser.intefaces.IUcUserSV;
@@ -184,10 +186,14 @@ public class BandEmailController {
                     header.setResultCode(ResultCodeConstants.SUCCESS_CODE);
                     responseData.setResponseHeader(header);
                     
-                    ResponseData<String> emailResponseData = VerifyUtil.checkEmailOnly(userClient.getUserId(),email);
-                    String emailResultCode =  emailResponseData.getResponseHeader().getResultCode();
+                    
+                    IUcUserSV iAccountManageSV = DubboConsumerFactory.getService("iUcUserSV");
+                    SearchUserRequest accountReq = new SearchUserRequest();
+                    accountReq.setUserEmail(email);
+                    SearchUserResponse accountQueryResponse = iAccountManageSV.queryByEmail(accountReq);
+                    List<UcUserParams> resultList = accountQueryResponse.getList();
                     String emailValidateFlag = BandEmail.EMAIL_NOT_CERTIFIED;
-                    if(VerifyConstants.ResultCodeConstants.EMAIL_ERROR.equals(emailResultCode)){
+                    if(BandEmail.EMAIL_CERTIFIED.equals(resultList.get(0).getEmailValidateFlag())){
                          emailValidateFlag = BandEmail.EMAIL_CERTIFIED;
                      }
                     SearchUserRequest searchUserReqeust = new SearchUserRequest();

@@ -38,7 +38,7 @@
              <!--账户展开-->
              <div class="use-hover" style=" display:none;">
                  <ul>
-                     <li><A href="#">我的订单</A></li>
+                     <li><A href="${_base}/order/list">我的订单</A></li>
                      <li><A href="#">账户余额</A></li>
                      <li><A href="#">充值卡券</A></li>
                      <li><A href="#">收藏夹</A></li>

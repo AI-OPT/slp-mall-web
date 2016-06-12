@@ -40,7 +40,25 @@
 		</div>
 	</div>
 	<!--导航区域结束-->
-	<form action="${_base}/pay/orderPay" target="_blank" method="post">
+	<form id="orderSubmitForm" action="${_base}/pay/orderPay" target="_blank" method="post">
+	
+	</form>
+	<!--底部-->
+	<%@ include file="/inc/foot.jsp"%>
+	<!--底部 结束-->
+	<script type="text/javascript">
+		var pager;
+		var orderSubmitJson = $.parseJSON('${orderSubmitJson}');
+		(function() {
+			seajs.use('app/jsp/order/orderSubmit', function(OrderSubmitPager) {
+				pager = new OrderSubmitPager({
+					element : document.body
+				});
+				pager.render();
+			});
+		})();
+	</script>
+	<script id="orderSubmitTemplate" type="text/x-jsrender">
 	<!--提交订单-->
 	<div class="fsast-charge">
 		<div class="big-wrapper">
@@ -63,49 +81,46 @@
 							<td width="15%">数量</td>
 							<td width="15%">小计</td>
 						</tr>
-					</table>
-				</div>
-				<div class="shopping-cart mar">
-					<table width="100%" border="0">
-					<c:forEach var="ordProductRes" varStatus="status" items="${ordProductResList }">
+						{{for ordProductResList}}
 						<tr>
 							<td class="sp">
 								<table width="100%" border="0">
 									<tr>
-										<td class="word" width="25%"><img src="${_slpbase }/images/sim.png"></td>
-										<td><A href="#">${ordProductRes.skuName}</A></td>
+										<td class="word" width="25%"><img src="{{:imageUrl}}"></td>
+										<td><A href="#">{{:skuName}}</A></td>
 									</tr>
 								</table>
 							</td>
-							<td class="ash">¥${ordProductRes.salePrice}</td>
-							<td>${ordProductRes.buySum}</td>
-							<td class="bold">¥${ordProductRes.skuTotalFee}</td>
+							<td class="ash">¥{{:~liToYuan(salePrice)}}</td>
+							<td>{{:buySum}}</td>
+							<td class="bold">¥{{:~liToYuan(skuTotalFee)}}</td>
 						</tr>
-					</c:forEach>
+						{{/for}}
 					</table>
 				</div>
+
 				<div class="total-amount">
 					<ul>
 						<li>
-							<p class="word">${ordProductResList.size()}件商品总计:</p>
-							<p class="right">¥${ordFeeInfo.totalFee }</p>
+							<p class="word">{{:ordProductResList.length}}件商品总计:</p>
+							<p class="right">¥{{:~liToYuan(ordFeeInfo.totalFee) }}</p>
 						</li>
 						<li>
 							<p class="word">运费:</p>
-							<p class="right">＋¥${expFee}</p>
+							<p class="right">＋¥{{:~liToYuan(expFee)}}</p>
 						</li>
 						<li>
 							<p class="word">活动优惠:</p>
-							<p class="right">－¥${ordFeeInfo.discountFee}</p>
+							<p class="right">－¥{{:~liToYuan(ordFeeInfo.discountFee)}}</p>
 						</li>
 						<li>
 							<p class="word">账户余额:</p>
-							<p class="right">－¥${balanceFee }</p>
+							<p class="right">－¥{{:~liToYuan(balanceFee) }}</p>
 						</li>
 						<li>
 							<p class="word">实付款:</p>
 							<p class="right">
-								<span id="adjustFee">¥${ordFeeInfo.totalFee }</span>
+								<span id="adjustFee">¥{{:~liToYuan(ordFeeInfo.totalFee) }}</span>
 							</p>
 						</li>
 					</ul>
@@ -119,7 +134,7 @@
 					<p>
 						<input id="useBalanceChk" type="checkbox" class="checkbox">
 					</p>
-					<p>使用账户余额 （${balance}元可用）</p>
+					<p>使用账户余额 （{{:~liToYuan(balance)}}元可用）</p>
 				</div>
 				<div class="balance-table" style="display: none;">
 					<ul>
@@ -150,7 +165,7 @@
 			<div class="recharge-bj-tow recharge-bj-three">
 				<!--白色背景-->
 				<div class="right-btn">
-					<input id="orderId" name="orderId"  type=hidden value=${orderId}>
+					<input id="orderId" name="orderId"  type=hidden value={{:orderId}}>
 					<input id="gotoPayBtn" type="submit" class="slp-btn topay-btn"
 						value="去支付">
 				</div>
@@ -158,20 +173,6 @@
 
 		</div>
 	</div>
-	</form>
-	<!--底部-->
-	<%@ include file="/inc/foot.jsp"%>
-	<!--底部 结束-->
-	<script type="text/javascript">
-		var pager;
-		(function() {
-			seajs.use('app/jsp/order/orderSubmit', function(OrderSubmitPager) {
-				pager = new OrderSubmitPager({
-					element : document.body
-				});
-				pager.render();
-			});
-		})();
 	</script>
 </body>
 </html>

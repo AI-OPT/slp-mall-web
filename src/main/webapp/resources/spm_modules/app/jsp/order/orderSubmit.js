@@ -33,7 +33,17 @@ define('app/jsp/order/orderSubmit', function (require, exports, module) {
         },
     	//重写父类
     	setup: function () {
-    		OrderListPager.superclass.setup.call(this);
+    		OrderSubmitPager.superclass.setup.call(this);
+    		this._renderOrderSubmitInfo();
+    	},
+    	_renderOrderSubmitInfo: function(){
+	        if(orderSubmitJson != null && orderSubmitJson != 'undefined'){
+	        	var template = $.templates("#orderSubmitTemplate");
+    			var htmlOutput = template.render(orderSubmitJson);
+    			$("#orderSubmitForm").html(htmlOutput);
+	        }else{
+    			$("#orderSubmitForm").html("没有相应的订单信息");
+	        }
     	},
     	_gotoPayBtnClick:function(){
       		var url=_base+"/pay/orderPay?orderId="+$("#orderId").val();
