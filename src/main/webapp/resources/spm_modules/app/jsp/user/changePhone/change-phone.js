@@ -54,11 +54,11 @@ define(
 				},
 				//检查验证码是否为空
 				_checkPhoneCodeEmpty : function(){
-					$("#phoneCodeErrMsg").attr("style", "display:none");
+					$("#newPhoneCodeErrMsg").attr("style", "display:none");
 					var phoneCode = $('#phoneCode').val();
 					if(phoneCode==""){
-						$("#phoneCodeErrMsgShow").text("手机验证码不能为空");
-						$("#phoneCodeErrMsg").show();
+						$("#newPhoneCodeErrMsgShow").text("手机验证码不能为空");
+						$("#newPhoneCodeErrMsg").show();
 						$("#phoneCodeFlag").val("0");
 					}
 				},
@@ -74,6 +74,7 @@ define(
 				},
 				//隐藏新手机号错误提示
 				_hideNewPhone : function(){
+					$("#newPhoneErrFlag").val("");
 					$("#newPhoneErrMsg").attr("style", "display:none");
 				},
 				//隐藏验证码错误提示
@@ -201,6 +202,27 @@ define(
 				_submit : function() {
 					$("#phoneCodeFlag").val("1");
 					
+					//校验手机号是否为空
+					var phone = $('#newPhone').val();
+					if (phone == "") {
+						$("#newPhoneErrMsg").attr("style", "display:");
+						$('#newPhoneErrMsg').attr('src',
+								_base + '/theme/slp/images/icon-a.png');
+						$('#newPhoneErrMsgShow').text("手机号不能为空");
+						$("#newPhoneErrMsg").show();
+						$('#newPhoneErrFlag').val("0");
+						return false;
+					}
+					
+					//校验验证码是否为空
+					$("#newPhoneCodeErrMsg").attr("style", "display:none");
+					var phoneCode = $('#phoneCode').val();
+					if(phoneCode==""){
+						$("#newPhoneCodeErrMsgShow").text("手机验证码不能为空");
+						$("#newPhoneCodeErrMsg").show();
+						$("#phoneCodeFlag").val("0");
+					}
+					
 					var	param={
 							userMp:$("#newPhone").val(),
 							verifyCode:$("#phoneCode").val()
@@ -208,15 +230,16 @@ define(
 						ajaxController.ajax({
 					        type: "post",
 					        processing: false,
+					        async:false,
 					        url: _base+"/user/phone/checkPhoneVerifyCode",
 					        dataType: "json",
 					        data: param,
 					        message: "正在加载数据..",
 					        success: function (data) {
 					         if(data.responseHeader.resultCode=="100002"){
-					        		$('#validateCodeErrMsgShow').text("短信验证码错误");
-									$("#validateCodeErrMsg").attr("style","display:");
-									$('#validateCodeFlag').val("0");
+					        		$('#newPhoneErrMsgShow').text("短信验证码错误");
+									$("#newPhoneCodeErrMsg").attr("style","display:");
+									$('#phoneCodeFlag').val("0");
 									return false;
 					        	}
 					        },
@@ -240,12 +263,6 @@ define(
 						data : param,
 						message : "正在加载数据..",
 						success : function(data) {
-							if (data.responseHeader.resultCode == "10003") {
-								$('#newPhoneCodeErrMsgShow').text("手机号已注册");
-								$("#newPhoneCodeErrMsg").attr("style","display:");
-								$('#phoneCodeFlag').val("0");
-								return false;
-							}
 							if(data.responseHeader.resultCode=='11112'){
 							  	var userMp = $("#newPhone").val();
 			                 	var phoneStr = userMp.substring(0,3)+"****"+userMp.substr(7,4);
@@ -274,8 +291,6 @@ define(
 			// 获取绑定手机短信验证码
 			_getPhoneVitentify1 : function() {
 				$("#phoneCodeErrMsg").attr("style", "display:none");
-				var phoneFlag = $('#phoneFlag').val();
-				if (phoneFlag != "0") {
 					var step = 59;
 					$('#PHONE_IDENTIFY1').val('重新发送60');
 					$("#PHONE_IDENTIFY1").attr("disabled", true);
@@ -324,12 +339,11 @@ define(
 								}
 
 							});
-				}
 			},
 			// 获取新手机短信验证码
 			_getPhoneVitentify2 : function() {
 				$("#phoneCodeErrMsg").attr("style", "display:none");
-				var phoneFlag = $('#phoneFlag').val();
+				var phoneFlag = $('#newPhoneErrFlag').val();
 				if (phoneFlag != "0") {
 					var step = 59;
 					$('#PHONE_IDENTIFY2').val('重新发送60');
@@ -403,7 +417,34 @@ define(
 					$('#newPhoneErrFlag').val("0");
 					return false;
 				} 
-					
+				var param = {
+						userMp : $("#newPhone").val()
+					};
+					ajaxController.ajax({
+						type : "post",
+						processing : false,
+						url : _base + "/user/phone/validatePhone",
+						dataType : "json",
+						data : param,
+						message : "正在加载数据..",
+						success : function(data) {
+							var resultCode=data.responseHeader.resultCode;
+							if(resultCode=="10003"){
+								$("#newPhoneErrMsg").attr("style", "display:");
+								$('#newPhoneErrMsg').attr('src',_base + '/theme/slp/images/icon-a.png');
+								$('#newPhoneErrMsgShow').text("手机号已注册");
+								$("#newPhoneErrMsg").show();
+								$('#newPhoneErrFlag').val("0");
+								return false;
+							}
+						},
+							error : function(XMLHttpRequest,textStatus, errorThrown) {
+								alert(XMLHttpRequest.status);
+								alert(XMLHttpRequest.readyState);
+								alert(textStatus);
+								}
+
+							});
 			}
 			
 		});

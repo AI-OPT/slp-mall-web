@@ -51,6 +51,8 @@ define('app/jsp/balance/phonebook/phonebookdetail', function (require, exports, 
     	setup: function () {
     		PhoneBookDetailPager.superclass.setup.call(this);
     		this._init(); 
+    		this._initProvices();
+    		this._initBasicOrgs();
     	},
     	
     	_init: function(){ 
@@ -67,6 +69,40 @@ define('app/jsp/balance/phonebook/phonebookdetail', function (require, exports, 
     			$('.eject-mask').fadeOut(100);
     			$('.eject-samll').slideUp(150);
     		}); 
+    	},
+    	
+    	_initProvices: function(){
+    		var _this = this;
+    		ajaxController.ajax({
+				type: "post",
+				dataType: "json",
+				processing: false,
+				message: "正在处理...",
+				url: _base+"/account/phonebook/getProvices", 
+				success: function(data){
+					var arr = data.data?data.data:[];
+					$.each(arr,function(i,d){
+						$("#provinceCode").append("<option value='"+ d.areaCode+"'>"+d.areaName+"</option>");
+					});
+				}
+			});
+    	},
+    	
+    	_initBasicOrgs: function(){
+    		var _this = this;
+    		ajaxController.ajax({
+				type: "post",
+				dataType: "json",
+				processing: false,
+				message: "正在处理...",
+				url: _base+"/account/phonebook/getProvices", 
+				success: function(data){
+					var arr = data.data?data.data:[];
+					$.each(arr,function(i,d){
+						$("#basicOrgId").append("<option value='"+ d.columnValue+"'>"+d.columnDesc+"</option>");
+					});
+				}
+			});
     	},
     	
     	_setUploadFile: function(){
@@ -276,7 +312,7 @@ define('app/jsp/balance/phonebook/phonebookdetail', function (require, exports, 
     		ajaxController.ajax({
 				type: "post",
 				dataType: "json",
-				processing: true,
+				processing: false,
 				message: "正在处理...",
 				url: _base+"/account/phonebook/batchAddUserPhonebooks",
 				data: {
@@ -316,7 +352,7 @@ define('app/jsp/balance/phonebook/phonebookdetail', function (require, exports, 
     		ajaxController.ajax({
 				type: "post",
 				dataType: "json",
-				processing: true,
+				processing: false,
 				message: "正在处理...",
 				url: _base+"/account/phonebook/batchDeleteUserPhonebooks",
 				data: {
@@ -336,7 +372,7 @@ define('app/jsp/balance/phonebook/phonebookdetail', function (require, exports, 
     			url: _base+"/account/phonebook/queryUserPhonebooks",
 	 			method: "POST",
 	 			dataType: "json",
-	 			processing: true,
+	 			processing: false,
 	 			message: "正在查询",
 	            data : {
 					userId: this.get("userId"),

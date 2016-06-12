@@ -17,12 +17,19 @@ import org.springframework.web.multipart.MultipartRequest;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.ai.opt.base.exception.BusinessException;
+import com.ai.opt.base.exception.SystemException;
 import com.ai.opt.base.vo.BaseResponse;
 import com.ai.opt.base.vo.PageInfo;
 import com.ai.opt.sdk.constants.ExceptCodeConstants;
 import com.ai.opt.sdk.dubbo.util.DubboConsumerFactory;
 import com.ai.opt.sdk.util.StringUtil;
 import com.ai.opt.sdk.web.model.ResponseData;
+import com.ai.opt.sso.client.filter.SLPClientUser;
+import com.ai.opt.sso.client.filter.SSOClientConstants;
+import com.ai.slp.common.api.area.interfaces.IGnAreaQuerySV;
+import com.ai.slp.common.api.area.param.GnAreaVo;
+import com.ai.slp.common.api.cache.interfaces.ICacheSV;
+import com.ai.slp.common.api.cache.param.SysParam;
 import com.ai.slp.user.api.ucuserphonebooks.interfaces.IUserPhoneBooksSV;
 import com.ai.slp.user.api.ucuserphonebooks.param.UcTelGroup;
 import com.ai.slp.user.api.ucuserphonebooks.param.UcTelGroupMantainReq;
@@ -41,15 +48,20 @@ public class UserPhoneBookController {
 
 	@RequestMapping("/account/phonebook/phonebookmgr")
 	public ModelAndView phonebookmgr(HttpServletRequest request) {
+		SLPClientUser user = this.getUserId(request);
+		request.setAttribute("userId", user.getUserId());
 		ModelAndView view = new ModelAndView("jsp/account/phonebook/phonebookmgr");
 		return view;
 	}
 
 	@RequestMapping("/account/phonebook/submitNewTelGroup")
 	@ResponseBody
-	public ResponseData<String> submitNewTelGroup(UcTelGroupMantainReq req) {
+	public ResponseData<String> submitNewTelGroup(HttpServletRequest request, UcTelGroupMantainReq req) {
 		ResponseData<String> responseData = null;
 		try {
+			SLPClientUser user = this.getUserId(request);
+			req.setUserId(user.getUserId());
+			req.setTenantId(user.getTenantId());
 			BaseResponse resp = DubboConsumerFactory.getService(IUserPhoneBooksSV.class).addUcTelGroup(req);
 			if (resp.getResponseHeader().isSuccess()) {
 				responseData = new ResponseData<String>(ResponseData.AJAX_STATUS_SUCCESS, "处理成功", "");
@@ -66,9 +78,12 @@ public class UserPhoneBookController {
 
 	@RequestMapping("/account/phonebook/queryTelGroups")
 	@ResponseBody
-	public ResponseData<List<UcTelGroup>> queryTelGroups(UcTelGroupQueryReq req) {
+	public ResponseData<List<UcTelGroup>> queryTelGroups(HttpServletRequest request, UcTelGroupQueryReq req) {
 		ResponseData<List<UcTelGroup>> responseData = null;
 		try {
+			SLPClientUser user = this.getUserId(request);
+			req.setUserId(user.getUserId());
+			req.setTenantId(user.getTenantId());
 			UcTelGroupQueryResp resp = DubboConsumerFactory.getService(IUserPhoneBooksSV.class).getUcTelGroups(req);
 			if (resp.getResponseHeader().isSuccess()) {
 				responseData = new ResponseData<List<UcTelGroup>>(ResponseData.AJAX_STATUS_SUCCESS, "处理成功",
@@ -85,9 +100,12 @@ public class UserPhoneBookController {
 
 	@RequestMapping("/account/phonebook/deleteUcTelGroup")
 	@ResponseBody
-	public ResponseData<String> deleteUcTelGroup(UcTelGroupMantainReq req) {
+	public ResponseData<String> deleteUcTelGroup(HttpServletRequest request, UcTelGroupMantainReq req) {
 		ResponseData<String> responseData = null;
 		try {
+			SLPClientUser user = this.getUserId(request);
+			req.setUserId(user.getUserId());
+			req.setTenantId(user.getTenantId());
 			BaseResponse resp = DubboConsumerFactory.getService(IUserPhoneBooksSV.class).deleteUcTelGroup(req);
 			if (resp.getResponseHeader().isSuccess()) {
 				responseData = new ResponseData<String>(ResponseData.AJAX_STATUS_SUCCESS, "处理成功", "");
@@ -104,9 +122,12 @@ public class UserPhoneBookController {
 
 	@RequestMapping("/account/phonebook/modifyUcTelGroup")
 	@ResponseBody
-	public ResponseData<String> modifyUcTelGroup(UcTelGroupMantainReq req) {
+	public ResponseData<String> modifyUcTelGroup(HttpServletRequest request, UcTelGroupMantainReq req) {
 		ResponseData<String> responseData = null;
 		try {
+			SLPClientUser user = this.getUserId(request);
+			req.setUserId(user.getUserId());
+			req.setTenantId(user.getTenantId());
 			BaseResponse resp = DubboConsumerFactory.getService(IUserPhoneBooksSV.class).modifyUcTelGroup(req);
 			if (resp.getResponseHeader().isSuccess()) {
 				responseData = new ResponseData<String>(ResponseData.AJAX_STATUS_SUCCESS, "处理成功", "");
@@ -127,6 +148,8 @@ public class UserPhoneBookController {
 		if (StringUtil.isBlank(telGroupId)) {
 			throw new BusinessException(ExceptCodeConstants.Special.PARAM_IS_NULL, "请传入分组ID");
 		}
+		SLPClientUser user = this.getUserId(request);
+		request.setAttribute("userId", user.getUserId());
 		request.setAttribute("telGroupId", telGroupId);
 		ModelAndView view = new ModelAndView("jsp/account/phonebook/phonebookdetail");
 		return view;
@@ -134,9 +157,12 @@ public class UserPhoneBookController {
 
 	@RequestMapping("/account/phonebook/queryUserPhonebooks")
 	@ResponseBody
-	public ResponseData<PageInfo<UserPhonebook>> queryUserPhonebooks(UcUserPhonebooksQueryReq req) {
+	public ResponseData<PageInfo<UserPhonebook>> queryUserPhonebooks(HttpServletRequest request,
+			UcUserPhonebooksQueryReq req) {
 		ResponseData<PageInfo<UserPhonebook>> responseData = null;
 		try {
+			SLPClientUser user = this.getUserId(request);
+			req.setTenantId(user.getTenantId());
 			PageInfo<UserPhonebook> pagInfo = DubboConsumerFactory.getService(IUserPhoneBooksSV.class)
 					.queryUserPhonebooks(req);
 			responseData = new ResponseData<PageInfo<UserPhonebook>>(ResponseData.AJAX_STATUS_SUCCESS, "处理成功", pagInfo);
@@ -149,7 +175,7 @@ public class UserPhoneBookController {
 
 	@RequestMapping("/account/phonebook/batchDeleteUserPhonebooks")
 	@ResponseBody
-	public ResponseData<String> batchDeleteUserPhonebooks(String recordIds) {
+	public ResponseData<String> batchDeleteUserPhonebooks(HttpServletRequest request, String recordIds) {
 		ResponseData<String> responseData = null;
 		try {
 			UcUserPhonebooksBatchDeleteReq req = new UcUserPhonebooksBatchDeleteReq();
@@ -160,7 +186,8 @@ public class UserPhoneBookController {
 					list.add(id);
 				}
 			}
-
+			SLPClientUser user = this.getUserId(request);
+			req.setTenantId(user.getTenantId());
 			req.setRecordIds(list);
 			BaseResponse resp = DubboConsumerFactory.getService(IUserPhoneBooksSV.class).batchDeleteUserPhonebooks(req);
 			if (resp.getResponseHeader().isSuccess()) {
@@ -178,12 +205,14 @@ public class UserPhoneBookController {
 
 	@RequestMapping("/account/phonebook/batchAddUserPhonebooks")
 	@ResponseBody
-	public ResponseData<String> batchAddUserPhonebooks(String datas) {
+	public ResponseData<String> batchAddUserPhonebooks(HttpServletRequest request, String datas) {
 		ResponseData<String> responseData = null;
 		try {
 			List<UcUserPhonebooksBatchData> list = JSON.parseArray(datas, UcUserPhonebooksBatchData.class);
 			UcUserPhonebooksBatchAddReq req = new UcUserPhonebooksBatchAddReq();
 			req.setDatas(list);
+			SLPClientUser user = this.getUserId(request);
+			req.setTenantId(user.getTenantId());
 			UcUserPhonebooksBatchAddResp resp = DubboConsumerFactory.getService(IUserPhoneBooksSV.class)
 					.batchAddUserPhonebooks(req);
 			if (resp.getResponseHeader().isSuccess()) {
@@ -233,6 +262,8 @@ public class UserPhoneBookController {
 			}
 			UcUserPhonebooksBatchAddReq req = new UcUserPhonebooksBatchAddReq();
 			req.setDatas(list);
+			SLPClientUser user = this.getUserId(request);
+			req.setTenantId(user.getTenantId());
 			UcUserPhonebooksBatchAddResp resp = DubboConsumerFactory.getService(IUserPhoneBooksSV.class)
 					.batchAddUserPhonebooks(req);
 			if (resp.getResponseHeader().isSuccess()) {
@@ -244,6 +275,41 @@ public class UserPhoneBookController {
 		} catch (Exception e) {
 			e.printStackTrace();
 			responseData = new ResponseData<String>(ResponseData.AJAX_STATUS_FAILURE, "处理失败");
+		}
+		return responseData;
+	}
+
+	private SLPClientUser getUserId(HttpServletRequest request) {
+		SLPClientUser user = (SLPClientUser) request.getSession().getAttribute(SSOClientConstants.USER_SESSION_KEY);
+		if (user == null) {
+			throw new SystemException("您没有登录，请先登录");
+		}
+		return user;
+	}
+
+	@RequestMapping("/account/phonebook/getProvices")
+	@ResponseBody
+	public ResponseData<List<GnAreaVo>> getProvices() {
+		ResponseData<List<GnAreaVo>> responseData = null;
+		try {
+			List<GnAreaVo> list = DubboConsumerFactory.getService(IGnAreaQuerySV.class).getProvinceList();
+			responseData = new ResponseData<List<GnAreaVo>>(ResponseData.AJAX_STATUS_SUCCESS, "处理成功", list);
+		} catch (Exception e) {
+			responseData = new ResponseData<List<GnAreaVo>>(ResponseData.AJAX_STATUS_FAILURE, "处理失败");
+		}
+		return responseData;
+	}
+
+	@RequestMapping("/account/phonebook/getBasicOrgs")
+	@ResponseBody
+	public ResponseData<List<SysParam>> getBasicOrgs() {
+		ResponseData<List<SysParam>> responseData = null;
+		try {
+			List<SysParam> list = DubboConsumerFactory.getService(ICacheSV.class).getSysParams("all",
+					"UC_USER_PHONE_BOOKS", "BASIC_ORG_ID");
+			responseData = new ResponseData<List<SysParam>>(ResponseData.AJAX_STATUS_SUCCESS, "处理成功", list);
+		} catch (Exception e) {
+			responseData = new ResponseData<List<SysParam>>(ResponseData.AJAX_STATUS_FAILURE, "处理失败");
 		}
 		return responseData;
 	}

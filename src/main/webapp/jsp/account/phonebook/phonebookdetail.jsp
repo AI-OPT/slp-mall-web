@@ -56,7 +56,7 @@
 								<p>
 									<select class="select-small" id="provinceCode">
 										<option value="">请选择</option>
-										<option value="10">北京</option> 
+										
 									</select>
 								</p>
 							</li>
@@ -64,10 +64,7 @@
 								<p class="word">号码运营商</p>
 								<p>
 									<select class="select-small" id="basicOrgId">
-										<option value="">请选择</option>
-										<option value="1">中国联通</option>
-										<option value="2">中国移动</option>
-										<option value="3">中国电信</option>
+										<option value="">请选择</option> 
 									</select>
 								</p>
 							</li>
