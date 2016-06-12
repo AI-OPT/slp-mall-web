@@ -40,7 +40,7 @@
      <!--购物车-->
 <div class="fsast-charge">
      	<div class="big-wrapper"><!--内侧居中框架-->
-       		<div class="payment-title"><p>全部<span id="allProductNum">(${prodTotal})</span></p></div>
+       		<div class="payment-title"><p>全部<span id="allProductNum">（${prodTotal}）</span></p></div>
            <div class="recharge-bj-tow"><!--白色背景-->
                 <div class="shopping-cart">
                  <table width="100%" border="0">
@@ -127,7 +127,7 @@
           <li>
           <p>已选中<span id="checkProductNum">0</span>件商品</p>
           <p>应付总计(不含运费):</p>
-          <p><span id="cartProdTotal">0</span></p> 
+          <p><span id="cartProdTotal">￥0.00</span></p> 
           </li>
          </ul>
           </div>
