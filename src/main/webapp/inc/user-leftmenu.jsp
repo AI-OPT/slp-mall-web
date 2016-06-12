@@ -14,7 +14,7 @@
             <li class="img"><img src="${_slpbase }/images/order-menu-iocn2.png"></li>
             <li class="word">
                 <p class="">资产中心</p>
-                <p><A href="#">账户余额</A></p>
+                <p><A href="${_base}/account/balance/index">账户余额</A></p>
                 <p><A href="#">充值卡券</A></p>
                 <p><A href="#">我的授信</A></p>
             </li>
