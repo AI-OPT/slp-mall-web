@@ -11,7 +11,7 @@
 <link href="${_slpbase }/styles/font-awesome.css" rel="stylesheet" type="text/css">
 
 <script src="${_slpbase }/scripts/frame.js" type="text/javascript"></script>
-<script src="${_slpbase }/scripts/carousel.js" type="text/javascript"></script>
+<script src="${_base}/resources/spm_modules/app/jsp/product/carousel.js" type="text/javascript"></script>
 </head>
 
 <body>
@@ -251,8 +251,6 @@
 <%@ include file="/inc/foot.jsp" %>
    <!--底部 结束-->
 	<script type="text/javascript">
-	var target = ["xixi-01","xixi-02","xixi-03","xixi-04"];
-	
 	var pager;
 	var skuId = '${skuId}';
 	var skuAttrs = '${skuAttrs}'
@@ -260,6 +258,7 @@
 	var productImages = $.parseJSON('${productImages}');
 	var activeDateValue = '${activeDateValue}';
 	var productCatId = '${productCatId}';
+	
 	(function () {
 		seajs.use('app/jsp/product/productDetail', function (ProductDetailPager) {
 			pager = new ProductDetailPager({element: document.body});
