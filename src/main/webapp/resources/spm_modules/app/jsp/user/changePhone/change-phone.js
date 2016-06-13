@@ -226,8 +226,8 @@ define(
 						$("#phoneCodeFlag").val("0");
 						return false;
 					}
-					phoneCodeFlag = $("#phoneCodeFlag").val();
-					newPhoneErrFlag = $("#newPhoneErrFlag").val();
+					var phoneCodeFlag = $("#phoneCodeFlag").val();
+					var newPhoneErrFlag = $("#newPhoneErrFlag").val();
 					if(phoneCodeFlag!='0'&&newPhoneErrFlag!='0'){
 					var	param={
 							userMp:$("#newPhone").val(),
