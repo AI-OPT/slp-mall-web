@@ -128,7 +128,7 @@ public class PayController {
 	
 	@RequestMapping("/recharge/notify")
 	public void notifyUrl(HttpServletRequest request) {
-	    
+	    LOG.info("缴费订单支付后台通知开始...");
         String tenantId =  ConfigUtil.getProperty("TENANT_ID");  
         long accountId = this.getUserId(request).getAcctId();
         IPayOrderSV iPayOrderSV = DubboConsumerFactory.getService(IPayOrderSV.class);
