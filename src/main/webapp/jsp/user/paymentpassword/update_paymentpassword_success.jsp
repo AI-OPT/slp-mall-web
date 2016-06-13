@@ -9,7 +9,7 @@
 	<link href="${_slpbase }/styles/frame.css" rel="stylesheet" type="text/css"/>
 	<link href="${_slpbase }/styles/font-awesome.css" rel="stylesheet" type="text/css"/>
 
-<script type="">
+<script type="text/javascript">
 (function() {
 			seajs.use([ 'app/jsp/user/payPassword/payPasswordConfirmInfo'], function(ConfirmInfoPager) {
 				var pager = new ConfirmInfoPager({
