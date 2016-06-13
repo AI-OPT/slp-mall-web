@@ -147,6 +147,7 @@ public class PayController {
 	        throw new SystemException("安全校验出错：[报文被篡改]");
 	    }else{
 	        if("00".equals(payStates)){
+	            LOG.info("支付成功，状态：["+payStates+"]");
 	            IDepositSV depositSV = DubboConsumerFactory.getService(IDepositSV.class);
 	            DepositParam param = new DepositParam();
 	            TransSummary summary = new TransSummary();
@@ -201,6 +202,7 @@ public class PayController {
 	            
 	            iPayOrderSV.callPayOrder(payParam, paymentParam); 
 	        }else{
+                LOG.info("支付失败，状态：["+payStates+"]");
 	            PayOrderParam param = new PayOrderParam();
 	            param.setOrderId(orderId);
 	            param.setPayOrgId(payType);
