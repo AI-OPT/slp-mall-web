@@ -143,7 +143,7 @@
               <ul>
               <li><input type="text" class="int-dex" maxlength="11" id="phoneNum2" placeholder="请输入手机号码"><input type="text" id="gbasicOrgId" style="display:none;"><input type="text" id="PCode1" style="display:none;"></li>
               <li class="congz"><p><select id="location" class="select-cz"><option value="local">本地</option><option value="national">全国</option></select></p>
-              <p class="se-mar"><select id="gprs"  class="select-cz"><option value="">500MB</select></p></li>
+              <p class="se-mar"><select id="gprs"  class="select-cz"></select></p></li>
               <li class="word">售价:<span id="realFee1">¥29.5-¥30</span></li>
               <li><input type="button" id="GPRS_BTN" value="立即充值" class="slp-btn dex-btn"></li>
               </ul>
