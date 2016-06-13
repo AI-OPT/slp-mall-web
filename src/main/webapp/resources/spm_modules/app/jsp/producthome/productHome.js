@@ -66,19 +66,25 @@ define('app/jsp/producthome/productHome', function (require, exports, module) {
     	_initFastInfo:function(){
     		//初始化话费
     		var _this=this;
-    		
+    		_this._initHf();
+    		_this._changeHuafei();
+    		//初始化流量
+    		_this._initLf();
+    		_this._changeGprsValue();
+    	},
+    	_initHf:function(){
+
     		$("#phoneFee").append("<option value='¥49.00-¥50.00'>50元</option>");
     		$("#phoneFee").append("<option value='¥29.50-¥30.00'>30元</option>");
     		$("#phoneFee").append("<option value='¥19.50-¥20.00'>20元</option>");
     		$("#phoneFee").append("<option value='¥9.95-¥10.00'>10元</option>");
-    		_this._changeHuafei();
-    		//初始化流量
-    		
+    	},
+    	_initLf:function(){
+
     		$("#gprs").append("<option value='¥49.00-¥50.00'>1G</option>");
     		$("#gprs").append("<option value='¥35.00-¥40.00'>500M</option>");
     		$("#gprs").append("<option value='¥29.50-¥29.90'>300M</option>");
     		$("#gprs").append("<option value='¥9.95-¥20.00'>100M</option>");
-    		_this._changeGprsValue();
     	},
     	_submitGprs:function(){//话费的
     		var _this=this;
@@ -217,6 +223,12 @@ define('app/jsp/producthome/productHome', function (require, exports, module) {
     	},
     	_getPhoneInfo:function(){
     		var _this=this;
+    		if($.trim($("#phoneNum1").val()).length==0){
+    			$("#phoneFee").html("");
+   			 $("#realFee").text("");
+    			_this._initHf();
+    			_this._changeHuafei();
+    		}
     		//如果等于11去查询，如果小于11把之前查询出来的信息清除
     		if($.trim($("#phoneNum1").val()).length==11){
     			 var mobileReg = /^0?1[3|4|5|8|7][0-9]\d{8}$/; 
@@ -299,7 +311,14 @@ define('app/jsp/producthome/productHome', function (require, exports, module) {
     	
     	_getGprs:function(){
     		var _this=this;
-
+    		 if($.trim($("#phoneNum2").val()).length==0){
+    			 $("#gprs").html("");
+             	$("#realFee1").text("");
+    			//初始化流量
+    	    		_this._initLf();
+    	    		_this._changeGprsValue();
+    		 }
+    		 
     		
             if($.trim($("#phoneNum2").val()).length==11){
             	var phoneNum=$.trim($("#phoneNum2").val());
@@ -382,7 +401,8 @@ define('app/jsp/producthome/productHome', function (require, exports, module) {
     			$("#gprs").append("<option value='¥49.00-¥50.00'>1G</option>");
     			$("#gprs").append("<option value='¥35.00-¥40.00'>500M</option>");
         		$("#gprs").append("<option value='¥29.50-¥29.90'>300M</option>");
-        		$("#gprs").append("<option value='¥9.95-¥20.00'>100M</option>");      
+        		$("#gprs").append("<option value='¥9.95-¥20.00'>100M</option>"); 
+        		_this._changeGprsValue();
         		return false;
     		}
     		var mobileReg = /^0?1[3|4|5|8|7][0-9]\d{8}$/; 
@@ -392,6 +412,7 @@ define('app/jsp/producthome/productHome', function (require, exports, module) {
 					$("#gprs").append("<option value='¥35.00-¥40.00'>500M</option>");
 		    		 $("#gprs").append("<option value='¥29.50-¥29.90'>300M</option>");
 		    		$("#gprs").append("<option value='¥9.95-¥20.00'>100M</option>");
+		    		_this._changeGprsValue();
 		    		return false;
 			 }
     		
