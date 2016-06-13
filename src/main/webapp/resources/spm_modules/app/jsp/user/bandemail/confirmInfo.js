@@ -203,6 +203,77 @@ define('app/jsp/user/bandemail/confirmInfo', function (require, exports, module)
 				}
 			});
 		},
+		_checkEmail:function(){
+    		var isOk = this._checkEmailFormat();
+    		if(isOk){
+    			isOk = this._checkEmailValue();
+    		}
+    		return isOk;
+    	},
+    	//检查新密码格式
+		_checkEmailFormat: function(){
+			var email = jQuery.trim($("#email").val());
+			var msg = "";
+			if(email == "" || email == null || email == undefined){
+				$("#emailMsgError").show();
+				msg = "请输入邮箱地址";
+			}else if(!/^(\w-*\.*)+@(\w-?)+(\.\w{2,})+$/.test(email)){
+				$("#emailMsgError").show();
+				msg = "邮箱地址格式错误";
+			}
+			if(msg == ""){
+				this._controlMsgText("emailMsg","");
+				this._controlMsgAttr("emailMsg",1);
+				$("#emailMsgError").hide();
+				return true;
+			}else{
+				this._controlMsgText("emailMsg",msg);
+				this._controlMsgAttr("emailMsg",2);
+				return false;
+			}
+		},
+		//检查新邮箱是否唯一
+		_checkEmailValue: function(){
+			var _this = this;
+			var isOk = false;
+			ajaxController.ajax({
+				type : "POST",
+				data : {
+					"email": function(){
+						return $("#email").val()
+					}
+				},
+				dataType: 'json',
+				url :_base+"/user/bandEmail/checkEmailValue",
+				async: false,
+				processing: true,
+				message : "正在处理中，请稍候...",
+				success : function(data) {
+					var resultCode = data.responseHeader.resultCode;
+					if(resultCode == "100000"){
+						isOk = false;
+						var url = data.data;
+						window.location.href = _base+url;
+					}else{
+						if(resultCode=="100006"){
+							$("#emailMsgError").show();
+				        	_this._controlMsgText("emailMsg",data.statusInfo);
+							_this._controlMsgAttr("emailMsg",2);
+							isOk = false;
+				        }else{
+				        	$("#emailMsgError").hide();
+				        	_this._controlMsgText("emailMsg","");
+				        	_this._controlMsgAttr("emailMsg",1);
+				        	isOk = true;
+				        }
+					}
+				},
+				error : function(){
+					alert("网络连接超时!");
+				}
+			});
+			return isOk;
+		},
 		//检查身份信息
 		_confirmInfo:function(){
 			var _this = this;
@@ -210,6 +281,7 @@ define('app/jsp/user/bandemail/confirmInfo', function (require, exports, module)
 			if(!checkVerifyCode){
     			return false;
     		}
+			
 			ajaxController.ajax({
 				type : "POST",
 				data : _this._getSafetyConfirmData(),
