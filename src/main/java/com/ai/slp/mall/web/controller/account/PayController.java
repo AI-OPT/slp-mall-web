@@ -128,7 +128,7 @@ public class PayController {
 	
 	@RequestMapping("/recharge/notify")
 	public void notifyUrl(HttpServletRequest request) {
-
+	    
         String tenantId =  ConfigUtil.getProperty("TENANT_ID");  
         long accountId = this.getUserId(request).getAcctId();
         IPayOrderSV iPayOrderSV = DubboConsumerFactory.getService(IPayOrderSV.class);
@@ -137,59 +137,79 @@ public class PayController {
 	    String subject = request.getParameter("subject");
 	    String outOrderId = request.getParameter("outOrderId");
 	    String payType = request.getParameter("payType");
-	    IDepositSV depositSV = DubboConsumerFactory.getService(IDepositSV.class);
-	    DepositParam param = new DepositParam();
-        TransSummary summary = new TransSummary();
-        summary.setAmount(Long.parseLong(payAmount));
-        summary.setSubjectId(100000);
-        List<TransSummary> transSummaryList = new ArrayList<TransSummary>();
-        transSummaryList.add(summary);
-        param.setTransSummary(transSummaryList);
-        param.setAccountId(accountId);
-        param.setBusiDesc(subject);
-        param.setBusiSerialNo(orderId);
-        param.setTenantId(tenantId);
-        depositSV.depositFund(param);
-        
-        PayOrderParam payParam = new PayOrderParam();
-        payParam.setOrderId(orderId);
-        payParam.setPayOrgId(payType);
-        payParam.setPayOrgSerial(outOrderId);
-        payParam.setStatus(2);        
-        PaymentParam paymentParam = new PaymentParam();
-        paymentParam.setTenantId(tenantId);
-        paymentParam.setAcctId(accountId);
-        paymentParam.setOrderId(orderId);
-        paymentParam.setBusiType("1");
-        paymentParam.setBusiOperCode("300000");
-        paymentParam.setStatus(1);
-        paymentParam.setTotalFee(Long.parseLong(payAmount));
-        paymentParam.setDiscountFee(0);
-        paymentParam.setOperDiscountFee(0);
-        paymentParam.setChargeFee(0l); 
-        paymentParam.setPaidFee(0l);
-        paymentParam.setProvinceCode("11");
-        paymentParam.setCityCode("110");
-        paymentParam.setApplyChlId(tenantId);
-        paymentParam.setOperId(tenantId);
-        ChargeDetail chargeDetail = new ChargeDetail();
-        chargeDetail.setFeeItemId("100000");
-        chargeDetail.setTotalFee(Long.parseLong(payAmount)); 
-        chargeDetail.setDiscountFee(0);
-        chargeDetail.setOperDiscountFee(0);
-        chargeDetail.setChargeFee(0l);
-        chargeDetail.setFeeType("2");
-        List<ChargeDetail> chargeDetails = new ArrayList<ChargeDetail>();
-        chargeDetails.add(chargeDetail);
-        PayTypeDetail payTypeDetail = new PayTypeDetail();
-        payTypeDetail.setPayStyle(1);
-        payTypeDetail.setPaidFee(Long.parseLong(payAmount));
-        List<PayTypeDetail> payTypeDetails = new ArrayList<PayTypeDetail>();
-        payTypeDetails.add(payTypeDetail);
-        paymentParam.setChargeDetail(chargeDetails);
-        paymentParam.setPayTypeDetail(payTypeDetails);
-        
-        iPayOrderSV.callPayOrder(payParam, paymentParam);
+	    String payStates = request.getParameter("payStates");
+	    String infoMd5Param = request.getParameter("infoMd5");
+	    
+	    String infoStr = outOrderId + VerifyUtil.SEPARATOR + orderId + VerifyUtil.SEPARATOR
+                + payAmount + VerifyUtil.SEPARATOR + payStates;
+        String infoMd5 = VerifyUtil.encodeParam(infoStr, ConfigUtil.getProperty("REQUEST_KEY"));
+	    if(!infoMd5.equals(infoMd5Param)){
+	        throw new SystemException("安全校验出错：[报文被篡改]");
+	    }else{
+	        if("00".equals(payStates)){
+	            IDepositSV depositSV = DubboConsumerFactory.getService(IDepositSV.class);
+	            DepositParam param = new DepositParam();
+	            TransSummary summary = new TransSummary();
+	            summary.setAmount(Long.parseLong(payAmount));
+	            summary.setSubjectId(100000);
+	            List<TransSummary> transSummaryList = new ArrayList<TransSummary>();
+	            transSummaryList.add(summary);
+	            param.setTransSummary(transSummaryList);
+	            param.setAccountId(accountId);
+	            param.setBusiDesc(subject);
+	            param.setBusiSerialNo(orderId);
+	            param.setTenantId(tenantId);
+	            depositSV.depositFund(param);
+	            
+	            PayOrderParam payParam = new PayOrderParam();
+	            payParam.setOrderId(orderId);
+	            payParam.setPayOrgId(payType);
+	            payParam.setPayOrgSerial(outOrderId);
+	            payParam.setStatus(2);        
+	            PaymentParam paymentParam = new PaymentParam();
+	            paymentParam.setTenantId(tenantId);
+	            paymentParam.setAcctId(accountId);
+	            paymentParam.setOrderId(orderId);
+	            paymentParam.setBusiType("1");
+	            paymentParam.setBusiOperCode("300000");
+	            paymentParam.setStatus(1);
+	            paymentParam.setTotalFee(Long.parseLong(payAmount));
+	            paymentParam.setDiscountFee(0);
+	            paymentParam.setOperDiscountFee(0);
+	            paymentParam.setChargeFee(0l); 
+	            paymentParam.setPaidFee(0l);
+	            paymentParam.setProvinceCode("11");
+	            paymentParam.setCityCode("110");
+	            paymentParam.setApplyChlId(tenantId);
+	            paymentParam.setOperId(tenantId);
+	            ChargeDetail chargeDetail = new ChargeDetail();
+	            chargeDetail.setFeeItemId("100000");
+	            chargeDetail.setTotalFee(Long.parseLong(payAmount)); 
+	            chargeDetail.setDiscountFee(0);
+	            chargeDetail.setOperDiscountFee(0);
+	            chargeDetail.setChargeFee(0l);
+	            chargeDetail.setFeeType("2");
+	            List<ChargeDetail> chargeDetails = new ArrayList<ChargeDetail>();
+	            chargeDetails.add(chargeDetail);
+	            PayTypeDetail payTypeDetail = new PayTypeDetail();
+	            payTypeDetail.setPayStyle(1);
+	            payTypeDetail.setPaidFee(Long.parseLong(payAmount));
+	            List<PayTypeDetail> payTypeDetails = new ArrayList<PayTypeDetail>();
+	            payTypeDetails.add(payTypeDetail);
+	            paymentParam.setChargeDetail(chargeDetails);
+	            paymentParam.setPayTypeDetail(payTypeDetails);
+	            
+	            iPayOrderSV.callPayOrder(payParam, paymentParam); 
+	        }else{
+	            PayOrderParam param = new PayOrderParam();
+	            param.setOrderId(orderId);
+	            param.setPayOrgId(payType);
+	            param.setPayOrgSerial(outOrderId);
+	            param.setStatus(3);
+	            iPayOrderSV.updatePayOrder(param);
+	        }
+    	    
+	    }
     }
 	
 	private SLPClientUser getUserId(HttpServletRequest request) {
