@@ -71,7 +71,7 @@
                  <p><img src="${_slpbase }/images/succ.png"/></p>
                  <p class="word">您的支付密码已经设置成功!</p>
                  <p class="success-box">
-	                 <a href="#">账户首页</a>
+	                 <a href="${_base}/myorder/list">账户首页</a>
 	                 <a href="${_base}/order/list">我的订单</a>
                  </p>
             </div>
