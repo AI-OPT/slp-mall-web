@@ -234,6 +234,8 @@ define('app/jsp/producthome/productHome', function (require, exports, module) {
     	    			return false;
 
     			 }
+    			 $("#phoneFee").html("");
+    			 $("#realFee").text("");
     			ajaxController.ajax({
 					type: "post",
 					dataType: "json",
@@ -263,8 +265,10 @@ define('app/jsp/producthome/productHome', function (require, exports, module) {
 									basicOrgId:basicOrgId
 									},
 								success: function(data){
+									
 									var d=data.data;
-									$("#phoneFee").html("");
+									
+									
 									if(d){
 										var phoneFee=d.phoneFee;
 										$.each(phoneFee,function(index,item){
@@ -295,8 +299,28 @@ define('app/jsp/producthome/productHome', function (require, exports, module) {
     	
     	_getGprs:function(){
     		var _this=this;
+
+    		
             if($.trim($("#phoneNum2").val()).length==11){
-    			
+            	var phoneNum=$.trim($("#phoneNum2").val());
+        		var mobileReg = /^0?1[3|4|5|8|7][0-9]\d{8}$/; 
+        		
+        		 if(mobileReg.test(phoneNum)==false){
+        						 Dialog({
+        								title : '提示',
+        								width : '200px',
+        								height : '50px',
+        								content : "手机号格式不对，请重新输入",
+        								okValue : "确定",
+        								ok : function() {
+        									this.close;
+        								}
+        							}).showModal();
+        			    return false;
+
+        		 }
+            	$("#gprs").html("");
+            	$("#realFee1").text("");
     			ajaxController.ajax({
 					type: "post",
 					dataType: "json",
@@ -315,7 +339,7 @@ define('app/jsp/producthome/productHome', function (require, exports, module) {
 							
 							var provCode=d.provinceCode;
 							var basicOrgId=d.basicOrgCode;
-							$("#gprs").html("");
+							
 							//userType 
 							//userId
 							ajaxController.ajax({
@@ -350,6 +374,7 @@ define('app/jsp/producthome/productHome', function (require, exports, module) {
     	_changeLocation:function(){
     		var _this=this;
     		$("#gprs").html("");
+    		$("#realFee1").text("");
     		//如果手机号不合法就返回初始化数据
     		var phoneNum=$.trim($("#phoneNum2").val());
     		if(phoneNum==null||phoneNum==""||phoneNum==undefined){

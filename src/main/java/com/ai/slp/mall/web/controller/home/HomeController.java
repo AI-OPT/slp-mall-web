@@ -232,7 +232,7 @@ public class HomeController {
 			responseData = new ResponseData<FastProductResponse>(ResponseData.AJAX_STATUS_SUCCESS, "获取信息成功", feeRes);
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage());
-			responseData = new ResponseData<FastProductResponse>(ResponseData.AJAX_STATUS_FAILURE, "获取信息失败", null);
+			responseData = new ResponseData<FastProductResponse>(ResponseData.AJAX_STATUS_SUCCESS, "获取信息失败", null);
 		}
 
 		return responseData;
@@ -304,7 +304,7 @@ public class HomeController {
 			responseData = new ResponseData<FastProductResponse>(ResponseData.AJAX_STATUS_SUCCESS, "获取信息成功", feeRes);
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage());
-			responseData = new ResponseData<FastProductResponse>(ResponseData.AJAX_STATUS_FAILURE, "获取信息失败", null);
+			responseData = new ResponseData<FastProductResponse>(ResponseData.AJAX_STATUS_SUCCESS, "获取信息失败", null);
 		}
 
 		return responseData;
