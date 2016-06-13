@@ -46,8 +46,7 @@ define('app/jsp/product/productDetail', function (require, exports, module) {
     	setup: function () {
     		ProductDeatilPager.superclass.setup.call(this);
     		this._renderProducSKUTemple();
-    		this._renderImageBigTemple();
-    		this._renderImageSmallTemple();
+    		this._renderImageTemple();
     		this._renderProductCat();
     		
     		this._controlActiveDate();
@@ -79,20 +78,19 @@ define('app/jsp/product/productDetail', function (require, exports, module) {
 						$("#productCatList").html(htmlStr);
 					}
 				}
-			}
-		);
+			});
     	},
-    	//渲染大图
-    	_renderImageBigTemple:function(){
-    		var template = $.templates("#bigImageTemple");
-			var htmlOutput = template.render(imageArrayList);
-			$("#bigpicarea").html(htmlOutput);
-    	},
-    	//渲染小图
-    	_renderImageSmallTemple:function(){
-    		var template = $.templates("#smallImageTemple");
-			var htmlOutput = template.render(imageArrayList);
-			$("#smallImageData").html(htmlOutput);
+    	//渲染图片
+    	_renderImageTemple:function(){
+    		var template = $.templates("#productImageTemple");
+			var htmlOutput = template.render(productImages);
+			$("#productImageData").html(htmlOutput);
+
+			$('div.word').css({opacity: 0});
+		    auto();  
+		    hookThumb(); 
+		    hookBtn();
+			bighookBtn()
     	},
     	//渲染商品基本信息
     	_renderProducSKUTemple:function(){
@@ -231,7 +229,7 @@ define('app/jsp/product/productDetail', function (require, exports, module) {
 						processing: false,
 						//message: "查询中，请等待...",
 						url: _base+"/search/getHotProduct",
-						data:{areaCode:$("#currentCity").attr("currentCityCode")},
+						data:{areaCode:$("#currentCity").attr("currentCityCode"),productCatId:productCatId},
 						success: function(data){
 							if(data.data){
 								var template = $.templates("#hotProductListTmpl");

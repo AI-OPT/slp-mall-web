@@ -4,8 +4,7 @@ var index = -1; /* -1第一个，0第二个... */
 
 //大图交替轮换
 function slideImage(i){
-    var id = 'image_'+ target[i];
-	
+    var id = 'image-'+ i;
     $('#'+ id).animate({opacity: 1}, 800, function(){
 		$(this).find('.word').animate({height: 'show'}, 'slow');
 	}).show()
@@ -21,7 +20,7 @@ function hookThumb(){
 			clearTimeout(timer);
 		}                
 		var id = this.id;            
-		index = getIndex(id.substr(6));
+		index = getIndex(id);
 		rechange(index);
 		slideImage(index); 
 		timer = window.setTimeout(auto, offset);  
@@ -70,13 +69,12 @@ function bighookBtn(){
 
 //get index
 function getIndex(v){
-    for(var i=0; i < target.length; i++){
-        if (target[i] == v) return i;
-    }
+	var index = v.indexOf("-");
+    return v.substring(index+1);
 }
 
 function rechange(loop){
-    var id = 'thumb_'+ target[loop];
+    var id = 'thumb-'+ loop;
     $('#thumbs li a.current').removeClass('current');
     $('#'+ id).addClass('current');
 }
