@@ -26,6 +26,7 @@ import com.ai.paas.ipaas.image.IImageClient;
 import com.ai.paas.ipaas.util.JSonUtil;
 import com.ai.slp.common.api.cache.interfaces.ICacheSV;
 import com.ai.slp.common.api.cache.param.SysParam;
+import com.ai.slp.mall.web.constants.SLPMallConstants;
 import com.ai.slp.mall.web.constants.SLPMallConstants.ExceptionCode;
 import com.ai.slp.mall.web.constants.SLPMallConstants.ProductImageConstant;
 import com.ai.slp.mall.web.model.order.OrderListQueryParams;
@@ -117,12 +118,12 @@ public class MyOrderController {
 				queryRequest.setOrderTimeEnd(orderTimeEnd + " 23:59:59");
 			}
 		}
-		queryRequest.setTenantId("SLP");
+		queryRequest.setTenantId(SLPMallConstants.COM_TENANT_ID);
 		HttpSession session = request.getSession();
 		SLPClientUser user = (SLPClientUser) session.getAttribute(SSOClientConstants.USER_SESSION_KEY);
-		//queryRequest.setUserId(user.getUserId());
+		queryRequest.setUserId(user.getUserId());
 		//TODO 测试数据 待删除
-		queryRequest.setUserId("234");
+		//queryRequest.setUserId("234");
 		return queryRequest;
 	}
 

@@ -30,18 +30,26 @@
          
      </ul>
      <ul class="right">
-         <li><A href="${slp_uac_host }/reg/toRegister?userType=10">免费注册</A></li>
-         <li><A href="${slp_uac_host }/login">登录</A>|</li>
+     	 <c:choose>
+	         <c:when test="${empty sessionScope.user_session_key.userId }">
+		         <li><A href="${slp_uac_host }/reg/toRegister?userType=10">免费注册</A></li>
+		         <li><A href="${slp_uac_host }/login">登录</A>|</li>
+	         </c:when>
+	         <c:otherwise >
+		         <li><A href="${_base}/myorder/list">${sessionScope.user_session_key.username }</A></li>
+		         <li><A href="${slp_uac_host }/ssologout">退出</A>|</li>
+	         </c:otherwise>
+         </c:choose>
          <li><A href="${_base}/shopcart/cartDetails"><i class="icon-shopping-cart"></i>购物车</A>|</li>
-         <li><A href="${_base}/order/list">我的订单</A>|</li>
-         <li class="use"><A href="${_base}/order/list">账户中心<img src="${_slpbase }/images/open-a.png"></A>|
+         <li><A href="${_base}/myorder/list">我的订单</A>|</li>
+         <li class="use"><A href="${_base}/myorder/list">账户中心<img src="${_slpbase }/images/open-a.png"></A>|
              <!--账户展开-->
              <div class="use-hover" style=" display:none;">
                  <ul>
-                     <li><A href="${_base}/order/list">我的订单</A></li>
-                     <li><A href="#">账户余额</A></li>
-                     <li><A href="#">充值卡券</A></li>
-                     <li><A href="#">收藏夹</A></li>
+                     <li><A href="${_base}/myorder/list">我的订单</A></li>
+                     <li><A href="${_base}/account/balance/index">账户余额</A></li>
+                     <li><A href="javascript:void(0);">我的卡包</A></li>
+                     <!-- <li><A href="#">收藏夹</A></li> -->
                      <li><A href="#">通讯录</A></li>
                      <li><A href="${_base}/user/security/securitySettings">安全设置</A></li>
                  </ul>
