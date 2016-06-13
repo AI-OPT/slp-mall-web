@@ -11,6 +11,10 @@ define(
 			var ChangePhonePager = Widget.extend({
 				// 属性，使用时由类的构造函数传入
 				attrs : {},
+				Statics: {
+		    		DEFAULT_PAGE_SIZE: 5,
+		    		USER_LEFT_MNU_ID: "left_mnu_security_set"
+		    	},
 				// 事件代理
 				events : {
 				// key的格式: 事件+空格+对象选择器;value:事件方法
@@ -22,6 +26,7 @@ define(
 				// 重写父类
 				setup : function() {
 					ChangePhonePager.superclass.setup.call(this);
+					activeUserLeftMenu(ChangePhonePager.USER_LEFT_MNU_ID);
 					//this._hideErroText();
 					this._bindHandle();
 				},
