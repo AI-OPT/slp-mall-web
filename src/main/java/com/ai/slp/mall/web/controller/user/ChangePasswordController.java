@@ -75,7 +75,7 @@ public class ChangePasswordController {
         HttpSession session = request.getSession();
         SLPClientUser user = (SLPClientUser) session.getAttribute(SSOClientConstants.USER_SESSION_KEY);
         UcUserPasswordRequest  ucUserPasswordRequest = new UcUserPasswordRequest();
-        ucUserPasswordRequest.setTenantId("0");
+        ucUserPasswordRequest.setTenantId(user.getTenantId());
         ucUserPasswordRequest.setAccountId(user.getUserId());
         ucUserPasswordRequest.setAccountPassword(request.getParameter("password"));
         //获取dubbo服务
