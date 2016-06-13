@@ -20,6 +20,10 @@ define('app/jsp/user/bandemail/confirmInfo', function (require, exports, module)
     	//属性，使用时由类的构造函数传入
     	attrs: {
     	},
+    	Statics: {
+    		DEFAULT_PAGE_SIZE: 5,
+    		USER_LEFT_MNU_ID: "left_mnu_security_set"
+    	},
     	//事件代理
     	events: {
     		//key的格式: 事件+空格+对象选择器;value:事件方法
@@ -37,6 +41,7 @@ define('app/jsp/user/bandemail/confirmInfo', function (require, exports, module)
     	//重写父类
     	setup: function () {
     		ConfirmInfoPager.superclass.setup.call(this);
+    		activeUserLeftMenu(ConfirmInfoPager.USER_LEFT_MNU_ID);
     		this._renderAccountInfo();
     	},
     
@@ -50,7 +55,7 @@ define('app/jsp/user/bandemail/confirmInfo', function (require, exports, module)
 		_initShowView:function(){
 			 //左侧菜单显示样式
 			$('.active').removeClass('active');
-	   		$("#securitySettings").addClass("active");
+	   		$("#left_mnu_security_set").addClass("active");
 		},
 		_getImageRandomCode:function(){
 			var timestamp = (new Date()).valueOf();

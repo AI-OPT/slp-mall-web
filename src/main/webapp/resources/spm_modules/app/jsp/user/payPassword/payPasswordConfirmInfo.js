@@ -20,6 +20,10 @@ define('app/jsp/user/payPassword/payPasswordConfirmInfo', function (require, exp
     	//属性，使用时由类的构造函数传入
     	attrs: {
     	},
+    	Statics: {
+    		DEFAULT_PAGE_SIZE: 5,
+    		USER_LEFT_MNU_ID: "left_mnu_security_set"
+    	},
     	//事件代理
     	events: {
     		//key的格式: 事件+空格+对象选择器;value:事件方法
@@ -38,6 +42,7 @@ define('app/jsp/user/payPassword/payPasswordConfirmInfo', function (require, exp
     	//重写父类
     	setup: function () {
     		ConfirmInfoPager.superclass.setup.call(this);
+    		activeUserLeftMenu(ConfirmInfoPager.USER_LEFT_MNU_ID);
     		this._renderAccountInfo();
     	},
     
@@ -47,11 +52,7 @@ define('app/jsp/user/payPassword/payPasswordConfirmInfo', function (require, exp
 			//初始化展示页面
 			_this._initShowView();
 		},
-		//初始化展示页面
-		_initShowView:function(){
-			$('.active').removeClass('active');
-	   		$("#securitySettings").addClass("active");
-		},
+		
 		//控制显示内容
 		_controlMsgText: function(id,msg){
 			var doc = document.getElementById(id+"");
