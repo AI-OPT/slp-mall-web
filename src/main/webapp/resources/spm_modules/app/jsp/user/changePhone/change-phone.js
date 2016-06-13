@@ -74,7 +74,7 @@ define(
 				},
 				//隐藏新手机号错误提示
 				_hideNewPhone : function(){
-					$("#newPhoneErrFlag").val("");
+					$("#newPhoneErrFlag").val("1");
 					$("#newPhoneErrMsg").attr("style", "display:none");
 				},
 				//隐藏验证码错误提示
@@ -83,7 +83,8 @@ define(
 				},
 				//隐藏验证码错误提示
 				_hidePhoneCode : function(){
-					$("#newPhoneCodeErrMsg").attr("style", "display:none");
+					$("#phoneCodeFlag").val("1");
+					$("#phoneCodeErrMsg").attr("style", "display:none");
 				},
 				//隐藏密码错误提示
 				_hidePassword : function(){
@@ -201,6 +202,7 @@ define(
 				// 点击下一步用户信息显示
 				_submit : function() {
 					$("#phoneCodeFlag").val("1");
+					$("#newPhoneErrFlag").val("1");
 					
 					//校验手机号是否为空
 					var phone = $('#newPhone').val();
@@ -221,8 +223,11 @@ define(
 						$("#newPhoneCodeErrMsgShow").text("手机验证码不能为空");
 						$("#newPhoneCodeErrMsg").show();
 						$("#phoneCodeFlag").val("0");
+						return false;
 					}
-					
+					phoneCodeFlag = $("#phoneCodeFlag").val();
+					newPhoneErrFlag = $("#newPhoneErrFlag").val();
+					if(phoneCodeFlag!='0'&&newPhoneErrFlag!='0'){
 					var	param={
 							userMp:$("#newPhone").val(),
 							verifyCode:$("#phoneCode").val()
@@ -237,7 +242,7 @@ define(
 					        message: "正在加载数据..",
 					        success: function (data) {
 					         if(data.responseHeader.resultCode=="100002"){
-					        		$('#newPhoneErrMsgShow').text("短信验证码错误");
+					        		$('#newPhoneCodeErrMsgShow').text("短信验证码错误");
 									$("#newPhoneCodeErrMsg").attr("style","display:");
 									$('#phoneCodeFlag').val("0");
 									return false;
@@ -286,6 +291,7 @@ define(
 						}
 					});
 				}
+					}
 				},
 	
 			// 获取绑定手机短信验证码

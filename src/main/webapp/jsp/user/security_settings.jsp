@@ -92,15 +92,15 @@
         				<div class="state-list-strength">
         					<ul>
         						<li class="word">
-        						  <c:if test="${userInfo.pwdSafetyLevel=='10'}">
+        						<%--   <c:if test="${userInfo.pwdSafetyLevel=='10'}">
         							  <p><img src="${_slpbase }/images/pass-a.png"></p>
         							  <p>密码强度低</p>
-        						  </c:if>
-        						 <%--  <c:if test="${userInfo.pwdSafetyLevel=='11'}">
-        							  <p><img src="${_slpbase }/images/pass-a.png"></p>
-        							  <p>密码强度中</p>
         						  </c:if> --%>
-        						  <p><img src="${_slpbase }/images/pass-a.png"></p>
+        						  <c:if test="${userInfo.pwdSafetyLevel=='11'}">
+        							  <p><img src="${_slpbase }/images/pass-b.png"></p>
+        							  <p>密码强度中</p>
+        						  </c:if>
+        						  <p><img src="${_slpbase }/images/pass-b.png"></p>
         						  <p>密码强度中</p>
         						  <c:if test="${userInfo.pwdSafetyLevel=='10'}">
         							  <p><img src="${_slpbase }/images/pass-a.png"></p>
@@ -108,7 +108,7 @@
         						  </c:if>
         						</li>
         						<li class="bj-color">
-        							<p class="red"></p>
+        						<p style="background: #f17a38 none repeat scroll 0 0;height: 6px;width: 50%;"></p>
         						</li>
         					</ul>
         				</div>

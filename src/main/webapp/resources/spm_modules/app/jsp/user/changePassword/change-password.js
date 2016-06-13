@@ -119,9 +119,11 @@ define(
 							$("#passwordEmptyFlag").val("1");
 							$("#passwordErrFlag").val("1");
 							if($('#password').val()==""){
+								alert($('#password').val());
 								$("#passwordErrMsgShow").text("密码不能为空");
 								$("#passwordErrMsg").show();
 								$("#passwordEmptyFlag").val("0");
+								return false;
 							}
 							var param = {
 									password : hex_md5($("#password").val())
@@ -136,6 +138,7 @@ define(
 									message : "正在加载数据..",
 									success : function(data) {
 										if (data.responseHeader.resultCode == "11110") {
+											$("#passwordErrMsgShow").text("原密码错误");
 											$("#passwordErrMsg").show();
 											$("#passwordErrFlag").val("0");
 											return false;
