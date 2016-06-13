@@ -142,7 +142,7 @@ define('app/jsp/order/orderList', function (require, exports, module) {
     	},
     	_searchOrderList: function(){
     		var _this = this;
-    		var url = _base+"/order/getOrderListData";
+    		var url = _base+"/myorder/getOrderListData";
     		var data = this._getSearchParams();
     		$("#pagination-ul").runnerPagination({
 	 			url: url,
