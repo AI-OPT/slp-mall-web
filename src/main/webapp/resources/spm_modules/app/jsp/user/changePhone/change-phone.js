@@ -47,6 +47,7 @@ define(
 					$("#validateCodeErrMsg").attr("style", "display:none");
 					var validateCode = $('#validateCode').val();
 					if(validateCode==""){
+						alert(0);
 						$("#validateCodeErrMsgShow").text("验证码不能为空");
 						$("#validateCodeErrMsg").show();
 						$("#validateCodeEmptyFlag").val("0");
