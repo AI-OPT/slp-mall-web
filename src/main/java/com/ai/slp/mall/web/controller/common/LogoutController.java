@@ -1,17 +1,19 @@
 package com.ai.slp.mall.web.controller.common;
 
-import com.ai.opt.sso.client.filter.SSOClientConstants;
-import com.ai.opt.sso.client.filter.SSOClientUser;
-import com.ai.opt.sso.client.filter.SSOClientUtil;
+import java.io.IOException;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-import java.io.IOException;
+import com.ai.opt.sso.client.filter.SLPClientUser;
+import com.ai.opt.sso.client.filter.SSOClientConstants;
+import com.ai.opt.sso.client.filter.SSOClientUtil;
 
 
 @Controller
@@ -20,7 +22,7 @@ public class LogoutController {
 	@RequestMapping("/ssologout")
 	public void logout(HttpServletRequest request,HttpServletResponse response){
 		HttpSession session = request.getSession();
-		SSOClientUser user = (SSOClientUser) session.getAttribute(SSOClientConstants.USER_SESSION_KEY);
+		SLPClientUser user = (SLPClientUser) session.getAttribute(SSOClientConstants.USER_SESSION_KEY);
 		String logOutServerUrl = SSOClientUtil.getLogOutServerUrlRuntime(request);
 		String logOutBackUrl = SSOClientUtil.getLogOutBackUrlRuntime(request);
 		try {

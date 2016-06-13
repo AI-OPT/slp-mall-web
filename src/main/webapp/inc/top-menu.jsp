@@ -37,7 +37,7 @@
 	         </c:when>
 	         <c:otherwise >
 		         <li><A href="${_base}/myorder/list">${sessionScope.user_session_key.username }</A></li>
-		         <li><A href="${slp_uac_host }/ssologout">退出</A>|</li>
+		         <li><A href="${_base}/ssologout">退出</A>|</li>
 	         </c:otherwise>
          </c:choose>
          <li><A href="${_base}/shopcart/cartDetails"><i class="icon-shopping-cart"></i>购物车</A>|</li>
