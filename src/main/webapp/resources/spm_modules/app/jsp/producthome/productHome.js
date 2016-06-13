@@ -398,20 +398,14 @@ define('app/jsp/producthome/productHome', function (require, exports, module) {
     		var phoneNum=$.trim($("#phoneNum2").val());
     		if(phoneNum==null||phoneNum==""||phoneNum==undefined){
     			$("#gprs").html("");
-    			$("#gprs").append("<option value='¥49.00-¥50.00'>1G</option>");
-    			$("#gprs").append("<option value='¥35.00-¥40.00'>500M</option>");
-        		$("#gprs").append("<option value='¥29.50-¥29.90'>300M</option>");
-        		$("#gprs").append("<option value='¥9.95-¥20.00'>100M</option>"); 
+    			_this._initLf();
         		_this._changeGprsValue();
         		return false;
     		}
     		var mobileReg = /^0?1[3|4|5|8|7][0-9]\d{8}$/; 
 			 if(mobileReg.test(phoneNum)==false){
 				 $("#gprs").html("");
-					$("#gprs").append("<option value='¥49.00-¥50.00'>1G</option>");
-					$("#gprs").append("<option value='¥35.00-¥40.00'>500M</option>");
-		    		 $("#gprs").append("<option value='¥29.50-¥29.90'>300M</option>");
-		    		$("#gprs").append("<option value='¥9.95-¥20.00'>100M</option>");
+				 _this._initLf();
 		    		_this._changeGprsValue();
 		    		return false;
 			 }
