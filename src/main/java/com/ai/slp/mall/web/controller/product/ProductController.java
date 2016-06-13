@@ -72,7 +72,7 @@ public class ProductController {
 				String productImageJson = JSonUtil.toJSon(productImages);
 				model.put("productImages", productImageJson);
 				// 设置skuID
-				model.put("skuId", skuId);
+				model.put("skuId", producSKU.getSkuId());
 				// 设置skuAttrs
 				model.put("skuAttrs", skuAttrs);
 				// 设置商品有效期
