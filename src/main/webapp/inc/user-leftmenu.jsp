@@ -65,7 +65,7 @@ function inActiveUserLeftMenu(left_mnu_id){
         </ul> --%>
         <c:if test="${sessionScope.user_session_key.userType=='11' || sessionScope.user_session_key.userType=='12' || sessionScope.user_session_key.userType=='13' }">
         <ul>
-            <li class="img"><img src="images/order-menu-iocn4.png"></li>
+            <li class="img"><img src="${_slpbase }/images/order-menu-iocn4.png"></li>
             <li class="word">
                 <p class="">资质管理</p>
                  <c:choose>
