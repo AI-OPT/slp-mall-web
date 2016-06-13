@@ -84,7 +84,7 @@ public class PayController {
         String returnUrl = basePath + "/payment/recharge/returnUrl";
         String notifyUrl = basePath + "/payment/recharge/notifyUrl";
         //String tempAmount = request.getParameter("payAmount");
-        String orderAmount = "0.01";request.getParameter("payAmount");//String.valueOf(new BigDecimal(tempAmount).divide(new BigDecimal(100)));
+        String orderAmount = request.getParameter("payAmount");//String.valueOf(new BigDecimal(tempAmount).divide(new BigDecimal(100)));
         String requestSource = SLPMallConstants.RequestSource.WEB;
         String payChannel = SLPMallConstants.PayChannel.BSS_JF;
         String subject = "";
@@ -170,8 +170,8 @@ public class PayController {
         paymentParam.setPaidFee(0l);
         paymentParam.setProvinceCode("11");
         paymentParam.setCityCode("110");
-        paymentParam.setApplyChlId("slp");
-        paymentParam.setOperId("slp");
+        paymentParam.setApplyChlId(tenantId);
+        paymentParam.setOperId(tenantId);
         ChargeDetail chargeDetail = new ChargeDetail();
         chargeDetail.setFeeItemId("100000");
         chargeDetail.setTotalFee(Long.parseLong(payAmount)); 
