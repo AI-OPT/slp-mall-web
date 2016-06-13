@@ -122,8 +122,6 @@ public class MyOrderController {
 		HttpSession session = request.getSession();
 		SLPClientUser user = (SLPClientUser) session.getAttribute(SSOClientConstants.USER_SESSION_KEY);
 		queryRequest.setUserId(user.getUserId());
-		//TODO 测试数据 待删除
-		//queryRequest.setUserId("234");
 		return queryRequest;
 	}
 
