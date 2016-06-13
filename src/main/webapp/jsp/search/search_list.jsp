@@ -131,13 +131,13 @@
                                               <li><A href="#">浙江</A></li> 
                                               <li><A href="#">江苏</A></li>                             
                                           </ul>
-                                           <!--  <ul class="city-list" id="dispatchCityShowData">
+                                            <ul class="city-list" id="dispatchCityShowData">
                                            <script id="dispatchCityTmpl" type="text/x-jsrender">
 												<li><A href="javascript:void(0)" areaCodeId="{{:areaCode}}" areaNameId="{{:areaName}}"class="DSP_BTN">{{:areaName}}</A></li>
 					   						</script>
                                           </ul>
-                                          -->
-                                          <ul class="city-list">
+                                         
+                                          <!-- <ul class="city-list">
                                               <li><A href="javascript:void(0)" onclick="pager._changeDispath('100013','北京')">北京</A></li>
                                               <li><A href="javascript:void(0)" onclick="pager._changeDispath('100021','上海')">上海</A></li>
                                               <li><A href="javascript:void(0)" onclick="pager._changeDispath('100014','天津')">天津</A></li>
@@ -169,7 +169,7 @@
                                               <li><A href="javascript:void(0)" onclick="pager._changeDispath('100044','台湾')">台湾</A></li>
                                               <li><A href="javascript:void(0)" onclick="pager._changeDispath('100045','香港')">香港</A></li>
                                               <li><A href="javascript:void(0)" onclick="pager._changeDispath('100046','澳门')">澳门</A></li>                           
-                                          </ul>
+                                          </ul> -->
                                       </div>
                              </li> 
                            <!--选择所在地城市结束-->   

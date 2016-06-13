@@ -36,7 +36,7 @@ define('app/jsp/product/searchProduct', function (require, exports, module) {
     	setup: function () {
     		QueryProductPager.superclass.setup.call(this);
     		//初始化执行搜索
-    		//this._getCity();
+    		this._getCity();
     		var sourceFlag = $("#sourceFlag").val();
     		var name = $("#skuName").val();
     		$("#serachName").val(name);
@@ -305,6 +305,14 @@ define('app/jsp/product/searchProduct', function (require, exports, module) {
     		var sourceFlag = $("#sourceFlag").val();
     		if(sourceFlag=="00"){
     			var	productCatId = $("#catType").val();
+    			if(productCatId==null){
+    				var title =document.getElementById('typeTitleId').innerText
+    				if(title=="话费充值"){
+    					var	productCatId="10000010010000"
+    				}else{
+    					var	productCatId="10000010020000"
+    				}
+    			}
     			var priceId = $("#priceSearch").val();
     			var orgired = $("#agentSearch").val();
     		}else{
@@ -312,20 +320,21 @@ define('app/jsp/product/searchProduct', function (require, exports, module) {
     			var priceId = $("#priceId").val();
     			var orgired = $("#orgired").val();
     		}
-    		var areaId = $("#areaSearch").val();
-    		if(areaId=="0000"){
-    			var areaCode = "";
+    		var disapatch = $("#currentDispatch").attr("currentDispatchCode");
+    		if(disapatch=="" || disapatch==null){
+    			var disapatch="11";
     		}else{
-    			var areaCode = $("#areaSearch").val();
+    			var disapatch= $("#currentDispatch").attr("currentDispatchCode");
     		}
+    		var areaCode = $("#areaSearch").val();
     		var	param={
-					areaCode:areaCode,
+					areaCode:disapatch,
 					productCatId: productCatId,
 					basicOrgIdIs: orgired,
 					attrDefId:priceId,
 					priceOrderFlag:$("#priceOrder").attr("value"),
 					saleNumOrderFlag:$("#saleOrder").attr("value"),
-					distributionArea:$("#currentDispatch").attr("currentDispatchCode")
+					distributionArea:areaCode
 				   };
     		var url = _base+"/search/getProduct";
     		$("#pagination-ul").runnerPagination({
@@ -380,7 +389,7 @@ define('app/jsp/product/searchProduct', function (require, exports, module) {
 			}
 		);
       },
-      _changeDispath : function(code,name) {
+     /* _changeDispath : function(code,name) {
 			var _this = this;
 			$("#currentDispatch").attr("currentDispatchCode",code);
 			$("#currentDispatch").attr("currentDispatchName",name);
@@ -392,21 +401,20 @@ define('app/jsp/product/searchProduct', function (require, exports, module) {
 				_this._changeDataClick();
 			}
     		
-		},
-     /* _changeDispath : function() {
+		},*/
+      _changeDispath : function() {
 			$(".DSP_BTN").bind(
 				"click",
 				function() {
 					var _this = this;
 					var cityCode = $(_this).attr('areaCodeId');
-					alert(cityCode);
 					var cityName = $(_this).attr('areaNameId');
 					$("#currentDispatch").attr("currentDispatchCode",cityCode);
 					$("#currentDispatch").attr("currentDispatchName",cityName);
 		    		document.getElementById("currentDispatch").innerHTML=cityName;
 		    		_this._changeDataClick();
 				})
-		},*/
+		},
     	//点击销量触发的事件
 		_changeSaleOrder: function(){
 			var flag = $("#isHaveDataFlag").val();
