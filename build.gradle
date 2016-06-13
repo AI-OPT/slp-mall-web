@@ -106,6 +106,8 @@ dependencies {
 	compile 'com.ai.slp.user:register:1.0-SNAPSHOT'
 	//用户
 	compile 'com.ai.slp.user:ucuser:1.0-SNAPSHOT'
+	//用户认证
+	compile 'com.ai.slp.user:keyinfo:1.0-SNAPSHOT'
 	//创建手机验证码
 	compile 'com.ai.slp.user:seq:1.0-SNAPSHOT'
     //订单支付

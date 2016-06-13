@@ -373,4 +373,17 @@ public final class SLPMallConstants {
         public static final String UPDATE_PASSWORD_SUCCESS="000000";
         
     }
+    
+    public static final class Qualification{
+        private Qualification(){}
+        /**
+         * 认证成功
+         */
+        public static final String QUALIFICATION_SUCCESS="00000";
+        /**
+         * 认证失败
+         */
+        public static final String QUALIFICATION_ERROR="00001";
+        
+    }
 }

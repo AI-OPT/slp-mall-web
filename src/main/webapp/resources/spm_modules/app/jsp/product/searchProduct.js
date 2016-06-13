@@ -312,8 +312,14 @@ define('app/jsp/product/searchProduct', function (require, exports, module) {
     			var priceId = $("#priceId").val();
     			var orgired = $("#orgired").val();
     		}
+    		var areaId = $("#areaSearch").val();
+    		if(areaId=="0000"){
+    			var areaCode = "";
+    		}else{
+    			var areaCode = $("#areaSearch").val();
+    		}
     		var	param={
-					areaCode:$("#areaSearch").val(),
+					areaCode:areaCode,
 					productCatId: productCatId,
 					basicOrgIdIs: orgired,
 					attrDefId:priceId,

@@ -27,7 +27,7 @@
 		}
 	}
 	function toChangePassword(){
-		window.location.href = _base+"/user/toChangePassword";
+		window.location.href = _base+"/user/password/toChangePassword";
 	}
 	
 	function toChangePayPassword(){
