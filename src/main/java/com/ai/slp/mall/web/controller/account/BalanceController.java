@@ -22,7 +22,6 @@ import org.springframework.web.servlet.ModelAndView;
 import com.ai.net.xss.util.StringUtil;
 import com.ai.opt.sdk.dubbo.util.DubboConsumerFactory;
 import com.ai.opt.sdk.util.CollectionUtil;
-import com.ai.opt.sdk.util.DateUtil;
 import com.ai.opt.sdk.web.model.ResponseData;
 import com.ai.opt.sso.client.filter.SLPClientUser;
 import com.ai.opt.sso.client.filter.SSOClientConstants;
@@ -35,6 +34,7 @@ import com.ai.slp.charge.api.paymentquery.param.ChargeBaseInfo;
 import com.ai.slp.charge.api.paymentquery.param.ChargeInfoQueryByAcctIdParam;
 import com.ai.slp.common.api.cache.interfaces.ICacheSV;
 import com.ai.slp.common.api.cache.param.SysParam;
+import com.ai.slp.mall.web.util.DateUtil;
 import com.alibaba.fastjson.JSON;
 
 @RestController
@@ -155,10 +155,11 @@ public class BalanceController {
 		chargeBaseInfoPageInfo.setPageSize(10);
 		chargeInfoQueryByAcctIdParam.setPageInfo(chargeBaseInfoPageInfo);
 		//
-		String time = this.getTime(Calendar.DATE, 7);
+		Map<String,String> time = new HashMap<String,String>();
+		time = DateUtil.getTimeInterval(Calendar.DATE, 7);
 		//
-		chargeInfoQueryByAcctIdParam.setStartTime(Timestamp.valueOf(time));
-		chargeInfoQueryByAcctIdParam.setEndTime(DateUtil.getSysDate());
+		chargeInfoQueryByAcctIdParam.setStartTime(Timestamp.valueOf(time.get(DateUtil.KEY_START_TIME)));
+		chargeInfoQueryByAcctIdParam.setEndTime(Timestamp.valueOf(time.get(DateUtil.KEY_END_TIME)));
 		//
 		PageInfo<ChargeBaseInfo> pageInfo = DubboConsumerFactory.getService(IPaymentQuerySV.class).queryChargeBaseInfoByAcctId(chargeInfoQueryByAcctIdParam);
 		//
@@ -199,24 +200,8 @@ public class BalanceController {
 		//
 		return pageInfoNew;
 	}
-	/**
-	 * 返回日期 几月前 几天前
-	 * @param DateType
-	 * @param amount
-	 * @return
-	 * @author zhangzd
-	 * @ApiDocMethod
-	 * @ApiCode
-	 */
-	public String getTime(int DateType,int amount){
-		Calendar cal = Calendar.getInstance();
-		cal.add(DateType, -amount);
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-		String time = sdf.format(cal.getTime());
-		//
-		return time;
-		
-	}
+	
+	
 	/**
 	 * 高级搜索 账户收支记录查询列表 分页
 	 * @param request
@@ -260,20 +245,20 @@ public class BalanceController {
 		//快速检索 近三个月  近一个月 近七天 
 		if(!StringUtil.isBlank(selectDateId)){
 			//
-			String time = "";
+			Map<String,String> time = new HashMap<String,String>();
 			if(selectDateId.startsWith("MONTH_")){
 				String monthAmount = selectDateId.replace("MONTH_", "");
-				time = this.getTime(Calendar.MONTH, Integer.valueOf(monthAmount));
+				time = DateUtil.getTimeInterval(Calendar.MONTH, Integer.valueOf(monthAmount));
 			}
 			//
 			if(selectDateId.startsWith("DAY_")){
 				String dayAmount = selectDateId.replace("DAY_", "");
-				time = this.getTime(Calendar.DATE, Integer.valueOf(dayAmount));
+				time = DateUtil.getTimeInterval(Calendar.DATE, Integer.valueOf(dayAmount));
 			}
 			log.info("selectDate startTime:"+time);
 			//
-			chargeInfoQueryByAcctIdParam.setStartTime(Timestamp.valueOf(time));
-			chargeInfoQueryByAcctIdParam.setEndTime(DateUtil.getSysDate());
+			chargeInfoQueryByAcctIdParam.setStartTime(Timestamp.valueOf(time.get(DateUtil.KEY_START_TIME)));
+			chargeInfoQueryByAcctIdParam.setEndTime(Timestamp.valueOf(time.get(DateUtil.KEY_END_TIME)));
 		}else{
 			//如果开始时间和结束时间不为空
 			if(!StringUtil.isBlank(startTime) && !StringUtil.isBlank(endTime)){
@@ -281,10 +266,11 @@ public class BalanceController {
 				chargeInfoQueryByAcctIdParam.setEndTime(DateUtil.getTimestamp(endTime+" 23:59:59",DateUtil.DATETIME_FORMAT));
 			}else{
 				//默认查询1天前的记录
-				String time = this.getTime(Calendar.DATE, 1);
+				Map<String,String> time = new HashMap<String,String>();
+				time = DateUtil.getTimeInterval(Calendar.DATE, 1);
 				log.info("selectDate default startTime:"+time);
-				chargeInfoQueryByAcctIdParam.setStartTime(Timestamp.valueOf(time));
-				chargeInfoQueryByAcctIdParam.setEndTime(DateUtil.getSysDate());
+				chargeInfoQueryByAcctIdParam.setStartTime(Timestamp.valueOf(time.get(DateUtil.KEY_START_TIME)));
+				chargeInfoQueryByAcctIdParam.setEndTime(Timestamp.valueOf(time.get(DateUtil.KEY_END_TIME)));
 			}
 		}
 		

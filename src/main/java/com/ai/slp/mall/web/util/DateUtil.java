@@ -7,7 +7,9 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.HashMap;
 import java.util.Locale;
+import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
@@ -35,6 +37,10 @@ public final class DateUtil {
 
     public static final String yyyyMMddHHmmssSSS = "yyyyMMddHHmmssSSS";
 
+    public static final String KEY_START_TIME = "startTime";
+    
+    public static final String KEY_END_TIME = "endTime";
+    
     private DateUtil() {
         // 禁止实例化
     }
@@ -814,4 +820,30 @@ public final class DateUtil {
         cal.set(cal.get(Calendar.YEAR), cal.get(Calendar.MONTH), maxDay, 23, 59, 59);
         return new Timestamp(cal.getTimeInMillis());
     }
+    /**
+     * 获取时间区间
+     * @param DateType
+     * @param amount
+     * @return
+     * @author zhangzd
+     * @ApiDocMethod
+     * @ApiCode
+     */
+    public static Map<String,String> getTimeInterval(int DateType,int amount){
+		Map<String,String> timeMap = new HashMap<String,String>();
+		SimpleDateFormat sdf = new SimpleDateFormat(DATETIME_FORMAT);
+		
+		Calendar cal = Calendar.getInstance();
+		//
+		String endTime = sdf.format(cal.getTime());
+		//
+		cal.add(DateType, -amount);
+		String startTime = sdf.format(cal.getTime());
+		//
+		timeMap.put(KEY_START_TIME, startTime);
+		timeMap.put(KEY_END_TIME, endTime);
+		//
+		return timeMap;
+		
+	}
 }
