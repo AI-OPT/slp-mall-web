@@ -40,6 +40,5 @@
 </body>
 
 </html>
-<script src="${_slpbase }/scripts/frame.js" type="text/javascript"></script>
 <script src="${_slpbase }/scripts/flickity-docs.min.js"></script>
 
