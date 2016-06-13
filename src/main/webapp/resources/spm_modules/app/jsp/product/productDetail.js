@@ -86,11 +86,11 @@ define('app/jsp/product/productDetail', function (require, exports, module) {
 			var htmlOutput = template.render(productImages);
 			$("#productImageData").html(htmlOutput);
 
+			imageNum = productImages.smallImagesUrl.length
 			$('div.word').css({opacity: 0});
 		    auto();  
 		    hookThumb(); 
 		    hookBtn();
-			bighookBtn()
     	},
     	//渲染商品基本信息
     	_renderProducSKUTemple:function(){
@@ -327,7 +327,8 @@ define('app/jsp/product/productDetail', function (require, exports, module) {
     	_continueShopingClick:function(){
     		$("#shopCartMedium").toggle();
 			$("#shopCartMask").toggle();
-    	},
+    	}
+    	
     });
     
     module.exports = ProductDeatilPager
