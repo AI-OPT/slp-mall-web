@@ -84,7 +84,7 @@ public class PayController {
         String returnUrl = basePath + "/payment/recharge/returnUrl";
         String notifyUrl = basePath + "/payment/recharge/notifyUrl";
         //String tempAmount = request.getParameter("payAmount");
-        String orderAmount = request.getParameter("payAmount");//String.valueOf(new BigDecimal(tempAmount).divide(new BigDecimal(100)));
+        String orderAmount = "0.01";//request.getParameter("payAmount");//String.valueOf(new BigDecimal(tempAmount).divide(new BigDecimal(100)));
         String requestSource = SLPMallConstants.RequestSource.WEB;
         String payChannel = SLPMallConstants.PayChannel.BSS_JF;
         String subject = "";
@@ -126,7 +126,7 @@ public class PayController {
         return view;
     }
 	
-	@RequestMapping("/recharge/notify")
+	@RequestMapping("/recharge/notifyUrl")
 	public void notifyUrl(HttpServletRequest request) {
 	    LOG.info("缴费订单支付后台通知开始...");
         String tenantId =  ConfigUtil.getProperty("TENANT_ID");  
