@@ -166,7 +166,7 @@ public class PayController {
         paymentParam.setTotalFee(Long.parseLong(payAmount));
         paymentParam.setDiscountFee(0);
         paymentParam.setOperDiscountFee(0);
-        paymentParam.setChargeFee(0l);
+        paymentParam.setChargeFee(0l); 
         paymentParam.setPaidFee(0l);
         paymentParam.setProvinceCode("11");
         paymentParam.setCityCode("110");
