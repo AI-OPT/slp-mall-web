@@ -158,6 +158,4 @@
 
 </body>
 </html>
-<script src="${_slpbase }/scripts/jquery-1.11.1.min.js" type="text/javascript"></script>
-<script src="${_slpbase }/scripts/frame.js" type="text/javascript"></script>
 
