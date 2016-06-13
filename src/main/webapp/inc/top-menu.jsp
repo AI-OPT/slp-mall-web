@@ -33,7 +33,7 @@
      	 <c:choose>
 	         <c:when test="${empty sessionScope.user_session_key.userId }">
 		         <li><A href="${slp_uac_host }/reg/toRegister?userType=10">免费注册</A></li>
-		         <li><A href="${slp_uac_host }/login">登录</A>|</li>
+		         <li><A href="${_base}/login">登录</A>|</li>
 	         </c:when>
 	         <c:otherwise >
 		         <li><A href="${_base}/myorder/list">${sessionScope.user_session_key.username }</A></li>
