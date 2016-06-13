@@ -163,15 +163,15 @@
                                 <td width="10%" rowspan="{{:~size}}"> 
                                     <div class="number">
 									<p>{{:~parentStateName}}</p>
-                                    <p><a href="${_base}/order/detail?orderId={{:orderId}}&orderType={{:~orderType}}">订单详情</a></p>
+                                    <p><a href="${_base}/myorder/detail?orderId={{:orderId}}&orderType={{:~orderType}}">订单详情</a></p>
                                     </div>
                                 </td>
                                 <td width="15%" class="none-borer" rowspan="{{:~size}}">
                                     <div class="number">
 									{{if ~parentState=='11'}}
-                                    <p><input type="button" class="immedtl-btn" value="立即支付"></p>
+                                    <p><input type="button" class="immedtl-btn" value="立即支付" onclick="window.location.href='${_base}/order/pay?orderId={{:orderId}}'"></p>
 									{{else}}
-									<p><input type="button" class="again-btn" value="再次购买"></p>
+									<p><input type="button" class="again-btn" value="再次购买" onclick="window.location.href='${_base}/order/pay?orderId={{:orderId}}'"></p>
 									{{/if}}
                                     <p><a href="#">关闭订单</a></p>
                                     </div>

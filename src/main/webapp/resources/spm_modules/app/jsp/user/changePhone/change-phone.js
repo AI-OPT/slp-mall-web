@@ -47,6 +47,7 @@ define(
 					$("#validateCodeErrMsg").attr("style", "display:none");
 					var validateCode = $('#validateCode').val();
 					if(validateCode==""){
+						alert(0);
 						$("#validateCodeErrMsgShow").text("验证码不能为空");
 						$("#validateCodeErrMsg").show();
 						$("#validateCodeEmptyFlag").val("0");
@@ -225,8 +226,8 @@ define(
 						$("#phoneCodeFlag").val("0");
 						return false;
 					}
-					phoneCodeFlag = $("#phoneCodeFlag").val();
-					newPhoneErrFlag = $("#newPhoneErrFlag").val();
+					var phoneCodeFlag = $("#phoneCodeFlag").val();
+					var newPhoneErrFlag = $("#newPhoneErrFlag").val();
 					if(phoneCodeFlag!='0'&&newPhoneErrFlag!='0'){
 					var	param={
 							userMp:$("#newPhone").val(),
