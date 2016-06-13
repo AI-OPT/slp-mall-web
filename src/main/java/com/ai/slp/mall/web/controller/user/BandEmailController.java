@@ -19,6 +19,7 @@ import com.ai.opt.base.vo.ResponseHeader;
 import com.ai.opt.sdk.components.ccs.CCSClientFactory;
 import com.ai.opt.sdk.components.mcs.MCSClientFactory;
 import com.ai.opt.sdk.dubbo.util.DubboConsumerFactory;
+import com.ai.opt.sdk.util.CollectionUtil;
 import com.ai.opt.sdk.util.RandomUtil;
 import com.ai.opt.sdk.util.StringUtil;
 import com.ai.opt.sdk.util.UUIDUtil;
@@ -193,7 +194,8 @@ public class BandEmailController {
                     SearchUserResponse accountQueryResponse = iAccountManageSV.queryByEmail(accountReq);
                     List<UcUserParams> resultList = accountQueryResponse.getList();
                     String emailValidateFlag = BandEmail.EMAIL_NOT_CERTIFIED;
-                    if(BandEmail.EMAIL_CERTIFIED.equals(resultList.get(0).getEmailValidateFlag())){
+                    
+                    if(!CollectionUtil.isEmpty(resultList)&&BandEmail.EMAIL_CERTIFIED.equals(resultList.get(0).getEmailValidateFlag())){
                          emailValidateFlag = BandEmail.EMAIL_CERTIFIED;
                      }
                     SearchUserRequest searchUserReqeust = new SearchUserRequest();
