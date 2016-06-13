@@ -24,7 +24,8 @@ define('app/jsp/account/balance/balanceSevenDaysAgoSearch', function (require, e
     	attrs: {
     	},
     	Statics: {
-    		DEFAULT_PAGE_SIZE: 10
+    		DEFAULT_PAGE_SIZE: 10,
+    		USER_LEFT_MNU_ID: "left_mnu_account_balance"
     	},
     	//事件代理
     	events: {
@@ -35,6 +36,7 @@ define('app/jsp/account/balance/balanceSevenDaysAgoSearch', function (require, e
     	//重写父类
     	setup: function () {
     		BalanceSevenDaysAgoSearchPager.superclass.setup.call(this);
+    		activeUserLeftMenu(BalanceSevenDaysAgoSearchPager.USER_LEFT_MNU_ID);
     		//
     		this._queryChargeBaseInfoByAcctId();
     	},

@@ -27,7 +27,8 @@ define('app/jsp/account/balance_detail/balanceDetailList', function (require, ex
     	attrs: {
     	},
     	Statics: {
-    		DEFAULT_PAGE_SIZE: 10
+    		DEFAULT_PAGE_SIZE: 10,
+    		USER_LEFT_MNU_ID: "left_mnu_account_balance"
     	},
     	//事件代理
     	events: {
@@ -42,6 +43,7 @@ define('app/jsp/account/balance_detail/balanceDetailList', function (require, ex
     	//重写父类
     	setup: function () {
     		BalanceDetailListPager.superclass.setup.call(this);
+    		activeUserLeftMenu(BalanceDetailListPager.USER_LEFT_MNU_ID);
     		//加载时间查询下拉框 
     		this._searchDateList();
     		//
