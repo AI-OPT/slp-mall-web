@@ -185,11 +185,11 @@
              </div>
           </div>
               
-		  <!--分页-->
-          <div class="paging-large">
+		  <!--分页-->          
+          <div style="text-align: right">
 			 <ul id="pagination-ul"></ul>
 		  </div>
-		  <!--分页-->
+		<!--分页-->
       </div>
   </div>
   </div>  
