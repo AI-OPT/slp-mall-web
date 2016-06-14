@@ -12,7 +12,7 @@
 	<script type="text/javascript">
 		
 		(function() {
-			seajs.use([ 'app/jsp/user/bandemail/payPasswordConfirmInfo'], function(ConfirmInfoPager) {
+			seajs.use([ 'app/jsp/user/payPassword/payPasswordConfirmInfo'], function(ConfirmInfoPager) {
 				var pager = new ConfirmInfoPager({
 					element : document.body
 				});
@@ -49,7 +49,7 @@
        <div class="payment-title">
           <p><a href="#">账户中心</a>&gt;</p>
           <p><a href="#">帐户设置</a>&gt;</p>
-          <p>绑定邮箱</a></p>
+          <p><a>设置密码</a></p>
       </div>
       <div class="account-bj">
     
@@ -94,7 +94,7 @@
                     <ul>
                         <li class="word">确认支付密码:</li>
                         <li><input type="password" class="int-medium" placeholder="再次确认密码" id="confirmationPassword"/></li>
-                        <li class="lable" id="errorPasswordMsg" style="display: none;"><img src="${_slpbase }/images/icon-e.png" id="confirmationPasswordImage"/><span id="showPasswordMsg">两次输入的密码不一致</span></li>
+                        <li class="lable" id="errorPasswordMsg" style="display: none;"><img src="${_slpbase }/images/icon-a.png" id="confirmationPasswordImage"/><span id="showPasswordMsg">两次输入的密码不一致</span></li>
                     </ul>
                       <ul>
                         <li class="checx-word"><input type="button" class="slp-btn regsiter-btn" id="submitBtn" value="提交"/></li>
@@ -111,6 +111,4 @@
 
 </body>
 </html>
-<script src="${_slpbase }/scripts/jquery-1.11.1.min.js" type="text/javascript"></script>
-<script src="${_slpbase }/scripts/frame.js" type="text/javascript"></script>
 

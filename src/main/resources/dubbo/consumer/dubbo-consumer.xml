@@ -66,6 +66,9 @@
 	<dubbo:reference id="iUcUserSV"
 		interface="com.ai.slp.user.api.ucuser.intefaces.IUcUserSV" registry="baasRegistry" />
 
+	<dubbo:reference id="iUcKeyInfoSV"
+		interface="com.ai.slp.user.api.keyinfo.interfaces.IUcKeyInfoSV" registry="baasRegistry" />
+		
 	<dubbo:reference id="IUcUserSecurityManageSV"
 		interface="com.ai.slp.user.api.ucUserSecurity.interfaces.IUcUserSecurityManageSV"
 		registry="baasRegistry" />

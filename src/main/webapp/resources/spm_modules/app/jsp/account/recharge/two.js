@@ -24,7 +24,8 @@ define('app/jsp/account/recharge/two', function (require, exports, module) {
     	attrs: {
     	},
     	Statics: {
-    		DEFAULT_PAGE_SIZE: 10
+    		DEFAULT_PAGE_SIZE: 10,
+    		USER_LEFT_MNU_ID: "left_mnu_account_balance"
     	},
     	//事件代理
     	events: {
@@ -35,6 +36,7 @@ define('app/jsp/account/recharge/two', function (require, exports, module) {
     	//重写父类
     	setup: function () {
     		TwoPager.superclass.setup.call(this);
+    		activeUserLeftMenu(TwoPager.USER_LEFT_MNU_ID);
     	},
     	
     	_formSubmit:function(){

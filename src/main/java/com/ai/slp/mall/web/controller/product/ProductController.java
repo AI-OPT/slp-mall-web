@@ -24,7 +24,7 @@ import com.ai.opt.sdk.web.model.ResponseData;
 import com.ai.paas.ipaas.image.IImageClient;
 import com.ai.paas.ipaas.util.JSonUtil;
 import com.ai.slp.mall.web.constants.SLPMallConstants.ProductImageConstant;
-import com.ai.slp.mall.web.model.product.ProductImageVO;
+import com.ai.slp.mall.web.model.product.ProductImagesVO;
 import com.ai.slp.product.api.productcat.interfaces.IProductCatSV;
 import com.ai.slp.product.api.productcat.param.ProductCatInfo;
 import com.ai.slp.product.api.productcat.param.ProductCatUniqueReq;
@@ -68,11 +68,11 @@ public class ProductController {
 				String producSKUJson = JSonUtil.toJSon(producSKU);
 				model.put("productSKU", producSKUJson);
 				// 获得商品图片
-				List<ProductImageVO> productImageVOList = getProductImages(producSKU);
-				String productImageJson = JSonUtil.toJSon(productImageVOList);
-				model.put("imageArrayList", productImageJson);
+				ProductImagesVO productImages = getProductImages(producSKU);
+				String productImageJson = JSonUtil.toJSon(productImages);
+				model.put("productImages", productImageJson);
 				// 设置skuID
-				model.put("skuId", skuId);
+				model.put("skuId", producSKU.getSkuId());
 				// 设置skuAttrs
 				model.put("skuAttrs", skuAttrs);
 				// 设置商品有效期
@@ -244,11 +244,12 @@ public class ProductController {
 	 * @param productSKUVO
 	 * @return
 	 */
-	private List<ProductImageVO> getProductImages(ProductSKUResponse productSKUVO) {
-		String productImageBigSize = "360x457";
+	private ProductImagesVO getProductImages(ProductSKUResponse productSKUVO) {
+		String productImageBigSize = "450x450";
 		String productImageSmailSize = "60x60";
 		List<ProductImage> productImageList = productSKUVO.getProductImageList();
-		List<ProductImageVO> productImageArrayList = new LinkedList<ProductImageVO>();
+		List<String> bigImagetList = new LinkedList<String>();
+		List<String> smallImagetList = new LinkedList<String>();
 		if (productImageList != null && productImageList.size() > 0) {
 			IImageClient imageClient = IDPSClientFactory.getImageClient(ProductImageConstant.IDPSNS);
 			for (ProductImage productImage : productImageList) {
@@ -256,15 +257,15 @@ public class ProductController {
 				String picType = productImage.getPicType();
 				String bigImageUrl = imageClient.getImageUrl(vfsId, picType, productImageBigSize);
 				String smallImageUrl = imageClient.getImageUrl(vfsId, picType, productImageSmailSize);
-				ProductImageVO productImageVO = new ProductImageVO();
-				productImageVO.setBigImageUrl(bigImageUrl);
-				productImageVO.setSmallImageUrl(smallImageUrl);
-				productImageArrayList.add(productImageVO);
+				bigImagetList.add(bigImageUrl);
+				smallImagetList.add(smallImageUrl);
 			}
 		}
-		return productImageArrayList;
+		ProductImagesVO productImages = new ProductImagesVO();
+		productImages.setBigImagesUrl(bigImagetList);
+		productImages.setSmallImagesUrl(smallImagetList);
+		return productImages;
 	}
-
 	/**
 	 * 设置商品属性中的图片 返回
 	 * 

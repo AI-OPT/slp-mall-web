@@ -16,7 +16,7 @@
 
 	function showClass(){
 		$('.active').removeClass('active');
-   		$("#securitySettings").addClass("active");
+   		$("#left_mnu_security_set").addClass("active");
 	}
 
 	function goToBandEmail(str){

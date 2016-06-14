@@ -114,6 +114,8 @@ dependencies {
     compile 'com.ai.slp.order:orderpay:1.0-SNAPSHOT'
     //地区
     compile 'com.ai.slp.common:area:1.0-SNAPSHOT'
+    //ip地址
+    compile 'com.ai.slp.common:ipaddr:1.0-SNAPSHOT'
     //缓存
     compile 'com.ai.slp.common:cache:1.0-SNAPSHOT'
     compile 'com.ai.slp.common:servicenum:1.0.1-SNAPSHOT'

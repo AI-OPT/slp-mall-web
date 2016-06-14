@@ -77,7 +77,7 @@
 /**图片列表右侧**/
 .plist-right{ width:976px;float:left;height: 660px;}
 .plist-right-title,.plist-right-title-tow{ width:100%; float:left; height:45px;}
-.plist-right-title ul,.plist-right-title-tow ul{ float:right;}
+.plist-right-title ul,.plist-right-title-tow ul{float:right;}
 .plist-right-title ul li,.plist-right-title-tow ul li{ float:left; margin-right:12px;}
 .plist-right-title ul li a,.plist-right-title-tow ul li a{ color:#333;}
 .plist-right-title ul li .current,.plist-right-title-tow ul li .current{ background:#f4792c; padding:5px 8px; color:#fff;}

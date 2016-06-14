@@ -9,7 +9,6 @@ define('app/jsp/order/orderList', function (require, exports, module) {
     
     require("jsviews/jsrender.min");
     require("jsviews/jsviews.min");
-    require("bootstrap-paginator/bootstrap-paginator.min");
     require("app/util/jsviews-ext");
     
     require("opt-paging/aiopt.pagination");
@@ -26,7 +25,8 @@ define('app/jsp/order/orderList', function (require, exports, module) {
     	attrs: {
     	},
     	Statics: {
-    		DEFAULT_PAGE_SIZE: 5
+    		DEFAULT_PAGE_SIZE: 5,
+    		USER_LEFT_MNU_ID: "left_mnu_order_myorder"
     	},
     	//事件代理
     	events: {
@@ -39,10 +39,12 @@ define('app/jsp/order/orderList', function (require, exports, module) {
     	//重写父类
     	setup: function () {
     		OrderListPager.superclass.setup.call(this);
+    		activeUserLeftMenu(OrderListPager.USER_LEFT_MNU_ID);
     		this._initOrderType();
     		this._initPayStyle();
     		this._searchOrderList();
     		this._bindCalendar();
+    		
     	},
     	_initOrderType:function(){
     		var orderTypeElmt = document.getElementById("orderTypeQ");
@@ -142,14 +144,14 @@ define('app/jsp/order/orderList', function (require, exports, module) {
     	},
     	_searchOrderList: function(){
     		var _this = this;
-    		var url = _base+"/order/getOrderListData";
-    		var data = this._getSearchParams();
+    		var url = _base+"/myorder/getOrderListData";
+    		var queryData = this._getSearchParams();
     		$("#pagination-ul").runnerPagination({
 	 			url: url,
 	 			method: "POST",
 	 			dataType: "json",
 	 			processing: true,
-	            data : data,
+	            data : queryData,
 	           	pageSize: OrderListPager.DEFAULT_PAGE_SIZE,
 	           	visiblePages:5,
 	            message: "正在为您查询数据..",

@@ -61,7 +61,7 @@ public class QualificationController {
         insertGroupKeyInfoRequest.setUserType(user.getUserType());
         insertGroupKeyInfoRequest.setUserId(user.getUserId());
         
-        IUcKeyInfoSV ucKeyInfoSV = DubboConsumerFactory.getService("iUcKeyInfoSV");
+        IUcKeyInfoSV ucKeyInfoSV = DubboConsumerFactory.getService(IUcKeyInfoSV.class);
         try{
         ucKeyInfoSV.insertGroupKeyInfo(insertGroupKeyInfoRequest);
         responseData = new ResponseData<String>(SLPMallConstants.Qualification.QUALIFICATION_SUCCESS, "操作成功", null);
@@ -78,17 +78,57 @@ public class QualificationController {
     
     @RequestMapping("/saveAgentEnterprise")
     @ResponseBody
-    public ResponseData<String> saveAgentEnterprise(HttpServletRequest request){
+    public ResponseData<String> saveAgentEnterprise(HttpServletRequest request ,InsertGroupKeyInfoRequest insertGroupKeyInfoRequest){
+        ResponseData<String> responseData=null;
+        ResponseHeader responseHeader=null;
         
-        return null;
+        HttpSession session = request.getSession();
+        SLPClientUser user = (SLPClientUser) session.getAttribute(SSOClientConstants.USER_SESSION_KEY);
+
+        insertGroupKeyInfoRequest.setTenantId(user.getTenantId());
+        insertGroupKeyInfoRequest.setUserType(user.getUserType());
+        insertGroupKeyInfoRequest.setUserId(user.getUserId());
+        
+        IUcKeyInfoSV ucKeyInfoSV = DubboConsumerFactory.getService(IUcKeyInfoSV.class);
+        try{
+        ucKeyInfoSV.insertGroupKeyInfo(insertGroupKeyInfoRequest);
+        responseData = new ResponseData<String>(SLPMallConstants.Qualification.QUALIFICATION_SUCCESS, "操作成功", null);
+        responseHeader = new ResponseHeader(true,SLPMallConstants.Qualification.QUALIFICATION_SUCCESS,"操作成功");
+        }catch(Exception e){
+            LOGGER.error("更新失败");
+            responseData = new ResponseData<String>(SLPMallConstants.Qualification.QUALIFICATION_ERROR, "操作失败", null);
+            responseHeader = new ResponseHeader(false,SLPMallConstants.Qualification.QUALIFICATION_ERROR,"操作失败");
+        }
+        responseData.setResponseHeader(responseHeader);
+        return responseData;
     }
     
     
     @RequestMapping("/savePersonalEnterprise")
     @ResponseBody
-    public ResponseData<String> savePersonalEnterprise(HttpServletRequest request){
+    public ResponseData<String> savePersonalEnterprise(HttpServletRequest request ,InsertGroupKeyInfoRequest insertGroupKeyInfoRequest){
+        ResponseData<String> responseData=null;
+        ResponseHeader responseHeader=null;
         
-        return null;
+        HttpSession session = request.getSession();
+        SLPClientUser user = (SLPClientUser) session.getAttribute(SSOClientConstants.USER_SESSION_KEY);
+
+        insertGroupKeyInfoRequest.setTenantId(user.getTenantId());
+        insertGroupKeyInfoRequest.setUserType(user.getUserType());
+        insertGroupKeyInfoRequest.setUserId(user.getUserId());
+        
+        IUcKeyInfoSV ucKeyInfoSV = DubboConsumerFactory.getService(IUcKeyInfoSV.class);
+        try{
+        ucKeyInfoSV.insertGroupKeyInfo(insertGroupKeyInfoRequest);
+        responseData = new ResponseData<String>(SLPMallConstants.Qualification.QUALIFICATION_SUCCESS, "操作成功", null);
+        responseHeader = new ResponseHeader(true,SLPMallConstants.Qualification.QUALIFICATION_SUCCESS,"操作成功");
+        }catch(Exception e){
+            LOGGER.error("更新失败");
+            responseData = new ResponseData<String>(SLPMallConstants.Qualification.QUALIFICATION_ERROR, "操作失败", null);
+            responseHeader = new ResponseHeader(false,SLPMallConstants.Qualification.QUALIFICATION_ERROR,"操作失败");
+        }
+        responseData.setResponseHeader(responseHeader);
+        return responseData;
     }
     
     

@@ -5,7 +5,7 @@
           <div class="searchBar">
               <ul class="searchTxt">
                   <li><input type="text" class="int-xxlarge" id="serachName"></li>
-                  <li><A href="#" id="BTN_SEARCH"><i class="icon-search"></i></A></li>
+                  <li><A href="javascript:void(0);" id="BTN_SEARCH"><i class="icon-search"></i></A></li>
               </ul>
                <ul class="word">
                   <li><A href="#">搜索商品1</A></li>

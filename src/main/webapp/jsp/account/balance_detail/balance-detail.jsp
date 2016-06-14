@@ -38,9 +38,9 @@
            <div class="order-list-table">
            <input type="hidden" id="busiType_id" name="busiType_id" value="1"/>
            <ul>
-           <li><a id="pay_id" href="#" class="current">支付记录</a></li>
-           <li><a id="charge_id" href="#">充值记录</a></li>
-           <li><a id="all_id" href="#">全部</a></li>
+           <li><a id="pay_id" href="javascript:void(0);" class="current">支付记录</a></li>
+           <li><a id="charge_id" href="javascript:void(0);">充值记录</a></li>
+           <li><a id="all_id" href="javascript:void(0);">全部</a></li>
            </ul>                                        
            </div>
             <!--选择订单信息 table结束-->
@@ -62,66 +62,7 @@
 					</table>
                 </div>
             </div>
-            <!--table2-->
-            <div id="order-date1" style="display:none;">
-              <div class="account-table">
-                  <table width="100%" border="0">
-                      <tr class="bj">
-                        <td>交易日期</td>                                                                                                                
-                        <td>交易类型</td>
-                        <td>流水号</td>
-                        <td>交易金额</td>
-                        <td>备注</td>
-                      </tr>                                                                                                                                                                           
-                      <tbody id="table_info_id_charge_id">
-                      	
-                      </tbody> 
-					</table>
-                </div>
-            </div>  
-            <!--table3-->
-            <div id="order-date2" style="display:none;">
-              <div class="account-table">
-                  <table width="100%" border="0">
-                      <tr class="bj">
-                        <td>交易日期</td>                                                                                                                
-                        <td>交易类型</td>
-                        <td>流水号</td>
-                        <td>交易金额</td>
-                        <td>备注</td>
-                      </tr>                                                                                                                                                                           
-                      <tbody id="table_info_id_all_id">
-                      	
-                      </tbody> 
-					</table>
-                </div>
-            </div>    
-            <!--分页
-            
-            <div class="paging-large">
-                
-                <ul>
-            		    	
-                    <li>共100页</li>
-                    <li class="prev-up"><a href="#">&lt;上一页</a> </li>
-                    <li class="active"> <a href="#">1 </a> </li>
-                    <li> <a href="#">2 </a> </li>
-                    <li> <a href="#">3</a> </li>
-                    <li><span>....</span></li>
-                    <li> <a href="#">6</a> </li>
-                    <li> <a href="#">7</a> </li>
-                    <li class="next-down"><a href="#">下一页&gt;</a> </li>
-                     <li>
-                        <span>到</span>
-                        <span><input type="text" class="int-verysmall"></span>
-                        <span>页</span>
-                        <span class="btn-span"><a class="but-determine">确定</a></span>
-                    </li>
-                 </ul>
-                 
-                 
-              </div> 
-              -->
+               
               <div  style="text-align: right">
                       <ul id="pagination">
                       </ul>

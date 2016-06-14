@@ -26,8 +26,8 @@ define('app/jsp/logonavmenu/logoNavMenu', function (require, exports, module) {
     	//事件代理
     	events: {
     		//查询
-            "click #phoneBillFastId":"_phoneBillfast",
-            "click #flowFastId":"_flowFast"
+            "click #logo_nav_phoneBillFastId":"_phoneBillfast",
+            "click #logo_nav_flowFastId":"_flowFast"
         },
     	//重写父类
     	setup: function () {

@@ -95,7 +95,7 @@
          <ul>
              <li>
                 <p class="word">官网:</p>
-                <p><input type="text" class="int-medium" placeholder="请填写官网网址" id="groupWebsit"></p>
+                <p><input type="text" class="int-medium" placeholder="请填写官网网址" id="groupWebsite"></p>
                  <label id="groupWebsitErrMsg" style="display:none"><img src="${_slpbase}/images/icon-c.png"><span class="ash">3-60个字符，允许使用字母、数字、特殊字符</span></label>
              </li>
          </ul>

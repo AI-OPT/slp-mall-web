@@ -9,6 +9,8 @@
 <link href="${_slpbase }/styles/global.css" rel="stylesheet" type="text/css">
 <link href="${_slpbase }/styles/frame.css" rel="stylesheet" type="text/css">
 <link href="${_slpbase }/styles/font-awesome.css" rel="stylesheet" type="text/css">
+
+<script src="${_base}/resources/spm_modules/app/jsp/product/carousel.js" type="text/javascript"></script>
 </head>
 
 <body>
@@ -63,40 +65,33 @@
          <!--商品详情-->
          <!--商品详情左侧 轮播-->
      <div class="left-effect">
-                     <div class="carousel-left">
+                   <div class="carousel-left" id="productImageData">
+                   </div>
+                   <script id="productImageTemple" type="text/x-jsrender">
                          <div id="picarea">
                            <div id="bigpicarea">
-                           <script id="bigImageTemple" type="text/x-jsrender">
-								{{if #index<9}}
-								<div id="image_xixi-0{{: #getIndex()+1}}" class="image"><a href="#"><img alt="" src="{{:bigImageUrl}}" width="360" height="457"></a><div class="word"></div>
+							 {{for bigImagesUrl}}
+								<div id="image-{{: #getIndex()+1}}" class="image"><a href="javascript:void(0)"><img alt="" src="{{:#data}}" width="360" height="457"></a><div class="word"></div>
                             	</div>
-								{{else}}
-								<div id="image_xixi-{{: #getIndex()+1}}" class="image"><a href="#"><img alt="" src="{{:bigImageUrl}}" width="360" height="457"></a><div class="word"></div>
-                            	</div>
-								{{/if}}
-						   </script>
+							 {{/for}}
 						   </div>
 						 </div>
                          <div id="smallpicarea">
                             <div id="thumbs">
                                 <ul>
                                     <li class="first btnPrev"><i id="play_prev" class="icon-angle-left"></i></li>
-                                	<div id="smallImageData">
-	                                	<script id="smallImageTemple" type="text/x-jsrender">
-										{{if #index<9}}
-										<li class="slideshowItem"><a id="thumb_xixi-0{{: #getIndex()+1}}" href="javascript:"><img src="{{:smallImageUrl}}"></a></li>
-						   				{{else}}
-										<li class="slideshowItem"><a id="thumb_xixi-{{: #getIndex()+1}}" href="javascript:"><img src="{{:smallImageUrl}}"></a></li>	
+                                	{{for smallImagesUrl}}
+										{{if #index<4}}
+										<li class="slideshowItem"><a id="thumb-{{: #getIndex()+1}}" href="javascript:"><img src="{{:#data}}"></a></li>
+                                		{{else}}
+										<li class="slideshowItem" style="display:none"><a id="thumb-{{: #getIndex()+1}}" href="javascript:"><img src="{{:#data}}"></a></li>
 										{{/if}}
-										</script>
-                                	</div>
+										{{/for}}
                                     <li class="last btnNext"><i id="play_next" class="icon-angle-right"></i></li>
                                 </ul>
-                                
                             </div>
                         </div>
-                   </div>
-                   
+                   </script>
                    <div class="collection">
                    <p>商品ID：${skuId} </p>
                    <!-- 保存当前商品的SKU标识的隐藏 -->
@@ -186,9 +181,9 @@
                          <script id="hotProductListTmpl" type="text/x-jsrender">
 							<div class="left-tow-list">
 								<ul>
-                            		<li class="img"><a href="#"><img src="{{:pictureUrl}}"></a></li>
-                            		<li class="word"><a href="#">{{:skuName}}</a> </li>
-                            		<li class="left"><span>￥{{:salePrice}}</span><a href="#" class="pj">{{:commentIdCount}}评价</a></li>
+                            		<li class="img"><a href="${_base}/product/detail?skuId={{:skuId}}"><img src="{{:picUrl}}"></a></li>
+                            		<li class="word"><a href="${_base}/product/detail?skuId={{:skuId}}">{{:prodName}}</a> </li>
+                            		<li class="left"><span>￥{{:salePrice}}</span></li>
                         		</ul>
 							</div>
 						</script>
@@ -254,18 +249,15 @@
    <!--底部-->
 <%@ include file="/inc/foot.jsp" %>
    <!--底部 结束-->
-	<script src="${_slpbase }/scripts/frame.js" type="text/javascript"></script>
-	<script src="${_slpbase }/scripts/carousel.js" type="text/javascript"></script>
 	<script type="text/javascript">
-	var target = ["xixi-01","xixi-02","xixi-03","xixi-04"];
-	
 	var pager;
 	var skuId = '${skuId}';
 	var skuAttrs = '${skuAttrs}'
 	var producSKU = $.parseJSON('${productSKU}');
-	var imageArrayList = $.parseJSON('${imageArrayList}');
+	var productImages = $.parseJSON('${productImages}');
 	var activeDateValue = '${activeDateValue}';
 	var productCatId = '${productCatId}';
+	
 	(function () {
 		seajs.use('app/jsp/product/productDetail', function (ProductDetailPager) {
 			pager = new ProductDetailPager({element: document.body});

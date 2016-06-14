@@ -7,7 +7,6 @@
 <link href="${_slpbase }/styles/global.css" rel="stylesheet" type="text/css">
 <link href="${_slpbase }/styles/frame.css" rel="stylesheet" type="text/css">
 <link href="${_slpbase }/styles/font-awesome.css" rel="stylesheet" type="text/css">
-<script src="${_slpbase }/scripts/frame.js" type="text/javascript"></script>
 <script src="${_slpbase }/scripts/imgloop.js" type="text/javascript"></script>
 
 </head>
@@ -20,7 +19,7 @@
 <!--导航区域-->
 <div class="mainbav-bj">
  <div class="mainbav">
-      <div class="logo"><img src="${_slpbase }/images/logo.png"></div>
+      <div class="logo"><img src="${_slpbase}/images/logo.png"></div>
       <!--导航 搜索区-->
     <%@ include file="/inc/logo-nav-menu.jsp" %>
     <!-- 结束 -->
@@ -45,6 +44,8 @@
              	<input type="hidden" name="billType" id="billType" value="${requestScope.billType}"/>
              	<input type="hidden" name="orgired" id="orgired" value="${requestScope.orgired}"/>
              	<input type="hidden" name="skuName" id="skuName" value="${requestScope.skuName}"/>
+             	<input type="hidden" name="currenArea" id="currenArea" value="${requestScope.currenArea}"/>
+             	<input type="hidden" name="currenAreaName" id="currenAreaName" value="${requestScope.currenAreaName}"/>
              	<input type="hidden" name="sourceFlag" id="sourceFlag" value="${requestScope.sourceFlag}"/>
                 <!-- 公共查询条件默认数据 start-->
                 <input type="hidden" id="agentSearch" value="100002"/>
@@ -131,13 +132,13 @@
                                               <li><A href="#">浙江</A></li> 
                                               <li><A href="#">江苏</A></li>                             
                                           </ul>
-                                           <!--  <ul class="city-list" id="dispatchCityShowData">
+                                            <ul class="city-list" id="dispatchCityShowData">
                                            <script id="dispatchCityTmpl" type="text/x-jsrender">
 												<li><A href="javascript:void(0)" areaCodeId="{{:areaCode}}" areaNameId="{{:areaName}}"class="DSP_BTN">{{:areaName}}</A></li>
 					   						</script>
                                           </ul>
-                                          -->
-                                          <ul class="city-list">
+                                         
+                                          <!-- <ul class="city-list">
                                               <li><A href="javascript:void(0)" onclick="pager._changeDispath('100013','北京')">北京</A></li>
                                               <li><A href="javascript:void(0)" onclick="pager._changeDispath('100021','上海')">上海</A></li>
                                               <li><A href="javascript:void(0)" onclick="pager._changeDispath('100014','天津')">天津</A></li>
@@ -169,7 +170,7 @@
                                               <li><A href="javascript:void(0)" onclick="pager._changeDispath('100044','台湾')">台湾</A></li>
                                               <li><A href="javascript:void(0)" onclick="pager._changeDispath('100045','香港')">香港</A></li>
                                               <li><A href="javascript:void(0)" onclick="pager._changeDispath('100046','澳门')">澳门</A></li>                           
-                                          </ul>
+                                          </ul> -->
                                       </div>
                              </li> 
                            <!--选择所在地城市结束-->   

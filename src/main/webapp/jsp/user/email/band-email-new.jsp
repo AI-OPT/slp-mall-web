@@ -13,7 +13,7 @@
 <script type="text/javascript">
 		var uuid = "${uuid}";
 		(function() {
-			seajs.use([ 'app/jsp/user/bandemail/confirmInfo'], function(ConfirmInfoPager) {
+			seajs.use([ 'app/jsp/user/bandemail/setEmail'], function(ConfirmInfoPager) {
 				var pager = new ConfirmInfoPager({
 					element : document.body
 				});
@@ -73,14 +73,14 @@
                     </ul>
                     <ul>
                         <li class="word">验证码:</li>
-                        <li><input type="text" class="int-small" id="pictureVerifyCode"></li>
+                        <li><input type="text" class="int-small" id="verifyCode"></li>
                         <li><img id="random_img" src="${_base}/user/verify/getImageVerifyCode"></li>
                         <li ><a id="changeImage"  class="alink" href="" >换一张</a></li>
                         <li class="lable" id="verifyCodeErrorMsg" style="display: none;"><img src="${_slpbase }/images/icon-a.png"/><span class="red" id="verifyCodeMsg">验证码错误</span></li>
                     </ul>
                       <ul>
                         <li class="checx-word">
-                        	<input type="button" class="slp-btn regsiter-btn" id="sendEmailBtn" value="发送验证邮件">
+                        	<input type="button" class="slp-btn regsiter-btn" id="bandNewEmail" value="发送验证邮件">
                         	<input type="hidden" id="bandNewEmail" value="bandNewEmail"/>
                         </li>
                     </ul>
@@ -98,5 +98,3 @@
 </body>
 </html>
 
-<script src="${_slpbase }/scripts/jquery-1.11.1.min.js" type="text/javascript"></script>
-<script src="${_slpbase }/scripts/frame.js" type="text/javascript"></script>

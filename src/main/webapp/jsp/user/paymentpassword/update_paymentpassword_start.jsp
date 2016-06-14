@@ -10,7 +10,7 @@
 	<link href="${_slpbase }/styles/font-awesome.css" rel="stylesheet" type="text/css"/>
 	<script type="text/javascript">
 		(function() {
-			seajs.use([ 'app/jsp/user/bandemail/payPasswordConfirmInfo'], function(ConfirmInfoPager) {
+			seajs.use([ 'app/jsp/user/payPassword/payPasswordConfirmInfo'], function(ConfirmInfoPager) {
 				var pager = new ConfirmInfoPager({
 					element : document.body
 				});
@@ -42,7 +42,7 @@
        <div class="payment-title">
           <p><a href="#">账户中心</a>&gt;</p>
           <p><a href="#">帐户设置</a>&gt;</p>
-          <p>绑定邮箱</a></p>
+          <p><a>设置密码</a></p>
       </div>
       <div class="account-bj">
       
@@ -93,6 +93,4 @@
 
 </body>
 </html>
-<script src="${_slpbase }/scripts/jquery-1.11.1.min.js" type="text/javascript"></script>
-<script src="${_slpbase }/scripts/frame.js" type="text/javascript"></script>
 

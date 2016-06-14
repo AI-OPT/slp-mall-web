@@ -1,4 +1,4 @@
-define('app/jsp/user/bandemail/payPasswordConfirmInfo', function (require, exports, module) {
+define('app/jsp/user/payPassword/payPasswordConfirmInfo', function (require, exports, module) {
     'use strict';
     var $=require('jquery'),
     Widget = require('arale-widget/1.2.0/widget'),
@@ -20,6 +20,10 @@ define('app/jsp/user/bandemail/payPasswordConfirmInfo', function (require, expor
     	//属性，使用时由类的构造函数传入
     	attrs: {
     	},
+    	Statics: {
+    		DEFAULT_PAGE_SIZE: 5,
+    		USER_LEFT_MNU_ID: "left_mnu_security_set"
+    	},
     	//事件代理
     	events: {
     		//key的格式: 事件+空格+对象选择器;value:事件方法
@@ -38,6 +42,7 @@ define('app/jsp/user/bandemail/payPasswordConfirmInfo', function (require, expor
     	//重写父类
     	setup: function () {
     		ConfirmInfoPager.superclass.setup.call(this);
+    		activeUserLeftMenu(ConfirmInfoPager.USER_LEFT_MNU_ID);
     		this._renderAccountInfo();
     	},
     
@@ -47,11 +52,7 @@ define('app/jsp/user/bandemail/payPasswordConfirmInfo', function (require, expor
 			//初始化展示页面
 			_this._initShowView();
 		},
-		//初始化展示页面
-		_initShowView:function(){
-			$('.active').removeClass('active');
-	   		$("#securitySettings").addClass("active");
-		},
+		
 		//控制显示内容
 		_controlMsgText: function(id,msg){
 			var doc = document.getElementById(id+"");
@@ -193,9 +194,11 @@ define('app/jsp/user/bandemail/payPasswordConfirmInfo', function (require, expor
     		if(inputPassword!=""&&confirmationPassword==""){
     			$("#errorPasswordMsg").show();
     			$("#showPasswordMsg").show();
+    			$("#confirmationPasswordImage").attr("src",_base+'/resources/slpmall/images/icon-a.png')
     			$("#showPasswordMsg").text("请输入确认密码");
     			return false;
     		}else{
+    			$("#confirmationPasswordImage").attr("src",_base+'/resources/slpmall/images/icon-b.png')
     			$("#errorPasswordMsg").hide();
     			$("#showPasswordMsg").hide();
     		}
@@ -355,6 +358,9 @@ define('app/jsp/user/bandemail/payPasswordConfirmInfo', function (require, expor
 		},
 		_checkPasswordValue:function(){
 			var _this=this;
+			
+			var flag = this._validServicePaw();
+			if(!flag) return;
 			var	param={
 					password:hex_md5($("#passwordInput").val())
 				   };

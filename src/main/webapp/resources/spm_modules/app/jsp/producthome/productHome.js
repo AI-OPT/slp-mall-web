@@ -17,7 +17,7 @@ define('app/jsp/producthome/productHome', function (require, exports, module) {
     //实例化AJAX控制处理对象
     var ajaxController = new AjaxController();
     
-    var serviceNum={};
+    
     
     //定义页面组件类
     var ProductHomePager = Widget.extend({
@@ -46,29 +46,60 @@ define('app/jsp/producthome/productHome', function (require, exports, module) {
             "keyup  #phoneNum2":"_getGprs",	
             "change #phoneFee":"_changeHuafei",
             "change #location":"_changeLocation",
+            "change #gprs":"_changeGprsValue",
             "click #CZ_BTN":"_submitOrder",
-            "click #GPRS_BTN":"_submitGprs"
-           
+            "click #GPRS_BTN":"_submitGprs",
+            "click #switchFL1":"_changeSwitch1",
+            "click #switchFL2":"_changeSwitch2"
+            
             
         },
     	//重写父类
     	setup: function () {
     		ProductHomePager.superclass.setup.call(this);
     		//初始化执行搜索
+    		this._initFastInfo();
     		this._getPhoneBill();
     		this._getFlowProduct();
     		this._getHotProduct();
-    		this._initFast();
+    		
     		
     	},
-    	_initFast:function(){
+    	_changeSwitch1:function(){
+    		var _this=this;
+    		 _this._initHf();
+    		 _this._changeHuafei();
+ 		  
+    	},
+	   _changeSwitch2:function(){
+		   var _this=this;
+		   _this._initLf();
+		   _this._changeGprsValue();
+    	},
+    	_initFastInfo:function(){
     		//初始化话费
     		var _this=this;
-    		$("#phoneFee").append('<option value="¥49.00-¥50.00">50元</option><option value="¥29.5-¥30">30元</option><option value="¥19.50-¥20.00">20元</option><option value="¥9.95-¥10.00">10元</option>');
-    		//_this._changeHuafei1();
-    		
+    		_this._initHf();
+    		_this._changeHuafei();
     		//初始化流量
-    		
+    		_this._initLf();
+    		_this._changeGprsValue();
+    	},
+    	_initHf:function(){
+    		$("#phoneNum1").val("")
+    		$("#phoneFee").html("");
+    		$("#phoneFee").append("<option value='¥49.00-¥50.00'>50元</option>");
+    		$("#phoneFee").append("<option value='¥29.50-¥30.00'>30元</option>");
+    		$("#phoneFee").append("<option value='¥19.50-¥20.00'>20元</option>");
+    		$("#phoneFee").append("<option value='¥9.95-¥10.00'>10元</option>");
+    	},
+    	_initLf:function(){
+    		$("#phoneNum2").val("");
+    		$("#gprs").html("");
+    		$("#gprs").append("<option value='¥49.00-¥50.00'>1G</option>");
+    		$("#gprs").append("<option value='¥35.00-¥40.00'>500M</option>");
+    		$("#gprs").append("<option value='¥29.50-¥29.90'>300M</option>");
+    		$("#gprs").append("<option value='¥9.95-¥20.00'>100M</option>");
     	},
     	_submitGprs:function(){//话费的
     		var _this=this;
@@ -86,6 +117,21 @@ define('app/jsp/producthome/productHome', function (require, exports, module) {
 						}).showModal();
     			return false;
     		}
+    		var mobileReg = /^0?1[3|4|5|8|7][0-9]\d{8}$/; 
+			 if(mobileReg.test(phoneNum)==false){
+				 Dialog({
+						title : '提示',
+						width : '200px',
+						height : '50px',
+						content : "手机号格式不对，请重新输入",
+						okValue : "确定",
+						ok : function() {
+							this.close;
+						}
+					}).showModal();
+	    			return false;
+
+			 }
     		var phoneFee=$.trim($("#gprs").val());
     		if(phoneFee==null||phoneFee==""||phoneFee==undefined){
     			Dialog({
@@ -118,6 +164,7 @@ define('app/jsp/producthome/productHome', function (require, exports, module) {
 					var key=data.data;
 					window.location.href = _base
 					+ "/order/toOrderPay?orderKey="+key;
+					//window.open(_base+ "/order/toOrderPay?orderKey="+key);
 
 				}
 			});
@@ -138,6 +185,21 @@ define('app/jsp/producthome/productHome', function (require, exports, module) {
 						}).showModal();
     			return false;
     		}
+    		var mobileReg = /^0?1[3|4|5|8|7][0-9]\d{8}$/; 
+			 if(mobileReg.test(phoneNum)==false){
+				 Dialog({
+						title : '提示',
+						width : '200px',
+						height : '50px',
+						content : "手机号格式不对，请重新输入",
+						okValue : "确定",
+						ok : function() {
+							this.close;
+						}
+					}).showModal();
+	    			return false;
+
+			 }
     		var phoneFee=$.trim($("#phoneFee").val());
     		if(phoneFee==null||phoneFee==""||phoneFee==undefined){
     			Dialog({
@@ -177,6 +239,12 @@ define('app/jsp/producthome/productHome', function (require, exports, module) {
     	},
     	_getPhoneInfo:function(){
     		var _this=this;
+    		if($.trim($("#phoneNum1").val()).length==0){
+    			$("#phoneFee").html("");
+   			 $("#realFee").text("");
+    			_this._initHf();
+    			_this._changeHuafei();
+    		}
     		//如果等于11去查询，如果小于11把之前查询出来的信息清除
     		if($.trim($("#phoneNum1").val()).length==11){
     			 var mobileReg = /^0?1[3|4|5|8|7][0-9]\d{8}$/; 
@@ -194,6 +262,8 @@ define('app/jsp/producthome/productHome', function (require, exports, module) {
     	    			return false;
 
     			 }
+    			 $("#phoneFee").html("");
+    			 $("#realFee").text("");
     			ajaxController.ajax({
 					type: "post",
 					dataType: "json",
@@ -205,7 +275,7 @@ define('app/jsp/producthome/productHome', function (require, exports, module) {
 					success: function(data){
 						var d=data.data;
 						if(d){
-							serviceNum=data;
+							
 							//var productCatId="10000010010000";
 							$("#basicOrgId1").val(d.basicOrgCode);
 							$("#PCode").val(d.provinceCode);
@@ -223,8 +293,10 @@ define('app/jsp/producthome/productHome', function (require, exports, module) {
 									basicOrgId:basicOrgId
 									},
 								success: function(data){
+									
 									var d=data.data;
-									$("#phoneFee").html("");
+									
+									
 									if(d){
 										var phoneFee=d.phoneFee;
 										$.each(phoneFee,function(index,item){
@@ -255,8 +327,35 @@ define('app/jsp/producthome/productHome', function (require, exports, module) {
     	
     	_getGprs:function(){
     		var _this=this;
+    		 if($.trim($("#phoneNum2").val()).length==0){
+    			 $("#gprs").html("");
+             	$("#realFee1").text("");
+    			//初始化流量
+    	    		_this._initLf();
+    	    		_this._changeGprsValue();
+    		 }
+    		 
+    		
             if($.trim($("#phoneNum2").val()).length==11){
-    			
+            	var phoneNum=$.trim($("#phoneNum2").val());
+        		var mobileReg = /^0?1[3|4|5|8|7][0-9]\d{8}$/; 
+        		
+        		 if(mobileReg.test(phoneNum)==false){
+        						 Dialog({
+        								title : '提示',
+        								width : '200px',
+        								height : '50px',
+        								content : "手机号格式不对，请重新输入",
+        								okValue : "确定",
+        								ok : function() {
+        									this.close;
+        								}
+        							}).showModal();
+        			    return false;
+
+        		 }
+            	$("#gprs").html("");
+            	$("#realFee1").text("");
     			ajaxController.ajax({
 					type: "post",
 					dataType: "json",
@@ -268,14 +367,14 @@ define('app/jsp/producthome/productHome', function (require, exports, module) {
 					success: function(data){
 						var d=data.data;
 						if(d){
-							serviceNum=data;
+							
 							//var productCatId="10000010010000";
 							$("#gbasicOrgId").val(d.basicOrgCode);
 							$("#PCode1").val(d.provinceCode);
 							
 							var provCode=d.provinceCode;
 							var basicOrgId=d.basicOrgCode;
-							$("#gprs").html("");
+							
 							//userType 
 							//userId
 							ajaxController.ajax({
@@ -310,6 +409,23 @@ define('app/jsp/producthome/productHome', function (require, exports, module) {
     	_changeLocation:function(){
     		var _this=this;
     		$("#gprs").html("");
+    		$("#realFee1").text("");
+    		//如果手机号不合法就返回初始化数据
+    		var phoneNum=$.trim($("#phoneNum2").val());
+    		if(phoneNum==null||phoneNum==""||phoneNum==undefined){
+    			$("#gprs").html("");
+    			_this._initLf();
+        		_this._changeGprsValue();
+        		return false;
+    		}
+    		var mobileReg = /^0?1[3|4|5|8|7][0-9]\d{8}$/; 
+			 if(mobileReg.test(phoneNum)==false){
+				 $("#gprs").html("");
+				 _this._initLf();
+		    		_this._changeGprsValue();
+		    		return false;
+			 }
+    		
     		ajaxController.ajax({
 				type: "post",
 				dataType: "json",
@@ -334,7 +450,15 @@ define('app/jsp/producthome/productHome', function (require, exports, module) {
 			});
     	},
     	_changeGprsValue:function(){
-    		$("#realFee1").text(this._liToYuan($("#gprs").val().substr(0,$("#gprs").val().indexOf(";"))));//liToYuan
+    		
+    		if($.trim($("#gprs").val()).indexOf(";")<0){
+    			
+        		$("#realFee1").text($("#gprs").val());//liToYuan
+
+    		}else{
+        		$("#realFee1").text(this._liToYuan($("#gprs").val().substr(0,$("#gprs").val().indexOf(";"))));//liToYuan
+	
+    		}
     	},
     	_getFastPhoneInfo:function(provCode,basicOrgId){
     		ajaxController.ajax({

@@ -27,7 +27,8 @@ define('app/jsp/account/balance_detail/balanceDetailList', function (require, ex
     	attrs: {
     	},
     	Statics: {
-    		DEFAULT_PAGE_SIZE: 10
+    		DEFAULT_PAGE_SIZE: 10,
+    		USER_LEFT_MNU_ID: "left_mnu_account_balance"
     	},
     	//事件代理
     	events: {
@@ -42,6 +43,7 @@ define('app/jsp/account/balance_detail/balanceDetailList', function (require, ex
     	//重写父类
     	setup: function () {
     		BalanceDetailListPager.superclass.setup.call(this);
+    		activeUserLeftMenu(BalanceDetailListPager.USER_LEFT_MNU_ID);
     		//加载时间查询下拉框 
     		this._searchDateList();
     		//
@@ -96,9 +98,33 @@ define('app/jsp/account/balance_detail/balanceDetailList', function (require, ex
     		var _this = this;
     		
     		
+    		
+    		$(".order-list-table ul li").click(function(){
+    			   $(".order-list-table ul li").each(function(){
+    				   $(this).find('a').attr('class','');;
+				   });
+    			 
+				   var id = $(this).find('a').attr('id');
+				   //alert("-----"+id);
+			       $(this).find('a').attr('class','current');
+			       //
+			       if(id == 'pay_id'){
+			    	   $('#busiType_id').val("1");
+			       }
+			       if(id == 'charge_id'){
+			    	   $('#busiType_id').val("2");
+			       }
+			       if(id == 'all_id'){
+			    	   $('#busiType_id').val("");
+			       }
+			       //
+			       _this._queryAccountBalanceDetailList(id);
+			 
+			});
+    		
     		//
     		$("#search_button_id").click(function () {
-				var objId = $(this).attr("id");
+				
 				var busiTypeValue = $('#busiType_id').val();
 				if(busiTypeValue == '1'){
 					$("#pay_id").click();
@@ -111,47 +137,7 @@ define('app/jsp/account/balance_detail/balanceDetailList', function (require, ex
 				}
 				
 			});
-    		$("#pay_id").click(function () {
-				var objId = $(this).attr("id");
-				$('#busiType_id').val("1");
-				_this._queryAccountBalanceDetailList(objId);
-//				alert(objId);
-			});
-    		$("#charge_id").click(function () {
-				var objId = $(this).attr("id");
-				$('#busiType_id').val("2");
-				_this._queryAccountBalanceDetailList(objId);
-//				alert(objId);
-			});
-    		$("#all_id").click(function () {
-				var objId = $(this).attr("id");
-				$('#busiType_id').val("");
-				_this._queryAccountBalanceDetailList(objId);
-				//alert(objId);
-			});
     		
-    		//刷新页面的时候调用
-    		var busiTypeValue = $('#busiType_id').val();
-//    		alert('busiTypeValue:'+busiTypeValue);
-			if(busiTypeValue == '1'){
-				$("#pay_id").click();
-				$("#pay_id").attr("class","current");
-				$("#charge_id").attr("class","");
-				$("#all_id").attr("class","");
-				
-			}
-			if(busiTypeValue == '2'){
-				$("#charge_id").click();
-				$("#pay_id").attr("class","");
-				$("#charge_id").attr("class","current");
-				$("#all_id").attr("class","");
-			}
-			if(busiTypeValue == ''){
-				$("#all_id").click();
-				$("#pay_id").attr("class","");
-				$("#charge_id").attr("class","");
-				$("#all_id").attr("class","current");
-			}
     	},
     	_queryAccountBalanceDetailList:function(objId){
     		//alert('objId'+objId);
@@ -173,11 +159,7 @@ define('app/jsp/account/balance_detail/balanceDetailList', function (require, ex
 						var template = $.templates("#balanceSevenDaysAgoTmpl");
 						var htmlOut = template.render(data);
 						//alert(data.result);
-						if(objId == undefined){
-							$("#table_info_id_pay_id").html(htmlOut);
-						}else{
-							$("#table_info_id_"+objId).html(htmlOut);
-						}
+						$("#table_info_id_pay_id").html(htmlOut);
 					}
 					
 					

@@ -298,62 +298,62 @@ $(".radioc").click(function () {
 });
 
 //我的订单 table切换1
-$(function(){
-$(".order-list-table ul li a").click(function () {
-                $(".order-list-table ul li a").each(function () {
-                    $(this).removeClass("current");
-                });
-                $(this).addClass("current");
-            });
-$('.order-list-table ul li a').click(function(){
-  var index=$('.order-list-table ul li a').index(this);
-      if(index==0){
-     $('#order-date').show();
-  	  $('#order-date1').hide();
-	  $('#order-date2').hide();
-	  $('#order-date3').hide();
-	  $('#order-date4').hide();
-   }
-  if(index==1){
-     $('#order-date1').show();
-  	  $('#order-date').hide();
-	  $('#order-date2').hide();
-	  $('#order-date3').hide();
-	  $('#order-date4').hide();
-   }
-   if(index==2){
-     $('#order-date2').show();
-  	  $('#order-date').hide();
-	  $('#order-date1').hide();
-	  $('#order-date3').hide();
-	  $('#order-date4').hide();
-   }
-   if(index==3){
-     $('#order-date3').show();
-  	  $('#order-date').hide();
-	  $('#order-date1').hide();
-	  $('#order-date2').hide();
-	  $('#order-date4').hide();
-   }
-   if(index==4){
-     $('#order-date4').show();
-  	  $('#order-date').hide();
-	  $('#order-date1').hide();
-	  $('#order-date3').hide();
-	  $('#order-date2').hide();
-   }
-  }); 
-});
+//$(function(){
+//$(".order-list-table ul li a").click(function () {
+//                $(".order-list-table ul li a").each(function () {
+//                    $(this).removeClass("current");
+//                });
+//                $(this).addClass("current");
+//            });
+//$('.order-list-table ul li a').click(function(){
+//  var index=$('.order-list-table ul li a').index(this);
+//      if(index==0){
+//     $('#order-date').show();
+//  	  $('#order-date1').hide();
+//	  $('#order-date2').hide();
+//	  $('#order-date3').hide();
+//	  $('#order-date4').hide();
+//   }
+//  if(index==1){
+//     $('#order-date1').show();
+//  	  $('#order-date').hide();
+//	  $('#order-date2').hide();
+//	  $('#order-date3').hide();
+//	  $('#order-date4').hide();
+//   }
+//   if(index==2){
+//     $('#order-date2').show();
+//  	  $('#order-date').hide();
+//	  $('#order-date1').hide();
+//	  $('#order-date3').hide();
+//	  $('#order-date4').hide();
+//   }
+//   if(index==3){
+//     $('#order-date3').show();
+//  	  $('#order-date').hide();
+//	  $('#order-date1').hide();
+//	  $('#order-date2').hide();
+//	  $('#order-date4').hide();
+//   }
+//   if(index==4){
+//     $('#order-date4').show();
+//  	  $('#order-date').hide();
+//	  $('#order-date1').hide();
+//	  $('#order-date3').hide();
+//	  $('#order-date2').hide();
+//   }
+//  }); 
+//});
 //table切换结束
 
 
 //我的订单 点击展开
-$(function () {
-    $(".order-list-bj ul li .is").click(function () {
-		$(this).children('i').toggleClass("icon-angle-down  icon-angle-up");
-		$(this).parents().children('.open-gaoj').slideToggle(100);
-    });
-});	
+//$(function () {
+//    $(".order-list-bj ul li .is").click(function () {
+//		$(this).children('i').toggleClass("icon-angle-down  icon-angle-up");
+//		$(this).parents().children('.open-gaoj').slideToggle(100);
+//    });
+//});	
 
 
 
@@ -506,3 +506,4 @@ jQuery(document).ready(function($) {
         $('.onclick').hide(1);
     });	
  });
+ 

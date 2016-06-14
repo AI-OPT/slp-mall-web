@@ -9,8 +9,8 @@
 	<link href="${_slpbase }/styles/frame.css" rel="stylesheet" type="text/css"/>
 	<link href="${_slpbase }/styles/font-awesome.css" rel="stylesheet" type="text/css"/>
 	<script type="text/javascript">
-		var uuid = "${userInfo.userId}";
-		(function() {
+		var uuid = "${uuid}";
+		(function() { 
 			seajs.use([ 'app/jsp/user/bandemail/confirmInfo'], function(ConfirmInfoPager) {
 				var pager = new ConfirmInfoPager({
 					element : document.body
@@ -158,6 +158,4 @@
 
 </body>
 </html>
-<script src="${_slpbase }/scripts/jquery-1.11.1.min.js" type="text/javascript"></script>
-<script src="${_slpbase }/scripts/frame.js" type="text/javascript"></script>
 
