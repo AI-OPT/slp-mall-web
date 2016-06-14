@@ -31,10 +31,13 @@ define('app/jsp/user/bandemail/setEmail', function (require, exports, module) {
     		"click [id='bandNewEmail']":"_sendBandEmail",
     		"click [id='submitBtn']":"_updateEmail",
     		"blur [id='email']":"_checkEmail",
+    		"click [id='random_img']":"_getImageRandomCode",
+    		"click [id='changeImage']":"_getImageRandomCode",
     		"blur [id='verifyCode']":"_checkVerifyCode"
         },
         init: function(){
         	_showClass();
+        	_getImageRandomCode();
         	
         },
     	//重写父类
@@ -57,6 +60,11 @@ define('app/jsp/user/bandemail/setEmail', function (require, exports, module) {
 	   		$("#set_title_id").html("绑定邮箱");
 	   		$("#updateEmail").addClass("current");
     	},
+    	_getImageRandomCode:function(){
+			var timestamp = (new Date()).valueOf();
+			$("#pictureVerifyCode").val("");
+			$("#random_img").attr("src",_base+"/user/verify/getImageVerifyCode?timestamp="+timestamp);
+		},
     	_checkEmail:function(){
     		var isOk = this._checkEmailFormat();
     		if(isOk){
@@ -243,7 +251,7 @@ define('app/jsp/user/bandemail/setEmail', function (require, exports, module) {
 					var status = data.responseHeader.resultCode;
 					if(status == "000000"){
 						var url = data.data;
-						var bandNewEmail = $("#bandNewmmaEmail").val();
+						var bandNewEmail = $("#bandNewEmail").val();
 						var emailType = "updateEmail";
 						if(bandNewEmail != "" && bandNewEmail != null && bandNewEmail != undefined){
 							emailType = "bandEmail";
