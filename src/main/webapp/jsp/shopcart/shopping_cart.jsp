@@ -94,7 +94,7 @@
                                           </tr>
                                     </table>
                                 </td>
-                                <td class="ash">￥{{:~liToYuan(salePrice)}}</td>
+                                <td class="ash">无</td>
                                 <td class="clp-btn">
                                     <div class="number">
                                         <p><input type="button" disabled="true" value="-" class="small-xbtn"></p>
@@ -103,7 +103,7 @@
                                     </div>
                                		 	<span>暂时无货</span>
                                 </td>
-                                <td class="bold">¥{{:~shopCartPrices(salePrice,buyNum)}}</td>
+                                <td class="bold">无</td>
                                 <td>
                                 <div class="number">
                                 <p><a href="#" onclick="pager._delCartProd('{{:skuId}}');"><i class="icon-remove"></i>删除</a></p>
