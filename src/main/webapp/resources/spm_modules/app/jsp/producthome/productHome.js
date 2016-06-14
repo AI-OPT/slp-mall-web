@@ -73,6 +73,7 @@ define('app/jsp/producthome/productHome', function (require, exports, module) {
     	},
 	   _changeSwitch2:function(){
 		   var _this=this;
+		   $("#phoneNum2").val("");
 		   _this._initLf();
 		   _this._changeGprsValue();
     	},
