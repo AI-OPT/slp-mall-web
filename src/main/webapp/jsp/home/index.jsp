@@ -124,8 +124,8 @@
        <div class="fast-charge">
          <div class="charge-title">
                <ul>
-                   <li><A href="#" class="current">充话费</A></li>
-                   <li><A href="#">充流量</A></li>
+                   <li><A href="#" id="switchFL1" class="current">充话费</A></li>
+                   <li><A href="#" id="switchFL2">充流量</A></li>
                </ul>    
          </div>
           <div id="date1">
