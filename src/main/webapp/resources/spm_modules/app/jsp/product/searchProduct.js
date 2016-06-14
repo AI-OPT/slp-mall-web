@@ -37,6 +37,7 @@ define('app/jsp/product/searchProduct', function (require, exports, module) {
     		QueryProductPager.superclass.setup.call(this);
     		//初始化执行搜索
     		this._getCity();
+    		this._setArea();
     		var sourceFlag = $("#sourceFlag").val();
     		var name = $("#skuName").val();
     		$("#serachName").val(name);
@@ -46,6 +47,17 @@ define('app/jsp/product/searchProduct', function (require, exports, module) {
     			this._searchBtnClick();
     		}
     		this._getHotProduct();
+    	},
+    	//设置当前地区
+    	_setArea:function(){
+    		var area = $("#currenArea").val();
+    		var name = $("#currenAreaName").val();
+    		$("#currentCity").attr("currentCityCode",area);
+    		document.getElementById("currentCity").innerHTML=name;
+    		//级联修改送货地区
+    		$("#currentDispatch").attr("currentDispatchCode",area);
+			$("#currentDispatch").attr("currentDispatchName",name);
+    		document.getElementById("currentDispatch").innerHTML=name;
     	},
     	//搜索操作
     	_search: function(){
