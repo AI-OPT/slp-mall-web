@@ -10,7 +10,6 @@
 <link href="${_slpbase }/styles/frame.css" rel="stylesheet" type="text/css">
 <link href="${_slpbase }/styles/font-awesome.css" rel="stylesheet" type="text/css">
 
-<script src="${_slpbase }/scripts/frame.js" type="text/javascript"></script>
 <script src="${_base}/resources/spm_modules/app/jsp/product/carousel.js" type="text/javascript"></script>
 </head>
 
