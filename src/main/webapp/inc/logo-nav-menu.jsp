@@ -19,8 +19,8 @@
           <div class="breadcrumb">
               <ul>
                   <li><a href="${_base}">首页</a></li>
-                  <li><a href="#" id="phoneBillFastId">话费快充</a></li>
-                  <li><a href="#" id="flowFastId">流量快充</a></li>
+                  <li><a href="#" id="logo_nav_phoneBillFastId">话费快充</a></li>
+                  <li><a href="#" id="logo_nav_flowFastId">流量快充</a></li>
                   <li><a href="#">话费卡</a></li>
                   <li><a href="#">流量卡</a></li>
                   <li><a href="#">API</a></li>

@@ -10,13 +10,28 @@
         </div>
         <div class="fsast-bav">
             <ul>
-                <li><a href="#">首页</a></li>
-                <li><a href="#">我的订单</a></li>
+                <li><a href="${_base}/myorder/list">首页</a></li>
+                <li><a href="${_base}/myorder/list">我的订单</a></li>
                 <li class="shez"><a href="#">账户设置<i class="icon-angle-down"></i></a>
                 <div class="setgs" style=" display:none;">
                     <ul>
-                        <li><a href="#">资质认证</a></li>
-                        <li><a href="#">安全设置</a></li>
+                        <c:if test="${sessionScope.user_session_key.userType=='11' || sessionScope.user_session_key.userType=='12' || sessionScope.user_session_key.userType=='13' }">
+                        	<c:choose>
+				    			<c:when test="${sessionScope.user_session_key.userType=='11'}">
+			                	<li id="left_mnu_qualification_identify"><A href="#">资质认证</A></li>
+			                 	</c:when>
+				    			<c:when test="${sessionScope.user_session_key.userType=='12'}">
+			                	<li id="left_mnu_qualification_identify"><A href="#">资质认证</A></li>
+			                 	</c:when>
+			                 	<c:when test="${sessionScope.user_session_key.userType=='13'}">
+			                	<li id="left_mnu_qualification_identify"><A href="#">资质认证</A></li>
+			                 	</c:when>
+				    			<c:otherwise>
+			                	<li id="left_mnu_qualification_identify"><A href="javascript:void(0);">资质认证</A></li>
+			                 	</c:otherwise>
+			                </c:choose>
+                        </c:if>
+                        <li><a href="${_base}/user/security/securitySettings">安全设置</a></li>
                         <li><a href="#">登录密码</a></li>
                         <li><a href="#">支付密码</a></li>
                         <li><a href="#">手机绑定</a></li>
