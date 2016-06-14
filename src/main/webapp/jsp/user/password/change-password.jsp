@@ -82,13 +82,13 @@
                    <ul>
                         <li class="word">新密码:</li>
                         <li><input type="password" id="newPassword" class="int-medium" placeholder="请输入密码"></li>
-                        <li class="lable" style="display:none" id="newPasswordErrMsg"><img src="${_slpbase }/images/icon-c.png"><span id="newPasswordErrMsgShow">6-20个字符，可用字母、数字及符号的组合</span></li>
+                        <li class="lable" style="display:none" id="newPasswordErrMsg"><img id="passwordImg" src="${_slpbase }/images/icon-c.png"><span id="newPasswordErrMsgShow">6-20个字符，可用字母、数字及符号的组合</span></li>
                        <%--  <li style="display:none" id="newPasswordErrMsg"><img src="${_slpbase }/images/pass-a.png"><img src="${_slpbase }/images/pass-b.png"><img src="${_slpbase }/images/pass-c.png">有被盗风险,建议使用字母、数字和符号两种及以上组合</li> --%>
                     </ul>
                     <ul>
                         <li class="word">确认新密码:</li>
                         <li><input type="password" id="newPasswordConfirm" class="int-medium" placeholder="再次确认密码"></li>
-                        <li class="lable" style="display:none" id="newPasswordConfirmErrMsg"><img src="${_slpbase }/images/icon-e.png"><span id="newPasswordConfirmErrMsgShow">两次输入的密码不一致</span></li>
+                        <li class="lable" style="display:none" id="newPasswordConfirmErrMsg"><img id="confirmPasswordImg" src="${_slpbase }/images/icon-e.png"><span id="newPasswordConfirmErrMsgShow">两次输入的密码不一致</span></li>
                     </ul>
                       <ul>
                         <li class="checx-word"><input type="button" id="submit" class="slp-btn regsiter-btn" value="保存修改"></li>
