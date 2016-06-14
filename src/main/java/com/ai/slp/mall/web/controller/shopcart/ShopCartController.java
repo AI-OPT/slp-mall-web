@@ -27,7 +27,6 @@ import com.ai.slp.order.api.ordertradecenter.param.OrderTradeCenterResponse;
 import com.ai.slp.order.api.shopcart.interfaces.IShopCartSV;
 import com.ai.slp.order.api.shopcart.param.*;
 import com.alibaba.fastjson.JSON;
-
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -41,7 +40,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -75,10 +73,7 @@ public class ShopCartController {
             cartProd.setTenantId(SLPMallConstants.COM_TENANT_ID);
             cartProd.setUserId(getUserId(session));
             CartProdOptRes cartProdOptRes = iShopCartSV.addProd(cartProd);
-            ResponseHeader resHeader = cartProdOptRes.getResponseHeader();
-            if (resHeader!=null && !cartProdOptRes.getResponseHeader().isSuccess()){
-                throw new BusinessException("",cartProdOptRes.getResponseHeader().getResultMessage());
-            }
+            throwBusiException(cartProdOptRes.getResponseHeader());
             LOG.debug("添加购物车商品出参:"+ JSonUtil.toJSon(cartProdOptRes));
             responseData = new ResponseData<CartProdOptRes>(ResponseData.AJAX_STATUS_SUCCESS, "添加成功", cartProdOptRes);
         }catch(BusinessException|SystemException e){
@@ -102,7 +97,9 @@ public class ShopCartController {
     		UserInfo userInfo = new UserInfo();
             userInfo.setTenantId(SLPMallConstants.COM_TENANT_ID);
     		userInfo.setUserId(getUserId(session));
-            List<CartProdInfo> cartProdInfoList = iShopCartSV.queryCartOfUser(userInfo);
+            CartProdList prodList = iShopCartSV.queryCartOfUser(userInfo);
+            throwBusiException(prodList.getResponseHeader());
+            List<CartProdInfo> cartProdInfoList = prodList.getProdInfoList();
     		//统计商品数量
     		int prodTotal = 0;
             IImageClient imageClient = IDPSClientFactory.getImageClient(SLPMallConstants.ProductImageConstant.IDPSNS);
@@ -151,6 +148,7 @@ public class ShopCartController {
             cartProd.setTenantId(SLPMallConstants.COM_TENANT_ID);
             cartProd.setUserId(getUserId(session));
             CartProdOptRes cartProdOptRes = iShopCartSV.updateProdNum(cartProd);
+            throwBusiException(cartProdOptRes.getResponseHeader());
             LOG.debug("修改购物车数量出参:" + JSonUtil.toJSon(cartProdOptRes));
             responseData = new ResponseData<CartProdOptRes>(ResponseData.AJAX_STATUS_SUCCESS, "修改成功", cartProdOptRes);
         } catch (BusinessException | SystemException e) {
@@ -173,6 +171,7 @@ public class ShopCartController {
         try {
             List<String> skuIds = JSON.parseArray(skuList, String.class);
             CartProdOptRes cartProdOptRes = delProdOfCart(session,skuIds);
+            throwBusiException(cartProdOptRes.getResponseHeader());
             LOG.debug("删除购物车商品出参:" + JSonUtil.toJSon(cartProdOptRes));
             responseData = new ResponseData<CartProdOptRes>(ResponseData.AJAX_STATUS_SUCCESS, "删除成功", cartProdOptRes);
         } catch (BusinessException | SystemException e) {
@@ -307,5 +306,11 @@ public class ShopCartController {
 		}
 		return responseData;
 	}
+
+    private void throwBusiException(ResponseHeader header) {
+        if (header != null && !header.isSuccess()) {
+            throw new BusinessException("", header.getResultMessage());
+        }
+    }
     
 }
