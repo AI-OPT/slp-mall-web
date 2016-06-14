@@ -55,7 +55,8 @@
                               <tbody id="cartProdData"></tbody>
                   </table>
                    <script id="cartProdTemple" type="text/template">
-					{{if state == '5'}}
+                       <!-- 状态和库存可用量均检查 -->
+					{{if state == '5' && usableNum > 0}}
 							<tr id="{{:skuId}}_tr">
                                 <td><input id="{{:skuId}}" type="checkbox" name="checkOne" class="checkbox-medium"></td>
                                 <td class="sp">
