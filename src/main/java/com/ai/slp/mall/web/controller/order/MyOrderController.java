@@ -10,11 +10,15 @@ import javax.servlet.http.HttpSession;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.ai.net.xss.util.StringUtil;
+import com.ai.opt.base.exception.BusinessException;
+import com.ai.opt.base.exception.SystemException;
 import com.ai.opt.base.vo.PageInfo;
+import com.ai.opt.sdk.components.ccs.CCSClientFactory;
 import com.ai.opt.sdk.components.idps.IDPSClientFactory;
 import com.ai.opt.sdk.dubbo.util.DubboConsumerFactory;
 import com.ai.opt.sdk.util.BeanUtils;
@@ -22,6 +26,7 @@ import com.ai.opt.sdk.util.DateUtil;
 import com.ai.opt.sdk.web.model.ResponseData;
 import com.ai.opt.sso.client.filter.SLPClientUser;
 import com.ai.opt.sso.client.filter.SSOClientConstants;
+import com.ai.paas.ipaas.ccs.constants.ConfigException;
 import com.ai.paas.ipaas.image.IImageClient;
 import com.ai.paas.ipaas.util.JSonUtil;
 import com.ai.slp.common.api.cache.interfaces.ICacheSV;
@@ -38,6 +43,9 @@ import com.ai.slp.order.api.orderlist.param.QueryOrderListRequest;
 import com.ai.slp.order.api.orderlist.param.QueryOrderListResponse;
 import com.ai.slp.order.api.orderlist.param.QueryOrderRequest;
 import com.ai.slp.order.api.orderlist.param.QueryOrderResponse;
+import com.ai.slp.order.api.shopcart.interfaces.IShopCartSV;
+import com.ai.slp.order.api.shopcart.param.CartProd;
+import com.ai.slp.order.api.shopcart.param.CartProdOptRes;
 import com.alibaba.dubbo.common.utils.StringUtils;
 
 @Controller
@@ -154,8 +162,10 @@ public class MyOrderController {
 				ProductImage productImage = productVo.getProductImage();
 				String picType = productImage.getPicType();
 				String vfsId = productImage.getVfsId();
-				String imageUrl = imageClient.getImageUrl(vfsId, picType, "60x60");
-				productVo.setImageUrl(imageUrl);
+				if(picType!=null && vfsId!=null){
+					String imageUrl = imageClient.getImageUrl(vfsId, picType, "60x60");
+					productVo.setImageUrl(imageUrl);
+				}
 			}
 		}
 	}
@@ -240,4 +250,66 @@ public class MyOrderController {
 		}
 		return responseData;
 	}
+	
+	/**
+     * 购物车中添加商品
+     */
+    @RequestMapping("/buyAgain")
+    @ResponseBody
+    public ModelAndView buyAgain(HttpSession session, @RequestParam List<String> skuIdList) {
+    	return null;
+    }
+	
+	/**
+     * 购物车中添加商品
+     */
+    private boolean addProd(HttpSession session, Long buyNum, String skuId) {
+        //获取service
+        IShopCartSV iShopCartSV = DubboConsumerFactory.getService("IShopCartSV");
+        boolean isAdd = false;
+        try{
+            int skuNumLimit = getSkuNumLimit();
+            if (skuNumLimit>0 && buyNum>skuNumLimit){
+                throw new BusinessException("","此商品添加数量超过限制,不允许添加");
+            }
+            //设置参数
+            CartProd cartProd = new CartProd();
+            cartProd.setBuyNum(buyNum);
+            cartProd.setSkuId(skuId);
+            cartProd.setTenantId(SLPMallConstants.COM_TENANT_ID);
+            cartProd.setUserId(getUserId(session));
+            CartProdOptRes cartProdOptRes = iShopCartSV.addProd(cartProd);
+            if (!cartProdOptRes.getResponseHeader().isSuccess()){
+                throw new BusinessException("",cartProdOptRes.getResponseHeader().getResultMessage());
+            }
+            LOG.debug("添加购物车商品出参:"+ JSonUtil.toJSon(cartProdOptRes));
+            isAdd = true;
+        }catch(BusinessException|SystemException e){
+            LOG.error("添加购物车商品出错",e);
+        }catch (Exception e){
+            LOG.error("添加购物车商品出错",e);
+        }
+        return isAdd;
+    }
+    
+    /**
+     * 获取购物车中单个商品的数量限制
+     * @return
+     */
+    private int getSkuNumLimit (){
+        String limitNum = null;
+        try {
+            limitNum = CCSClientFactory.getDefaultConfigClient().get("/shop_cart_sku_num_limit");
+        } catch (ConfigException e) {
+            LOG.error("获取配置信息失败",e);
+            e.printStackTrace();
+        }
+        return Integer.parseInt(limitNum);
+    }
+    
+    private String getUserId(HttpSession session){
+        SLPClientUser user = (SLPClientUser) session.getAttribute(SSOClientConstants.USER_SESSION_KEY);
+        return user.getUserId();
+    }
+
 }
