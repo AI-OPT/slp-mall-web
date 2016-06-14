@@ -138,7 +138,7 @@ public class QualificationController {
         responseData.setResponseHeader(responseHeader);
         return responseData;
     }
-    
+     
     @RequestMapping("/getCityListByProviceCode")
     @ResponseBody
     public ResponseData<String> getCityListByProviceCode(HttpServletRequest request ,String provinceCode){
@@ -151,6 +151,7 @@ public class QualificationController {
                 GnAreaVo gnAreaVo = list.get(i);
                 str = str+"<option value="+gnAreaVo.getCityCode()+">"+gnAreaVo.getAreaName()+"</option>";
             }
+            str="<option value='0'>请选择</option>"+str;
             responseData = new ResponseData<String>(ResponseData.AJAX_STATUS_SUCCESS,"查询成功",str);
         }else{
             responseData = new ResponseData<String>(ResponseData.AJAX_STATUS_SUCCESS,"没有查询结果",str);
@@ -171,6 +172,7 @@ public class QualificationController {
                 GnAreaVo gnAreaVo = list.get(i);
                 str = str+"<option value="+gnAreaVo.getCityCode()+">"+gnAreaVo.getAreaName()+"</option>";
             }
+            str="<option value='0'>请选择</option>"+str;
             responseData = new ResponseData<String>(ResponseData.AJAX_STATUS_SUCCESS,"查询成功",str);
         }else{
             responseData = new ResponseData<String>(ResponseData.AJAX_STATUS_SUCCESS,"没有查询结果",str);
