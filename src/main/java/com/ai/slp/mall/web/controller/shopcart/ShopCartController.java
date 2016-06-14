@@ -2,6 +2,7 @@ package com.ai.slp.mall.web.controller.shopcart;
 
 import com.ai.opt.base.exception.BusinessException;
 import com.ai.opt.base.exception.SystemException;
+import com.ai.opt.base.vo.ResponseHeader;
 import com.ai.opt.sdk.components.ccs.CCSClientFactory;
 import com.ai.opt.sdk.components.idps.IDPSClientFactory;
 import com.ai.opt.sdk.dubbo.util.DubboConsumerFactory;
@@ -66,7 +67,8 @@ public class ShopCartController {
             cartProd.setTenantId(SLPMallConstants.COM_TENANT_ID);
             cartProd.setUserId(getUserId(session));
             CartProdOptRes cartProdOptRes = iShopCartSV.addProd(cartProd);
-            if (!cartProdOptRes.getResponseHeader().isSuccess()){
+            ResponseHeader resHeader = cartProdOptRes.getResponseHeader();
+            if (resHeader!=null && !cartProdOptRes.getResponseHeader().isSuccess()){
                 throw new BusinessException("",cartProdOptRes.getResponseHeader().getResultMessage());
             }
             LOG.debug("添加购物车商品出参:"+ JSonUtil.toJSon(cartProdOptRes));
