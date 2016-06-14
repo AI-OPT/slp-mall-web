@@ -136,8 +136,6 @@ public class MyOrderController {
 		List<OrdOrderVo> orderList = pageInfo.getResult();
 		if (orderList != null && orderList.size() > 0) {
 			for (OrdOrderVo orderVo : orderList) {
-				//TODO 测试
-//				orderVo.setState("90");
 				List<OrdProductVo> productList = orderVo.getProductList();
 				setProductImageUrl(imageClient, productList);
 			}
