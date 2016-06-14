@@ -104,17 +104,29 @@ define('app/jsp/shoppingcart/shopCartDetails', function (require, exports, modul
         	if(!this._isPosNum(qty)){
 				qty = oldProdNum;
         	}
-        	if(qty>skuNumLimit || qty>stockNum){
-        		$("#"+prodId+"_prodnum").val(oldProdNum);
+        	if(qty>skuNumLimit){
+        		$("#"+prodId+"_prodnum").val(skuNumLimit);
+				var d = Dialog({
+					content:"购买数量不允许超过购物车限制",
+					ok:function(){
+						this.close();
+					}
+				});
+				d.show();
     			return;
-    		}
+    		}else if(qty>stockNum){
+				$("#"+prodId+"_prodnum").val(oldProdNum);
+				var d = Dialog({
+					content:"购买数量超过库存数,请重新修改",
+					ok:function(){
+						this.close();
+					}
+				});
+				return;
+			}
 			btn.value=qty;
 			//调用后场修改数量
     		this._changeCartNum(prodId,qty,oldProdNum);
-    		// 计算价格并求和
-			this._computedPrice(prodId,qty,salePrice);
-			// 求和
-    		this._sumPriceAndNum();
         },
         // 是否为正整数
         _isPosNum:function(num){
@@ -301,13 +313,17 @@ define('app/jsp/shoppingcart/shopCartDetails', function (require, exports, modul
     		ajaxController.ajax({
 				type: "post",
 				dataType: "json",
-				processing: false,
-				// message: "调整中，请等待...",
+				processing: true,
+				message: "调整中，请等待...",
 				url: _base+"/shopcart/updateProdNum",
 				data:{"skuId":skuId,"buyNum":buyNum},
 				success: function(data){
 					// 成功把新数量更新到隐藏域
 		    		$("#"+skuId+"_oldProdNum").val(buyNum);
+					// 计算价格并求和
+					this._computedPrice(prodId,qty,salePrice);
+					// 求和
+					this._sumPriceAndNum();
 				},
 				failure:function(domObj,data){
 					// 失败把原始数据返回
