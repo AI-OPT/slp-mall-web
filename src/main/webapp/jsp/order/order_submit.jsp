@@ -87,7 +87,7 @@
 								<table width="100%" border="0">
 									<tr>
 										<td class="word" width="25%"><img src="{{:imageUrl}}"></td>
-										<td><A href="#">{{:skuName}}</A></td>
+										<td><A href="${_base}/product/detail?skuId={{:skuId}}">{{:skuName}}</A></td>
 									</tr>
 								</table>
 							</td>
