@@ -82,6 +82,7 @@ define('app/jsp/producthome/productHome', function (require, exports, module) {
     		_this._initHf();
     		_this._changeHuafei();
     		//初始化流量
+    		$("#phoneNum2").val("");
     		_this._initLf();
     		_this._changeGprsValue();
     	},
@@ -96,7 +97,7 @@ define('app/jsp/producthome/productHome', function (require, exports, module) {
     		
     	},
     	_initLf:function(){
-    		$("#phoneNum2").val("");
+    		//$("#phoneNum2").val("");
     		$("#gprs").html("");
     		$("#gprs").append("<option value='¥49.00-¥50.00'>1G</option>");
     		$("#gprs").append("<option value='¥35.00-¥40.00'>500M</option>");
@@ -322,7 +323,7 @@ define('app/jsp/producthome/productHome', function (require, exports, module) {
 									
 									var d=data.data;
 									
-									
+									 $("#phoneFee").html("");
 									if(d){
 										var phoneFee=d.phoneFee;
 									//	$("#submitOdrBtn").attr('href','#ttt');
@@ -418,7 +419,7 @@ define('app/jsp/producthome/productHome', function (require, exports, module) {
 									},
 								success: function(data){
 									var d=data.data;
-									
+									 $("#gprs").html("");
 									if(d){
 										var phoneFee=d.phoneFee;
 										$.each(phoneFee,function(index,item){
