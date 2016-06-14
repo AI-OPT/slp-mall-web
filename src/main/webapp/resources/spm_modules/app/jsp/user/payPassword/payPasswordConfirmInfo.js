@@ -36,7 +36,6 @@ define('app/jsp/user/payPassword/payPasswordConfirmInfo', function (require, exp
     		"click [id='submitBtn']":"_submit"
         },
         init: function(){
-        	_initShowView();
         	_getImageRandomCode();
         },
     	//重写父类
@@ -49,8 +48,6 @@ define('app/jsp/user/payPassword/payPasswordConfirmInfo', function (require, exp
     	//加载账户数据
     	_renderAccountInfo: function(){
 			var _this = this;
-			//初始化展示页面
-			_this._initShowView();
 		},
 		
 		//控制显示内容
