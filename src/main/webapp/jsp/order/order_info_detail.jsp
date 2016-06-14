@@ -83,7 +83,11 @@
                       <tr class="click">
                         <td>{{:basicOrgName}}</td>
                         <td>{{:provinceName}}</td>
-                        <td>{{:prodExtendInfo.split(",").length}}/<span class="batch" onclick="pager._showPhoneInfo('{{:prodExtendInfo}}')">明细</span></td>
+                        <td>{{if prodExtendInfo==null || prodExtendInfo==""}}
+								0/<span class="batch">明细</span></td>
+							{{else}}
+								{{:prodExtendInfo.split(",").length}}/<span class="batch" onclick="pager._showPhoneInfo('{{:prodExtendInfo}}')">明细</span></td>
+							{{/if}}
                         <td>{{:chargeFee}}</td>
                         <td>￥{{:~liToYuan(salePrice)}}</td>
                         <td class="color">￥{{:~liToYuan(totalFee)}}</td>
