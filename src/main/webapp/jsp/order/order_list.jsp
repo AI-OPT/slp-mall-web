@@ -37,6 +37,15 @@
          <div class="advanced-search">
            <input id="searchType" style="display:none" value="1"/>
            <ul>
+           	   <li class="word1" id="selectTimeDiv">
+           	   <p>
+	               	<select id="selectTimeQ" class="select-small">
+	               		<option value="1">近三个月订单</option>
+	               		<option value="2">今年历史订单</option>
+	               		<option value="3">所有历史订单</option>
+	               	</select>
+	               	</p>
+               </li>
                <li>
                    <p class="word1">订单类型</p>
                    <p>
@@ -47,13 +56,6 @@
                <li>
                    <p class="word">订单号</p>
                    <p><input id="orderIdQ" type="text" class="int-small" placeholder="请输入订单号查询"></p>
-               </li>
-               <li class="close" id="selectTimeDiv">
-	               	<select id="selectTimeQ" class="select-small">
-	               		<option value="1">近三个月订单</option>
-	               		<option value="2">今年历史订单</option>
-	               		<option value="3">所有历史订单</option>
-	               	</select>
                </li>
                <li><input id="searchOrderBtn" type="button" class="order-btn" value="搜索"></li>
                <li class="av"><a id="changeSearchType" class="is">高级搜索<i class="icon-angle-down"></i></a></li>
@@ -168,9 +170,9 @@
 									{{if ~parentState=='11'}}
                                     <p><input type="button" class="immedtl-btn" value="立即支付" onclick="window.location.href='${_base}/order/pay?orderId={{:orderId}}'"></p>
 									{{else}}
-									<p><input type="button" class="again-btn" value="再次购买"></p>
+									<p><input type="button" class="again-btn" value="再次购买" onclick="window.location.href='${_base}/shopcart/buyAgain?orderId={{:orderId}}'"></p>
 									{{/if}}
-                                    <p><a href="#">关闭订单</a></p>
+                                    <!--<p><a href="#">关闭订单</a></p>-->
                                     </div>
                                 </td>
                                 {{/if}}

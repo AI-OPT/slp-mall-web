@@ -113,11 +113,11 @@ define('app/jsp/order/orderList', function (require, exports, module) {
     			if(searchType == "1"){
     				$("#searchType").val("2");
     				$("#selectTimeQ").val("");
-    				this._visibilityHideUI("selectTimeDiv");
+    				this._displayHideUI("selectTimeDiv");
     			}else{
     				$("#searchType").val("1");
     				$("#selectTimeQ").val("1");
-    				this._visibilityShowUI("selectTimeDiv");
+    				this._displayShowUI("selectTimeDiv");
     			}
     	},
     	//隐藏区域

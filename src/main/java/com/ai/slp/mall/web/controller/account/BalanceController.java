@@ -281,7 +281,7 @@ public class BalanceController {
 		//
 		System.out.println(" queryAccountBalanceDetailList json:"+JSON.toJSONString(pageInfo));
 		//
-		responseData = new ResponseData<PageInfo<ChargeBaseInfo>>(ResponseData.AJAX_STATUS_SUCCESS,"可销售产品列表查询成功",pageInfo);
+		responseData = new ResponseData<PageInfo<ChargeBaseInfo>>(ResponseData.AJAX_STATUS_SUCCESS,"success",pageInfo);
 		//
 		System.out.println(" ResponseData json:"+JSON.toJSONString(responseData));
 		//

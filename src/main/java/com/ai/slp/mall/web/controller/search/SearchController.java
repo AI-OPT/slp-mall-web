@@ -34,16 +34,21 @@ import net.sf.json.JSONArray;
 public class SearchController {
     private static final Logger LOG = Logger.getLogger(SearchController.class);
 	@RequestMapping("/list")
-	public ModelAndView index(HttpServletRequest request,String priceId,String billType,String orgired,String skuName,String sourceFlag) {
+	public ModelAndView index(HttpServletRequest request,String priceId,String billType,String orgired,String skuName,String sourceFlag,String area,String areaName) {
 	    try{
 	        if(!StringUtil.isBlank(skuName)){
 	            skuName= java.net.URLDecoder.decode(skuName, "UTF-8"); 
 	        }
+	        if(!StringUtil.isBlank(areaName)){
+	            areaName= java.net.URLDecoder.decode(areaName, "UTF-8"); 
+            }
 	        request.setAttribute("priceId", priceId);
 	        request.setAttribute("billType", billType);
 	        request.setAttribute("orgired", orgired);
 	        request.setAttribute("skuName", skuName);
 	        request.setAttribute("sourceFlag", sourceFlag);
+	        request.setAttribute("currenArea", area);
+	        request.setAttribute("currenAreaName", areaName);
 	    }catch(Exception e){
 	        LOG.error("中文解码错误", e); 
 	    }

@@ -34,8 +34,7 @@ define(
 				_bindHandle : function() {
 					$("#password").on("blur", this._checkPasswordEmpty);
 					$("#password").on("focus", this._hidePassword);
-					$("#newPassword").on("blur", this._checkNewPasswordEmpty);
-					$("#newPassword").on("blur", this._checkNewPasswordEmpty);
+					$("#newPassword").on("blur", this._checkConfirm);
 					$("#newPassword").on("blur", this._validServicePaw);
 					$("#newPassword").on("focus", this._hideNewPassword);
 					$("#newPasswordConfirm").on("blur", this._checkNewPasswordConfirmEmpty);
@@ -50,18 +49,9 @@ define(
 							var password = $('#password').val();
 							if(password==""){
 								$("#passwordErrMsgShow").text("密码不能为空");
+								$('#passwordImg').attr('src',_base+'/resources/slpmall/images/icon-a.png');
 								$("#passwordErrMsg").show();
 								$("#passwordEmptyFlag").val("0");
-							}
-						},
-						//检查新密码是否为空
-						_checkNewPasswordEmpty : function(){
-							$("#newPasswordErrMsg").attr("style", "display:none");
-							var newPassword = $('#newPassword').val();
-							if(newPassword==""){
-								$("#newPasswordErrMsgShow").text("密码不能为空");
-								$("#newPasswordErrMsg").show();
-								$("#newPasswordEmptyFlag").val("0");
 							}
 						},
 						//检查新密码确认是否为空
@@ -70,6 +60,7 @@ define(
 							var newPasswordConfirm = $('#newPasswordConfirm').val();
 							if(newPasswordConfirm==""){
 								$("#newPasswordConfirmErrMsgShow").text("密码不能为空");
+								$('#passwordImg').attr('src',_base+'/resources/slpmall/images/icon-a.png');
 								$("#newPasswordConfirmErrMsg").show();
 								$("#newPasswordConfirmEmptyFlag").val("0");
 							}
@@ -92,27 +83,33 @@ define(
 							var password = $('#newPassword').val();
 							if (password == "") {
 								$('#newPasswordErrMsgShow').text("请输入密码");
+								$('#passwordImg').attr('src',_base+'/resources/slpmall/images/icon-a.png');
 								$("#newPasswordErrMsg").show();
 								return false;
 							} else if (/[\x01-\xFF]*/.test(password)) {
 							  if (/^\S*$/.test(password)) {
 								if (/^[\x21-\x7E]{6,20}$/.test(password)) {
-								$("#newPasswordErrMsg").hide();
 								$('#newPasswordErrFlag').val("1");
+								$('#passwordImg').attr('src',_base+'/resources/slpmall/images/icon-b.png');
+								$('#newPasswordErrMsgShow').text("");
+								$("#newPasswordErrMsg").show();
 								} else {
 								$("#newPasswordErrMsg").show();
 								$('#newPasswordErrMsgShow').text("6-20个字符，可用字母、数字及符号的组合 ");
+								$('#passwordImg').attr('src',_base+'/resources/slpmall/images/icon-e.png');
 								$('#newPasswordErrFlag').val("0");
 								return false;
 								}
 								} else {
 									$('#newPasswordErrMsgShow').text("不允许有空格 ");
+									$('#passwordImg').attr('src',_base+'/resources/slpmall/images/icon-e.png');
 									$("#newPasswordErrMsg").attr("style", "display:");
 									$('#newPasswordErrFlag').val("0");
 									return false;
 								}
 							} else {
 								$('#newPasswordErrMsgShow').text("支持数字、字母、符号组合 ");
+								$('#passwordImg').attr('src',_base+'/resources/slpmall/images/icon-e.png');
 								$("#newPasswordErrMsg").attr("style", "display:");
 								$('#newPasswordErrFlag').val("0");
 								return false;
@@ -232,14 +229,38 @@ define(
 							
 							if (inputPassword != confirmationPassword) {
 								$("#newPasswordConfirmErrMsgShow").text("两次输入的密码不一致");
+								$('#confirmPasswordImg').attr('src',_base+'/resources/slpmall/images/icon-a.png');
 								$("#newPasswordConfirmErrMsg").show();
 								$("#passwordNotEqualFlag").val("0");
 								return false;
 							} else {
-								$("#newPasswordConfirmErrMsg").hide();
 								$("#passwordNotEqualFlag").val("1");
+								$('#confirmPasswordImg').attr('src',_base+'/resources/slpmall/images/icon-b.png');
+								$("#newPasswordConfirmErrMsgShow").text("");
+								$("#newPasswordConfirmErrMsg").show();
 								return true;
 							}
+						},
+						
+						//校验密码一致性
+						_checkConfirm : function() {
+							var inputPassword = $("#newPassword").val();
+							var confirmationPassword = $("#newPasswordConfirm").val();
+							if (inputPassword != confirmationPassword&&!confirmationPassword=="") {
+								$("#newPasswordConfirmErrMsgShow").text("两次输入的密码不一致");
+								$('#confirmPasswordImg').attr('src',_base+'/resources/slpmall/images/icon-a.png');
+								$("#newPasswordConfirmErrMsg").show();
+								$("#passwordNotEqualFlag").val("0");
+								return false;
+							} 
+							if (inputPassword == confirmationPassword&&!confirmationPassword=="") {
+							$("#newPasswordConfirmErrMsgShow").text("");
+							$('#confirmPasswordImg').attr('src',_base+'/resources/slpmall/images/icon-b.png');
+							$("#newPasswordConfirmErrMsg").show();
+							$("#passwordNotEqualFlag").val("1");
+							return false;
+							}
+							$("#newPasswordConfirmErrMsg").hide();
 						}
 			});
 

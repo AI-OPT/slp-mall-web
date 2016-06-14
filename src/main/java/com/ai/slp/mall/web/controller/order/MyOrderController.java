@@ -136,6 +136,8 @@ public class MyOrderController {
 		List<OrdOrderVo> orderList = pageInfo.getResult();
 		if (orderList != null && orderList.size() > 0) {
 			for (OrdOrderVo orderVo : orderList) {
+				//TODO 测试
+//				orderVo.setState("90");
 				List<OrdProductVo> productList = orderVo.getProductList();
 				setProductImageUrl(imageClient, productList);
 			}
@@ -154,8 +156,10 @@ public class MyOrderController {
 				ProductImage productImage = productVo.getProductImage();
 				String picType = productImage.getPicType();
 				String vfsId = productImage.getVfsId();
-				String imageUrl = imageClient.getImageUrl(vfsId, picType, "60x60");
-				productVo.setImageUrl(imageUrl);
+				if(picType!=null && vfsId!=null){
+					String imageUrl = imageClient.getImageUrl(vfsId, picType, "60x60");
+					productVo.setImageUrl(imageUrl);
+				}
 			}
 		}
 	}
