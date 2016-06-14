@@ -136,7 +136,6 @@
  <!--底部-->
 <%@ include file="/inc/foot.jsp" %>
  <!--底部 结束-->
-<script src="${_slpbase }/scripts/frame.js" type="text/javascript"></script>
 <script type="text/javascript">
 var pager;
 var orderDetail = $.parseJSON('${orderDetail}');

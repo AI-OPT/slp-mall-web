@@ -133,7 +133,6 @@ public class BandEmailController {
         SearchUserResponse response = ucUserSV.queryBaseInfo(reachUserRequest);
         Map<String, Object> model = new HashMap<String, Object>();
         String uuid = UUIDUtil.genId32();
-        response.setUserId(uuid);
         model.put("userInfo", response);
         model.put("uuid", uuid);
         model.put("confirminfo", "");
@@ -240,7 +239,6 @@ public class BandEmailController {
         ICacheClient cacheClient = MCSClientFactory.getCacheClient(BandEmail.CACHE_NAMESPACE);
         IConfigClient configClient = CCSClientFactory.getDefaultConfigClient();
         String times = cacheClient.get(smskey);
-        
         String uuid = request.getParameter(SLPMallConstants.UUID.KEY_NAME);
         try {
             if (StringUtil.isBlank(times)) {
@@ -367,6 +365,9 @@ public class BandEmailController {
     @RequestMapping("/bandEmailAuthenticate")
     public ModelAndView bandEmailAuthenticate(HttpServletRequest request) {
         String uuid = request.getParameter(SLPMallConstants.UUID.KEY_NAME);
+        if("".equals(uuid)){
+            uuid = UUIDUtil.genId32();
+        }
         //验证时使用
         SLPClientUser userAuthenticateClient = (SLPClientUser) CacheUtil.getValue(uuid, BandEmail.CACHE_NAMESPACE, SLPClientUser.class);
         //单点登录时的client
@@ -374,6 +375,7 @@ public class BandEmailController {
         if (userAuthenticateClient == null) {
             Map<String,String> model = new HashMap<String,String>();
             model.put("confirminfo", "fail");
+            model.put("uuid", uuid);
             return new ModelAndView("jsp/user/email/band-email-start",model);
         }
         request.getSession().setAttribute(SSOClientConstants.USER_SESSION_KEY, userClient);
@@ -400,14 +402,20 @@ public class BandEmailController {
     @RequestMapping("/updateEmailAuthenticate")
     public ModelAndView updateSuccess(HttpServletRequest request) {
         String uuid = request.getParameter(SLPMallConstants.UUID.KEY_NAME);
+        if("".equals(uuid)){
+            uuid= UUIDUtil.genId32();
+        }
         SLPClientUser userClient = (SLPClientUser) CacheUtil.getValue(uuid, BandEmail.CACHE_NAMESPACE, SLPClientUser.class);
         if (userClient == null) {
-            SLPClientUser usClient = (SLPClientUser) request.getSession().getAttribute(SSOClientConstants.USER_SESSION_KEY);
-            Map<String,Object> model = new HashMap<String,Object>();
-            SearchUserResponse response = new SearchUserResponse();
-            response.setUserEmail(usClient.getUserEmail());
-            model.put("confirminfo", "fail");
+            SLPClientUser uClient = (SLPClientUser) request.getSession().getAttribute(SSOClientConstants.USER_SESSION_KEY);
+            IUcUserSV ucUserSV = DubboConsumerFactory.getService("iUcUserSV");
+            SearchUserRequest reachUserRequest = new SearchUserRequest();
+            reachUserRequest.setUserId(uClient.getUserId());
+            SearchUserResponse response = ucUserSV.queryBaseInfo(reachUserRequest);
+            Map<String, Object> model = new HashMap<String, Object>();
             model.put("userInfo", response);
+            model.put("uuid", uuid);
+            model.put("confirminfo", "fail");
             return new ModelAndView("jsp/user/email/update-email-start",model);
         }
         request.getSession().setAttribute(SSOClientConstants.USER_SESSION_KEY, userClient);
@@ -427,9 +435,21 @@ public class BandEmailController {
     @RequestMapping("/updateBandEmailAuthenticate")
     public ModelAndView updateBandEmailAuthenticate(HttpServletRequest request){
         String uuid = request.getParameter(SLPMallConstants.UUID.KEY_NAME);
+        if("".equals(uuid)){
+            uuid = UUIDUtil.genId32();
+        }
         SLPClientUser userClient = (SLPClientUser) CacheUtil.getValue(uuid, BandEmail.CACHE_NAMESPACE, SLPClientUser.class);
         if(userClient==null){
-            return new ModelAndView("jsp/user/email/update-email-start");
+            SLPClientUser uClient = (SLPClientUser) request.getSession().getAttribute(SSOClientConstants.USER_SESSION_KEY);
+            IUcUserSV ucUserSV = DubboConsumerFactory.getService("iUcUserSV");
+            SearchUserRequest reachUserRequest = new SearchUserRequest();
+            reachUserRequest.setUserId(uClient.getUserId());
+            SearchUserResponse response = ucUserSV.queryBaseInfo(reachUserRequest);
+            Map<String, Object> model = new HashMap<String, Object>();
+            model.put("userInfo", response);
+            model.put("uuid", uuid);
+            model.put("confirminfo", "fail");
+            return new ModelAndView("jsp/user/email/update-email-start",model);
         }
         request.getSession().setAttribute(SSOClientConstants.USER_SESSION_KEY, userClient);
         CacheUtil.deletCache(uuid, BandEmail.CACHE_NAMESPACE);

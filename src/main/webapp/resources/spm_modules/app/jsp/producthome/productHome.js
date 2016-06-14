@@ -48,8 +48,10 @@ define('app/jsp/producthome/productHome', function (require, exports, module) {
             "change #location":"_changeLocation",
             "change #gprs":"_changeGprsValue",
             "click #CZ_BTN":"_submitOrder",
-            "click #GPRS_BTN":"_submitGprs"
-           
+            "click #GPRS_BTN":"_submitGprs",
+            "click #switchFL1":"_changeSwitch1",
+            "click #switchFL2":"_changeSwitch2"
+            
             
         },
     	//重写父类
@@ -63,6 +65,17 @@ define('app/jsp/producthome/productHome', function (require, exports, module) {
     		
     		
     	},
+    	_changeSwitch1:function(){
+    		var _this=this;
+    		 _this._initHf();
+    		 _this._changeHuafei();
+ 		  
+    	},
+	   _changeSwitch2:function(){
+		   var _this=this;
+		   _this._initLf();
+		   _this._changeGprsValue();
+    	},
     	_initFastInfo:function(){
     		//初始化话费
     		var _this=this;
@@ -73,14 +86,16 @@ define('app/jsp/producthome/productHome', function (require, exports, module) {
     		_this._changeGprsValue();
     	},
     	_initHf:function(){
-
+    		$("#phoneNum1").val("")
+    		$("#phoneFee").html("");
     		$("#phoneFee").append("<option value='¥49.00-¥50.00'>50元</option>");
     		$("#phoneFee").append("<option value='¥29.50-¥30.00'>30元</option>");
     		$("#phoneFee").append("<option value='¥19.50-¥20.00'>20元</option>");
     		$("#phoneFee").append("<option value='¥9.95-¥10.00'>10元</option>");
     	},
     	_initLf:function(){
-
+    		$("#phoneNum2").val("");
+    		$("#gprs").html("");
     		$("#gprs").append("<option value='¥49.00-¥50.00'>1G</option>");
     		$("#gprs").append("<option value='¥35.00-¥40.00'>500M</option>");
     		$("#gprs").append("<option value='¥29.50-¥29.90'>300M</option>");
@@ -149,6 +164,7 @@ define('app/jsp/producthome/productHome', function (require, exports, module) {
 					var key=data.data;
 					window.location.href = _base
 					+ "/order/toOrderPay?orderKey="+key;
+					//window.open(_base+ "/order/toOrderPay?orderKey="+key);
 
 				}
 			});

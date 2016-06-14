@@ -245,7 +245,7 @@ public class ProductController {
 	 * @return
 	 */
 	private ProductImagesVO getProductImages(ProductSKUResponse productSKUVO) {
-		String productImageBigSize = "360x457";
+		String productImageBigSize = "450x450";
 		String productImageSmailSize = "60x60";
 		List<ProductImage> productImageList = productSKUVO.getProductImageList();
 		List<String> bigImagetList = new LinkedList<String>();

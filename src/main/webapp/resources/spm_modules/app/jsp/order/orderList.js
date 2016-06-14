@@ -145,13 +145,13 @@ define('app/jsp/order/orderList', function (require, exports, module) {
     	_searchOrderList: function(){
     		var _this = this;
     		var url = _base+"/myorder/getOrderListData";
-    		var data = this._getSearchParams();
+    		var queryData = this._getSearchParams();
     		$("#pagination-ul").runnerPagination({
 	 			url: url,
 	 			method: "POST",
 	 			dataType: "json",
 	 			processing: true,
-	            data : data,
+	            data : queryData,
 	           	pageSize: OrderListPager.DEFAULT_PAGE_SIZE,
 	           	visiblePages:5,
 	            message: "正在为您查询数据..",
