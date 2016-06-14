@@ -169,7 +169,7 @@
                                     <div class="number">
 									{{if ~parentState=='11'}}
                                     <p><input type="button" class="immedtl-btn" value="立即支付" onclick="window.location.href='${_base}/order/pay?orderId={{:orderId}}'"></p>
-									{{else}}
+									{{else ~orderType!='100010'}}
 									<p><input type="button" class="again-btn" value="再次购买" onclick="window.location.href='${_base}/shopcart/buyAgain?orderId={{:orderId}}'"></p>
 									{{/if}}
                                     <!--<p><a href="#">关闭订单</a></p>-->
