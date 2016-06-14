@@ -15,6 +15,11 @@ public class OrderListQueryParams extends QueryOrderListRequest{
 	 * 1:近3月订单 2：本年订单 3：所有历史订单
 	 */
 	private String selectTime;
+	
+	/**
+	 * 订单状态
+	 */
+	private String states;
 
 	public String getSearchType() {
 		return searchType;
@@ -30,6 +35,14 @@ public class OrderListQueryParams extends QueryOrderListRequest{
 
 	public void setSelectTime(String selectTime) {
 		this.selectTime = selectTime;
+	}
+
+	public String getStates() {
+		return states;
+	}
+
+	public void setStates(String states) {
+		this.states = states;
 	}
 
 }

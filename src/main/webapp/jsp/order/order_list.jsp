@@ -87,7 +87,7 @@
            <ul>
            <li><a href="javaScript:void(0)" onclick="pager._changeOrderState(this)" class="current">全部</a></li>
            <li><a href="javaScript:void(0)" onclick="pager._changeOrderState(this,'11')">待支付</a></li>
-           <li><a href="javaScript:void(0)" onclick="pager._changeOrderState(this,'90')">已成功</a></li>
+           <li><a href="javaScript:void(0)" onclick="pager._changeOrderState(this,'111,90')">已成功</a></li>
            <li><a href="javaScript:void(0)" onclick="pager._changeOrderState(this,'91')" style="border-right-style: none;" >已关闭</a></li>
            <!-- <p><a href="#"><i class="icon-trash"></i>订单回收站</a></p> -->
            </ul>                                        
