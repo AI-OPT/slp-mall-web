@@ -58,10 +58,12 @@ public class ShopCartController {
     @RequestMapping("/addProd")
     @ResponseBody
     public ResponseData<CartProdOptRes> addProd(HttpSession session, @RequestParam Long buyNum, @RequestParam String skuId) {
-        //获取service
-        IShopCartSV iShopCartSV = DubboConsumerFactory.getService("IShopCartSV");
+
         ResponseData<CartProdOptRes> responseData = null;
         try{
+
+            //获取service
+            IShopCartSV iShopCartSV = DubboConsumerFactory.getService("IShopCartSV");
             int skuNumLimit = getSkuNumLimit();
             if (skuNumLimit>0 && buyNum>skuNumLimit){
                 throw new BusinessException("","此商品添加数量超过限制,不允许添加");
@@ -238,7 +240,8 @@ public class ShopCartController {
 
     private String getUserId(HttpSession session){
         SLPClientUser user = (SLPClientUser) session.getAttribute(SSOClientConstants.USER_SESSION_KEY);
-//        return "234";
+        if (user==null)
+            throw new BusinessException("","请先登录");
         return user.getUserId();
     }
 
