@@ -27,7 +27,7 @@
 				<ul>
 					<li><a href="#"><img
 							src="${_slpbase }/images/login-logo.png"></a></li>
-					<li>快充支付</li>
+					<li>订单确认</li>
 				</ul>
 			</div>
 			<div class="fsast-search">
