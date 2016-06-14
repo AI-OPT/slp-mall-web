@@ -124,7 +124,6 @@ define(
 							$("#passwordEmptyFlag").val("1");
 							$("#passwordErrFlag").val("1");
 							if($('#password').val()==""){
-								alert($('#password').val());
 								$("#passwordErrMsgShow").text("密码不能为空");
 								$("#passwordErrMsg").show();
 								$("#passwordEmptyFlag").val("0");

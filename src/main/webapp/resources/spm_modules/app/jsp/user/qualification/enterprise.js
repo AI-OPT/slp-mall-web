@@ -31,21 +31,18 @@ define(
 					$("#submit").on("click", this._submit);
 					},
 				_submit : function(){
-					var params = {
+					var companyInfo = {
 						custName: $("#custName").val(),
 						certAddr: $("#certAddr").val(),
 						certNum: $("#certNum").val(),
-						groupWebsit: $("#groupWebsit").val(),
-						contactName: $("#contactName").val(),
-						contactEmail: $("#contactEmail").val(),
-						contactMp: $("#contactMp").val(),
+						groupWebsite: $("#groupWebsite").val()
 					};
 					ajaxController.ajax({
 				        type: "post",
 				        processing: false,
 				        url: _base+"/user/qualification/saveEnterprise",
 				        dataType: "json",
-				        data: params,
+				        data: companyInfo,
 				        message: "正在加载数据..",
 				        success: function (data) {
 				        	
@@ -57,6 +54,11 @@ define(
 							}
 		    			        
 		    			    }); 
+					var contactInfo = {
+						contactName: $("#contactName").val(),
+						contactEmail: $("#contactEmail").val(),
+						contactMp: $("#contactMp").val()
+					};
 					
 				}
 			
