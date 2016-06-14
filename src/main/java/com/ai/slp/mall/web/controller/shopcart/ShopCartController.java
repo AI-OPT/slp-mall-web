@@ -14,6 +14,11 @@ import com.ai.paas.ipaas.image.IImageClient;
 import com.ai.paas.ipaas.util.JSonUtil;
 import com.ai.slp.mall.web.constants.SLPMallConstants;
 import com.ai.slp.mall.web.model.order.OrderSubmit;
+import com.ai.slp.order.api.orderlist.interfaces.IOrderListSV;
+import com.ai.slp.order.api.orderlist.param.OrdOrderVo;
+import com.ai.slp.order.api.orderlist.param.OrdProductVo;
+import com.ai.slp.order.api.orderlist.param.QueryOrderRequest;
+import com.ai.slp.order.api.orderlist.param.QueryOrderResponse;
 import com.ai.slp.order.api.ordertradecenter.interfaces.IOrderTradeCenterSV;
 import com.ai.slp.order.api.ordertradecenter.param.OrdBaseInfo;
 import com.ai.slp.order.api.ordertradecenter.param.OrdProductInfo;
@@ -22,6 +27,7 @@ import com.ai.slp.order.api.ordertradecenter.param.OrderTradeCenterResponse;
 import com.ai.slp.order.api.shopcart.interfaces.IShopCartSV;
 import com.ai.slp.order.api.shopcart.param.*;
 import com.alibaba.fastjson.JSON;
+
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -33,7 +39,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -262,5 +270,42 @@ public class ShopCartController {
         multiCartProd.setSkuIdList(skuIds);
         return iShopCartSV.deleteMultiProd(multiCartProd);
     }
+    
+    /**
+     * 购物车中添加商品
+     */
+    @RequestMapping("/buyAgain")
+    public ModelAndView buyAgain(HttpSession session, HttpServletRequest request, QueryOrderRequest orderRequest) {
+    	OrdOrderVo orderDetail = getOrderDetail(request, orderRequest);
+    	List<OrdProductVo> productList = orderDetail.getProductList();
+    	if(productList != null && productList.size()>0){
+    		for(OrdProductVo product :productList){
+				addProd(session, 1L, product.getSkuId());
+    		}
+    	}
+    	return new ModelAndView("redirect:/shopcart/cartDetails");
+    }
+    
+    /**
+	 * 订单详情查询
+	 * 
+	 * @param request
+	 * @param orderRequest
+	 * @return
+	 */
+	private OrdOrderVo getOrderDetail(HttpServletRequest request, QueryOrderRequest orderRequest) {
+		OrdOrderVo responseData = null;
+		try {
+			orderRequest.setTenantId("SLP");
+			IOrderListSV iOrderListSV = DubboConsumerFactory.getService("iOrderListSV");
+			QueryOrderResponse orderInfo = iOrderListSV.queryOrder(orderRequest);
+			if (orderInfo != null && orderInfo.getResponseHeader().isSuccess()) {
+				responseData = orderInfo.getOrdOrderVo();
+			}
+		} catch (Exception e) {
+			LOG.error("查询订单失败：", e);
+		}
+		return responseData;
+	}
     
 }
