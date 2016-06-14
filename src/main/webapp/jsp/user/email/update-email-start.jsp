@@ -10,7 +10,7 @@
 	<link href="${_slpbase }/styles/font-awesome.css" rel="stylesheet" type="text/css"/>
 	<script type="text/javascript">
 		var uuid = "${uuid}";
-		(function() {
+		(function() { 
 			seajs.use([ 'app/jsp/user/bandemail/confirmInfo'], function(ConfirmInfoPager) {
 				var pager = new ConfirmInfoPager({
 					element : document.body
