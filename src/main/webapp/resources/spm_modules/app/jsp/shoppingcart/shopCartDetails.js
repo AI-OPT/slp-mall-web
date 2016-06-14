@@ -338,7 +338,7 @@ define('app/jsp/shoppingcart/shopCartDetails', function (require, exports, modul
 			});
 			//若未选中任何项,则不提交
 			if (orderSku.length <1){
-				_showMsg("请选择要下单商品");
+				this._showMsg("请先选择至少一件商品，再提交订单");
 				return;
 			}
 			$("#submitForm").append("<input type='hidden' name='prodObj' value='"+JSON.stringify(orderSku)+"'/>")
