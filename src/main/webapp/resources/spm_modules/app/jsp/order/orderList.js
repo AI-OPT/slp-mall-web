@@ -107,8 +107,8 @@ define('app/jsp/order/orderList', function (require, exports, module) {
     			$("#changeSearchType").parents().children('.open-gaoj').slideToggle(100);
     			
     			$("#payStyleQ").val("");
-    			$("orderTimeBeginQ").val("");
-    			$("orderTimeEndQ").val("");
+    			$("#orderTimeBeginQ").val("");
+    			$("#orderTimeEndQ").val("");
     			var searchType = $("#searchType").val();
     			if(searchType == "1"){
     				$("#searchType").val("2");
