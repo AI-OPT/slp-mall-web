@@ -148,12 +148,24 @@ public class OrderPayController {
     public ModelAndView returnUrl(HttpServletRequest request, HttpServletResponse response)
             throws Exception {
         logger.info("前台回调...");
+        HttpSession session = request.getSession();
+        SLPClientUser user = (SLPClientUser) session.getAttribute(SSOClientConstants.USER_SESSION_KEY);
+        IOrderListSV orderList = DubboConsumerFactory.getService(IOrderListSV.class);
+        QueryOrderRequest orderRequest = new QueryOrderRequest();
+        if (null == user) {
+            orderRequest.setTenantId(SLPMallConstants.COM_TENANT_ID);
+        } else {
+            orderRequest.setTenantId(user.getTenantId());
+        }
         ModelAndView view = null;
         String orderId = request.getParameter("orderId"); // 订单号
         String payStates = request.getParameter("payStates"); // 交易状态
-        System.out.println("支付状态为:"+payStates);
+        orderRequest.setOrderId(Long.valueOf(orderId));
+        QueryOrderResponse queryOrderResponse = orderList.queryOrder(orderRequest);
+        String orderType = queryOrderResponse.getOrdOrderVo().getOrderType();
         String orderAmount = request.getParameter("orderAmount"); // 订单金额
         request.setAttribute("orderId", orderId);
+        request.setAttribute("orderType", orderType);
         request.setAttribute("orderAmount", orderAmount);
         if (SLPMallConstants.PayState.PAY_SUCCESS.equals(payStates)) {
             view=new ModelAndView("jsp/pay/paySuccess");
@@ -174,6 +186,7 @@ public class OrderPayController {
     public void notifyUrl(HttpServletRequest request, HttpServletResponse response)
             throws Exception {
         System.out.println("开始调用后台通知");
+        String tenantId = ConfigUtil.getProperty("TENANT_ID");
         logger.info("==================开始调用后台通知=======================================");
         /************************************** 从返回报文中获取数据 ****************************************/
         String outOrderId_ = request.getParameter("outOrderId"); // 第三方支付平台交易流水号
@@ -194,7 +207,7 @@ public class OrderPayController {
         logger.info("交易类型：" + payType_);
         logger.info("加密信息：" + infoMd5_);
 
-        String md5Str = outOrderId_ + ";" + orderId_ + ";" + orderAmount_ + ";" + payStates_;
+        String md5Str = outOrderId_ + ";" + orderId_ + ";" + orderAmount_ + ";" + payStates_ + ";"+tenantId; 
         String infoMd5 = VerifyUtil.encodeParam(md5Str, ConfigUtil.getProperty("REQUEST_KEY"));
         logger.info("我的============加密信息：" + infoMd5);
         if (infoMd5_.equals(infoMd5)) {// 加密信息校验
