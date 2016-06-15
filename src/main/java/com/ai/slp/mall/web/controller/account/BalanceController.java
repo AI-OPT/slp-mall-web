@@ -154,7 +154,7 @@ public class BalanceController {
 		chargeInfoQueryByAcctIdParam.setTenantId(user.getTenantId());//(TENANT_ID);
 		PageInfo<ChargeBaseInfo> chargeBaseInfoPageInfo = new PageInfo<ChargeBaseInfo>();
 		chargeBaseInfoPageInfo.setPageNo(1);
-		chargeBaseInfoPageInfo.setPageSize(10);
+		chargeBaseInfoPageInfo.setPageSize(1000);
 		chargeInfoQueryByAcctIdParam.setPageInfo(chargeBaseInfoPageInfo);
 		//
 		Map<String,String> time = new HashMap<String,String>();
