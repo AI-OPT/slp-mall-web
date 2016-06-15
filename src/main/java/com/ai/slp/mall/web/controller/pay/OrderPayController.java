@@ -230,6 +230,7 @@ public class OrderPayController {
                 logger.info("金额对吗：" + infoMd5);
                 payRequest.setExternalId(outOrderId_);
                 payRequest.setPayType(SLPMallConstants.OrderPayType.ONLINE_PAY);
+                payRequest.setTenantId(tenantId);
                 logger.info("123123123对吗：" + JSON.toJSONString(payRequest));
                 IOrderPaySV iOrderPaySV = DubboConsumerFactory.getService(IOrderPaySV.class);
                 payResponse = iOrderPaySV.pay(payRequest);
