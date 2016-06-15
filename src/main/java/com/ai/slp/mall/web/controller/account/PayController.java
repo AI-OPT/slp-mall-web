@@ -32,7 +32,6 @@ import com.ai.slp.mall.web.util.PaymentUtil;
 import com.ai.slp.mall.web.util.VerifyUtil;
 
 @RestController
-@RequestMapping("/payment")
 public class PayController {
 	//
 
@@ -55,7 +54,7 @@ public class PayController {
 	 * @author LiangMeng
 	 * @ApiDocMethod
 	 */
-	@RequestMapping("/recharge/two")
+	@RequestMapping("/payment/recharge/two")
 	public ModelAndView two(HttpServletRequest request) {
 	    String payAmount = request.getParameter("payAmount");
 	    Map<String,Object> paramMap = new HashMap<String,Object>();
@@ -64,7 +63,7 @@ public class PayController {
 	    ModelAndView view = new ModelAndView("jsp/account/recharge/two",paramMap);
 	    return view;
     }
-	@RequestMapping("/recharge/gotoPay")
+	@RequestMapping("/payment/recharge/gotoPay")
     public void gotoPay(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String payAmount = request.getParameter("payAmount");
         String tenantId =  ConfigUtil.getProperty("TENANT_ID");  
@@ -82,7 +81,7 @@ public class PayController {
         String basePath = request.getScheme() + "://" + request.getServerName() + ":"
                 + request.getServerPort() + request.getContextPath();
         String returnUrl = basePath + "/payment/recharge/returnUrl";
-        String notifyUrl = basePath + "/payment/recharge/notifyUrl";
+        String notifyUrl = basePath + "/pay/recharge/notifyUrl";
         //String tempAmount = request.getParameter("payAmount");
         String orderAmount = "0.01";//request.getParameter("payAmount");//String.valueOf(new BigDecimal(tempAmount).divide(new BigDecimal(100)));
         String requestSource = SLPMallConstants.RequestSource.WEB;
@@ -112,7 +111,7 @@ public class PayController {
         response.getWriter().write(htmlStr);
 
     }
-	@RequestMapping("/recharge/returnUrl")
+	@RequestMapping("/payment/recharge/returnUrl")
 	public ModelAndView returnUrl(HttpServletRequest request) {
 	    String orderId = request.getParameter("orderId"); // 订单号
         String payStates = request.getParameter("payStates"); // 交易状态
@@ -126,7 +125,7 @@ public class PayController {
         return view;
     }
 	
-	@RequestMapping("/recharge/notifyUrl")
+	@RequestMapping("/pay/recharge/notifyUrl")
 	public void notifyUrl(HttpServletRequest request) {
 	    LOG.info("缴费订单支付后台通知开始...");
         String tenantId =  ConfigUtil.getProperty("TENANT_ID");  
