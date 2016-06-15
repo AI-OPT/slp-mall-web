@@ -52,7 +52,11 @@ define('app/jsp/product/searchProduct', function (require, exports, module) {
 				url: _base+"/head/getSessionData",
 				data:'',
 				success: function(data){
-					_this._setArea(data.data.areaCode,data.data.areaName);
+					if(data.data.areaCode!=null && data.data.areaCode!="" &&　data.data.areaCode!=undefined){
+						_this._setArea(data.data.areaCode,data.data.areaName);
+					}else{
+						_this._setArea("11","北京");
+					}
 					var sourceFlag = $("#sourceFlag").val();
 					if(sourceFlag=="00"){
 		    			_this._search();
@@ -349,7 +353,7 @@ define('app/jsp/product/searchProduct', function (require, exports, module) {
     		var sourceFlag = $("#sourceFlag").val();
     		if(sourceFlag=="00"){
     			var	productCatId = $("#catType").val();
-    			if(productCatId==null){
+    			if(productCatId==null || productCatId==""){
     				var title =document.getElementById('typeTitleId').innerText
     				if(title=="话费充值"){
     					var	productCatId="10000010010000"
@@ -371,8 +375,17 @@ define('app/jsp/product/searchProduct', function (require, exports, module) {
     			var disapatch= $("#currentDispatch").attr("currentDispatchCode");
     		}
     		var areaCode = $("#areaSearch").val();
+    		var areaCodeSerch = $("#areaSearch").val();
+			var priceSearch = $("#priceSearch").val();
+			var orgiredSearch = $("#agentSearch").val();
+    		if(orgiredSearch=="" && priceSearch=="" && areaCodeSerch==""){
+    			var url=_base+"/search/commonSearch";
+    		}else{
+    			var url=_base+"/search/getProduct";
+    		}
     		var	param={
 					areaCode:disapatch,
+					skuName:$("#serachName").val(),
 					productCatId: productCatId,
 					basicOrgIdIs: orgired,
 					attrDefId:priceId,
@@ -380,7 +393,6 @@ define('app/jsp/product/searchProduct', function (require, exports, module) {
 					saleNumOrderFlag:$("#saleOrder").attr("value"),
 					distributionArea:areaCode
 				   };
-    		var url = _base+"/search/getProduct";
     		$("#pagination-ul").runnerPagination({
 	 			url: url,
 	 			method: "POST",
