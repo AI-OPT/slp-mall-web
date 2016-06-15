@@ -212,7 +212,9 @@ public class OrderPayController {
         logger.info("我的============加密信息：" + infoMd5);
         if (infoMd5_.equals(infoMd5)) {// 加密信息校验
             // 支付平台返回支付成功，调用订单支付接口
+            logger.info("进来了吗检查一下：" + infoMd5);
             if (SLPMallConstants.PayState.PAY_SUCCESS.equalsIgnoreCase(payStates_)) {
+                logger.info("说明状态一致：" + infoMd5);
                 // 组装参数调用订单支付服务
                 OrderPayRequest payRequest = new OrderPayRequest();
                 BaseResponse payResponse = null;
