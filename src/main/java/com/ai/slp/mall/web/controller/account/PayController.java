@@ -129,8 +129,7 @@ public class PayController {
 	public void notifyUrl(HttpServletRequest request) {
 	    LOG.info("缴费订单支付后台通知开始...");
         String tenantId =  ConfigUtil.getProperty("TENANT_ID");  
-        long accountId = this.getUserId(request).getAcctId();
-        IPayOrderSV iPayOrderSV = DubboConsumerFactory.getService(IPayOrderSV.class);
+        /*1.接收参数*/
 	    String orderId = request.getParameter("orderId"); // 订单号
 	    String payAmount = request.getParameter("orderAmount");
 	    String subject = request.getParameter("subject");
@@ -138,7 +137,14 @@ public class PayController {
 	    String payType = request.getParameter("payType");
 	    String payStates = request.getParameter("payStates");
 	    String infoMd5Param = request.getParameter("infoMd5");
-	    
+
+        IPayOrderSV iPayOrderSV = DubboConsumerFactory.getService(IPayOrderSV.class);
+        
+        
+        PayOrderParam orderInfo = iPayOrderSV.queryPayOrder(orderId);
+        if(orderInfo==null){
+            throw new SystemException("未查到相应订单，订单号：["+orderId+"]");
+        }
 	    String infoStr = outOrderId + VerifyUtil.SEPARATOR + orderId + VerifyUtil.SEPARATOR
                 + payAmount + VerifyUtil.SEPARATOR + payStates;
         String infoMd5 = VerifyUtil.encodeParam(infoStr, ConfigUtil.getProperty("REQUEST_KEY"));
@@ -155,7 +161,7 @@ public class PayController {
 	            List<TransSummary> transSummaryList = new ArrayList<TransSummary>();
 	            transSummaryList.add(summary);
 	            param.setTransSummary(transSummaryList);
-	            param.setAccountId(accountId);
+	            param.setAccountId(Long.parseLong(orderInfo.getAcctId()));
 	            param.setBusiDesc(subject);
 	            param.setBusiSerialNo(orderId);
 	            param.setTenantId(tenantId);
@@ -168,7 +174,7 @@ public class PayController {
 	            payParam.setStatus(2);        
 	            PaymentParam paymentParam = new PaymentParam();
 	            paymentParam.setTenantId(tenantId);
-	            paymentParam.setAcctId(accountId);
+	            paymentParam.setAcctId(Long.parseLong(orderInfo.getAcctId()));
 	            paymentParam.setOrderId(orderId);
 	            paymentParam.setBusiType("1");
 	            paymentParam.setBusiOperCode("300000");

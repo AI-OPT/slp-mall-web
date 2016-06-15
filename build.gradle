@@ -124,7 +124,7 @@ dependencies {
 	compile 'com.ai.slp.balance:fundquery:1.0-SNAPSHOT'
 	compile 'com.ai.slp.charge:paymentquery:1.0-SNAPSHOT'
     //充值缴费
-    compile 'com.ai.slp.charge:payment:1.1-SNAPSHOT'
+    compile 'com.ai.slp.charge:payment:1.11-SNAPSHOT'
     //存款取款
     compile 'com.ai.slp.balance:deposit:1.0-SNAPSHOT'
     //登录
