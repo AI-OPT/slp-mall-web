@@ -19,4 +19,3 @@ gradle-app.setting
 .settings/
 /bin/
 logs/
-/build.gradle
