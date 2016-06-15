@@ -44,8 +44,6 @@
              	<input type="hidden" name="billType" id="billType" value="${requestScope.billType}"/>
              	<input type="hidden" name="orgired" id="orgired" value="${requestScope.orgired}"/>
              	<input type="hidden" name="skuName" id="skuName" value="${requestScope.skuName}"/>
-             	<input type="hidden" name="currenArea" id="currenArea" value="${requestScope.currenArea}"/>
-             	<input type="hidden" name="currenAreaName" id="currenAreaName" value="${requestScope.currenAreaName}"/>
              	<input type="hidden" name="sourceFlag" id="sourceFlag" value="${requestScope.sourceFlag}"/>
                 <!-- 公共查询条件默认数据 start-->
                 <input type="hidden" id="agentSearch" value="100002"/>
@@ -279,4 +277,5 @@ $(document).ready(function(){
 	});
 
 });
+			
 </script>

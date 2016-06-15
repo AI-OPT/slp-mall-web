@@ -583,7 +583,6 @@ define('app/jsp/producthome/productHome', function (require, exports, module) {
       	},
       	_getMore: function(){
       		var agent = $("#flowOprator").val();
-      		alert(agent);
       		var productCatId ="10000010020000";
       		window.location.href = _base + '/search/list?billType='+productCatId+"&orgired="+agent;;
       	},

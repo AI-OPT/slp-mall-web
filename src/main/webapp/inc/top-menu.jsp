@@ -4,11 +4,11 @@
      <div class="top-menu-main">
      <ul class="left">
          <li>所在地</li>
-         <li class="city"><a href="javascript:void(0)" currentCityCode="11" currentCityName="北京" id="currentCity">北京<img src="${_slpbase }/images/open-a.png">
+         <li class="city"><a href="javascript:void(0)" id="currentCity"><img src="${_slpbase }/images/open-a.png">
          
          </a>
          <!--选择所在地城市-->
-                 <div class="city-hover" style=" display:none;">
+                 <div class="city-hover" style="display:none;">
                       <ul class="title">
                           <li class="hot">热门城市</li>
                           <li><A href="#">北京</A></li>
@@ -19,7 +19,7 @@
                       </ul>
                        <ul class="city-list" id="cityShowData">
                        <script id="cityTmpl" type="text/x-jsrender">
-							<li><A href="javascript:void(0)" areaCodeId="{{:areaCode}}" areaNameId="{{:areaName}}"class="ATTs_BTN">{{:areaName}}</A></li>
+							<li><A href="javascript:void(0)" areaCodeId="{{:areaCode}}" areaNameId="{{:areaName}}"class="ATTS_BTN">{{:areaName}}</A></li>
 					   </script>
                       </ul>
                   </div>

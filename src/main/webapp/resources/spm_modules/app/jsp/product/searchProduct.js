@@ -36,26 +36,41 @@ define('app/jsp/product/searchProduct', function (require, exports, module) {
     	setup: function () {
     		QueryProductPager.superclass.setup.call(this);
     		//初始化执行搜索
-    		this._getCity();
-    		this._setArea();
-    		var sourceFlag = $("#sourceFlag").val();
+    		this._getsessionData();
+    		this._getDispatchCity();
     		var name = $("#skuName").val();
     		$("#serachName").val(name);
-    		if(sourceFlag=="00"){
-    			this._search();
-    		}else{
-    			this._searchBtnClick();
-    		}
-    		this._getHotProduct();
+    	},
+    	_getsessionData: function(){
+    		var _this = this;
+    		//从session获取数据
+    		ajaxController.ajax({
+				type: "post",
+				dataType: "json",
+				processing: true,
+				message: "查询中，请等待...",
+				url: _base+"/head/getSessionData",
+				data:'',
+				success: function(data){
+					_this._setArea(data.data.areaCode,data.data.areaName);
+					var sourceFlag = $("#sourceFlag").val();
+					if(sourceFlag=="00"){
+		    			_this._search();
+		    		}else{
+		    			_this._searchBtnClick();
+		    		}
+					_this._getHotProduct();
+					
+				}
+			})
     	},
     	//设置当前地区
-    	_setArea:function(){
-    		var area = $("#currenArea").val();
-    		var name = $("#currenAreaName").val();
-    		$("#currentCity").attr("currentCityCode",area);
-    		document.getElementById("currentCity").innerHTML=name;
+    	_setArea:function(code,name){
+    		 $("#currentCity").attr("currentCityCode",code);
+    		$("#currentCity").attr("currentCityName",name);
+    		//document.getElementById("currentCity").innerHTML=name;
     		//级联修改送货地区
-    		$("#currentDispatch").attr("currentDispatchCode",area);
+    		$("#currentDispatch").attr("currentDispatchCode",code);
 			$("#currentDispatch").attr("currentDispatchName",name);
     		document.getElementById("currentDispatch").innerHTML=name;
     	},
@@ -96,10 +111,13 @@ define('app/jsp/product/searchProduct', function (require, exports, module) {
     					document.getElementById("areaTile").innerHTML=name;
     					$("#isHaveDataFlag").val("11");
 	            	}else{
+	            		//获取所在地code
+    					var name ="地域:"+$("#currentCity").attr("currentCityName");
+    					document.getElementById("areaTile").innerHTML=name;
 	            		//隐藏公共信息
 	            		$("#commonId").attr("style","display: none");
 	            		//$("#commonData").attr("style","display: none");
-    					$("#productData").html("没有搜索到相关信息");
+    					$("#productData").html("抱歉没有找到相关商品，更换搜索词试一试吧");
     					$("#isHaveDataFlag").val("00");
 	            	}
 	            },
@@ -114,6 +132,7 @@ define('app/jsp/product/searchProduct', function (require, exports, module) {
     	
     	//首页搜索跳转操作
     	_searchBtnClick: function(){
+    		var _this = this;
     		//设置title
 			var type = $("#billType").val();
 			if(type=="10000010010000"){
@@ -132,7 +151,6 @@ define('app/jsp/product/searchProduct', function (require, exports, module) {
 					basicOrgIdIs: $("#orgired").val(),
 					attrDefId:$("#priceId").val()
 				   };
-    		var _this = this;
     		var url = _base+"/search/getProduct";
     		$("#pagination-ul").runnerPagination({
 	 			url: url,
@@ -160,7 +178,7 @@ define('app/jsp/product/searchProduct', function (require, exports, module) {
 	            		$("#isHaveDataFlag").val("00");
 	            		$("#commonId").attr("style","display: none");
 	            		//$("#commonData").attr("style","display: none");
-    					$("#productData").html("没有搜索到相关信息");
+    					$("#productData").html("抱歉没有找到相关商品，更换搜索词试一试吧");
 	            	}
 	            },
 	            callback: function(data){
@@ -310,6 +328,20 @@ define('app/jsp/product/searchProduct', function (require, exports, module) {
     		$(newArea).addClass("current");
     		_this._changeDataClick();
     	},
+    	 _changeDispath : function() {
+    		 var _wthis = this;
+ 			$(".DSP_BTN").bind(
+ 				"click",
+ 				function() {
+ 					var _this = this;
+ 					var cityCode = $(_this).attr('areaCodeId');
+ 					var cityName = $(_this).attr('areaNameId');
+ 					$("#currentDispatch").attr("currentDispatchCode",cityCode);
+ 					$("#currentDispatch").attr("currentDispatchName",cityName);
+ 		    		document.getElementById("currentDispatch").innerHTML=cityName;
+ 		    		_wthis._changeDataClick();
+ 				})
+ 		},
     	//根据选择条件进行查询
     	_changeDataClick: function(){
     		var _this = this;
@@ -370,7 +402,7 @@ define('app/jsp/product/searchProduct', function (require, exports, module) {
 	            		//$("#commonId").attr("style","display: none");
 	            		//$("#commonData").attr("style","display: none");
 	            		$("#isHaveDataFlag").val("00");
-    					$("#productData").html("没有搜索到相关信息");
+    					$("#productData").html("抱歉没有找到相关商品，更换搜索词试一试吧");
 	            	}
 	            },
 	            callback: function(data){
@@ -381,7 +413,7 @@ define('app/jsp/product/searchProduct', function (require, exports, module) {
     		});
     	},
     	//获取配送地区
-    	_getCity: function(){
+    	_getDispatchCity: function(){
     		var _this = this;
       		ajaxController.ajax({
 				type: "post",
@@ -414,26 +446,14 @@ define('app/jsp/product/searchProduct', function (require, exports, module) {
 			}
     		
 		},*/
-      _changeDispath : function() {
-			$(".DSP_BTN").bind(
-				"click",
-				function() {
-					var _this = this;
-					var cityCode = $(_this).attr('areaCodeId');
-					var cityName = $(_this).attr('areaNameId');
-					$("#currentDispatch").attr("currentDispatchCode",cityCode);
-					$("#currentDispatch").attr("currentDispatchName",cityName);
-		    		document.getElementById("currentDispatch").innerHTML=cityName;
-		    		_this._changeDataClick();
-				})
-		},
+     
     	//点击销量触发的事件
 		_changeSaleOrder: function(){
+			var _this = this;
 			var flag = $("#isHaveDataFlag").val();
 			if(flag=="00"){
 				return;
 			}else{
-				var _this = this;
 				$("#priceOrder").attr("value","");
 				$("#saleOrder").attr("value","ASE");
 				_this._changeDataClick();
@@ -442,11 +462,11 @@ define('app/jsp/product/searchProduct', function (require, exports, module) {
 		 },
 		//点击价格排序触发事件
 		_changePriceOrder: function(){
+			var _this = this;
 			var flag = $("#isHaveDataFlag").val();
 			if(flag=="00"){
 				return;
 			}else{
-				var _this = this;
 				$("#saleOrder").attr("value","");
 				$("#priceOrder").attr("value","ASE");
 				_this._changeDataClick();

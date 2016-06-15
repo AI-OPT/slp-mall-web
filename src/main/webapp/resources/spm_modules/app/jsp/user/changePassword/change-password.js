@@ -60,7 +60,7 @@ define(
 							var newPasswordConfirm = $('#newPasswordConfirm').val();
 							if(newPasswordConfirm==""){
 								$("#newPasswordConfirmErrMsgShow").text("密码不能为空");
-								$('#passwordImg').attr('src',_base+'/resources/slpmall/images/icon-a.png');
+								$('#confirmPasswordImg').attr('src',_base+'/resources/slpmall/images/icon-a.png');
 								$("#newPasswordConfirmErrMsg").show();
 								$("#newPasswordConfirmEmptyFlag").val("0");
 							}
