@@ -146,7 +146,7 @@
 	<script type="text/javascript">
 		var pager;
         var errMsg = '${errMsg}';
-		var cartProdList = $.parseJSON("${cartProdList==null?'[]':cartProdList}");
+		var cartProdList = $.parseJSON('${cartProdList==null?"[]":cartProdList}');
 		var skuNumLimit = '${skuNumLimit}';
 		(function () {
 			seajs.use('app/jsp/shoppingcart/shopCartDetails', function (shopCartDetailsPager) {
