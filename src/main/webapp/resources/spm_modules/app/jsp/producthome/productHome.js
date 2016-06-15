@@ -43,8 +43,8 @@ define('app/jsp/producthome/productHome', function (require, exports, module) {
             "click #flowCmcc":"_getFlowProduct",
             "click #flowCtcc":"_getFlowProduct",
             "click #flowCucc":"_getFlowProduct",
-            "keyup  #phoneNum1":"_getPhoneInfo"	,
-            "keyup  #phoneNum2":"_getGprs",	
+           // "keyup  #phoneNum1":"_getPhoneInfo"	,
+          //  "keyup  #phoneNum2":"_getGprs",	
             "change #phoneFee":"_changeHuafei",
             "change #location":"_changeLocation",
             "change #gprs":"_changeGprsValue",
@@ -61,7 +61,8 @@ define('app/jsp/producthome/productHome', function (require, exports, module) {
     		//初始化执行搜索
     		this._getsessionData();
     		this._initFastInfo();
-    		
+    		this._getPhoneInfo();
+    		this._getGprs();
     	},
     	_changeSwitch1:function(){
     		var _this=this;
@@ -263,84 +264,87 @@ define('app/jsp/producthome/productHome', function (require, exports, module) {
     	
     	_getPhoneInfo:function(){
     		var _this=this;
-    		 $("#submitOdrBtn").removeAttr('href');
-    		if($.trim($("#phoneNum1").val()).length==0){
-    			$("#phoneFee").html("");
-   			 $("#realFee").text("");
-    			_this._initHf();
-    			_this._changeHuafei();
-    		}
-    		//如果等于11去查询，如果小于11把之前查询出来的信息清除
-    		if($.trim($("#phoneNum1").val()).length==11){
-    			 var mobileReg = /^0?1[3|4|5|8|7][0-9]\d{8}$/; 
-    			 if(mobileReg.test($.trim($("#phoneNum1").val()))==false){
-    				 Dialog({
-    						title : '提示',
-    						width : '200px',
-    						height : '50px',
-    						content : "手机号格式不对，请重新输入",
-    						okValue : "确定",
-    						ok : function() {
-    							this.close;
-    						}
-    					}).showModal();
-    	    			return false;
+    		$("#phoneNum1").bind('input propertychange',function(){
+    			//var _this=this;
+       		 $("#submitOdrBtn").removeAttr('href');
+       		if($.trim($("#phoneNum1").val()).length==0){
+       			$("#phoneFee").html("");
+      			 $("#realFee").text("");
+       			_this._initHf();
+       			_this._changeHuafei();
+       		}
+       		//如果等于11去查询，如果小于11把之前查询出来的信息清除
+       		if($.trim($("#phoneNum1").val()).length==11){
+       			 var mobileReg = /^0?1[3|4|5|8|7][0-9]\d{8}$/; 
+       			 if(mobileReg.test($.trim($("#phoneNum1").val()))==false){
+       				 Dialog({
+       						title : '提示',
+       						width : '200px',
+       						height : '50px',
+       						content : "手机号格式不对，请重新输入",
+       						okValue : "确定",
+       						ok : function() {
+       							this.close;
+       						}
+       					}).showModal();
+       	    			return false;
 
-    			 }
-    			
-    			 $("#phoneFee").html("");
-    			 $("#realFee").text("");
-    			ajaxController.ajax({
-					type: "post",
-					dataType: "json",
-				
-					url: _base+"/getPhoneInfo",
-					data:{
-						phoneNum:$.trim($("#phoneNum1").val()).substr(0,7)
-						},
-					success: function(data){
-						var d=data.data;
-						if(d){
-							
-							//var productCatId="10000010010000";
-							$("#basicOrgId1").val(d.basicOrgCode);
-							$("#PCode").val(d.provinceCode);
-							var provCode=d.provinceCode;
-							var basicOrgId=d.basicOrgCode;
-							//userType 
-							//userId
-							ajaxController.ajax({
-								type: "post",
-								dataType: "json",
-							
-								url: _base+"/getFastInfo",
-								data:{
-									provCode:provCode,
-									basicOrgId:basicOrgId
-									},
-								success: function(data){
-									
-									var d=data.data;
-									
-									 $("#phoneFee").html("");
-									if(d){
-										var phoneFee=d.phoneFee;
-									//	$("#submitOdrBtn").attr('href','#ttt');
-										$.each(phoneFee,function(index,item){
-											
-											var paramName = phoneFee[index].content;
-											var paramCode = phoneFee[index].skuInfo.salePrice+";"+phoneFee[index].skuInfo.skuId;
-											$("#phoneFee").append('<option value="'+paramCode+'">'+paramName+'</option>');
-											_this._changeHuafei();
-										})
-									}
-								}
-							});
-							
-						}
-					}
-				});
-    		}
+       			 }
+       			
+       			 $("#phoneFee").html("");
+       			 $("#realFee").text("");
+       			ajaxController.ajax({
+   					type: "post",
+   					dataType: "json",
+   				
+   					url: _base+"/getPhoneInfo",
+   					data:{
+   						phoneNum:$.trim($("#phoneNum1").val()).substr(0,7)
+   						},
+   					success: function(data){
+   						var d=data.data;
+   						if(d){
+   							
+   							//var productCatId="10000010010000";
+   							$("#basicOrgId1").val(d.basicOrgCode);
+   							$("#PCode").val(d.provinceCode);
+   							var provCode=d.provinceCode;
+   							var basicOrgId=d.basicOrgCode;
+   							//userType 
+   							//userId
+   							ajaxController.ajax({
+   								type: "post",
+   								dataType: "json",
+   							
+   								url: _base+"/getFastInfo",
+   								data:{
+   									provCode:provCode,
+   									basicOrgId:basicOrgId
+   									},
+   								success: function(data){
+   									
+   									var d=data.data;
+   									
+   									 $("#phoneFee").html("");
+   									if(d){
+   										var phoneFee=d.phoneFee;
+   									//	$("#submitOdrBtn").attr('href','#ttt');
+   										$.each(phoneFee,function(index,item){
+   											
+   											var paramName = phoneFee[index].content;
+   											var paramCode = phoneFee[index].skuInfo.salePrice+";"+phoneFee[index].skuInfo.skuId;
+   											$("#phoneFee").append('<option value="'+paramCode+'">'+paramName+'</option>');
+   											_this._changeHuafei();
+   										})
+   									}
+   								}
+   							});
+   							
+   						}
+   					}
+   				});
+       		}
+        	});
     	
     	},
     	_changeHuafei:function(){
@@ -356,85 +360,90 @@ define('app/jsp/producthome/productHome', function (require, exports, module) {
     	
     	_getGprs:function(){
     		var _this=this;
-    		$("#submitGpBtn").removeAttr('href');
-    		 if($.trim($("#phoneNum2").val()).length==0){
-    			 $("#gprs").html("");
-             	$("#realFee1").text("");
-    			//初始化流量
-    	    		_this._initLf();
-    	    		_this._changeGprsValue();
-    		 }
-    		 
-    		
-            if($.trim($("#phoneNum2").val()).length==11){
-            	var phoneNum=$.trim($("#phoneNum2").val());
-        		var mobileReg = /^0?1[3|4|5|8|7][0-9]\d{8}$/; 
-        		
-        		 if(mobileReg.test(phoneNum)==false){
-        						 Dialog({
-        								title : '提示',
-        								width : '200px',
-        								height : '50px',
-        								content : "手机号格式不对，请重新输入",
-        								okValue : "确定",
-        								ok : function() {
-        									this.close;
-        								}
-        							}).showModal();
-        			    return false;
+    		$("#phoneNum2").bind('input propertychange',function(){
+    			$("#submitGpBtn").removeAttr('href');
+       		 if($.trim($("#phoneNum2").val()).length==0){
+       			 $("#gprs").html("");
+                	$("#realFee1").text("");
+       			//初始化流量
+       	    		_this._initLf();
+       	    		_this._changeGprsValue();
+       		 }
+       		 
+       		
+               if($.trim($("#phoneNum2").val()).length==11){
+               	var phoneNum=$.trim($("#phoneNum2").val());
+           		var mobileReg = /^0?1[3|4|5|8|7][0-9]\d{8}$/; 
+           		
+           		 if(mobileReg.test(phoneNum)==false){
+           						 Dialog({
+           								title : '提示',
+           								width : '200px',
+           								height : '50px',
+           								content : "手机号格式不对，请重新输入",
+           								okValue : "确定",
+           								ok : function() {
+           									this.close;
+           								}
+           							}).showModal();
+           			    return false;
 
-        		 }
-            	$("#gprs").html("");
-            	$("#realFee1").text("");
-    			ajaxController.ajax({
-					type: "post",
-					dataType: "json",
-				
-					url: _base+"/getPhoneInfo",
-					data:{
-						phoneNum:$.trim($("#phoneNum2").val()).substr(0,7)
-						},
-					success: function(data){
-						var d=data.data;
-						if(d){
-							
-							//var productCatId="10000010010000";
-							$("#gbasicOrgId").val(d.basicOrgCode);
-							$("#PCode1").val(d.provinceCode);
-							
-							var provCode=d.provinceCode;
-							var basicOrgId=d.basicOrgCode;
-							
-							//userType 
-							//userId
-							ajaxController.ajax({
-								type: "post",
-								dataType: "json",
-								url: _base+"/getFastGprs",
-								data:{
-									provCode:provCode,
-									basicOrgId:basicOrgId,
-									location:$("#location").val()
-									},
-								success: function(data){
-									var d=data.data;
-									 $("#gprs").html("");
-									if(d){
-										var phoneFee=d.phoneFee;
-										$.each(phoneFee,function(index,item){
-											var paramName = phoneFee[index].content;
-											var paramCode = phoneFee[index].skuInfo.salePrice+";"+phoneFee[index].skuInfo.skuId;
-											$("#gprs").append('<option value="'+paramCode+'">'+paramName+'</option>');
-											_this._changeGprsValue();
-										})
-									}
-								}
-							});
-							
-						}
-					}
-				});
-    		}
+           		 }
+               	$("#gprs").html("");
+               	$("#realFee1").text("");
+       			ajaxController.ajax({
+   					type: "post",
+   					dataType: "json",
+   				
+   					url: _base+"/getPhoneInfo",
+   					data:{
+   						phoneNum:$.trim($("#phoneNum2").val()).substr(0,7)
+   						},
+   					success: function(data){
+   						var d=data.data;
+   						if(d){
+   							
+   							//var productCatId="10000010010000";
+   							$("#gbasicOrgId").val(d.basicOrgCode);
+   							$("#PCode1").val(d.provinceCode);
+   							
+   							var provCode=d.provinceCode;
+   							var basicOrgId=d.basicOrgCode;
+   							
+   							//userType 
+   							//userId
+   							ajaxController.ajax({
+   								type: "post",
+   								dataType: "json",
+   								url: _base+"/getFastGprs",
+   								data:{
+   									provCode:provCode,
+   									basicOrgId:basicOrgId,
+   									location:$("#location").val()
+   									},
+   								success: function(data){
+   									var d=data.data;
+   									 $("#gprs").html("");
+   									if(d){
+   										var phoneFee=d.phoneFee;
+   										$.each(phoneFee,function(index,item){
+   											var paramName = phoneFee[index].content;
+   											var paramCode = phoneFee[index].skuInfo.salePrice+";"+phoneFee[index].skuInfo.skuId;
+   											$("#gprs").append('<option value="'+paramCode+'">'+paramName+'</option>');
+   											_this._changeGprsValue();
+   										})
+   									}
+   								}
+   							});
+   							
+   						}
+   					}
+   				});
+       		}
+    			
+    			
+    		});
+    		
     	},
     	_changeLocation:function(){
     		var _this=this;
