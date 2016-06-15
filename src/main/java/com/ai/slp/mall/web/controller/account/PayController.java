@@ -135,7 +135,7 @@ public class PayController {
 	    String payAmount = request.getParameter("orderAmount");
 	    String subject = request.getParameter("subject");
 	    String outOrderId = request.getParameter("outOrderId");
-	    String payType = request.getParameter("payType");
+	    String payType = request.getParameter("payOrgCode");
 	    String payStates = request.getParameter("payStates");
 	    String infoMd5Param = request.getParameter("infoMd5");
 	    LOG.info("参数infoMd5Param:["+infoMd5Param+"]");
