@@ -128,6 +128,15 @@ public class SearchController {
         req.setTenantId("SLP");
         ResponseData<List<ProductDataVO>> responseData = null;
         try {
+            //判断地区是否为空
+            
+            if(StringUtil.isBlank(req.getAreaCode())){
+                //从session获取地区
+                Object codeObj = request.getSession().getAttribute("currentCityCode");
+                if(codeObj!=null){
+                    req.setAreaCode(codeObj.toString());
+                }
+            }
             List<ProductData> resultInfo = iPaymentQuerySV.queryHotSellProduct(req);
             List<ProductDataVO> voList = new ArrayList<ProductDataVO>();
             if(!CollectionUtil.isEmpty(resultInfo)){
