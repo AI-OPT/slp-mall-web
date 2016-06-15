@@ -72,7 +72,7 @@
        	 <script id="balanceDetailListTmpl" type="text/x-jsrender">
 					  	{{for}}
 						<tr>
-                        	<td>{{:~timestampToDate('yyyy-MM-dd hh:mm:ss', lastStatusDate)}}</td>
+                        	<td>{{:~timestampToDate('yyyy-MM-dd hh:mm:ss', createTime)}}</td>
                        	 	<td>
 							 {{:busiType}}
 							</td>
