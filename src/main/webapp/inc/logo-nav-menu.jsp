@@ -1,4 +1,9 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+    <div class="logo">
+    	<a href="${_base}">
+    	<img src="${_slpbase}/images/logo.png">
+    	</a>
+    </div>
     <!--导航 搜索区-->
       <div class="mainbav-main">
       <!--搜索区-->

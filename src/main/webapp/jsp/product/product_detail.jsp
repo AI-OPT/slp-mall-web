@@ -48,7 +48,6 @@
 <!--导航区域-->
 <div class="mainbav-bj">
  <div class="mainbav">
-      <div class="logo"><img src="${_slpbase }/images/logo.png"></div>
       <!--导航 搜索区-->
     <%@ include file="/inc/logo-nav-menu.jsp" %>
     <!-- 结束 -->
