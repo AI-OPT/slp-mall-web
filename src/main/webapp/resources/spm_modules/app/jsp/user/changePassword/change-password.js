@@ -211,6 +211,8 @@ define(
 										$("#change-password1").hide();
 										$("#change-password2").hide();
 										$("#change-password3").show();
+										
+										window.location.href = _base+"/logoutAndLogin";
 									}
 								},
 								error : function(XMLHttpRequest,
