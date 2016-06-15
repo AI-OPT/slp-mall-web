@@ -21,9 +21,13 @@
     
     String slp_uac_host=SSOClientUtil.getCasServerUrlPrefixRuntime(request);
     request.setAttribute("slp_uac_host", slp_uac_host);
+    String ssoLoginUrl=SSOClientUtil.getCasServerLoginUrlRuntime(request);
+    request.setAttribute("ssoLoginUrl", ssoLoginUrl);
 %>
 <script>
     var _base = "${_base}";
+    var slp_uac_host="${slp_uac_host}";
+    var ssoLoginUrl="${ssoLoginUrl}";
 </script>
 
 <script src="${_base}/resources/spm_modules/jquery/1.9.1/jquery.js"></script>
