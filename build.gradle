@@ -111,7 +111,7 @@ dependencies {
 	//创建手机验证码
 	compile 'com.ai.slp.user:seq:1.0-SNAPSHOT'
     //订单支付
-    compile 'com.ai.slp.order:orderpay:1.0-SNAPSHOT'
+    compile 'com.ai.slp.order:orderpay:1.0.1-SNAPSHOT'
     //地区
     compile 'com.ai.slp.common:area:1.0-SNAPSHOT'
     //ip地址
