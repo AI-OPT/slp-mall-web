@@ -516,12 +516,20 @@ define('app/jsp/producthome/productHome', function (require, exports, module) {
 				url: _base+"/head/getSessionData",
 				data:'',
 				success: function(data){
-					_this._setArea(data.data.areaCode,data.data.areaName);
-		    		_this._getPhoneBill();
-		    		_this._getFlowProduct();
-		    		_this._getHotProduct();
+					if(data.data.areaCode!=null && data.data.areaCode!="" &&　data.data.areaCode!=undefined){
+						_this._setArea(data.data.areaCode,data.data.areaName);
+			    		_this._getPhoneBill();
+			    		_this._getFlowProduct();
+			    		_this._getHotProduct();
+					}else{
+						_this._setArea("11","北京");
+			    		_this._getPhoneBill();
+			    		_this._getFlowProduct();
+			    		_this._getHotProduct();
+					}
 					
 				}
+    		
 			})
     	},
     	//设置当前地区
