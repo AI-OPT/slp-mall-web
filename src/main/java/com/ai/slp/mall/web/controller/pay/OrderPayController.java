@@ -225,14 +225,17 @@ public class OrderPayController {
                 }
                 payRequest.setOrderIds(orderIds);
                 if (!StringUtil.isBlank(orderAmount_)) {
-                    payRequest.setPayFee(parseLong(Double.valueOf(orderAmount_) * 100));// 转换成分
+                    payRequest.setPayFee(parseLong(Double.valueOf(orderAmount_) * 1000));// 转换成分
                 }
                 logger.info("金额对吗：" + infoMd5);
                 payRequest.setExternalId(outOrderId_);
                 payRequest.setPayType(SLPMallConstants.OrderPayType.ONLINE_PAY);
+                payRequest.setTenantId(tenantId);
                 logger.info("123123123对吗：" + JSON.toJSONString(payRequest));
                 IOrderPaySV iOrderPaySV = DubboConsumerFactory.getService(IOrderPaySV.class);
+                logger.info("实例化支付接口：====================" + iOrderPaySV);
                 payResponse = iOrderPaySV.pay(payRequest);
+                logger.info("打印返回参数：====================" + payResponse);
                 logger.info("什么情况=======对吗：" + infoMd5);
                 String resultCode = payResponse.getResponseHeader().getResultCode().toString();
                 if (!StringUtil.isBlank(resultCode)
