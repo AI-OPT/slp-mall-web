@@ -31,6 +31,7 @@ import com.ai.slp.order.api.orderlist.param.QueryOrderRequest;
 import com.ai.slp.order.api.orderlist.param.QueryOrderResponse;
 import com.ai.slp.order.api.orderpay.interfaces.IOrderPaySV;
 import com.ai.slp.order.api.orderpay.param.OrderPayRequest;
+import com.alibaba.fastjson.JSON;
 
 /**
  * 订单支付 Date: 2016年5月31日 <br>
@@ -229,8 +230,8 @@ public class OrderPayController {
                 logger.info("金额对吗：" + infoMd5);
                 payRequest.setExternalId(outOrderId_);
                 payRequest.setPayType(SLPMallConstants.OrderPayType.ONLINE_PAY);
-                logger.info("123123123对吗：" + infoMd5);
-                IOrderPaySV iOrderPaySV = DubboConsumerFactory.getService("iOrderPaySV");
+                logger.info("123123123对吗：" + JSON.toJSONString(payRequest));
+                IOrderPaySV iOrderPaySV = DubboConsumerFactory.getService(IOrderPaySV.class);
                 payResponse = iOrderPaySV.pay(payRequest);
                 logger.info("什么情况=======对吗：" + infoMd5);
                 String resultCode = payResponse.getResponseHeader().getResultCode().toString();
