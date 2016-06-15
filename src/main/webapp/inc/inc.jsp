@@ -1,5 +1,5 @@
-<%@page import="java.util.Date"%>
 <%@page import="com.ai.opt.sso.client.filter.SSOClientUtil"%>
+<%@page import="java.util.Date"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
@@ -19,11 +19,12 @@
     String accountRechargeOneLink=_base+"/account/recharge/one";
     request.setAttribute("accountRechargeOneLink", accountRechargeOneLink);
     
-    String slp_uac_host=SSOClientUtil.getCasServerUrlPrefixRuntime(request);
+    String slp_uac_host=SSOClientUtil.getCasServerLoginUrlRuntime(request);
     request.setAttribute("slp_uac_host", slp_uac_host);
 %>
 <script>
     var _base = "${_base}";
+    var ssoLoginUrl = '${slp_uac_host}';
 </script>
 
 <script src="${_base}/resources/spm_modules/jquery/1.9.1/jquery.js"></script>
