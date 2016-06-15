@@ -39,7 +39,6 @@ define('app/jsp/top/top', function (require, exports, module) {
     		ajaxController.ajax({
 				type: "post",
 				dataType: "json",
-				processing: false,
 				url: _base+"/head/getSessionData",
 				data:'',
 				success: function(data){
@@ -62,7 +61,6 @@ define('app/jsp/top/top', function (require, exports, module) {
     		ajaxController.ajax({
 				type: "post",
 				dataType: "json",
-				processing: true,
 				url: _base+"/head/setSessionData",
 				data:{code:code,name:name},
 				success: function(data){
@@ -75,7 +73,6 @@ define('app/jsp/top/top', function (require, exports, module) {
     		ajaxController.ajax({
 				type: "post",
 				dataType: "json",
-				processing: true,
 				url: _base+"/head/getIpAddr",
 				data:'',
 				success: function(data){
@@ -109,7 +106,6 @@ define('app/jsp/top/top', function (require, exports, module) {
 		    		ajaxController.ajax({
 						type: "post",
 						dataType: "json",
-						processing: true,
 						url: _base+"/head/setSessionData",
 						data:{code:cityCode,name:cityName},
 						success: function(data){
@@ -124,7 +120,6 @@ define('app/jsp/top/top', function (require, exports, module) {
       		ajaxController.ajax({
 				type: "post",
 				dataType: "json",
-				processing: true,
 				url: _base+"/head/getArea",
 				data:'',
 				success: function(data){

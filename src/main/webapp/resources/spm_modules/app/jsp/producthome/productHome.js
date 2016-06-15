@@ -512,7 +512,6 @@ define('app/jsp/producthome/productHome', function (require, exports, module) {
     		ajaxController.ajax({
 				type: "post",
 				dataType: "json",
-				processing: true,
 				url: _base+"/head/getSessionData",
 				data:'',
 				success: function(data){
@@ -561,7 +560,6 @@ define('app/jsp/producthome/productHome', function (require, exports, module) {
       		ajaxController.ajax({
 						type: "post",
 						dataType: "json",
-						processing: true,
 						url: _base+"/getPhoneBill",
 						data:param,
 						success: function(data){
@@ -600,7 +598,6 @@ define('app/jsp/producthome/productHome', function (require, exports, module) {
       		ajaxController.ajax({
 				type: "post",
 				dataType: "json",
-				processing: true,
 				url: _base+"/getFlow",
 				data:param,
 				success: function(data){
