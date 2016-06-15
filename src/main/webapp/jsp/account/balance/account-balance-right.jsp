@@ -21,18 +21,32 @@
         <div class="balance-title">
                  <p>当前余额:<span id="balanceQueryUsableFundId"></span></p>
                  <p><input type="button" class="bala-btn" value="充值" onclick="location.href='${_base}/payment/recharge/one'"></p>
-                 <p class="pass-mar">支付密码安全度:</p>
-                 <p><img src="${_slpbase }/images/icon-c.png"><A href="#" class="color">还未启用支付密码</A></p>
-                 <p><input type="button" class="slp-btn setes-pass-btn" onclick="pager._updatePayPasswordJump();" value="修改支付密码"></p>
+                 <div id="pay_password_setting_div" style="display: none;">
+	                 <p class="pass-mar">支付密码安全度:</p>
+	                 <p><img src="${_slpbase }/images/icon-c.png"><A href="#" class="color">还未启用支付密码</A></p>
+	                 <p><input type="button" class="slp-btn setes-pass-btn" onclick="pager._updatePayPasswordJump();" value="修改支付密码"></p>
+        		 </div>
         </div>
        	<script type="text/javascript">
        		$(document).ready(function(){
-       			var balanceQueryUsableFundUrl = "${_base}/account/queryUsableFund"; 
+       			var balanceQueryUsableFundUrl = "${_base}/account/queryUsableFund";
        			//查询账户余额
        			$.ajaxtext(balanceQueryUsableFundUrl,"",function(data){
        				//alert("账户余额:"+data);
        				$('#balanceQueryUsableFundId').text(data);
        			});
+       			var payPasswordIsSettingUrl = "${_base}/account/payPasswordIsSetting";
+       			//查询支付密码是否已经设置
+       			$.ajaxtext(payPasswordIsSettingUrl,"",function(data){
+       				//alert("支付密码是否已经设置 0：未设置；1：已设置；"+data);
+       				if(data == '0'){
+       					$('#pay_password_setting_div').show();
+       				}
+       				if(data == '1'){
+       					$('#pay_password_setting_div').hide();
+       				}
+       			});
+       			
        		});
        	</script>
      </div>

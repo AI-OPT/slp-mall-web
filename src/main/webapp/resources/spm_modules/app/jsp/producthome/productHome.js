@@ -35,6 +35,7 @@ define('app/jsp/producthome/productHome', function (require, exports, module) {
             //"click #BTN_SEARCH":"_searchBtnClick"
             //"click #thumbnailId":"_changeImage",
             "click #moreproduct":"_getMore",
+            "click #moreId":"_getMore",
             "click #refresh":"_getHotProduct",
             "click #phoneBillCucc":"_getPhoneBill",
             "click #phoneBillCmcc":"_getPhoneBill",

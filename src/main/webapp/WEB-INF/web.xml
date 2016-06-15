@@ -36,6 +36,10 @@
   </filter-mapping>
   <filter-mapping>
   	<filter-name>ssoProxyFilter</filter-name>
+  	<url-pattern>/logincheck</url-pattern>
+  </filter-mapping>
+  <filter-mapping>
+  	<filter-name>ssoProxyFilter</filter-name>
   	<url-pattern>/user/*</url-pattern>
   </filter-mapping>
   <filter-mapping>
