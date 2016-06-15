@@ -1,6 +1,7 @@
 package com.ai.slp.mall.web.controller.order;
 
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -64,8 +65,7 @@ public class MyOrderController {
 	public ResponseData<PageInfo<OrdOrderVo>> getOrderListData(HttpServletRequest request, OrderListQueryParams queryParams) {
 		ResponseData<PageInfo<OrdOrderVo>> responseData = null;
 		try {
-			String searchType = queryParams.getSearchType();
-			QueryOrderListRequest queryRequest = getQueryOrderListParams(request, queryParams, searchType);
+			QueryOrderListRequest queryRequest = getQueryOrderListParams(request, queryParams);
 			IOrderListSV iOrderListSV = DubboConsumerFactory.getService("iOrderListSV");
 			QueryOrderListResponse orderListResponse = iOrderListSV.queryOrderList(queryRequest);
 			if (orderListResponse != null && orderListResponse.getResponseHeader().isSuccess()) {
@@ -87,12 +87,21 @@ public class MyOrderController {
 	 * 获取查询订单列表参数
 	 * 
 	 * @param queryParams
-	 * @param searchType
 	 * @return
 	 */
-	private QueryOrderListRequest getQueryOrderListParams(HttpServletRequest request, OrderListQueryParams queryParams, String searchType) {
+	private QueryOrderListRequest getQueryOrderListParams(HttpServletRequest request, OrderListQueryParams queryParams) {
 		QueryOrderListRequest queryRequest = new QueryOrderListRequest();
 		BeanUtils.copyProperties(queryRequest, queryParams);
+		String states = queryParams.getStates();
+		if(!StringUtil.isBlank(states)){
+			String[] stateArray = states.split(",");
+			List<String> stateList = new LinkedList<String>();
+			for(String state : stateArray){
+				stateList.add(state);
+			}
+			queryRequest.setStateList(stateList);
+		}
+		String searchType = queryParams.getSearchType();
 		if ("1".equals(searchType)) {
 			String selectTime = queryParams.getSelectTime();
 			queryRequest.setOrderTimeBegin(null);

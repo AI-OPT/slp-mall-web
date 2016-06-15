@@ -73,6 +73,7 @@ define('app/jsp/producthome/productHome', function (require, exports, module) {
     	},
 	   _changeSwitch2:function(){
 		   var _this=this;
+		   $("#phoneNum2").val("");
 		   _this._initLf();
 		   _this._changeGprsValue();
     	},
@@ -82,19 +83,22 @@ define('app/jsp/producthome/productHome', function (require, exports, module) {
     		_this._initHf();
     		_this._changeHuafei();
     		//初始化流量
+    		$("#phoneNum2").val("");
     		_this._initLf();
     		_this._changeGprsValue();
     	},
     	_initHf:function(){
     		$("#phoneNum1").val("")
     		$("#phoneFee").html("");
+    		$("#submitOdrBtn").removeAttr('href');
     		$("#phoneFee").append("<option value='¥49.00-¥50.00'>50元</option>");
     		$("#phoneFee").append("<option value='¥29.50-¥30.00'>30元</option>");
     		$("#phoneFee").append("<option value='¥19.50-¥20.00'>20元</option>");
     		$("#phoneFee").append("<option value='¥9.95-¥10.00'>10元</option>");
+    		
     	},
     	_initLf:function(){
-    		$("#phoneNum2").val("");
+    		//$("#phoneNum2").val("");
     		$("#gprs").html("");
     		$("#gprs").append("<option value='¥49.00-¥50.00'>1G</option>");
     		$("#gprs").append("<option value='¥35.00-¥40.00'>500M</option>");
@@ -150,6 +154,7 @@ define('app/jsp/producthome/productHome', function (require, exports, module) {
     		ajaxController.ajax({
 				type: "post",
 				dataType: "json",
+				async: false,
 				url: _base+"/order/orderCommit",
 				data:{
 					orderType:"100010",//暂时传运营商的县官信息
@@ -162,14 +167,17 @@ define('app/jsp/producthome/productHome', function (require, exports, module) {
 					},
 				success: function(data){
 					var key=data.data;
-					window.location.href = _base
-					+ "/order/toOrderPay?orderKey="+key;
+					/*window.location.href = _base
+					+ "/order/toOrderPay?orderKey="+key;*/
 					//window.open(_base+ "/order/toOrderPay?orderKey="+key);
-
+					var url= _base+ "/order/toOrderPay?orderKey="+key;
+					$("#submitGpBtn").attr('href',url);
 				}
 			});
+    		$("#submitGpSpan").trigger("click");
     	},
     	_submitOrder:function(){//话费的
+    		try{
     		var _this=this;
     		var phoneNum=$.trim($("#phoneNum1").val());
     		if(phoneNum==null||phoneNum==""||phoneNum==undefined){
@@ -214,11 +222,12 @@ define('app/jsp/producthome/productHome', function (require, exports, module) {
 				}).showModal();
     			return false;
     		}
-    		
+    		//$("#uuu").click();
     		var start=$("#phoneFee").val().indexOf(";")+1;
     		ajaxController.ajax({
 				type: "post",
 				dataType: "json",
+				async: false,
 				url: _base+"/order/orderCommit",
 				data:{
 					orderType:"100010",//暂时传运营商的县官信息
@@ -231,14 +240,32 @@ define('app/jsp/producthome/productHome', function (require, exports, module) {
 					},
 				success: function(data){
 					var key=data.data;
-					window.location.href = _base
-					+ "/order/toOrderPay?orderKey="+key;
-
+					/*window.location.href = _base
+					+ "/order/toOrderPay?orderKey="+key;*/
+					var url=_base+ "/order/toOrderPay?orderKey="+key;
+					
+					/*$("#submitOdrBtn").attr("href",url);
+					$("#submitOdrSpan").click();*/
+					$("#okey").val(key);
+					$("#submitOdrBtn").attr('href',url);
+					/*$("#testForm").submit();*/
+					//window.open(_base+ "/order/toOrderPay?orderKey="+key);
+					//_this._takef();
 				}
+					
 			});
+    		}catch(err){
+    			
+    		}finally{
+    			$("#submitOdrSpan").trigger("click");
+    		}
+    		
+    		
     	},
+    	
     	_getPhoneInfo:function(){
     		var _this=this;
+    		 $("#submitOdrBtn").removeAttr('href');
     		if($.trim($("#phoneNum1").val()).length==0){
     			$("#phoneFee").html("");
    			 $("#realFee").text("");
@@ -262,6 +289,7 @@ define('app/jsp/producthome/productHome', function (require, exports, module) {
     	    			return false;
 
     			 }
+    			
     			 $("#phoneFee").html("");
     			 $("#realFee").text("");
     			ajaxController.ajax({
@@ -296,10 +324,12 @@ define('app/jsp/producthome/productHome', function (require, exports, module) {
 									
 									var d=data.data;
 									
-									
+									 $("#phoneFee").html("");
 									if(d){
 										var phoneFee=d.phoneFee;
+									//	$("#submitOdrBtn").attr('href','#ttt');
 										$.each(phoneFee,function(index,item){
+											
 											var paramName = phoneFee[index].content;
 											var paramCode = phoneFee[index].skuInfo.salePrice+";"+phoneFee[index].skuInfo.skuId;
 											$("#phoneFee").append('<option value="'+paramCode+'">'+paramName+'</option>');
@@ -316,6 +346,7 @@ define('app/jsp/producthome/productHome', function (require, exports, module) {
     	
     	},
     	_changeHuafei:function(){
+    	   $("#submitOdrBtn").removeAttr('href');
     		//console.log($("#phoneFee").val().substr(0,$("#phoneFee").val().indexOf(";")));
     	if($("#phoneFee").val().indexOf(";")<0){
     		$("#realFee").text($("#phoneFee").val());
@@ -327,6 +358,7 @@ define('app/jsp/producthome/productHome', function (require, exports, module) {
     	
     	_getGprs:function(){
     		var _this=this;
+    		$("#submitGpBtn").removeAttr('href');
     		 if($.trim($("#phoneNum2").val()).length==0){
     			 $("#gprs").html("");
              	$("#realFee1").text("");
@@ -388,7 +420,7 @@ define('app/jsp/producthome/productHome', function (require, exports, module) {
 									},
 								success: function(data){
 									var d=data.data;
-									
+									 $("#gprs").html("");
 									if(d){
 										var phoneFee=d.phoneFee;
 										$.each(phoneFee,function(index,item){
@@ -408,6 +440,7 @@ define('app/jsp/producthome/productHome', function (require, exports, module) {
     	},
     	_changeLocation:function(){
     		var _this=this;
+    		$("#submitGpBtn").removeAttr('href');
     		$("#gprs").html("");
     		$("#realFee1").text("");
     		//如果手机号不合法就返回初始化数据
@@ -450,7 +483,7 @@ define('app/jsp/producthome/productHome', function (require, exports, module) {
 			});
     	},
     	_changeGprsValue:function(){
-    		
+    		$("#submitGpBtn").removeAttr('href');
     		if($.trim($("#gprs").val()).indexOf(";")<0){
     			
         		$("#realFee1").text($("#gprs").val());//liToYuan
@@ -550,7 +583,6 @@ define('app/jsp/producthome/productHome', function (require, exports, module) {
       	},
       	_getMore: function(){
       		var agent = $("#flowOprator").val();
-      		alert(agent);
       		var productCatId ="10000010020000";
       		window.location.href = _base + '/search/list?billType='+productCatId+"&orgired="+agent;;
       	},

@@ -1,5 +1,9 @@
 package com.ai.slp.mall.web.controller.user;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -12,9 +16,12 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.ai.opt.base.vo.ResponseHeader;
 import com.ai.opt.sdk.dubbo.util.DubboConsumerFactory;
+import com.ai.opt.sdk.util.CollectionUtil;
 import com.ai.opt.sdk.web.model.ResponseData;
 import com.ai.opt.sso.client.filter.SLPClientUser;
 import com.ai.opt.sso.client.filter.SSOClientConstants;
+import com.ai.slp.common.api.area.interfaces.IGnAreaQuerySV;
+import com.ai.slp.common.api.area.param.GnAreaVo;
 import com.ai.slp.mall.web.constants.SLPMallConstants;
 import com.ai.slp.user.api.keyinfo.interfaces.IUcKeyInfoSV;
 import com.ai.slp.user.api.keyinfo.param.InsertGroupKeyInfoRequest;
@@ -43,10 +50,11 @@ public class QualificationController {
     //企业页面
     @RequestMapping("/toEnterprisePage")
     public ModelAndView toEnterprisePage() {
-        
-        return new ModelAndView("jsp/user/qualification/enterprise");
+        List<GnAreaVo> list = getProvinceList();
+        Map<String,List<GnAreaVo>> model = new HashMap<String,List<GnAreaVo>>();
+        model.put("provinceList", list);
+        return new ModelAndView("jsp/user/qualification/enterprise",model);
     }
-    
     
     @RequestMapping("/saveEnterprise")
     @ResponseBody
@@ -130,6 +138,52 @@ public class QualificationController {
         responseData.setResponseHeader(responseHeader);
         return responseData;
     }
+     
+    @RequestMapping("/getCityListByProviceCode")
+    @ResponseBody
+    public ResponseData<String> getCityListByProviceCode(HttpServletRequest request ,String provinceCode){
+        IGnAreaQuerySV areaQuerySV = DubboConsumerFactory.getService("iGnAreaQuerySV");
+        List<GnAreaVo> list = areaQuerySV.getCityListByProviceCode(provinceCode);
+        String str = "";
+        ResponseData<String> responseData = null;
+        if(!CollectionUtil.isEmpty(list)){
+            for(int i=0;i<list.size();i++){
+                GnAreaVo gnAreaVo = list.get(i);
+                str = str+"<option value="+gnAreaVo.getCityCode()+">"+gnAreaVo.getAreaName()+"</option>";
+            }
+            str="<option value='0'>请选择</option>"+str;
+            responseData = new ResponseData<String>(ResponseData.AJAX_STATUS_SUCCESS,"查询成功",str);
+        }else{
+            responseData = new ResponseData<String>(ResponseData.AJAX_STATUS_SUCCESS,"没有查询结果",str);
+        }
+        
+        return responseData;
+    }
     
+    @RequestMapping("/getStreetListByCountyCode")
+    @ResponseBody
+    public ResponseData<String> getStreetListByCountyCode(HttpServletRequest request ,String countyCode){
+        IGnAreaQuerySV areaQuerySV = DubboConsumerFactory.getService("iGnAreaQuerySV");
+        List<GnAreaVo> list = areaQuerySV.getCountyListByCityCode(countyCode);
+        String str = "";
+        ResponseData<String> responseData = null;
+        if(!CollectionUtil.isEmpty(list)){
+            for(int i=0;i<list.size();i++){
+                GnAreaVo gnAreaVo = list.get(i);
+                str = str+"<option value="+gnAreaVo.getCityCode()+">"+gnAreaVo.getAreaName()+"</option>";
+            }
+            str="<option value='0'>请选择</option>"+str;
+            responseData = new ResponseData<String>(ResponseData.AJAX_STATUS_SUCCESS,"查询成功",str);
+        }else{
+            responseData = new ResponseData<String>(ResponseData.AJAX_STATUS_SUCCESS,"没有查询结果",str);
+        }
+        
+        return responseData;
+    }
     
+    public List<GnAreaVo> getProvinceList(){
+        IGnAreaQuerySV areaQuerySV = DubboConsumerFactory.getService("iGnAreaQuerySV");
+        List<GnAreaVo> list = areaQuerySV.getProvinceList();
+        return list;
+    }
 }

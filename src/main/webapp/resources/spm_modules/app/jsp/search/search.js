@@ -34,12 +34,9 @@ define('app/jsp/search/search', function (require, exports, module) {
     	},
     	_searchBtnClick: function(){
     		var skuname = $("#serachName").val();
-    		var area = $("#currentCity").attr("currentCityCode");
-    		var areaNmae = $("#currentCity").attr("currentCityName");
     		//用于判断跳转页面是从哪里跳转的
     		var flag = "00";
-    		window.location.href = _base + '/search/list?skuName='+encodeURI(encodeURI(skuname))+"&sourceFlag="+flag
-    		+"&area="+area+"&areaName="+encodeURI(encodeURI(areaNmae));
+    		window.location.href = _base + '/search/list?skuName='+encodeURI(encodeURI(skuname))+"&sourceFlag="+flag;
     	},
     	
     });

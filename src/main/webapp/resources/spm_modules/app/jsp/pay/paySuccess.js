@@ -40,7 +40,7 @@ define('app/jsp/pay/paySuccess', function (require, exports, module) {
     			i--;
     			if(i == -1){
         			clearInterval(myTimer);
-        			window.location.href = _base+"/order/list";
+        			window.location.href = _base+"/myorder/list";
         		}
     		},1000);
     	}

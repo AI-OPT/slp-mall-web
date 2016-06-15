@@ -175,7 +175,7 @@ define('app/jsp/order/orderList', function (require, exports, module) {
     			"orderTimeBegin":jQuery.trim($("#orderTimeBeginQ").val()),
     			"orderTimeEnd":jQuery.trim($("#orderTimeEndQ").val()),
     			"payStyle":jQuery.trim($("#payStyleQ option:selected").val()),
-    			"state":jQuery.trim($("#searchOrderState").val())
+    			"states":jQuery.trim($("#searchOrderState").val())
     		}
     	}
     });

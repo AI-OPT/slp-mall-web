@@ -177,6 +177,7 @@ public class OrderPayController {
 
         String md5Str = outOrderId_ + ";" + orderId_ + ";" + orderAmount_ + ";" + payStates_;
         String infoMd5 = VerifyUtil.encodeParam(md5Str, ConfigUtil.getProperty("REQUEST_KEY"));
+        logger.info("我的============加密信息：" + infoMd5);
         if (infoMd5_.equals(infoMd5)) {// 加密信息校验
             // 支付平台返回支付成功，调用订单支付接口
             if (SLPMallConstants.PayState.PAY_SUCCESS.equalsIgnoreCase(payStates_)) {

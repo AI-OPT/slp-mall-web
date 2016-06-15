@@ -122,6 +122,7 @@
     <div class="banner-right">
         <!--充话费-->
        <div class="fast-charge">
+      
          <div class="charge-title">
                <ul>
                    <li><A href="#" id="switchFL1" class="current">充话费</A></li>
@@ -134,9 +135,14 @@
               <li><input type="text" class="int-dex" id="phoneNum1" maxlength="11" placeholder="请输入手机号码"><input type="text" id="basicOrgId1" style="display:none;"><input type="text" id="PCode" style="display:none;"></li>
               <li><select id="phoneFee" class="int-dex"></select></li>
               <li class="word">售价:<span id="realFee"></span></li>
-              <li><input type="button" id="CZ_BTN" value="立即充值" class="slp-btn dex-btn"></li>
+              <li><input type="button" id="CZ_BTN" value="立即充值" class="slp-btn dex-btn">
+               <a id="submitOdrBtn" style="display:none"  target="_blank"><span id="submitOdrSpan">立即充值</span></a>
+              </li>
               </ul>
               </div>
+              <form id="testForm" method="post" target="_blank" action="/order/toOrderPay">
+              <input type="hidden" id="okey" name="orderKey" >
+              </form>
           </div>
           <div id="date2" style=" display:none;">
               <div class="charge-list">
@@ -145,7 +151,9 @@
               <li class="congz"><p><select id="location" class="select-cz"><option value="local">本地</option><option value="national">全国</option></select></p>
               <p class="se-mar"><select id="gprs"  class="select-cz"></select></p></li>
               <li class="word">售价:<span id="realFee1"></span></li>
-              <li><input type="button" id="GPRS_BTN" value="立即充值" class="slp-btn dex-btn"></li>
+              <li><input type="button" id="GPRS_BTN" value="立即充值" class="slp-btn dex-btn">
+              <a id="submitGpBtn" style="display:none"  target="_blank"><span id="submitGpSpan">立即充值</span></a>
+              </li>
               </ul>
               </div>
           </div>

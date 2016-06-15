@@ -60,7 +60,7 @@ define(
 							var newPasswordConfirm = $('#newPasswordConfirm').val();
 							if(newPasswordConfirm==""){
 								$("#newPasswordConfirmErrMsgShow").text("密码不能为空");
-								$('#passwordImg').attr('src',_base+'/resources/slpmall/images/icon-a.png');
+								$('#confirmPasswordImg').attr('src',_base+'/resources/slpmall/images/icon-a.png');
 								$("#newPasswordConfirmErrMsg").show();
 								$("#newPasswordConfirmEmptyFlag").val("0");
 							}
@@ -211,6 +211,8 @@ define(
 										$("#change-password1").hide();
 										$("#change-password2").hide();
 										$("#change-password3").show();
+										
+										window.location.href = _base+"/logoutAndLogin";
 									}
 								},
 								error : function(XMLHttpRequest,
