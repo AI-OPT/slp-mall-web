@@ -69,7 +69,7 @@
               </div>
                   
      	 </div>
-       	 <script id="balanceSevenDaysAgoTmpl" type="text/x-jsrender">
+       	 <script id="balanceDetailListTmpl" type="text/x-jsrender">
 					  	{{for}}
 						<tr>
                         	<td>{{:~timestampToDate('yyyy-MM-dd hh:mm:ss', lastStatusDate)}}</td>
@@ -83,7 +83,7 @@
 						{{/for}}
 						
 					  </script>                                                                                                                                                                          
-					  <script id="balanceSevenDaysAgoNullTmpl" type="text/x-jsrender">
+					  <script id="balanceDetailListNullTmpl" type="text/x-jsrender">
 							<tr>
 								<td colspan="5">交易记录为空</td>
 							</tr>

@@ -155,13 +155,19 @@ define('app/jsp/account/balance_detail/balanceDetailList', function (require, ex
 				visiblePages:5,
 				message: "正在为您查询数据..",
 				render: function (data) {
+					//alert(data.length);
 					if(data){
-						var template = $.templates("#balanceSevenDaysAgoTmpl");
+						var template = $.templates("#balanceDetailListTmpl");
 						var htmlOut = template.render(data);
 						//alert(data.result);
 						$("#table_info_id_pay_id").html(htmlOut);
 					}
 					
+					if(data.length == 0){
+						var template = $.templates("#balanceDetailListNullTmpl");
+						var htmlOut = template.render("");
+						$("#table_info_id_pay_id").html(htmlOut);
+					}
 					
 				}
 			});
