@@ -23,7 +23,7 @@
                  <p><input type="button" class="bala-btn" value="充值" onclick="location.href='${_base}/payment/recharge/one'"></p>
                  <p class="pass-mar">支付密码安全度:</p>
                  <p><img src="${_slpbase }/images/icon-c.png"><A href="#" class="color">还未启用支付密码</A></p>
-                 <p><input type="button" class="slp-btn setes-pass-btn" value="设置支付密码"></p>
+                 <p><input type="button" class="slp-btn setes-pass-btn" onclick="pager._updatePayPasswordJump();" value="修改支付密码"></p>
         </div>
        	<script type="text/javascript">
        		$(document).ready(function(){

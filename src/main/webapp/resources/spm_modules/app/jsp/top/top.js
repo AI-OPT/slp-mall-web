@@ -115,6 +115,7 @@ define('app/jsp/top/top', function (require, exports, module) {
 						url: _base+"/head/setSessionData",
 						data:{code:cityCode,name:cityName},
 						success: function(data){
+							window.location.reload();
 						}
 					})
 				})

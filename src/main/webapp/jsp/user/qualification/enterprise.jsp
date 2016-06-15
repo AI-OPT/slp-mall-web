@@ -66,6 +66,7 @@
                 <p>
                 
                 <select class="select-xmini" id="princeCode">
+                	<option value="0">请选择</option>
                 	<c:forEach items="${provinceList}" var="record">
                 		<option value="${record.provinceCode}">${record.areaName}</option>
                 	</c:forEach>
@@ -104,7 +105,14 @@
          <ul>
              <li>
                 <p class="word"><b class="red">*</b>行业:</p>
-                <p><select class="select-medium" id="groupIndustery"></select></p>
+                <p>
+	                 <select class="select-medium" id="groupIndustery">
+	                	<option value="0">请选择</option>
+	                	<c:forEach items="${industryList}" var="re">
+	                		<option value="${re.industryCode }">${re.industryName }</option>
+	                	</c:forEach>
+	                </select>
+                </p>
              </li>
          </ul>
          <ul>
