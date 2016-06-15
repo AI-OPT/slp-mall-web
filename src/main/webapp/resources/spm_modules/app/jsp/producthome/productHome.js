@@ -670,7 +670,7 @@ define('app/jsp/producthome/productHome', function (require, exports, module) {
       		ajaxController.ajax({
 				type: "post",
 				dataType: "json",
-				processing: true,
+				processing: false,
 				url: _base+"/getHotProduct",
 				data:{areaCode:code},
 				success: function(data){
