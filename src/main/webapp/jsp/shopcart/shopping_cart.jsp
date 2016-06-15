@@ -40,7 +40,7 @@
      <!--购物车-->
 <div class="fsast-charge">
      	<div class="big-wrapper"><!--内侧居中框架-->
-       		<div class="payment-title"><p>全部<span id="allProductNum">（${prodTotal}）</span></p></div>
+       		<div class="payment-title"><p>全部<span id="allProductNum">（${prodTotal==null?0:prodTotal}）</span></p></div>
            <div class="recharge-bj-tow"><!--白色背景-->
                 <div class="shopping-cart">
                  <table width="100%" border="0">
@@ -146,7 +146,7 @@
 	<script type="text/javascript">
 		var pager;
         var errMsg = '${errMsg}';
-		var cartProdList = $.parseJSON('${cartProdList}');
+		var cartProdList = $.parseJSON('${cartProdList==null?"[]":cartProdList}');
 		var skuNumLimit = '${skuNumLimit}';
 		(function () {
 			seajs.use('app/jsp/shoppingcart/shopCartDetails', function (shopCartDetailsPager) {

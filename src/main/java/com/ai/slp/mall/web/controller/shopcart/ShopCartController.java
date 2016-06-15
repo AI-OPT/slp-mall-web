@@ -41,9 +41,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by liutong5 on 16/5/30.
@@ -91,9 +89,7 @@ public class ShopCartController {
      * 查询用户的购物车详细信息
      */
     @RequestMapping("/cartDetails")
-    @ResponseBody
-    public ModelAndView queryCartDetails(HttpSession session){
-    	Map<String, Object> model = new HashMap<String, Object>();
+    public String queryCartDetails(HttpSession session,Model uiModel){
     	try{
     		IShopCartSV iShopCartSV = DubboConsumerFactory.getService("IShopCartSV");
     		UserInfo userInfo = new UserInfo();
@@ -121,14 +117,17 @@ public class ShopCartController {
                 }
     		}
             String cartProdInfoJSON = JSonUtil.toJSon(cartProdInfoList);
-            model.put("cartProdList", cartProdInfoJSON);
-            model.put("prodTotal", prodTotal);
-            model.put("skuNumLimit",getSkuNumLimit());
-    	}catch(Exception e){
-    		e.printStackTrace();
-    		LOG.error("查询购物车商品详情出错",e);
-    	}
-        return new ModelAndView("jsp/shopcart/shopping_cart",model);
+            uiModel.addAttribute("cartProdList", cartProdInfoJSON);
+            uiModel.addAttribute("prodTotal", prodTotal);
+            uiModel.addAttribute("skuNumLimit",getSkuNumLimit());
+    	}catch(BusinessException|SystemException e){
+            uiModel.addAttribute(SLPMallConstants.ERR_MSG_TAG,"查询失败:"+e.getMessage());
+            LOG.error("查询购物车商品详情出错",e);
+        }catch (Exception e){
+            uiModel.addAttribute(SLPMallConstants.ERR_MSG_TAG,"查询失败:出现未知异常");
+            LOG.error("查询购物车商品详情出错",e);
+        }
+        return "jsp/shopcart/shopping_cart";
     }
     /**
      * 修改购物车数量
@@ -193,6 +192,7 @@ public class ShopCartController {
     @RequestMapping("/applyOrder")
     public String applyOrder(HttpSession session, String prodObj, Model uiModel,RedirectAttributes redirectAttributes){
         IOrderTradeCenterSV ordertradeSV = DubboConsumerFactory.getService("iOrderTradeCenterSV");
+        //默认是订单提交成功页面
         String viewStr = "jsp/order/order_submit";
         try {
             OrderTradeCenterRequest orderTradeReq = new OrderTradeCenterRequest();
@@ -204,13 +204,7 @@ public class ShopCartController {
             List<OrdProductInfo> infoList = JSON.parseArray(prodObj, OrdProductInfo.class);
             orderTradeReq.setOrdProductInfoList(infoList);
             OrderTradeCenterResponse response = ordertradeSV.apply(orderTradeReq);
-            /*uiModel.addAttribute("ordProductResList",response.getOrdProductResList());
-            uiModel.addAttribute("orderId",response.getOrderId());
-            uiModel.addAttribute("ordFeeInfo", response.getOrdFeeInfo());
-            uiModel.addAttribute("expFee", 0);
-            uiModel.addAttribute("balanceFee", 0);
-            uiModel.addAttribute("balance", 0);*/
-            
+            throwBusiException(response.getResponseHeader());
             OrderSubmit orderSubmit = new OrderSubmit();
             orderSubmit.setBalanceFee(0);
             orderSubmit.setExpFee(0);
@@ -228,11 +222,11 @@ public class ShopCartController {
             delProdOfCart(session,skuIds);
         } catch (BusinessException e) {
             LOG.error("提交订单出错", e);
-            redirectAttributes.addFlashAttribute("errMsg","订单提交错误:"+e.getMessage());
+            redirectAttributes.addFlashAttribute(SLPMallConstants.ERR_MSG_TAG,"订单提交错误:"+e.getMessage());
             viewStr = "redirect:cartDetails";
         } catch (Exception e) {
             LOG.error("提交订单出错", e);
-            redirectAttributes.addFlashAttribute("errMsg","订单提交错误:未知异常");
+            redirectAttributes.addFlashAttribute(SLPMallConstants.ERR_MSG_TAG,"订单提交错误:未知异常");
             viewStr = "redirect:cartDetails";
         }
         return viewStr;
@@ -298,7 +292,7 @@ public class ShopCartController {
 	private OrdOrderVo getOrderDetail(HttpServletRequest request, QueryOrderRequest orderRequest) {
 		OrdOrderVo responseData = null;
 		try {
-			orderRequest.setTenantId("SLP");
+			orderRequest.setTenantId(SLPMallConstants.COM_TENANT_ID);
 			IOrderListSV iOrderListSV = DubboConsumerFactory.getService("iOrderListSV");
 			QueryOrderResponse orderInfo = iOrderListSV.queryOrder(orderRequest);
 			if (orderInfo != null && orderInfo.getResponseHeader().isSuccess()) {
