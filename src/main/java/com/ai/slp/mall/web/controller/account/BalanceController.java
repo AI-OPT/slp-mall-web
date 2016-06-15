@@ -107,8 +107,8 @@ public class BalanceController {
 		paramMap.put("linkModel", "accountBalance");
 		paramMap.put("testName", "zhangzd");
 		paramMap.put("str2", str2);
-		System.out.println("paramMapJson:-------------->>>>:"+JSON.toJSONString(paramMap));
-		System.out.println("str2:-------------->>>>:"+str2);
+		log.info("paramMapJson:-------------->>>>:"+JSON.toJSONString(paramMap));
+		log.info("str2:-------------->>>>:"+str2);
         return str2;
     }
 	/**
@@ -281,11 +281,11 @@ public class BalanceController {
 		//
 		pageInfo = this.getChargeBaseInfoPageInfo(pageInfo);
 		//
-		System.out.println(" queryAccountBalanceDetailList json:"+JSON.toJSONString(pageInfo));
+		log.info(" queryAccountBalanceDetailList json:"+JSON.toJSONString(pageInfo));
 		//
 		responseData = new ResponseData<PageInfo<ChargeBaseInfo>>(ResponseData.AJAX_STATUS_SUCCESS,"success",pageInfo);
 		//
-		System.out.println(" ResponseData json:"+JSON.toJSONString(responseData));
+		log.info(" ResponseData json:"+JSON.toJSONString(responseData));
 		//
 		return responseData;
     }
