@@ -69,7 +69,7 @@ public class OrderController {
             if (null != user) {
                 orderReq.setUserId(user.getUserId());
             } else {
-                orderReq.setUserId("900000000000000000");
+                orderReq.setUserId(SLPMallConstants.Order.VISITUSERID);
             }
             String orderKey = UUIDUtil.genId32();
 
@@ -94,7 +94,7 @@ public class OrderController {
         SLPClientUser user = (SLPClientUser) session
                 .getAttribute(SSOClientConstants.USER_SESSION_KEY);
         if (null == user) {
-            orderrequest.setTenantId("SLP");
+            orderrequest.setTenantId(SLPMallConstants.COM_TENANT_ID);
         } else {
             orderrequest.setTenantId(user.getTenantId());
         }
@@ -142,7 +142,7 @@ public class OrderController {
 
         QueryOrderRequest orderRequest = new QueryOrderRequest();
         if (null == user) {
-            orderRequest.setTenantId("SLP");
+            orderRequest.setTenantId(SLPMallConstants.COM_TENANT_ID);
         } else {
             orderRequest.setTenantId(user.getTenantId());
         }
