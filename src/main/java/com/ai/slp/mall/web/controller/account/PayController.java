@@ -73,7 +73,7 @@ public class PayController {
         PayOrderParam payOrderParam = new PayOrderParam();
         payOrderParam.setTenantId(tenantId);
         payOrderParam.setAcctId(accountId);
-        payOrderParam.setPayAmount(Long.parseLong(payAmount));
+        payOrderParam.setPayAmount(Long.parseLong(payAmount)*1000);
         payOrderParam.setStatus(STATUS_GOTO_PAY);
         payOrderParam.setPayChannel(PAY_CHANNEL);
         String orderId = iPayOrderSV.createPayOrder(payOrderParam);
@@ -146,9 +146,9 @@ public class PayController {
 	    String infoStr = outOrderId + VerifyUtil.SEPARATOR + orderId + VerifyUtil.SEPARATOR
                 + payAmount + VerifyUtil.SEPARATOR + payStates;
         String infoMd5 = VerifyUtil.encodeParam(infoStr, ConfigUtil.getProperty("REQUEST_KEY"));
-//	    if(!infoMd5.equals(infoMd5Param)){
-//	        throw new SystemException("安全校验出错：[报文被篡改]");
-//	    }else{
+	    if(!infoMd5.equals(infoMd5Param)){
+	        throw new SystemException("安全校验出错：[报文被篡改]");
+	    }else{
 	        try {
                 if("00".equals(payStates)){
                     LOG.info("支付成功，状态：["+payStates+"]");
@@ -176,7 +176,7 @@ public class PayController {
                     paymentParam.setTenantId(tenantId);
                     paymentParam.setAcctId(Long.parseLong(orderInfo.getAcctId()));
                     paymentParam.setOrderId(orderId);
-                    paymentParam.setBusiType("1");
+                    paymentParam.setBusiType("2");
                     paymentParam.setBusiOperCode("300000");
                     paymentParam.setStatus(1);
                     paymentParam.setTotalFee(orderInfo.getPayAmount());
@@ -227,7 +227,7 @@ public class PayController {
             }
     	    
 	    }
-//    }
+    }
 	
 	private SLPClientUser getUserId(HttpServletRequest request) {
         SLPClientUser user = (SLPClientUser) request.getSession().getAttribute(SSOClientConstants.USER_SESSION_KEY);
