@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,6 +19,8 @@ import com.ai.opt.sdk.dubbo.util.DubboConsumerFactory;
 import com.ai.opt.sdk.util.CollectionUtil;
 import com.ai.opt.sdk.util.StringUtil;
 import com.ai.opt.sdk.web.model.ResponseData;
+import com.ai.opt.sso.client.filter.SLPClientUser;
+import com.ai.opt.sso.client.filter.SSOClientConstants;
 import com.ai.slp.mall.web.model.product.ProductCommonVO;
 import com.ai.slp.mall.web.model.product.ProductDataVO;
 import com.ai.slp.mall.web.util.ImageUtil;
@@ -59,6 +62,13 @@ public class SearchController {
     @RequestMapping("/getProduct")
     @ResponseBody
     public ResponseData<PageInfo<ProductDataVO>> getList(HttpServletRequest request,ProductQueryRequest req){
+      //从session中获取用户类型
+        HttpSession session = request.getSession();
+        SLPClientUser user = (SLPClientUser) session.getAttribute(SSOClientConstants.USER_SESSION_KEY);
+        if(user!=null){
+            req.setUserType(user.getUserType());
+            req.setUserId(user.getUserId());  
+        }
         ISearchProductSV iPaymentQuerySV = DubboConsumerFactory.getService("iSearchProductSV");
         req.setTenantId("SLP");
         ResponseData<PageInfo<ProductDataVO>> responseData = null;
@@ -125,6 +135,13 @@ public class SearchController {
     @ResponseBody
     public ResponseData<List<ProductDataVO>> getHotProduct(HttpServletRequest request,ProductQueryRequest req){
         ISearchProductSV iPaymentQuerySV = DubboConsumerFactory.getService("iSearchProductSV");
+      //从session中获取用户类型
+        HttpSession session = request.getSession();
+        SLPClientUser user = (SLPClientUser) session.getAttribute(SSOClientConstants.USER_SESSION_KEY);
+        if(user!=null){
+            req.setUserType(user.getUserType());
+            req.setUserId(user.getUserId());  
+        }
         req.setTenantId("SLP");
         ResponseData<List<ProductDataVO>> responseData = null;
         try {
@@ -166,6 +183,13 @@ public class SearchController {
     @ResponseBody
     public ResponseData<PageInfo<ProductDataVO>> search(HttpServletRequest request,ProductQueryRequest req){
         ISearchProductSV iPaymentQuerySV = DubboConsumerFactory.getService("iSearchProductSV");
+        //从session中获取用户类型
+        HttpSession session = request.getSession();
+        SLPClientUser user = (SLPClientUser) session.getAttribute(SSOClientConstants.USER_SESSION_KEY);
+        if(user!=null){
+            req.setUserType(user.getUserType());
+            req.setUserId(user.getUserId());  
+        }
         req.setTenantId("SLP");
         ResponseData<PageInfo<ProductDataVO>> responseData = null;
         PageInfo<ProductData> pageInfo = new PageInfo<ProductData> ();
@@ -220,6 +244,13 @@ public class SearchController {
     @ResponseBody
     public ResponseData<ProductCommonVO> getCommon(HttpServletRequest request,ProductQueryRequest req){
         ISearchProductSV iSearchProductSV = DubboConsumerFactory.getService("iSearchProductSV");
+      //从session中获取用户类型
+        HttpSession session = request.getSession();
+        SLPClientUser user = (SLPClientUser) session.getAttribute(SSOClientConstants.USER_SESSION_KEY);
+        if(user!=null){
+            req.setUserType(user.getUserType());
+            req.setUserId(user.getUserId());  
+        }
         req.setTenantId("SLP");
         ResponseData<ProductCommonVO> responseData = null;
         PageInfo<ProductData> pageInfo = new PageInfo<ProductData> ();
@@ -250,6 +281,13 @@ public class SearchController {
     @ResponseBody
     public ResponseData<ProductCommonVO> getCommonBySearch(HttpServletRequest request,ProductQueryRequest req){
         ISearchProductSV iSearchProductSV = DubboConsumerFactory.getService("iSearchProductSV");
+        //从session中获取用户类型
+        HttpSession session = request.getSession();
+        SLPClientUser user = (SLPClientUser) session.getAttribute(SSOClientConstants.USER_SESSION_KEY);
+        if(user!=null){
+            req.setUserType(user.getUserType());
+            req.setUserId(user.getUserId());  
+        }
         req.setTenantId("SLP");
         ResponseData<ProductCommonVO> responseData = null;
         PageInfo<ProductData> pageInfo = new PageInfo<ProductData> ();
