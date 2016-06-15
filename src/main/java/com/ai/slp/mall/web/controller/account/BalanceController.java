@@ -26,6 +26,8 @@ import com.ai.opt.sdk.web.model.ResponseData;
 import com.ai.opt.sso.client.filter.SLPClientUser;
 import com.ai.opt.sso.client.filter.SSOClientConstants;
 import com.ai.opt.base.vo.PageInfo;
+import com.ai.slp.balance.api.accountquery.interfaces.IAccountQuerySV;
+import com.ai.slp.balance.api.accountquery.param.AccountInfoVo;
 import com.ai.slp.balance.api.fundquery.interfaces.IFundQuerySV;
 import com.ai.slp.balance.api.fundquery.param.AccountIdParam;
 import com.ai.slp.balance.api.fundquery.param.FundInfo;
@@ -328,5 +330,25 @@ public class BalanceController {
         log.info("user account:"+user.getAcctId());
         log.info("user tenantId:"+user.getTenantId());
         return user;
+	}
+	/**
+	 * 支付密码是否设置 0：未设置 1：已设置
+	 * @param req
+	 * @return
+	 * @author zhangzd
+	 * @ApiDocMethod
+	 * @ApiCode
+	 */
+	@RequestMapping(value="/account/payPasswordIsSetting",method = RequestMethod.POST, produces = "text/html;charset=UTF-8")
+	@ResponseBody
+	public String payPasswordIsSetting(HttpServletRequest req){
+		SLPClientUser userInfo = this.getUserInfo(req);
+		com.ai.slp.balance.api.accountquery.param.AccountIdParam accountIdParam = new com.ai.slp.balance.api.accountquery.param.AccountIdParam();
+		accountIdParam.setTenantId(userInfo.getTenantId());
+		accountIdParam.setAccountId(userInfo.getAcctId());
+		//
+		AccountInfoVo accountInfoVo = DubboConsumerFactory.getService(IAccountQuerySV.class).queryAccontById(accountIdParam);
+		//
+		return accountInfoVo.getPayCheck();
 	}
 }
