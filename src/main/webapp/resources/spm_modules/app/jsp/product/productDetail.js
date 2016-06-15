@@ -312,7 +312,7 @@ define('app/jsp/product/productDetail', function (require, exports, module) {
 							$("#shopCartMask").show();
 						}else{
 							var d = Dialog({
-								content:"添加失败",
+								content:"添加失败:"+data.statusInfo,
 								ok:function(){
 									this.close();
 								}

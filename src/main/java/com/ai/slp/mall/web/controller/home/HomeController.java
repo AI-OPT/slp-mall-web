@@ -35,7 +35,6 @@ import com.ai.slp.product.api.webfront.param.FastProductReq;
 import com.ai.slp.product.api.webfront.param.FastSkuProdInfo;
 import com.ai.slp.product.api.webfront.param.ProductHomeRequest;
 import com.ai.slp.product.api.webfront.param.ProductHomeResponse;
-import com.alibaba.fastjson.JSON;
 
 @RestController
 public class HomeController {
@@ -59,7 +58,14 @@ public class HomeController {
 	@RequestMapping("/getFlow")
 	@ResponseBody
 	public ResponseData<List<ProductHomeVO>> getFlow(HttpServletRequest request, ProductHomeRequest proRequest) {
-		IProductHomeSV iHomeProductSV = DubboConsumerFactory.getService("iProductHomeSV");
+	   //从session中获取用户类型
+	    HttpSession session = request.getSession();
+        SLPClientUser user = (SLPClientUser) session.getAttribute(SSOClientConstants.USER_SESSION_KEY);
+        if(user!=null){
+            proRequest.setUsertype(user.getUserType());
+            proRequest.setUserid(user.getUserId());  
+        }
+	    IProductHomeSV iHomeProductSV = DubboConsumerFactory.getService("iProductHomeSV");
 		proRequest.setTenantId("SLP");
 		ResponseData<List<ProductHomeVO>> responseData = null;
 		List<ProductHomeVO> resultList = new ArrayList<ProductHomeVO>();
@@ -98,7 +104,14 @@ public class HomeController {
 	@RequestMapping("/getPhoneBill")
 	@ResponseBody
 	public ResponseData<List<ProductHomeVO>> getPhoneBill(HttpServletRequest request, ProductHomeRequest proRequest) {
-		IProductHomeSV iHomeProductSV = DubboConsumerFactory.getService("iProductHomeSV");
+	  //从session中获取用户类型
+        HttpSession session = request.getSession();
+        SLPClientUser user = (SLPClientUser) session.getAttribute(SSOClientConstants.USER_SESSION_KEY);
+        if(user!=null){
+            proRequest.setUsertype(user.getUserType());
+            proRequest.setUserid(user.getUserId());  
+        }
+	    IProductHomeSV iHomeProductSV = DubboConsumerFactory.getService("iProductHomeSV");
 		proRequest.setTenantId("SLP");
 		ResponseData<List<ProductHomeVO>> responseData = null;
 		List<ProductHomeVO> resultList = new ArrayList<ProductHomeVO>();
@@ -133,7 +146,14 @@ public class HomeController {
 	@RequestMapping("/getHotProduct")
 	@ResponseBody
 	public ResponseData<List<ProductHomeVO>> getHotProduct(HttpServletRequest request, ProductHomeRequest proRequest) {
-		IProductHomeSV iHomeProductSV = DubboConsumerFactory.getService("iProductHomeSV");
+	  //从session中获取用户类型
+        HttpSession session = request.getSession();
+        SLPClientUser user = (SLPClientUser) session.getAttribute(SSOClientConstants.USER_SESSION_KEY);
+        if(user!=null){
+            proRequest.setUsertype(user.getUserType());
+            proRequest.setUserid(user.getUserId());  
+        }
+	    IProductHomeSV iHomeProductSV = DubboConsumerFactory.getService("iProductHomeSV");
 		proRequest.setTenantId("SLP");
 		ResponseData<List<ProductHomeVO>> responseData = null;
 		List<ProductHomeVO> resultList = new ArrayList<ProductHomeVO>();

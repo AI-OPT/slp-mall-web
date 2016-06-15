@@ -135,19 +135,25 @@ public class PayController {
 	    String payAmount = request.getParameter("orderAmount");
 	    String subject = request.getParameter("subject");
 	    String outOrderId = request.getParameter("outOrderId");
-	    String payType = request.getParameter("payType");
+	    String payType = request.getParameter("payOrgCode");
 	    String payStates = request.getParameter("payStates");
 	    String infoMd5Param = request.getParameter("infoMd5");
+	    LOG.info("参数infoMd5Param:["+infoMd5Param+"]");
         IPayOrderSV iPayOrderSV = DubboConsumerFactory.getService(IPayOrderSV.class);
         PayOrderParam orderInfo = iPayOrderSV.queryPayOrder(orderId);
         if(orderInfo==null){
             throw new SystemException("未查到相应订单，订单号：["+orderId+"]");
         }
 	    String infoStr = outOrderId + VerifyUtil.SEPARATOR + orderId + VerifyUtil.SEPARATOR
-                + payAmount + VerifyUtil.SEPARATOR + payStates;
+                + payAmount + VerifyUtil.SEPARATOR + payStates+ VerifyUtil.SEPARATOR + tenantId;
+	    LOG.info("加密参数:["+infoStr+"]");
         String infoMd5 = VerifyUtil.encodeParam(infoStr, ConfigUtil.getProperty("REQUEST_KEY"));
+
+        LOG.info("加密infoMd5:["+infoMd5+"]");
 	    if(!infoMd5.equals(infoMd5Param)){
+	        LOG.info("安全校验出错：[报文被篡改]");
 	        throw new SystemException("安全校验出错：[报文被篡改]");
+	        
 	    }else{
 	        try {
                 if("00".equals(payStates)){
