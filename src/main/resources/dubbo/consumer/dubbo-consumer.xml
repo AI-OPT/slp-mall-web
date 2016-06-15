@@ -125,4 +125,7 @@
 	<!-- 商品类目 -->	
 	<dubbo:reference id="iProductCatSV"
 		interface="com.ai.slp.product.api.productcat.interfaces.IProductCatSV" />
+	<!-- 行业类型 -->
+	<dubbo:reference id="iIndustrySV"
+		interface="com.ai.slp.common.api.industry.interfaces.IIndustrySV" />
 </beans>
