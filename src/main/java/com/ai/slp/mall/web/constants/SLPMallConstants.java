@@ -11,7 +11,7 @@ public final class SLPMallConstants {
     /**
      * 购物车下单类型
      */
-    public static final String SHOP_CART_ORDE_TYPE = "11";
+    public static final String SHOP_CART_ORDE_TYPE = "100000";
     /**
      * 错误信息标记
      */
