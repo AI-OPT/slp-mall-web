@@ -48,155 +48,158 @@ import com.alibaba.fastjson.JSON;
 @RequestMapping("/order")
 public class OrderController {
 
-    private static final Logger LOG = Logger.getLogger(OrderController.class);
+	private static final Logger LOG = Logger.getLogger(OrderController.class);
 
-    /**
-     * 下单并且跳转到支付页面
-     */
-    @RequestMapping("/orderCommit")
-    @ResponseBody
-    public ResponseData<String> toPayOrder(HttpServletRequest request, PayOrderRequest orderReq) {
-        // 接口入参
-        // OrderTradeCenterRequest
-        // OrdBaseInfo
-        // List<OrdProductInfo>
-        // InfoJsonVo 扩展信息
-        ResponseData<String> resData = null;
-        try {
-            HttpSession session = request.getSession();
-            SLPClientUser user = (SLPClientUser) session
-                    .getAttribute(SSOClientConstants.USER_SESSION_KEY);
-            if (null != user) {
-                orderReq.setUserId(user.getUserId());
-            } else {
-                orderReq.setUserId(SLPMallConstants.Order.VISITUSERID);
-            }
-            String orderKey = UUIDUtil.genId32();
+	/**
+	 * 下单并且跳转到支付页面
+	 */
+	@RequestMapping("/orderCommit")
+	@ResponseBody
+	public ResponseData<String> toPayOrder(HttpServletRequest request, PayOrderRequest orderReq) {
+		// 接口入参
+		// OrderTradeCenterRequest
+		// OrdBaseInfo
+		// List<OrdProductInfo>
+		// InfoJsonVo 扩展信息
+		ResponseData<String> resData = null;
 
-            CacheUtil.setValue(orderKey, 300, orderReq, SLPMallConstants.Order.CACHE_NAMESPACE);
-            resData = new ResponseData<String>(ExceptionCode.SUCCESS, "查询成功", orderKey);
+		try {
+			HttpSession session = request.getSession();
+			SLPClientUser user = (SLPClientUser) session.getAttribute(SSOClientConstants.USER_SESSION_KEY);
+			if (null != user) {
+				orderReq.setUserId(user.getUserId());
+			} else {
+				orderReq.setUserId(SLPMallConstants.Order.VISITUSERID);
+			}
+			String orderKey = UUIDUtil.genId32();
 
-        } catch (Exception e) {
-            resData = new ResponseData<String>(ExceptionCode.SYSTEM_ERROR, "查询失败", null);
-        }
+			CacheUtil.setValue(orderKey, 300, orderReq, SLPMallConstants.Order.CACHE_NAMESPACE);
+			resData = new ResponseData<String>(ExceptionCode.SUCCESS, "查询成功", orderKey);
 
-        return resData;
+		} catch (Exception e) {
+			LOG.error(e.getMessage());
+			resData = new ResponseData<String>(ExceptionCode.SYSTEM_ERROR, "查询失败", null);
+		}
 
-    }
+		return resData;
 
-    @RequestMapping("/toOrderPay")
-    public String toOrderPay(HttpServletRequest request, Model model) {
-        String orderKey = request.getParameter("orderKey");
-        PayOrderRequest res = (PayOrderRequest) CacheUtil.getValue(orderKey,
-                SLPMallConstants.Order.CACHE_NAMESPACE, PayOrderRequest.class);
-        OrderTradeCenterRequest orderrequest = new OrderTradeCenterRequest();
-        HttpSession session = request.getSession();
-        SLPClientUser user = (SLPClientUser) session
-                .getAttribute(SSOClientConstants.USER_SESSION_KEY);
-        if (null == user) {
-            orderrequest.setTenantId(SLPMallConstants.COM_TENANT_ID);
-        } else {
-            orderrequest.setTenantId(user.getTenantId());
-        }
+	}
 
-        OrdBaseInfo baseInfo = new OrdBaseInfo();
-        baseInfo.setUserId(res.getUserId());
-        baseInfo.setOrderType(res.getOrderType());
-        orderrequest.setOrdBaseInfo(baseInfo);
+	@RequestMapping("/toOrderPay")
+	public String toOrderPay(HttpServletRequest request, Model model) {
+		String orderId = null;
+		try {
+			String orderKey = request.getParameter("orderKey");
+			PayOrderRequest res = (PayOrderRequest) CacheUtil.getValue(orderKey, SLPMallConstants.Order.CACHE_NAMESPACE,
+					PayOrderRequest.class);
+			OrderTradeCenterRequest orderrequest = new OrderTradeCenterRequest();
+			HttpSession session = request.getSession();
+			SLPClientUser user = (SLPClientUser) session.getAttribute(SSOClientConstants.USER_SESSION_KEY);
+			if (null == user) {
+				orderrequest.setTenantId(SLPMallConstants.COM_TENANT_ID);
+			} else {
+				orderrequest.setTenantId(user.getTenantId());
+			}
 
-        List<OrdProductInfo> list = new ArrayList<OrdProductInfo>();
-        OrdProductInfo opInfo = new OrdProductInfo();
-        opInfo.setBasicOrgId(res.getBasicOrgId());
-        opInfo.setBuySum(Integer.valueOf(res.getBuySum()));
-        opInfo.setProvinceCode(res.getProvinceCode());
-        opInfo.setSkuId(res.getSkuId());
-        opInfo.setChargeFee(res.getChargeFee());
-        list.add(opInfo);
-        orderrequest.setOrdProductInfoList(list);
-        OrdExtendInfo exInfo = new OrdExtendInfo();
-        List<ProdExtendInfoVo> listVo = new ArrayList<ProdExtendInfoVo>();
-        InfoJsonVo vo = new InfoJsonVo();
-        ProdExtendInfoVo pvo = new ProdExtendInfoVo();
-        pvo.setProdExtendInfoValue(res.getPhoneNum());
-        listVo.add(pvo);
-        vo.setProdExtendInfoVoList(listVo);
-        exInfo.setInfoJson(JSON.toJSONString(vo));
-        orderrequest.setOrdExtendInfo(exInfo);
-        IOrderTradeCenterSV iOrderTradeCenterSV = DubboConsumerFactory
-                .getService(com.ai.slp.order.api.ordertradecenter.interfaces.IOrderTradeCenterSV.class);
-        OrderTradeCenterResponse response = iOrderTradeCenterSV.apply(orderrequest);
+			OrdBaseInfo baseInfo = new OrdBaseInfo();
+			baseInfo.setUserId(res.getUserId());
+			baseInfo.setOrderType(res.getOrderType());
+			orderrequest.setOrdBaseInfo(baseInfo);
 
-        String orderId = String.valueOf(response.getOrderId());
+			List<OrdProductInfo> list = new ArrayList<OrdProductInfo>();
+			OrdProductInfo opInfo = new OrdProductInfo();
+			opInfo.setBasicOrgId(res.getBasicOrgId());
+			opInfo.setBuySum(Integer.valueOf(res.getBuySum()));
+			opInfo.setProvinceCode(res.getProvinceCode());
+			opInfo.setSkuId(res.getSkuId());
+			opInfo.setChargeFee(res.getChargeFee());
+			list.add(opInfo);
+			orderrequest.setOrdProductInfoList(list);
+			OrdExtendInfo exInfo = new OrdExtendInfo();
+			List<ProdExtendInfoVo> listVo = new ArrayList<ProdExtendInfoVo>();
+			InfoJsonVo vo = new InfoJsonVo();
+			ProdExtendInfoVo pvo = new ProdExtendInfoVo();
+			pvo.setProdExtendInfoValue(res.getPhoneNum());
+			listVo.add(pvo);
+			vo.setProdExtendInfoVoList(listVo);
+			exInfo.setInfoJson(JSON.toJSONString(vo));
+			orderrequest.setOrdExtendInfo(exInfo);
+			IOrderTradeCenterSV iOrderTradeCenterSV = DubboConsumerFactory
+					.getService(com.ai.slp.order.api.ordertradecenter.interfaces.IOrderTradeCenterSV.class);
+			OrderTradeCenterResponse response = iOrderTradeCenterSV.apply(orderrequest);
+			orderId = String.valueOf(response.getOrderId());
+		} catch (Exception e) {
+			LOG.error(e.getMessage());
+			return "redirect:/home";
+		}
 
-        return "redirect:/order/pay?orderId=" + orderId;
-    }
+		return "redirect:/order/pay?orderId=" + orderId;
+	}
 
-    @RequestMapping("/pay")
-    public String toPay(HttpServletRequest request, Model model) {
-        HttpSession session = request.getSession();
-        SLPClientUser user = (SLPClientUser) session
-                .getAttribute(SSOClientConstants.USER_SESSION_KEY);
-        // QueryOrderResponse queryOrder
-        Long orderId = Long.valueOf(request.getParameter("orderId"));
-        IOrderListSV orderList = DubboConsumerFactory.getService(IOrderListSV.class);
+	@RequestMapping("/pay")
+	public String toPay(HttpServletRequest request, Model model) {
+		HttpSession session = request.getSession();
+		SLPClientUser user = (SLPClientUser) session.getAttribute(SSOClientConstants.USER_SESSION_KEY);
+		// QueryOrderResponse queryOrder
+		Long orderId = Long.valueOf(request.getParameter("orderId"));
+		IOrderListSV orderList = DubboConsumerFactory.getService(IOrderListSV.class);
 
-        QueryOrderRequest orderRequest = new QueryOrderRequest();
-        if (null == user) {
-            orderRequest.setTenantId(SLPMallConstants.COM_TENANT_ID);
-        } else {
-            orderRequest.setTenantId(user.getTenantId());
-        }
+		QueryOrderRequest orderRequest = new QueryOrderRequest();
+		if (null == user) {
+			orderRequest.setTenantId(SLPMallConstants.COM_TENANT_ID);
+		} else {
+			orderRequest.setTenantId(user.getTenantId());
+		}
 
-        orderRequest.setOrderId(orderId);
-        QueryOrderResponse response = orderList.queryOrder(orderRequest);
-        OrdOrderVo vo = response.getOrdOrderVo();
+		orderRequest.setOrderId(orderId);
+		QueryOrderResponse response = orderList.queryOrder(orderRequest);
+		OrdOrderVo vo = response.getOrdOrderVo();
 
-        // 返回的list
-        List<OrdProductVo> ordProdList = vo.getProductList();
+		// 返回的list
+		List<OrdProductVo> ordProdList = vo.getProductList();
 
-        // 需要返回的List
-        List<OrdProductResInfo> ordProductResList = new ArrayList<OrdProductResInfo>();
+		// 需要返回的List
+		List<OrdProductResInfo> ordProductResList = new ArrayList<OrdProductResInfo>();
 
-        // 循环
-        for (OrdProductVo ord : ordProdList) {
-            OrdProductResInfo resInfo = new OrdProductResInfo();
-            resInfo.setBuySum(ord.getBuySum());
-            resInfo.setSalePrice(ord.getSalePrice());
-            resInfo.setSkuId(ord.getSkuId());
-            resInfo.setSkuName(ord.getProdName());
-            resInfo.setSkuTotalFee(ord.getTotalFee());
-            IImageClient imageClient = IDPSClientFactory
-                    .getImageClient(ProductImageConstant.IDPSNS);
-            ProductImage productImage = ord.getProductImage();
-            String vfsId = productImage.getVfsId();
-            String picType = productImage.getPicType();
-            String imageUrl = this.getImageUrl(imageClient, vfsId, picType);
-            resInfo.setImageUrl(imageUrl);
-            ordProductResList.add(resInfo);
-        }
-        // 设置列表
+		// 循环
+		for (OrdProductVo ord : ordProdList) {
+			OrdProductResInfo resInfo = new OrdProductResInfo();
+			resInfo.setBuySum(ord.getBuySum());
+			resInfo.setSalePrice(ord.getSalePrice());
+			resInfo.setSkuId(ord.getSkuId());
+			resInfo.setSkuName(ord.getProdName());
+			resInfo.setSkuTotalFee(ord.getTotalFee());
+			IImageClient imageClient = IDPSClientFactory.getImageClient(ProductImageConstant.IDPSNS);
+			ProductImage productImage = ord.getProductImage();
+			String vfsId = productImage.getVfsId();
+			String picType = productImage.getPicType();
+			String imageUrl = this.getImageUrl(imageClient, vfsId, picType);
+			resInfo.setImageUrl(imageUrl);
+			ordProductResList.add(resInfo);
+		}
+		// 设置列表
 
-        // ordFeeInfo 属性设置
-        OrdFeeInfo ordFeeInfo = new OrdFeeInfo();
-        ordFeeInfo.setTotalFee(vo.getTotalFee());
-        ordFeeInfo.setOperDiscountFee(vo.getDiscountFee());
-        ordFeeInfo.setDiscountFee(vo.getDiscountFee());
+		// ordFeeInfo 属性设置
+		OrdFeeInfo ordFeeInfo = new OrdFeeInfo();
+		ordFeeInfo.setTotalFee(vo.getTotalFee());
+		ordFeeInfo.setOperDiscountFee(vo.getDiscountFee());
+		ordFeeInfo.setDiscountFee(vo.getDiscountFee());
 
-        OrderSubmit orderSubmit = new OrderSubmit();
-        orderSubmit.setBalance(0);
-        orderSubmit.setBalanceFee(0);
-        orderSubmit.setExpFee(0);
-        orderSubmit.setOrderId(orderId);
-        orderSubmit.setOrdFeeInfo(ordFeeInfo);
-        orderSubmit.setOrdProductResList(ordProductResList);
-        String orderSubmitJson = JSonUtil.toJSon(orderSubmit);
-        model.addAttribute("orderSubmitJson", orderSubmitJson);
+		OrderSubmit orderSubmit = new OrderSubmit();
+		orderSubmit.setBalance(0);
+		orderSubmit.setBalanceFee(0);
+		orderSubmit.setExpFee(0);
+		orderSubmit.setOrderId(orderId);
+		orderSubmit.setOrdFeeInfo(ordFeeInfo);
+		orderSubmit.setOrdProductResList(ordProductResList);
+		String orderSubmitJson = JSonUtil.toJSon(orderSubmit);
+		model.addAttribute("orderSubmitJson", orderSubmitJson);
 
-        return "jsp/order/order_submit";
-    }
+		return "jsp/order/order_submit";
+	}
 
-    private String getImageUrl(IImageClient imageClient, String vfsId, String picType) {
-        return imageClient.getImageUrl(vfsId, picType, "60x60");
-    }
+	private String getImageUrl(IImageClient imageClient, String vfsId, String picType) {
+		return imageClient.getImageUrl(vfsId, picType, "60x60");
+	}
 
 }
