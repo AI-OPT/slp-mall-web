@@ -40,7 +40,6 @@ define('app/jsp/top/top', function (require, exports, module) {
 				type: "post",
 				dataType: "json",
 				processing: false,
-				message: "查询中，请等待...",
 				url: _base+"/head/getSessionData",
 				data:'',
 				success: function(data){
@@ -77,7 +76,6 @@ define('app/jsp/top/top', function (require, exports, module) {
 				type: "post",
 				dataType: "json",
 				processing: true,
-				message: "查询中，请等待...",
 				url: _base+"/head/getIpAddr",
 				data:'',
 				success: function(data){
@@ -127,7 +125,6 @@ define('app/jsp/top/top', function (require, exports, module) {
 				type: "post",
 				dataType: "json",
 				processing: true,
-				message: "查询中，请等待...",
 				url: _base+"/head/getArea",
 				data:'',
 				success: function(data){

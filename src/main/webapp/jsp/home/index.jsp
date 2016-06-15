@@ -37,24 +37,24 @@
                  <ul>
                 	   <p>充话费</p>
                      <li class="current"><A href="#" onclick="pager._jumpToSearch('100004','10000010010000')">10元 </A></li>
-                     <li><A href="#" onclick="pager._jumpToSearch('100005','10000010010000')">20元</A></li>
-                     <li><A href="#" onclick="pager._jumpToSearch('100006','10000010010000')">30元 </A></li>
-                     <li><A href="#" onclick="pager._jumpToSearch('100007','10000010010000')">50元</A></li>
-                     <li><A href="#" onclick="pager._jumpToSearch('100008','10000010010000')">100元 </A></li>
-                     <li><A href="#" onclick="pager._jumpToSearch('100009','10000010010000')">200元</A></li>
-                     <li><A href="#" onclick="pager._jumpToSearch('100010','10000010010000')">300元</A></li>
-                     <li><A href="#" onclick="pager._jumpToSearch('100011','10000010010000')">500元</A></li>
+                     <li><A href="javascript:void(0);" onclick="pager._jumpToSearch('100005','10000010010000')">20元</A></li>
+                     <li><A href="javascript:void(0);" onclick="pager._jumpToSearch('100006','10000010010000')">30元 </A></li>
+                     <li><A href="javascript:void(0);" onclick="pager._jumpToSearch('100007','10000010010000')">50元</A></li>
+                     <li><A href="javascript:void(0);" onclick="pager._jumpToSearch('100008','10000010010000')">100元 </A></li>
+                     <li><A href="javascript:void(0);" onclick="pager._jumpToSearch('100009','10000010010000')">200元</A></li>
+                     <li><A href="javascript:void(0);" onclick="pager._jumpToSearch('100010','10000010010000')">300元</A></li>
+                     <li><A href="javascript:void(0);" onclick="pager._jumpToSearch('100011','10000010010000')">500元</A></li>
                  </ul>
                   <ul>
                 	   <p>充流量</p>
-                     <li ><A href="#" onclick="pager._jumpToSearch('100047','10000010020000')">10MB</A></li>
-                     <li><A href="#" onclick="pager._jumpToSearch('100048','10000010020000')">20MB</A></li>
-                     <li><A href="#" onclick="pager._jumpToSearch('100049','10000010020000')">50MB</A></li>
-                     <li><A href="#"onclick="pager._jumpToSearch('100050','10000010020000')">70MB</A></li>
-                     <li><A href="#" onclick="pager._jumpToSearch('100051','10000010020000')">100MB</A></li>
-                     <li><A href="#" onclick="pager._jumpToSearch('100052','10000010020000')">200MB</A></li>
-                     <li><A href="#" onclick="pager._jumpToSearch('100053','10000010020000')">250MB</A></li>
-                     <li><A href="#" onclick="pager._jumpToSearch('100054','10000010020000')">500MB</A></li>
+                     <li ><A href="javascript:void(0);" onclick="pager._jumpToSearch('100047','10000010020000')">10MB</A></li>
+                     <li><A href="javascript:void(0);" onclick="pager._jumpToSearch('100048','10000010020000')">20MB</A></li>
+                     <li><A href="javascript:void(0);" onclick="pager._jumpToSearch('100049','10000010020000')">50MB</A></li>
+                     <li><A href="javascript:void(0);"onclick="pager._jumpToSearch('100050','10000010020000')">70MB</A></li>
+                     <li><A href="javascript:void(0);" onclick="pager._jumpToSearch('100051','10000010020000')">100MB</A></li>
+                     <li><A href="javascript:void(0);" onclick="pager._jumpToSearch('100052','10000010020000')">200MB</A></li>
+                     <li><A href="javascript:void(0);" onclick="pager._jumpToSearch('100053','10000010020000')">250MB</A></li>
+                     <li><A href="javascript:void(0);" onclick="pager._jumpToSearch('100054','10000010020000')">500MB</A></li>
                  </ul>
              </div>
             <!---->
@@ -65,24 +65,24 @@
                   <ul>
                 	   <p>充话费</p>
                      <li class="current"><A href="#" onclick="pager._jumpToSearch('100004','10000010010000')">10元 </A></li>
-                     <li><A href="#" onclick="pager._jumpToSearch('100005','10000010010000')">20元</A></li>
-                     <li><A href="#" onclick="pager._jumpToSearch('100006','10000010010000')">30元 </A></li>
-                     <li><A href="#" onclick="pager._jumpToSearch('100007','10000010010000')">50元</A></li>
-                     <li><A href="#" onclick="pager._jumpToSearch('100008','10000010010000')">100元 </A></li>
-                     <li><A href="#" onclick="pager._jumpToSearch('100009','10000010010000')">200元</A></li>
-                     <li><A href="#" onclick="pager._jumpToSearch('100010','10000010010000')">300元</A></li>
-                     <li><A href="#" onclick="pager._jumpToSearch('100011','10000010010000')">500元</A></li>
+                     <li><A href="javascript:void(0);" onclick="pager._jumpToSearch('100005','10000010010000')">20元</A></li>
+                     <li><A href="javascript:void(0);" onclick="pager._jumpToSearch('100006','10000010010000')">30元 </A></li>
+                     <li><A href="javascript:void(0);" onclick="pager._jumpToSearch('100007','10000010010000')">50元</A></li>
+                     <li><A href="javascript:void(0);" onclick="pager._jumpToSearch('100008','10000010010000')">100元 </A></li>
+                     <li><A href="javascript:void(0);" onclick="pager._jumpToSearch('100009','10000010010000')">200元</A></li>
+                     <li><A href="javascript:void(0);" onclick="pager._jumpToSearch('100010','10000010010000')">300元</A></li>
+                     <li><A href="javascript:void(0);" onclick="pager._jumpToSearch('100011','10000010010000')">500元</A></li>
                  </ul>
                   <ul>
                 	   <p>充流量</p>
-                     <li ><A href="#" onclick="pager._jumpToSearch('100047','10000010020000')">10MB</A></li>
-                     <li><A href="#" onclick="pager._jumpToSearch('100048','10000010020000')">20MB</A></li>
-                     <li><A href="#" onclick="pager._jumpToSearch('100049','10000010020000')">50MB</A></li>
-                     <li><A href="#"onclick="pager._jumpToSearch('100050','10000010020000')">70MB</A></li>
-                     <li><A href="#" onclick="pager._jumpToSearch('100051','10000010020000')">100MB</A></li>
-                     <li><A href="#" onclick="pager._jumpToSearch('100052','10000010020000')">200MB</A></li>
-                     <li><A href="#" onclick="pager._jumpToSearch('100053','10000010020000')">250MB</A></li>
-                     <li><A href="#" onclick="pager._jumpToSearch('100054','10000010020000')">500MB</A></li>
+                     <li ><A href="javascript:void(0);" onclick="pager._jumpToSearch('100047','10000010020000')">10MB</A></li>
+                     <li><A href="javascript:void(0);" onclick="pager._jumpToSearch('100048','10000010020000')">20MB</A></li>
+                     <li><A href="javascript:void(0);" onclick="pager._jumpToSearch('100049','10000010020000')">50MB</A></li>
+                     <li><A href="javascript:void(0);"onclick="pager._jumpToSearch('100050','10000010020000')">70MB</A></li>
+                     <li><A href="javascript:void(0);" onclick="pager._jumpToSearch('100051','10000010020000')">100MB</A></li>
+                     <li><A href="javascript:void(0);" onclick="pager._jumpToSearch('100052','10000010020000')">200MB</A></li>
+                     <li><A href="javascript:void(0);" onclick="pager._jumpToSearch('100053','10000010020000')">250MB</A></li>
+                     <li><A href="javascript:void(0);" onclick="pager._jumpToSearch('100054','10000010020000')">500MB</A></li>
                  </ul>
              </div>
             <!---->
@@ -93,24 +93,24 @@
                   <ul>
                 	   <p>充话费</p>
                      <li class="current"><A href="#" onclick="pager._jumpToSearch('100004','10000010010000')">10元 </A></li>
-                     <li><A href="#" onclick="pager._jumpToSearch('100005','10000010010000')">20元</A></li>
-                     <li><A href="#" onclick="pager._jumpToSearch('100006','10000010010000')">30元 </A></li>
-                     <li><A href="#" onclick="pager._jumpToSearch('100007','10000010010000')">50元</A></li>
-                     <li><A href="#" onclick="pager._jumpToSearch('100008','10000010010000')">100元 </A></li>
-                     <li><A href="#" onclick="pager._jumpToSearch('100009','10000010010000')">200元</A></li>
-                     <li><A href="#" onclick="pager._jumpToSearch('100010','10000010010000')">300元</A></li>
-                     <li><A href="#" onclick="pager._jumpToSearch('100011','10000010010000')">500元</A></li>
+                     <li><A href="javascript:void(0);" onclick="pager._jumpToSearch('100005','10000010010000')">20元</A></li>
+                     <li><A href="javascript:void(0);" onclick="pager._jumpToSearch('100006','10000010010000')">30元 </A></li>
+                     <li><A href="javascript:void(0);" onclick="pager._jumpToSearch('100007','10000010010000')">50元</A></li>
+                     <li><A href="javascript:void(0);" onclick="pager._jumpToSearch('100008','10000010010000')">100元 </A></li>
+                     <li><A href="javascript:void(0);" onclick="pager._jumpToSearch('100009','10000010010000')">200元</A></li>
+                     <li><A href="javascript:void(0);" onclick="pager._jumpToSearch('100010','10000010010000')">300元</A></li>
+                     <li><A href="javascript:void(0);" onclick="pager._jumpToSearch('100011','10000010010000')">500元</A></li>
                  </ul>
                   <ul>
                 	   <p>充流量</p>
-                     <li ><A href="#" onclick="pager._jumpToSearch('100047','10000010020000')">10MB</A></li>
-                     <li><A href="#" onclick="pager._jumpToSearch('100048','10000010020000')">20MB</A></li>
-                     <li><A href="#" onclick="pager._jumpToSearch('100049','10000010020000')">50MB</A></li>
-                     <li><A href="#"onclick="pager._jumpToSearch('100050','10000010020000')">70MB</A></li>
-                     <li><A href="#" onclick="pager._jumpToSearch('100051','10000010020000')">100MB</A></li>
-                     <li><A href="#" onclick="pager._jumpToSearch('100052','10000010020000')">200MB</A></li>
-                     <li><A href="#" onclick="pager._jumpToSearch('100053','10000010020000')">250MB</A></li>
-                     <li><A href="#" onclick="pager._jumpToSearch('100054','10000010020000')">500MB</A></li>
+                     <li ><A href="javascript:void(0);" onclick="pager._jumpToSearch('100047','10000010020000')">10MB</A></li>
+                     <li><A href="javascript:void(0);" onclick="pager._jumpToSearch('100048','10000010020000')">20MB</A></li>
+                     <li><A href="javascript:void(0);" onclick="pager._jumpToSearch('100049','10000010020000')">50MB</A></li>
+                     <li><A href="javascript:void(0);"onclick="pager._jumpToSearch('100050','10000010020000')">70MB</A></li>
+                     <li><A href="javascript:void(0);" onclick="pager._jumpToSearch('100051','10000010020000')">100MB</A></li>
+                     <li><A href="javascript:void(0);" onclick="pager._jumpToSearch('100052','10000010020000')">200MB</A></li>
+                     <li><A href="javascript:void(0);" onclick="pager._jumpToSearch('100053','10000010020000')">250MB</A></li>
+                     <li><A href="javascript:void(0);" onclick="pager._jumpToSearch('100054','10000010020000')">500MB</A></li>
                  </ul>
              </div>
             <!---->
@@ -189,12 +189,12 @@
     <div class="hero-gallery js-flickity">
               <div class="hero-gallery__cell hero-gallery__cell--1">
                 <div class="content-wrap">
-                  <a href="#"><img src="${_slpbase }/images/img1.png"></a>
+                  <a href="javascript:void(0);"><img src="${_slpbase }/images/img1.png"></a>
                 </div>
               </div>
               <div class="hero-gallery__cell hero-gallery__cell--2">
                 <div class="content-wrap">
-                  <a href="#"><img src="${_slpbase }/images/img2.png"></a>
+                  <a href="javascript:void(0);"><img src="${_slpbase }/images/img2.png"></a>
                 </div>
                 
               </div>
@@ -285,7 +285,7 @@
           <div class="recommend-title">
           <ul>
           <li class="word">为您推荐</li>
-          <li class="right"><A href="#" id="refresh">刷新<i class="icon-refresh"></i></A></li>
+          <li class="right"><A href="javascript:void(0);" id="refresh">刷新<i class="icon-refresh"></i></A></li>
           </ul>
           </div>
           <div class="recommend-list" id="hotData">
@@ -301,7 +301,7 @@
    
 </div>
  <script id="phoneBillTmpl" type="text/x-jsrender">
-				<a href="#">
+				<a href="javascript:void(0);">
                 	<ul>
                 		<li onclick="pager._detailPage('{{:skuId}}')"><img src="{{:picUrl}}"></li>
                 		<li class="tit" onclick="pager._detailPage('{{:skuId}}')">{{:prodName}}</li>
@@ -331,7 +331,7 @@
 		{{/if}}
 </script>
 <script id="flowTmpl" type="text/x-jsrender">
-				<a href="#">
+				<a href="javascript:void(0);">
                 	<ul>
                 		<li onclick="pager._detailPage('{{:skuId}}')"><img src="{{:picUrl}}"></li>
                 		<li class="tit" onclick="pager._detailPage('{{:skuId}}')" >{{:prodName}}</li>
