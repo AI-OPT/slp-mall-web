@@ -223,13 +223,13 @@ define('app/jsp/product/productDetail', function (require, exports, module) {
         },
         _getHotProduct:function(){
         	$("#hotProductData").html("");
-      		ajaxController.ajax({
+      		$.ajax({
 						type: "post",
 						dataType: "json",
 						processing: false,
 						//message: "查询中，请等待...",
 						url: _base+"/search/getHotProduct",
-						data:{areaCode:$("#currentCity").attr("currentCityCode"),productCatId:productCatId},
+						data:{productCatId:productCatId},
 						success: function(data){
 							if(data.data){
 								var template = $.templates("#hotProductListTmpl");
@@ -312,7 +312,7 @@ define('app/jsp/product/productDetail', function (require, exports, module) {
 							$("#shopCartMask").show();
 						}else{
 							var d = Dialog({
-								content:"添加失败",
+								content:"添加失败:"+data.statusInfo,
 								ok:function(){
 									this.close();
 								}
