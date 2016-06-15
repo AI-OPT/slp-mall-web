@@ -128,9 +128,9 @@ public class BalanceController {
 		accountIdParam.setTenantId(user.getTenantId());//(TENANT_ID);
 		//
 		FundInfo fundInfo = DubboConsumerFactory.getService(IFundQuerySV.class).queryUsableFund(accountIdParam);
-		long balance = 0;
+		double balance = 0;
 		if(null != fundInfo){
-			balance = fundInfo.getBalance();
+			balance = ((double)fundInfo.getBalance())/1000;
 		}
 		
 		log.info("账户余额："+balance);
