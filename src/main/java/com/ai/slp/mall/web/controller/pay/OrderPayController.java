@@ -225,7 +225,7 @@ public class OrderPayController {
                 }
                 payRequest.setOrderIds(orderIds);
                 if (!StringUtil.isBlank(orderAmount_)) {
-                    payRequest.setPayFee(parseLong(Double.valueOf(orderAmount_) * 100));// 转换成分
+                    payRequest.setPayFee(parseLong(Double.valueOf(orderAmount_) * 1000));// 转换成分
                 }
                 logger.info("金额对吗：" + infoMd5);
                 payRequest.setExternalId(outOrderId_);
