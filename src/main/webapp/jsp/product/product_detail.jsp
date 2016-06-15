@@ -156,12 +156,14 @@
                        <li>{{:saleNum}}</li>
                        <!--<li class="right"><span class="word1">评价：</span><span>{{:commentNum}}</span></li>-->
                    	</ul>
-					</script>
-                   <ul class="details-list btm-magin">
-                   <li class="btn-mar" id="buyBtnId" style="display:none"><input id="buyBtn" type="button" class="slp-btn details-btn" value="立即购买"></li>
-                   <li id="addCarBtnId" style="display:none"><input type="button" class="slp-btn details-btn" id="joinShopCart" value="加入购物车"></li>
-                   <li id="invalidBtnId" style="display:none"><input id="invalidBtn" type="button" class="slp--ash-btn" value="已下架"></li>
-                   </ul>
+					{{if rechargeType != 'D'}}
+                   	<ul class="details-list btm-magin">
+                   	<li class="btn-mar" id="buyBtnId" style="display:none"><input id="buyBtn" type="button" class="slp-btn details-btn" value="立即购买"></li>
+                   	<li id="addCarBtnId" style="display:none"><input type="button" class="slp-btn details-btn" id="joinShopCart" value="加入购物车"></li>
+                   	<li id="invalidBtnId" style="display:none"><input id="invalidBtn" type="button" class="slp--ash-btn" value="已下架"></li>
+                   	</ul>
+					{{/if}}
+				</script>
                
                </div>
 

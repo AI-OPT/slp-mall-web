@@ -121,10 +121,14 @@ public class MyOrderController {
 			String orderTimeBegin = queryRequest.getOrderTimeBegin();
 			if (!StringUtil.isBlank(orderTimeBegin)) {
 				queryRequest.setOrderTimeBegin(orderTimeBegin + " 00:00:00");
+			}else{
+				queryRequest.setOrderTimeBegin(null);
 			}
 			String orderTimeEnd = queryRequest.getOrderTimeEnd();
 			if (!StringUtil.isBlank(orderTimeEnd)) {
 				queryRequest.setOrderTimeEnd(orderTimeEnd + " 23:59:59");
+			}else{
+				queryRequest.setOrderTimeEnd(null);
 			}
 		}
 		queryRequest.setTenantId(SLPMallConstants.COM_TENANT_ID);
