@@ -268,8 +268,8 @@
             <div id="flowData">
             	
             </div>
-			<a href="#">
-                <ul>
+			<a href="javascript:void(0);">
+                <ul id="moreId">
                 <li class="tit1">浏览更多</li>
                 <li class="ash">热门</li>
                 <li class="dred"><img src="${_slpbase }/images/tiaoz.png" id="moreproduct"></li> 
@@ -302,7 +302,7 @@
 </div>
  <script id="phoneBillTmpl" type="text/x-jsrender">
 				<a href="javascript:void(0);">
-                	<ul>
+                	<ul onclick="pager._detailPage('{{:skuId}}')">
                 		<li onclick="pager._detailPage('{{:skuId}}')"><img src="{{:picUrl}}"></li>
                 		<li class="tit" onclick="pager._detailPage('{{:skuId}}')">{{:prodName}}</li>
                 		<li class="dred">{{:~liToYuan(salePrice)}}元</li> 
@@ -311,8 +311,8 @@
 </script>
 <script id="hotTmpl" type="text/x-jsrender">
          {{if #index%4==0}}
-				<a href="#" class="mar-none">
-                	<ul>
+				<a href="javascript:void(0);" class="mar-none">
+                	<ul onclick="pager._detailPage('{{:skuId}}')">
                 		<li class="word" onclick="pager._detailPage('{{:skuId}}')">{{:prodName}}</li>
           				<li class="ash">{{:productSellPoint}}</li>
           				<li class="dred">¥{{:~liToYuan(salePrice)}}</li>
@@ -320,8 +320,8 @@
                 	</ul>
                 </a>
 		{{else}}
-				<a href="#">
-                	<ul>
+				<a href="javascript:void(0);">
+                	<ul onclick="pager._detailPage('{{:skuId}}')">
                 		<li class="word" onclick="pager._detailPage('{{:skuId}}')">{{:prodName}}</li>
           				<li class="ash">{{:productSellPoint}}</li>
           				<li class="dred">¥{{:~liToYuan(salePrice)}}</li>
@@ -332,7 +332,7 @@
 </script>
 <script id="flowTmpl" type="text/x-jsrender">
 				<a href="javascript:void(0);">
-                	<ul>
+                	<ul onclick="pager._detailPage('{{:skuId}}')">
                 		<li onclick="pager._detailPage('{{:skuId}}')"><img src="{{:picUrl}}"></li>
                 		<li class="tit" onclick="pager._detailPage('{{:skuId}}')" >{{:prodName}}</li>
                 		<li class="dred">{{:~liToYuan(salePrice)}}元</li> 

@@ -360,6 +360,8 @@ public final class SLPMallConstants {
     	//订单的命名空间
     	public static final String CACHE_NAMESPACE="com.ai.slp.mall.order.cache";
     	
+    	public static final String VISITUSERID="900000000000000000";
+    	
     }
     public static final class PayPassword{
         private PayPassword(){}

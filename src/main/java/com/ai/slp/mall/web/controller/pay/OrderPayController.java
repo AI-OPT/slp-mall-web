@@ -8,6 +8,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,10 +18,17 @@ import org.springframework.web.servlet.ModelAndView;
 import com.ai.opt.base.vo.BaseResponse;
 import com.ai.opt.sdk.dubbo.util.DubboConsumerFactory;
 import com.ai.opt.sdk.util.StringUtil;
+import com.ai.opt.sso.client.filter.SLPClientUser;
+import com.ai.opt.sso.client.filter.SSOClientConstants;
 import com.ai.slp.mall.web.constants.SLPMallConstants;
 import com.ai.slp.mall.web.util.ConfigUtil;
 import com.ai.slp.mall.web.util.PaymentUtil;
 import com.ai.slp.mall.web.util.VerifyUtil;
+import com.ai.slp.order.api.orderlist.interfaces.IOrderListSV;
+import com.ai.slp.order.api.orderlist.param.OrdOrderVo;
+import com.ai.slp.order.api.orderlist.param.OrdProductVo;
+import com.ai.slp.order.api.orderlist.param.QueryOrderRequest;
+import com.ai.slp.order.api.orderlist.param.QueryOrderResponse;
 import com.ai.slp.order.api.orderpay.interfaces.IOrderPaySV;
 import com.ai.slp.order.api.orderpay.param.OrderPayRequest;
 
@@ -80,14 +88,25 @@ public class OrderPayController {
     @RequestMapping("/orderPay")
     private void pay(HttpServletRequest request, HttpServletResponse response) throws Exception {
         /* 1.组织参数 */
+        HttpSession session = request.getSession();
+        SLPClientUser user = (SLPClientUser) session.getAttribute(SSOClientConstants.USER_SESSION_KEY);
         String basePath = request.getScheme() + "://" + request.getServerName() + ":"
                 + request.getServerPort() + request.getContextPath();
         String tenantId = ConfigUtil.getProperty("TENANT_ID");
         String returnUrl = basePath + "/pay/returnUrl";
         String notifyUrl = basePath + "/pay/notifyUrl";
         String orderId = request.getParameter("orderId");
-        String tempAmount = "10";//根据订单ID去调订单详情服务查询出来
-        String orderAmount = String.valueOf(new BigDecimal(tempAmount).divide(new BigDecimal(1000)));
+        IOrderListSV orderList = DubboConsumerFactory.getService(IOrderListSV.class);
+        QueryOrderRequest orderRequest = new QueryOrderRequest();
+        if (null == user) {
+            orderRequest.setTenantId(SLPMallConstants.COM_TENANT_ID);
+        } else {
+            orderRequest.setTenantId(user.getTenantId());
+        }
+        orderRequest.setOrderId(Long.valueOf(orderId));
+        QueryOrderResponse queryOrderResponse = orderList.queryOrder(orderRequest);
+        Long payFee = queryOrderResponse.getOrdOrderVo().getPayFee();
+        String orderAmount = String.valueOf(new BigDecimal(payFee).divide(new BigDecimal(1000)));
         String requestSource = SLPMallConstants.RequestSource.WEB;
         String payChannel = SLPMallConstants.PayChannel.BSS_SK;
         String subject = "";

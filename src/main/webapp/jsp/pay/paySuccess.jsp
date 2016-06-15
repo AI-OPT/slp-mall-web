@@ -50,7 +50,7 @@
 			<p class="word">您的订单已经支付成功！</p>
 			<p>订单号：${orderId} 实付金额：${orderAmount}元</p>
 			<p class="alink">
-				<A href="#">查看订单</A>|<A href="#">账户中心</A>|<A href="${_base} }">返回首页</A>
+				<A href="${_base}/myorder/detail?orderId=${orderId}&orderType=${orderType}">查看订单</A>|<A href="#">账户中心</A>|<A href="${_base}/slp-mall/home">返回首页</A>
 			</p>
 			<p class="blod""><span id="timeAlartSp">10</span>秒后自动跳转至“我的订单”</p>
 			</ul>
