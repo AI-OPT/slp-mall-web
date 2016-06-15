@@ -22,10 +22,12 @@ import com.ai.opt.sso.client.filter.SLPClientUser;
 import com.ai.opt.sso.client.filter.SSOClientConstants;
 import com.ai.slp.common.api.area.interfaces.IGnAreaQuerySV;
 import com.ai.slp.common.api.area.param.GnAreaVo;
+import com.ai.slp.common.api.industry.interfaces.IIndustrySV;
+import com.ai.slp.common.api.industry.param.IndustryQueryResponse;
 import com.ai.slp.mall.web.constants.SLPMallConstants;
 import com.ai.slp.user.api.keyinfo.interfaces.IUcKeyInfoSV;
 import com.ai.slp.user.api.keyinfo.param.InsertGroupKeyInfoRequest;
-
+ 
 @RequestMapping("/user/qualification")
 @Controller
 public class QualificationController {
@@ -50,9 +52,11 @@ public class QualificationController {
     //企业页面
     @RequestMapping("/toEnterprisePage")
     public ModelAndView toEnterprisePage() {
-        List<GnAreaVo> list = getProvinceList();
-        Map<String,List<GnAreaVo>> model = new HashMap<String,List<GnAreaVo>>();
-        model.put("provinceList", list);
+        List<GnAreaVo> provinceList = getProvinceList();
+        List<IndustryQueryResponse> industryList = getIndustryList();
+        Map<String,Object> model = new HashMap<String,Object>();
+        model.put("provinceList", provinceList);
+        model.put("industryList", industryList);
         return new ModelAndView("jsp/user/qualification/enterprise",model);
     }
     
@@ -184,6 +188,12 @@ public class QualificationController {
     public List<GnAreaVo> getProvinceList(){
         IGnAreaQuerySV areaQuerySV = DubboConsumerFactory.getService("iGnAreaQuerySV");
         List<GnAreaVo> list = areaQuerySV.getProvinceList();
+        return list;
+    }
+    
+    List<IndustryQueryResponse> getIndustryList(){
+        IIndustrySV  industrySV = DubboConsumerFactory.getService("iIndustrySV");
+        List<IndustryQueryResponse> list = industrySV.queryIndustryList();
         return list;
     }
 }

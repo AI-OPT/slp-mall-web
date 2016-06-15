@@ -35,6 +35,7 @@ define('app/jsp/producthome/productHome', function (require, exports, module) {
             //"click #BTN_SEARCH":"_searchBtnClick"
             //"click #thumbnailId":"_changeImage",
             "click #moreproduct":"_getMore",
+            "click #moreId":"_getMore",
             "click #refresh":"_getHotProduct",
             "click #phoneBillCucc":"_getPhoneBill",
             "click #phoneBillCmcc":"_getPhoneBill",
@@ -58,11 +59,8 @@ define('app/jsp/producthome/productHome', function (require, exports, module) {
     	setup: function () {
     		ProductHomePager.superclass.setup.call(this);
     		//初始化执行搜索
+    		this._getsessionData();
     		this._initFastInfo();
-    		this._getPhoneBill();
-    		this._getFlowProduct();
-    		this._getHotProduct();
-    		
     		
     	},
     	_changeSwitch1:function(){
@@ -508,7 +506,39 @@ define('app/jsp/producthome/productHome', function (require, exports, module) {
 				}
 			});
     	},
+    	_getsessionData: function(){
+    		var _this = this;
+    		//从session获取数据
+    		ajaxController.ajax({
+				type: "post",
+				dataType: "json",
+				url: _base+"/head/getSessionData",
+				data:'',
+				success: function(data){
+					if(data.data.areaCode!=null && data.data.areaCode!="" &&　data.data.areaCode!=undefined){
+						_this._setArea(data.data.areaCode,data.data.areaName);
+			    		_this._getPhoneBill();
+			    		_this._getFlowProduct();
+			    		_this._getHotProduct();
+					}else{
+						_this._setArea("11","北京");
+			    		_this._getPhoneBill();
+			    		_this._getFlowProduct();
+			    		_this._getHotProduct();
+					}
+					
+				}
+    		
+			})
+    	},
+    	//设置当前地区
+    	_setArea:function(code,name){
+    		 $("#currentCity").attr("currentCityCode",code);
+    		$("#currentCity").attr("currentCityName",name);
+    	},
     	_getPhoneBill:function(){
+    		//获取销售地区
+    		var code = $("#currentCity").attr("currentCityCode");
     		//类目
     		var oprator;
     		//获取运营商类目
@@ -523,15 +553,13 @@ define('app/jsp/producthome/productHome', function (require, exports, module) {
       			$("#phoneOprator").val($("#phoneBillCucc").attr("opratorid"));
       		}
       		var	param={
-					areaCode:"11",  
+					areaCode:code,  
 					productCatId: "10000010010000",	   
 					basicOrgIdIs:$("#phoneOprator").val()
 				   };
       		ajaxController.ajax({
 						type: "post",
 						dataType: "json",
-						processing: true,
-						message: "查询中，请等待...",
 						url: _base+"/getPhoneBill",
 						data:param,
 						success: function(data){
@@ -545,6 +573,8 @@ define('app/jsp/producthome/productHome', function (require, exports, module) {
       		);
       	},
       	_getFlowProduct: function(){
+      		//获取销售地区
+    		var code = $("#currentCity").attr("currentCityCode");
       		var _this=this;
       		//流量类目ID
       		var productId="10000010020000";
@@ -561,15 +591,13 @@ define('app/jsp/producthome/productHome', function (require, exports, module) {
           			$("#flowOprator").val($("#flowCucc").attr("opratorid"));
           		}
           		var	param={
-    					areaCode:"11",  
+    					areaCode:code,  
     					productCatId: "10000010020000",	   
     					basicOrgIdIs:$("#flowOprator").val()
     				   };
       		ajaxController.ajax({
 				type: "post",
 				dataType: "json",
-				processing: true,
-				message: "查询中，请等待...",
 				url: _base+"/getFlow",
 				data:param,
 				success: function(data){
@@ -583,7 +611,6 @@ define('app/jsp/producthome/productHome', function (require, exports, module) {
       	},
       	_getMore: function(){
       		var agent = $("#flowOprator").val();
-      		alert(agent);
       		var productCatId ="10000010020000";
       		window.location.href = _base + '/search/list?billType='+productCatId+"&orgired="+agent;;
       	},
@@ -629,13 +656,14 @@ define('app/jsp/producthome/productHome', function (require, exports, module) {
       	        return this._fmoney(parseInt(li)/1000, 2);
       		},
       	_getHotProduct: function(){
+      	//获取销售地区
+    		var code = $("#currentCity").attr("currentCityCode");
       		ajaxController.ajax({
 				type: "post",
 				dataType: "json",
 				processing: true,
-				message: "查询中，请等待...",
 				url: _base+"/getHotProduct",
-				data:{areaCode:"11"},
+				data:{areaCode:code},
 				success: function(data){
 					if(data.data){
 						var template = $.templates("#hotTmpl");

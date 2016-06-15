@@ -26,6 +26,8 @@ import com.ai.opt.sdk.web.model.ResponseData;
 import com.ai.opt.sso.client.filter.SLPClientUser;
 import com.ai.opt.sso.client.filter.SSOClientConstants;
 import com.ai.opt.base.vo.PageInfo;
+import com.ai.slp.balance.api.accountquery.interfaces.IAccountQuerySV;
+import com.ai.slp.balance.api.accountquery.param.AccountInfoVo;
 import com.ai.slp.balance.api.fundquery.interfaces.IFundQuerySV;
 import com.ai.slp.balance.api.fundquery.param.AccountIdParam;
 import com.ai.slp.balance.api.fundquery.param.FundInfo;
@@ -105,8 +107,8 @@ public class BalanceController {
 		paramMap.put("linkModel", "accountBalance");
 		paramMap.put("testName", "zhangzd");
 		paramMap.put("str2", str2);
-		System.out.println("paramMapJson:-------------->>>>:"+JSON.toJSONString(paramMap));
-		System.out.println("str2:-------------->>>>:"+str2);
+		log.info("paramMapJson:-------------->>>>:"+JSON.toJSONString(paramMap));
+		log.info("str2:-------------->>>>:"+str2);
         return str2;
     }
 	/**
@@ -126,9 +128,9 @@ public class BalanceController {
 		accountIdParam.setTenantId(user.getTenantId());//(TENANT_ID);
 		//
 		FundInfo fundInfo = DubboConsumerFactory.getService(IFundQuerySV.class).queryUsableFund(accountIdParam);
-		long balance = 0;
+		double balance = 0;
 		if(null != fundInfo){
-			balance = fundInfo.getBalance();
+			balance = ((double)fundInfo.getBalance())/1000;
 		}
 		
 		log.info("账户余额："+balance);
@@ -152,7 +154,7 @@ public class BalanceController {
 		chargeInfoQueryByAcctIdParam.setTenantId(user.getTenantId());//(TENANT_ID);
 		PageInfo<ChargeBaseInfo> chargeBaseInfoPageInfo = new PageInfo<ChargeBaseInfo>();
 		chargeBaseInfoPageInfo.setPageNo(1);
-		chargeBaseInfoPageInfo.setPageSize(10);
+		chargeBaseInfoPageInfo.setPageSize(1000);
 		chargeInfoQueryByAcctIdParam.setPageInfo(chargeBaseInfoPageInfo);
 		//
 		Map<String,String> time = new HashMap<String,String>();
@@ -279,11 +281,11 @@ public class BalanceController {
 		//
 		pageInfo = this.getChargeBaseInfoPageInfo(pageInfo);
 		//
-		System.out.println(" queryAccountBalanceDetailList json:"+JSON.toJSONString(pageInfo));
+		log.info(" queryAccountBalanceDetailList json:"+JSON.toJSONString(pageInfo));
 		//
 		responseData = new ResponseData<PageInfo<ChargeBaseInfo>>(ResponseData.AJAX_STATUS_SUCCESS,"success",pageInfo);
 		//
-		System.out.println(" ResponseData json:"+JSON.toJSONString(responseData));
+		log.info(" ResponseData json:"+JSON.toJSONString(responseData));
 		//
 		return responseData;
     }
@@ -328,5 +330,25 @@ public class BalanceController {
         log.info("user account:"+user.getAcctId());
         log.info("user tenantId:"+user.getTenantId());
         return user;
+	}
+	/**
+	 * 支付密码是否设置 0：未设置 1：已设置
+	 * @param req
+	 * @return
+	 * @author zhangzd
+	 * @ApiDocMethod
+	 * @ApiCode
+	 */
+	@RequestMapping(value="/account/payPasswordIsSetting",method = RequestMethod.POST, produces = "text/html;charset=UTF-8")
+	@ResponseBody
+	public String payPasswordIsSetting(HttpServletRequest req){
+		SLPClientUser userInfo = this.getUserInfo(req);
+		com.ai.slp.balance.api.accountquery.param.AccountIdParam accountIdParam = new com.ai.slp.balance.api.accountquery.param.AccountIdParam();
+		accountIdParam.setTenantId(userInfo.getTenantId());
+		accountIdParam.setAccountId(userInfo.getAcctId());
+		//
+		AccountInfoVo accountInfoVo = DubboConsumerFactory.getService(IAccountQuerySV.class).queryAccontById(accountIdParam);
+		//
+		return accountInfoVo.getPayCheck();
 	}
 }

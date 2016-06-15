@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,6 +19,8 @@ import com.ai.opt.sdk.dubbo.util.DubboConsumerFactory;
 import com.ai.opt.sdk.util.CollectionUtil;
 import com.ai.opt.sdk.util.StringUtil;
 import com.ai.opt.sdk.web.model.ResponseData;
+import com.ai.opt.sso.client.filter.SLPClientUser;
+import com.ai.opt.sso.client.filter.SSOClientConstants;
 import com.ai.slp.mall.web.model.product.ProductCommonVO;
 import com.ai.slp.mall.web.model.product.ProductDataVO;
 import com.ai.slp.mall.web.util.ImageUtil;
@@ -34,21 +37,16 @@ import net.sf.json.JSONArray;
 public class SearchController {
     private static final Logger LOG = Logger.getLogger(SearchController.class);
 	@RequestMapping("/list")
-	public ModelAndView index(HttpServletRequest request,String priceId,String billType,String orgired,String skuName,String sourceFlag,String area,String areaName) {
+	public ModelAndView index(HttpServletRequest request,String priceId,String billType,String orgired,String skuName,String sourceFlag) {
 	    try{
 	        if(!StringUtil.isBlank(skuName)){
 	            skuName= java.net.URLDecoder.decode(skuName, "UTF-8"); 
 	        }
-	        if(!StringUtil.isBlank(areaName)){
-	            areaName= java.net.URLDecoder.decode(areaName, "UTF-8"); 
-            }
 	        request.setAttribute("priceId", priceId);
 	        request.setAttribute("billType", billType);
 	        request.setAttribute("orgired", orgired);
 	        request.setAttribute("skuName", skuName);
 	        request.setAttribute("sourceFlag", sourceFlag);
-	        request.setAttribute("currenArea", area);
-	        request.setAttribute("currenAreaName", areaName);
 	    }catch(Exception e){
 	        LOG.error("中文解码错误", e); 
 	    }
@@ -64,6 +62,13 @@ public class SearchController {
     @RequestMapping("/getProduct")
     @ResponseBody
     public ResponseData<PageInfo<ProductDataVO>> getList(HttpServletRequest request,ProductQueryRequest req){
+      //从session中获取用户类型
+        HttpSession session = request.getSession();
+        SLPClientUser user = (SLPClientUser) session.getAttribute(SSOClientConstants.USER_SESSION_KEY);
+        if(user!=null){
+            req.setUserType(user.getUserType());
+            req.setUserId(user.getUserId());  
+        }
         ISearchProductSV iPaymentQuerySV = DubboConsumerFactory.getService("iSearchProductSV");
         req.setTenantId("SLP");
         ResponseData<PageInfo<ProductDataVO>> responseData = null;
@@ -130,9 +135,25 @@ public class SearchController {
     @ResponseBody
     public ResponseData<List<ProductDataVO>> getHotProduct(HttpServletRequest request,ProductQueryRequest req){
         ISearchProductSV iPaymentQuerySV = DubboConsumerFactory.getService("iSearchProductSV");
+      //从session中获取用户类型
+        HttpSession session = request.getSession();
+        SLPClientUser user = (SLPClientUser) session.getAttribute(SSOClientConstants.USER_SESSION_KEY);
+        if(user!=null){
+            req.setUserType(user.getUserType());
+            req.setUserId(user.getUserId());  
+        }
         req.setTenantId("SLP");
         ResponseData<List<ProductDataVO>> responseData = null;
         try {
+            //判断地区是否为空
+            
+            if(StringUtil.isBlank(req.getAreaCode())){
+                //从session获取地区
+                Object codeObj = request.getSession().getAttribute("currentCityCode");
+                if(codeObj!=null){
+                    req.setAreaCode(codeObj.toString());
+                }
+            }
             List<ProductData> resultInfo = iPaymentQuerySV.queryHotSellProduct(req);
             List<ProductDataVO> voList = new ArrayList<ProductDataVO>();
             if(!CollectionUtil.isEmpty(resultInfo)){
@@ -162,6 +183,13 @@ public class SearchController {
     @ResponseBody
     public ResponseData<PageInfo<ProductDataVO>> search(HttpServletRequest request,ProductQueryRequest req){
         ISearchProductSV iPaymentQuerySV = DubboConsumerFactory.getService("iSearchProductSV");
+        //从session中获取用户类型
+        HttpSession session = request.getSession();
+        SLPClientUser user = (SLPClientUser) session.getAttribute(SSOClientConstants.USER_SESSION_KEY);
+        if(user!=null){
+            req.setUserType(user.getUserType());
+            req.setUserId(user.getUserId());  
+        }
         req.setTenantId("SLP");
         ResponseData<PageInfo<ProductDataVO>> responseData = null;
         PageInfo<ProductData> pageInfo = new PageInfo<ProductData> ();
@@ -216,6 +244,13 @@ public class SearchController {
     @ResponseBody
     public ResponseData<ProductCommonVO> getCommon(HttpServletRequest request,ProductQueryRequest req){
         ISearchProductSV iSearchProductSV = DubboConsumerFactory.getService("iSearchProductSV");
+      //从session中获取用户类型
+        HttpSession session = request.getSession();
+        SLPClientUser user = (SLPClientUser) session.getAttribute(SSOClientConstants.USER_SESSION_KEY);
+        if(user!=null){
+            req.setUserType(user.getUserType());
+            req.setUserId(user.getUserId());  
+        }
         req.setTenantId("SLP");
         ResponseData<ProductCommonVO> responseData = null;
         PageInfo<ProductData> pageInfo = new PageInfo<ProductData> ();
@@ -246,6 +281,13 @@ public class SearchController {
     @ResponseBody
     public ResponseData<ProductCommonVO> getCommonBySearch(HttpServletRequest request,ProductQueryRequest req){
         ISearchProductSV iSearchProductSV = DubboConsumerFactory.getService("iSearchProductSV");
+        //从session中获取用户类型
+        HttpSession session = request.getSession();
+        SLPClientUser user = (SLPClientUser) session.getAttribute(SSOClientConstants.USER_SESSION_KEY);
+        if(user!=null){
+            req.setUserType(user.getUserType());
+            req.setUserId(user.getUserId());  
+        }
         req.setTenantId("SLP");
         ResponseData<ProductCommonVO> responseData = null;
         PageInfo<ProductData> pageInfo = new PageInfo<ProductData> ();

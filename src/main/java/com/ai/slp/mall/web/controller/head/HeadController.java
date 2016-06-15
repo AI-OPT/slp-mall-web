@@ -11,9 +11,12 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.ai.opt.sdk.dubbo.util.DubboConsumerFactory;
+import com.ai.opt.sdk.util.IPUtil;
 import com.ai.opt.sdk.web.model.ResponseData;
 import com.ai.slp.common.api.area.interfaces.IGnAreaQuerySV;
 import com.ai.slp.common.api.area.param.GnAreaVo;
+import com.ai.slp.common.api.ipaddr.interfaces.IIpAddrSV;
+import com.ai.slp.common.api.ipaddr.param.IpAddr;
 
 import net.sf.json.JSONArray;
 
@@ -44,6 +47,74 @@ public class HeadController {
         } catch (Exception e) {
             responseData = new ResponseData<List<GnAreaVo>>(ResponseData.AJAX_STATUS_FAILURE, "查询失败");
             LOG.error("获取信息出错：", e);
+        }
+        return responseData;
+    }
+    /**
+     * ip所在地查询
+     * @param request
+     * @return
+     */
+    @RequestMapping("/getIpAddr")
+    @ResponseBody
+    public ResponseData<IpAddr> getAreaByIp(HttpServletRequest request){
+        ResponseData<IpAddr> responseData = null;
+        try {
+            IIpAddrSV iIpAddrSV = DubboConsumerFactory.getService("ipAddrSV");
+            //获取IP地址
+            String ip =  IPUtil.getRealClientIpAddr(request);
+            //IpAddr addr = iIpAddrSV.getIpAddrByIp(ip);
+            IpAddr addr = new IpAddr();
+            responseData = new ResponseData<IpAddr>(ResponseData.AJAX_STATUS_SUCCESS, "查询成功", addr);
+        } catch (Exception e) {
+            responseData = new ResponseData<IpAddr>(ResponseData.AJAX_STATUS_FAILURE, "查询失败");
+            LOG.error("获取ip信息出错：", e);
+        }
+        return responseData;
+    }
+    /**
+     * 设置session
+     * @param request
+     * @return
+     */
+    @RequestMapping("/setSessionData")
+    public ResponseData<String> setSessionData(HttpServletRequest request,String code,String name){
+        ResponseData<String> responseData = null;
+        try {
+            //从session获取地区
+            request.getSession().setAttribute("currentCityCode",code);
+            request.getSession().setAttribute("currentCityName",name);
+            responseData = new ResponseData<String>(ResponseData.AJAX_STATUS_SUCCESS, "查询成功", null);
+        } catch (Exception e) {
+            responseData = new ResponseData<String>(ResponseData.AJAX_STATUS_FAILURE, "查询失败");
+            LOG.error("获取ip信息出错：", e);
+        }
+        return responseData;
+    }
+    /**
+     * 获取session
+     * @param request
+     * @return
+     */
+    @RequestMapping("/getSessionData")
+    @ResponseBody
+    public ResponseData<GnAreaVo> getSessionData(HttpServletRequest request){
+        ResponseData<GnAreaVo> responseData = null;
+        try {
+            //从session获取地区
+            Object codeObj = request.getSession().getAttribute("currentCityCode");
+            Object nameObj = request.getSession().getAttribute("currentCityName");
+            GnAreaVo area = new GnAreaVo();
+            if(codeObj!=null && nameObj!=null){
+                area.setAreaCode(codeObj.toString());
+                area.setAreaName(nameObj.toString());
+            }
+           
+           
+            responseData = new ResponseData<GnAreaVo>(ResponseData.AJAX_STATUS_SUCCESS, "查询成功", area);
+        } catch (Exception e) {
+            responseData = new ResponseData<GnAreaVo>(ResponseData.AJAX_STATUS_FAILURE, "查询失败");
+            LOG.error("获取ip信息出错：", e);
         }
         return responseData;
     }

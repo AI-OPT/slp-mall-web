@@ -36,6 +36,10 @@
   </filter-mapping>
   <filter-mapping>
   	<filter-name>ssoProxyFilter</filter-name>
+  	<url-pattern>/logincheck</url-pattern>
+  </filter-mapping>
+  <filter-mapping>
+  	<filter-name>ssoProxyFilter</filter-name>
   	<url-pattern>/user/*</url-pattern>
   </filter-mapping>
   <filter-mapping>
@@ -54,6 +58,10 @@
        <filter-name>ssoProxyFilter</filter-name>
        <url-pattern>/myorder/*</url-pattern>
    </filter-mapping>
+    <filter-mapping>
+        <filter-name>ssoProxyFilter</filter-name>
+        <url-pattern>*.chk</url-pattern>
+    </filter-mapping>
   
   <filter>
 		<filter-name>assembleUserInfoFilter</filter-name>
@@ -96,6 +104,35 @@
     <filter-name>encoding</filter-name>
     <url-pattern>/*</url-pattern>
   </filter-mapping>
+    <!-- ajax登录检查 -->
+    <filter>
+        <filter-name>ajaxLoginFilter</filter-name>
+        <filter-class>com.ai.slp.mall.web.filter.AjaxLoginFilter</filter-class>
+        <init-param>
+            <param-name>redirect_url</param-name>
+            <param-value>.chk</param-value>
+        </init-param>
+    </filter>
+    <filter-mapping>
+        <filter-name>ajaxLoginFilter</filter-name>
+        <url-pattern>*.chk</url-pattern>
+    </filter-mapping>
+    <filter-mapping>
+        <filter-name>ajaxLoginFilter</filter-name>
+        <url-pattern>/shopcart/addProd</url-pattern>
+    </filter-mapping>
+    <filter-mapping>
+        <filter-name>ajaxLoginFilter</filter-name>
+        <url-pattern>/shopcart/updateProdNum</url-pattern>
+    </filter-mapping>
+    <filter-mapping>
+        <filter-name>ajaxLoginFilter</filter-name>
+        <url-pattern>/shopcart/deleteProd</url-pattern>
+    </filter-mapping>
+    <filter-mapping>
+        <filter-name>ajaxLoginFilter</filter-name>
+        <url-pattern>/order/orderCommit</url-pattern>
+    </filter-mapping>
   <servlet>
     <servlet-name>springmvc</servlet-name>
     <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>

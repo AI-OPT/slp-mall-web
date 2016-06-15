@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.ai.opt.base.exception.BusinessException;
 import com.ai.opt.base.exception.SystemException;
 import com.ai.opt.sdk.dubbo.util.DubboConsumerFactory;
 import com.ai.opt.sso.client.filter.SLPClientUser;
@@ -32,7 +33,6 @@ import com.ai.slp.mall.web.util.PaymentUtil;
 import com.ai.slp.mall.web.util.VerifyUtil;
 
 @RestController
-@RequestMapping("/payment")
 public class PayController {
 	//
 
@@ -42,7 +42,7 @@ public class PayController {
     private static final int PAY_CHANNEL = 4;
 	//
 	
-	@RequestMapping("/recharge/one")
+	@RequestMapping("/payment/recharge/one")
 	public ModelAndView one(HttpServletRequest request) {
 		Map<String,Object> paramMap = new HashMap<String,Object>();
         paramMap.put("testMassage", "test");
@@ -55,7 +55,7 @@ public class PayController {
 	 * @author LiangMeng
 	 * @ApiDocMethod
 	 */
-	@RequestMapping("/recharge/two")
+	@RequestMapping("/payment/recharge/two")
 	public ModelAndView two(HttpServletRequest request) {
 	    String payAmount = request.getParameter("payAmount");
 	    Map<String,Object> paramMap = new HashMap<String,Object>();
@@ -64,7 +64,7 @@ public class PayController {
 	    ModelAndView view = new ModelAndView("jsp/account/recharge/two",paramMap);
 	    return view;
     }
-	@RequestMapping("/recharge/gotoPay")
+	@RequestMapping("/payment/recharge/gotoPay")
     public void gotoPay(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String payAmount = request.getParameter("payAmount");
         String tenantId =  ConfigUtil.getProperty("TENANT_ID");  
@@ -73,7 +73,7 @@ public class PayController {
         PayOrderParam payOrderParam = new PayOrderParam();
         payOrderParam.setTenantId(tenantId);
         payOrderParam.setAcctId(accountId);
-        payOrderParam.setPayAmount(Long.parseLong(payAmount));
+        payOrderParam.setPayAmount(Long.parseLong(payAmount)*1000);
         payOrderParam.setStatus(STATUS_GOTO_PAY);
         payOrderParam.setPayChannel(PAY_CHANNEL);
         String orderId = iPayOrderSV.createPayOrder(payOrderParam);
@@ -82,7 +82,7 @@ public class PayController {
         String basePath = request.getScheme() + "://" + request.getServerName() + ":"
                 + request.getServerPort() + request.getContextPath();
         String returnUrl = basePath + "/payment/recharge/returnUrl";
-        String notifyUrl = basePath + "/payment/recharge/notifyUrl";
+        String notifyUrl = basePath + "/pay/recharge/notifyUrl";
         //String tempAmount = request.getParameter("payAmount");
         String orderAmount = "0.01";//request.getParameter("payAmount");//String.valueOf(new BigDecimal(tempAmount).divide(new BigDecimal(100)));
         String requestSource = SLPMallConstants.RequestSource.WEB;
@@ -112,7 +112,7 @@ public class PayController {
         response.getWriter().write(htmlStr);
 
     }
-	@RequestMapping("/recharge/returnUrl")
+	@RequestMapping("/payment/recharge/returnUrl")
 	public ModelAndView returnUrl(HttpServletRequest request) {
 	    String orderId = request.getParameter("orderId"); // 订单号
         String payStates = request.getParameter("payStates"); // 交易状态
@@ -126,90 +126,111 @@ public class PayController {
         return view;
     }
 	
-	@RequestMapping("/recharge/notifyUrl")
-	public void notifyUrl(HttpServletRequest request) {
+	@RequestMapping("/pay/recharge/notifyUrl")
+	public void notifyUrl(HttpServletRequest request, HttpServletResponse response) {
 	    LOG.info("缴费订单支付后台通知开始...");
         String tenantId =  ConfigUtil.getProperty("TENANT_ID");  
-        long accountId = this.getUserId(request).getAcctId();
-        IPayOrderSV iPayOrderSV = DubboConsumerFactory.getService(IPayOrderSV.class);
+        /*1.接收参数*/
 	    String orderId = request.getParameter("orderId"); // 订单号
 	    String payAmount = request.getParameter("orderAmount");
 	    String subject = request.getParameter("subject");
 	    String outOrderId = request.getParameter("outOrderId");
-	    String payType = request.getParameter("payType");
+	    String payType = request.getParameter("payOrgCode");
 	    String payStates = request.getParameter("payStates");
 	    String infoMd5Param = request.getParameter("infoMd5");
-	    
+	    LOG.info("参数infoMd5Param:["+infoMd5Param+"]");
+        IPayOrderSV iPayOrderSV = DubboConsumerFactory.getService(IPayOrderSV.class);
+        PayOrderParam orderInfo = iPayOrderSV.queryPayOrder(orderId);
+        if(orderInfo==null){
+            throw new SystemException("未查到相应订单，订单号：["+orderId+"]");
+        }
 	    String infoStr = outOrderId + VerifyUtil.SEPARATOR + orderId + VerifyUtil.SEPARATOR
-                + payAmount + VerifyUtil.SEPARATOR + payStates;
+                + payAmount + VerifyUtil.SEPARATOR + payStates+ VerifyUtil.SEPARATOR + tenantId;
+	    LOG.info("加密参数:["+infoStr+"]");
         String infoMd5 = VerifyUtil.encodeParam(infoStr, ConfigUtil.getProperty("REQUEST_KEY"));
+
+        LOG.info("加密infoMd5:["+infoMd5+"]");
 	    if(!infoMd5.equals(infoMd5Param)){
+	        LOG.info("安全校验出错：[报文被篡改]");
 	        throw new SystemException("安全校验出错：[报文被篡改]");
+	        
 	    }else{
-	        if("00".equals(payStates)){
-	            LOG.info("支付成功，状态：["+payStates+"]");
-	            IDepositSV depositSV = DubboConsumerFactory.getService(IDepositSV.class);
-	            DepositParam param = new DepositParam();
-	            TransSummary summary = new TransSummary();
-	            summary.setAmount(Long.parseLong(payAmount));
-	            summary.setSubjectId(100000);
-	            List<TransSummary> transSummaryList = new ArrayList<TransSummary>();
-	            transSummaryList.add(summary);
-	            param.setTransSummary(transSummaryList);
-	            param.setAccountId(accountId);
-	            param.setBusiDesc(subject);
-	            param.setBusiSerialNo(orderId);
-	            param.setTenantId(tenantId);
-	            depositSV.depositFund(param);
-	            
-	            PayOrderParam payParam = new PayOrderParam();
-	            payParam.setOrderId(orderId);
-	            payParam.setPayOrgId(payType);
-	            payParam.setPayOrgSerial(outOrderId);
-	            payParam.setStatus(2);        
-	            PaymentParam paymentParam = new PaymentParam();
-	            paymentParam.setTenantId(tenantId);
-	            paymentParam.setAcctId(accountId);
-	            paymentParam.setOrderId(orderId);
-	            paymentParam.setBusiType("1");
-	            paymentParam.setBusiOperCode("300000");
-	            paymentParam.setStatus(1);
-	            paymentParam.setTotalFee(Long.parseLong(payAmount));
-	            paymentParam.setDiscountFee(0);
-	            paymentParam.setOperDiscountFee(0);
-	            paymentParam.setChargeFee(0l); 
-	            paymentParam.setPaidFee(0l);
-	            paymentParam.setProvinceCode("11");
-	            paymentParam.setCityCode("110");
-	            paymentParam.setApplyChlId(tenantId);
-	            paymentParam.setOperId(tenantId);
-	            ChargeDetail chargeDetail = new ChargeDetail();
-	            chargeDetail.setFeeItemId("100000");
-	            chargeDetail.setTotalFee(Long.parseLong(payAmount)); 
-	            chargeDetail.setDiscountFee(0);
-	            chargeDetail.setOperDiscountFee(0);
-	            chargeDetail.setChargeFee(0l);
-	            chargeDetail.setFeeType("2");
-	            List<ChargeDetail> chargeDetails = new ArrayList<ChargeDetail>();
-	            chargeDetails.add(chargeDetail);
-	            PayTypeDetail payTypeDetail = new PayTypeDetail();
-	            payTypeDetail.setPayStyle(1);
-	            payTypeDetail.setPaidFee(Long.parseLong(payAmount));
-	            List<PayTypeDetail> payTypeDetails = new ArrayList<PayTypeDetail>();
-	            payTypeDetails.add(payTypeDetail);
-	            paymentParam.setChargeDetail(chargeDetails);
-	            paymentParam.setPayTypeDetail(payTypeDetails);
-	            
-	            iPayOrderSV.callPayOrder(payParam, paymentParam); 
-	        }else{
-                LOG.info("支付失败，状态：["+payStates+"]");
-	            PayOrderParam param = new PayOrderParam();
-	            param.setOrderId(orderId);
-	            param.setPayOrgId(payType);
-	            param.setPayOrgSerial(outOrderId);
-	            param.setStatus(3);
-	            iPayOrderSV.updatePayOrder(param);
-	        }
+	        try {
+                if("00".equals(payStates)){
+                    LOG.info("支付成功，状态：["+payStates+"]");
+                    IDepositSV depositSV = DubboConsumerFactory.getService(IDepositSV.class);
+                    DepositParam param = new DepositParam();
+                    TransSummary summary = new TransSummary();
+                    summary.setAmount(orderInfo.getPayAmount());
+                    summary.setSubjectId(100000);
+                    List<TransSummary> transSummaryList = new ArrayList<TransSummary>();
+                    transSummaryList.add(summary);
+                    param.setTransSummary(transSummaryList);
+                    param.setAccountId(Long.parseLong(orderInfo.getAcctId()));
+                    param.setBusiDesc(subject);
+                    param.setBusiSerialNo(orderId);
+                    param.setTenantId(tenantId);
+                    param.setSystemId("SLP");
+                    depositSV.depositFund(param);
+                    
+                    PayOrderParam payParam = new PayOrderParam();
+                    payParam.setOrderId(orderId);
+                    payParam.setPayOrgId(payType);
+                    payParam.setPayOrgSerial(outOrderId);
+                    payParam.setStatus(2);        
+                    PaymentParam paymentParam = new PaymentParam();
+                    paymentParam.setTenantId(tenantId);
+                    paymentParam.setAcctId(Long.parseLong(orderInfo.getAcctId()));
+                    paymentParam.setOrderId(orderId);
+                    paymentParam.setBusiType("2");
+                    paymentParam.setBusiOperCode("300000");
+                    paymentParam.setStatus(1);
+                    paymentParam.setTotalFee(orderInfo.getPayAmount());
+                    paymentParam.setDiscountFee(0);
+                    paymentParam.setOperDiscountFee(0);
+                    paymentParam.setChargeFee(0l); 
+                    paymentParam.setPaidFee(0l);
+                    paymentParam.setProvinceCode("11");
+                    paymentParam.setCityCode("110");
+                    paymentParam.setApplyChlId(tenantId);
+                    paymentParam.setOperId(tenantId);
+                    ChargeDetail chargeDetail = new ChargeDetail();
+                    chargeDetail.setFeeItemId("100000");
+                    chargeDetail.setTotalFee(orderInfo.getPayAmount()); 
+                    chargeDetail.setDiscountFee(0);
+                    chargeDetail.setOperDiscountFee(0);
+                    chargeDetail.setChargeFee(0l);
+                    chargeDetail.setFeeType("2");
+                    List<ChargeDetail> chargeDetails = new ArrayList<ChargeDetail>();
+                    chargeDetails.add(chargeDetail);
+                    PayTypeDetail payTypeDetail = new PayTypeDetail();
+                    payTypeDetail.setPayStyle(1);
+                    payTypeDetail.setPaidFee(orderInfo.getPayAmount());
+                    List<PayTypeDetail> payTypeDetails = new ArrayList<PayTypeDetail>();
+                    payTypeDetails.add(payTypeDetail);
+                    paymentParam.setChargeDetail(chargeDetails);
+                    paymentParam.setPayTypeDetail(payTypeDetails);
+                    
+                    iPayOrderSV.callPayOrder(payParam, paymentParam); 
+                }else{
+                    LOG.info("支付失败，状态：["+payStates+"]");
+                    PayOrderParam param = new PayOrderParam();
+                    param.setOrderId(orderId);
+                    param.setPayOrgId(payType);
+                    param.setPayOrgSerial(outOrderId);
+                    param.setStatus(3);
+                    iPayOrderSV.updatePayOrder(param);
+                }
+                response.getWriter().write("success");
+            } catch (IOException e) {
+                LOG.error(""+e.getMessage(),e);
+            } catch (NumberFormatException e) {
+                LOG.error(""+e.getMessage(),e);
+            } catch (BusinessException e) {
+                LOG.error(""+e.getMessage(),e);
+            } catch (SystemException e) {
+                LOG.error(""+e.getMessage(),e);
+            }
     	    
 	    }
     }

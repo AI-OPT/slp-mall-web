@@ -12,6 +12,10 @@ public final class SLPMallConstants {
      * 购物车下单类型
      */
     public static final String SHOP_CART_ORDE_TYPE = "11";
+    /**
+     * 错误信息标记
+     */
+    public static final String ERR_MSG_TAG = "errMsg";
 
     public static final String SYSTEM_ID = "opt-uac";
     
@@ -355,6 +359,8 @@ public final class SLPMallConstants {
     	private Order(){}
     	//订单的命名空间
     	public static final String CACHE_NAMESPACE="com.ai.slp.mall.order.cache";
+    	
+    	public static final String VISITUSERID="900000000000000000";
     	
     }
     public static final class PayPassword{

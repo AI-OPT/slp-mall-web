@@ -128,4 +128,8 @@
 	<!-- 行业类型 -->
 	<dubbo:reference id="iIndustrySV"
 		interface="com.ai.slp.common.api.industry.interfaces.IIndustrySV" />
+
+	<!-- IP地址查询 -->
+	<dubbo:reference id="ipAddrSV"
+		interface="com.ai.slp.common.api.ipaddr.interfaces.IIpAddrSV" />
 </beans>

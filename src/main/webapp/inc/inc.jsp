@@ -1,3 +1,4 @@
+<%@page import="java.util.Date"%>
 <%@page import="com.ai.opt.sso.client.filter.SSOClientUtil"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
@@ -20,9 +21,13 @@
     
     String slp_uac_host=SSOClientUtil.getCasServerUrlPrefixRuntime(request);
     request.setAttribute("slp_uac_host", slp_uac_host);
+    String ssoLoginUrl=SSOClientUtil.getCasServerLoginUrlRuntime(request);
+    request.setAttribute("ssoLoginUrl", ssoLoginUrl);
 %>
 <script>
     var _base = "${_base}";
+    var slp_uac_host="${slp_uac_host}";
+    var ssoLoginUrl="${ssoLoginUrl}";
 </script>
 
 <script src="${_base}/resources/spm_modules/jquery/1.9.1/jquery.js"></script>
@@ -34,6 +39,8 @@
 <script src="${_slpbase }/scripts/frame.js" type="text/javascript"></script>
 
 <link rel="stylesheet" type="text/css" href="${_base}/resources/slpmall/styles/bootstrap.css">
+
+<img id="img_logincheck" style="display:none;" src="${_base}/logincheck?req=<%=new Date().getTime() %>">
 
 <%-- <link rel="stylesheet" type="text/css" href="${_base}/resources/slpmall/styles/bootstrap.css">
 <link rel="stylesheet" type="text/css" href="${_base}/resources/slpmall/styles/font-awesome.css">

@@ -30,10 +30,70 @@ define('app/jsp/top/top', function (require, exports, module) {
     	//重写父类
     	setup: function () {
     		TopPager.superclass.setup.call(this);
+    		this._initCity();
     		this._getCity();
     	},
+    	_initCity: function(){
+    		var _this = this;
+    		//从session获取数据
+    		ajaxController.ajax({
+				type: "post",
+				dataType: "json",
+				url: _base+"/head/getSessionData",
+				data:'',
+				success: function(data){
+					if(data.data.areaCode!=null && data.data.areaCode!="" && data.data.areaCode!=undefined){
+						var code = data.data.areaCode;
+						var name = data.data.areaName;
+						$("#currentCity").attr("currentCityCode",code);
+						$("#currentCity").attr("currentCityName",name);
+			    		document.getElementById("currentCity").innerHTML=name;
+					}else{
+						_this._getIpAddr();
+					}
+					
+				}
+			})
+    	},
+    	
+    	_setSessionData: function(code,name){
+    		//将值存入session
+    		ajaxController.ajax({
+				type: "post",
+				dataType: "json",
+				url: _base+"/head/setSessionData",
+				data:{code:code,name:name},
+				success: function(data){
+				}
+			})
+    	},
+    	//获取ip所在地区的地址
+    	_getIpAddr: function(){
+    		var _this = this;
+    		ajaxController.ajax({
+				type: "post",
+				dataType: "json",
+				url: _base+"/head/getIpAddr",
+				data:'',
+				success: function(data){
+					if(data.data.cityCode!=null && data.data.cityCode!=""){
+						//设置所在地区
+						$("#currentCity").attr("currentCityCode",data.data.cityCode);
+						$("#currentCity").attr("currentCityName",data.data.cityName);
+			    		document.getElementById("currentCity").innerHTML=data.data.cityName;
+			    		_this._setSessionData(data.data.cityCode,data.data.cityName);
+					}else{
+						//设置所在地区
+						$("#currentCity").attr("currentCityCode","11");
+						$("#currentCity").attr("currentCityName","北京");
+			    		document.getElementById("currentCity").innerHTML="北京";
+			    		_this._setSessionData("11","北京");
+					}
+				}
+			})
+    	},
     	_changeCity : function() {
-			$(".ATTs_BTN").bind(
+			$(".ATTS_BTN").bind(
 				"click",
 				function() {
 					var _this = this;
@@ -42,6 +102,16 @@ define('app/jsp/top/top', function (require, exports, module) {
 					$("#currentCity").attr("currentCityCode",cityCode);
 					$("#currentCity").attr("currentCityName",cityName);
 		    		document.getElementById("currentCity").innerHTML=cityName;
+		    		//将值存入session
+		    		ajaxController.ajax({
+						type: "post",
+						dataType: "json",
+						url: _base+"/head/setSessionData",
+						data:{code:cityCode,name:cityName},
+						success: function(data){
+							window.location.reload();
+						}
+					})
 				})
 		},
 
@@ -50,8 +120,6 @@ define('app/jsp/top/top', function (require, exports, module) {
       		ajaxController.ajax({
 				type: "post",
 				dataType: "json",
-				processing: true,
-				message: "查询中，请等待...",
 				url: _base+"/head/getArea",
 				data:'',
 				success: function(data){

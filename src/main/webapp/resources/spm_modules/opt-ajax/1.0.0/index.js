@@ -19,6 +19,7 @@ define('opt-ajax/1.0.0/index', function (require, exports, module) {
 			SELECTOR_AJAX_SUBMIT_CONTAINER: "#_X_AJAX_SUBMIT_CONTAINER_DIV",
 			AJAX_STATUS_SUCCESS: "1",
 			AJAX_STATUS_FAILURE: "0",
+			AJAX_STATUS_LOGIN: "2",
 			STATUS_CODE: "statusCode",
 			STATUS_INFO: "statusInfo"
         },
@@ -59,7 +60,16 @@ define('opt-ajax/1.0.0/index', function (require, exports, module) {
 					    }
 					});
 					failureDialog.showModal();
-				}else{
+				} else if(status && status == AjaxController.AJAX_STATUS_LOGIN){
+					//取得当前页面地址
+					var winLocal = window.location.href;
+					var nowUrl = winLocal.substring(0,winLocal.indexOf('?'))
+						+".chk"+window.location.search;
+					var loginUrl = ssoLoginUrl+'?service='+ encodeURIComponent(nowUrl);
+					console.log(loginUrl);
+					window.location = loginUrl;
+				}
+				else{
 					if(postmode=="update")$(target).html(transport);
 					callbacks["success"] && callbacks["success"].call(_this,transport);
 				} 
