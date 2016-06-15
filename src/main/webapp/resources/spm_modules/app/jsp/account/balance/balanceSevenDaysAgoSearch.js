@@ -40,7 +40,9 @@ define('app/jsp/account/balance/balanceSevenDaysAgoSearch', function (require, e
     		//
     		this._queryChargeBaseInfoByAcctId();
     	},
-    	
+    	_updatePayPasswordJump:function(){
+    		location.href=_base+"/user/payPassword/updatePayPassword";
+    	},
     	_queryChargeBaseInfoByAcctId:function(){
       		ajaxController.ajax({
 						type: "post",
