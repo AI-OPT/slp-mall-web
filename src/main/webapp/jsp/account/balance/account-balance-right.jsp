@@ -27,28 +27,7 @@
 	                 <p><input type="button" class="slp-btn setes-pass-btn" onclick="pager._updatePayPasswordJump();" value="修改支付密码"></p>
         		 </div>
         </div>
-       	<script type="text/javascript">
-       		$(document).ready(function(){
-       			var balanceQueryUsableFundUrl = "${_base}/account/queryUsableFund";
-       			//查询账户余额
-       			$.ajaxtext(balanceQueryUsableFundUrl,"",function(data){
-       				//alert("账户余额:"+data);
-       				$('#balanceQueryUsableFundId').text(data);
-       			});
-       			var payPasswordIsSettingUrl = "${_base}/account/payPasswordIsSetting";
-       			//查询支付密码是否已经设置
-       			$.ajaxtext(payPasswordIsSettingUrl,"",function(data){
-       				//alert("支付密码是否已经设置 0：未设置；1：已设置；"+data);
-       				if(data == '0'){
-       					$('#pay_password_setting_div').show();
-       				}
-       				if(data == '1'){
-       					$('#pay_password_setting_div').hide();
-       				}
-       			});
-       			
-       		});
-       	</script>
+       	
      </div>
       <div class="order-list-bj">
      			<div class="account-title"><p>近7天收支记录<a href="${_base}/account/balance/detail">更多明细</a></p></div>
