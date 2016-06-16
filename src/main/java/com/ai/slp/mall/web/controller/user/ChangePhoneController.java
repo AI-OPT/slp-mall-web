@@ -69,12 +69,12 @@ public class ChangePhoneController {
         String password = "";
         try {
             password = ucUserSV.queryBaseInfo(searchUserRequest).getUserLoginPwd();
-            responseData = new ResponseData<String>("1111", "success", null);
-            responseHeader = new ResponseHeader(true, "1111", "校验密码成功");
+            responseData = new ResponseData<String>(SLPMallConstants.ValidatePassword.ChangePhone_SUCCESS, "success", null);
+            responseHeader = new ResponseHeader(true, SLPMallConstants.ValidatePassword.ChangePhone_SUCCESS, "校验密码成功");
         } catch (Exception e) {
             Log.info("查询失败");
-            responseData = new ResponseData<String>("1112", "fail", null);
-            responseHeader = new ResponseHeader(false, "1112", "校验密码失败");
+            responseData = new ResponseData<String>(SLPMallConstants.ValidatePassword.ChangePhone_ERROR, "fail", null);
+            responseHeader = new ResponseHeader(false, SLPMallConstants.ValidatePassword.ChangePhone_ERROR, "校验密码失败");
         }
         responseData.setResponseHeader(responseHeader);
         responseData.setData(password);
@@ -122,11 +122,11 @@ public class ChangePhoneController {
                 .getService(IUcUserSecurityManageSV.class);
         try {
             ucUserSecurityManageSV.setPhoneData(ucUserPhoneRequest);
-            responseData = new ResponseData<String>("11112", "更新成功", null);
-            responseHeader = new ResponseHeader(true, "11112", "更新成功");
+            responseData = new ResponseData<String>(SLPMallConstants.ChangePhone.ChangePhone_SUCCESS, "更新成功", null);
+            responseHeader = new ResponseHeader(true, SLPMallConstants.ChangePhone.ChangePhone_SUCCESS, "更新成功");
         } catch (Exception e) {
-            responseData = new ResponseData<String>("11113", "更新失败", null);
-            responseHeader = new ResponseHeader(false, "11113", "更新失败");
+            responseData = new ResponseData<String>(SLPMallConstants.ChangePhone.ChangePhone_ERROR, "更新失败", null);
+            responseHeader = new ResponseHeader(false, SLPMallConstants.ChangePhone.ChangePhone_ERROR, "更新失败");
         }
         responseData.setResponseHeader(responseHeader);
         return responseData;
@@ -136,8 +136,8 @@ public class ChangePhoneController {
     @RequestMapping("/validatePhone")
     @ResponseBody
     private ResponseData<String> validatePhone(HttpServletRequest request){
-        ResponseData<String> responseData= new ResponseData<String>("success", "手机未注册", null);
-        ResponseHeader responseHeader=new ResponseHeader(true,"success","手机未注册");
+        ResponseData<String> responseData= new ResponseData<String>(SLPMallConstants.ChangePhone.PHONE_SUCCESS, "手机未注册", null);
+        ResponseHeader responseHeader=new ResponseHeader(true,SLPMallConstants.ChangePhone.PHONE_SUCCESS,"手机未注册");
         SLPClientUser user = (SLPClientUser) request.getSession().getAttribute(SSOClientConstants.USER_SESSION_KEY);
         String userType=user.getUserType();
         String userMp =request.getParameter("userMp");
@@ -147,8 +147,8 @@ public class ChangePhoneController {
         queryBaseInfoRequest.setUserType(userType);
         IUcUserSV ucUserSV = DubboConsumerFactory.getService(IUcUserSV.class);
         if(ucUserSV.queryByBaseInfo(queryBaseInfoRequest).getUserId()!=null){
-            responseData = new ResponseData<String>(SLPMallConstants.BandEmail.PHONE_NOTONE_ERROR, "手机已注册", null);
-            responseHeader = new ResponseHeader(false,SLPMallConstants.BandEmail.PHONE_NOTONE_ERROR,"手机已注册");
+            responseData = new ResponseData<String>(SLPMallConstants.ChangePhone.PHONE_ERROR, "手机已注册", null);
+            responseHeader = new ResponseHeader(false,SLPMallConstants.ChangePhone.PHONE_ERROR,"手机已注册");
         }
         responseData.setResponseHeader(responseHeader);
         return responseData;

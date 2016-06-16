@@ -52,6 +52,7 @@
      <!--标题-->  
      <div class="account-title"><p>企业资质信息</p></div>
      <!--信息填写-->
+     <form action=${ _base}/user/qualification/uploadImg method="post" enctype="multipart/form-data"> 
      <div class="nav-form">
          <ul>
              <li>
@@ -97,9 +98,10 @@
                 <p class="word"><b class="red">*</b>营业执照副本:</p>
                 <p class="img"><img src="${_slpbase}/images/fom-t.png" id="certPic"></p>
                 <p class="small-p">
-                <span><input type="button" value="点击上传" class="file-btn"><input type="file" class="file"><a href="#">删除</a></span>
+                <span><input type="submit" value="点击上传" class="file-btn"/><a href="#" >删除</a></span>
                 <span>支持JPG/PNG/GIF格式，最大不超过3M</span>
                 </p>
+                
              </li>
          </ul>
          <ul>
@@ -217,6 +219,7 @@
                     <label id="phoneCodeErrMsg" style="display:none"><img src="${_slpbase}/images/icon-a.png" id="phoneCodeImage"><span class="red" id="phoneCodeText">验证码错误</span></label>
                  </li>
              </ul>
+             </form>
               <ul>
                  <li class="form-btn"><input type="button" class="slp-btn regsiter-btn" value="保存资质" id="submit"></li>
              </ul>

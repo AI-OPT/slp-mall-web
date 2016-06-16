@@ -81,6 +81,7 @@ define(
 				_hideNewPhone : function(){
 					$("#newPhoneErrFlag").val("1");
 					$("#newPhoneErrMsg").attr("style", "display:none");
+					$("#newPhoneCodeErrMsg").attr("style", "display:none");
 				},
 				//隐藏验证码错误提示
 				_hideValidateCode : function(){
@@ -317,6 +318,7 @@ define(
 							$('#PHONE_IDENTIFY1').val(
 									'获取验证码');
 							clearInterval(_res);// 清除setInterval
+							$("#validateCodeErrMsg").hide();
 							}
 						}, 1000);
 					var param = {
@@ -331,14 +333,14 @@ define(
 						message : "正在加载数据..",
 						success : function(data) {
 							if (data.responseHeader.resultCode == "9999") {
-								$('#phoneCodeErrMsg').text("1分钟后可重复发送 ");
-								$("#phoneCodeErrMsg").attr("style","display:");
-								$("#phoneCodeFlag").val("0");
+								$('#validateCodeErrMsgShow').text("1分钟后可重复发送 ");
+								$("#validateCodeErrMsg").attr("style","display:");
+								$("#validateCodeFlag").val("0");
 								return false;
 							} else if (data.responseHeader.resultCode == "100002") {
 								var msg = data.statusInfo;
-								$('#phoneCodeErrMsg').text(msg);
-								$("#phoneCodeErrMsg").attr("style","display:");
+								$('#validateCodeErrMsgShow').text(msg);
+								$("#validateCodeErrMsg").show();
 								return false;
 							}
 						},
@@ -350,6 +352,7 @@ define(
 								}
 
 							});
+					
 			},
 			// 获取新手机短信验证码
 			_getPhoneVitentify2 : function() {
@@ -371,6 +374,7 @@ define(
 							$('#PHONE_IDENTIFY2').val(
 									'获取验证码');
 							clearInterval(_res);// 清除setInterval
+								$("#newPhoneCodeErrMsg").hide();
 							}
 						}, 1000);
 					var param = {
@@ -391,8 +395,8 @@ define(
 								return false;
 							} else if (data.responseHeader.resultCode == "100002") {
 								var msg = data.statusInfo;
-								$('#newPhoneCodeErrMsg').text(msg);
-								$("#newPhoneCodeErrMsg").attr("style","display:");
+								$('#newPhoneCodeErrMsgShow').text(msg);
+								$("#newPhoneCodeErrMsg").show();
 								return false;
 							}
 						},
@@ -402,8 +406,8 @@ define(
 								alert(XMLHttpRequest.readyState);
 								alert(textStatus);
 								}
-
 							});
+					
 				}
 			},
 			

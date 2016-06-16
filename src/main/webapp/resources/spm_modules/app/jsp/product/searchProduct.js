@@ -467,7 +467,7 @@ define('app/jsp/product/searchProduct', function (require, exports, module) {
 				return;
 			}else{
 				$("#priceOrder").attr("value","");
-				$("#saleOrder").attr("value","ASE");
+				$("#saleOrder").attr("value","ASC");
 				_this._changeDataClick();
 			}
 			
@@ -480,7 +480,18 @@ define('app/jsp/product/searchProduct', function (require, exports, module) {
 				return;
 			}else{
 				$("#saleOrder").attr("value","");
-				$("#priceOrder").attr("value","ASE");
+				var isSprice = $("#spriceId").is(":visible");
+				if(isSprice){
+					//切换升序、降序图标
+					$("#xpriceId").attr("style","display:");
+					$("#spriceId").attr("style","display:none");
+					$("#priceOrder").attr("value","DESC");
+				}else{
+					//切换升序、降序图标
+					 $("#spriceId").attr("style","display:");
+					 $("#xpriceId").attr("style","display:none");
+					$("#priceOrder").attr("value","ASC");
+				}
 				_this._changeDataClick();
 			}
 		 }

@@ -392,4 +392,40 @@ public final class SLPMallConstants {
         public static final String QUALIFICATION_ERROR="00001";
         
     }
+    
+    public static final class ChangePhone{
+        private ChangePhone(){}
+        /**
+         * 修改成功
+         */
+        public static final String ChangePhone_SUCCESS="11112";
+        /**
+         * 修改失败
+         */
+        public static final String ChangePhone_ERROR="11111";
+        /**
+         * 手机号已注册
+         */
+        public static final String PHONE_ERROR="10003";
+        
+        /**
+         * 手机号未注册
+         */
+        public static final String PHONE_SUCCESS="success";
+    }
+        
+        
+        public static final class ValidatePassword{
+            private ValidatePassword(){}
+            /**
+             * 校验成功
+             */
+            public static final String ChangePhone_SUCCESS="1111";
+            /**
+             * 校验失败
+             */
+            public static final String ChangePhone_ERROR="1112";
+            
+        
+    }
 }
