@@ -11,12 +11,11 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.ai.opt.sdk.dubbo.util.DubboConsumerFactory;
-import com.ai.opt.sdk.util.IPUtil;
+import com.ai.opt.sdk.util.CollectionUtil;
 import com.ai.opt.sdk.web.model.ResponseData;
 import com.ai.slp.common.api.area.interfaces.IGnAreaQuerySV;
+import com.ai.slp.common.api.area.param.GnAreaCondition;
 import com.ai.slp.common.api.area.param.GnAreaVo;
-import com.ai.slp.common.api.ipaddr.interfaces.IIpAddrSV;
-import com.ai.slp.common.api.ipaddr.param.IpAddr;
 
 import net.sf.json.JSONArray;
 
@@ -57,17 +56,20 @@ public class HeadController {
      */
     @RequestMapping("/getIpAddr")
     @ResponseBody
-    public ResponseData<IpAddr> getAreaByIp(HttpServletRequest request){
-        ResponseData<IpAddr> responseData = null;
+    public ResponseData<GnAreaVo> getAreaByIp(HttpServletRequest request,String name){
+        ResponseData<GnAreaVo> responseData = null;
         try {
-            IIpAddrSV iIpAddrSV = DubboConsumerFactory.getService("ipAddrSV");
-            //获取IP地址
-            String ip =  IPUtil.getRealClientIpAddr(request);
-            //IpAddr addr = iIpAddrSV.getIpAddrByIp(ip);
-            IpAddr addr = new IpAddr();
-            responseData = new ResponseData<IpAddr>(ResponseData.AJAX_STATUS_SUCCESS, "查询成功", addr);
+            IGnAreaQuerySV iGnAreaQuerySV = DubboConsumerFactory.getService("iGnAreaQuerySV");
+            GnAreaCondition condition = new GnAreaCondition();
+            condition.setAreaName(name);
+            GnAreaVo addr = new GnAreaVo();
+            List<GnAreaVo> list = iGnAreaQuerySV.getAreaByName(condition);
+            if(!CollectionUtil.isEmpty(list)){
+                addr = list.get(0);
+            }
+            responseData = new ResponseData<GnAreaVo>(ResponseData.AJAX_STATUS_SUCCESS, "查询成功", addr);
         } catch (Exception e) {
-            responseData = new ResponseData<IpAddr>(ResponseData.AJAX_STATUS_FAILURE, "查询失败");
+            responseData = new ResponseData<GnAreaVo>(ResponseData.AJAX_STATUS_FAILURE, "查询失败");
             LOG.error("获取ip信息出错：", e);
         }
         return responseData;
