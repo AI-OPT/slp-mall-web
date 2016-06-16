@@ -20,7 +20,7 @@
      <div class="account-bj-none"><!--外侧-->
         <div class="advanced-search account-search">
            <ul>
-               <li class="close"><select id="select_date_id" class="select-small"></select></li>
+               <li class="word1"><select id="select_date_id" class="select-small"></select></li>
            	  <li>
            	  	   <!-- <p><input id="effectDate_be" name="effectDate" class="int-medium" type="text" readonly /><A href="javascript:void(0);" id="effectDate" ><i class="icon-calendar date-nothing"></i> </A></p>	
                     -->
