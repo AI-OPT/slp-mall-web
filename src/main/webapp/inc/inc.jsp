@@ -38,7 +38,7 @@
 <!-- UED frame.js -->
 <script src="${_slpbase }/scripts/frame.js" type="text/javascript"></script>
 
-<link rel="stylesheet" type="text/css" href="${_base}/resources/slpmall/styles/bootstrap.css">
+<!-- <link rel="stylesheet" type="text/css" href="${_base}/resources/slpmall/styles/bootstrap.css"> -->
 
 <img id="img_logincheck" style="display:none;" src="${_base}/logincheck?req=<%=new Date().getTime() %>">
 

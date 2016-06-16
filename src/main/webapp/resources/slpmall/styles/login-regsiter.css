@@ -1,6 +1,6 @@
 .logo-body{ background:#fff;}
 /**按钮**/
-.slp-btn{background:#f4792c; color:#fff; font-size:14px;}
+.slp-btn{background:#f4792c; color:#fff; font-size:14px;outline:none}
 .slp-btn:hover{background:#fc721c}
 
 /**下拉 输入**/
@@ -33,7 +33,7 @@
 .logo-banner-big{ width:100%; float:left; height:456px; background:#ec372f; min-width:1200px;}
 .banner{ width:1200px; margin:0 auto; background:url(../images/logo-banner.png) no-repeat; height:456px;}
 /**登录框**/
-.login-main{width:348px; height:370px; background:#fffbfb; float:right; margin:40px 70px 0 0; padding:20px 27px;}
+.login-main{width:348px; height:370px; background:#fffbfb; float:right; margin:40px 70px 0 0; padding:0px 27px;}
 .login-main ul{ width:100%; margin-top:15px; float:left;position:relative;}
 .login-main ul li{ float:left; font-size:14px; }
 .login-main ul .yazm{ float:left; margin-left:8px;}
@@ -96,9 +96,9 @@
 .int-medium:hover{ border:1px solid #fc721c}
 .int-small{ width:116px; float:left; border:1px solid #e7e7e7; height:30px; padding-left:4px; font-size:12px;}
 .int-small:hover{ border:1px solid #fc721c}
-.int-btn{ width:110px; float:left; background:#ebeaea; border:1px solid #d3d3d3; height:30px; cursor:pointer;}
+.int-btn{ width:110px; float:left; background:#ebeaea; border:1px solid #d3d3d3; height:30px; cursor:pointer;outline:none}
 .int-chec{ width:14px; height:14px;}
-.regsiter-btn{ width:230px; height:40px; cursor:pointer; margin-top:10px;}
+.regsiter-btn{ width:230px; height:40px; cursor:pointer; margin-top:10px;outline:none}
 .slp-btn{background:#f4792c; color:#fff; font-size:14px;}
 .slp-btn:hover{  background:#fc721c}
 
