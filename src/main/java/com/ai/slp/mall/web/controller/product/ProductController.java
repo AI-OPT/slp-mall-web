@@ -1,23 +1,5 @@
 package com.ai.slp.mall.web.controller.product;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
-
-import org.apache.commons.httpclient.util.DateUtil;
-import org.apache.log4j.Logger;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.servlet.ModelAndView;
-
 import com.ai.opt.base.vo.ResponseHeader;
 import com.ai.opt.sdk.components.idps.IDPSClientFactory;
 import com.ai.opt.sdk.dubbo.util.DubboConsumerFactory;
@@ -36,24 +18,26 @@ import com.ai.slp.mall.web.model.product.ProductImagesVO;
 import com.ai.slp.mall.web.util.CacheUtil;
 import com.ai.slp.order.api.orderlist.param.ProdExtendInfoVo;
 import com.ai.slp.order.api.ordertradecenter.interfaces.IOrderTradeCenterSV;
-import com.ai.slp.order.api.ordertradecenter.param.OrdBaseInfo;
-import com.ai.slp.order.api.ordertradecenter.param.OrdExtendInfo;
-import com.ai.slp.order.api.ordertradecenter.param.OrdProductInfo;
-import com.ai.slp.order.api.ordertradecenter.param.OrderTradeCenterRequest;
-import com.ai.slp.order.api.ordertradecenter.param.OrderTradeCenterResponse;
+import com.ai.slp.order.api.ordertradecenter.param.*;
 import com.ai.slp.product.api.productcat.interfaces.IProductCatSV;
 import com.ai.slp.product.api.productcat.param.ProductCatInfo;
 import com.ai.slp.product.api.productcat.param.ProductCatUniqueReq;
 import com.ai.slp.product.api.webfront.interfaces.IProductDetailSV;
-import com.ai.slp.product.api.webfront.param.ProductImage;
-import com.ai.slp.product.api.webfront.param.ProductSKUAttr;
-import com.ai.slp.product.api.webfront.param.ProductSKUAttrValue;
-import com.ai.slp.product.api.webfront.param.ProductSKUConfigResponse;
-import com.ai.slp.product.api.webfront.param.ProductSKURequest;
-import com.ai.slp.product.api.webfront.param.ProductSKUResponse;
+import com.ai.slp.product.api.webfront.param.*;
 import com.alibaba.fastjson.JSON;
+import org.apache.commons.httpclient.util.DateUtil;
+import org.apache.log4j.Logger;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 
-@RestController
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+import java.util.*;
+
+@Controller
 @RequestMapping("/product")
 public class ProductController {
 
