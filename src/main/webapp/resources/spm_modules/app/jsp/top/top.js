@@ -74,14 +74,14 @@ define('app/jsp/top/top', function (require, exports, module) {
 				type: "post",
 				dataType: "json",
 				url: _base+"/head/getIpAddr",
-				data:'',
+				data : {name:remote_ip_info.province},
 				success: function(data){
-					if(data.data.cityCode!=null && data.data.cityCode!=""){
+					if(data.data.areaCode!=null && data.data.areaCode!=""){
 						//设置所在地区
-						$("#currentCity").attr("currentCityCode",data.data.cityCode);
-						$("#currentCity").attr("currentCityName",data.data.cityName);
-			    		document.getElementById("currentCity").innerHTML=data.data.cityName;
-			    		_this._setSessionData(data.data.cityCode,data.data.cityName);
+						$("#currentCity").attr("currentCityCode",data.data.areaCode);
+						$("#currentCity").attr("currentCityName",data.data.areaName);
+			    		document.getElementById("currentCity").innerHTML=data.data.areaName;
+			    		_this._setSessionData(data.data.areaCode,data.data.areaName);
 					}else{
 						//设置所在地区
 						$("#currentCity").attr("currentCityCode","11");
