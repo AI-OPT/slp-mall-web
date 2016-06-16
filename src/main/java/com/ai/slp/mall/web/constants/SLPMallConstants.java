@@ -428,4 +428,16 @@ public final class SLPMallConstants {
             
         
     }
+        
+        public static final class UploadImg{
+            private UploadImg(){}
+            /**
+             * 上传成功
+             */
+            public static final String UploadImg_SUCCESS="success";
+            /**
+             * 上传失败
+             */
+            public static final String UploadImg_ERROR="fail";
+        }
 }

@@ -14,13 +14,13 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.ai.opt.base.vo.ResponseHeader;
 import com.ai.opt.sdk.components.idps.IDPSClientFactory;
 import com.ai.opt.sdk.dubbo.util.DubboConsumerFactory;
 import com.ai.opt.sdk.util.CollectionUtil;
+import com.ai.opt.sdk.util.UUIDUtil;
 import com.ai.opt.sdk.web.model.ResponseData;
 import com.ai.opt.sso.client.filter.SLPClientUser;
 import com.ai.opt.sso.client.filter.SSOClientConstants;
@@ -30,7 +30,6 @@ import com.ai.slp.common.api.area.param.GnAreaVo;
 import com.ai.slp.common.api.industry.interfaces.IIndustrySV;
 import com.ai.slp.common.api.industry.param.IndustryQueryResponse;
 import com.ai.slp.mall.web.constants.SLPMallConstants;
-import com.ai.slp.mall.web.util.ImageUtil;
 import com.ai.slp.user.api.keyinfo.interfaces.IUcKeyInfoSV;
 import com.ai.slp.user.api.keyinfo.param.InsertGroupKeyInfoRequest;
  
@@ -68,31 +67,32 @@ public class QualificationController {
     
     @RequestMapping("/uploadImg")
     @ResponseBody
-    public ResponseData<String> uploadImg(MultipartFile file,HttpServletRequest request) {
+    public ResponseData<String> uploadImg(MultipartFile image, HttpServletRequest request) {
         ResponseData<String> responseData=null;
         ResponseHeader responseHeader=null;
+        
         String idpsns = "slp-mall-web-idps";
         // 获取imageClient
         IImageClient im = IDPSClientFactory.getImageClient(idpsns);
-        //获取图片信息
-        String imgName = request.getParameter("imgName");
-        MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
-        MultipartFile imgFile = multipartRequest.getFile("file");
-        String url="";
         
+        //获取图片信息
         try {
-            url = ImageUtil.AddImg(imgFile.getBytes(),imgName);
+            
+            String idpsId = im.upLoadImage(image.getBytes(), UUIDUtil.genId32()+".png");
+            String url = im.getImageUrl(idpsId, ".jpg", "80x80");
             responseData = new ResponseData<String>(SLPMallConstants.Qualification.QUALIFICATION_SUCCESS, "操作成功", null);
+            responseData.setStatusCode(idpsId);
+            responseData.setData(url);
             responseHeader = new ResponseHeader(true,SLPMallConstants.Qualification.QUALIFICATION_SUCCESS,"操作成功");
         } catch (IOException e) {
             LOGGER.error("保存失败");
             responseData = new ResponseData<String>(SLPMallConstants.Qualification.QUALIFICATION_ERROR, "操作失败", null);
             responseHeader = new ResponseHeader(false,SLPMallConstants.Qualification.QUALIFICATION_ERROR,"操作失败");
         }
-        responseData.setData(url);
         responseData.setResponseHeader(responseHeader);
         return responseData;
     }
+    
     
     @RequestMapping("/saveEnterprise")
     @ResponseBody

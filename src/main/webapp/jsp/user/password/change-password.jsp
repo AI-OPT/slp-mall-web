@@ -5,7 +5,6 @@
 <!--Support IE Text -->
 <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
 <title>修改密码</title>
-<script type="text/javascript" src="${_slpbase }/scripts/md5.js"></script>
 <link href="${_slpbase }/styles/modular.css" rel="stylesheet" type="text/css">
 <link href="${_slpbase }/styles/global.css" rel="stylesheet" type="text/css">
 <link href="${_slpbase }/styles/frame.css" rel="stylesheet" type="text/css">

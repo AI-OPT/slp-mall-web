@@ -10,7 +10,7 @@ define('app/jsp/user/qualification/baseinfo', function (require, exports, module
     require("jsviews/jsviews.min");
     require("treegrid/js/jquery.treegrid.min");
     require("treegrid/js/jquery.cookie");
-    
+    require("app/jsp/user/qualification/ajaxfileupload");
     
     //实例化AJAX控制处理对象
     var ajaxController = new AjaxController();
@@ -36,7 +36,8 @@ define('app/jsp/user/qualification/baseinfo', function (require, exports, module
     		"blur [id='contactEmail']":"_checkEmailFormat",
     		"blur [id='sendPhoneCode']":"_sendVerify",
     		"change [id='princeCode']":"_princeCodeChange",
-    		"change [id='cityCode']":"_cityCodeChange"
+    		"change [id='cityCode']":"_cityCodeChange",
+			"click [id='uploadImg1']":"_uploadImg1"
         },
         init: function(){
         },
@@ -45,6 +46,13 @@ define('app/jsp/user/qualification/baseinfo', function (require, exports, module
     		QualificationPager.superclass.setup.call(this);
     		activeUserLeftMenu(QualificationPager.USER_LEFT_MNU_ID);
     	},
+    	
+    	_uploadImg1:function(){
+			if($("#image1").val()!=""){
+				ajaxFileUpload("image1");
+			}
+		},
+    	
     	_showUserNameTip:function(){
     		$("#custNameErrMsg").show();
     		$('#custNameImage').attr('src',_base+'/resources/slpmall/images/icon-d.png');
@@ -325,3 +333,21 @@ define('app/jsp/user/qualification/baseinfo', function (require, exports, module
     
     module.exports = QualificationPager
 });
+
+function ajaxFileUpload(imageId) {
+	alert(imageId);
+	 $.ajaxFileUpload({  
+         url:_base+"/user/qualification/uploadImg",  
+         secureuri:false,  
+         fileElementId:imageId,//file标签的id  
+         //dataType: 'json',//返回数据的类型  
+         data:{imageId:imageId},//一同上传的数据  
+         success: function (data) {  
+        	 alert(data.statusInfo);
+            document.getElementById("img").src=data.statusInfo;
+         },  
+         error: function (data, status, e) {  
+             alert(e);  
+         }  
+     });  
+}

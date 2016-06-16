@@ -10,7 +10,7 @@
 <link href="${_slpbase }/styles/frame.css" rel="stylesheet" type="text/css">
 <link href="${_slpbase }/styles/font-awesome.css" rel="stylesheet" type="text/css">
 <script type="text/javascript">
-(function() {
+(function() { 
 	seajs.use([ 'app/jsp/user/qualification/baseinfo'], function(QualificationPager) {
 		var pager = new QualificationPager({
 			element : document.body
@@ -18,7 +18,6 @@
 		pager.render();
 	});
 })(); 
-
 
 </script>
 </head>
@@ -52,7 +51,6 @@
      <!--标题-->  
      <div class="account-title"><p>企业资质信息</p></div>
      <!--信息填写-->
-     <form action=${ _base}/user/qualification/uploadImg method="post" enctype="multipart/form-data"> 
      <div class="nav-form">
          <ul>
              <li>
@@ -93,17 +91,18 @@
                  <label id="certNumErrMsg" style="display:none"><img src="${_slpbase}/images/icon-c.png" id="certNumImage"><span class="ash" id="certNumText">最多20个字符，允许使用英语字母（区分大小写）、数字及“-”</span></label>
              </li>
          </ul>
+         <form id="form1" action="${_base }/user/qualification/uploadImg" method="post" enctype="multipart/form-data">
          <ul>
              <li>
                 <p class="word"><b class="red">*</b>营业执照副本:</p>
-                <p class="img"><img src="${_slpbase}/images/fom-t.png" id="certPic"></p>
+                <p class="img"><img id="img" src="${_slpbase}/images/fom-t.png" id="certPic"></p>
                 <p class="small-p">
-                <span><input type="submit" value="点击上传" class="file-btn"/><a href="#" >删除</a></span>
+                 <span><input type="file" id="image1" name="image"><input type="button" id="uploadImg1" value="点击上传" class="file-btn"><a href="#">删除</a></span>
                 <span>支持JPG/PNG/GIF格式，最大不超过3M</span>
                 </p>
-                
              </li>
          </ul>
+         </form>
          <ul>
              <li>
                 <p class="word"><b class="red">*</b>行业:</p>
@@ -219,7 +218,6 @@
                     <label id="phoneCodeErrMsg" style="display:none"><img src="${_slpbase}/images/icon-a.png" id="phoneCodeImage"><span class="red" id="phoneCodeText">验证码错误</span></label>
                  </li>
              </ul>
-             </form>
               <ul>
                  <li class="form-btn"><input type="button" class="slp-btn regsiter-btn" value="保存资质" id="submit"></li>
              </ul>
