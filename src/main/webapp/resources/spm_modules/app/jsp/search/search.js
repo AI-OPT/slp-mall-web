@@ -38,6 +38,12 @@ define('app/jsp/search/search', function (require, exports, module) {
     		var flag = "00";
     		window.location.href = _base + '/search/list?skuName='+encodeURI(encodeURI(skuname))+"&sourceFlag="+flag;
     	},
+    	//热搜词搜索
+    	_hotWordSearch: function(skuname){
+    		//用于判断跳转页面是从哪里跳转的
+    		var flag = "00";
+    		window.location.href = _base + '/search/list?skuName='+encodeURI(encodeURI(skuname))+"&sourceFlag="+flag;
+    	}
     	
     });
     

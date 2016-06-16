@@ -13,10 +13,10 @@
                   <li><A href="javascript:void(0);" id="BTN_SEARCH"><i class="icon-search"></i></A></li>
               </ul>
                <ul class="word">
-                  <li><A href="#">搜索商品1</A></li>
-                  <li><A href="#">搜索商品2</A></li>
-                  <li><A href="#">搜索商品3</A></li>
-                  <li><A href="#">搜索商品4</A></li>   
+                  <li><A href="javascript:void(0);" onclick="index_search_pager._hotWordSearch('充流量')">充流量</A></li>
+                  <li><A href="javascript:void(0);" onclick="index_search_pager._hotWordSearch('充话费')">充话费</A></li>
+                  <li><A href="javascript:void(0);" onclick="index_search_pager._hotWordSearch('50元')">50元</A></li>
+                  <li><A href="javascript:void(0);" onclick="index_search_pager._hotWordSearch('100M')">100M</A></li>   
               </ul>
           </div>
           <!--搜索区结束-->
@@ -24,8 +24,8 @@
           <div class="breadcrumb">
               <ul>
                   <li><a href="${_base}">首页</a></li>
-                  <li><a href="#" id="logo_nav_phoneBillFastId">话费快充</a></li>
-                  <li><a href="#" id="logo_nav_flowFastId">流量快充</a></li>
+                  <li><a href="javascript:void(0);" id="logo_nav_phoneBillFastId">话费快充</a></li>
+                  <li><a href="javascript:void(0);" id="logo_nav_flowFastId">流量快充</a></li>
                   <li><a href="#">话费卡</a></li>
                   <li><a href="#">流量卡</a></li>
                   <li><a href="#">API</a></li>
