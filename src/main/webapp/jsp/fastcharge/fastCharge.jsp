@@ -118,7 +118,9 @@
                         <li><span id="lPrice">￥98.00-￥99.8</span></li>
                     </ul>
                     <ul>
-                        <li class="rech-btn"><input type="button" class="slp-btn cz-btn" value="立即充值"></li>
+                        <li class="rech-btn"><input id="GP_BTN" type="button" class="slp-btn cz-btn" value="立即充值">
+                         <a id="submitGpBtn" style="display:none"  target="_blank"><span id="submitGpSpan">立即充值</span></a>
+                        </li>
                     </ul>
                 
                 </div>
