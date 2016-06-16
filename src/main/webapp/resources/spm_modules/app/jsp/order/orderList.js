@@ -177,6 +177,30 @@ define('app/jsp/order/orderList', function (require, exports, module) {
     			"payStyle":jQuery.trim($("#payStyleQ option:selected").val()),
     			"states":jQuery.trim($("#searchOrderState").val())
     		}
+    	},
+    	_buyAgain:function(orderId){
+    		$.ajax({
+				type: "post",
+				dataType: "json",
+				processing: false,
+				message: "处理中，请等待...",
+				url: _base+"/myorder/checkOrderProduct",
+				data:{"orderId":orderId},
+				success: function(data){
+					if(data){
+						window.location.href=_base+"/shopcart/buyAgain?orderId="+orderId;
+					}else{
+						var msgDialog = Dialog({
+							title: '提示',
+							content: "此订单下的商品已经下架或暂时无货，不能再次购买",
+							ok: function () {
+								this.close();
+							}
+						});
+			        	msgDialog.showModal();
+					}
+				}
+			});
     	}
     });
     

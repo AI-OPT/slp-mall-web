@@ -60,7 +60,7 @@ define('app/jsp/product/productDetail', function (require, exports, module) {
 				type: "post",
 				dataType: "json",
 				processing: false,
-				//message: "查询中，请等待...",
+				message: "查询中，请等待...",
 				url: _base+"/product/getProductCatList",
 				data:{"productCatId":productCatId},
 				success: function(data){
@@ -227,7 +227,7 @@ define('app/jsp/product/productDetail', function (require, exports, module) {
 						type: "post",
 						dataType: "json",
 						processing: false,
-						//message: "查询中，请等待...",
+						message: "查询中，请等待...",
 						url: _base+"/search/getHotProduct",
 						data:{productCatId:productCatId},
 						success: function(data){
@@ -246,7 +246,7 @@ define('app/jsp/product/productDetail', function (require, exports, module) {
 						type: "post",
 						dataType: "json",
 						processing: false,
-						//message: "查询中，请等待...",
+						message: "查询中，请等待...",
 						url: _base+"/product/getProductConfigParameter",
 						data:{"skuId":skuId,"skuAttrs":skuAttrs},
 						success: function(data){
@@ -301,7 +301,7 @@ define('app/jsp/product/productDetail', function (require, exports, module) {
 					type: "post",
 					dataType: "json",
 					processing: false,
-					//message: "添加中，请等待...",
+					message: "请等待...",
 					url: _base+"/shopcart/addProd",
 					data:{"skuId":skuId,"buyNum":buyNum},
 					success: function(data){

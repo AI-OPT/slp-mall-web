@@ -39,6 +39,9 @@ import com.ai.slp.order.api.orderlist.param.QueryOrderListRequest;
 import com.ai.slp.order.api.orderlist.param.QueryOrderListResponse;
 import com.ai.slp.order.api.orderlist.param.QueryOrderRequest;
 import com.ai.slp.order.api.orderlist.param.QueryOrderResponse;
+import com.ai.slp.product.api.webfront.interfaces.IProductDetailSV;
+import com.ai.slp.product.api.webfront.param.ProductSKURequest;
+import com.ai.slp.product.api.webfront.param.ProductSKUResponse;
 import com.alibaba.dubbo.common.utils.StringUtils;
 
 @Controller
@@ -216,7 +219,7 @@ public class MyOrderController {
 
 	@RequestMapping("/detail")
 	public ModelAndView orderDetail(HttpServletRequest request, QueryOrderRequest orderRequest) {
-		OrdOrderVo orderDetail = getOrderDetail(request, orderRequest);
+		OrdOrderVo orderDetail = getOrderDetail(orderRequest);
 		Map<String, String> model = new HashMap<String, String>();
 		if (orderDetail != null) {
 			// 获取imageClient
@@ -241,7 +244,7 @@ public class MyOrderController {
 	 * @param orderRequest
 	 * @return
 	 */
-	private OrdOrderVo getOrderDetail(HttpServletRequest request, QueryOrderRequest orderRequest) {
+	private OrdOrderVo getOrderDetail(QueryOrderRequest orderRequest) {
 		OrdOrderVo responseData = null;
 		try {
 			orderRequest.setTenantId("SLP");
@@ -254,5 +257,51 @@ public class MyOrderController {
 			LOG.error("查询订单失败：", e);
 		}
 		return responseData;
+	}
+	
+	/**
+	 * 检查商品是否有效（未下架 有货）
+	 * 多个商品的时候 全部无效视为无效 否则视为有效，
+	 * @param request
+	 * @param orderRequest
+	 * @return 
+	 */
+	@RequestMapping("/checkOrderProduct")
+	@ResponseBody
+	public boolean checkOrderProduct(HttpServletRequest request, QueryOrderRequest orderRequest){
+		OrdOrderVo orderDetail = getOrderDetail(orderRequest);
+		List<OrdProductVo> productList = orderDetail.getProductList();
+		if(productList!=null && productList.size()>0){
+			for(OrdProductVo ordProduct:productList){
+				ProductSKUResponse skuProduct = getSKUProduct(ordProduct.getSkuId());
+				String state = skuProduct.getState();
+				Long usableNum = skuProduct.getUsableNum();
+				if("5".equals(state) && usableNum > 0){
+					//存在有效商品
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+	
+	/**
+	 * 获得sku商品信息
+	 * @param request
+	 * @param skuId
+	 * @return
+	 */
+	private ProductSKUResponse getSKUProduct(String skuId) {
+		ProductSKUResponse producSKU = null;
+		try {
+			ProductSKURequest productskurequest = new ProductSKURequest();
+			productskurequest.setSkuId(skuId);
+			IProductDetailSV iProductDetailSV = DubboConsumerFactory.getService("iProductDetailSV");
+			productskurequest.setTenantId("SLP");
+			producSKU = iProductDetailSV.queryProducSKUById(productskurequest);
+		}catch(Exception e){
+			LOG.error("商品详情查询报错：", e);
+		}
+		return producSKU;
 	}
 }
