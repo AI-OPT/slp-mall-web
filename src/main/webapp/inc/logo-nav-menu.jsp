@@ -9,7 +9,7 @@
       <!--搜索区-->
           <div class="searchBar">
               <ul class="searchTxt">
-                  <li><input type="text" class="int-xxlarge" id="serachName"></li>
+                  <li><input type="text" class="int-xxlarge" maxlength="60" id="serachName"></li>
                   <li><A href="javascript:void(0);" id="BTN_SEARCH"><i class="icon-search"></i></A></li>
               </ul>
                <ul class="word">
