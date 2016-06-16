@@ -31,7 +31,8 @@ define('app/jsp/fastcharge/fastCharge', function (require, exports, module) {
     		//"keyup #phoneNum2":"_getFlowInfo"
     		"click #phoneBill":"_switchHf",
     		"click #flowBill":"_switchLf",
-    		"click input[name='flowRadio']":"_getBDFlow"
+    		"click input[name='flowRadio']":"_getBDFlow",
+    		"click #ORD_BTN":"_submitOrder"
     		//"click #LQG":"_getQGFlow"
         },
     	//重写父类
@@ -146,6 +147,92 @@ define('app/jsp/fastcharge/fastCharge', function (require, exports, module) {
  		 _this._hfeeChange1();
  		 $("#listHfee p:first").click();
     	},
+    	_submitOrder:function(){//话费的
+    		try{
+    		var _this=this;
+    		var phoneNum=$.trim($("#phoneNum1").val());
+    		if(phoneNum==null||phoneNum==""||phoneNum==undefined){
+    			Dialog({
+							title : '提示',
+							width : '200px',
+							height : '50px',
+							content : "手机号不能为空",
+							okValue : "确定",
+							ok : function() {
+								this.close;
+							}
+						}).showModal();
+    			return false;
+    		}
+    		var mobileReg = /^0?1[3|4|5|8|7][0-9]\d{8}$/; 
+			 if(mobileReg.test(phoneNum)==false){
+				 Dialog({
+						title : '提示',
+						width : '200px',
+						height : '50px',
+						content : "手机号格式不对，请重新输入",
+						okValue : "确定",
+						ok : function() {
+							this.close;
+						}
+					}).showModal();
+	    			return false;
+
+			 }
+			 
+            if($.trim($("#listHfee").html()).length==0){
+            	 Dialog({
+						title : '提示',
+						width : '200px',
+						height : '50px',
+						content : "抱歉，暂不支持此号码的充值",
+						okValue : "确定",
+						ok : function() {
+							this.close;
+						}
+					}).showModal();
+            	 return false;
+			 }
+			 
+			 var phoneFee= $(".hfee.current").attr('salePrice')
+    		if(typeof($(".hfee.current").attr("skuId"))=="undefined"){
+    			console.log("meiyou");
+    			return false;
+    		}
+    		//$("#uuu").click();
+    		
+    		ajaxController.ajax({
+				type: "post",
+				dataType: "json",
+				async: false,
+				url: _base+"/order/orderCommit",
+				data:{
+					orderType:"100010",//暂时传运营商的县官信息
+					skuId:$(".hfee.current").attr('skuId'),
+					buySum:"1",
+					basicOrgId:$("#orgcode1").val(),
+					provinceCode:$("#pcode1").val(),
+					chargeFee:$(".hfee.current a").html(),
+					phoneNum:$("#phoneNum1").val()
+					},
+				success: function(data){
+					var key=data.data;
+				
+					var url=_base+ "/order/toOrderPay?orderKey="+key;
+					$("#okey").val(key);
+					$("#submitOdrBtn").attr('href',url);
+					
+				}
+					
+			});
+    		}catch(err){
+    			
+    		}finally{
+    			$("#submitOdrSpan").trigger("click");
+    		}
+    		
+    		
+    	},
     	_getFlowInfo:function(){
     		
     		var _this=this;
@@ -234,6 +321,7 @@ define('app/jsp/fastcharge/fastCharge', function (require, exports, module) {
     		var _this=this;
     		
     		$("#phoneNum1").bind('input propertychange',function(){
+    			$("#submitOdrBtn").removeAttr('href');
     			if($.trim($("#phoneNum1").val()).length==0){
        			 $("#listHfee").html("");
        			 
@@ -269,8 +357,8 @@ define('app/jsp/fastcharge/fastCharge', function (require, exports, module) {
     						var d=data.data;
     						if(d){
     							//var productCatId="10000010010000";
-    							$("#basicOrgId1").val(d.basicOrgCode);
-    							$("#PCode").val(d.provinceCode);
+    							$("#orgcode1").val(d.basicOrgCode);
+    							$("#pcode1").val(d.provinceCode);
     							var provCode=d.provinceCode;
     							var basicOrgId=d.basicOrgCode;
     							//userType 
@@ -286,16 +374,20 @@ define('app/jsp/fastcharge/fastCharge', function (require, exports, module) {
     									},
     								success: function(data){
     									var d=data.data;
-    									if(d.phoneFee != null&& d.phoneFee != 'undefined'&& d.phoneFee.length > 0){
-    										 var template = $.templates("#hfeeDataTmpl");
-    										 var htmlOutput = template.render(d.phoneFee);
-    										 $("#listHfee").html(htmlOutput);
-    										
-    										 _this._hfeeChange();
-    										 $("#listHfee p:first").click();
-    									}else{
-    										 $("#listHfee").html("");
+    									$("#listHfee").html("");
+    									$("#hPrice").text("");
+    									if(d){
+    										if(d.phoneFee != null&& d.phoneFee != 'undefined'&& d.phoneFee.length > 0){
+       										 var template = $.templates("#hfeeDataTmpl");
+       										 var htmlOutput = template.render(d.phoneFee);
+       										 $("#listHfee").html(htmlOutput);
+       										 _this._hfeeChange();
+       										 $("#listHfee p:first").click();
+       									}else{
+       										 $("#listHfee").html("");
+       									}
     									}
+    									
     									
     									
     								}
@@ -315,16 +407,23 @@ define('app/jsp/fastcharge/fastCharge', function (require, exports, module) {
     			//$("#phoneBill")removeClass();
     			document.getElementById("phoneBill").className="";
     			$("#flowBill").addClass("current");
+    			$("#regeiter-date1").hide();
+    			$("#regeiter-date2").show();
     		}
     		
     		if(isFlow=="false"){
     			//$("#flowBill")removeClass();
     			document.getElementById("flowBill").className="";
     			$("#phoneBill").addClass("current");
+    			$("#phoneBill").click();
+    			$("#regeiter-date1").show();
+    			$("#regeiter-date2").hide();
     		}
+    		
     	},
     	_hfeeChange:function(){
     		var _this=this;
+    		$("#submitOdrBtn").removeAttr('href');
     		$(".hfee").bind("click",function(){
     			var this_=this;
     			$(".hfee").removeClass("current");
@@ -335,7 +434,7 @@ define('app/jsp/fastcharge/fastCharge', function (require, exports, module) {
     	},
     	_hfeeChange1:function(){
     		var _this=this;
-    	
+    		$("#submitOdrBtn").removeAttr('href');
     		$(".hfee").bind("click",function(){
     			var this_=this;
     			$(".hfee").removeClass("current");
