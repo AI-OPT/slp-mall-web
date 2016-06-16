@@ -302,26 +302,9 @@ define(
 	
 			// 获取绑定手机短信验证码
 			_getPhoneVitentify1 : function() {
-				$("#phoneCodeErrMsg").attr("style", "display:none");
-					var step = 59;
-					$('#PHONE_IDENTIFY1').val('重新发送60');
-					$("#PHONE_IDENTIFY1").attr("disabled", true);
-					var _res = setInterval(function() {
-						$("#PHONE_IDENTIFY1").attr(
-								"disabled", true);// 设置disabled属性
-						$('#PHONE_IDENTIFY1').val(
-								step + 's后重新发送');
-						step -= 1;
-						if (step <= 0) {
-							$("#PHONE_IDENTIFY1")
-									.removeAttr("disabled"); // 移除disabled属性
-							$('#PHONE_IDENTIFY1').val(
-									'获取验证码');
-							clearInterval(_res);// 清除setInterval
-							$("#validateCodeErrMsg").hide();
-							}
-						}, 1000);
-					var param = {
+				$("#validateCodeErrMsg").hide();
+
+				var param = {
 						userMp : $("#phone").val()
 					};
 					ajaxController.ajax({
@@ -332,10 +315,27 @@ define(
 						data : param,
 						message : "正在加载数据..",
 						success : function(data) {
-							if (data.responseHeader.resultCode == "9999") {
-								$('#validateCodeErrMsgShow').text("1分钟后可重复发送 ");
-								$("#validateCodeErrMsg").attr("style","display:");
-								$("#validateCodeFlag").val("0");
+							if (data.responseHeader.resultCode == "000000") {
+								$("#validateCodeErrMsg").hide();
+								var step = 59;
+								$('#PHONE_IDENTIFY1').val('重新发送60');
+								$("#PHONE_IDENTIFY1").attr("disabled", true);
+								var _res = setInterval(function() {
+									$("#PHONE_IDENTIFY1").attr(
+											"disabled", true);// 设置disabled属性
+									$('#PHONE_IDENTIFY1').val(
+											step + 's后重新发送');
+									step -= 1;
+									if (step <= 0) {
+										$("#PHONE_IDENTIFY1")
+												.removeAttr("disabled"); // 移除disabled属性
+										$('#PHONE_IDENTIFY1').val(
+												'获取验证码');
+										clearInterval(_res);// 清除setInterval
+										$("#validateCodeErrMsg").hide();
+										}
+									}, 1000);
+								
 								return false;
 							} else if (data.responseHeader.resultCode == "100002") {
 								var msg = data.statusInfo;
@@ -356,27 +356,10 @@ define(
 			},
 			// 获取新手机短信验证码
 			_getPhoneVitentify2 : function() {
-				$("#phoneCodeErrMsg").attr("style", "display:none");
+				$("#newPhoneCodeErrMsg").hide();
 				var phoneFlag = $('#newPhoneErrFlag').val();
 				if (phoneFlag != "0") {
-					var step = 59;
-					$('#PHONE_IDENTIFY2').val('重新发送60');
-					$("#PHONE_IDENTIFY2").attr("disabled", true);
-					var _res = setInterval(function() {
-						$("#PHONE_IDENTIFY2").attr(
-								"disabled", true);// 设置disabled属性
-						$('#PHONE_IDENTIFY2').val(
-								step + 's后重新发送');
-						step -= 1;
-						if (step <= 0) {
-							$("#PHONE_IDENTIFY2")
-									.removeAttr("disabled"); // 移除disabled属性
-							$('#PHONE_IDENTIFY2').val(
-									'获取验证码');
-							clearInterval(_res);// 清除setInterval
-								$("#newPhoneCodeErrMsg").hide();
-							}
-						}, 1000);
+					
 					var param = {
 						userMp : $("#newPhone").val()
 					};
@@ -389,10 +372,23 @@ define(
 						message : "正在加载数据..",
 						success : function(data) {
 							if (data.responseHeader.resultCode == "9999") {
-								$('#newPhoneCodeErrMsg').text("1分钟后可重复发送 ");
-								$("#newPhoneCodeErrMsg").attr("style","display:");
-								$("#newPhoneCodeFlag").val("0");
-								return false;
+								$("#newPhoneCodeErrMsg").hide();
+								var step = 59;
+								$('#PHONE_IDENTIFY2').val('重新发送60');
+								$("#PHONE_IDENTIFY2").attr("disabled", true);
+								var _res = setInterval(function() {
+									$("#PHONE_IDENTIFY2").attr(
+											"disabled", true);// 设置disabled属性
+									$('#PHONE_IDENTIFY2').val(
+											step + 's后重新发送');
+									step -= 1;
+									if (step <= 0) {
+										$("#PHONE_IDENTIFY2").removeAttr("disabled"); // 移除disabled属性
+										$('#PHONE_IDENTIFY2').val('获取验证码');
+										clearInterval(_res);// 清除setInterval
+											$("#newPhoneCodeErrMsg").hide();
+										}
+									}, 1000);
 							} else if (data.responseHeader.resultCode == "100002") {
 								var msg = data.statusInfo;
 								$('#newPhoneCodeErrMsgShow').text(msg);
