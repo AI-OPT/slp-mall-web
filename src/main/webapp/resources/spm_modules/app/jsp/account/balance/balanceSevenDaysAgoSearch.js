@@ -38,10 +38,47 @@ define('app/jsp/account/balance/balanceSevenDaysAgoSearch', function (require, e
     		BalanceSevenDaysAgoSearchPager.superclass.setup.call(this);
     		activeUserLeftMenu(BalanceSevenDaysAgoSearchPager.USER_LEFT_MNU_ID);
     		//
+    		this._balanceQueryUsableFund();//查询账户余额
+    		this._payPasswordIsSetting();//支付密码设置与否
     		this._queryChargeBaseInfoByAcctId();
     	},
     	_updatePayPasswordJump:function(){
     		location.href=_base+"/user/payPassword/updatePayPassword";
+    	},
+    	//查询账户余额
+    	_balanceQueryUsableFund:function(){
+    		ajaxController.ajax({
+					type: "post",
+					dataType: "text",
+					processing: true,
+					message: "查询中，请等待...",
+					url: _base+"/account/queryUsableFund",
+					data:"",
+					success: function(data){
+						$('#balanceQueryUsableFundId').text(data);
+					}
+				}
+			);
+    	},
+    	//支付密码设置与否
+    	_payPasswordIsSetting:function(){
+    		ajaxController.ajax({
+					type: "post",
+					dataType: "text",
+					processing: true,
+					message: "查询中，请等待...",
+					url: _base+"/account/payPasswordIsSetting",
+					data:"",
+					success: function(data){
+						if(data == '0'){
+	       					$('#pay_password_setting_div').show();
+	       				}
+	       				if(data == '1'){
+	       					$('#pay_password_setting_div').hide();
+	       				}
+					}
+				}
+			);
     	},
     	_queryChargeBaseInfoByAcctId:function(){
       		ajaxController.ajax({

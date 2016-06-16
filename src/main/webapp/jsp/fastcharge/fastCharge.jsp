@@ -7,7 +7,6 @@
 <link href="${_slpbase}/styles/global.css" rel="stylesheet" type="text/css">
 <link href="${_slpbase}/styles/frame.css" rel="stylesheet" type="text/css">
 <link href="${_slpbase}/styles/font-awesome.css" rel="stylesheet" type="text/css">
-<script src="${_slpbase}/scripts/jquery-1.11.1.min.js" type="text/javascript"></script>
 <script src="${_slpbase}/scripts/frame.js" type="text/javascript"></script>
 <script type="text/javascript">
 			var pager;
@@ -43,8 +42,8 @@
            <div class="center-main">
                   <div class="center-table">
                         <ul>
-                        <li><A href="#" id="phoneBill">话费充值</A></li>
-                        <li><A href="#" id="flowBill">流量充值</A></li>
+                        <li><A href="javascript:void(0);" id="phoneBill">话费充值</A></li>
+                        <li><A href="javascript:void(0);" id="flowBill">流量充值</A></li>
                         </ul>
                         <input type="hidden" name="flowFastFlag" id="flowFastFlag" value="${requestScope.flowFastFlag}"/>
                    </div>
@@ -74,9 +73,10 @@
                     <ul class="color">
                         <li class="word">价格:</li>
                         <li><span  id="hPrice">￥98.00-￥99.8</span></li>
+                        <li><input type="text" style="display:none;" id="pcode1"> <input type="text" style="display:none;" id="orgcode1"> </li>
                     </ul>
-                    <ul>
-                        <li class="rech-btn"><input type="button" class="slp-btn cz-btn" value="立即充值"></li>
+                    <ul>  
+                        <li class="rech-btn"><input type="button" id="ORD_BTN" class="slp-btn cz-btn" value="立即充值"> <a id="submitOdrBtn" style="display:none"  target="_blank"><span id="submitOdrSpan">立即充值</span></a></li>
                     </ul>
                 
                 </div>
@@ -118,7 +118,9 @@
                         <li><span id="lPrice">￥98.00-￥99.8</span></li>
                     </ul>
                     <ul>
-                        <li class="rech-btn"><input type="button" class="slp-btn cz-btn" value="立即充值"></li>
+                        <li class="rech-btn"><input id="GP_BTN" type="button" class="slp-btn cz-btn" value="立即充值">
+                         <a id="submitGpBtn" style="display:none"  target="_blank"><span id="submitGpSpan">立即充值</span></a>
+                        </li>
                     </ul>
                 
                 </div>
