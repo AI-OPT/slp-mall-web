@@ -108,8 +108,9 @@
                     </ul>
                     <ul>
                         <li class="word">使用范围:</li>
-                         <li><input type="radio" name="flowRadio" value="local"  checked><span class="qg">省内</span></li>
-                        <li><input type="radio" name="flowRadio" value="national"><span class="qg">全国</span></li>
+                         <li><input type="radio" name="flowRadio" id="LBD" value="local"  checked><span class="qg">省内</span></li>
+                        <li><input type="radio" name="flowRadio" id="LQG" value="national"><span class="qg">全国</span></li>
+                        <li><input type="text" style="display:none;" id="pcode"> <input type="text" style="display:none;" id="orgcode"> </li>
                        
                     </ul>
                     <ul class="color">

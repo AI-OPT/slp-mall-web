@@ -28,7 +28,11 @@ define('app/jsp/fastcharge/fastCharge', function (require, exports, module) {
     		//查询
     		//"click .hfee":"_hfeeChange"
     		//"keyup #phoneNum1":"_getPhoneInfo",
-    		"keyup #phoneNum2":"_getFlowInfo"
+    		//"keyup #phoneNum2":"_getFlowInfo"
+    		"click #phoneBill":"_switchHf",
+    		"click #flowBill":"_switchLf",
+    		"click input[name='flowRadio']":"_getBDFlow"
+    		//"click #LQG":"_getQGFlow"
         },
     	//重写父类
     	setup: function () {
@@ -39,6 +43,87 @@ define('app/jsp/fastcharge/fastCharge', function (require, exports, module) {
     		// this._lfeeChange()1;
     		this._initpage();
     		this._getPhoneInfo();
+    		this._getFlowInfo();
+    	},
+    	_getBDFlow:function(){
+    		var _this=this;
+
+			if($.trim($("#phoneNum2").val()).length==0){
+				$("#listLfee").html("");
+				_this._initLf();
+				return false;
+			}
+			
+			//如果等于11去查询，如果小于11把之前查询出来的信息清除
+    		if($.trim($("#phoneNum2").val()).length==11){
+    			 var mobileReg = /^0?1[3|4|5|8|7][0-9]\d{8}$/; 
+    			 if(mobileReg.test($.trim($("#phoneNum2").val()))==false){
+    				 $("#listLfee").html("");
+    					_this._initLf();
+    	    			return false;
+
+    			 }
+    			
+    			   //需要拿到入参
+    			    var provCode=$("#pcode").val();
+					var basicOrgId=$("#orgcode").val();
+					
+					ajaxController.ajax({
+						type: "post",
+						dataType: "json",
+					
+						url: _base+"/getFastGprs",
+						data:{
+							provCode:provCode,
+							basicOrgId:basicOrgId,
+							location:$("input[name='flowRadio']:checked").val()
+							},
+						success: function(data){
+							var d=data.data;
+							 $("#listLfee").html("");
+							 $("#lPrice").text("");
+							if(d){
+								if(d.phoneFee != null&& d.phoneFee != 'undefined'&& d.phoneFee.length > 0){
+									 var template = $.templates("#lfeeDataTmpl");
+									 var htmlOutput = template.render(d.phoneFee);
+									 $("#listLfee").html(htmlOutput);
+									 _this._lfeeChange();
+									 $("#listLfee p:first").click();
+								}else{
+									 $("#listLfee").html("");
+								}
+							}
+							
+							
+							
+						}
+					});
+    			 
+    			 
+    			 
+    			 
+    			 
+    			 
+    			 
+    		}
+    	
+			
+    		
+    	},
+    	_getQGFlow:function(){
+    		var _this=this;
+    		
+    		
+    	},
+    	_switchHf:function(){
+    		var _this=this;
+    		$("#phoneNum1").val("");
+    		_this._initHf();
+    	},
+    	_switchLf:function(){
+    		var _this=this;
+    		$("#phoneNum2").val("");
+    		_this._initLf();
     	},
     	_initpage:function(){
     		var _this=this;
@@ -64,80 +149,97 @@ define('app/jsp/fastcharge/fastCharge', function (require, exports, module) {
     	_getFlowInfo:function(){
     		
     		var _this=this;
-    		//如果等于11去查询，如果小于11把之前查询出来的信息清除
-    		if($.trim($("#phoneNum2").val()).length==11){
-    			 var mobileReg = /^0?1[3|4|5|8|7][0-9]\d{8}$/; 
-    			 if(mobileReg.test($.trim($("#phoneNum2").val()))==false){
-    				 Dialog({
-    						title : '提示',
-    						width : '200px',
-    						height : '50px',
-    						content : "手机号格式不对，请重新输入",
-    						okValue : "确定",
-    						ok : function() {
-    							this.close;
-    						}
-    					}).showModal();
-    	    			return false;
+    		
+    		
+    		$("#phoneNum2").bind('input propertychange',function(){
+    			
+    			if($.trim($("#phoneNum2").val()).length==0){
+    				$("#listLfee").html("");
+    				_this._initLf();
+    			}
+    			
+    			//如果等于11去查询，如果小于11把之前查询出来的信息清除
+        		if($.trim($("#phoneNum2").val()).length==11){
+        			 var mobileReg = /^0?1[3|4|5|8|7][0-9]\d{8}$/; 
+        			 if(mobileReg.test($.trim($("#phoneNum2").val()))==false){
+        				 Dialog({
+        						title : '提示',
+        						width : '200px',
+        						height : '50px',
+        						content : "手机号格式不对，请重新输入",
+        						okValue : "确定",
+        						ok : function() {
+        							this.close;
+        						}
+        					}).showModal();
+        	    			return false;
 
-    			 }
-    			ajaxController.ajax({
-					type: "post",
-					dataType: "json",
-				
-					url: _base+"/getPhoneInfo",
-					data:{
-						phoneNum:$.trim($("#phoneNum2").val()).substr(0,7)
-						},
-					success: function(data){
-						var d=data.data;
-						if(d){
-							//var productCatId="10000010010000";
-							
-							var provCode=d.provinceCode;
-							var basicOrgId=d.basicOrgCode;
-							//userType 
-							//userId
-							ajaxController.ajax({
-								type: "post",
-								dataType: "json",
-							
-								url: _base+"/getFastGprs",
-								data:{
-									provCode:provCode,
-									basicOrgId:basicOrgId,
-									location:$("input[name='flowRadio']:checked").val()
-									},
-								success: function(data){
-									var d=data.data;
-									if(d.phoneFee != null&& d.phoneFee != 'undefined'&& d.phoneFee.length > 0){
-										 var template = $.templates("#lfeeDataTmpl");
-										 var htmlOutput = template.render(d.phoneFee);
-										 $("#listLfee").html(htmlOutput);
-										
-										 _this._lfeeChange();
-										 $("#listLfee p:first").click();
-									}else{
-										 $("#listLfee").html("");
-									}
-									
-									
-								}
-							});
-							
-						}
-					}
-				});
-    		}
-    	
+        			 }
+        			ajaxController.ajax({
+    					type: "post",
+    					dataType: "json",
+    				
+    					url: _base+"/getPhoneInfo",
+    					data:{
+    						phoneNum:$.trim($("#phoneNum2").val()).substr(0,7)
+    						},
+    					success: function(data){
+    						var d=data.data;
+    						if(d){
+    							//var productCatId="10000010010000";
+    							$("#pcode").val(d.provinceCode);
+    							$("#orgcode").val(d.basicOrgCode);
+    							var provCode=d.provinceCode;
+    							var basicOrgId=d.basicOrgCode;
+    							//userType 
+    							//userId
+    							ajaxController.ajax({
+    								type: "post",
+    								dataType: "json",
+    							
+    								url: _base+"/getFastGprs",
+    								data:{
+    									provCode:provCode,
+    									basicOrgId:basicOrgId,
+    									location:$("input[name='flowRadio']:checked").val()
+    									},
+    								success: function(data){
+    									var d=data.data;
+    									if(d.phoneFee != null&& d.phoneFee != 'undefined'&& d.phoneFee.length > 0){
+    										 var template = $.templates("#lfeeDataTmpl");
+    										 var htmlOutput = template.render(d.phoneFee);
+    										 $("#listLfee").html(htmlOutput);
+    										 _this._lfeeChange();
+    										 $("#listLfee p:first").click();
+    									}else{
+    										 $("#listLfee").html("");
+    									}
+    									
+    									
+    								}
+    							});
+    							
+    						}
+    					}
+    				});
+        		}
+        	
+    			
+    			
+    		});
+    		
     	},
     	_getPhoneInfo:function(){
     		
     		var _this=this;
-    		if($.trim($("#phoneNum1").val()).length==0){
-       			
-       		}
+    		
     		$("#phoneNum1").bind('input propertychange',function(){
+    			if($.trim($("#phoneNum1").val()).length==0){
+       			 $("#listHfee").html("");
+       			 
+   				 _this._initHf();
+   			//	 $("#listHfee p:first").click();
+          		}
     			//如果等于11去查询，如果小于11把之前查询出来的信息清除
         		if($.trim($("#phoneNum1").val()).length==11){
         			 var mobileReg = /^0?1[3|4|5|8|7][0-9]\d{8}$/; 
