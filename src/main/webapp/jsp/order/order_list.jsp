@@ -9,6 +9,7 @@
 <link href="${_slpbase }/styles/global.css" rel="stylesheet" type="text/css">
 <link href="${_slpbase }/styles/frame.css" rel="stylesheet" type="text/css">
 <link href="${_slpbase }/styles/font-awesome.css" rel="stylesheet" type="text/css">
+<link rel="stylesheet" type="text/css" href="${_base}/resources/slpmall/styles/bootstrap.css">
 </head>
 
 <body>
