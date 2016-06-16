@@ -275,12 +275,12 @@ define('app/jsp/product/productDetail', function (require, exports, module) {
     		ajaxController.ajax({
 				type: "post",
 				dataType: "json",
-				url: _base+"/order/orderCommit",
+				url: _base+"/product/orderCommit",
 				data:data,
 				success: function(data){
 					var key=data.data;
 					window.location.href = _base
-					+ "/order/toOrderPay?orderKey="+key;
+					+ "/product/toOrderPay?orderKey="+key;
 
 				}
 			});

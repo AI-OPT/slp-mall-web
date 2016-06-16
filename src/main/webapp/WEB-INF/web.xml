@@ -129,6 +129,14 @@
         <filter-name>ajaxLoginFilter</filter-name>
         <url-pattern>/shopcart/deleteProd</url-pattern>
     </filter-mapping>
+    <filter-mapping>
+        <filter-name>ajaxLoginFilter</filter-name>
+        <url-pattern>/product/orderCommit</url-pattern>
+    </filter-mapping>
+    <filter-mapping>
+        <filter-name>ajaxLoginFilter</filter-name>
+        <url-pattern>/product/toOrderPay</url-pattern>
+    </filter-mapping>
   <servlet>
     <servlet-name>springmvc</servlet-name>
     <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
