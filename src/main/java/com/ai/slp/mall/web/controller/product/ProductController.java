@@ -1,5 +1,6 @@
 package com.ai.slp.mall.web.controller.product;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -7,9 +8,11 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.apache.commons.httpclient.util.DateUtil;
 import org.apache.log4j.Logger;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -18,11 +21,26 @@ import org.springframework.web.servlet.ModelAndView;
 import com.ai.opt.base.vo.ResponseHeader;
 import com.ai.opt.sdk.components.idps.IDPSClientFactory;
 import com.ai.opt.sdk.dubbo.util.DubboConsumerFactory;
+import com.ai.opt.sdk.util.UUIDUtil;
 import com.ai.opt.sdk.web.model.ResponseData;
+import com.ai.opt.sso.client.filter.SLPClientUser;
+import com.ai.opt.sso.client.filter.SSOClientConstants;
 import com.ai.paas.ipaas.image.IImageClient;
 import com.ai.paas.ipaas.util.JSonUtil;
+import com.ai.slp.mall.web.constants.SLPMallConstants;
+import com.ai.slp.mall.web.constants.SLPMallConstants.ExceptionCode;
 import com.ai.slp.mall.web.constants.SLPMallConstants.ProductImageConstant;
+import com.ai.slp.mall.web.model.order.InfoJsonVo;
+import com.ai.slp.mall.web.model.order.PayOrderRequest;
 import com.ai.slp.mall.web.model.product.ProductImagesVO;
+import com.ai.slp.mall.web.util.CacheUtil;
+import com.ai.slp.order.api.orderlist.param.ProdExtendInfoVo;
+import com.ai.slp.order.api.ordertradecenter.interfaces.IOrderTradeCenterSV;
+import com.ai.slp.order.api.ordertradecenter.param.OrdBaseInfo;
+import com.ai.slp.order.api.ordertradecenter.param.OrdExtendInfo;
+import com.ai.slp.order.api.ordertradecenter.param.OrdProductInfo;
+import com.ai.slp.order.api.ordertradecenter.param.OrderTradeCenterRequest;
+import com.ai.slp.order.api.ordertradecenter.param.OrderTradeCenterResponse;
 import com.ai.slp.product.api.productcat.interfaces.IProductCatSV;
 import com.ai.slp.product.api.productcat.param.ProductCatInfo;
 import com.ai.slp.product.api.productcat.param.ProductCatUniqueReq;
@@ -33,6 +51,7 @@ import com.ai.slp.product.api.webfront.param.ProductSKUAttrValue;
 import com.ai.slp.product.api.webfront.param.ProductSKUConfigResponse;
 import com.ai.slp.product.api.webfront.param.ProductSKURequest;
 import com.ai.slp.product.api.webfront.param.ProductSKUResponse;
+import com.alibaba.fastjson.JSON;
 
 @RestController
 @RequestMapping("/product")
@@ -212,5 +231,91 @@ public class ProductController {
 			e.printStackTrace();
 		}
 		return responseData;
+	}
+	
+	/**
+	 * 下单并且跳转到支付页面
+	 */
+	@RequestMapping("/orderCommit")
+	@ResponseBody
+	public ResponseData<String> toPayOrder(HttpServletRequest request, PayOrderRequest orderReq) {
+		// 接口入参
+		// OrderTradeCenterRequest
+		// OrdBaseInfo
+		// List<OrdProductInfo>
+		// InfoJsonVo 扩展信息
+		ResponseData<String> resData = null;
+
+		try {
+			HttpSession session = request.getSession();
+			SLPClientUser user = (SLPClientUser) session.getAttribute(SSOClientConstants.USER_SESSION_KEY);
+			if (null != user) {
+				orderReq.setUserId(user.getUserId());
+			} else {
+				orderReq.setUserId(SLPMallConstants.Order.VISITUSERID);
+			}
+			String orderKey = UUIDUtil.genId32();
+
+			CacheUtil.setValue(orderKey, 300, orderReq, SLPMallConstants.Order.CACHE_NAMESPACE);
+			resData = new ResponseData<String>(ExceptionCode.SUCCESS, "查询成功", orderKey);
+
+		} catch (Exception e) {
+			LOG.error(e.getMessage());
+			resData = new ResponseData<String>(ExceptionCode.SYSTEM_ERROR, "查询失败", null);
+		}
+
+		return resData;
+
+	}
+
+	@RequestMapping("/toOrderPay")
+	public String toOrderPay(HttpServletRequest request, Model model) {
+		String orderId = null;
+		try {
+			String orderKey = request.getParameter("orderKey");
+			PayOrderRequest res = (PayOrderRequest) CacheUtil.getValue(orderKey, SLPMallConstants.Order.CACHE_NAMESPACE,
+					PayOrderRequest.class);
+			OrderTradeCenterRequest orderrequest = new OrderTradeCenterRequest();
+			HttpSession session = request.getSession();
+			SLPClientUser user = (SLPClientUser) session.getAttribute(SSOClientConstants.USER_SESSION_KEY);
+			if (null == user) {
+				orderrequest.setTenantId(SLPMallConstants.COM_TENANT_ID);
+			} else {
+				orderrequest.setTenantId(user.getTenantId());
+			}
+
+			OrdBaseInfo baseInfo = new OrdBaseInfo();
+			baseInfo.setUserId(res.getUserId());
+			baseInfo.setOrderType(res.getOrderType());
+			orderrequest.setOrdBaseInfo(baseInfo);
+
+			List<OrdProductInfo> list = new ArrayList<OrdProductInfo>();
+			OrdProductInfo opInfo = new OrdProductInfo();
+			opInfo.setBasicOrgId(res.getBasicOrgId());
+			opInfo.setBuySum(Integer.valueOf(res.getBuySum()));
+			opInfo.setProvinceCode(res.getProvinceCode());
+			opInfo.setSkuId(res.getSkuId());
+			opInfo.setChargeFee(res.getChargeFee());
+			list.add(opInfo);
+			orderrequest.setOrdProductInfoList(list);
+			OrdExtendInfo exInfo = new OrdExtendInfo();
+			List<ProdExtendInfoVo> listVo = new ArrayList<ProdExtendInfoVo>();
+			InfoJsonVo vo = new InfoJsonVo();
+			ProdExtendInfoVo pvo = new ProdExtendInfoVo();
+			pvo.setProdExtendInfoValue(res.getPhoneNum());
+			listVo.add(pvo);
+			vo.setProdExtendInfoVoList(listVo);
+			exInfo.setInfoJson(JSON.toJSONString(vo));
+			orderrequest.setOrdExtendInfo(exInfo);
+			IOrderTradeCenterSV iOrderTradeCenterSV = DubboConsumerFactory
+					.getService(com.ai.slp.order.api.ordertradecenter.interfaces.IOrderTradeCenterSV.class);
+			OrderTradeCenterResponse response = iOrderTradeCenterSV.apply(orderrequest);
+			orderId = String.valueOf(response.getOrderId());
+		} catch (Exception e) {
+			LOG.error(e.getMessage());
+			return "redirect:/home";
+		}
+
+		return "redirect:/order/pay?orderId=" + orderId;
 	}
 }
