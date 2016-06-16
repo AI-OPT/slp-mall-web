@@ -13,7 +13,6 @@ import com.ai.paas.ipaas.ccs.constants.ConfigException;
 import com.ai.paas.ipaas.image.IImageClient;
 import com.ai.paas.ipaas.util.JSonUtil;
 import com.ai.slp.mall.web.constants.SLPMallConstants;
-import com.ai.slp.mall.web.model.order.OrderSubmit;
 import com.ai.slp.order.api.orderlist.interfaces.IOrderListSV;
 import com.ai.slp.order.api.orderlist.param.OrdOrderVo;
 import com.ai.slp.order.api.orderlist.param.OrdProductVo;
@@ -205,15 +204,8 @@ public class ShopCartController {
             orderTradeReq.setOrdProductInfoList(infoList);
             OrderTradeCenterResponse response = ordertradeSV.apply(orderTradeReq);
             throwBusiException(response.getResponseHeader());
-            OrderSubmit orderSubmit = new OrderSubmit();
-            orderSubmit.setBalanceFee(0);
-            orderSubmit.setExpFee(0);
-            orderSubmit.setOrderId(response.getOrderId());
-            orderSubmit.setOrdFeeInfo(response.getOrdFeeInfo());
-            orderSubmit.setOrdProductResList(response.getOrdProductResList());
-            String orderSubmitJson = JSonUtil.toJSon(orderSubmit);
-            uiModel.addAttribute("orderSubmitJson", orderSubmitJson);
-                        
+            //下单成功,跳转到指定页面
+            viewStr = "redirect:/order/pay?orderId=" + response.getOrderId();
             //从购物车中删除商品.
             List<String> skuIds = new ArrayList<>();
             for (OrdProductInfo productInfo:infoList){
