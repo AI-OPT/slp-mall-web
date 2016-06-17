@@ -3,12 +3,14 @@
 <head>
 <%@ include file="/inc/inc.jsp"%>
 <title>搜索结果</title>
+
 <link href="${_slpbase }/styles/modular.css" rel="stylesheet" type="text/css">
 <link href="${_slpbase }/styles/global.css" rel="stylesheet" type="text/css">
 <link href="${_slpbase }/styles/frame.css" rel="stylesheet" type="text/css">
 <link href="${_slpbase }/styles/font-awesome.css" rel="stylesheet" type="text/css">
 <script src="${_slpbase }/scripts/imgloop.js" type="text/javascript"></script>
-<link rel="stylesheet" type="text/css" href="${_base}/resources/slpmall/styles/bootstrap.css">
+<link rel="stylesheet" type="text/css" href="${_base}/resources/slpmall/styles/bootstrap.css"> 
+  
 </head>
 
 <body>
@@ -29,10 +31,11 @@
      <!--搜索结果-->
      <div class="fsast-charge"><!--外侧-->
         <div class="big-wrapper"><!--内侧居中框架--> 
-            <div class="payment-title">
+            <div id="test" class="payment-title">
                 <p><a href="#">全部商品</a>></p>
                 <p><a href="#" id="typeTitleId">话费充值</a>></p>
-                <p><a href="#" id="areaTile">地域:</a></p>
+               <p ><a href="#" id="areaTile"></a></p> 
+              <!-- <span id="areaTile"></span> -->
             </div>
         </div>
          <!--搜索结果查询条件-->
@@ -55,7 +58,7 @@
                          <li id="agentData">
                          <script id="agentTmpl" type="text/x-jsrender">
 							{{for agentList}}
-						 		<p id="{{:attrDefId}}"><A href="javascript:void(0);" onclick="pager._changeAgent('{{:attrDefId}}')"  value="{{:attrDefId}}">{{:attrDefValue}}</A></p>
+						 		<p id="{{:attrDefId}}"><A href="javascript:void(0);" onclick="pager._changeAgent('{{:attrDefId}}'')"  value="{{:attrDefId}}">{{:attrDefValue}}</A></p>
 							{{/for}}
 							</script>
                          </li>
@@ -76,7 +79,7 @@
                           <script id="areaTmpl" type="text/x-jsrender">
 							{{for areaList}}
 								{{if #index<17}}
-										<p id="{{:attrDefId}}"><A href="javascript:void(0);" onclick="pager._changeArea('{{:attrDefId}}')" value="{{:attrDefId}}">{{:attrDefValue}}</A></p>
+										<p id="{{:attrDefId}}"><A href="javascript:void(0);" onclick="pager._changeArea('{{:attrDefId}}','{{:attrDefValue}}')" value="{{:attrDefId}}">{{:attrDefValue}}</A></p>
 								{{/if}}
 								{{if #index==17}}
 									<p class="more"><A href="javascript:void(0);" id="moreId">更多<i class="icon-angle-down"></i></A></p>
