@@ -31,8 +31,8 @@
  <!--我的订单右侧-->  
   <div class="my-order-cnt">
        <div class="payment-title">
-          <p><a href="#">账户中心</a>&gt;</p>
-          <p><a href="#">我的订单</a></p>
+          <p><a href="${_base }">账户中心</a>&gt;</p>
+          <p><a href="${_base }">我的订单</a></p>
       </div>
       <div class="order-list-bj">
          <div class="advanced-search">

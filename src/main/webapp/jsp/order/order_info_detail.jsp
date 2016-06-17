@@ -42,7 +42,7 @@
 			<div class="payment-title">
                  <p><a href="${_base}/myorder/list">账户中心</a>&gt;</p>
                  <p><a href="${_base}/myorder/list">我的订单</a>&gt;</p>
-                 <p><a href="#">订单号:</a></p>
+                 <p>订单号:</p>
                  <p>{{:orderId}}</p>
             </div>
              <!--订单状态-->
