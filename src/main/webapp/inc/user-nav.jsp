@@ -4,7 +4,7 @@
  <div class="fsast-head">
         <div class="fsast-logo">
             <ul>
-                <li><a href="#"><img src="${_slpbase }/images/login-logo.png"></a></li>
+                <li><a href="${_base}"><img src="${_slpbase }/images/login-logo.png"></a></li>
                 <li>账户中心</li>
             </ul>
         </div>
