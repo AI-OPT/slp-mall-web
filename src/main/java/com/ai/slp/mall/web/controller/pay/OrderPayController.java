@@ -25,8 +25,6 @@ import com.ai.slp.mall.web.util.ConfigUtil;
 import com.ai.slp.mall.web.util.PaymentUtil;
 import com.ai.slp.mall.web.util.VerifyUtil;
 import com.ai.slp.order.api.orderlist.interfaces.IOrderListSV;
-import com.ai.slp.order.api.orderlist.param.OrdOrderVo;
-import com.ai.slp.order.api.orderlist.param.OrdProductVo;
 import com.ai.slp.order.api.orderlist.param.QueryOrderRequest;
 import com.ai.slp.order.api.orderlist.param.QueryOrderResponse;
 import com.ai.slp.order.api.orderpay.interfaces.IOrderPaySV;
@@ -196,7 +194,7 @@ public class OrderPayController {
         String orderAmount_ = request.getParameter("orderAmount"); // 订单金额
         String payStates_ = request.getParameter("payStates"); // 交易状态
         String notifyTime_ = request.getParameter("notifyTime"); // 交易时间
-        String payType_ = request.getParameter("payType"); // 交易类型
+        String payType_ = request.getParameter("payOrgCode"); // 交易类型
         String infoMd5_ = request.getParameter("infoMd5"); // 加密信息
 
         logger.info("第三方支付平台交易流水号：" + outOrderId_);

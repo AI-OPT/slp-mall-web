@@ -41,7 +41,7 @@
 						<a href="#">账户设置</a>&gt;
 					</p>
 					<p>
-						<a href="#">通讯录管理</a>&gt;
+						<a href="javascript:void(0)">通讯录管理</a>&gt;
 					</p>
 					<p>公司同事-市场部（45）</p>
 				</div>
