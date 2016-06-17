@@ -37,6 +37,8 @@ import com.ai.slp.mall.web.model.user.SafetyConfirmData;
 import com.ai.slp.mall.web.util.CacheUtil;
 import com.ai.slp.mall.web.util.IPUtil;
 import com.ai.slp.mall.web.util.VerifyUtil;
+import com.ai.slp.user.api.keyinfo.param.SearchGroupKeyInfoRequest;
+import com.ai.slp.user.api.ucuser.param.SearchUserRequest;
 
 @RequestMapping("/user/verify")
 @Controller
@@ -223,5 +225,24 @@ public class VerifyController {
         ResponseHeader responseHeader = new ResponseHeader(true, VerifyConstants.ResultCodeConstants.SUCCESS_CODE, "正确");
         responseData.setResponseHeader(responseHeader);
         return responseData;
+    }
+    
+    @RequestMapping("/checkPhone")
+    @ResponseBody
+    public ResponseData<String> checkPhone(HttpServletRequest request,  String userMp){
+        SLPClientUser userClient = (SLPClientUser) request.getSession().getAttribute(SSOClientConstants.USER_SESSION_KEY);
+        SearchUserRequest searchUserRequest = new SearchUserRequest();
+        searchUserRequest.setUserMp(userMp);
+        searchUserRequest.setUserType(userClient.getUserType());
+        return VerifyUtil.checkPhoneOnly(searchUserRequest);
+    }
+    
+    @RequestMapping("/checkCustName")
+    @ResponseBody
+    public ResponseData<String> checkCustName(HttpServletRequest request,  String custName){
+        SearchGroupKeyInfoRequest searchGroupKeyInfoRequest = new SearchGroupKeyInfoRequest();
+        searchGroupKeyInfoRequest.setTenantId(SLPMallConstants.COM_TENANT_ID);
+        searchGroupKeyInfoRequest.setCustName(custName);
+        return VerifyUtil.checkCustNameOnly(searchGroupKeyInfoRequest);
     }
 }

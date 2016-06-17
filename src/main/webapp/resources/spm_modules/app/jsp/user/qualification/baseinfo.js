@@ -61,7 +61,9 @@ define('app/jsp/user/qualification/baseinfo', function (require, exports, module
     	
     	_showUserNameTip:function(){
     		$("#custNameErrMsg").show();
+    		$("#enterpriseErrMsgShow").show();
     		$('#custNameImage').attr('src',_base+'/resources/slpmall/images/icon-d.png');
+    		$("#enterpriseErrMsgShow").text("4-60个字符，可用中英文、数字、“-”、”_”、“（）”及”( )”");
     	},
     	_showCertAddrTip:function(){
 			$("#certAddrErrMsg").show();
@@ -101,13 +103,12 @@ define('app/jsp/user/qualification/baseinfo', function (require, exports, module
         			        data: param,
         			        message: "正在加载数据..",
         			        success: function (data) {
-        			        	alert(data.responseHeader.resultCode);
-        			         if(data.responseHeader.resultCode=="10003"){
+        			         if(data.responseHeader.resultCode=="100003"){
         			        	   $("#custNameErrMsg").show();
-        			        	   $('#enterpriseErrMsgShow').show();
         			        	   $('#custNameImage').show();
+        			        	   $('#enterpriseErrMsgShow').show();
         			        	   $('#custNameImage').attr('src',_base+'/resources/slpmall/images/icon-a.png');
-        			        	   $('#enterpriseErrMsgShow').text("用户名已注册");
+        			        	   $('#enterpriseErrMsgShow').text("企业名称已注册");
         						   $('#custNameFlag').val("0");
         							return false;
         			        	}else if(data.responseHeader.resultCode=="000000"){

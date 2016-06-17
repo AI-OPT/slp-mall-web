@@ -25,6 +25,9 @@ import com.ai.slp.mall.web.constants.VerifyConstants;
 import com.ai.slp.mall.web.constants.VerifyConstants.PictureVerifyConstants;
 import com.ai.slp.mall.web.constants.VerifyConstants.ResultCodeConstants;
 import com.ai.slp.mall.web.model.user.SendEmailRequest;
+import com.ai.slp.user.api.keyinfo.interfaces.IUcKeyInfoSV;
+import com.ai.slp.user.api.keyinfo.param.SearchGroupKeyInfoRequest;
+import com.ai.slp.user.api.keyinfo.param.SearchGroupKeyInfoResponse;
 import com.ai.slp.user.api.register.param.UcUserParams;
 import com.ai.slp.user.api.seq.interfaces.ICreateSeqSV;
 import com.ai.slp.user.api.seq.param.PhoneMsgSeqResponse;
@@ -388,4 +391,66 @@ public final class VerifyUtil {
         responseData.setResponseHeader(responseHeader);
         return responseData;
     }
+    
+    /**
+     * 检测手机号码唯一性
+     * 
+     * @param phone
+     * @return
+     */
+    public static ResponseData<String> checkPhoneOnly(SearchUserRequest request) {
+        ResponseData<String> responseData = null;
+        ResponseHeader header = null;
+        try {
+            IUcUserSV iAccountManageSV = DubboConsumerFactory.getService("iUcUserSV");
+            SearchUserResponse accountQueryResponse = iAccountManageSV.queryByPhone(request);
+            if (accountQueryResponse != null) {
+                String resultCode = accountQueryResponse.getResponseHeader().getResultCode();
+                if (resultCode.equals(ResultCodeConstants.SUCCESS_CODE)) {
+                    header = new ResponseHeader(false, VerifyConstants.ResultCodeConstants.PHONE_ERROR, "该手机号码已经注册");
+                    responseData = new ResponseData<String>(ResponseData.AJAX_STATUS_SUCCESS, "该手机号码已经注册", null);
+                    responseData.setResponseHeader(header);
+                } else {
+                    header = new ResponseHeader(false, VerifyConstants.ResultCodeConstants.SUCCESS_CODE, "成功");
+                    responseData = new ResponseData<String>(ResponseData.AJAX_STATUS_SUCCESS, "成功", null);
+                    responseData.setResponseHeader(header);
+                }
+            }
+        } catch (Exception e) {
+            responseData = new ResponseData<String>(ResponseData.AJAX_STATUS_FAILURE, "手机校验失败", null);
+        }
+        return responseData;
+    }
+
+    
+    /**
+     * 检测手机号码唯一性
+     * 
+     * @param phone
+     * @return
+     */
+    public static ResponseData<String> checkCustNameOnly(SearchGroupKeyInfoRequest request) {
+        ResponseData<String> responseData = null;
+        ResponseHeader header = null;
+        try {
+            IUcKeyInfoSV ucKeyInfoSV = DubboConsumerFactory.getService("iUcKeyInfoSV");
+            SearchGroupKeyInfoResponse accountQueryResponse = ucKeyInfoSV.searchGroupKeyInfo(request);
+            if (accountQueryResponse != null) {
+                String resultCode = accountQueryResponse.getResponseHeader().getResultCode();
+                if (resultCode.equals(ResultCodeConstants.SUCCESS_CODE)) {
+                    header = new ResponseHeader(false, VerifyConstants.ResultCodeConstants.CUST_NAME_NOONE_ERROR, "该企业名称已注册");
+                    responseData = new ResponseData<String>(VerifyConstants.ResultCodeConstants.CUST_NAME_NOONE_ERROR, "该企业名称已注册", null);
+                    responseData.setResponseHeader(header);
+                } else {
+                    header = new ResponseHeader(false, VerifyConstants.ResultCodeConstants.SUCCESS_CODE, "成功");
+                    responseData = new ResponseData<String>(ResponseData.AJAX_STATUS_SUCCESS, "成功", null);
+                    responseData.setResponseHeader(header);
+                }
+            }
+        } catch (Exception e) {
+            responseData = new ResponseData<String>(ResponseData.AJAX_STATUS_FAILURE, "企业名称注册失败", null);
+        }
+        return responseData;
+    }
+    
 }

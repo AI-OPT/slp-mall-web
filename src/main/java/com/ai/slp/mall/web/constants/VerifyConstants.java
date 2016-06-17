@@ -109,5 +109,7 @@ public final class VerifyConstants {
 		public static final String PHONE_ERROR = "100005";
 		/** 邮箱号错误 */
 		public static final String EMAIL_ERROR = "100006";
+		/**企业名称不唯一错误*/
+		public static final String CUST_NAME_NOONE_ERROR = "100003";
 	}
 }
