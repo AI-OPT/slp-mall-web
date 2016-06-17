@@ -36,7 +36,6 @@ define('app/jsp/user/bandemail/setEmail', function (require, exports, module) {
     		"blur [id='verifyCode']":"_checkVerifyCode"
         },
         init: function(){
-        	_showClass();
         	_getImageRandomCode();
         	
         },
@@ -53,12 +52,7 @@ define('app/jsp/user/bandemail/setEmail', function (require, exports, module) {
 			_this._showClass();
 		},
     	_showClass: function(){
-    		 //左侧菜单显示样式
-    		$('.active').removeClass('active');
-	   		$("#securitySettings").addClass("active");
-	   		//标题显示
-	   		$("#set_title_id").html("绑定邮箱");
-	   		$("#updateEmail").addClass("current");
+    		
     	},
     	_getImageRandomCode:function(){
 			var timestamp = (new Date()).valueOf();
