@@ -40,7 +40,7 @@ define(
 					$("#validateCode").on("blur", this._checkValidateCodeEmpty);
 					$("#validateCode").on("focus", this._hideValidateCode);
 					$("#phoneCode").on("blur", this._checkPhoneCodeEmpty);
-					$("#phoneCode").on("focus", this._HidePhoneCode);
+					$("#phoneCode").on("focus", this._hidePhoneCode);
 					$("#PHONE_IDENTIFY1").on("click", this._getPhoneVitentify1);
 					$("#PHONE_IDENTIFY2").on("click", this._getPhoneVitentify2);
 					$("#CHECKPAYPASSWORD").on("click", this._validatePayPassword);
