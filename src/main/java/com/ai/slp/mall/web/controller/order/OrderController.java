@@ -141,7 +141,7 @@ public class OrderController {
 			return	"redirect:/order/fail";
 		}
 
-		return "redirect:/order/fail";//"redirect:/order/pay?orderId=" + orderId;
+		return "redirect:/order/pay?orderId=" + orderId;
 	}
 
 	@RequestMapping("/pay")
