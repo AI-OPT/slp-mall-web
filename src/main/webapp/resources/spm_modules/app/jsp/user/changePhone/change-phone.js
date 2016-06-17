@@ -416,6 +416,7 @@ define(
 			// 校验新手机
 			_validServiceNewPho : function() {
 				$("#newPhoneErrMsg").attr("style", "display:none");
+				$("#PHONE_IDENTIFY2").attr("disabled", false);
 				var phone = $('#newPhone').val();
 				if (phone == "") {
 					$("#newPhoneErrMsg").attr("style", "display:");
