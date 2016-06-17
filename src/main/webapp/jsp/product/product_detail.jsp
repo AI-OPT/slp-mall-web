@@ -95,7 +95,7 @@
                    <p>商品ID：${skuId} </p>
                    <!-- 保存当前商品的SKU标识的隐藏 -->
                    <input type="hidden" id="skuId" value="788964678909"/>
-                   <p><a href="#"><i class="icon-heart-empty"></i>收藏</a></p>
+                   <!-- <p><a href="#"><i class="icon-heart-empty"></i>收藏</a></p> -->
                    </div>
                  </div>
                 <!--商品详情右侧-->
