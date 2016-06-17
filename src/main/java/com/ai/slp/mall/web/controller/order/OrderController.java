@@ -260,9 +260,10 @@ public class OrderController {
         deductParam.setAccountId(user.getAcctId());
         deductParam.setSubsId(0);
         deductParam.setTotalAmount(parseLong(Double.valueOf(balance) * 1000));
+        LOG.info("订单支付：请求参数:" + JSON.toJSONString(deductParam));
         IDeductSV iDeductSV = DubboConsumerFactory.getService(IDeductSV.class);
         String deductFund = iDeductSV.deductFund(deductParam);
-        LOG.info("订单支付成功：扣款流水:" + deductFund);
+        LOG.info("订单支付：扣款流水:" + deductFund);
         if (!StringUtil.isBlank(deductFund)) {
             view = new ModelAndView("jsp/pay/paySuccess");
         }
