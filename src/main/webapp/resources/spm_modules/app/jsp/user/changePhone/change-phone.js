@@ -26,7 +26,7 @@ define(
 				// 重写父类
 				setup : function() {
 					ChangePhonePager.superclass.setup.call(this);
-					//activeUserLeftMenu(ChangePhonePager.USER_LEFT_MNU_ID);
+					activeUserLeftMenu(ChangePhonePager.USER_LEFT_MNU_ID);
 					//this._hideErroText();
 					this._bindHandle();
 				},
