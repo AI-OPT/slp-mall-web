@@ -96,13 +96,25 @@ define('app/jsp/balance/phonebook/phonebookmgr', function (require, exports, mod
 					telGroupName: $.trim($("#TEL_GROUP_NAME").val())
 				},
 				success: function(data){
-					alert("处理成功"); 
-					//$('.eject-big').fadeOut(100);
+					$('.eject-mask').fadeOut(100);
+					$('.eject-medium').slideUp(150);
+					$("#TEL_GROUP_NAME").val("");
 					_this._loadTelGroups();
 				}
 			});
     	},
-    	
+    	//隐藏区域
+    	_displayHideUI:function(id)  
+    	{  
+    	    var ui =document.getElementById(id);  
+    	    ui.style.display="none";  
+    	},
+    	//显示区域
+    	_displayShowUI:function(id)  
+    	{  
+    	    var ui =document.getElementById(id);  
+    	    ui.style.display="";//display为空的话会好使，为block会使后边的空间换行  
+    	},
     	_loadTelGroups: function(){
     		var _this = this;
     		ajaxController.ajax({
