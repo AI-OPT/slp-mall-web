@@ -40,9 +40,9 @@
     <div class="big-wrapper" id="orderData"></div><!--内侧居中框架-->
     	<script id="orderTemple" type="text/x-jsrender">
 			<div class="payment-title">
-                 <p><a href="#">账户中心</a>&gt;</p>
-                 <p><a href="#">我的订单</a>&gt;</p>
-                 <p><a href="#">订单号:</a></p>
+                 <p><a href="${_base}/myorder/list">账户中心</a>&gt;</p>
+                 <p><a href="${_base}/myorder/list">我的订单</a>&gt;</p>
+                 <p>订单号:</p>
                  <p>{{:orderId}}</p>
             </div>
              <!--订单状态-->
@@ -60,10 +60,12 @@
                              <p>下单时间:</p>
                              <p>{{:~timesToFmatter(orderTime)}}</p>
                          </li>
+						{{if state !='11'}}
                          <li>
                              <p>支付时间:</p>
                              <p>{{:~timesToFmatter(payTime)}}</p>
                          </li>
+						{{/if}}
                      </ul>
                  </div>
            <!--订单状态结束-->    

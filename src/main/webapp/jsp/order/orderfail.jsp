@@ -34,7 +34,7 @@
 			       <p><img src="${_slpbase }/images/order-fail.png"></p>
 			       <p class="word">您的订单创建失败，可能是因为商品库存不足或已下架！</p>
 			       <p class="blod"><span id="sec">5</span>秒后自动跳转至“首页”</p>
-			       <p class="alink"><A  id="BACK_BTN" href="javascript:void(0);">即刻跳转</A></p>
+			       <p class="alink"><A  id="BACK_BTN" href="${_base}">即刻跳转</A></p>
 			       
 			   </div>
          </div>
