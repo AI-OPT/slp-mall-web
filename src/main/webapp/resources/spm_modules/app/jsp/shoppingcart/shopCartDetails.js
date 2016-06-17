@@ -107,8 +107,11 @@ define('app/jsp/shoppingcart/shopCartDetails', function (require, exports, modul
 				qty = oldProdNum;
         	}
         	if(qty>skuNumLimit){
+				qty = skuNumLimit;
         		$("#"+prodId+"_prodnum").val(skuNumLimit);
 				this._showMsg("购买数量不允许超过购物车限制");
+				//调用后场修改数量
+				this._changeCartNum(prodId,qty,oldProdNum,salePrice);
     			return;
     		}else if(qty>stockNum){
 				$("#"+prodId+"_prodnum").val(oldProdNum);
