@@ -30,14 +30,20 @@ define('app/jsp/user/qualification/baseinfo', function (require, exports, module
     		"blur [id='custName']":"_validateName",
     		"focus [id='custName']":"_showUserNameTip",
     		"blur [id='groupWebsite']":"_checkUrl",
+    		"focus [id='certAddr']":"_showCertAddrTip",
     		"blur [id='certAddr']":"_checkCertAddr",
     		"blur [id='certNum']":"_checkCertNum",
+    		"focus [id='certNum']":"_showCertNumTip",
     		"blur [id='contactMp']":"_checkPhone",
+    		"focus [id='contactMp']":"_showCheckPhoneTip",
     		"blur [id='contactEmail']":"_checkEmailFormat",
-    		"blur [id='sendPhoneCode']":"_sendVerify",
+    		"click [id='sendPhoneCode']":"_sendVerify",
     		"change [id='princeCode']":"_princeCodeChange",
     		"change [id='cityCode']":"_cityCodeChange",
-			"click [id='uploadImg1']":"_uploadImg1"
+    		"blur [id='contactName']":"_checkContactName",
+    		"focus [id='contactName']":"_showContactNameTip",
+    		"click [id='uploadImg1']":"_uploadImg1",
+    		"click [id='submit']":"_submit"
         },
         init: function(){
         },
@@ -57,35 +63,57 @@ define('app/jsp/user/qualification/baseinfo', function (require, exports, module
     		$("#custNameErrMsg").show();
     		$('#custNameImage').attr('src',_base+'/resources/slpmall/images/icon-d.png');
     	},
+    	_showCertAddrTip:function(){
+			$("#certAddrErrMsg").show();
+			$("#certAddrText").text("5-120个字符");
+    		$('#certAddrImage').attr('src',_base+'/resources/slpmall/images/icon-d.png');
+		},
+		_showCertNumTip:function(){
+			$("#certNumErrMsg").show();
+			$("#contactNameText").text('最多20个字符，允许使用英语字母（区分大小写）、数字及“-”');
+    		$('#contactNameImage').attr('src',_base+'/resources/slpmall/images/icon-d.png');
+		},
+		_showContactNameTip:function(){
+			$("#contactNameErrMsg").show();
+			$("#certNumText").text('最多20个字符，允许使用英语字母（区分大小写）、数字及“-”');
+    		$('#certNumImage').attr('src',_base+'/resources/slpmall/images/icon-d.png');
+		},
     	_validateName:function(){
 			var name = $("#custName").val();
 			var reg = /^[\u4e00-\u9fa5a-zA-Z0-9\-\_\(\)\（\）]{4,60}$/;
     		if(name==""){
+    			$("#custName").focus();
     			$('#enterpriseErrMsgShow').text("请输入名称");
     			$('#custNameImage').attr('src',_base+'/resources/slpmall/images/icon-a.png');
+    			$("#custNameFlag").val("0");
     		}else{
     			if(name.match(reg)){
+    				$("#custNameFlag").val("1");
+    				
     				var	param={
-    						userLoginName:$("#custName").val()
+    						custName:$("#custName").val()
         				   };
-            		/*ajaxController.ajax({
+            		ajaxController.ajax({
         			        type: "post",
         			        processing: false,
-        			        url: _base+"/reg/checkUserName",
+        			        url: _base+"/user/verify/checkCustName",
         			        dataType: "json",
         			        data: param,
         			        message: "正在加载数据..",
         			        success: function (data) {
+        			        	alert(data.responseHeader.resultCode);
         			         if(data.responseHeader.resultCode=="10003"){
-        			        	   $('#userNameImage').attr('src',_base+'/theme/slp/images/icon-a.png');
-        			        		$('#userNameErrorMsgShow').text("用户名已注册");
-        			        		$("#errorUserNameMsg").show();
-        							$('#errorPhoneFlag').val("0");
+        			        	   $("#custNameErrMsg").show();
+        			        	   $('#enterpriseErrMsgShow').show();
+        			        	   $('#custNameImage').show();
+        			        	   $('#custNameImage').attr('src',_base+'/resources/slpmall/images/icon-a.png');
+        			        	   $('#enterpriseErrMsgShow').text("用户名已注册");
+        						   $('#custNameFlag').val("0");
         							return false;
         			        	}else if(data.responseHeader.resultCode=="000000"){
-        			        		$('#userNameImage').attr('src',_base+'/theme/slp/images/icon-b.png');
-        			        		$("#errorUserNameMsg").show();
-        			        		$('#userNameErrorMsgShow').hide();
+        			        		$("#custNameErrMsg").show();
+        			        		$('#custNameImage').attr('src',_base+'/resources/slpmall/images/icon-b.png');
+        			        		$('#enterpriseErrMsgShow').hide();
         			        		$('#errorUserNameFlag').val("1");
         							return true;
         			        	}
@@ -97,11 +125,33 @@ define('app/jsp/user/qualification/baseinfo', function (require, exports, module
         						 alert(textStatus);
         						}
         			        
-        			    }); */
+        			    }); 
     			}else{
     				$('#custNameErrMsg').show();
+    				$("#enterpriseErrMsgShow").text('4-60个字符，可用中英文、数字、“-”、”_”、“（）”及”( )”');
     				$('#custNameImage').attr('src',_base+'/resources/slpmall/images/icon-a.png');
+    				$("#custNameFlag").val("0");
     			}
+    		}
+		},
+		_checkContactName:function(){
+			var name = $("#contactName").val();
+			var reg = /^[\u4e00-\u9fa5a-zA-Z]{4,24}$/;
+    		if(name!=""){
+    			if(name.match(reg)){
+    				$('#contactNameErrMsg').show();
+    				$('#contactNameText').hide();
+    				$('#contactNameImage').attr('src',_base+'/resources/slpmall/images/icon-b.png');
+    			}else{
+    				$('#contactNameErrMsg').show();
+    				$("#contactNameImage").show();
+        			$('#contactNameText').text("4-24个字符，可用汉字或英语字母");
+        			$('#contactNameImage').attr('src',_base+'/resources/slpmall/images/icon-a.png');
+    			}
+    		}else{
+    				$('#contactNameErrMsg').hide();
+    				$('#contactNameText').hide();
+    				$('#contactNameImage').hide();
     		}
 		},
 		_checkUrl:function(){
@@ -128,23 +178,27 @@ define('app/jsp/user/qualification/baseinfo', function (require, exports, module
 	        	$("#groupWebsiteText").text("请输入正确的网址");
 	        }
 		},
+		
 		//街道地址校验
 		_checkCertAddr:function(){
 			var certAddr = $("#certAddr").val();
 			if(certAddr==null||certAddr==""){
 				$("#certAddrErrMsg").show();
 				$("#certAddrImage").attr("src",_base+'/resources/slpmall/images/icon-a.png');
-				$("#certAddrText").text("请输入正确街道地址");
+				$("#certAddrText").text("请输入街道地址");
+				$("#certAddrFlag").val("0");
 			}else{
 				if(certAddr.length>=5&&certAddr.length<=120){
 					$("#certAddrErrMsg").show();
 					$("#certAddrImage").attr("src",_base+'/resources/slpmall/images/icon-b.png');
 					$("#certAddrText").hide();
+					$("#certAddrFlag").val("1");
 				}else{
 					$("#certAddrErrMsg").show();
 					$("#certAddrText").show();
 					$("#certAddrImage").attr("src",_base+'/resources/slpmall/images/icon-a.png');
 					$("#certAddrText").text("5-120个字符");
+					$("#certAddrFlag").val("0");
 				}
 			}
 		},
@@ -154,7 +208,8 @@ define('app/jsp/user/qualification/baseinfo', function (require, exports, module
 			if(certAddr==null||certAddr==""){
 				$("#certNumErrMsg").show();
 				$("#certNumImage").attr("src",_base+'/resources/slpmall/images/icon-a.png');
-				$("#certNumText").text("营业执照注册号");
+				$("#certNumText").text("请输入营业执照注册号");
+				$("#certNumFlag").val("0");
 				return false;
 			}else{
 				var reg = /^[\a-zA-Z0-9\-]{1,20}$/;
@@ -162,11 +217,13 @@ define('app/jsp/user/qualification/baseinfo', function (require, exports, module
 					$("#certNumErrMsg").show();
 					$("#certNumImage").attr("src",_base+'/resources/slpmall/images/icon-b.png');
 					$("#certNumText").hide();
+					$("#certNumFlag").val("1");
 				}else{
 					$("#certNumErrMsg").show();
 					$("#certNumText").show();
 					$("#certNumImage").attr("src",_base+'/resources/slpmall/images/icon-a.png');
 					$("#certAddrText").text("最多20个字符，允许使用英语字母（区分大小写）、数字及“-”");
+					$("#certNumFlag").val("0");
 				}
 			}
 		},
@@ -176,6 +233,7 @@ define('app/jsp/user/qualification/baseinfo', function (require, exports, module
     			$("#contactMpErrMsg").show();
     			$('#contactMpText').text("请输入手机号码");
     			$('#phoneImage').attr('src',_base+'/resources/slpmall/images/icon-a.png');
+    			$("#contactMpFlag").val("0");
 				return false;
 			}else if( /^0?1[3|4|5|8][0-9]\d{8}$/.test(phone)){
 				var	param={
@@ -184,25 +242,24 @@ define('app/jsp/user/qualification/baseinfo', function (require, exports, module
         		ajaxController.ajax({
     			        type: "post",
     			        processing: false,
-    			        url: _base+"/reg/checkPhone",
+    			        url: _base+"/user/verify/checkPhone",
     			        dataType: "json",
     			        data: param,
     			        message: "正在加载数据..",
     			        success: function (data) {
-    			         if(data.responseHeader.resultCode=="10003"){
-    			        	    $("#errorPhoneMsg").show();
-    			        	 	$("#phoneText").show();
-    			        	 	$("#showPhoneMsg").show();
-    			        	 	$("#phoneImage").show();
-    			        		$('#phoneText').text("手机号码已注册");
-    			        		$('#phoneImage').attr('src',_base+'/theme/slp/images/icon-a.png');
-    							$('#errorPhoneFlag').val("0");
+    			         if(data.responseHeader.resultCode=="100005"){
+    			        	    $("#contactMpErrMsg").show();
+    			        	 	$("#contactMpImage").show();
+    			        		$('#contactMpText').text("手机号码已注册");
+    			        		$('#contactMpImage').attr('src',_base+'/resources/slpmall/images/icon-a.png');
+    							$('#contactMpFlag').val("0");
     							return false;
     			        	}else if(data.responseHeader.resultCode=="000000"){
-    			        		$("#errorPhoneMsg").show();
-    			        		$("#phoneText").hide();
-    			        		$('#errorPhoneFlag').val("1");
-    			        		$('#phoneImage').attr('src',_base+'/theme/slp/images/icon-b.png');
+    			        		$("#contactMpErrMsg").show();
+    			        		$("#contactMpText").hide();
+    			        		$('#contactMpFlag').val("1");
+    			        		$('#contactMpImage').attr('src',_base+'/resources/slpmall/images/icon-b.png');
+    			        		return 1;
     			        	}
     			        	
     			        },
@@ -215,8 +272,9 @@ define('app/jsp/user/qualification/baseinfo', function (require, exports, module
     			    }); 
 			}else{
 				$("#contactMpErrMsg").show();
+				$("#contactMpText").show();
     			$('#contactMpText').text("请输入正确的号码");
-    			$('#phoneImage').attr('src',_base+'/resources/slpmall/images/icon-a.png');
+    			$('#contactMpImage').attr('src',_base+'/resources/slpmall/images/icon-a.png');
 				return false;
 			}
     	},
@@ -242,9 +300,13 @@ define('app/jsp/user/qualification/baseinfo', function (require, exports, module
 		},
 		_sendVerify:function(){
 			var _this = this;
+			var flag = this._checkPhone();
+			if(flag!=undefined){
+				return;
+			}
 			$("#sendPhoneCode").attr("disabled", true);
 			var	param={
-					userMp:$("#contactMp").html()
+					userMp:$("#contactMp").val()
 				   };
 			ajaxController.ajax({
 				type : "POST",
@@ -289,12 +351,12 @@ define('app/jsp/user/qualification/baseinfo', function (require, exports, module
 					}
 				},
 				failure : function(){
-					$("#sendVerify").removeAttr("disabled"); //移除disabled属性
+					$("#sendPhoneCode").removeAttr("disabled"); //移除disabled属性
 				},
 				error : function(){
 					alert("网络连接超时!");
 				}
-			});
+			}); 
 		},
 		_princeCodeChange:function(){
 			var princeCodeVal = $("#princeCode").val();
@@ -327,27 +389,76 @@ define('app/jsp/user/qualification/baseinfo', function (require, exports, module
 					$("#countryCode").html(data.data);
 				}
 			})
+		},
+		_submit:function(){
+			var custNameFlag = $("#custNameFlag").val();
+			var certAddrFlag = $("#certAddrFlag").val();
+			var certNumFlag = $("#certNumFlag").val();
+			var contactMpFlag = $("#contactMpFlag").val();
+			var phoneCodeFlag = $("#phoneCodeFlag").val();
+			//校验企业名称
+			this._validateName();
+			//校验注册地址
+			var princeCode = $("#princeCode").val();
+			var cityCode = $("#cityCode").val();
+			var countryCode = $("#countryCode").val();
+			if(princeCode=="0"||princeCode==null||cityCode=="0"||cityCode==null||countryCode=="0"||countryCode==null){
+				$("#registerAddrErrMsg").show();
+			}else{
+				$("#registerAddrErrMsg").hide();
+			}
+			//校验街道地址
+			this._checkCertAddr();
+			//校验注册号
+			this._checkCertNum();
+			//检查手机号
+			this._checkPhone();
+			//校验行业
+			var industery = $("#groupIndustery").val();
+			if(industery=="0"||industery==null){
+				$("#groupIndusteryFlag").val("0");
+				$("#groupIndusteryErrMsg").show();
+			}else{
+				$("#groupIndusteryFlag").val("1");
+				$("#groupIndusteryErrMsg").hide();
+			}
+			//校验公司人数
+			var groupMemberScale = $("#groupMemberScale").val();
+			if(groupMemberScale=="0"||groupMemberScale==null){
+				$("#groupMemberScaleFlag").val("0");
+				$("#groupMemberScaleErrMsg").show();
+			}else{
+				$("#groupMemberScaleFlag").val("1");
+				$("#groupMemberScaleErrMsg").hide();
+			}
+			//校验公司性质
+			var groupStype = $("#groupStype").val();
+			if(groupStype=="0"||groupStype==null){
+				$("#groupStypeFlag").val("0");
+				$("#groupStypeErrMsg").show();
+			}else{
+				$("#groupStypeFlag").val("1");
+				$("#groupStypeErrMsg").hide();
+			}
+			//校验所属部门
+			var contactDept = $("#contactDept").val();
+			if(contactDept=="0"||contactDept==null){
+				$("#contactDeptFlag").val("0");
+				$("#contactDeptErrMsg").show();
+			}else{
+				$("#contactDeptFlag").val("1");
+				$("#contactDeptErrMsg").hide();
+			}
+			var groupIndusteryFlag = $("#groupIndusteryFlag").val();
+			var groupMemberScaleFlag = $("#groupMemberScaleFlag").val();
+			var groupStypeFlag = $("#groupStypeFlag").val();
+			var contactDeptFlag = $("#contactDeptFlag").val();
+			
+			if(custNameFlag!="0"&&certAddrFlag!="0"&&certNumFlag!="0"&&contactMpFlag!="0"&&phoneCodeFlag!="0"&&groupIndusteryFlag!="0"&&groupMemberScaleFlag!="0"&&groupStypeFlag!="0"&&contactDeptFlag!="0"){
+					
+			}
 		}
     });
     
-    
     module.exports = QualificationPager
 });
-
-function ajaxFileUpload(imageId) {
-	alert(imageId);
-	 $.ajaxFileUpload({  
-         url:_base+"/user/qualification/uploadImg",  
-         secureuri:false,  
-         fileElementId:imageId,//file标签的id  
-         //dataType: 'json',//返回数据的类型  
-         data:{imageId:imageId},//一同上传的数据  
-         success: function (data) {  
-        	 alert(data.statusInfo);
-            document.getElementById("img").src=data.statusInfo;
-         },  
-         error: function (data, status, e) {  
-             alert(e);  
-         }  
-     });  
-}
