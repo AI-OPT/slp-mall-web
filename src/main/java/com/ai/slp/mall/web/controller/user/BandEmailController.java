@@ -473,4 +473,22 @@ public class BandEmailController {
         return new ModelAndView("jsp/user/email/update-email-finish",model);
     }
    
+    @RequestMapping("/getBandEmailView")
+    public ModelAndView getBandEmailView(HttpServletRequest request) {
+       String uuid = UUIDUtil.genId32();
+       SLPClientUser userClient = (SLPClientUser) request.getSession().getAttribute(SSOClientConstants.USER_SESSION_KEY);
+       IUcUserSV ucUserSV = DubboConsumerFactory.getService("iUcUserSV");
+       SearchUserRequest reachUserRequest = new SearchUserRequest();
+       reachUserRequest.setUserId(userClient.getUserId());
+       SearchUserResponse response = ucUserSV.queryBaseInfo(reachUserRequest);
+       Map<String, Object> model = new HashMap<String, Object>();
+       if(response.getUserEmail()==null||"".equals(response.getUserEmail())){
+           model.put("email", response.getUserEmail());
+           model.put("uuid", uuid);
+           model.put("confirminfo", "");
+           return new ModelAndView("jsp/user/email/band-email-start",model);
+       }else{
+           return new ModelAndView("redirect:/user/bandEmail/setEmail");
+       }
+    }
 }
