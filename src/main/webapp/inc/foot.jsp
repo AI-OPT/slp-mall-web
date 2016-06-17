@@ -44,7 +44,7 @@
           <ul>
           <li class="word">商家合作</li>
           <c:choose>
-	         <c:when test="${empty sessionScope.user_session_key.userId }">
+	         <c:when test="${not empty sessionScope.user_session_key.userId }">
 	          <li><a href="${_base}/myorder/list">企业采购</a></li>
 	          <li><a href="${_base}/myorder/list">代理商申请</a></li>
 	          <li><a href="${_base}/myorder/list">供货商合作</a></li>
