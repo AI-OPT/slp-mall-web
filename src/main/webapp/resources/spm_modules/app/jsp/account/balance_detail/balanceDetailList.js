@@ -63,7 +63,7 @@ define('app/jsp/account/balance_detail/balanceDetailList', function (require, ex
 						data:"",
 						success: function(data){
 							//alert(data.length);
-							var option = "";//"<option value=''>--请选择--</option>";
+							var option = "<option value=''>--请选择--</option>";//"<option value=''>--请选择--</option>";
 							for(var i=0; i<data.length; i++){
 								option+= "<option value='"+data[i].columnValue+"'>"+data[i].columnDesc+"</option>";
 							}
