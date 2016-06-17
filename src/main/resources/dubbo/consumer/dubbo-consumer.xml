@@ -67,8 +67,9 @@
 		interface="com.ai.slp.user.api.ucuser.intefaces.IUcUserSV" registry="baasRegistry" />
 
 	<dubbo:reference id="iUcKeyInfoSV"
-		interface="com.ai.slp.user.api.keyinfo.interfaces.IUcKeyInfoSV" registry="baasRegistry" />
-		
+		interface="com.ai.slp.user.api.keyinfo.interfaces.IUcKeyInfoSV"
+		registry="baasRegistry" />
+
 	<dubbo:reference id="IUcUserSecurityManageSV"
 		interface="com.ai.slp.user.api.ucUserSecurity.interfaces.IUcUserSecurityManageSV"
 		registry="baasRegistry" />
@@ -106,23 +107,23 @@
 		interface="com.ai.slp.charge.api.paymentquery.interfaces.IPaymentQuerySV" />
 	<dubbo:reference id="iOrderTradeCenterSV"
 		interface="com.ai.slp.order.api.ordertradecenter.interfaces.IOrderTradeCenterSV" />
- 	<!-- 缴费订单接口-->
- 	<dubbo:reference id="iPayOrderSV"
+	<!-- 缴费订单接口 -->
+	<dubbo:reference id="iPayOrderSV"
 		interface="com.ai.slp.charge.api.payment.interfaces.IPayOrderSV" />
- 	<!-- 存款接口 -->
- 	<dubbo:reference id="iDepositSV"
+	<!-- 存款接口 -->
+	<dubbo:reference id="iDepositSV"
 		interface="com.ai.slp.balance.api.deposit.interfaces.IDepositSV" />
 	<!-- 登录 -->
 	<dubbo:reference id="iLoginSV"
 		interface="com.ai.slp.user.api.login.interfaces.ILoginSV" />
 	<!-- 支付密码查询 -->
- 	<dubbo:reference id="iAccountQuerySV"
+	<dubbo:reference id="iAccountQuerySV"
 		interface="com.ai.slp.balance.api.accountquery.interfaces.IAccountQuerySV" />
-	
+
 	<dubbo:reference id="iAccountMaintainSV"
 		interface="com.ai.slp.balance.api.accountmaintain.interfaces.IAccountMaintainSV" />
-	
-	<!-- 商品类目 -->	
+
+	<!-- 商品类目 -->
 	<dubbo:reference id="iProductCatSV"
 		interface="com.ai.slp.product.api.productcat.interfaces.IProductCatSV" />
 	<!-- 行业类型 -->
@@ -132,4 +133,7 @@
 	<!-- IP地址查询 -->
 	<dubbo:reference id="ipAddrSV"
 		interface="com.ai.slp.common.api.ipaddr.interfaces.IIpAddrSV" />
+		
+	<dubbo:reference id="iDeductSV"
+		interface="com.ai.slp.balance.api.deduct.interfaces.IDeductSV" />
 </beans>
