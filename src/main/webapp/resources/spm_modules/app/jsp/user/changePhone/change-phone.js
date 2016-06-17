@@ -299,62 +299,122 @@ define(
 				}
 					}
 				},
+				
 	
-			// 获取绑定手机短信验证码
-			_getPhoneVitentify1 : function() {
-				$("#validateCodeErrMsg").hide();
-
-				var param = {
-						userMp : $("#phone").val()
-					};
-					ajaxController.ajax({
-						type : "post",
-						processing : false,
-						url : _base + "/user/verify/sendPhoneVerify",
-						dataType : "json",
-						data : param,
-						message : "正在加载数据..",
-						success : function(data) {
-							if (data.responseHeader.resultCode == "000000") {
-								$("#validateCodeErrMsg").hide();
-								var step = 59;
-								$('#PHONE_IDENTIFY1').val('重新发送60');
-								$("#PHONE_IDENTIFY1").attr("disabled", true);
-								var _res = setInterval(function() {
-									$("#PHONE_IDENTIFY1").attr(
-											"disabled", true);// 设置disabled属性
-									$('#PHONE_IDENTIFY1').val(
-											step + 's后重新发送');
-									step -= 1;
-									if (step <= 0) {
-										$("#PHONE_IDENTIFY1")
-												.removeAttr("disabled"); // 移除disabled属性
-										$('#PHONE_IDENTIFY1').val(
-												'获取验证码');
-										clearInterval(_res);// 清除setInterval
-										$("#validateCodeErrMsg").hide();
-										}
-									}, 1000);
-								
-								return false;
-							} else if (data.responseHeader.resultCode == "100002") {
-								var msg = data.statusInfo;
-								$('#validateCodeErrMsgShow').text(msg);
-								$("#validateCodeErrMsg").show();
-								return false;
-							}
-						},
-							error : function(XMLHttpRequest,
-									textStatus, errorThrown) {
-								alert(XMLHttpRequest.status);
-								alert(XMLHttpRequest.readyState);
-								alert(textStatus);
+				// 获取绑定手机短信验证码
+				_getPhoneVitentify1 : function() {
+					$("#phoneCodeErrMsg").attr("style", "display:none");
+					$("#PHONE_IDENTIFY1").attr("disabled", true);
+						
+						var param = {
+							userMp : $("#phone").val()
+						};
+						ajaxController.ajax({
+							type : "post",
+							processing : false,
+							url : _base + "/user/verify/sendPhoneVerify?confirmType=1&functionType=0",
+							dataType : "json",
+							data : param,
+							message : "正在加载数据..",
+							success : function(data) {
+								var resultCode = data.responseHeader.resultCode;
+								if(resultCode=="100000"){
+									var url = data.data;
+									window.location.href = _base+url;
+								}else{
+									if(resultCode=="000000"){
+										var step = 59;
+							            $('#PHONE_IDENTIFY1').val('重新发送60');
+							            $("#PHONE_IDENTIFY1").attr("disabled", true);
+							            var _res = setInterval(function(){
+							                $("#PHONE_IDENTIFY1").attr("disabled", true);//设置disabled属性
+							                $('#PHONE_IDENTIFY1').val(step+'s后重新发送');
+							                step-=1;
+							                if(step <= 0){
+							                $("#PHONE_IDENTIFY1").removeAttr("disabled"); //移除disabled属性
+							                $('#PHONE_IDENTIFY1').val('获取验证码');
+							                clearInterval(_res);//清除setInterval
+							                }
+							            },1000);
+									}else{
+										$("#PHONE_IDENTIFY1").removeAttr("disabled");
+									}
+									if(resultCode=="100002"){
+										var msg = data.statusInfo;
+										$('#validateCodeErrMsgShow').text(msg);
+										$("#validateCodeErrMsg").show();
+										return false;
+						        	}else{
+						        		$("#validateCodeErrMsg").hide();
+						        	}
 								}
+							},
+								error : function(XMLHttpRequest,
+										textStatus, errorThrown) {
+									alert(XMLHttpRequest.status);
+									alert(XMLHttpRequest.readyState);
+									alert(textStatus);
+									}
 
-							});
+								});
+				},
+				// 获取新手机短信验证码
+				_getPhoneVitentify2 : function() {
+					$("#phoneCodeErrMsg").attr("style", "display:none");
+					$("#PHONE_IDENTIFY2").attr("disabled", true);
 					
-			},
-			// 获取新手机短信验证码
+					var phoneFlag = $('#newPhoneErrFlag').val();
+					if (phoneFlag != "0") {
+						var step = 29;
+						$('#PHONE_IDENTIFY2').val('重新发送30');
+						$("#PHONE_IDENTIFY2").attr("disabled", true);
+						var _res = setInterval(function() {
+							$("#PHONE_IDENTIFY2").attr("disabled", true);// 设置disabled属性
+							$('#PHONE_IDENTIFY2').val(step + 's后重新发送');
+							step -= 1;
+							if (step <= 0) {
+								$("#PHONE_IDENTIFY2")
+										.removeAttr("disabled"); // 移除disabled属性
+								$('#PHONE_IDENTIFY2').val(
+										'获取验证码');
+								clearInterval(_res);// 清除setInterval
+								}
+							}, 1000);
+						var param = {
+							userMp : $("#newPhone").val()
+						};
+						ajaxController.ajax({
+							type : "post",
+							processing : false,
+							url : _base + "/user/verify/sendPhoneVerify?confirmType=1&functionType=1",
+							dataType : "json",
+							data : param,
+							message : "正在加载数据..",
+							success : function(data) {
+								if (data.responseHeader.resultCode == "9999") {
+									$('#newPhoneCodeErrMsg').text("1分钟后可重复发送 ");
+									$("#newPhoneCodeErrMsg").attr("style","display:");
+									$("#newPhoneCodeFlag").val("0");
+									return false;
+								} else if (data.responseHeader.resultCode == "100002") {
+									var msg = data.statusInfo;
+									$('#newPhoneCodeErrMsg').text(msg);
+									$("#newPhoneCodeErrMsg").attr("style","display:");
+									return false;
+								}
+							},
+								error : function(XMLHttpRequest,
+										textStatus, errorThrown) {
+									alert(XMLHttpRequest.status);
+									alert(XMLHttpRequest.readyState);
+									alert(textStatus);
+									}
+
+								});
+					}
+				},
+				
+				
 			_getPhoneVitentify2 : function() {
 				$("#newPhoneCodeErrMsg").hide();
 				var phoneFlag = $('#newPhoneErrFlag').val();

@@ -5,7 +5,6 @@
 <!--Support IE Text -->
 <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
 <title>修改手机</title>
-<script type="text/javascript" src="${_slpbase }/scripts/md5.js"></script>
 <script src="${_slpbase }/scripts/jquery-1.11.1.min.js" type="text/javascript"></script>
 <script src="${_slpbase }/scripts/frame.js" type="text/javascript"></script>
 <link href="${_slpbase }/styles/modular.css" rel="stylesheet" type="text/css">
