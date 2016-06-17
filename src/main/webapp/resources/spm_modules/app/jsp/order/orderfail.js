@@ -13,6 +13,8 @@ define('app/jsp/order/orderfail', function (require, exports, module) {
     
     require("opt-paging/aiopt.pagination");
     require("twbs-pagination/jquery.twbsPagination.min");
+    var t=5;
+    var timeid;
     //实例化AJAX控制处理对象
     var ajaxController = new AjaxController();
     //定义页面组件类
@@ -34,9 +36,20 @@ define('app/jsp/order/orderfail', function (require, exports, module) {
     	//重写父类
     	setup: function () {
     		OrderFailPager.superclass.setup.call(this);
+    		this._timeCount();
     	},
     	_goback:function(){
     		window.location.href=_base+"/home";
+    	},
+    	_timeCount:function(){
+    		window.clearInterval(timeid); 
+    		timeid = window.setInterval(function(){
+    			    t=t-1;
+    				$("#sec").text(t);
+    				if(t==0){
+    					window.location.href=_base+"/home";
+    				}
+    			},1000);	
     	}
     	
     	

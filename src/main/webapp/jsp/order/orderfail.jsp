@@ -26,8 +26,20 @@
  </div>
 <!--导航区域结束-->
      
-    <h1>订单失败</h1>
-   
+  <div class="fsast-charge">
+     	<div class="big-wrapper"><!--内侧居中框架-->
+       		<div class="payment-title"><p>请确认您的商品及支付信息</p></div>
+           <div class="recharge-bj-tow"><!--白色背景-->
+				<div class="payment-success">
+			       <p><img src="${_slpbase }/images/order-fail.png"></p>
+			       <p class="word">您的订单创建失败，可能是因为商品库存不足或已下架！</p>
+			       <p class="blod"><span id="sec">5</span>秒后自动跳转至“首页”</p>
+			       <p class="alink"><A  id="BACK_BTN" href="javascript:void(0);">即刻跳转</A></p>
+			       
+			   </div>
+         </div>
+     </div>
+ </div>
    
 <%@ include file="/inc/foot.jsp" %>
 <script type="text/javascript">
