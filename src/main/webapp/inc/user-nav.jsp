@@ -32,10 +32,10 @@
 			                </c:choose>
                         </c:if>
                         <li><a href="${_base}/user/security/securitySettings">安全设置</a></li>
-                        <li><a href="#">登录密码</a></li>
-                        <li><a href="#">支付密码</a></li>
-                        <li><a href="#">手机绑定</a></li>
-                        <li><a href="#">邮箱绑定</a></li>
+                        <li><a href="${_base}/user/password/toChangePassword">登录密码</a></li>
+                        <li><a href="${_base}/user/phone/toChangePhone">手机绑定</a></li>
+                        <li><a href="${_base}/user/bandEmail/getBandEmailView">邮箱绑定</a></li>
+                        <li><a href="${_base}/user/payPassword/updatePayPassword">支付密码</a></li>
                     </ul>
                 </div>
                 </li>
