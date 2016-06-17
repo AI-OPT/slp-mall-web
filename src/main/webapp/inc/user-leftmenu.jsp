@@ -66,7 +66,7 @@ function inActiveUserLeftMenu(left_mnu_id){
         <c:if test="${sessionScope.user_session_key.userType=='11' || sessionScope.user_session_key.userType=='12' || sessionScope.user_session_key.userType=='13' }">
         <ul>
             <li class="img"><img src="${_slpbase }/images/order-menu-iocn4.png"></li>
-            <li class="word">
+            <%-- <li class="word">
                 <p class="">资质管理</p>
                  <c:choose>
 	    			<c:when test="${sessionScope.user_session_key.userType=='11'}">
@@ -82,16 +82,16 @@ function inActiveUserLeftMenu(left_mnu_id){
                 	<p id="left_mnu_qualification_identify"><A href="javascript:void(0);">资质认证</A></p>
                  	</c:otherwise>
                  </c:choose>
-            </li>
+            </li> --%>
         </ul>
         </c:if>
         <ul>
             <li class="img"><img src="${_slpbase }/images/order-menu-iocn5.png"></li>
             <li class="word">
                 <p class="">账户设置</p>
-                <c:if test="${sessionScope.user_session_key.userType=='10' }">
-                <p id="left_mnu_person_info"><A href="#">个人资料</A></p>
-                </c:if>
+                <%-- <c:if test="${sessionScope.user_session_key.userType=='10' }">
+                  <p id="left_mnu_person_info"><A href="#">个人资料</A></p>
+                </c:if> --%>
                 <p id="left_mnu_phonebook"><A href="${_base}/account/phonebook/phonebookmgr">通讯录</A></p>
                 <c:if test="${sessionScope.user_session_key.userType=='11' || sessionScope.user_session_key.userType=='12' || sessionScope.user_session_key.userType=='13' }">
                 <p id="left_mnu_myapi"><A href="#">我的API</A></p>
