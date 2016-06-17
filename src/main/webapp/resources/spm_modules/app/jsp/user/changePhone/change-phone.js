@@ -415,47 +415,6 @@ define(
 				},
 				
 				
-			_getPhoneVitentify2 : function() {
-				$("#newPhoneCodeErrMsg").hide();
-				var phoneFlag = $('#newPhoneErrFlag').val();
-				if (phoneFlag != "0") {
-					
-					var param = {
-						userMp : $("#newPhone").val()
-					};
-					ajaxController.ajax({
-						type : "post",
-						processing : false,
-						url : _base + "/user/verify/sendPhoneVerify",
-						dataType : "json",
-						data : param,
-						message : "正在加载数据..",
-						success : function(data) {
-							if (data.responseHeader.resultCode == "9999") {
-								$("#newPhoneCodeErrMsg").hide();
-								var step = 59;
-								$('#PHONE_IDENTIFY2').val('重新发送60');
-								$("#PHONE_IDENTIFY2").attr("disabled", true);
-								var _res = setInterval(function() {
-									$("#PHONE_IDENTIFY2").attr(
-											"disabled", true);// 设置disabled属性
-									$('#PHONE_IDENTIFY2').val(
-											step + 's后重新发送');
-									step -= 1;
-									if (step <= 0) {
-										$("#PHONE_IDENTIFY2").removeAttr("disabled"); // 移除disabled属性
-										$('#PHONE_IDENTIFY2').val('获取验证码');
-										clearInterval(_res);// 清除setInterval
-											$("#newPhoneCodeErrMsg").hide();
-										}
-									}, 1000);
-							} else if (data.responseHeader.resultCode == "100002") {
-								var msg = data.statusInfo;
-								$('#newPhoneCodeErrMsgShow').text(msg);
-								$("#newPhoneCodeErrMsg").show();
-								return false;
-							}
-						},
 							error : function(XMLHttpRequest,
 									textStatus, errorThrown) {
 								alert(XMLHttpRequest.status);
