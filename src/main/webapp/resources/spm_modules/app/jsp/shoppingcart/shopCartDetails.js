@@ -85,7 +85,7 @@ define('app/jsp/shoppingcart/shopCartDetails', function (require, exports, modul
 			}else
 				nowNum+=prodNum;
     		// 调用后场修改数量
-    		this._changeCartNum(prodId,nowNum,oldNum);
+    		this._changeCartNum(prodId,nowNum,oldNum,salePrice);
     	},
     	//计算价格
     	_computedPrice:function(prodId,num,salePrice){
@@ -117,7 +117,7 @@ define('app/jsp/shoppingcart/shopCartDetails', function (require, exports, modul
 			}
 			btn.value=qty;
 			//调用后场修改数量
-    		this._changeCartNum(prodId,qty,oldProdNum);
+    		this._changeCartNum(prodId,qty,oldProdNum,salePrice);
         },
         // 是否为正整数
         _isPosNum:function(num){
@@ -300,7 +300,8 @@ define('app/jsp/shoppingcart/shopCartDetails', function (require, exports, modul
     		this._sumPriceAndNum();
     	},
     	//调整购物车数量
-    	_changeCartNum:function(skuId,buyNum,oldNum){
+    	_changeCartNum:function(skuId,buyNum,oldNum,salePrice){
+      		var _this = this;
     		ajaxController.ajax({
 				type: "post",
 				dataType: "json",
@@ -313,9 +314,9 @@ define('app/jsp/shoppingcart/shopCartDetails', function (require, exports, modul
 		    		$("#"+skuId+"_oldProdNum").val(buyNum);
 					$("#"+skuId+"_prodnum").val(buyNum);
 					// 计算价格并求和
-					this._computedPrice(prodId,buyNum,salePrice);
+					_this._computedPrice(skuId,buyNum,salePrice);
 					// 求和
-					this._sumPriceAndNum();
+					_this._sumPriceAndNum();
 				},
 				failure:function(domObj,data){
 					// 失败把原始数据返回
