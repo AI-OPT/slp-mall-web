@@ -29,10 +29,10 @@
           <div class="footer-title-list">
           <ul>
           <li class="word">商品分类</li>
-          <li><a href="#">话费快充</a></li>
-          <li><a href="#">流量快充</a></li>
-          <li><a href="#">话费卡</a></li>
-          <li><a href="#">流量卡</a></li>
+          <li><a href="${_base }/head/fastCharge?flowFastFlag=false">话费快充</a></li>
+          <li><a href="${_base }/head/fastCharge?flowFastFlag=true">流量快充</a></li>
+          <li><a href="javascript:void(0);" onclick="index_search_pager._hotWordSearch('话费卡')">话费卡</a></li>
+          <li><a href="javascript:void(0);" onclick="index_search_pager._hotWordSearch('流量卡')">流量卡</a></li>
           </ul>
           <ul>
           <li class="word">帮助中心</li>
@@ -43,17 +43,28 @@
           </ul>
           <ul>
           <li class="word">商家合作</li>
-          <li><a href="#">企业采购</a></li>
-          <li><a href="#">代理商申请</a></li>
-          <li><a href="#">供货商合作</a></li>
-          <li><a href="#">招商平台</a></li>
+          <c:choose>
+	         <c:when test="${empty sessionScope.user_session_key.userId }">
+	          <li><a href="${_base}/myorder/list">企业采购</a></li>
+	          <li><a href="${_base}/myorder/list">代理商申请</a></li>
+	          <li><a href="${_base}/myorder/list">供货商合作</a></li>
+	          <li><a href="#">招商平台</a></li>
+           </c:when>
+	         <c:otherwise >
+	          <li><a href="${slp_uac_host}/reg/toRegister?userType=11">企业采购</a></li>
+	          <li><a href="${slp_uac_host}/reg/toRegister?userType=12">代理商申请</a></li>
+	          <li><a href="${slp_uac_host}/reg/toRegister?userType=13">供货商合作</a></li>
+	          <li><a href="#">招商平台</a></li>
+           </c:otherwise>
+         </c:choose>
+         
           </ul>
           <ul class="bor-none">
           <li class="word">网站导航</li>
           <li><a href="#">网站地图</a></li>
-          <li><a href="#">亚信官网</a></li>
-          <li><a href="#">亚信国际</a></li>
-          <li><a href="#">亚信数据</a></li>
+          <li><a href="http://www.asiainfo.com.cn">亚信官网</a></li>
+          <li><a href="http://www.ai-ol.com/">亚信国际</a></li>
+          <li><a href="http://www.asiainfodata.com/">亚信数据</a></li>
           </ul>
           </div>
         </div>
