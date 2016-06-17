@@ -11,7 +11,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 
+import com.ai.net.xss.util.StringUtil;
 import com.ai.opt.sdk.components.idps.IDPSClientFactory;
 import com.ai.opt.sdk.constants.ExceptCodeConstants;
 import com.ai.opt.sdk.dubbo.util.DubboConsumerFactory;
@@ -21,6 +23,8 @@ import com.ai.opt.sso.client.filter.SLPClientUser;
 import com.ai.opt.sso.client.filter.SSOClientConstants;
 import com.ai.paas.ipaas.image.IImageClient;
 import com.ai.paas.ipaas.util.JSonUtil;
+import com.ai.slp.balance.api.deduct.interfaces.IDeductSV;
+import com.ai.slp.balance.api.deduct.param.DeductParam;
 import com.ai.slp.balance.api.fundquery.interfaces.IFundQuerySV;
 import com.ai.slp.balance.api.fundquery.param.AccountIdParam;
 import com.ai.slp.balance.api.fundquery.param.FundInfo;
@@ -31,6 +35,7 @@ import com.ai.slp.mall.web.model.order.InfoJsonVo;
 import com.ai.slp.mall.web.model.order.OrderSubmit;
 import com.ai.slp.mall.web.model.order.PayOrderRequest;
 import com.ai.slp.mall.web.util.CacheUtil;
+import com.ai.slp.mall.web.util.PaymentUtil;
 import com.ai.slp.order.api.orderlist.interfaces.IOrderListSV;
 import com.ai.slp.order.api.orderlist.param.OrdOrderVo;
 import com.ai.slp.order.api.orderlist.param.OrdProductVo;
@@ -232,4 +237,36 @@ public class OrderController {
     public String toFailPage(HttpServletRequest request, Model model) {
         return "jsp/order/orderfail";
     }
+
+    @RequestMapping("/usebalance")
+    public ModelAndView usebalance(HttpServletRequest request, Model model) {
+        ModelAndView view = null;
+        HttpSession session = request.getSession();
+        String tenantId = "";
+        SLPClientUser user = (SLPClientUser) session
+                .getAttribute(SSOClientConstants.USER_SESSION_KEY);
+        if (null == user) {
+            tenantId = SLPMallConstants.COM_TENANT_ID;
+        } else {
+            tenantId = user.getTenantId();
+        }
+        String balance = request.getParameter("balance");
+        // String userPassword = request.getParameter("userPassword");
+        DeductParam deductParam = new DeductParam();
+        deductParam.setTenantId(tenantId);
+        deductParam.setSystemId("slp");
+        deductParam.setExternalId(PaymentUtil.getExternalId());
+        deductParam.setBusinessCode("100010");
+        deductParam.setAccountId(user.getAcctId());
+        deductParam.setSubsId(0);
+        deductParam.setTotalAmount(Long.valueOf(balance));
+        IDeductSV iDeductSV = DubboConsumerFactory.getService(IDeductSV.class);
+        String deductFund = iDeductSV.deductFund(deductParam);
+        if (!StringUtil.isBlank(deductFund)) {
+            view = new ModelAndView("jsp/pay/paySuccess");
+        }
+        return view;
+
+    }
+
 }

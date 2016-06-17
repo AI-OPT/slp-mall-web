@@ -136,6 +136,9 @@ dependencies {
     compile 'com.ai.slp.product:productcat:1.0-SNAPSHOT'
     //行业类型
     compile 'com.ai.slp.common:industry:1.0-SNAPSHOT'
+    //账户余额扣款
+    compile 'com.ai.slp.balance:deduct:1.0-SNAPSHOT'
+    
     testCompile(
             "org.springframework:spring-test:4.1.7.RELEASE",
             "junit:junit:4.12"

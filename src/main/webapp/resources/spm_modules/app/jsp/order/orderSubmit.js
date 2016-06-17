@@ -29,7 +29,8 @@ define('app/jsp/order/orderSubmit', function (require, exports, module) {
     	//事件代理
     	events: {
     		//查询
-            //"click #gotoPayBtn":"_gotoPayBtnClick"
+            "click #useBalanceChk":"_showBalanceBtnClick",
+            "click #useBalanceBtn":"_useBalanceBtnClick"
         },
     	//重写父类
     	setup: function () {
@@ -45,9 +46,31 @@ define('app/jsp/order/orderSubmit', function (require, exports, module) {
     			$("#orderSubmitForm").html("没有相应的订单信息");
 	        }
     	},
-    	_gotoPayBtnClick:function(){
-      		var url=_base+"/pay/orderPay?orderId="+$("#orderId").val();
-      		window.location.href=url;
+    	_showBalanceBtnClick:function(){
+    		$(".balance-table").slideToggle(100);
+    		$(".balance-title").toggleClass("reorder remove");
+    		$("#useBalance").val();
+    		$("#userPassword").val();
+      	},
+      	_useBalanceBtnClick:function(){
+      		var	param={
+					balance: $("#useBalance").val(),
+					userPassword:$("#userPassword").val()
+				   };
+      		ajaxController.ajax({
+						type: "post",
+						dataType: "json",
+						processing: true,
+						message: "账户余额支付中，请等待...",
+						url: _base+"/order/usebalance",
+						data:param,
+						success: function(data){
+							if(data.data){
+								
+							}
+						}
+					}
+      		);
       	}
     	
     });
