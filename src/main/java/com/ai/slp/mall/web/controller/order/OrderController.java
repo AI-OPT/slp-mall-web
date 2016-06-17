@@ -1,5 +1,6 @@
 package com.ai.slp.mall.web.controller.order;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -239,7 +240,7 @@ public class OrderController {
     }
 
     @RequestMapping("/usebalance")
-    public ModelAndView usebalance(HttpServletRequest request, Model model) {
+    public ModelAndView usebalance(HttpServletRequest request, Model model, Long balance) {
         ModelAndView view = null;
         HttpSession session = request.getSession();
         String tenantId = "";
@@ -250,7 +251,6 @@ public class OrderController {
         } else {
             tenantId = user.getTenantId();
         }
-        String balance = request.getParameter("balance");
         // String userPassword = request.getParameter("userPassword");
         DeductParam deductParam = new DeductParam();
         deductParam.setTenantId(tenantId);
@@ -259,14 +259,34 @@ public class OrderController {
         deductParam.setBusinessCode("100010");
         deductParam.setAccountId(user.getAcctId());
         deductParam.setSubsId(0);
-        deductParam.setTotalAmount(Long.valueOf(balance));
+        deductParam.setTotalAmount(parseLong(Double.valueOf(balance) * 1000));
         IDeductSV iDeductSV = DubboConsumerFactory.getService(IDeductSV.class);
         String deductFund = iDeductSV.deductFund(deductParam);
+        LOG.info("订单支付成功：扣款流水:" + deductFund);
         if (!StringUtil.isBlank(deductFund)) {
             view = new ModelAndView("jsp/pay/paySuccess");
         }
         return view;
 
+    }
+    /**
+     * 转化订单金额为long型
+     * 
+     * @Description
+     * @author Administrator
+     * @param num
+     * @return
+     */
+    private Long parseLong(Double num) {
+        if (null == num) {
+            return null;
+        }
+        try {
+            BigDecimal bnum = new BigDecimal(num);
+            return bnum.longValue();
+        } catch (NumberFormatException e) {
+            return null;
+        }
     }
 
 }
