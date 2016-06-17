@@ -25,7 +25,7 @@
 		<div class="fsast-head">
 			<div class="fsast-logo">
 				<ul>
-					<li><a href="#"><img
+					<li><a href="${_base}"><img
 							src="${_slpbase }/images/login-logo.png"></a></li>
 					<li>订单确认</li>
 				</ul>
