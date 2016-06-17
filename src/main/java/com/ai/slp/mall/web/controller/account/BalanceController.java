@@ -259,17 +259,19 @@ public class BalanceController {
 			}
 			log.info("selectDate startTime:"+time);
 			//
-			chargeInfoQueryByAcctIdParam.setStartTime(Timestamp.valueOf(time.get(DateUtil.KEY_START_TIME)));
-			chargeInfoQueryByAcctIdParam.setEndTime(Timestamp.valueOf(time.get(DateUtil.KEY_END_TIME)));
+			if(!selectDateId.startsWith("ALL")){
+				chargeInfoQueryByAcctIdParam.setStartTime(Timestamp.valueOf(time.get(DateUtil.KEY_START_TIME)));
+				chargeInfoQueryByAcctIdParam.setEndTime(Timestamp.valueOf(time.get(DateUtil.KEY_END_TIME)));
+			}
 		}else{
 			//如果开始时间和结束时间不为空
 			if(!StringUtil.isBlank(startTime) && !StringUtil.isBlank(endTime)){
 				chargeInfoQueryByAcctIdParam.setStartTime(DateUtil.getTimestamp(startTime+" 00:00:00",DateUtil.DATETIME_FORMAT));
 				chargeInfoQueryByAcctIdParam.setEndTime(DateUtil.getTimestamp(endTime+" 23:59:59",DateUtil.DATETIME_FORMAT));
 			}else{
-				//默认查询1天前的记录
+				//默认查询7天前的记录
 				Map<String,String> time = new HashMap<String,String>();
-				time = DateUtil.getTimeInterval(Calendar.DATE, 1);
+				time = DateUtil.getTimeInterval(Calendar.DATE, 7);
 				log.info("selectDate default startTime:"+time);
 				chargeInfoQueryByAcctIdParam.setStartTime(Timestamp.valueOf(time.get(DateUtil.KEY_START_TIME)));
 				chargeInfoQueryByAcctIdParam.setEndTime(Timestamp.valueOf(time.get(DateUtil.KEY_END_TIME)));
