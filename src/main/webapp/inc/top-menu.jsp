@@ -57,9 +57,9 @@
              </div>
              <!--账户展开结束-->
          </li>
-         <li><A href="#">企业采购</A>|</li>
-         <li><A href="#">代理商</A>|</li>
-         <li><A href="#">供货商</A>|</li>
+         <li><A href="${slp_uac_host}/reg/toRegister?userType=11">企业采购</A>|</li>
+         <li><A href="${slp_uac_host}/reg/toRegister?userType=12">代理商</A>|</li>
+         <li><A href="${slp_uac_host}/reg/toRegister?userType=13">供货商</A>|</li>
          <li><A href="#">API</A>|</li>
          <li class="kefu"><A href="#">客户服务<img src="${_slpbase }/images/open-a.png"></A>
                <!--账户展开-->
