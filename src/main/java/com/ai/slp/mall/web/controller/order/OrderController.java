@@ -240,7 +240,7 @@ public class OrderController {
     }
 
     @RequestMapping("/usebalance")
-    public ModelAndView usebalance(HttpServletRequest request, Model model, Long balance) {
+    public ModelAndView usebalance(HttpServletRequest request, Model model) {
         ModelAndView view = null;
         HttpSession session = request.getSession();
         String tenantId = "";
@@ -251,6 +251,7 @@ public class OrderController {
         } else {
             tenantId = user.getTenantId();
         }
+         String balance = request.getParameter("balance");
         // String userPassword = request.getParameter("userPassword");
         DeductParam deductParam = new DeductParam();
         deductParam.setTenantId(tenantId);
@@ -259,11 +260,12 @@ public class OrderController {
         deductParam.setBusinessCode("100010");
         deductParam.setAccountId(user.getAcctId());
         deductParam.setSubsId(0);
+        LOG.error("订单支付：请求参数:" + JSON.toJSONString(deductParam));
         deductParam.setTotalAmount(parseLong(Double.valueOf(balance) * 1000));
-        LOG.info("订单支付：请求参数:" + JSON.toJSONString(deductParam));
+        LOG.error("订单支付：请求参数:" + JSON.toJSONString(deductParam));
         IDeductSV iDeductSV = DubboConsumerFactory.getService(IDeductSV.class);
         String deductFund = iDeductSV.deductFund(deductParam);
-        LOG.info("订单支付：扣款流水:" + deductFund);
+        LOG.error("订单支付：扣款流水:" + deductFund);
         if (!StringUtil.isBlank(deductFund)) {
             view = new ModelAndView("jsp/pay/paySuccess");
         }
@@ -289,5 +291,6 @@ public class OrderController {
             return null;
         }
     }
+
 
 }
