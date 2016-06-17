@@ -52,7 +52,7 @@
            	 <div class="recharge-list">
                     <ul>
                         <li class="word" >请输入充值手机号:</li>
-                        <li><input type="text" id="phoneNum1" class="recharge-xlarge"></li>
+                        <li><input type="text" id="phoneNum1" maxlength="11" class="recharge-xlarge"></li>
                         <li><a href="#">给多人充值</a></li>
                     </ul>
                     <ul>
@@ -86,7 +86,7 @@
                <div class="recharge-list">
                     <ul>
                         <li class="word" >请输入充值手机号:</li>
-                        <li><input type="text" id="phoneNum2" class="recharge-xlarge"></li>
+                        <li><input type="text" id="phoneNum2" maxlength="11" class="recharge-xlarge"></li>
                         <li><a href="#">给多人充值</a></li>
                     </ul>
                     <ul>

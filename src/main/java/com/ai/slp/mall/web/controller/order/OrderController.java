@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.ai.opt.sdk.components.idps.IDPSClientFactory;
+import com.ai.opt.sdk.constants.ExceptCodeConstants;
 import com.ai.opt.sdk.dubbo.util.DubboConsumerFactory;
 import com.ai.opt.sdk.util.UUIDUtil;
 import com.ai.opt.sdk.web.model.ResponseData;
@@ -127,13 +128,20 @@ public class OrderController {
 			IOrderTradeCenterSV iOrderTradeCenterSV = DubboConsumerFactory
 					.getService(com.ai.slp.order.api.ordertradecenter.interfaces.IOrderTradeCenterSV.class);
 			OrderTradeCenterResponse response = iOrderTradeCenterSV.apply(orderrequest);
+			if(!(response.getResponseHeader().getResultCode()).equals(ExceptCodeConstants.Special.SUCCESS)){
+				LOG.info(response.getResponseHeader().getResultMessage());
+				//可能会出现创建订单失败的情况，如果这样就调到订单失败页面
+				return "redirect:/order/fail";
+			}
 			orderId = String.valueOf(response.getOrderId());
 		} catch (Exception e) {
 			LOG.error(e.getMessage());
-			return "redirect:/home";
+			//遇到异常也同上处理
+			//return "redirect:/home";
+			return	"redirect:/order/fail";
 		}
 
-		return "redirect:/order/pay?orderId=" + orderId;
+		return "redirect:/order/fail";//"redirect:/order/pay?orderId=" + orderId;
 	}
 
 	@RequestMapping("/pay")
@@ -202,4 +210,8 @@ public class OrderController {
 		return imageClient.getImageUrl(vfsId, picType, "60x60");
 	}
 
+	@RequestMapping("/fail")
+	public String toFailPage(HttpServletRequest request, Model model){
+		return "jsp/order/orderfail";
+	}
 }
