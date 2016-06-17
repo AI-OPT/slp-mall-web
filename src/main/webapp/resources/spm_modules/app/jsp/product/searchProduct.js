@@ -30,7 +30,8 @@ define('app/jsp/product/searchProduct', function (require, exports, module) {
     	events: {
     		//查询
             "click #BTN_SEARCH":"_search",
-            "click #moreId":"_more"
+            "click #moreId":"_more",
+            "click #icon-rm":"_removeIcon"
         },
     	//重写父类
     	setup: function () {
@@ -112,12 +113,12 @@ define('app/jsp/product/searchProduct', function (require, exports, module) {
     					}
     					//获取所在地code
     					var name ="地域:"+$("#currentCity").attr("currentCityName");
-    					document.getElementById("areaTile").innerHTML=name;
+    					//document.getElementById("areaTile").innerHTML=name;
     					$("#isHaveDataFlag").val("11");
 	            	}else{
 	            		//获取所在地code
     					var name ="地域:"+$("#currentCity").attr("currentCityName");
-    					document.getElementById("areaTile").innerHTML=name;
+    				//	document.getElementById("areaTile").innerHTML=name;
 	            		//隐藏公共信息
 	            		$("#commonId").attr("style","display: none");
 	            		//$("#commonData").attr("style","display: none");
@@ -320,17 +321,31 @@ define('app/jsp/product/searchProduct', function (require, exports, module) {
     		_this._changeDataClick();
     	},
     	//改变地区
-    	_changeArea: function(areaId){
+    	_changeArea: function(areaId,areaName){
     		var _this = this;
     		//删除原来样式
     		var oldArea = $("#areaSearch").val();
     		var oldAreaId = "#"+oldArea;
     		$(oldAreaId).removeClass("current");
     		//document.getElementById(oldArea).className="";
+    		if($.trim(areaName).length==0){
+    			$("#areaTile").html("");
+    		}else{
+    			 var aname="<p>地域：</p><p class='close'>"+areaName+"<A href='javascript:void(0);'><i id='icon-rm' class='icon-remove'></i></A></p>";
+    	    		$("#areaTile").html(aname);
+    		}
+    		
+    		
     		$("#areaSearch").val(areaId);
     		var newArea=  "#"+areaId;
     		$(newArea).addClass("current");
     		_this._changeDataClick();
+    	},
+    	_removeIcon:function(){
+    		var _this=this;
+    		//$("#areaTile").html("");
+            $("#areaData p").removeClass("current");
+            _this._changeArea("","");
     	},
     	 _changeDispath : function() {
     		 var _wthis = this;
