@@ -55,7 +55,8 @@ define('app/jsp/order/orderSubmit', function (require, exports, module) {
       	_useBalanceBtnClick:function(){
       		var	param={
 					balance: $("#useBalance").val(),
-					userPassword:$("#userPassword").val()
+					userPassword:$("#userPassword").val(),
+					orderId:$("#orderId").val()
 				   };
       		ajaxController.ajax({
 						type: "post",
