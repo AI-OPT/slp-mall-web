@@ -26,7 +26,7 @@ define(
 				// 重写父类
 				setup : function() {
 					ChangePhonePager.superclass.setup.call(this);
-					activeUserLeftMenu(ChangePhonePager.USER_LEFT_MNU_ID);
+					//activeUserLeftMenu(ChangePhonePager.USER_LEFT_MNU_ID);
 					//this._hideErroText();
 					this._bindHandle();
 				},
@@ -365,8 +365,8 @@ define(
 					
 					var phoneFlag = $('#newPhoneErrFlag').val();
 					if (phoneFlag != "0") {
-						var step = 29;
-						$('#PHONE_IDENTIFY2').val('重新发送30');
+						var step = 60;
+						$('#PHONE_IDENTIFY2').val('重新发送60');
 						$("#PHONE_IDENTIFY2").attr("disabled", true);
 						var _res = setInterval(function() {
 							$("#PHONE_IDENTIFY2").attr("disabled", true);// 设置disabled属性
@@ -409,31 +409,17 @@ define(
 									alert(XMLHttpRequest.readyState);
 									alert(textStatus);
 									}
-
 								});
 					}
 				},
 				
-				
-							error : function(XMLHttpRequest,
-									textStatus, errorThrown) {
-								alert(XMLHttpRequest.status);
-								alert(XMLHttpRequest.readyState);
-								alert(textStatus);
-								}
-							});
-					
-				}
-			},
-			
 			// 校验新手机
 			_validServiceNewPho : function() {
 				$("#newPhoneErrMsg").attr("style", "display:none");
 				var phone = $('#newPhone').val();
 				if (phone == "") {
 					$("#newPhoneErrMsg").attr("style", "display:");
-					$('#newPhoneErrMsg').attr('src',
-							_base + '/theme/slp/images/icon-a.png');
+					$('#newPhoneErrMsg').attr('src',_base + '/theme/slp/images/icon-a.png');
 					$('#newPhoneErrMsgShow').text("手机号不能为空");
 					$("#newPhoneErrMsg").show();
 					$('#newPhoneErrFlag').val("0");
