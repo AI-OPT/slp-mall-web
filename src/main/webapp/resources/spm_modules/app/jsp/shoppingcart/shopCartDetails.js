@@ -313,7 +313,7 @@ define('app/jsp/shoppingcart/shopCartDetails', function (require, exports, modul
 		    		$("#"+skuId+"_oldProdNum").val(buyNum);
 					$("#"+skuId+"_prodnum").val(buyNum);
 					// 计算价格并求和
-					this._computedPrice(prodId,qty,salePrice);
+					this._computedPrice(prodId,buyNum,salePrice);
 					// 求和
 					this._sumPriceAndNum();
 				},
