@@ -10,7 +10,7 @@
         </div>
         <div class="fsast-bav">
             <ul>
-                <li><a href="${_base}/myorder/list">首页</a></li>
+                <li><a href="${_base}/myorder/list">账户首页</a></li>
                 <li><a href="${_base}/myorder/list">我的订单</a></li>
                 <li class="shez"><a href="#">账户设置<i class="icon-angle-down"></i></a>
                 <div class="setgs" style=" display:none;">
