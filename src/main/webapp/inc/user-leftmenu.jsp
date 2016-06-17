@@ -92,7 +92,7 @@ function inActiveUserLeftMenu(left_mnu_id){
                 <c:if test="${sessionScope.user_session_key.userType=='10' }">
                 <p id="left_mnu_person_info"><A href="#">个人资料</A></p>
                 </c:if>
-                <p id="left_mnu_phonebook"><A href="#">通讯录</A></p>
+                <p id="left_mnu_phonebook"><A href="${_base}/account/phonebook/phonebookmgr">通讯录</A></p>
                 <c:if test="${sessionScope.user_session_key.userType=='11' || sessionScope.user_session_key.userType=='12' || sessionScope.user_session_key.userType=='13' }">
                 <p id="left_mnu_myapi"><A href="#">我的API</A></p>
                 </c:if>
