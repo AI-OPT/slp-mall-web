@@ -164,7 +164,7 @@
 									class="slp-btn immedtl-btn" value="确认使用">
 							</p>
 							<p class="color">
-								<A href="${_base}/user/password/toChangePassword">忘记密码</A>／<A href="${_base}/user/password/toChangePassword">未设置密码？</A>
+								<A href="${_base}/user/password/toChangePassword">忘记密码/未设置密码？</A>
 							</p>
 						</li>
 					</ul>
