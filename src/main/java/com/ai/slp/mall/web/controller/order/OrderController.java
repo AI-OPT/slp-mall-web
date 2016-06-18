@@ -301,7 +301,7 @@ public class OrderController {
             OrderPayRequest payRequest = new OrderPayRequest();
             List<Long> orderIds = new ArrayList<Long>();
             orderIds.add(Long.parseLong(orderId));
-            payRequest.setPayFee(parseLong(Double.valueOf(deductParam.getTotalAmount()) * 1000));// 转换成分
+            payRequest.setPayFee(parseLong(Double.valueOf(deductParam.getTotalAmount())/ 1000));// 转换成分
             payRequest.setOrderIds(orderIds);
 
             payRequest.setExternalId(deductFund);
