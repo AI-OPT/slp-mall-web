@@ -51,7 +51,8 @@ define('app/jsp/order/orderSubmit', function (require, exports, module) {
     		$(".balance-title").toggleClass("reorder remove");
       	},
       	_useBalanceBtnClick:function(){
-      		alert($("#orderId").val());
+      		var balance=$("#useBalance").val();
+      		var orderAmount=$("#adjustFee").val()
       		var	param={
 					balance: $("#useBalance").val(),
 					userPassword:$("#userPassword").val(),
