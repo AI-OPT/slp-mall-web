@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.ai.net.xss.util.StringUtil;
+import com.ai.opt.base.vo.BaseResponse;
 import com.ai.opt.sdk.components.idps.IDPSClientFactory;
 import com.ai.opt.sdk.constants.ExceptCodeConstants;
 import com.ai.opt.sdk.dubbo.util.DubboConsumerFactory;
@@ -47,6 +48,8 @@ import com.ai.slp.order.api.orderlist.param.ProdExtendInfoVo;
 import com.ai.slp.order.api.orderlist.param.ProductImage;
 import com.ai.slp.order.api.orderlist.param.QueryOrderRequest;
 import com.ai.slp.order.api.orderlist.param.QueryOrderResponse;
+import com.ai.slp.order.api.orderpay.interfaces.IOrderPaySV;
+import com.ai.slp.order.api.orderpay.param.OrderPayRequest;
 import com.ai.slp.order.api.ordertradecenter.interfaces.IOrderTradeCenterSV;
 import com.ai.slp.order.api.ordertradecenter.param.OrdBaseInfo;
 import com.ai.slp.order.api.ordertradecenter.param.OrdExtendInfo;
@@ -293,6 +296,26 @@ public class OrderController {
             request.setAttribute("orderId", orderId);
             request.setAttribute("orderType", orderType);
             request.setAttribute("orderAmount", deductParam.getTotalAmount());
+            
+         // 组装参数调用订单支付服务
+            OrderPayRequest payRequest = new OrderPayRequest();
+            List<Long> orderIds = new ArrayList<Long>();
+            orderIds.add(Long.parseLong(orderId));
+            payRequest.setPayFee(parseLong(Double.valueOf(deductParam.getTotalAmount()) * 1000));// 转换成分
+            payRequest.setOrderIds(orderIds);
+
+            payRequest.setExternalId(deductFund);
+            payRequest.setPayType("1");
+            payRequest.setTenantId(tenantId);
+            IOrderPaySV iOrderPaySV = DubboConsumerFactory.getService(IOrderPaySV.class);
+            BaseResponse payResponse = iOrderPaySV.pay(payRequest);
+            String resultCode = payResponse.getResponseHeader().getResultCode().toString();
+            if (!StringUtil.isBlank(resultCode)
+                    && resultCode.equalsIgnoreCase(SLPMallConstants.DUBBO.SUCCESS)) {// 支付成功
+                LOG.info("订单支付成功：orderId=" + orderId);
+            } else {
+                LOG.info("调用订单支付服务失败：orderId=" + orderId + ",resultCode=" + resultCode);
+            }
             if (!StringUtil.isBlank(deductFund)) {
                 view = new ModelAndView("jsp/pay/paySuccess");
             }
