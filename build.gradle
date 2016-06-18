@@ -40,13 +40,6 @@ dependencies {
     compile "javax.servlet:javax.servlet-api:3.1.0"
     compile "javax.servlet.jsp:javax.servlet.jsp-api:2.3.1"
     compile 'com.alibaba:fastjson:1.2.6'
-	compile ("com.alibaba:dubbox:2.8.3") {
-		exclude group: 'org.springframework', module: 'spring'
-	}
-	compile ("com.101tec:zkclient:0.4") {
-		exclude group: 'org.apache.zookeeper', module: 'zookeeper'
-		exclude group: 'log4j', module: 'log4j'
-	}
 	compile "org.apache.zookeeper:zookeeper:3.4.6"
 
     compile 'org.apache.curator:curator-framework:2.8.0'
@@ -68,7 +61,7 @@ dependencies {
     
 
     //compile 'javax.validation:validation-api:1.1.0.Final'
-    compile 'javax.ws.rs:javax.ws.rs-api:2.0.1'
+    //compile 'javax.ws.rs:javax.ws.rs-api:2.0.1'
     
     compile 'org.apache.hadoop:hadoop-common:2.7.1'
 
@@ -138,7 +131,6 @@ dependencies {
     compile 'com.ai.slp.common:industry:1.0-SNAPSHOT'
     //账户余额扣款
     compile 'com.ai.slp.balance:deduct:1.0-SNAPSHOT'
-    
     testCompile(
             "org.springframework:spring-test:4.1.7.RELEASE",
             "junit:junit:4.12"
