@@ -237,7 +237,7 @@ public class UserPhoneBookController {
 			if (StringUtil.isBlank(telGroupId)) {
 				throw new BusinessException(ExceptCodeConstants.Special.PARAM_IS_NULL, "分组ID为空");
 			}
-			String userId = "1000";
+			SLPClientUser user = this.getUserId(request);
 			List<UcUserPhonebooksBatchData> list = new ArrayList<UcUserPhonebooksBatchData>();
 			MultipartRequest multipartRequest = (MultipartRequest) request;
 			MultipartFile uploadFile = multipartRequest.getFile("uploadFile");
@@ -255,14 +255,13 @@ public class UserPhoneBookController {
 				String telMp = cell1.getStringCellValue();
 				UcUserPhonebooksBatchData o = new UcUserPhonebooksBatchData();
 				o.setTelGroupId(telGroupId);
-				o.setUserId(userId);
+				o.setUserId(user.getUserId());
 				o.setTelName(telName);
 				o.setTelMp(telMp);
 				list.add(o);
 			}
 			UcUserPhonebooksBatchAddReq req = new UcUserPhonebooksBatchAddReq();
 			req.setDatas(list);
-			SLPClientUser user = this.getUserId(request);
 			req.setTenantId(user.getTenantId());
 			UcUserPhonebooksBatchAddResp resp = DubboConsumerFactory.getService(IUserPhoneBooksSV.class)
 					.batchAddUserPhonebooks(req);
@@ -305,8 +304,8 @@ public class UserPhoneBookController {
 	public ResponseData<List<SysParam>> getBasicOrgs() {
 		ResponseData<List<SysParam>> responseData = null;
 		try {
-			List<SysParam> list = DubboConsumerFactory.getService(ICacheSV.class).getSysParams("all",
-					"UC_USER_PHONE_BOOKS", "BASIC_ORG_ID");
+			List<SysParam> list = DubboConsumerFactory.getService(ICacheSV.class).getSysParams("SLP", "PRODUCT",
+					"BASIC_ORG_ID");
 			responseData = new ResponseData<List<SysParam>>(ResponseData.AJAX_STATUS_SUCCESS, "处理成功", list);
 		} catch (Exception e) {
 			responseData = new ResponseData<List<SysParam>>(ResponseData.AJAX_STATUS_FAILURE, "处理失败");
