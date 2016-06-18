@@ -141,7 +141,7 @@
 						<li>
 							<p>本次使用余额</p>
 							<p>
-								<input id="useBalance" type="text" class="int-mini">
+								<input id="useBalance" type="text" class="int-mini" disabled="true">
 							</p>
 							<p>元</p>
 						</li>
@@ -155,7 +155,7 @@
 									class="slp-btn immedtl-btn" value="确认使用">
 							</p>
 							<p class="color">
-								<A href="#">忘记密码</A>／<A href="#">未设置密码？</A>
+								<A href="${_base}/user/password/toChangePassword">忘记密码</A>／<A href="${_base}/user/password/toChangePassword">未设置密码？</A>
 							</p>
 						</li>
 					</ul>
@@ -166,6 +166,8 @@
 				<!--白色背景-->
 				<div class="right-btn">
 					<input id="orderId" name="orderId"  type=hidden value={{:orderId}}>
+					<input id="abalance" name="abalance"  type=hidden value={{:~liToYuan(balance)}}>
+					<input id="bamount" name="bamount"  type=hidden value={{:~liToYuan(ordFeeInfo.totalFee) }}>
 					<input id="gotoPayBtn" type="submit" class="slp-btn topay-btn"
 						value="去支付">
 				</div>

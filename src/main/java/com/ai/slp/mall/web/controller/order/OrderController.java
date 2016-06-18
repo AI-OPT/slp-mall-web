@@ -1,6 +1,5 @@
 package com.ai.slp.mall.web.controller.order;
 
-import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
@@ -296,12 +295,12 @@ public class OrderController {
             request.setAttribute("orderId", orderId);
             request.setAttribute("orderType", orderType);
             request.setAttribute("orderAmount", deductParam.getTotalAmount());
-            
-         // 组装参数调用订单支付服务
+
+            // 组装参数调用订单支付服务
             OrderPayRequest payRequest = new OrderPayRequest();
             List<Long> orderIds = new ArrayList<Long>();
             orderIds.add(Long.parseLong(orderId));
-            payRequest.setPayFee(parseLong(Double.valueOf(deductParam.getTotalAmount())/ 1000));// 转换成分
+            payRequest.setPayFee(parseLong(Double.valueOf(deductParam.getTotalAmount()) / 100));// 转换成分
             payRequest.setOrderIds(orderIds);
 
             payRequest.setExternalId(deductFund);
@@ -348,7 +347,7 @@ public class OrderController {
 
         // ordFeeInfo 属性设置
         OrdFeeInfo ordFeeInfo = new OrdFeeInfo();
-        ordFeeInfo.setTotalFee(0);
+        ordFeeInfo.setTotalFee(900);
         ordFeeInfo.setOperDiscountFee(0);
         ordFeeInfo.setDiscountFee(0);
 
@@ -384,6 +383,5 @@ public class OrderController {
             return null;
         }
     }
-
 
 }
