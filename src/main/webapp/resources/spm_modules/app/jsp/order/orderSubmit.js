@@ -49,10 +49,9 @@ define('app/jsp/order/orderSubmit', function (require, exports, module) {
     	_showBalanceBtnClick:function(){
     		$(".balance-table").slideToggle(100);
     		$(".balance-title").toggleClass("reorder remove");
-    		$("#useBalance").val();
-    		$("#userPassword").val();
       	},
       	_useBalanceBtnClick:function(){
+      		alert($("#orderId").val());
       		var	param={
 					balance: $("#useBalance").val(),
 					userPassword:$("#userPassword").val(),
