@@ -1,5 +1,6 @@
 package com.ai.slp.mall.web.controller.order;
 
+import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
@@ -280,7 +281,7 @@ public class OrderController {
             List<TransSummary> transSummaryList = new ArrayList<TransSummary>();
             TransSummary transSummary = new TransSummary();
             transSummary.setAmount(amount);
-            transSummary.setSubjectId(1000);
+            transSummary.setSubjectId(100000);
             transSummaryList.add(transSummary);
             deductParam.setTransSummary(transSummaryList);
             LOG.error("订单支付：请求参数:" + JSON.toJSONString(deductParam));
@@ -360,5 +361,6 @@ public class OrderController {
             return null;
         }
     }
+
 
 }
