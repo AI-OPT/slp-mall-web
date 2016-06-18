@@ -267,7 +267,7 @@ public class OrderController {
         deductParam.setSystemId("slp-order");
         deductParam.setExternalId(PaymentUtil.getExternalId());
         deductParam.setBusinessCode(queryOrderResponse.getOrdOrderVo().getBusiCode());
-        deductParam.setAccountId(000000000000001133);
+        deductParam.setAccountId(user.getAcctId());
         deductParam.setSubsId(0);
         deductParam.setCheckPwd(0);
         deductParam.setPassword(userPassword);
