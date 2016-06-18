@@ -32,8 +32,8 @@
 			</div>
 			<div class="fsast-search">
 				<ul>
-					<li><input type="text" class="fsast-xlarge"></li>
-					<li><A href="#"><i class="icon-search"></i></A></li>
+					 <li><input type="text" class="fsast-xlarge" id="serachName"></li>
+                  	 <li><A href="javascript:void(0);" id="BTN_SEARCH"><i class="icon-search"></i></A></li>
 				</ul>
 			</div>
 
@@ -55,6 +55,15 @@
 					element : document.body
 				});
 				pager.render();
+			});
+		})();
+		
+		
+		var index_search_pager;
+		(function () {
+			seajs.use('app/jsp/search/search', function (SearchPager) {
+				index_search_pager = new SearchPager({element: document.body});
+				index_search_pager.render();
 			});
 		})();
 	</script>
