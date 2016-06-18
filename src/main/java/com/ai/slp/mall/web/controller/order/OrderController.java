@@ -1,5 +1,6 @@
 package com.ai.slp.mall.web.controller.order;
 
+import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
@@ -13,6 +14,7 @@ import org.springframework.ui.Model;
 import org.springframework.util.DigestUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.ai.net.xss.util.StringUtil;
 import com.ai.opt.sdk.components.idps.IDPSClientFactory;
@@ -34,7 +36,6 @@ import com.ai.slp.mall.web.constants.SLPMallConstants;
 import com.ai.slp.mall.web.constants.SLPMallConstants.ExceptionCode;
 import com.ai.slp.mall.web.constants.SLPMallConstants.ProductImageConstant;
 import com.ai.slp.mall.web.model.order.InfoJsonVo;
-import com.ai.slp.mall.web.model.order.OrderBalance;
 import com.ai.slp.mall.web.model.order.OrderSubmit;
 import com.ai.slp.mall.web.model.order.PayOrderRequest;
 import com.ai.slp.mall.web.util.CacheUtil;
@@ -242,8 +243,8 @@ public class OrderController {
     }
 
     @RequestMapping("/usebalance")
-    public ResponseData<OrderBalance> usebalance(HttpServletRequest request, Model model) {
-        ResponseData<OrderBalance> responseData = null;
+    public ModelAndView usebalance(HttpServletRequest request, Model model) {
+        ModelAndView view = null;
         HttpSession session = request.getSession();
         String tenantId = "";
         SLPClientUser user = (SLPClientUser) session
@@ -289,19 +290,17 @@ public class OrderController {
             IDeductSV iDeductSV = DubboConsumerFactory.getService(IDeductSV.class);
             String deductFund = iDeductSV.deductFund(deductParam);
             LOG.error("订单支付：扣款流水:" + deductFund);
-            OrderBalance orderBalance = new OrderBalance();
-            orderBalance.setOrderId(orderId);
-            orderBalance.setOrderType(orderType);
-            orderBalance.setOrderAmount(deductParam.getTotalAmount());
-            responseData = new ResponseData<OrderBalance>(ResponseData.AJAX_STATUS_SUCCESS,
-                    "余额支付成功", orderBalance);
+            request.setAttribute("orderId", orderId);
+            request.setAttribute("orderType", orderType);
+            request.setAttribute("orderAmount", deductParam.getTotalAmount());
+            if (!StringUtil.isBlank(deductFund)) {
+                view = new ModelAndView("jsp/pay/paySuccess");
+            }
         } catch (Exception e) {
             e.printStackTrace();
             LOG.error("扣款发生错误");
-            responseData = new ResponseData<OrderBalance>(ResponseData.AJAX_STATUS_FAILURE,
-                    "余额支付失败", null);
         }
-        return responseData;
+        return view;
 
     }
 
@@ -362,5 +361,6 @@ public class OrderController {
             return null;
         }
     }
+
 
 }

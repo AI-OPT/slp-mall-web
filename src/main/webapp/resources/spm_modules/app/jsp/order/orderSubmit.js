@@ -53,25 +53,10 @@ define('app/jsp/order/orderSubmit', function (require, exports, module) {
       	_useBalanceBtnClick:function(){
       		var balance=$("#useBalance").val();
       		var orderAmount=$("#adjustFee").val()
-      		var	param={
-					balance: $("#useBalance").val(),
-					userPassword:$("#userPassword").val(),
-					orderId:$("#orderId").val()
-				   };
-      		ajaxController.ajax({
-						type: "post",
-						dataType: "json",
-						processing: true,
-						message: "账户余额支付中，请等待...",
-						url: _base+"/order/usebalance",
-						data:param,
-						success: function(data){
-							if(data.data){
-								
-							}
-						}
-					}
-      		);
+      		
+      		var url=_base+"/order/usebalance?orderId="+$("#orderId").val()+"&balance="+$("#useBalance").val()+"&userPassword="+$("#userPassword").val();
+      		window.location.href=url;
+
       	}
     	
     });
