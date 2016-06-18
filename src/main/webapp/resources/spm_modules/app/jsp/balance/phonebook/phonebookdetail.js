@@ -95,7 +95,7 @@ define('app/jsp/balance/phonebook/phonebookdetail', function (require, exports, 
 				dataType: "json",
 				processing: false,
 				message: "正在处理...",
-				url: _base+"/account/phonebook/getProvices", 
+				url: _base+"/account/phonebook/getBasicOrgs", 
 				success: function(data){
 					var arr = data.data?data.data:[];
 					$.each(arr,function(i,d){

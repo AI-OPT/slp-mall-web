@@ -62,9 +62,9 @@
           <ul class="bor-none">
           <li class="word">网站导航</li>
           <li><a href="#">网站地图</a></li>
-          <li><a href="http://www.asiainfo.com.cn">亚信官网</a></li>
-          <li><a href="http://www.ai-ol.com/">亚信国际</a></li>
-          <li><a href="http://www.asiainfodata.com/">亚信数据</a></li>
+          <li><a href="http://www.asiainfo.com.cn" target="_blank">亚信官网</a></li>
+          <li><a href="http://www.ai-ol.com/" target="_blank">亚信国际</a></li>
+          <li><a href="http://www.asiainfodata.com/" target="_blank">亚信数据</a></li>
           </ul>
           </div>
         </div>
