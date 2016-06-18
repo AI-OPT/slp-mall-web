@@ -1,14 +1,17 @@
 package com.ai.slp.mall.web.controller.product;
 
 import com.ai.opt.base.vo.ResponseHeader;
+import com.ai.opt.sdk.components.dss.DSSClientFactory;
 import com.ai.opt.sdk.components.idps.IDPSClientFactory;
 import com.ai.opt.sdk.dubbo.util.DubboConsumerFactory;
 import com.ai.opt.sdk.util.UUIDUtil;
 import com.ai.opt.sdk.web.model.ResponseData;
 import com.ai.opt.sso.client.filter.SLPClientUser;
 import com.ai.opt.sso.client.filter.SSOClientConstants;
+import com.ai.paas.ipaas.dss.base.interfaces.IDSSClient;
 import com.ai.paas.ipaas.image.IImageClient;
 import com.ai.paas.ipaas.util.JSonUtil;
+import com.ai.slp.mall.web.constants.IPaasConstants;
 import com.ai.slp.mall.web.constants.SLPMallConstants;
 import com.ai.slp.mall.web.constants.SLPMallConstants.ExceptionCode;
 import com.ai.slp.mall.web.constants.SLPMallConstants.ProductImageConstant;
@@ -26,6 +29,7 @@ import com.ai.slp.product.api.webfront.interfaces.IProductDetailSV;
 import com.ai.slp.product.api.webfront.param.*;
 import com.alibaba.fastjson.JSON;
 import org.apache.commons.httpclient.util.DateUtil;
+import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -74,6 +78,7 @@ public class ProductController {
 				model.put("productInfo", productInfoHtml);
 				//设置商品类目
 				model.put("productCatId", producSKU.getProductCatId());
+				setProdDetail(productInfoHtml,model);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -301,5 +306,14 @@ public class ProductController {
 		}
 
 		return "redirect:/order/pay?orderId=" + orderId;
+	}
+
+	public void setProdDetail(String fileId,Map<String, String> uiMap){
+		if (StringUtils.isBlank(fileId)){
+			return;
+		}
+		IDSSClient client= DSSClientFactory.getDSSClient(IPaasConstants.DssParams.PROD_DETAIL_DSS);
+		byte[] prodDetail = client.read(fileId);
+		uiMap.put("prodDetail",new String(prodDetail));
 	}
 }

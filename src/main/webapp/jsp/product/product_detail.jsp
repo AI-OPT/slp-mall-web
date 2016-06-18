@@ -219,7 +219,7 @@
                   </div>
                    
                   <div class="commodity-list" id="porductInfoDiv">
-                  	${productInfo}
+                  	${prodDetail}
                   </div>
         		</div>
                 <div id="date2" style=" display:none;">
