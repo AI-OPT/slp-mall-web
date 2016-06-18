@@ -10,6 +10,7 @@ import javax.servlet.http.HttpSession;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.DigestUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
@@ -252,46 +253,56 @@ public class OrderController {
         } else {
             tenantId = user.getTenantId();
         }
-         String balance = request.getParameter("balance");
-         String orderId = request.getParameter("orderId");
-         String userPassword = request.getParameter("userPassword");
-         Long amount = parseLong(Double.valueOf(balance) * 1000);
-         IOrderListSV orderList = DubboConsumerFactory.getService(IOrderListSV.class);
-         QueryOrderRequest orderRequest = new QueryOrderRequest();
-         orderRequest.setTenantId(tenantId);
-         orderRequest.setOrderId(Long.valueOf(orderId));
-         QueryOrderResponse queryOrderResponse = orderList.queryOrder(orderRequest);
-        String orderType = queryOrderResponse.getOrdOrderVo().getOrderType();
-        DeductParam deductParam = new DeductParam();
-        deductParam.setTenantId(tenantId);
-        deductParam.setSystemId("slp-order");
-        deductParam.setExternalId(PaymentUtil.getExternalId());
-        deductParam.setBusinessCode(queryOrderResponse.getOrdOrderVo().getBusiCode());
-        deductParam.setAccountId(user.getAcctId());
-        deductParam.setSubsId(0);
-        deductParam.setCheckPwd(0);
-        deductParam.setPassword(userPassword);
-        List<TransSummary> transSummaryList=new ArrayList<TransSummary>();
-        TransSummary transSummary = new TransSummary();
-        transSummary.setAmount(amount);
-        transSummary.setSubjectId(1000);
-        transSummaryList.add(transSummary);
-        deductParam.setTransSummary(transSummaryList);
-        LOG.error("订单支付：请求参数:" + JSON.toJSONString(deductParam));
-        deductParam.setTotalAmount(amount);
-        LOG.error("订单支付：请求参数:" + JSON.toJSONString(deductParam));
-        IDeductSV iDeductSV = DubboConsumerFactory.getService(IDeductSV.class);
-        String deductFund = iDeductSV.deductFund(deductParam);
-        LOG.error("订单支付：扣款流水:" + deductFund);
-        request.setAttribute("orderId", orderId);
-        request.setAttribute("orderType", orderType);
-        request.setAttribute("orderAmount", deductParam.getTotalAmount());
-        if (!StringUtil.isBlank(deductFund)) {
-            view = new ModelAndView("jsp/pay/paySuccess");
+        String balance = request.getParameter("balance");
+        String orderId = request.getParameter("orderId");
+        String tempPassword = request.getParameter("userPassword");
+        String password;
+        try {
+            password = StringUtil.toString(DigestUtils.md5DigestAsHex(tempPassword
+                    .getBytes("UTF-8")));
+
+            Long amount = parseLong(Double.valueOf(balance) * 1000);
+            IOrderListSV orderList = DubboConsumerFactory.getService(IOrderListSV.class);
+            QueryOrderRequest orderRequest = new QueryOrderRequest();
+            orderRequest.setTenantId(tenantId);
+            orderRequest.setOrderId(Long.valueOf(orderId));
+            QueryOrderResponse queryOrderResponse = orderList.queryOrder(orderRequest);
+            String orderType = queryOrderResponse.getOrdOrderVo().getOrderType();
+            DeductParam deductParam = new DeductParam();
+            deductParam.setTenantId(tenantId);
+            deductParam.setSystemId("slp-order");
+            deductParam.setExternalId(PaymentUtil.getExternalId());
+            deductParam.setBusinessCode(queryOrderResponse.getOrdOrderVo().getBusiCode());
+            deductParam.setAccountId(user.getAcctId());
+            deductParam.setSubsId(0);
+            deductParam.setCheckPwd(0);
+            deductParam.setPassword(password);
+            List<TransSummary> transSummaryList = new ArrayList<TransSummary>();
+            TransSummary transSummary = new TransSummary();
+            transSummary.setAmount(amount);
+            transSummary.setSubjectId(1000);
+            transSummaryList.add(transSummary);
+            deductParam.setTransSummary(transSummaryList);
+            LOG.error("订单支付：请求参数:" + JSON.toJSONString(deductParam));
+            deductParam.setTotalAmount(amount);
+            LOG.error("订单支付：请求参数:" + JSON.toJSONString(deductParam));
+            IDeductSV iDeductSV = DubboConsumerFactory.getService(IDeductSV.class);
+            String deductFund = iDeductSV.deductFund(deductParam);
+            LOG.error("订单支付：扣款流水:" + deductFund);
+            request.setAttribute("orderId", orderId);
+            request.setAttribute("orderType", orderType);
+            request.setAttribute("orderAmount", deductParam.getTotalAmount());
+            if (!StringUtil.isBlank(deductFund)) {
+                view = new ModelAndView("jsp/pay/paySuccess");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            LOG.error("扣款发生错误");
         }
         return view;
 
     }
+
     @RequestMapping("/test")
     public String test(HttpServletRequest request, Model model) {
         HttpSession session = request.getSession();
@@ -305,7 +316,7 @@ public class OrderController {
         }
 
         double balance = 8000;
-   
+
         // 需要返回的List
         List<OrdProductResInfo> ordProductResList = new ArrayList<OrdProductResInfo>();
 
@@ -329,6 +340,7 @@ public class OrderController {
 
         return "jsp/order/order_submit";
     }
+
     /**
      * 转化订单金额为long型
      * 
@@ -348,6 +360,5 @@ public class OrderController {
             return null;
         }
     }
-
 
 }
