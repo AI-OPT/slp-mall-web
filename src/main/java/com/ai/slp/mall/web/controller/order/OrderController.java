@@ -1,5 +1,6 @@
 package com.ai.slp.mall.web.controller.order;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,7 +12,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 
+import com.ai.net.xss.util.StringUtil;
 import com.ai.opt.sdk.components.idps.IDPSClientFactory;
 import com.ai.opt.sdk.constants.ExceptCodeConstants;
 import com.ai.opt.sdk.dubbo.util.DubboConsumerFactory;
@@ -21,6 +24,8 @@ import com.ai.opt.sso.client.filter.SLPClientUser;
 import com.ai.opt.sso.client.filter.SSOClientConstants;
 import com.ai.paas.ipaas.image.IImageClient;
 import com.ai.paas.ipaas.util.JSonUtil;
+import com.ai.slp.balance.api.deduct.interfaces.IDeductSV;
+import com.ai.slp.balance.api.deduct.param.DeductParam;
 import com.ai.slp.balance.api.fundquery.interfaces.IFundQuerySV;
 import com.ai.slp.balance.api.fundquery.param.AccountIdParam;
 import com.ai.slp.balance.api.fundquery.param.FundInfo;
@@ -31,6 +36,7 @@ import com.ai.slp.mall.web.model.order.InfoJsonVo;
 import com.ai.slp.mall.web.model.order.OrderSubmit;
 import com.ai.slp.mall.web.model.order.PayOrderRequest;
 import com.ai.slp.mall.web.util.CacheUtil;
+import com.ai.slp.mall.web.util.PaymentUtil;
 import com.ai.slp.order.api.orderlist.interfaces.IOrderListSV;
 import com.ai.slp.order.api.orderlist.param.OrdOrderVo;
 import com.ai.slp.order.api.orderlist.param.OrdProductVo;
@@ -232,4 +238,67 @@ public class OrderController {
     public String toFailPage(HttpServletRequest request, Model model) {
         return "jsp/order/orderfail";
     }
+
+    @RequestMapping("/usebalance")
+    public ModelAndView usebalance(HttpServletRequest request, Model model) {
+        ModelAndView view = null;
+        HttpSession session = request.getSession();
+        String tenantId = "";
+        SLPClientUser user = (SLPClientUser) session
+                .getAttribute(SSOClientConstants.USER_SESSION_KEY);
+        if (null == user) {
+            tenantId = SLPMallConstants.COM_TENANT_ID;
+        } else {
+            tenantId = user.getTenantId();
+        }
+         String balance = request.getParameter("balance");
+         String orderId = request.getParameter("orderId");
+         IOrderListSV orderList = DubboConsumerFactory.getService(IOrderListSV.class);
+         QueryOrderRequest orderRequest = new QueryOrderRequest();
+         orderRequest.setOrderId(Long.valueOf(orderId));
+         QueryOrderResponse queryOrderResponse = orderList.queryOrder(orderRequest);
+        String orderType = queryOrderResponse.getOrdOrderVo().getOrderType();
+        DeductParam deductParam = new DeductParam();
+        deductParam.setTenantId(tenantId);
+        deductParam.setSystemId("slp");
+        deductParam.setExternalId(PaymentUtil.getExternalId());
+        deductParam.setBusinessCode(queryOrderResponse.getOrdOrderVo().getBusiCode());
+        deductParam.setAccountId(user.getAcctId());
+        deductParam.setSubsId(0);
+        LOG.error("订单支付：请求参数:" + JSON.toJSONString(deductParam));
+        deductParam.setTotalAmount(parseLong(Double.valueOf(balance) * 1000));
+        LOG.error("订单支付：请求参数:" + JSON.toJSONString(deductParam));
+        IDeductSV iDeductSV = DubboConsumerFactory.getService(IDeductSV.class);
+        String deductFund = iDeductSV.deductFund(deductParam);
+        LOG.error("订单支付：扣款流水:" + deductFund);
+        request.setAttribute("orderId", orderId);
+        request.setAttribute("orderType", orderType);
+        request.setAttribute("orderAmount", deductParam.getTotalAmount());
+        if (!StringUtil.isBlank(deductFund)) {
+            view = new ModelAndView("jsp/pay/paySuccess");
+        }
+        return view;
+
+    }
+    /**
+     * 转化订单金额为long型
+     * 
+     * @Description
+     * @author Administrator
+     * @param num
+     * @return
+     */
+    private Long parseLong(Double num) {
+        if (null == num) {
+            return null;
+        }
+        try {
+            BigDecimal bnum = new BigDecimal(num);
+            return bnum.longValue();
+        } catch (NumberFormatException e) {
+            return null;
+        }
+    }
+
+
 }

@@ -97,7 +97,7 @@
          <div class="recharge-bj-tow"><!--白色背景-->
           		<div class="information-title"><p>付款信息</p></div>
                 <div class="pay-list">
-                     {{if state=='90'}}
+                     {{if state=='111'}}
                      <ul>
                          <li>
                              <p>实付总金额:</p>

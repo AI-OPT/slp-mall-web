@@ -159,7 +159,7 @@
 				<div class="medium-list-word">
 					<ul>
 						<li>注意：</li>
-						<li>1.系统支持导入xls/xlsx格式的文件。<a href="#">下载通讯录文件模板.xlsx。</a></li>
+						<li>1.系统支持导入xls/xlsx格式的文件。<a href="${_base }/resources/template/通信录模板.xlsx">下载通讯录文件模板.xlsx。</a></li>
 						<li>2.字段顺序分别为姓名、手机号,文件包含重复手机号时，系统只取一条。姓名列允许为空或出现相同名字，若一个人有多个手机号，请分多行来输入。</li>
 						<li>3.每个文件最多含有1000条记录。</li>
 					</ul>
