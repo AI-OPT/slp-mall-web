@@ -3,7 +3,8 @@ package com.ai.slp.mall.web.controller.user;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-import org.mortbay.log.Log;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -22,6 +23,7 @@ import com.ai.slp.user.api.ucuser.param.SearchUserRequest;
 @RestController
 @RequestMapping("/user/password")
 public class ChangePasswordController {
+	private static Logger Log=LoggerFactory.getLogger(ChangePasswordController.class);
 
     //跳转修改密码页面
     @RequestMapping("/toChangePassword")

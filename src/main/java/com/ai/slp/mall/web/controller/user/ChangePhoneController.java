@@ -3,7 +3,8 @@ package com.ai.slp.mall.web.controller.user;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-import org.mortbay.log.Log;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -29,6 +30,7 @@ import com.ai.slp.user.api.ucuser.param.SearchUserRequest;
 @RestController
 @RequestMapping("/user/phone")
 public class ChangePhoneController {
+	private static Logger Log=LoggerFactory.getLogger(ChangePhoneController.class);
 
     // 跳转页面
     @RequestMapping("/toChangePhone")

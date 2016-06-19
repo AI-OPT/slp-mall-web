@@ -52,7 +52,7 @@ public class MyOrderController {
 
 	@RequestMapping("/list")
 	public ModelAndView orderList(HttpServletRequest request) {
-		ICacheSV iCacheSV = DubboConsumerFactory.getService("iCacheSV");
+		ICacheSV iCacheSV = DubboConsumerFactory.getService(ICacheSV.class);
 		List<SysParam> payStyleParamList = iCacheSV.getSysParams("SLP", "ORD_OD_FEE_TOTAL", "PAY_STYLE");
 		String payStyleParams = JSonUtil.toJSon(payStyleParamList);
 		List<SysParam> orderStyleParamList = iCacheSV.getSysParams("SLP", "ORD_ORDER", "ORDER_TYPE");
@@ -69,7 +69,7 @@ public class MyOrderController {
 		ResponseData<PageInfo<OrdOrderVo>> responseData = null;
 		try {
 			QueryOrderListRequest queryRequest = getQueryOrderListParams(request, queryParams);
-			IOrderListSV iOrderListSV = DubboConsumerFactory.getService("iOrderListSV");
+			IOrderListSV iOrderListSV = DubboConsumerFactory.getService(IOrderListSV.class);
 			QueryOrderListResponse orderListResponse = iOrderListSV.queryOrderList(queryRequest);
 			if (orderListResponse != null && orderListResponse.getResponseHeader().isSuccess()) {
 				PageInfo<OrdOrderVo> pageInfo = orderListResponse.getPageInfo();
@@ -248,7 +248,7 @@ public class MyOrderController {
 		OrdOrderVo responseData = null;
 		try {
 			orderRequest.setTenantId("SLP");
-			IOrderListSV iOrderListSV = DubboConsumerFactory.getService("iOrderListSV");
+			IOrderListSV iOrderListSV = DubboConsumerFactory.getService(IOrderListSV.class);
 			QueryOrderResponse orderInfo = iOrderListSV.queryOrder(orderRequest);
 			if (orderInfo != null && orderInfo.getResponseHeader().isSuccess()) {
 				responseData = orderInfo.getOrdOrderVo();
