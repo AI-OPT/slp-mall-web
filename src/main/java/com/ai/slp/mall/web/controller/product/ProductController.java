@@ -309,6 +309,7 @@ public class ProductController {
 	}
 
 	public void setProdDetail(String fileId,Map<String, String> uiMap){
+		LOG.info("The product detail id is === "+fileId);
 		if (StringUtils.isBlank(fileId)){
 			return;
 		}
