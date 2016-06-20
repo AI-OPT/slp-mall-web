@@ -40,11 +40,15 @@ define('app/jsp/order/orderList', function (require, exports, module) {
     	setup: function () {
     		OrderListPager.superclass.setup.call(this);
     		activeUserLeftMenu(OrderListPager.USER_LEFT_MNU_ID);
+    		this._initSearchType();
     		this._initOrderType();
     		this._initPayStyle();
     		this._searchOrderList();
     		this._bindCalendar();
     		
+    	},
+    	_initSearchType:function(){
+    		$("#searchType").val("1");
     	},
     	_initOrderType:function(){
     		var orderTypeElmt = document.getElementById("orderTypeQ");

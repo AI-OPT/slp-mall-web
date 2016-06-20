@@ -163,7 +163,7 @@
                                 <td width="10%" rowspan="{{:~size}}"> 
                                     <div class="number">
 									<p>{{:~parentStateName}}</p>
-                                    <p><a href="${_base}/myorder/detail?orderId={{:orderId}}&orderType={{:~orderType}}">订单详情</a></p>
+                                    <p><a href="${_base}/myorder/detail?orderId={{:orderId}}&orderType={{:~orderType}}" target="_Blank">订单详情</a></p>
                                     </div>
                                 </td>
                                 <td width="15%" class="none-borer" rowspan="{{:~size}}">
