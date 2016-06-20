@@ -1,4 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java"%>
+<%@taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <html>
 <head>
 <%@ include file="/inc/inc.jsp"%>
@@ -51,6 +52,7 @@
      <!--标题-->  
      <div class="account-title"><p>企业资质信息</p></div>
      <!--信息填写-->
+     <form:form id="qualificationEnterprise" action="${_base }/user/qualification/saveEnterprise" method="post">
      <div class="nav-form">
          <ul>
              <li>
@@ -92,18 +94,16 @@
                  <label id="certNumErrMsg" style="display:none"><img src="${_slpbase}/images/icon-c.png" id="certNumImage"><span class="ash" id="certNumText">最多20个字符，允许使用英语字母（区分大小写）、数字及“-”</span></label>
              </li>
          </ul>
-         <form id="form1" action="${_base }/user/qualification/uploadImg" method="post" enctype="multipart/form-data">
          <ul>
              <li>
                 <p class="word"><b class="red">*</b>营业执照副本:</p>
-                <p class="img"><img id="img" src="${_slpbase}/images/fom-t.png" id="certPic"></p>
+                <p class="img"><img id="image" src="${_slpbase}/images/fom-t.png" id="certPic"></p>
                 <p class="small-p">
-                 <span><input type="file" id="image1" name="image"><input type="button" id="uploadImg1" value="点击上传" class="file-btn"><a href="#">删除</a></span>
+               		<span><input type="file" id="image1" name="image" class="file" style="display: " onchange="uploadImg('image1');"><input type="button" value="点击上传" type="file" class="file-btn"><a href="javascript:" onclick="deleteImg('image1');">删除</a></span>
                 <span>支持JPG/PNG/GIF格式，最大不超过3M</span>
                 </p>
              </li>
          </ul>
-         </form>
          <ul>
              <li>
                 <p class="word"><b class="red">*</b>行业:</p>
@@ -223,7 +223,7 @@
              </ul>
               <ul>
                  <li class="form-btn">
-                	 <input type="button" class="slp-btn regsiter-btn" value="保存资质" id="submit">
+                	 <input type="button" class="slp-btn regsiter-btn" value="保存资质" id="toSave">
                 	 <input type="hidden" id="custNameFlag">
                 	 <input type="hidden" id="princeCodeFlag">
                 	 <input type="hidden" id="certAddrFlag">
@@ -235,10 +235,12 @@
                 	 <input type="hidden" id="contactMpFlag">
                 	 <input type="hidden" id="phoneCodeFlag">
                 	 <input type="hidden" id="groupIndusteryFlag">
-                	 
+   
+                	 <input type="hidden" id="ipdsId">
                  </li>
              </ul>
      		</div>
+     		</form:form>
              </div>
       		</div>
    		</div>

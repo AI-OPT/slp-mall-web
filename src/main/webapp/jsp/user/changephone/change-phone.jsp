@@ -21,13 +21,13 @@
 	})();
 	
 	function jumpToPersonal(){
-		
+		window.location.href=_base+"/myorder/list";
 	}
 	function jumptoSafe(){
-		
+		window.location.href=_base+"/user/security/securitySettings";
 	}
 	function jumpToCount(){
-		
+		window.location.href=_base+"/user/security/securitySettings";
 	}
 </script>
 </head>
@@ -127,7 +127,7 @@
                  <p><img src="${_slpbase }/images/succ.png"></p>
                  <p class="word">您已经成功绑定新的手机号:<span id="phoneStr"></span>
                  </p>
-                 <p class="success-box"><a href="#" onclick="jumpToPersonal;">查看个人资料</a><a href="#" onclick="jumptoSafe();">查看账户安全</a><a href="#" onclick="jumpToCount">账户中心</a></p>
+                 <p class="success-box"><a href="" onclick="jumpToPersonal();">查看个人资料</a><a href="" onclick="jumptoSafe();">查看账户安全</a><a href="" onclick="jumpToCount()">账户中心</a></p>
               </div>
              	<ul>
 					<li class="checx-word">

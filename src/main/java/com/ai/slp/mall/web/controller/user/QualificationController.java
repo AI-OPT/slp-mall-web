@@ -12,6 +12,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
@@ -32,6 +33,7 @@ import com.ai.slp.common.api.industry.param.IndustryQueryResponse;
 import com.ai.slp.mall.web.constants.SLPMallConstants;
 import com.ai.slp.user.api.keyinfo.interfaces.IUcKeyInfoSV;
 import com.ai.slp.user.api.keyinfo.param.InsertGroupKeyInfoRequest;
+import com.alibaba.fastjson.JSON;
  
 @RequestMapping("/user/qualification")
 @Controller
@@ -65,37 +67,51 @@ public class QualificationController {
         return new ModelAndView("jsp/user/qualification/enterprise",model);
     }
     
-    @RequestMapping("/uploadImg")
+    @RequestMapping(value = "/uploadImg", produces = "application/json;charset=UTF-8")
     @ResponseBody
-    public ResponseData<String> uploadImg(MultipartFile image, HttpServletRequest request) {
-        ResponseData<String> responseData=null;
-        ResponseHeader responseHeader=null;
+    public Map<String, Object> uploadImg(MultipartFile image, HttpServletRequest request) {
+        
+        Map<String,Object> map = new HashMap<String,Object>();
         
         String idpsns = "slp-mall-web-idps";
         // 获取imageClient
         IImageClient im = IDPSClientFactory.getImageClient(idpsns);
-        
         //获取图片信息
         try {
-            
             String idpsId = im.upLoadImage(image.getBytes(), UUIDUtil.genId32()+".png");
             String url = im.getImageUrl(idpsId, ".jpg", "80x80");
-            responseData = new ResponseData<String>(SLPMallConstants.Qualification.QUALIFICATION_SUCCESS, "操作成功", null);
-            responseData.setStatusCode(idpsId);
-            responseData.setData(url);
-            responseHeader = new ResponseHeader(true,SLPMallConstants.Qualification.QUALIFICATION_SUCCESS,"操作成功");
+            map.put("isTrue", true);
+            map.put("idpsId", idpsId);
+            map.put("url", url);
         } catch (IOException e) {
             LOGGER.error("保存失败");
-            responseData = new ResponseData<String>(SLPMallConstants.Qualification.QUALIFICATION_ERROR, "操作失败", null);
-            responseHeader = new ResponseHeader(false,SLPMallConstants.Qualification.QUALIFICATION_ERROR,"操作失败");
+            map.put("isTrue", false);
         }
-        responseData.setResponseHeader(responseHeader);
-        return responseData;
+        LOGGER.info("Map:---->>"+JSON.toJSONString(map));
+        return map;
+    }
+    
+    @RequestMapping(value = "/deleteImg")
+    @ResponseBody
+    public Map<String, Object> deleteImg(String ipdsId, HttpServletRequest request) {
+        Map<String,Object> map = new HashMap<String,Object>();
+        String idpsns = "slp-mall-web-idps";
+        // 获取imageClient
+        IImageClient im = IDPSClientFactory.getImageClient(idpsns);
+        //获取图片信息
+        try {
+            im.deleteImage(ipdsId);
+            map.put("isTrue", true);
+        } catch (Exception e) {
+            LOGGER.error("保存失败");
+            map.put("isTrue", false);
+        }
+        LOGGER.info("Map:---->>"+JSON.toJSONString(map));
+        return map;
     }
     
     
-    @RequestMapping("/saveEnterprise")
-    @ResponseBody
+    @RequestMapping(value="/saveEnterprise")
     public ResponseData<String> saveEnterprise(HttpServletRequest request,InsertGroupKeyInfoRequest insertGroupKeyInfoRequest){
         ResponseData<String> responseData=null;
         ResponseHeader responseHeader=null;

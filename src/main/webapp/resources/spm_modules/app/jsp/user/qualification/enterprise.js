@@ -1,95 +1,82 @@
-define(
-		'app/jsp/user/qualification/enterprise',
-		function(require, exports, module) {
-			'use strict';
-			var $ = require('jquery'), Validator = require('arale-validator/0.10.2/index'), Calendar = require('arale-calendar/1.1.2/index'), Widget = require('arale-widget/1.2.0/widget'), Dialog = require("artDialog/src/dialog"), AjaxController = require('opt-ajax/1.0.0/index');
+function uploadImg(imageId) {
+	if(document.getElementById(imageId).value!=""){
+	 $.ajaxFileUpload({  
+         url:_base+"/user/qualification/uploadImg",  
+         secureuri:false,  
+         fileElementId:imageId,//file标签的id  
+         dataType: "json",//返回数据的类型  
+         //data:{imageId:imageId},//一同上传的数据  
+         success: function (data, status) {
+        	if(data.isTrue==true){
+        		document.getElementById("image").src=data.url;
+        		$("#idpsId").val(data.idpsId);
+        	 }else{
+        		 alert("error");
+        	 }
+         },  
+         error: function (data, status, e) {  
+             alert(e);  
+         }  
+     });  
+	}
+}
 
-			// 实例化AJAX控制处理对象
-			var ajaxController = new AjaxController();
-
-			// 定义页面组件类
-			var QualificationPager = Widget.extend({
-				// 属性，使用时由类的构造函数传入
-				attrs : {},
-				// 事件代理
-				events : {
-				// key的格式: 事件+空格+对象选择器;value:事件方法
-				// "click [id='randomImg']":"_refrashVitentify",
-				},
-				init : function() {
-					//_hideErroText();
-				},
-				// 重写父类
-				setup : function() {
-					QualificationPager.superclass.setup.call(this);
-					//this._hideErroText();
-					this._bindHandle();
-				},
-				//_hideInfo : function() {},
-				// 带下划线的方法，约定为内部私有方法
-				_bindHandle : function() {
-					$("#submit").on("click", this._submit);
-					},
-				_uploadImg : function(){
-					if ($("#file1").val().length > 0) {
-			              ajaxFileUpload();
-			            } else {
-			                alert("请选择图片");
-			            }
-					},
-				_submit : function(){
-					var companyInfo = {
-						custName: $("#custName").val(),
-						certAddr: $("#certAddr").val(),
-						certNum: $("#certNum").val(),
-						groupWebsite: $("#groupWebsite").val()
-					};
-					ajaxController.ajax({
-				        type: "post",
-				        processing: false,
-				        url: _base+"/user/qualification/saveEnterprise",
-				        dataType: "json",
-				        data: companyInfo,
-				        message: "正在加载数据..",
-				        success: function (data) {
-				        	
-				        },
-				        error: function(XMLHttpRequest, textStatus, errorThrown) {
-							 alert(XMLHttpRequest.status);
-							 alert(XMLHttpRequest.readyState);
-							 alert(textStatus);
-							}
-		    			        
-		    			    }); 
-					var contactInfo = {
-						contactName: $("#contactName").val(),
-						contactEmail: $("#contactEmail").val(),
-						contactMp: $("#contactMp").val()
-					};
-					
+	function deleteImg(imageId){
+		var ipdsId = $("#ipdsId").val();
+		if(document.getElementById(imageId).value!=""){
+		$.ajax({
+	        type: "post",
+	        processing: false,
+	        url: _base+"/user/qualification/deleteImg",
+	        dataType: "json",
+	        data: {"ipdsId":ipdsId},
+	        message: "正在加载数据..",
+	        success: function (data) {
+	        	if(data.isTrue==true){
+	        		var url = getRealPath();
+	        		document.getElementById("image").src=url+'/resources/slpmall/images/fom-t.png';
+	        		var obj = document.getElementById(imageId);
+	        		obj.outerHTML=obj.outerHTML; 
+	        		$("#ipdsId").val("");
+	        	}
+	        },
+	        error: function(XMLHttpRequest, textStatus, errorThrown) {
+				 alert(XMLHttpRequest.status);
+				 alert(XMLHttpRequest.readyState);
+				 alert(textStatus);
 				}
-			
-		});
-			module.exports = QualificationPager
-		});
-
-		function ajaxFileUpload(){
-			 var url = serverUrlBase + "/server/images/" + mapid + "/files/png";
-	            var xhr = new XMLHttpRequest();
-	            xhr.open('GET', url, true);
-	            xhr.responseType = "blob";
-	            xhr.setRequestHeader("client_type", "DESKTOP_WEB");
-	            xhr.setRequestHeader("desktop_web_access_key", _desktop_web_access_key);
-	            xhr.onload = function() {
-	                if (this.status == 200) {
-	                    var blob = this.response;
-	                    var img = document.createElement("img");
-	                    img.onload = function(e) {
-	                        window.URL.revokeObjectURL(img.src); 
-	                    };
-	                    img.src = window.URL.createObjectURL(blob);
-	                    $("#imgcontainer").html(img);    
-	                }
-	            }
-	            xhr.send();
+			    }); 
+		}
+	}
+	
+	
+	function submit(){
+		alert(11);
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	//获取当前项目根路径
+	function getRealPath(){
+		  //获取当前网址，如： http://localhost:8083/myproj/view/my.jsp
+		   var curWwwPath=window.document.location.href;
+		   //获取主机地址之后的目录，如： myproj/view/my.jsp
+		  var pathName=window.document.location.pathname;
+		  var pos=curWwwPath.indexOf(pathName);
+		  //获取主机地址，如： http://localhost:8083
+		  var localhostPaht=curWwwPath.substring(0,pos);
+		  //获取带"/"的项目名，如：/myproj
+		  var projectName=pathName.substring(0,pathName.substr(1).indexOf('/')+1);
+		 
+		 //得到了 http://localhost:8083/myproj
+		  var realPath=localhostPaht+projectName;
+		  return realPath;
 		}

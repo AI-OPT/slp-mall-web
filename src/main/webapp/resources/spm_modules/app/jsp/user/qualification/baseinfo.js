@@ -11,6 +11,7 @@ define('app/jsp/user/qualification/baseinfo', function (require, exports, module
     require("treegrid/js/jquery.treegrid.min");
     require("treegrid/js/jquery.cookie");
     require("app/jsp/user/qualification/ajaxfileupload");
+    require("app/jsp/user/qualification/enterprise");
     
     //实例化AJAX控制处理对象
     var ajaxController = new AjaxController();
@@ -42,8 +43,7 @@ define('app/jsp/user/qualification/baseinfo', function (require, exports, module
     		"change [id='cityCode']":"_cityCodeChange",
     		"blur [id='contactName']":"_checkContactName",
     		"focus [id='contactName']":"_showContactNameTip",
-    		"click [id='uploadImg1']":"_uploadImg1",
-    		"click [id='submit']":"_submit"
+    		"click [id='toSave']":"_submit"
         },
         init: function(){
         },
@@ -52,12 +52,6 @@ define('app/jsp/user/qualification/baseinfo', function (require, exports, module
     		QualificationPager.superclass.setup.call(this);
     		activeUserLeftMenu(QualificationPager.USER_LEFT_MNU_ID);
     	},
-    	
-    	_uploadImg1:function(){
-			if($("#image1").val()!=""){
-				ajaxFileUpload("image1");
-			}
-		},
     	
     	_showUserNameTip:function(){
     		$("#custNameErrMsg").show();
@@ -455,11 +449,15 @@ define('app/jsp/user/qualification/baseinfo', function (require, exports, module
 			var groupStypeFlag = $("#groupStypeFlag").val();
 			var contactDeptFlag = $("#contactDeptFlag").val();
 			
-			if(custNameFlag!="0"&&certAddrFlag!="0"&&certNumFlag!="0"&&contactMpFlag!="0"&&phoneCodeFlag!="0"&&groupIndusteryFlag!="0"&&groupMemberScaleFlag!="0"&&groupStypeFlag!="0"&&contactDeptFlag!="0"){
-					
-			}
-		}
+		/*	if(custNameFlag!="0"&&certAddrFlag!="0"&&certNumFlag!="0"&&contactMpFlag!="0"&&phoneCodeFlag!="0"&&groupIndusteryFlag!="0"&&groupMemberScaleFlag!="0"&&groupStypeFlag!="0"&&contactDeptFlag!="0"){
+		 
+			}*/
+			$('#qualificationEnterprise').submit();
+			alert(1);
+	}
     });
     
     module.exports = QualificationPager
 });
+
+
