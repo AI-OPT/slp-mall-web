@@ -151,7 +151,7 @@ define('app/jsp/product/searchProduct', function (require, exports, module) {
 			//获取所在地code
 			var code =$("#currentCity").attr("currentCityCode");
 			var name ="地域:"+$("#currentCity").attr("currentCityName");
-			document.getElementById("areaTile").innerHTML=name;
+			//document.getElementById("areaTile").innerHTML=name;
     		var	param={
 					areaCode:code,  
 					productCatId: $("#billType").val(),
