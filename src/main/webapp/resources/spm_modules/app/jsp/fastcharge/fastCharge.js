@@ -118,10 +118,12 @@ define('app/jsp/fastcharge/fastCharge', function (require, exports, module) {
     	_switchHf:function(){
     		var _this=this;
     		$("#phoneNum1").val("");
+    		$("#gsd1").html("");
     		_this._initHf();
     	},
     	_switchLf:function(){
     		var _this=this;
+    		$("#gsd2").html("");
     		$("#phoneNum2").val("");
     		_this._initLf();
     	},
@@ -311,6 +313,7 @@ define('app/jsp/fastcharge/fastCharge', function (require, exports, module) {
     		
     		$("#phoneNum2").bind('input propertychange',function(){
     			$("#submitGpBtn").removeAttr('href');
+    			$("#gsd2").html("");
     			if($.trim($("#phoneNum2").val()).length==0){
     				$("#listLfee").html("");
     				_this._initLf();
@@ -345,6 +348,8 @@ define('app/jsp/fastcharge/fastCharge', function (require, exports, module) {
     						var d=data.data;
     						if(d){
     							//var productCatId="10000010010000";
+    							var gsd=d.provinceName+d.basicOrgName;
+       							$("#gsd2").html(gsd);
     							$("#pcode").val(d.provinceCode);
     							$("#orgcode").val(d.basicOrgCode);
     							var provCode=d.provinceCode;
@@ -397,6 +402,7 @@ define('app/jsp/fastcharge/fastCharge', function (require, exports, module) {
     		
     		$("#phoneNum1").bind('input propertychange',function(){
     			$("#submitOdrBtn").removeAttr('href');
+    			$("#gsd1").html("");
     			if($.trim($("#phoneNum1").val()).length==0){
        			 $("#listHfee").html("");
        			 
@@ -432,6 +438,8 @@ define('app/jsp/fastcharge/fastCharge', function (require, exports, module) {
     						var d=data.data;
     						if(d){
     							//var productCatId="10000010010000";
+    							var gsd=d.provinceName+d.basicOrgName;
+       							$("#gsd1").html(gsd);
     							$("#orgcode1").val(d.basicOrgCode);
     							$("#pcode1").val(d.provinceCode);
     							var provCode=d.provinceCode;
