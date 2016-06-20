@@ -339,8 +339,13 @@ define('app/jsp/product/searchProduct', function (require, exports, module) {
     		}else{
     			$("#priceV").remove();
     			$("#priceN").remove();
-    			 var aname="<p id='priceV'>面额：</p><p id='priceN' class='close'>"+priceName+"<A href='javascript:void(0);'><i id='icon-rm1' class='icon-remove'></i></A></p>";
-    	    		$("#areaTile").append(aname);
+    			var title = document.getElementById("typeTitleId").innerHTML;
+    			if(title=="流量充值"){
+    				var aname="<p id='priceV'>流量：</p><p id='priceN' class='close'>"+priceName+"<A href='javascript:void(0);'><i id='icon-rm1' class='icon-remove'></i></A></p>";
+    			}else{
+    				var aname="<p id='priceV'>面额：</p><p id='priceN' class='close'>"+priceName+"<A href='javascript:void(0);'><i id='icon-rm1' class='icon-remove'></i></A></p>";
+    			}
+    	    	$("#areaTile").append(aname);
     		}
     		
     		
