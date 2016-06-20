@@ -89,7 +89,7 @@ public class ChangePhoneController {
         ResponseHeader responseHeader = null;
         ICacheClient cacheClient = MCSClientFactory.getCacheClient(BandEmail.CACHE_NAMESPACE);
         String sessionId = request.getSession().getId();
-
+        
         // 检查短信验证码
         String verifyCodeCache = cacheClient.get(BandEmail.CACHE_KEY_VERIFY_PHONE + sessionId);
         String verifyCode = request.getParameter("verifyCode");

@@ -11,8 +11,8 @@ import javax.servlet.http.HttpSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
@@ -31,7 +31,10 @@ import com.ai.slp.common.api.area.param.GnAreaVo;
 import com.ai.slp.common.api.industry.interfaces.IIndustrySV;
 import com.ai.slp.common.api.industry.param.IndustryQueryResponse;
 import com.ai.slp.mall.web.constants.SLPMallConstants;
+import com.ai.slp.user.api.contactsinfo.interfaces.IUcContactsInfoSV;
+import com.ai.slp.user.api.contactsinfo.param.InsertContactsInfoRequest;
 import com.ai.slp.user.api.keyinfo.interfaces.IUcKeyInfoSV;
+import com.ai.slp.user.api.keyinfo.param.InsertCustFileExtRequest;
 import com.ai.slp.user.api.keyinfo.param.InsertGroupKeyInfoRequest;
 import com.alibaba.fastjson.JSON;
  
@@ -112,9 +115,15 @@ public class QualificationController {
     
     
     @RequestMapping(value="/saveEnterprise")
-    public ResponseData<String> saveEnterprise(HttpServletRequest request,InsertGroupKeyInfoRequest insertGroupKeyInfoRequest){
+    @ModelAttribute
+    public ResponseData<String> saveEnterprise(HttpServletRequest request,
+            InsertGroupKeyInfoRequest insertGroupKeyInfoRequest
+            ,InsertCustFileExtRequest insertCustFileExtRequest,
+            InsertContactsInfoRequest insertContactsInfoRequest){
         ResponseData<String> responseData=null;
         ResponseHeader responseHeader=null;
+        String ipdsId = request.getParameter("ipdsId");
+        String phoneCode = request.getParameter("phoneCode");
         
         HttpSession session = request.getSession();
         SLPClientUser user = (SLPClientUser) session.getAttribute(SSOClientConstants.USER_SESSION_KEY);
@@ -123,13 +132,22 @@ public class QualificationController {
         insertGroupKeyInfoRequest.setUserType(user.getUserType());
         insertGroupKeyInfoRequest.setUserId(user.getUserId());
         
+        insertCustFileExtRequest.setTenantId(user.getTenantId());
+        insertCustFileExtRequest.setUserId(user.getUserId());
+        insertCustFileExtRequest.setAttrId(ipdsId);
+        
+        insertContactsInfoRequest.setTenantId(user.getTenantId());
+        insertContactsInfoRequest.setUserId(user.getUserId());
         IUcKeyInfoSV ucKeyInfoSV = DubboConsumerFactory.getService(IUcKeyInfoSV.class);
+        IUcContactsInfoSV contactsInfoSV = DubboConsumerFactory.getService(IUcContactsInfoSV.class);
         try{
         ucKeyInfoSV.insertGroupKeyInfo(insertGroupKeyInfoRequest);
+        ucKeyInfoSV.insertCustFileExt(insertCustFileExtRequest);
+        contactsInfoSV.insertContactsInfo(insertContactsInfoRequest);
         responseData = new ResponseData<String>(SLPMallConstants.Qualification.QUALIFICATION_SUCCESS, "操作成功", null);
         responseHeader = new ResponseHeader(true,SLPMallConstants.Qualification.QUALIFICATION_SUCCESS,"操作成功");
         }catch(Exception e){
-            LOGGER.error("更新失败");
+            LOGGER.error("操作失败");
             responseData = new ResponseData<String>(SLPMallConstants.Qualification.QUALIFICATION_ERROR, "操作失败", null);
             responseHeader = new ResponseHeader(false,SLPMallConstants.Qualification.QUALIFICATION_ERROR,"操作失败");
         }
