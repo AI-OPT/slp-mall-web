@@ -28,6 +28,7 @@ import com.ai.paas.ipaas.image.IImageClient;
 import com.ai.paas.ipaas.util.JSonUtil;
 import com.ai.slp.balance.api.deduct.interfaces.IDeductSV;
 import com.ai.slp.balance.api.deduct.param.DeductParam;
+import com.ai.slp.balance.api.deduct.param.DeductResponse;
 import com.ai.slp.balance.api.deduct.param.TransSummary;
 import com.ai.slp.balance.api.fundquery.interfaces.IFundQuerySV;
 import com.ai.slp.balance.api.fundquery.param.AccountIdParam;
@@ -286,12 +287,11 @@ public class OrderController {
             transSummary.setSubjectId(100000);
             transSummaryList.add(transSummary);
             deductParam.setTransSummary(transSummaryList);
-            LOG.error("订单支付：请求参数:" + JSON.toJSONString(deductParam));
             deductParam.setTotalAmount(amount);
             LOG.error("订单支付：请求参数:" + JSON.toJSONString(deductParam));
             IDeductSV iDeductSV = DubboConsumerFactory.getService(IDeductSV.class);
-            String deductFund = iDeductSV.deductFund(deductParam);
-            LOG.error("订单支付：扣款流水:" + deductFund);
+            DeductResponse response = iDeductSV.deductFund(deductParam);
+            LOG.error("订单支付：扣款流水:" + response.getSerialNo());
             request.setAttribute("orderId", orderId);
             request.setAttribute("orderType", orderType);
             request.setAttribute("orderAmount", deductParam.getTotalAmount());
@@ -303,8 +303,8 @@ public class OrderController {
             payRequest.setPayFee(parseLong(Double.valueOf(deductParam.getTotalAmount())));
             payRequest.setOrderIds(orderIds);
 
-            payRequest.setExternalId(deductFund);
-            payRequest.setPayType("1");
+            payRequest.setExternalId(response.getSerialNo());
+            payRequest.setPayType(SLPMallConstants.OrderPayType.COUNTER_PAY);
             payRequest.setTenantId(tenantId);
             IOrderPaySV iOrderPaySV = DubboConsumerFactory.getService(IOrderPaySV.class);
             BaseResponse payResponse = iOrderPaySV.pay(payRequest);
@@ -315,7 +315,7 @@ public class OrderController {
             } else {
                 LOG.info("调用订单支付服务失败：orderId=" + orderId + ",resultCode=" + resultCode);
             }
-            if (!StringUtil.isBlank(deductFund)) {
+            if (!StringUtil.isBlank(response.getSerialNo())) {
                 view = new ModelAndView("jsp/pay/paySuccess");
             }
         } catch (Exception e) {
