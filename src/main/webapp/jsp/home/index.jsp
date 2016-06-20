@@ -130,7 +130,7 @@
           <div id="date1">
               <div class="charge-list">
               <ul>
-              <li><input type="text" class="int-dex" id="phoneNum1" maxlength="11" placeholder="请输入手机号码"><input type="text" id="basicOrgId1" style="display:none;"><input type="text" id="PCode" style="display:none;"></li>
+              <li class="int-border"><input type="text" class="int-dex-none" id="phoneNum1" maxlength="11" placeholder="请输入手机号码"><span id="gsd"></span><input type="text" id="basicOrgId1" style="display:none;"><input type="text" id="PCode" style="display:none;"></li>
               <li><select id="phoneFee" class="int-dex"></select></li>
               <li class="word">售价:<span id="realFee"></span></li>
               <li><input type="button" id="CZ_BTN" value="立即充值" class="slp-btn dex-btn">
