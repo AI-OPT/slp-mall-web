@@ -166,21 +166,21 @@ public class OrderController {
     public String toPay(HttpServletRequest request, Model model) {
         HttpSession session = request.getSession();
         String tenantId = "";
+        double balance = 0;
         SLPClientUser user = (SLPClientUser) session
                 .getAttribute(SSOClientConstants.USER_SESSION_KEY);
         if (null == user) {
             tenantId = SLPMallConstants.COM_TENANT_ID;
         } else {
             tenantId = user.getTenantId();
-        }
-        AccountIdParam accountIdParam = new AccountIdParam();
-        accountIdParam.setAccountId(user.getAcctId());// (new Long(ACCOUNT_ID));
-        accountIdParam.setTenantId(user.getTenantId());// (TENANT_ID);
-        FundInfo fundInfo = DubboConsumerFactory.getService(IFundQuerySV.class).queryUsableFund(
-                accountIdParam);
-        double balance = 0;
-        if (null != fundInfo) {
-            balance = ((double) fundInfo.getBalance());
+            AccountIdParam accountIdParam = new AccountIdParam();
+            accountIdParam.setAccountId(user.getAcctId());// (new Long(ACCOUNT_ID));
+            accountIdParam.setTenantId(user.getTenantId());// (TENANT_ID);
+            FundInfo fundInfo = DubboConsumerFactory.getService(IFundQuerySV.class).queryUsableFund(
+                    accountIdParam);
+            if (null != fundInfo) {
+                balance = ((double) fundInfo.getBalance());
+            }
         }
         // QueryOrderResponse queryOrder
         Long orderId = Long.valueOf(request.getParameter("orderId"));
