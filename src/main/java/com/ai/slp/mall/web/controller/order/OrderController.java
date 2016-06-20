@@ -179,7 +179,7 @@ public class OrderController {
                 accountIdParam);
         double balance = 0;
         if (null != fundInfo) {
-            balance = ((double) fundInfo.getBalance()) / 1000;
+            balance = ((double) fundInfo.getBalance());
         }
         // QueryOrderResponse queryOrder
         Long orderId = Long.valueOf(request.getParameter("orderId"));

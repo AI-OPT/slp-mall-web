@@ -160,7 +160,7 @@ define('app/jsp/producthome/productHome', function (require, exports, module) {
 					skuId:$("#gprs").val().substr(start,$("#gprs").val().length),
 					buySum:"1",
 					basicOrgId:$("#gbasicOrgId").val(),
-					provinceCode:$("#PCode").val(),
+					provinceCode:$("#PCode1").val(),
 					chargeFee:$("#gprs option:selected").text(),
 					phoneNum:$("#phoneNum2").val()
 					},

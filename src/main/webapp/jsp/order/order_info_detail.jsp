@@ -76,7 +76,7 @@
                       <tr class="bj">
                         <td>运营商</td>
                         <td>归属地</td>
-                        <td>手机号/数量</td>
+                        <td>数量/手机号</td>
                         <td>充值额</td>
                         <td>单价</td>
                         <td>小计</td>
