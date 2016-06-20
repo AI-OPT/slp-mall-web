@@ -32,15 +32,15 @@
 .int-medium-float:hover{ border:1px solid #fc721c}
 
 /**首页input**/
-.int-dex{ width:235px; float:left; border:1px solid #e7e7e7;background:#fff; height:30px; padding-left:4px; font-size:12px;}
+.int-dex{ width:250px; float:left; border:1px solid #e7e7e7;background:#fff; height:30px; padding-left:4px; font-size:12px;}
 .int-dex:hover{ border:1px solid #fc721c}
 .int-dex1{ width:235px; float:left; border:1px solid #e7e7e7; border-top:none; height:30px; padding-left:4px; font-size:12px;}
-.select-cz{ width:115px; float:left; border:1px solid #e7e7e7; background:#fff; height:30px; padding-left:4px; font-size:12px;}
+.select-cz{ width:122px; float:left; border:1px solid #e7e7e7; background:#fff; height:30px; padding-left:4px; font-size:12px;}
 .select-cz:hover{ border:1px solid #fc721c}
 /**快充**/
-.recharge-xlarge{ width:350px;background:#fff;  float:left; border:1px solid #e7e7e7; height:40px; padding-left:4px; font-size:12px;}
-.recharge-xlarge :hover{ border:1px solid #fc721c}
-
+.recharge-xlarge{width:350px;background:#fff;float:left;border:1px solid #e7e7e7;height:40px;}
+.recharge-xlarge:hover{ border:1px solid #fc721c}
+.int-recharge{width:288px;background:none;float:left;border:none;height:38px;padding:0 10px 0 4px;font-size:12px;}
 
 /**表格中输入框**/
 .table-int-mini{ width:102px;background:#fff; border:1px solid #e7e7e7; height:30px; padding-left:4px; font-size:12px;}
@@ -252,6 +252,7 @@
 .eject-mask1{position:fixed;top:0;left:0;width:100%;height:100%;background:#000;opacity:0.4;filter:alpha(opacity=40);z-index:18; display:none;}
 /**弹出层 小450框架**/
 .eject-samll{ width: 450px; min-height:280px; background:#fff; position:fixed;padding:20px 24px;top:50%;left:50%;margin-top:-200px;margin-left:-225px;z-index:99; display:none;}
+.eject-samll-icon{ width: 450px; min-height:280px; background:#fff; position:fixed;padding:20px 24px;top:50%;left:50%;margin-top:-200px;margin-left:-225px;z-index:99; display:none;}
 .eject-samll-title{ width:100%; float:left;}
 .eject-samll-title p{ float:left; color:#333; font-size: 16px;}
 .eject-samll-title p a{width:16px; float:left;height:16px;background: url(../images/close-a.png) no-repeat;}
@@ -297,7 +298,7 @@
 .review-btn-border{width:120px;height:35px;border: 1px solid #e7e7e7;background: #fff; color:#666;margin-left:10px;cursor:pointer;margin-bottom:11px;display: inline-block;}
 .review-btn-border:hover{background:#f4792c;border:none;color:#fff;}
 /**通讯录完成弹出**/
-.eject-medium-complete{width:100%;float:left;margin-top:64px;}
+.eject-medium-complete{width:100%;float:left;margin-top:44px;}
 .eject-medium-complete p{text-align:center;line-height: 30px;font-size:14px; color:#333;}
 .eject-medium-complete p img{margin-bottom:20px;}
 .eject-medium-complete .word{font-size:16px; color:#333;}
@@ -307,6 +308,8 @@
 .eject-medium-complete .color-ash{color:#666; margin-top:10px;}
 /**弹出层中 800框架**/
 .eject-large1{ width:800px; background:#fff; position:fixed;padding:20px 24px;top:50%;left:50%;margin-top:-320px;margin-left:-400px;z-index:99;display: none;}
+.eject-large-paging{ width:800px; background:#fff; position:fixed;padding:20px 24px;top:50%;left:50%;margin-top:-320px;margin-left:-400px;z-index:99;display: none;}
+.eject-large-query{ width:800px; background:#fff; position:fixed;padding:20px 24px;top:50%;left:50%;margin-top:-320px;margin-left:-400px;z-index:99;display: none;}
 .eject-large{ width:800px; background:#fff; position:fixed;padding:20px 24px;top:50%;left:50%;margin-top:-320px;margin-left:-400px;z-index:99;display: none;}
 .eject-large-title{ width:100%; float:left;}
 .eject-large-title p{ float:left; color:#333; font-size: 16px;}
