@@ -310,7 +310,7 @@ define('app/jsp/product/searchProduct', function (require, exports, module) {
     		}else{
     			$("#agentV").remove();
     			$("#agentN").remove();
-    			 var aname="<p id='agentV'>运营商：</p><p id='agentN' class='close'>"+agentName+"<A href='javascript:void(0);'><i id='icon-rm2' class='icon-remove'></i></A></p>";
+    			 var aname="<p id='agentV'></p><p id='agentN' class='close'>"+agentName+"<A href='javascript:void(0);'><i id='icon-rm2' class='icon-remove'></i></A></p>";
     	    		$("#areaTile").append(aname);
     		}
     		//document.getElementById(oldAgent).className="";
@@ -341,14 +341,12 @@ define('app/jsp/product/searchProduct', function (require, exports, module) {
     			$("#priceN").remove();
     			var title = document.getElementById("typeTitleId").innerHTML;
     			if(title=="流量充值"){
-    				var aname="<p id='priceV'>流量：</p><p id='priceN' class='close'>"+priceName+"<A href='javascript:void(0);'><i id='icon-rm1' class='icon-remove'></i></A></p>";
+    				var aname="<p id='priceV'></p><p id='priceN' class='close'>"+priceName+"<A href='javascript:void(0);'><i id='icon-rm1' class='icon-remove'></i></A></p>";
     			}else{
-    				var aname="<p id='priceV'>面额：</p><p id='priceN' class='close'>"+priceName+"<A href='javascript:void(0);'><i id='icon-rm1' class='icon-remove'></i></A></p>";
+    				var aname="<p id='priceV'></p><p id='priceN' class='close'>"+priceName+"<A href='javascript:void(0);'><i id='icon-rm1' class='icon-remove'></i></A></p>";
     			}
     	    	$("#areaTile").append(aname);
     		}
-    		
-    		
     		
     		$("#priceSearch").val(priceId);
     		var newPrice=  "#"+priceId;
@@ -377,7 +375,7 @@ define('app/jsp/product/searchProduct', function (require, exports, module) {
     		}else{
     			 $("#area1").remove();
  				$("#aname").remove();
-    			 var aname="<p id='area1'>地域：</p><p id='aname' class='close'>"+areaName+"<A href='javascript:void(0);'><i id='icon-rm' class='icon-remove'></i></A></p>";
+    			 var aname="<p id='area1'></p><p id='aname' class='close'>"+areaName+"<A href='javascript:void(0);'><i id='icon-rm' class='icon-remove'></i></A></p>";
     	    		$("#areaTile").append(aname);
     		}
     		
@@ -413,7 +411,7 @@ define('app/jsp/product/searchProduct', function (require, exports, module) {
     		var _this = this;
     		//如果首页跳转的查询条件为首页传入参数，如果是搜索页面，使用默认查询条件
     		var sourceFlag = $("#sourceFlag").val();
-    		if(sourceFlag=="00"){
+    		//if(sourceFlag=="00"){
     			var	productCatId = $("#catType").val();
     			if(productCatId==null || productCatId==""){
     				var title =document.getElementById('typeTitleId').innerText
@@ -425,11 +423,11 @@ define('app/jsp/product/searchProduct', function (require, exports, module) {
     			}
     			var priceId = $("#priceSearch").val();
     			var orgired = $("#agentSearch").val();
-    		}else{
-    			var	productCatId = $("#billType").val();
+    		//}/*else{
+    			/*var	productCatId = $("#billType").val();
     			var priceId = $("#priceId").val();
-    			var orgired = $("#orgired").val();
-    		}
+    			var orgired = $("#orgired").val();*/
+    		//}
     		var disapatch = $("#currentDispatch").attr("currentDispatchCode");
     		if(disapatch=="" || disapatch==null){
     			var disapatch="11";
