@@ -31,7 +31,9 @@ define('app/jsp/product/searchProduct', function (require, exports, module) {
     		//查询
             "click #BTN_SEARCH":"_search",
             "click #moreId":"_more",
-            "click #icon-rm":"_removeIcon"
+            "click #icon-rm":"_removeIcon",
+            "click #icon-rm1":"_removePrice",
+            "click #icon-rm2":"_removeAgent"
         },
     	//重写父类
     	setup: function () {
@@ -295,12 +297,22 @@ define('app/jsp/product/searchProduct', function (require, exports, module) {
     		window.location.href = _base +'/product/detail?skuId='+skuId;
     	},
     	//改变运营商查询条件
-    	_changeAgent: function(agentId){
+    	_changeAgent: function(agentId,agentName){
     		var _this = this;
     		//删除原来样式
     		var oldAgent = $("#agentSearch").val();
     		var oldAgentId = "#"+oldAgent;
     		$(oldAgentId).removeClass("current");
+    		if($.trim(agentName).length==0){
+    			//$("#areaTile").html("");
+    			$("#agentV").remove();
+    			$("#agentN").remove();
+    		}else{
+    			$("#agentV").remove();
+    			$("#agentN").remove();
+    			 var aname="<p id='agentV'>运营商：</p><p id='agentN' class='close'>"+agentName+"<A href='javascript:void(0);'><i id='icon-rm2' class='icon-remove'></i></A></p>";
+    	    		$("#areaTile").append(aname);
+    		}
     		//document.getElementById(oldAgent).className="";
     		$("#agentSearch").val(agentId);
     		var newAgent=  "#"+agentId;
@@ -308,17 +320,41 @@ define('app/jsp/product/searchProduct', function (require, exports, module) {
     		_this._changeDataClick();
     		
     	},
+    	_removeAgent:function(){
+    		var _this=this;
+            $("#agentData p").removeClass("current");
+            _this._changeAgent("","");
+    	},
     	//改变面额
-    	_changePrice: function(priceId){
+    	_changePrice: function(priceId,priceName){
     		var _this = this;
     		//删除原来样式
     		var oldPrice = $("#priceSearch").val();
     		var oldPriceId = "#"+oldPrice;
     		$(oldPriceId).removeClass("current");
+    		if($.trim(priceName).length==0){
+    			//$("#areaTile").html("");
+    			$("#priceV").remove();
+    			$("#priceN").remove();
+    		}else{
+    			$("#priceV").remove();
+    			$("#priceN").remove();
+    			 var aname="<p id='priceV'>面额：</p><p id='priceN' class='close'>"+priceName+"<A href='javascript:void(0);'><i id='icon-rm1' class='icon-remove'></i></A></p>";
+    	    		$("#areaTile").append(aname);
+    		}
+    		
+    		
+    		
     		$("#priceSearch").val(priceId);
     		var newPrice=  "#"+priceId;
     		$(newPrice).addClass("current");
     		_this._changeDataClick();
+    	},
+    	_removePrice:function(){
+    		var _this=this;
+    		
+            $("#accountData p").removeClass("current");
+            _this._changePrice("","");
     	},
     	//改变地区
     	_changeArea: function(areaId,areaName){
@@ -329,10 +365,15 @@ define('app/jsp/product/searchProduct', function (require, exports, module) {
     		$(oldAreaId).removeClass("current");
     		//document.getElementById(oldArea).className="";
     		if($.trim(areaName).length==0){
-    			$("#areaTile").html("");
+    			//$("#areaTile").html("");
+    			$("#area1").remove();
+    			$("#aname").remove();
+    			
     		}else{
-    			 var aname="<p>地域：</p><p class='close'>"+areaName+"<A href='javascript:void(0);'><i id='icon-rm' class='icon-remove'></i></A></p>";
-    	    		$("#areaTile").html(aname);
+    			 $("#area1").remove();
+ 				$("#aname").remove();
+    			 var aname="<p id='area1'>地域：</p><p id='aname' class='close'>"+areaName+"<A href='javascript:void(0);'><i id='icon-rm' class='icon-remove'></i></A></p>";
+    	    		$("#areaTile").append(aname);
     		}
     		
     		
@@ -343,8 +384,9 @@ define('app/jsp/product/searchProduct', function (require, exports, module) {
     	},
     	_removeIcon:function(){
     		var _this=this;
-    		//$("#areaTile").html("");
+    		
             $("#areaData p").removeClass("current");
+           
             _this._changeArea("","");
     	},
     	 _changeDispath : function() {

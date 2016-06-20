@@ -58,7 +58,7 @@
                          <li id="agentData">
                          <script id="agentTmpl" type="text/x-jsrender">
 							{{for agentList}}
-						 		<p id="{{:attrDefId}}"><A href="javascript:void(0);" onclick="pager._changeAgent('{{:attrDefId}}'')"  value="{{:attrDefId}}">{{:attrDefValue}}</A></p>
+						 		<p id="{{:attrDefId}}"><A href="javascript:void(0);" onclick="pager._changeAgent('{{:attrDefId}}','{{:attrDefValue}}')"  value="{{:attrDefId}}">{{:attrDefValue}}</A></p>
 							{{/for}}
 							</script>
                          </li>
@@ -68,7 +68,7 @@
                          <li id="accountData">
                          <script id="accountTmpl" type="text/x-jsrender">
 							{{for accountList}}
-									<p id="{{:attrDefId}}"><A href="javascript:void(0);" onclick="pager._changePrice('{{:attrDefId}}')" value="{{:attrDefId}}">{{:attrDefValue}}</A></p>
+									<p id="{{:attrDefId}}"><A href="javascript:void(0);" onclick="pager._changePrice('{{:attrDefId}}','{{:attrDefValue}}')" value="{{:attrDefId}}">{{:attrDefValue}}</A></p>
 							{{/for}}
 							</script>
                          </li>
