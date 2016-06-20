@@ -8,7 +8,6 @@
 	<link href="${_slpbase }/styles/global.css" rel="stylesheet" type="text/css"/>
 	<link href="${_slpbase }/styles/frame.css" rel="stylesheet" type="text/css"/>
 	<link href="${_slpbase }/styles/font-awesome.css" rel="stylesheet" type="text/css"/>
-	<script type="text/javascript" src="${_slpbase}/scripts/md5.js" ></script> 
 	<script type="text/javascript">
 		
 		(function() {

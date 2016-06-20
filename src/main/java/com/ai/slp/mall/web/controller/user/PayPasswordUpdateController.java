@@ -21,6 +21,7 @@ import com.ai.opt.base.vo.ResponseHeader;
 import com.ai.opt.sdk.components.mcs.MCSClientFactory;
 import com.ai.opt.sdk.dubbo.util.DubboConsumerFactory;
 import com.ai.opt.sdk.util.CollectionUtil;
+import com.ai.opt.sdk.util.Md5Encoder;
 import com.ai.opt.sdk.util.StringUtil;
 import com.ai.opt.sdk.util.UUIDUtil;
 import com.ai.opt.sdk.web.model.ResponseData;
@@ -157,6 +158,7 @@ public class PayPasswordUpdateController {
         loginRequest.setUserType(userClient.getUserType());
         LoginResponse loginResponse = login.login(loginRequest);
         String loginPassword = loginResponse.getUserLoginPwd();
+        password = Md5Encoder.encodePassword(password);
         if(loginPassword.equals(password)){
             header.setResultCode(PayPassword.PASSWORD_EQUALS);
             header.setResultMessage("支付密码与登录密码相同");
