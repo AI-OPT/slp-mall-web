@@ -89,6 +89,7 @@ define('app/jsp/producthome/productHome', function (require, exports, module) {
     	_initHf:function(){
     		$("#phoneNum1").val("")
     		$("#phoneFee").html("");
+    		$("#gsd1").html("");
     		$("#submitOdrBtn").removeAttr('href');
     		$("#phoneFee").append("<option value='¥49.00-¥50.00'>50元</option>");
     		$("#phoneFee").append("<option value='¥29.50-¥30.00'>30元</option>");
@@ -99,6 +100,7 @@ define('app/jsp/producthome/productHome', function (require, exports, module) {
     	_initLf:function(){
     		//$("#phoneNum2").val("");
     		$("#gprs").html("");
+    		$("#gsd2").html("");
     		$("#gprs").append("<option value='¥49.00-¥50.00'>1G</option>");
     		$("#gprs").append("<option value='¥35.00-¥40.00'>500M</option>");
     		$("#gprs").append("<option value='¥29.50-¥29.90'>300M</option>");
@@ -267,6 +269,7 @@ define('app/jsp/producthome/productHome', function (require, exports, module) {
     		$("#phoneNum1").bind('input propertychange',function(){
     			//var _this=this;
        		 $("#submitOdrBtn").removeAttr('href');
+       		$("#gsd1").html("");
        		if($.trim($("#phoneNum1").val()).length==0){
        			$("#phoneFee").html("");
       			 $("#realFee").text("");
@@ -306,6 +309,8 @@ define('app/jsp/producthome/productHome', function (require, exports, module) {
    						if(d){
    							
    							//var productCatId="10000010010000";
+   							var gsd=d.provinceName+d.basicOrgName;
+   							$("#gsd1").html(gsd);
    							$("#basicOrgId1").val(d.basicOrgCode);
    							$("#PCode").val(d.provinceCode);
    							var provCode=d.provinceCode;
@@ -362,6 +367,7 @@ define('app/jsp/producthome/productHome', function (require, exports, module) {
     		var _this=this;
     		$("#phoneNum2").bind('input propertychange',function(){
     			$("#submitGpBtn").removeAttr('href');
+    			$("#gsd2").html("");
        		 if($.trim($("#phoneNum2").val()).length==0){
        			 $("#gprs").html("");
                 	$("#realFee1").text("");
@@ -404,6 +410,8 @@ define('app/jsp/producthome/productHome', function (require, exports, module) {
    						if(d){
    							
    							//var productCatId="10000010010000";
+   							var gsd=d.provinceName+d.basicOrgName;
+   							$("#gsd2").html(gsd);
    							$("#gbasicOrgId").val(d.basicOrgCode);
    							$("#PCode1").val(d.provinceCode);
    							

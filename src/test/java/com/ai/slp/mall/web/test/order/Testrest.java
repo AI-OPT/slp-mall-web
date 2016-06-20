@@ -7,6 +7,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import com.ai.opt.sdk.dubbo.extension.DubboRestResponse;
 import com.ai.opt.sdk.dubbo.util.DubboConsumerFactory;
 import com.ai.opt.sdk.dubbo.util.HttpClientUtil;
 import com.ai.slp.order.api.orderlist.interfaces.IOrderListSV;
@@ -14,6 +15,7 @@ import com.ai.slp.order.api.orderlist.param.OrdOrderVo;
 import com.ai.slp.order.api.orderlist.param.QueryOrderRequest;
 import com.ai.slp.order.api.orderlist.param.QueryOrderResponse;
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 
 //@RunWith(SpringJUnit4ClassRunner.class)
 //@ContextConfiguration({ "classpath:dubbo/applicationContext-dubbo-service-consumer.xml" })
@@ -58,6 +60,15 @@ public class Testrest {
         String result=HttpClientUtil.sendPost(url, param);
         System.out.println("param="+JSON.toJSONString(request));
         System.out.println("result="+result);
+        
+        //===============反序列化JSON字符串 开始==========================
+        JSONObject resp =JSON.parseObject(result, JSONObject.class);        
+        Object data=resp.get("data");
+        System.out.println("data="+data);
+        JSONObject dataJson =JSON.parseObject(data.toString(), JSONObject.class);
+        JSONObject orderData=dataJson.getJSONObject("ordOrderVo");
+        System.out.println("rest orderData="+JSON.toJSONString(orderData));
+        //===============反序列化JSON字符串 结束==========================
     }
     
     

@@ -359,7 +359,7 @@ define('app/jsp/user/payPassword/payPasswordConfirmInfo', function (require, exp
 			var flag = this._validServicePaw();
 			if(!flag) return;
 			var	param={
-					password:hex_md5($("#passwordInput").val())
+					password:$("#passwordInput").val()
 				   };
 			ajaxController.ajax({
 				type : "POST",

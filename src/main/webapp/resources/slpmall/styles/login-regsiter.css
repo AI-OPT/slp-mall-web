@@ -30,7 +30,7 @@
 .login-footer-main ul li a:hover{color:#f4792c;}
 
 /**登录banner**/
-.logo-banner-big{ width:100%; float:left; height:456px; background:#ec372f; min-width:1200px;}
+.logo-banner-big{ width:100%; float:left; height:456px; background:#fb862a; min-width:1200px;}
 .banner{ width:1200px; margin:0 auto; background:url(../images/logo-banner.png) no-repeat; height:456px;}
 /**登录框**/
 .login-main{width:348px; height:370px; background:#fffbfb; float:right; margin:40px 70px 0 0; padding:0px 27px;}

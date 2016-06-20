@@ -130,7 +130,7 @@
           <div id="date1">
               <div class="charge-list">
               <ul>
-              <li><input type="text" class="int-dex" id="phoneNum1" maxlength="11" placeholder="请输入手机号码"><input type="text" id="basicOrgId1" style="display:none;"><input type="text" id="PCode" style="display:none;"></li>
+              <li class="int-border"><input type="text" class="int-dex-none" id="phoneNum1" maxlength="11" placeholder="请输入手机号码"><span id="gsd1"></span><input type="text" id="basicOrgId1" style="display:none;"><input type="text" id="PCode" style="display:none;"></li>
               <li><select id="phoneFee" class="int-dex"></select></li>
               <li class="word">售价:<span id="realFee"></span></li>
               <li><input type="button" id="CZ_BTN" value="立即充值" class="slp-btn dex-btn">
@@ -145,7 +145,7 @@
           <div id="date2" style=" display:none;">
               <div class="charge-list">
               <ul>
-              <li><input type="text" class="int-dex" maxlength="11" id="phoneNum2" placeholder="请输入手机号码"><input type="text" id="gbasicOrgId" style="display:none;"><input type="text" id="PCode1" style="display:none;"></li>
+              <li class="int-border"><input type="text" class="int-dex-none" maxlength="11" id="phoneNum2" placeholder="请输入手机号码"><span id="gsd2"></span><input type="text" id="gbasicOrgId" style="display:none;"><input type="text" id="PCode1" style="display:none;"></li>
               <li class="congz"><p><select id="location" class="select-cz"><option value="local">本地</option><option value="national">全国</option></select></p>
               <p class="se-mar"><select id="gprs"  class="select-cz"></select></p></li>
               <li class="word">售价:<span id="realFee1"></span></li>
