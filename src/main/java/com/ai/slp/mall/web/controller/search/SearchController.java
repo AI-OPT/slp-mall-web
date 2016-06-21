@@ -161,7 +161,7 @@ public class SearchController {
                     ProductDataVO vo  =new ProductDataVO();
                     vo.setSalePrice(data.getSalePrice());
                     vo.setProdName(data.getProdName());
-                    vo.setPicUrl(ImageUtil.getHotImage());
+                    vo.setPicUrl(ImageUtil.getHotImage(data.getImageinfo().getVfsId(),data.getImageinfo().getPicType()));
                     vo.setSkuId(data.getSkuId());
                     voList.add(vo);
                 }
