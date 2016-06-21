@@ -184,7 +184,7 @@
 								<ul>
                             		<li class="img"><a href="${_base}/product/detail?skuId={{:skuId}}"><img src="{{:picUrl}}"></a></li>
                             		<li class="word"><a href="${_base}/product/detail?skuId={{:skuId}}">{{:prodName}}</a> </li>
-                            		<li class="left"><span>￥{{:salePrice}}</span></li>
+                            		<li class="left"><span>￥{{:~liToYuan(salePrice)}}</span></li>
                         		</ul>
 							</div>
 						</script>
