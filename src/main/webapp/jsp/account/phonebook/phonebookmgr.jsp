@@ -35,7 +35,7 @@
 			<div class="my-order-cnt">
 				<div class="payment-title">
 					<p>
-						<a href="#">账户中心</a>&gt;
+						<a href="${_base}/myorder/list">账户中心</a>&gt;
 					</p>
 					<p>
 						<a href="#">账户设置</a>&gt;

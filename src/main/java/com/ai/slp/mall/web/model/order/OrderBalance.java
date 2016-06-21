@@ -1,43 +1,34 @@
 package com.ai.slp.mall.web.model.order;
 
-public class OrderBalance {
+import java.io.Serializable;
+
+public class OrderBalance implements Serializable {
+    private static final long serialVersionUID = 1L;
+
     /**
      * 订单ID
      */
     private String orderId;
 
     /**
-     * 订单类型
+     * 扣款流水
      */
-    private String orderType;
-
-    /**
-     * 金额
-     */
-    private long orderAmount;
+    private String serialNo;
 
     public String getOrderId() {
         return orderId;
     }
 
-    public String getOrderType() {
-        return orderType;
-    }
-
-    public long getOrderAmount() {
-        return orderAmount;
+    public String getSerialNo() {
+        return serialNo;
     }
 
     public void setOrderId(String orderId) {
         this.orderId = orderId;
     }
 
-    public void setOrderType(String orderType) {
-        this.orderType = orderType;
-    }
-
-    public void setOrderAmount(long orderAmount) {
-        this.orderAmount = orderAmount;
+    public void setSerialNo(String serialNo) {
+        this.serialNo = serialNo;
     }
 
 }

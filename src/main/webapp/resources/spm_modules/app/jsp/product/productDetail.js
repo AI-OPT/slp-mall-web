@@ -56,7 +56,7 @@ define('app/jsp/product/productDetail', function (require, exports, module) {
     	},
     	//渲染商品类目
     	_renderProductCat:function(){
-    		$.ajax({
+    		ajaxController.ajax({
 				type: "post",
 				dataType: "json",
 				processing: false,

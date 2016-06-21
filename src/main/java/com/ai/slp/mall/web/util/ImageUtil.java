@@ -18,14 +18,15 @@ public class ImageUtil {
         return im.getImageUrl(vsid, "." + pictype);
     }
     
-    public static String getHotImage() {
+    public static String getHotImage(String vsid, String pictype) {
         IImageClient im = null;
         // 应用场景
         String idpsns = "slp-mall-web-idps";
         // 获取imageClient
         im = IDPSClientFactory.getImageClient(idpsns);
         // 获取上传图片的URL
-        return im.getImageUrl("574558c6d601800009c0b0e5", ".jpg");
+        // 获取上传图片的URL
+        return im.getImageUrl(vsid, "." + pictype);
         // 获取上传图片指定尺寸的URL
         // System.out.println(im.getImageUrl("574514c1d601800009c0b0ba", ".jpg","100x80"));
     }

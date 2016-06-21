@@ -13,8 +13,8 @@
                   <li><A href="javascript:void(0);" id="BTN_SEARCH"><i class="icon-search"></i></A></li>
               </ul>
                <ul class="word">
-                  <li><A href="javascript:void(0);" onclick="index_search_pager._hotWordSearch('充流量')">充流量</A></li>
-                  <li><A href="javascript:void(0);" onclick="index_search_pager._hotWordSearch('充话费')">充话费</A></li>
+                  <li><A href="javascript:void(0);" onclick="index_search_pager._hotWordSearch('流量')">流量</A></li>
+                  <li><A href="javascript:void(0);" onclick="index_search_pager._hotWordSearch('话费')">话费</A></li>
                   <li><A href="javascript:void(0);" onclick="index_search_pager._hotWordSearch('50元')">50元</A></li>
                   <li><A href="javascript:void(0);" onclick="index_search_pager._hotWordSearch('100M')">100M</A></li>   
               </ul>

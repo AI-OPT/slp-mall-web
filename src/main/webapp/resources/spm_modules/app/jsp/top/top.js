@@ -47,7 +47,9 @@ define('app/jsp/top/top', function (require, exports, module) {
 						var name = data.data.areaName;
 						$("#currentCity").attr("currentCityCode",code);
 						$("#currentCity").attr("currentCityName",name);
-			    		document.getElementById("currentCity").innerHTML=name;
+			    		document.getElementById("currentCity").innerHTML=name+"<img id='imgId'>";
+			    		var bigimg = document.getElementById("imgId");
+			    		bigimg.src=_slpbase+"/images/open-a.png";
 					}else{
 						_this._getIpAddr();
 					}
@@ -80,7 +82,9 @@ define('app/jsp/top/top', function (require, exports, module) {
 						//设置所在地区
 						$("#currentCity").attr("currentCityCode",data.data.areaCode);
 						$("#currentCity").attr("currentCityName",data.data.areaName);
-			    		document.getElementById("currentCity").innerHTML=data.data.areaName;
+			    		document.getElementById("currentCity").innerHTML=data.data.areaName+"<img id='imgId'>";
+			    		var bigimg = document.getElementById("imgId");
+			    		bigimg.src=_slpbase+"/images/open-a.png";
 			    		_this._setSessionData(data.data.areaCode,data.data.areaName);
 					}else{
 						//设置所在地区
@@ -101,7 +105,9 @@ define('app/jsp/top/top', function (require, exports, module) {
 					var cityName = $(_this).attr('areaNameId');
 					$("#currentCity").attr("currentCityCode",cityCode);
 					$("#currentCity").attr("currentCityName",cityName);
-		    		document.getElementById("currentCity").innerHTML=cityName;
+		    		document.getElementById("currentCity").innerHTML=cityName+"<img id='imgId'>";
+		    		var bigimg = document.getElementById("imgId");
+		    		bigimg.src=_slpbase+"/images/open-a.png";
 		    		//将值存入session
 		    		ajaxController.ajax({
 						type: "post",

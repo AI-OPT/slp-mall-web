@@ -106,6 +106,7 @@ public class ProductController {
 	 * @return
 	 */
 	@RequestMapping("/getProductCatList")
+	@ResponseBody
 	public  ResponseData<List<ProductCatInfo>> getProductCatList(HttpServletRequest request,ProductCatUniqueReq queryParams) {
 		ResponseData<List<ProductCatInfo>> responseData = null;
 		try {

@@ -17,6 +17,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.ai.net.xss.util.StringUtil;
 import com.ai.opt.base.vo.BaseResponse;
+import com.ai.opt.base.vo.ResponseHeader;
 import com.ai.opt.sdk.components.idps.IDPSClientFactory;
 import com.ai.opt.sdk.constants.ExceptCodeConstants;
 import com.ai.opt.sdk.dubbo.util.DubboConsumerFactory;
@@ -37,6 +38,7 @@ import com.ai.slp.mall.web.constants.SLPMallConstants;
 import com.ai.slp.mall.web.constants.SLPMallConstants.ExceptionCode;
 import com.ai.slp.mall.web.constants.SLPMallConstants.ProductImageConstant;
 import com.ai.slp.mall.web.model.order.InfoJsonVo;
+import com.ai.slp.mall.web.model.order.OrderBalance;
 import com.ai.slp.mall.web.model.order.OrderSubmit;
 import com.ai.slp.mall.web.model.order.PayOrderRequest;
 import com.ai.slp.mall.web.util.CacheUtil;
@@ -176,8 +178,8 @@ public class OrderController {
             AccountIdParam accountIdParam = new AccountIdParam();
             accountIdParam.setAccountId(user.getAcctId());// (new Long(ACCOUNT_ID));
             accountIdParam.setTenantId(user.getTenantId());// (TENANT_ID);
-            FundInfo fundInfo = DubboConsumerFactory.getService(IFundQuerySV.class).queryUsableFund(
-                    accountIdParam);
+            FundInfo fundInfo = DubboConsumerFactory.getService(IFundQuerySV.class)
+                    .queryUsableFund(accountIdParam);
             if (null != fundInfo) {
                 balance = ((double) fundInfo.getBalance());
             }
@@ -246,8 +248,9 @@ public class OrderController {
     }
 
     @RequestMapping("/usebalance")
-    public ModelAndView usebalance(HttpServletRequest request, Model model) {
-        ModelAndView view = null;
+    @ResponseBody
+    public ResponseData<OrderBalance> usebalance(HttpServletRequest request, Model model) {
+        ResponseData<OrderBalance> responseData = null;
         HttpSession session = request.getSession();
         String tenantId = "";
         SLPClientUser user = (SLPClientUser) session
@@ -264,14 +267,18 @@ public class OrderController {
         try {
             password = StringUtil.toString(DigestUtils.md5DigestAsHex(tempPassword
                     .getBytes("UTF-8")));
-
             Long amount = parseLong(Double.valueOf(balance) * 1000);
             IOrderListSV orderList = DubboConsumerFactory.getService(IOrderListSV.class);
             QueryOrderRequest orderRequest = new QueryOrderRequest();
             orderRequest.setTenantId(tenantId);
             orderRequest.setOrderId(Long.valueOf(orderId));
             QueryOrderResponse queryOrderResponse = orderList.queryOrder(orderRequest);
-            String orderType = queryOrderResponse.getOrdOrderVo().getOrderType();
+            ResponseHeader responseHeader = queryOrderResponse.getResponseHeader();
+            if (!responseHeader.isSuccess()) {
+                responseData = new ResponseData<OrderBalance>(ResponseData.AJAX_STATUS_SUCCESS,
+                        "订单详情查询异常", null);
+                return responseData;
+            }
             DeductParam deductParam = new DeductParam();
             deductParam.setTenantId(tenantId);
             deductParam.setSystemId("slp-order");
@@ -288,22 +295,63 @@ public class OrderController {
             transSummaryList.add(transSummary);
             deductParam.setTransSummary(transSummaryList);
             deductParam.setTotalAmount(amount);
-            LOG.error("订单支付：请求参数:" + JSON.toJSONString(deductParam));
+            LOG.info("订单支付：请求参数:" + JSON.toJSONString(deductParam));
             IDeductSV iDeductSV = DubboConsumerFactory.getService(IDeductSV.class);
             DeductResponse response = iDeductSV.deductFund(deductParam);
-            LOG.error("订单支付：扣款流水:" + response.getSerialNo());
+            responseHeader = response.getResponseHeader();
+            LOG.info("订单支付：扣款流水:" + response.getSerialNo());
+            OrderBalance orderBalance = new OrderBalance();
+            orderBalance.setOrderId(orderId);
+            orderBalance.setSerialNo(response.getSerialNo());
+            responseData = new ResponseData<OrderBalance>(ResponseData.AJAX_STATUS_SUCCESS, "扣款成功",
+                    orderBalance);
+            responseData.setResponseHeader(responseHeader);
+        } catch (Exception e) {
+            e.printStackTrace();
+            LOG.error("扣款发生错误");
+            responseData = new ResponseData<OrderBalance>(ResponseData.AJAX_STATUS_SUCCESS, "扣款失败",
+                    null);
+        }
+        return responseData;
+
+    }
+
+    @RequestMapping("/balancePay")
+    public ModelAndView balancePay(HttpServletRequest request, Model model) {
+        ModelAndView view = null;
+        HttpSession session = request.getSession();
+        String tenantId = "";
+        SLPClientUser user = (SLPClientUser) session
+                .getAttribute(SSOClientConstants.USER_SESSION_KEY);
+        if (null == user) {
+            tenantId = SLPMallConstants.COM_TENANT_ID;
+        } else {
+            tenantId = user.getTenantId();
+        }
+        String serialNo = request.getParameter("serialNo");
+        String orderId = request.getParameter("orderId");
+        try {
+            IOrderListSV orderList = DubboConsumerFactory.getService(IOrderListSV.class);
+            QueryOrderRequest orderRequest = new QueryOrderRequest();
+            orderRequest.setTenantId(tenantId);
+            orderRequest.setOrderId(Long.valueOf(orderId));
+            QueryOrderResponse queryOrderResponse = orderList.queryOrder(orderRequest);
+            String orderType = queryOrderResponse.getOrdOrderVo().getOrderType();
+            Long payFee = queryOrderResponse.getOrdOrderVo().getPayFee();
+            String orderAmount = String
+                    .valueOf(new BigDecimal(payFee).divide(new BigDecimal(1000)));
+
             request.setAttribute("orderId", orderId);
             request.setAttribute("orderType", orderType);
-            request.setAttribute("orderAmount", deductParam.getTotalAmount());
+            request.setAttribute("orderAmount", orderAmount);
 
             // 组装参数调用订单支付服务
             OrderPayRequest payRequest = new OrderPayRequest();
             List<Long> orderIds = new ArrayList<Long>();
             orderIds.add(Long.parseLong(orderId));
-            payRequest.setPayFee(parseLong(Double.valueOf(deductParam.getTotalAmount())));
+            payRequest.setPayFee(parseLong(Double.valueOf(payFee)));
             payRequest.setOrderIds(orderIds);
-
-            payRequest.setExternalId(response.getSerialNo());
+            payRequest.setExternalId(serialNo);
             payRequest.setPayType(SLPMallConstants.OrderPayType.COUNTER_PAY);
             payRequest.setTenantId(tenantId);
             IOrderPaySV iOrderPaySV = DubboConsumerFactory.getService(IOrderPaySV.class);
@@ -315,53 +363,14 @@ public class OrderController {
             } else {
                 LOG.info("调用订单支付服务失败：orderId=" + orderId + ",resultCode=" + resultCode);
             }
-            if (!StringUtil.isBlank(response.getSerialNo())) {
-                view = new ModelAndView("jsp/pay/paySuccess");
-            }
+            view = new ModelAndView("jsp/pay/paySuccess");
+
         } catch (Exception e) {
             e.printStackTrace();
-            LOG.error("扣款发生错误");
+            LOG.error("余额支付发生错误");
         }
         return view;
 
-    }
-
-    @RequestMapping("/test")
-    public String test(HttpServletRequest request, Model model) {
-        HttpSession session = request.getSession();
-        String tenantId = "";
-        SLPClientUser user = (SLPClientUser) session
-                .getAttribute(SSOClientConstants.USER_SESSION_KEY);
-        if (null == user) {
-            tenantId = SLPMallConstants.COM_TENANT_ID;
-        } else {
-            tenantId = user.getTenantId();
-        }
-
-        double balance = 8000;
-
-        // 需要返回的List
-        List<OrdProductResInfo> ordProductResList = new ArrayList<OrdProductResInfo>();
-
-        // 设置列表
-
-        // ordFeeInfo 属性设置
-        OrdFeeInfo ordFeeInfo = new OrdFeeInfo();
-        ordFeeInfo.setTotalFee(900);
-        ordFeeInfo.setOperDiscountFee(0);
-        ordFeeInfo.setDiscountFee(0);
-
-        OrderSubmit orderSubmit = new OrderSubmit();
-        orderSubmit.setBalance(balance);
-        orderSubmit.setBalanceFee(0);
-        orderSubmit.setExpFee(0);
-        orderSubmit.setOrderId(95311851);
-        orderSubmit.setOrdFeeInfo(ordFeeInfo);
-        orderSubmit.setOrdProductResList(ordProductResList);
-        String orderSubmitJson = JSonUtil.toJSon(orderSubmit);
-        model.addAttribute("orderSubmitJson", orderSubmitJson);
-
-        return "jsp/order/order_submit";
     }
 
     /**

@@ -30,12 +30,37 @@ define('app/jsp/order/orderSubmit', function (require, exports, module) {
     	events: {
     		//查询
             "click #useBalanceChk":"_showBalanceBtnClick",
-            "click #useBalanceBtn":"_useBalanceBtnClick"
+            "click #useBalanceBtn":"_useBalanceBtnClick",
+            "click #gotoPayBtn":"_popSubmitWin"
         },
     	//重写父类
     	setup: function () {
     		OrderSubmitPager.superclass.setup.call(this);
     		this._renderOrderSubmitInfo();
+    	},
+    	_popSubmitWin: function(){
+    		Dialog({
+				title : '在线支付提示',
+				width : '200px',
+				height : '50px',
+				content : "请在弹出的新页面中完成订单的支付！",
+				cancel :false,
+				button: [
+					        {
+					            value: '支付完成',
+					            callback: function () {
+					            	window.location.href = _base+"/myorder/list";
+					            },
+					            autofocus: true
+					        },
+					        {
+					            value: '支付遇到问题',
+					            callback: function () {
+					            	window.location.href = _base+"/myorder/list";
+					            }
+					        }
+					    ]
+			}).showModal();
     	},
     	_renderOrderSubmitInfo: function(){
 	        if(orderSubmitJson != null && orderSubmitJson != 'undefined'){
@@ -50,7 +75,17 @@ define('app/jsp/order/orderSubmit', function (require, exports, module) {
       		var balance=$("#abalance").val();
       		var orderAmount=$("#bamount").val();
       		if(balance<orderAmount){
-      			alert("余额不足,请选择其它方式支付");
+      			//alert("余额不足,请选择其它方式支付");
+      			Dialog({
+					title : '提示',
+					width : '200px',
+					height : '50px',
+					content : "余额不足,请选择其它方式支付",
+					okValue : "确定",
+					ok : function() {
+						this.close;
+					}
+				}).showModal();
       			return;
       		}
     		$(".balance-table").slideToggle(100);
@@ -58,9 +93,42 @@ define('app/jsp/order/orderSubmit', function (require, exports, module) {
     		document.getElementById("useBalance").value=orderAmount;
       	},
       	_useBalanceBtnClick:function(){
-      		var url=_base+"/order/usebalance?orderId="+$("#orderId").val()+"&balance="+$("#useBalance").val()+"&userPassword="+$("#userPassword").val();
-      		window.location.href=url;
-
+      		var	param={
+					balance: $("#useBalance").val(),
+					userPassword:$("#userPassword").val(),
+					orderId:$("#orderId").val()
+				   };
+      		ajaxController.ajax({
+						type: "post",
+						dataType: "json",
+						processing: true,
+						message: "账户余额支付中，请等待...",
+						url: _base+"/order/usebalance",
+						data:param,
+						success: function(data){
+							var resultMessage = data.responseHeader.resultMessage;
+							var success = data.responseHeader.success;
+							var orderId=data.data.orderId;
+							var serialNo=data.data.serialNo;
+							if(!success){
+								Dialog({
+									title : '提示',
+									width : '200px',
+									height : '50px',
+									content : "支付失败:"+resultMessage,
+									okValue : "确定",
+									ok : function() {
+										this.close;
+									}
+								}).showModal();
+				      			return;
+							}else{
+								window.location.href = _base+ "/order/balancePay?orderId="+orderId+"&serialNo="+serialNo;
+							}
+							
+						}
+					}
+      		);
       	}
     	
     });

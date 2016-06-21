@@ -38,15 +38,6 @@
          <div class="advanced-search">
            <input id="searchType" style="display:none" value="1"/>
            <ul>
-           	   <li class="word1" id="selectTimeDiv">
-           	   <p>
-	               	<select id="selectTimeQ" class="select-small">
-	               		<option value="1">近三个月订单</option>
-	               		<option value="2">今年历史订单</option>
-	               		<option value="3">所有历史订单</option>
-	               	</select>
-	               	</p>
-               </li>
                <li>
                    <p class="word1">订单类型</p>
                    <p>
@@ -55,26 +46,35 @@
                    	</select></p>
                </li>
                <li>
-                   <p class="word">订单号</p>
+                   <p class="word">订单号 &nbsp;&nbsp;</p>
                    <p><input id="orderIdQ" type="text" class="int-small" placeholder="请输入订单号查询"></p>
+               </li>
+               <li class="word1" id="selectTimeDiv">
+           	   <p>
+	               	<select id="selectTimeQ" class="select-small">
+	               		<option value="1">近三个月订单</option>
+	               		<option value="2">今年历史订单</option>
+	               		<option value="3">所有历史订单</option>
+	               	</select>
+	               	</p>
                </li>
                <li><input id="searchOrderBtn" type="button" class="order-btn" value="搜索"></li>
                <li class="av"><a id="changeSearchType" class="is">高级搜索<i class="icon-angle-down"></i></a></li>
            </ul>
            <ul class="open-gaoj" style=" display:none;">
-              <li>
-                   <p class="word1">下单时间</p>
-                   <p id="timeBeginId" ><input id="orderTimeBeginQ" type="text" class="int-small" readonly><A href="javascript:void(0);"><i class="icon-calendar"></i></A></p>
-                   <p>-</p>
-                   <p id="timeEndId"><input id="orderTimeEndQ" type="text" class="int-small" readonly><A href="javascript:void(0);"><i class="icon-calendar"></i></A></p>
-               </li>
                <li>
-                   <p class="word">支付方式</p>
+                   <p class="word1">支付方式</p>
                    <p>
                    		<select id="payStyleQ" class="select-small">
                    			<option value="">全部</option>
                    		</select>
                    </p>
+               </li>
+               <li>
+                   <p class="word">下单时间</p>
+                   <p id="timeBeginId" ><input id="orderTimeBeginQ" type="text" class="int-small" readonly><A href="javascript:void(0);"><i class="icon-calendar"></i></A></p>
+                   <p>-</p>
+                   <p id="timeEndId"><input id="orderTimeEndQ" type="text" class="int-small" readonly><A href="javascript:void(0);"><i class="icon-calendar"></i></A></p>
                </li>
            </ul>
           </div> 

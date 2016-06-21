@@ -33,7 +33,8 @@ define('app/jsp/product/searchProduct', function (require, exports, module) {
             "click #moreId":"_more",
             "click #icon-rm":"_removeIcon",
             "click #icon-rm1":"_removePrice",
-            "click #icon-rm2":"_removeAgent"
+            "click #icon-rm2":"_removeAgent",
+            "click #generayId":"_changeGeneral"
         },
     	//重写父类
     	setup: function () {
@@ -43,6 +44,7 @@ define('app/jsp/product/searchProduct', function (require, exports, module) {
     		this._getDispatchCity();
     		var name = $("#skuName").val();
     		$("#serachName").val(name);
+    		this._hideArrow();
     	},
     	_getsessionData: function(){
     		var _this = this;
@@ -79,7 +81,8 @@ define('app/jsp/product/searchProduct', function (require, exports, module) {
     		//级联修改送货地区
     		$("#currentDispatch").attr("currentDispatchCode",code);
 			$("#currentDispatch").attr("currentDispatchName",name);
-    		document.getElementById("currentDispatch").innerHTML=name;
+    		//document.getElementById("currentDispatch").innerHTML=name;
+    		$("#currentDispatch").text(name);
     	},
     	//搜索操作
     	_search: function(){
@@ -109,17 +112,19 @@ define('app/jsp/product/searchProduct', function (require, exports, module) {
     					//设置title
     					var type = $("#catType").val();
     					if(type=="10000010010000"){
-    						document.getElementById("typeTitleId").innerHTML="话费充值";
+    						//document.getElementById("typeTitleId").innerHTML="话费充值";
+    						$("#typeTitleId").text("话费充值");
     					}else{
-    						document.getElementById("typeTitleId").innerHTML="流量充值";
+    						//document.getElementById("typeTitleId").innerHTML="流量充值";
+    						$("#typeTitleId").text("流量充值");
     					}
     					//获取所在地code
-    					var name ="地域:"+$("#currentCity").attr("currentCityName");
+    					//var name ="地域:"+$("#currentCity").attr("currentCityName");
     					//document.getElementById("areaTile").innerHTML=name;
     					$("#isHaveDataFlag").val("11");
 	            	}else{
 	            		//获取所在地code
-    					var name ="地域:"+$("#currentCity").attr("currentCityName");
+    					//var name ="地域:"+$("#currentCity").attr("currentCityName");
     				//	document.getElementById("areaTile").innerHTML=name;
 	            		//隐藏公共信息
 	            		$("#commonId").attr("style","display: none");
@@ -143,10 +148,13 @@ define('app/jsp/product/searchProduct', function (require, exports, module) {
     		//设置title
 			var type = $("#billType").val();
 			if(type=="10000010010000"){
-				document.getElementById("typeTitleId").innerHTML="话费充值";
+				//document.getElementById("typeTitleId").innerHTML="话费充值";
+				$("#typeTitleId").html("话费充值");
 			}else{
-				document.getElementById("xsWord").innerHTML="流量:";
-				document.getElementById("typeTitleId").innerHTML="流量充值";
+				$("#xsWord").html("流量:");
+				//document.getElementById("xsWord").innerHTML="流量:";
+				//document.getElementById("typeTitleId").innerHTML="流量充值";
+				$("#typeTitleId").html("流量充值");
 			}
 			//获取所在地code
 			var code =$("#currentCity").attr("currentCityCode");
@@ -339,12 +347,7 @@ define('app/jsp/product/searchProduct', function (require, exports, module) {
     		}else{
     			$("#priceV").remove();
     			$("#priceN").remove();
-    			var title = document.getElementById("typeTitleId").innerHTML;
-    			if(title=="流量充值"){
-    				var aname="<p id='priceV'></p><p id='priceN' class='close'>"+priceName+"<A href='javascript:void(0);'><i id='icon-rm1' class='icon-remove'></i></A></p>";
-    			}else{
-    				var aname="<p id='priceV'></p><p id='priceN' class='close'>"+priceName+"<A href='javascript:void(0);'><i id='icon-rm1' class='icon-remove'></i></A></p>";
-    			}
+    			var aname="<p id='priceV'></p><p id='priceN' class='close'>"+priceName+"<A href='javascript:void(0);'><i id='icon-rm1' class='icon-remove'></i></A></p>";
     	    	$("#areaTile").append(aname);
     		}
     		
@@ -387,9 +390,7 @@ define('app/jsp/product/searchProduct', function (require, exports, module) {
     	},
     	_removeIcon:function(){
     		var _this=this;
-    		
             $("#areaData p").removeClass("current");
-           
             _this._changeArea("","");
     	},
     	 _changeDispath : function() {
@@ -402,7 +403,8 @@ define('app/jsp/product/searchProduct', function (require, exports, module) {
  					var cityName = $(_this).attr('areaNameId');
  					$("#currentDispatch").attr("currentDispatchCode",cityCode);
  					$("#currentDispatch").attr("currentDispatchName",cityName);
- 		    		document.getElementById("currentDispatch").innerHTML=cityName;
+ 		    		//document.getElementById("currentDispatch").innerHTML=cityName;
+ 		    		$("#currentDispatch").text(cityName);
  		    		_wthis._changeDataClick();
  				})
  		},
@@ -414,7 +416,8 @@ define('app/jsp/product/searchProduct', function (require, exports, module) {
     		//if(sourceFlag=="00"){
     			var	productCatId = $("#catType").val();
     			if(productCatId==null || productCatId==""){
-    				var title =document.getElementById('typeTitleId').innerText
+    				//var title =document.getElementById('typeTitleId').innerText
+    				var title = $("#typeTitleId").text();
     				if(title=="话费充值"){
     					var	productCatId="10000010010000"
     				}else{
@@ -505,23 +508,14 @@ define('app/jsp/product/searchProduct', function (require, exports, module) {
 			}
 		);
       },
-     /* _changeDispath : function(code,name) {
-			var _this = this;
-			$("#currentDispatch").attr("currentDispatchCode",code);
-			$("#currentDispatch").attr("currentDispatchName",name);
-    		document.getElementById("currentDispatch").innerHTML=name;
-    		var flag = $("#isHaveDataFlag").val();
-			if(flag=="00"){
-				return;
-			}else{
-				_this._changeDataClick();
-			}
-    		
-		},*/
      
     	//点击销量触发的事件
 		_changeSaleOrder: function(){
 			var _this = this;
+			$("#saleNumX").attr("style","display:");
+			//隐藏价格图标
+			$("#priceX").attr("style","display:none");
+			$("#priceS").attr("style","display:none");
 			var flag = $("#isHaveDataFlag").val();
 			if(flag=="00"){
 				return;
@@ -532,9 +526,29 @@ define('app/jsp/product/searchProduct', function (require, exports, module) {
 			}
 			
 		 },
+		 //初始化隐藏价格销量图标
+		 _hideArrow: function(){
+			 $("#saleNumX").attr("style","display:none");
+			 $("#priceX").attr("style","display:none");
+			 
+		 },
+		 _changeGeneral: function(){
+			 var _this = this;
+			 //隐藏销量、价格图标
+			 this._hideArrow();
+			 //删除价格、销量排序取值
+			 $("#priceOrder").attr("value","");
+			 $("#saleOrder").attr("value","");
+			 _this._changeDataClick();
+		 },
 		//点击价格排序触发事件
 		_changePriceOrder: function(){
 			var _this = this;
+			//展示价格图标
+			$("#priceX").attr("style","display:");
+			$("#priceS").attr("style","display:");
+			//隐藏销量图标
+			$("#saleNumX").attr("style","display:none");
 			var flag = $("#isHaveDataFlag").val();
 			if(flag=="00"){
 				return;
@@ -544,6 +558,7 @@ define('app/jsp/product/searchProduct', function (require, exports, module) {
 				if(isSprice){
 					//切换升序、降序图标
 					$("#xpriceId").attr("style","display:");
+					 $("#priceX").attr("style","display:");
 					$("#spriceId").attr("style","display:none");
 					$("#priceOrder").attr("value","DESC");
 				}else{

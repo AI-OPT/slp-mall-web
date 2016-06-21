@@ -23,6 +23,16 @@ public final class SLPMallConstants {
 
     public static final String PAGENO = "pageNo";
 
+    
+    /** 短信验证码失效ID */
+    public static final String SSM_OVERTIME_ERROR = "000004";
+    
+    /** 发送短信手机号不一致错误 */
+    public static final String SSM_DUMPHONE_ERROR = "000007";
+    
+    /** 短信验证码错误ID */
+    public static final String SSM_ERROR = "000003";
+    
     public static final class ExceptionCode {
         private ExceptionCode() {
         }
@@ -412,6 +422,7 @@ public final class SLPMallConstants {
          * 手机号未注册
          */
         public static final String PHONE_SUCCESS="success";
+        
     }
         
         

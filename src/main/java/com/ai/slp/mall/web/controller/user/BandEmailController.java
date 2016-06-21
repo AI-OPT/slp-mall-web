@@ -92,18 +92,14 @@ public class BandEmailController {
                 return pictureCheck;
             }
         }
-        
         // 检查短信
         if (BandEmail.CHECK_TYPE_PHONE.equals(confirmType)) {
             // 检查短信验证码
-            String verifyCodeCache = cacheClient.get(BandEmail.CACHE_KEY_VERIFY_PHONE + sessionId);
-            String verifyCode = safetyConfirmData.getVerifyCode();
-            ResponseData<String> phoneCheck = VerifyUtil.checkPhoneVerifyCode(verifyCode, verifyCodeCache);
+            ResponseData<String> phoneCheck = VerifyUtil.checkPhoneVerifyCode(sessionId, cacheClient, safetyConfirmData);
             String phoneResultCode = phoneCheck.getResponseHeader().getResultCode();
             if (!VerifyConstants.ResultCodeConstants.SUCCESS_CODE.equals(phoneResultCode)) {
                 return phoneCheck;
             }
-
         }
         // 用户信息放入缓存
         String uuid = UUIDUtil.genId32();
@@ -115,6 +111,7 @@ public class BandEmailController {
         return responseData;
     }
 
+    
     /**
      * 修改邮箱页跳转
      * 

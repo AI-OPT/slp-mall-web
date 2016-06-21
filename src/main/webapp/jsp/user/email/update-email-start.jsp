@@ -130,7 +130,7 @@
                         <li class="word">手机验证码:</li>
                         <li><input type="text" class="int-small" id="phoneVerifyCode" value=""/></li>
                         <li class="re-btn"><input type="button" class="int-btn" id="sendVerify" value="获取短信验证码"/></li>
-                        <li class="lable" style="display: none;" id="phoneVerifyCodeError"><img src="${_slpbase }/images/icon-c.png"/><span class="red" id="phoneVerifyCodeMsg">验证码错误</span></li>
+                        <li class="lable" style="display: none;" id="phoneVerifyCodeError"><img src="${_slpbase }/images/icon-a.png"/><span class="red" id="phoneVerifyCodeMsg">验证码错误</span></li>
                     </ul>
                       <ul>
                         <li class="checx-word"><input type="button" class="slp-btn regsiter-btn" id="next" value="下一步"/></li>
