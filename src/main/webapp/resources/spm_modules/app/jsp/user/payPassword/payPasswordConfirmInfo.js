@@ -286,9 +286,11 @@ define('app/jsp/user/payPassword/payPasswordConfirmInfo', function (require, exp
 							$("#sendVerify").removeAttr("disabled");
 						}
 						if(resultCode=="100002"){
+							$("#phoneVerifyCodeError").show();
 							_this._controlMsgText("verifyCodeMsg",data.statusInfo);
 							_this._controlMsgAttr("verifyCodeMsg",2);
 			        	}else{
+			        		$("#phoneVerifyCodeError").hide();
 			        		_this._controlMsgText("verifyCodeMsg","");
 			        		_this._controlMsgAttr("verifyCodeMsg",1);
 			        	}
@@ -336,7 +338,7 @@ define('app/jsp/user/payPassword/payPasswordConfirmInfo', function (require, exp
 					}else{
 						var msg = data.statusInfo;
 						//验证码
-						if(status == "100002"){
+						if(status == "000003"||status == "000004"||status == "000007"){
 							$("#phoneVerifyCodeError").show();
 							_this._controlMsgText("showSmsMsg",msg);
 							_this._controlMsgAttr("showSmsMsg",2);
