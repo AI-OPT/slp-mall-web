@@ -298,62 +298,62 @@ $(".radioc").click(function () {
 });
 
 //我的订单 table切换1
-//$(function(){
-//$(".order-list-table ul li a").click(function () {
-//                $(".order-list-table ul li a").each(function () {
-//                    $(this).removeClass("current");
-//                });
-//                $(this).addClass("current");
-//            });
-//$('.order-list-table ul li a').click(function(){
-//  var index=$('.order-list-table ul li a').index(this);
-//      if(index==0){
-//     $('#order-date').show();
-//  	  $('#order-date1').hide();
-//	  $('#order-date2').hide();
-//	  $('#order-date3').hide();
-//	  $('#order-date4').hide();
-//   }
-//  if(index==1){
-//     $('#order-date1').show();
-//  	  $('#order-date').hide();
-//	  $('#order-date2').hide();
-//	  $('#order-date3').hide();
-//	  $('#order-date4').hide();
-//   }
-//   if(index==2){
-//     $('#order-date2').show();
-//  	  $('#order-date').hide();
-//	  $('#order-date1').hide();
-//	  $('#order-date3').hide();
-//	  $('#order-date4').hide();
-//   }
-//   if(index==3){
-//     $('#order-date3').show();
-//  	  $('#order-date').hide();
-//	  $('#order-date1').hide();
-//	  $('#order-date2').hide();
-//	  $('#order-date4').hide();
-//   }
-//   if(index==4){
-//     $('#order-date4').show();
-//  	  $('#order-date').hide();
-//	  $('#order-date1').hide();
-//	  $('#order-date3').hide();
-//	  $('#order-date2').hide();
-//   }
-//  }); 
-//});
+$(function(){
+$(".order-list-table ul li a").click(function () {
+                $(".order-list-table ul li a").each(function () {
+                    $(this).removeClass("current");
+                });
+                $(this).addClass("current");
+            });
+$('.order-list-table ul li a').click(function(){
+  var index=$('.order-list-table ul li a').index(this);
+      if(index==0){
+     $('#order-date').show();
+  	  $('#order-date1').hide();
+	  $('#order-date2').hide();
+	  $('#order-date3').hide();
+	  $('#order-date4').hide();
+   }
+  if(index==1){
+     $('#order-date1').show();
+  	  $('#order-date').hide();
+	  $('#order-date2').hide();
+	  $('#order-date3').hide();
+	  $('#order-date4').hide();
+   }
+   if(index==2){
+     $('#order-date2').show();
+  	  $('#order-date').hide();
+	  $('#order-date1').hide();
+	  $('#order-date3').hide();
+	  $('#order-date4').hide();
+   }
+   if(index==3){
+     $('#order-date3').show();
+  	  $('#order-date').hide();
+	  $('#order-date1').hide();
+	  $('#order-date2').hide();
+	  $('#order-date4').hide();
+   }
+   if(index==4){
+     $('#order-date4').show();
+  	  $('#order-date').hide();
+	  $('#order-date1').hide();
+	  $('#order-date3').hide();
+	  $('#order-date2').hide();
+   }
+  }); 
+});
 //table切换结束
 
 
 //我的订单 点击展开
-//$(function () {
-//    $(".order-list-bj ul li .is").click(function () {
-//		$(this).children('i').toggleClass("icon-angle-down  icon-angle-up");
-//		$(this).parents().children('.open-gaoj').slideToggle(100);
-//    });
-//});	
+$(function () {
+    $(".order-list-bj ul li .is").click(function () {
+		$(this).children('i').toggleClass("icon-angle-down  icon-angle-up");
+		$(this).parents().children('.open-gaoj').slideToggle(100);
+    });
+});	
 
 
 
@@ -431,6 +431,29 @@ jQuery(document).ready(function($) {
 	$('.eject-large').slideUp(150);
 	})
 })	
+
+//查询信息 结果弹出框
+jQuery(document).ready(function($) {
+	$('.eject-paging').click(function(){
+	$('.eject-mask').fadeIn(100);
+	$('.eject-large-paging').slideDown(200);
+	})
+	$('.eject-large-title .img').click(function(){
+	$('.eject-mask').fadeOut(100);
+	$('.eject-large-paging').slideUp(150);
+	})
+})	
+//搜索 结果弹出框
+jQuery(document).ready(function($) {
+	$('.eject-query').click(function(){
+	$('.eject-mask').fadeIn(100);
+	$('.eject-large-query').slideDown(200);
+	})
+	$('.eject-large-title .img').click(function(){
+	$('.eject-mask').fadeOut(100);
+	$('.eject-large-query').slideUp(150);
+	})
+})
 jQuery(document).ready(function($) {
 	$('.multi-line').click(function(){
 	$('.eject-mask1').fadeIn(100);
@@ -457,6 +480,21 @@ jQuery(document).ready(function($) {
 	$('.eject-samll-confirm .close-btn').click(function(){
 	$('.eject-mask').fadeOut(100);
 	$('.eject-samll').slideUp(150);
+	})
+})
+//弹出框带图标 删除弹出	
+jQuery(document).ready(function($) {
+	$('.eject-icon').click(function(){
+	$('.eject-mask').fadeIn(100);
+	$('.eject-samll-icon').slideDown(200);
+	})
+	$('.eject-samll-title .img').click(function(){
+	$('.eject-mask').fadeOut(100);
+	$('.eject-samll-icon').slideUp(150);
+	})
+	$('.eject-samll-confirm .close-btn').click(function(){
+	$('.eject-mask').fadeOut(100);
+	$('.eject-samll-icon').slideUp(150);
 	})
 })
 //通讯录管理 充流量弹出
@@ -507,3 +545,23 @@ jQuery(document).ready(function($) {
     });	
  });
  
+/**限制字数个数**/
+
+
+(function($) {	
+	$.fn.fonts = function(option){
+		option = $.extend({},$.fn.fonts.option,option);
+		return this.each(function(){
+		var objString = $(this).text(),
+		    objLength = $(this).text().length,
+			num = option.fontNum;
+		if(objLength > num){
+            objString = $(this).text(objString.substring(0,num) + "…");
+		}
+		 })
+	}
+	// default options
+	$.fn.fonts.option = {
+	fontNum:100 //font num
+	};
+})(jQuery);

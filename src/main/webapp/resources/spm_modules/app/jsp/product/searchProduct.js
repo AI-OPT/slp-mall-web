@@ -512,6 +512,8 @@ define('app/jsp/product/searchProduct', function (require, exports, module) {
     	//点击销量触发的事件
 		_changeSaleOrder: function(){
 			var _this = this;
+			//删除综合排序
+			$("#zhOrderId").removeClass("color");
 			$("#saleNumX").attr("style","display:");
 			//隐藏价格图标
 			$("#priceX").attr("style","display:none");
@@ -534,6 +536,8 @@ define('app/jsp/product/searchProduct', function (require, exports, module) {
 		 },
 		 _changeGeneral: function(){
 			 var _this = this;
+			 //综合排序
+			 $("#zhOrderId").addClass("color");
 			 //隐藏销量、价格图标
 			 this._hideArrow();
 			 //删除价格、销量排序取值
@@ -544,6 +548,8 @@ define('app/jsp/product/searchProduct', function (require, exports, module) {
 		//点击价格排序触发事件
 		_changePriceOrder: function(){
 			var _this = this;
+			//删除综合排序
+			$("#zhOrderId").removeClass("color");
 			//展示价格图标
 			$("#priceX").attr("style","display:");
 			$("#priceS").attr("style","display:");

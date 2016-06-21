@@ -9,9 +9,9 @@ define('app/jsp/producthome/productHome', function (require, exports, module) {
     require("jsviews/jsviews.min");
     require("bootstrap-paginator/bootstrap-paginator.min");
     require("app/util/jsviews-ext");
-    
     require("opt-paging/aiopt.pagination");
     require("twbs-pagination/jquery.twbsPagination.min");
+    require("app/util/fonts_num");
     var SendMessageUtil = require("app/util/sendMessage");
     
     //实例化AJAX控制处理对象
@@ -553,7 +553,16 @@ define('app/jsp/producthome/productHome', function (require, exports, module) {
     		 $("#currentCity").attr("currentCityCode",code);
     		$("#currentCity").attr("currentCityName",name);
     	},
+    	_chontrolWord: function(){
+	       $(".plist-right-list .tit").fonts({
+					fontNum:22		
+			});
+			$(".recommend-list .word").fonts({
+					fontNum:24		
+			});
+    	},
     	_getPhoneBill:function(){
+    		var _this=this;
     		//获取销售地区
     		var code = $("#currentCity").attr("currentCityCode");
     		//类目
@@ -584,15 +593,17 @@ define('app/jsp/producthome/productHome', function (require, exports, module) {
 								var template = $.templates("#phoneBillTmpl");
 								var htmlOut = template.render(data.data);
 								$("#phoneBillData").html(htmlOut);
+								_this._chontrolWord();
+								
 							}
 						}
 					}
       		);
       	},
       	_getFlowProduct: function(){
+      		var _this=this;
       		//获取销售地区
     		var code = $("#currentCity").attr("currentCityCode");
-      		var _this=this;
       		//流量类目ID
       		var productId="10000010020000";
       		var oprator;
@@ -622,6 +633,7 @@ define('app/jsp/producthome/productHome', function (require, exports, module) {
 						var template = $.templates("#flowTmpl");
 						var htmlOut = template.render(data.data);
 						$("#flowData").html(htmlOut);
+						_this._chontrolWord();
 					}
 				}
 			});
@@ -673,6 +685,7 @@ define('app/jsp/producthome/productHome', function (require, exports, module) {
       	        return this._fmoney(parseInt(li)/1000, 2);
       		},
       	_getHotProduct: function(){
+      		var _this=this;
       	//获取销售地区
     		var code = $("#currentCity").attr("currentCityCode");
       		ajaxController.ajax({
@@ -686,6 +699,7 @@ define('app/jsp/producthome/productHome', function (require, exports, module) {
 						var template = $.templates("#hotTmpl");
 						var htmlOut = template.render(data.data);
 						$("#hotData").html(htmlOut);
+						_this._chontrolWord();
 					}
 				}
 			}

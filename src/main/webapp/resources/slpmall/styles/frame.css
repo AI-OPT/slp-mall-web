@@ -25,10 +25,10 @@
 .int-xxlarge{ width:500px;background:#fff; float:left; border:1px solid #f4792c; height:35px; padding-left:4px; font-size:12px;}
 .int-xxlarge:hover{ border:1px solid #fc721c}
 
-.textarea-xxlarge{ width:600px;float:left; border:1px solid #e7e7e7; height:140px; padding-left:4px; font-size:12px;outline:none}
+.textarea-xxlarge{width:600px;float:left;border:1px solid #e7e7e7;height:140px;padding-left:4px;font-size:12px;outline:none}
 .textarea-xxlarge:hover{ border:1px solid #fc721c}
 
-.int-medium-float{ width:210px; background:#fff;border:1px solid #e7e7e7; height:30px; padding-left:4px; font-size:12px;}
+.int-medium-float{ width:210px; background:#fff;border:1px solid #e7e7e7;height:30px;padding-left:4px;font-size:12px;}
 .int-medium-float:hover{ border:1px solid #fc721c}
 
 /**首页input**/
@@ -47,10 +47,10 @@
 .table-int-mini:hover{ border:1px solid #fc721c}
 
 /**下拉框**/
-.select-mini{width:80px; background:#fff; float:left; border:1px solid #e7e7e7; height:30px;  font-size:12px;outline:none}
+.select-mini{width:80px; background:#fff; float:left; border:1px solid #e7e7e7; height:30px;font-size:12px;outline:none}
 .select-mini:hover{border:1px solid #fc721c;}
 
-.select-xmini{width:100px; background:#fff; float:left; border:1px solid #e7e7e7; height:30px;  font-size:12px;outline:none}
+.select-xmini{width:100px; background:#fff; float:left; border:1px solid #e7e7e7; height:30px;font-size:12px;outline:none}
 .select-xmini:hover{border:1px solid #fc721c;}
 
 .select-small{width:160px; background:#fff; float:left; border:1px solid #e7e7e7; height:30px;  font-size:12px;outline:none}

@@ -111,7 +111,7 @@
       			 <div class="results-left" id="commonData">
                    <div class="results-left-title">
                        <ul>
-                           <li class="current"><a href="javascript:void(0);" id="generayId">综合排序</a></li>
+                           <li class="color" id="zhOrderId"><a href="javascript:void(0);" id="generayId">综合排序</a></li>
                            <li><a href="javascript:void(0);" id="saleOrder" value="" onclick="pager._changeSaleOrder()">销量<img src="${_slpbase }/images/x.png" id="saleNumX"></a></li>
                            <!--  <li><a href="javascript:void(0);">评论量</a></li>-->
                            <li id="xpriceId"><a href="javascript:void(0);" id="priceOrder" value="" onclick="pager._changePriceOrder()">价格<img src="${_slpbase }/images/x.png" id="priceX"></a></li>

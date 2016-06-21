@@ -255,8 +255,8 @@
 .parameter-right-tilit ul li a{ color:#333; }
 .parameter-right-tilit ul li a:hover{ color:#f4792c;}
 .parameter-right-tilit ul .current{ width:75px;float:left; border-bottom:2px solid #f4792c; padding-bottom:6px; color:#f4792c;}
-.commodity-list{ width:100%; float:left; padding:10px 0 0 15px;}
-.commodity-list p{ float:left; height:auto; overflow:hidden; display:inline-block;}
+.commodity-list{ width:100%; float:left; padding:10px 0 0 0px;text-align:center;}
+.commodity-list p{height:auto; overflow:hidden; display:inline-block;}
 .commodity-word{ width:950px; float:left; border-bottom:1px dashed #e7e7e7; padding-bottom:20px;margin-left:15px; margin-top:40px;}
 .commodity-word ul{ width:100%; float:left;}
 .commodity-word ul li{ float:left; width:18%; margin-left:50px; line-height:40px;}
@@ -293,6 +293,7 @@
 .results-left-title ul li a:hover{color:#f4792c;}
 .results-left-title ul li i{ color:#333;}
 .results-left-title ul li img{ margin-top:9px; float:right; margin-left:2px;}
+.results-left-title .color a{color:#f4792c;}
 /**筛选弹出地市**/
 .results-left-city{ float:left;}
 .results-left-city ul{margin-top:9px;}

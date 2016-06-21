@@ -10,6 +10,7 @@
 <link href="${_slpbase }/styles/frame.css" rel="stylesheet" type="text/css">
 <link href="${_slpbase }/styles/banner.css" rel="stylesheet" type="text/css">
 <link href="${_slpbase }/styles/font-awesome.css" rel="stylesheet" type="text/css">
+<script src="${_slpbase }/scripts/flickity-docs.min.js"></script>
 
 </head>
 
@@ -346,8 +347,6 @@
 			
 		</script>
 </body>
-
 </html>
-<script src="${_slpbase }/scripts/frame.js" type="text/javascript"></script>
-<script src="${_slpbase }/scripts/flickity-docs.min.js"></script>
+
 
