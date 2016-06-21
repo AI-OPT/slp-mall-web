@@ -12,14 +12,14 @@ define('app/jsp/fastcharge/fastCharge', function (require, exports, module) {
     
     require("opt-paging/aiopt.pagination");
     require("twbs-pagination/jquery.twbsPagination.min");
-    var SendMessageUtil = require("app/util/sendMessage");
+   
     
     //实例化AJAX控制处理对象
     var ajaxController = new AjaxController();
     //定义页面组件类
     var FastchargePager = Widget.extend({
     	
-    	Implements:SendMessageUtil,
+    	
     	//属性，使用时由类的构造函数传入
     	attrs: {
     	},
@@ -44,6 +44,24 @@ define('app/jsp/fastcharge/fastCharge', function (require, exports, module) {
     		this._initpage();
     		this._getPhoneInfo();
     		this._getFlowInfo();
+    	},
+    	_chagePage: function(){
+    		var isFlow = $("#flowFastFlag").val();
+    		if(isFlow==="true"){
+    			$("#phoneBill").removeClass("current");
+    			//document.getElementById("phoneBill").className="";
+    			$("#flowBill").attr("class","current");
+    			$("#regeiter-date1").hide();
+    			$("#regeiter-date2").show();
+    		}else{
+    			$("#flowBill").removeClass("current");
+    			//document.getElementById("flowBill").className="";
+    			$("#phoneBill").attr("class","current");
+    			$("#phoneBill").click();
+    			$("#regeiter-date1").show();
+    			$("#regeiter-date2").hide();
+    		}
+    		
     	},
     	_getBDFlow:function(){
     		var _this=this;
@@ -484,26 +502,7 @@ define('app/jsp/fastcharge/fastCharge', function (require, exports, module) {
     		
     	
     	},
-    	_chagePage: function(){
-    		var isFlow = $("#flowFastFlag").val();
-    		if(isFlow=="true"){
-    			//$("#phoneBill")removeClass();
-    			document.getElementById("phoneBill").className="";
-    			$("#flowBill").addClass("current");
-    			$("#regeiter-date1").hide();
-    			$("#regeiter-date2").show();
-    		}
-    		
-    		if(isFlow=="false"){
-    			//$("#flowBill")removeClass();
-    			document.getElementById("flowBill").className="";
-    			$("#phoneBill").addClass("current");
-    			$("#phoneBill").click();
-    			$("#regeiter-date1").show();
-    			$("#regeiter-date2").hide();
-    		}
-    		
-    	},
+    	
     	_hfeeChange:function(){
     		var _this=this;
     		$("#submitOdrBtn").removeAttr('href');

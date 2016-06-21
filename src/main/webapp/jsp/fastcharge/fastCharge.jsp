@@ -8,16 +8,7 @@
 <link href="${_slpbase}/styles/frame.css" rel="stylesheet" type="text/css">
 <link href="${_slpbase}/styles/font-awesome.css" rel="stylesheet" type="text/css">
 <script src="${_slpbase}/scripts/frame.js" type="text/javascript"></script>
-<script type="text/javascript">
-			var pager;
-			(function () {
-				seajs.use('app/jsp/fastcharge/fastCharge', function (FastchargePager) {
-					pager = new FastchargePager({element: document.body});
-					pager.render();
-				});
-			})();
-			
-		</script>
+
 </head>
 
 <body>
@@ -138,7 +129,16 @@
            <p  skuId="{{:skuInfo.skuId}}" salePrice="{{:skuInfo.salePrice}}" class="lfee"><a href="javascript:void(0);">{{:content}}</a></p>
  </script>
 <%@ include file="/inc/foot.jsp" %>
-
+<script type="text/javascript">
+			var pager;
+			(function () {
+				seajs.use('app/jsp/fastcharge/fastCharge', function (FastchargePager) {
+					pager = new FastchargePager({element: document.body});
+					pager.render();
+				});
+			})();
+			
+		</script>
 </body>
 </html>
 
