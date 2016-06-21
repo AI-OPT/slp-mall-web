@@ -110,7 +110,6 @@ define('app/jsp/order/orderSubmit', function (require, exports, module) {
 							var success = data.responseHeader.success;
 							var orderId=data.data.orderId;
 							var serialNo=data.data.serialNo;
-							alert(orderId);
 							if(!success){
 								Dialog({
 									title : '提示',
