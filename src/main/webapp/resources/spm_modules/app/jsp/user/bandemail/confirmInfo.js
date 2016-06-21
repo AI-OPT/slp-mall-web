@@ -192,7 +192,7 @@ define('app/jsp/user/bandemail/confirmInfo', function (require, exports, module)
 					}else{
 						var msg = data.statusInfo;
 						//验证码
-						if(status == "100002"){
+						if(status == "000003"||status == "000004"||status == "000007"){
 							$("#phoneVerifyCodeError").show();
 							_this._controlMsgText("phoneVerifyCodeMsg",msg);
 							_this._controlMsgAttr("phoneVerifyCodeMsg",2);
@@ -513,6 +513,9 @@ define('app/jsp/user/bandemail/confirmInfo', function (require, exports, module)
 			return{
 				"confirmType":function () {
 			        return $('input:radio:checked').val();
+			    },
+			    "userMp":function(){
+			    	return jQuery.trim($("#phone").html())
 			    },
 				"pictureVerifyCode":function () {
 			        return jQuery.trim($("#pictureVerifyCode").val())
