@@ -1,14 +1,21 @@
 package com.ai.slp.mall.web.controller.account;
 
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -44,9 +51,12 @@ import com.ai.slp.user.api.ucuserphonebooks.param.UserPhonebook;
 import com.alibaba.fastjson.JSON;
 
 @RestController
+@RequestMapping("/account/phonebook")
 public class UserPhoneBookController {
+	
+	private static final Logger LOG = LoggerFactory.getLogger(UserPhoneBookController.class);
 
-	@RequestMapping("/account/phonebook/phonebookmgr")
+	@RequestMapping("/phonebookmgr")
 	public ModelAndView phonebookmgr(HttpServletRequest request) {
 		SLPClientUser user = this.getUserId(request);
 		request.setAttribute("userId", user.getUserId());
@@ -54,7 +64,7 @@ public class UserPhoneBookController {
 		return view;
 	}
 
-	@RequestMapping("/account/phonebook/submitNewTelGroup")
+	@RequestMapping("/submitNewTelGroup")
 	@ResponseBody
 	public ResponseData<String> submitNewTelGroup(HttpServletRequest request, UcTelGroupMantainReq req) {
 		ResponseData<String> responseData = null;
@@ -76,7 +86,7 @@ public class UserPhoneBookController {
 		return responseData;
 	}
 
-	@RequestMapping("/account/phonebook/queryTelGroups")
+	@RequestMapping("/queryTelGroups")
 	@ResponseBody
 	public ResponseData<List<UcTelGroup>> queryTelGroups(HttpServletRequest request, UcTelGroupQueryReq req) {
 		ResponseData<List<UcTelGroup>> responseData = null;
@@ -98,7 +108,7 @@ public class UserPhoneBookController {
 		return responseData;
 	}
 
-	@RequestMapping("/account/phonebook/deleteUcTelGroup")
+	@RequestMapping("/deleteUcTelGroup")
 	@ResponseBody
 	public ResponseData<String> deleteUcTelGroup(HttpServletRequest request, UcTelGroupMantainReq req) {
 		ResponseData<String> responseData = null;
@@ -120,7 +130,7 @@ public class UserPhoneBookController {
 		return responseData;
 	}
 
-	@RequestMapping("/account/phonebook/modifyUcTelGroup")
+	@RequestMapping("/modifyUcTelGroup")
 	@ResponseBody
 	public ResponseData<String> modifyUcTelGroup(HttpServletRequest request, UcTelGroupMantainReq req) {
 		ResponseData<String> responseData = null;
@@ -142,7 +152,7 @@ public class UserPhoneBookController {
 		return responseData;
 	}
 
-	@RequestMapping("/account/phonebook/phonebookdetail")
+	@RequestMapping("/phonebookdetail")
 	public ModelAndView phonebookdetail(HttpServletRequest request) {
 		String telGroupId = request.getParameter("telGroupId");
 		if (StringUtil.isBlank(telGroupId)) {
@@ -155,7 +165,7 @@ public class UserPhoneBookController {
 		return view;
 	}
 
-	@RequestMapping("/account/phonebook/queryUserPhonebooks")
+	@RequestMapping("/queryUserPhonebooks")
 	@ResponseBody
 	public ResponseData<PageInfo<UserPhonebook>> queryUserPhonebooks(HttpServletRequest request,
 			UcUserPhonebooksQueryReq req) {
@@ -173,7 +183,7 @@ public class UserPhoneBookController {
 		return responseData;
 	}
 
-	@RequestMapping("/account/phonebook/batchDeleteUserPhonebooks")
+	@RequestMapping("/batchDeleteUserPhonebooks")
 	@ResponseBody
 	public ResponseData<String> batchDeleteUserPhonebooks(HttpServletRequest request, String recordIds) {
 		ResponseData<String> responseData = null;
@@ -203,7 +213,7 @@ public class UserPhoneBookController {
 		return responseData;
 	}
 
-	@RequestMapping("/account/phonebook/batchAddUserPhonebooks")
+	@RequestMapping("/batchAddUserPhonebooks")
 	@ResponseBody
 	public ResponseData<String> batchAddUserPhonebooks(HttpServletRequest request, String datas) {
 		ResponseData<String> responseData = null;
@@ -228,7 +238,7 @@ public class UserPhoneBookController {
 		return responseData;
 	}
 
-	@RequestMapping("/account/phonebook/uploadPhoneBooks")
+	@RequestMapping("/uploadPhoneBooks")
 	@ResponseBody
 	public ResponseData<String> uploadPhoneBooks(HttpServletRequest request) {
 		ResponseData<String> responseData = null;
@@ -286,7 +296,7 @@ public class UserPhoneBookController {
 		return user;
 	}
 
-	@RequestMapping("/account/phonebook/getProvices")
+	@RequestMapping("/getProvices")
 	@ResponseBody
 	public ResponseData<List<GnAreaVo>> getProvices() {
 		ResponseData<List<GnAreaVo>> responseData = null;
@@ -299,7 +309,7 @@ public class UserPhoneBookController {
 		return responseData;
 	}
 
-	@RequestMapping("/account/phonebook/getBasicOrgs")
+	@RequestMapping("/getBasicOrgs")
 	@ResponseBody
 	public ResponseData<List<SysParam>> getBasicOrgs() {
 		ResponseData<List<SysParam>> responseData = null;
@@ -312,5 +322,39 @@ public class UserPhoneBookController {
 		}
 		return responseData;
 	}
+	
+	@RequestMapping("/download/template")
+	public void downloadFile(HttpServletRequest request, HttpServletResponse response) {
+		OutputStream os = null;
+		try {
+			os = response.getOutputStream();// 取得输出流
+			String exportFileName = "template.xlsx";
+			response.reset();// 清空输出流
+			response.setContentType("application/x-xls");// 定义输出类型
+			response.setHeader("Content-disposition", "attachment; filename=" + exportFileName);// 设定输出文件头
+			String filePath="/resources/template/phonebook.xlsx";
+			String realPath=request.getRealPath(filePath);
+			FileInputStream fis =  new FileInputStream(realPath); 
+	         byte[] b = new byte[1024]; 
+	         int i = 0; 
+	         while((i = fis.read(b)) > 0) 
+	         { 
+	        	 os.write(b, 0, i); 
+	         } 
+	         os.flush(); 
+			 os.close();
+			 fis.close();
+		} catch (Exception e) {
+			LOG.error("下载文件失败",e);
+			if(os!=null){
+				try {
+					os.close();
+				} catch (IOException e1) {
+					LOG.error("操作异常",e1);
+				}
+			}
+		}
+
+	}//end of download
 
 }

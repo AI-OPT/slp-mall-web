@@ -35,7 +35,8 @@ define('app/jsp/balance/phonebook/phonebookdetail', function (require, exports, 
     		//查询
             "click [id='BTN_QUERY']":"_queryPhoneBooks",
             "click [id='BTN_REFRESH']":"_queryPhoneBooks",
-            "click [id='BTN_DELETE']":"_deletePhoneBooks",
+            "click [id='BTN_DELETE']":"_checkDeleteData",
+            "click [id='deletePhone']":"_deletePhoneBooks",
             "click [id='BTN_BATCH_IMPORT']":"_showBatchImportWindow",
             "click [id='BTN_ADD_PHONEBOOK']":"_showAddPhoneBookWindow",
             "click [id='CHECK_ALL']":"_checkAll",
@@ -53,6 +54,7 @@ define('app/jsp/balance/phonebook/phonebookdetail', function (require, exports, 
     		this._init(); 
     		this._initProvices();
     		this._initBasicOrgs();
+    		this._queryPhoneBooks();
     	},
     	
     	_init: function(){ 
@@ -146,7 +148,10 @@ define('app/jsp/balance/phonebook/phonebookdetail', function (require, exports, 
 					if (xhr.status == 200) {
 						var responseData = $.parseJSON(xhr.response);
 						if(responseData.statusCode=="1"){
-							alert(responseData.data);
+							//alert(responseData.data);
+							$('.eject-mask').fadeOut(100);
+							$('.eject-medium').slideUp(150);
+							_this._queryPhoneBooks();
 						}
 					}  
 				}
@@ -259,8 +264,6 @@ define('app/jsp/balance/phonebook/phonebookdetail', function (require, exports, 
     	_showBatchImportWindow: function(){
     		$("#uploadFile").val("");
 			$("#TEXT_FILE_NAME").val("");
-			
-    		
     	},
     	
     	_showAddPhoneBookWindow: function(){
@@ -319,7 +322,9 @@ define('app/jsp/balance/phonebook/phonebookdetail', function (require, exports, 
 					datas: JSON.stringify(arr)
 				},
 				success: function(data){
-					alert(data.data);  
+					//alert(data.data);  
+					$('.eject-mask').fadeOut(100);
+					$('.eject-large').slideUp(150);
 					_this._queryPhoneBooks();
 				}
 			});
@@ -337,14 +342,20 @@ define('app/jsp/balance/phonebook/phonebookdetail', function (require, exports, 
 			return valid;
     	},
     	
-    	_deletePhoneBooks: function(){
-    		var _this = this;
+    	_checkDeleteData:function(){
     		var checkboxs=$("input[name='CHEK_TEL_NO']:checked");
     		if(checkboxs.length==0){
     			alert("请选择删除记录");
     			return;
     		}
+    		$('.eject-mask').fadeIn(100);
+    		$('.eject-samll').slideDown(200);
+    	},
+    	
+    	_deletePhoneBooks: function(){
+    		var _this = this;
     		var recordIds = "";
+    		var checkboxs=$("input[name='CHEK_TEL_NO']:checked");
     		$.each(checkboxs,function(i,o){
     			var telNo = $(o).val();
     			recordIds+=telNo+","
@@ -359,7 +370,9 @@ define('app/jsp/balance/phonebook/phonebookdetail', function (require, exports, 
 					recordIds: recordIds
 				},
 				success: function(data){
-					alert("删除成功");  
+					//alert("删除成功");  
+					$('.eject-mask').fadeOut(100);
+					$('.eject-samll').slideUp(150);
 					_this._queryPhoneBooks();
 				}
 			});

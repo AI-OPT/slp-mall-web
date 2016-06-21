@@ -5,15 +5,11 @@
 <meta charset="UTF-8">
 <title>通讯录管理</title>
 <%@ include file="/inc/inc.jsp"%>
-<link href="${_slpbase }/styles/modular.css" rel="stylesheet"
-	type="text/css">
-<link href="${_slpbase }/styles/global.css" rel="stylesheet"
-	type="text/css">
-<link href="${_slpbase }/styles/frame.css" rel="stylesheet"
-	type="text/css">
-<link href="${_slpbase }/styles/font-awesome.css" rel="stylesheet"
-	type="text/css">
-
+<link href="${_slpbase }/styles/modular.css" rel="stylesheet" type="text/css">
+<link href="${_slpbase }/styles/global.css" rel="stylesheet" type="text/css">
+<link href="${_slpbase }/styles/frame.css" rel="stylesheet" type="text/css">
+<link href="${_slpbase }/styles/font-awesome.css" rel="stylesheet" type="text/css">
+<link rel="stylesheet" type="text/css" href="${_base}/resources/slpmall/styles/bootstrap.css">
 </head>
 
 <body>
@@ -114,9 +110,11 @@
 						</table>
 					</div>
 
-					<div class="paging-large">
-					 <ul id="pagination-ul"></ul>
-				  </div>
+				   <!--分页-->          
+			          <div style="text-align: right">
+						 <ul id="pagination-ul"></ul>
+					  </div>
+					<!--分页-->
 
 
 				</div>
@@ -130,8 +128,24 @@
 
 	<!--底部 结束-->
 	
-	
-		<!--弹出删除弹出框  中-->
+<!--弹出删除弹出框  小-->
+<div class="eject-big">
+<div class="eject-samll">
+	<div class="eject-samll-title">
+		<p>删除操作确认</p>
+		<p class="img"><A href="#"></A></p>
+	</div>
+	<!--确认删除-->
+	<div class="eject-samll-confirm">
+		<ul>
+		<li class="word">确定要删除已选联系人吗？</li>
+		<li><input id="deletePhone" type="button"  class="slp-btn eject-small-btn" value="确认"><input type="button"  class="slp-btn eject-small-btn close-btn" value="取消"></li>		
+		</ul>
+	</div>
+</div>	
+<div class="eject-mask"></div>	
+</div>	
+<!--批量导入通讯录弹出框  -->
 	<div class="eject-big">
 		<div class="eject-medium">
 			<div class="eject-medium-title">
@@ -159,7 +173,7 @@
 				<div class="medium-list-word">
 					<ul>
 						<li>注意：</li>
-						<li>1.系统支持导入xls/xlsx格式的文件。<a href="${_base }/resources/template/通信录模板.xlsx">下载通讯录文件模板.xlsx。</a></li>
+						<li>1.系统支持导入xls/xlsx格式的文件。<a href="${_base }/account/phonebook/download/template">下载通讯录文件模板.xlsx。</a></li>
 						<li>2.字段顺序分别为姓名、手机号,文件包含重复手机号时，系统只取一条。姓名列允许为空或出现相同名字，若一个人有多个手机号，请分多行来输入。</li>
 						<li>3.每个文件最多含有1000条记录。</li>
 					</ul>
@@ -248,10 +262,8 @@
 		});
 	})();
 	</script>
-</body>
-
-</html>
-<script src="${_slpbase }/scripts/frame.js" type="text/javascript"></script>
+	
+	<script src="${_slpbase }/scripts/frame.js" type="text/javascript"></script>
 <script src="${_slpbase }/scripts/flickity-docs.min.js"></script>
 
 <script id="PhoneBooksImpl" type="text/x-jsrender">
@@ -276,4 +288,8 @@
 								<td class="eject-table-img" align="left"><span style="color:red" id="SPAN_ERROR_{{:#index}}">{{:error}}</span><a href="javascript:void(0)"  index="{{:#index}}" name="DEL_BATCH_EDIT_ROW">删除</a></td>
 							</tr>
 </script>
+	
+</body>
+
+</html>
 
