@@ -40,7 +40,7 @@
 		</div>
 	</div>
 	<!--导航区域结束-->
-	<form id="orderSubmitForm" action="${_base}/pay/orderPay" target="_blank" method="post">
+	<form id="orderSubmitForm" action="${_base}/pay/orderPay" target="_blank" method="post" >
 	
 	</form>
 	<!--底部-->
@@ -164,7 +164,7 @@
 									class="slp-btn immedtl-btn" value="确认使用">
 							</p>
 							<p class="color">
-								<A href="${_base}/user/password/toChangePassword">忘记密码/未设置密码？</A>
+								<A href="${_base}/user/payPassword/updatePayPassword">忘记密码/未设置密码？</A>
 							</p>
 						</li>
 					</ul>
