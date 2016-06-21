@@ -36,6 +36,8 @@ import com.ai.slp.charge.api.paymentquery.param.ChargeBaseInfo;
 import com.ai.slp.charge.api.paymentquery.param.ChargeInfoQueryByAcctIdParam;
 import com.ai.slp.common.api.cache.interfaces.ICacheSV;
 import com.ai.slp.common.api.cache.param.SysParam;
+import com.ai.slp.common.api.cache.param.SysParamMultiCond;
+import com.ai.slp.common.api.cache.param.SysParamSingleCond;
 import com.ai.slp.mall.web.util.DateUtil;
 import com.alibaba.fastjson.JSON;
 
@@ -44,7 +46,7 @@ public class BalanceController {
 	private static final Logger log = LoggerFactory.getLogger(BalanceController.class);
 	//
 	private static final String ACCOUNT_ID = "100001";
-	private static final String TENANT_ID = "1";
+	private static final String TENANT_ID = "SLP";
 	private static final int AMOUNT = -999;
 	//private static final int 
 	//
@@ -191,8 +193,15 @@ public class BalanceController {
 		//
 		String typeCode = "BUSI_TYPE";
 		String paramCode = "BUSI_TYPE_PARAM";
+		//
+		SysParamSingleCond sysParamSingleCond = new SysParamSingleCond();
+		sysParamSingleCond.setTenantId(TENANT_ID);
+		sysParamSingleCond.setTypeCode(typeCode);
+		sysParamSingleCond.setParamCode(paramCode);
+		//
 		for(ChargeBaseInfo chargeBaseInfo : chargeBaseInfoList){
-			SysParam sysParam = DubboConsumerFactory.getService(ICacheSV.class).getSysParam(TENANT_ID, typeCode, paramCode, chargeBaseInfo.getBusiType());
+			sysParamSingleCond.setColumnValue(chargeBaseInfo.getBusiType());
+			SysParam sysParam = DubboConsumerFactory.getService(ICacheSV.class).getSysParamSingle(sysParamSingleCond);//(TENANT_ID, typeCode, paramCode, chargeBaseInfo.getBusiType());
 			
 			chargeBaseInfo.setBusiType(sysParam.getColumnDesc());
 			//
@@ -299,7 +308,12 @@ public class BalanceController {
 		String paramCode = "DATE_TIME";
 		SLPClientUser user = this.getUserInfo(request);
 		//
-		List<SysParam> sysParamList = DubboConsumerFactory.getService(ICacheSV.class).getSysParams(user.getTenantId(), typeCode, paramCode);
+		SysParamMultiCond sysParamMultiCond = new SysParamMultiCond();
+		sysParamMultiCond.setTenantId(user.getTenantId());
+		sysParamMultiCond.setTypeCode(typeCode);
+		sysParamMultiCond.setParamCode(paramCode);
+		//
+		List<SysParam> sysParamList = DubboConsumerFactory.getService(ICacheSV.class).getSysParamList(sysParamMultiCond);
 		//
 		log.info("sysParamList:"+JSON.toJSONString(sysParamList));
 		if(CollectionUtil.isEmpty(sysParamList)){
