@@ -33,7 +33,8 @@ define('app/jsp/product/searchProduct', function (require, exports, module) {
             "click #moreId":"_more",
             "click #icon-rm":"_removeIcon",
             "click #icon-rm1":"_removePrice",
-            "click #icon-rm2":"_removeAgent"
+            "click #icon-rm2":"_removeAgent",
+            "click #generayId":"_changeGeneral"
         },
     	//重写父类
     	setup: function () {
@@ -43,6 +44,7 @@ define('app/jsp/product/searchProduct', function (require, exports, module) {
     		this._getDispatchCity();
     		var name = $("#skuName").val();
     		$("#serachName").val(name);
+    		this._hideArrow();
     	},
     	_getsessionData: function(){
     		var _this = this;
@@ -522,6 +524,10 @@ define('app/jsp/product/searchProduct', function (require, exports, module) {
     	//点击销量触发的事件
 		_changeSaleOrder: function(){
 			var _this = this;
+			$("#saleNumX").attr("style","display:");
+			//隐藏价格图标
+			$("#priceX").attr("style","display:none");
+			$("#priceS").attr("style","display:none");
 			var flag = $("#isHaveDataFlag").val();
 			if(flag=="00"){
 				return;
@@ -532,9 +538,29 @@ define('app/jsp/product/searchProduct', function (require, exports, module) {
 			}
 			
 		 },
+		 //初始化隐藏价格销量图标
+		 _hideArrow: function(){
+			 $("#saleNumX").attr("style","display:none");
+			 $("#priceX").attr("style","display:none");
+			 
+		 },
+		 _changeGeneral: function(){
+			 var _this = this;
+			 //隐藏销量、价格图标
+			 this._hideArrow();
+			 //删除价格、销量排序取值
+			 $("#priceOrder").attr("value","");
+			 $("#saleOrder").attr("value","");
+			 _this._changeDataClick();
+		 },
 		//点击价格排序触发事件
 		_changePriceOrder: function(){
 			var _this = this;
+			//展示价格图标
+			$("#priceX").attr("style","display:");
+			$("#priceS").attr("style","display:");
+			//隐藏销量图标
+			$("#saleNumX").attr("style","display:none");
 			var flag = $("#isHaveDataFlag").val();
 			if(flag=="00"){
 				return;
@@ -544,6 +570,7 @@ define('app/jsp/product/searchProduct', function (require, exports, module) {
 				if(isSprice){
 					//切换升序、降序图标
 					$("#xpriceId").attr("style","display:");
+					 $("#priceX").attr("style","display:");
 					$("#spriceId").attr("style","display:none");
 					$("#priceOrder").attr("value","DESC");
 				}else{
