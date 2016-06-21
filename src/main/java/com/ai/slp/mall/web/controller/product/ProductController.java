@@ -28,6 +28,7 @@ import com.ai.slp.product.api.productcat.param.ProductCatUniqueReq;
 import com.ai.slp.product.api.webfront.interfaces.IProductDetailSV;
 import com.ai.slp.product.api.webfront.param.*;
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import org.apache.commons.httpclient.util.DateUtil;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
@@ -315,7 +316,10 @@ public class ProductController {
 			return;
 		}
 		IDSSClient client= DSSClientFactory.getDSSClient(IPaasConstants.DssParams.PROD_DETAIL_DSS);
-		byte[] prodDetail = client.read(fileId);
-		uiMap.put("prodDetail",new String(prodDetail));
+		String context = client.findById(fileId);
+		if (StringUtils.isNotBlank(context)){
+			JSONObject object = JSON.parseObject(context);
+			uiMap.put("prodDetail",object.getString("content"));
+		}
 	}
 }
