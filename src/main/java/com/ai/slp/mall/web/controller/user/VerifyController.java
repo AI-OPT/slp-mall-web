@@ -134,7 +134,7 @@ public class VerifyController {
      */
     private String sendPhoneVerifyCode(String sessionId, SLPClientUser userClient) {
         SMDataInfoNotify smDataInfoNotify = new SMDataInfoNotify();
-        String phoneVerifyCode = RandomUtil.randomNum(PhoneVerifyConstants.VERIFY_SIZE);
+        String phoneVerifyCode = userClient.getUserMp()+";"+RandomUtil.randomNum(PhoneVerifyConstants.VERIFY_SIZE);
         // 查询是否发送过短信
         String smstimes = "1";
         String smskey = BandEmail.CACHE_KEY_CONFIRM_SEND_PHONE_NUM + userClient.getUserMp();
@@ -204,28 +204,23 @@ public class VerifyController {
                 return pictureCheck;
             }
         }
-        
         // 检查短信
         if (BandEmail.CHECK_TYPE_PHONE.equals(confirmType)) {
-            // 检查短信验证码
-            String verifyCodeCache = cacheClient.get(BandEmail.CACHE_KEY_VERIFY_PHONE + sessionId);
-            String verifyCode = safetyConfirmData.getVerifyCode();
-            ResponseData<String> phoneCheck = VerifyUtil.checkPhoneVerifyCode(verifyCode, verifyCodeCache);
-            String phoneResultCode = phoneCheck.getResponseHeader().getResultCode();
-            if (!VerifyConstants.ResultCodeConstants.SUCCESS_CODE.equals(phoneResultCode)) {
+            ResponseData<String> phoneCheck = VerifyUtil.checkPhoneVerifyCode(sessionId, cacheClient, safetyConfirmData);
+            String resultCode = phoneCheck.getResponseHeader().getResultCode();
+            if (!VerifyConstants.ResultCodeConstants.SUCCESS_CODE.equals(resultCode)) {
                 return phoneCheck;
             }
-
         }
-        // 用户信息放入缓存
-        String uuid = UUIDUtil.genId32();
-        SLPClientUser userClient = (SLPClientUser) request.getSession().getAttribute(SSOClientConstants.USER_SESSION_KEY);
-        CacheUtil.setValue(uuid, SLPMallConstants.UUID.OVERTIME, userClient, BandEmail.CACHE_NAMESPACE);
-        responseData = new ResponseData<String>(ResponseData.AJAX_STATUS_SUCCESS, "正确", "/center/bandEmail/setEmail?" + SLPMallConstants.UUID.KEY_NAME + "=" + uuid);
+        
+        responseData = new ResponseData<String>(VerifyConstants.ResultCodeConstants.SUCCESS_CODE, "正确", null);
         ResponseHeader responseHeader = new ResponseHeader(true, VerifyConstants.ResultCodeConstants.SUCCESS_CODE, "正确");
         responseData.setResponseHeader(responseHeader);
         return responseData;
     }
+    
+    
+    
     
     @RequestMapping("/checkPhone")
     @ResponseBody
