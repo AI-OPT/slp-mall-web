@@ -10,6 +10,7 @@ import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,6 +20,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.ai.opt.base.vo.ResponseHeader;
 import com.ai.opt.sdk.components.idps.IDPSClientFactory;
+import com.ai.opt.sdk.components.mcs.MCSClientFactory;
 import com.ai.opt.sdk.dubbo.util.DubboConsumerFactory;
 import com.ai.opt.sdk.util.CollectionUtil;
 import com.ai.opt.sdk.util.UUIDUtil;
@@ -26,16 +28,27 @@ import com.ai.opt.sdk.web.model.ResponseData;
 import com.ai.opt.sso.client.filter.SLPClientUser;
 import com.ai.opt.sso.client.filter.SSOClientConstants;
 import com.ai.paas.ipaas.image.IImageClient;
+import com.ai.paas.ipaas.mcs.interfaces.ICacheClient;
 import com.ai.slp.common.api.area.interfaces.IGnAreaQuerySV;
 import com.ai.slp.common.api.area.param.GnAreaVo;
 import com.ai.slp.common.api.industry.interfaces.IIndustrySV;
 import com.ai.slp.common.api.industry.param.IndustryQueryResponse;
 import com.ai.slp.mall.web.constants.SLPMallConstants;
+import com.ai.slp.mall.web.constants.SLPMallConstants.BandEmail;
+import com.ai.slp.mall.web.constants.VerifyConstants;
+import com.ai.slp.mall.web.model.user.SafetyConfirmData;
+import com.ai.slp.mall.web.util.VerifyUtil;
 import com.ai.slp.user.api.contactsinfo.interfaces.IUcContactsInfoSV;
 import com.ai.slp.user.api.contactsinfo.param.InsertContactsInfoRequest;
+import com.ai.slp.user.api.contactsinfo.param.QueryContactsInfoSingleRequest;
+import com.ai.slp.user.api.contactsinfo.param.QueryContactsInfoSingleResponse;
 import com.ai.slp.user.api.keyinfo.interfaces.IUcKeyInfoSV;
 import com.ai.slp.user.api.keyinfo.param.InsertCustFileExtRequest;
 import com.ai.slp.user.api.keyinfo.param.InsertGroupKeyInfoRequest;
+import com.ai.slp.user.api.keyinfo.param.QueryCustFileExtRequest;
+import com.ai.slp.user.api.keyinfo.param.QueryCustFileExtResponse;
+import com.ai.slp.user.api.keyinfo.param.SearchGroupKeyInfoRequest;
+import com.ai.slp.user.api.keyinfo.param.SearchGroupKeyInfoResponse;
 import com.alibaba.fastjson.JSON;
  
 @RequestMapping("/user/qualification")
@@ -59,6 +72,51 @@ public class QualificationController {
     public ModelAndView toAgentEnterprisePage() {
         return new ModelAndView("jsp/user/qualification/agent-enterprise");
     }
+    
+    //查询企业认证信息
+    @RequestMapping("/getQualificationInfo")
+    public Map<Object,Object> getQualificationInfo(HttpServletRequest request){
+        
+        HttpSession session = request.getSession();
+        SLPClientUser user = (SLPClientUser) session.getAttribute(SSOClientConstants.USER_SESSION_KEY);
+        Map<Object,Object> map = new HashMap<Object,Object>();
+        //获取dubbo服务
+        IUcKeyInfoSV ucKeyInfoSV = DubboConsumerFactory.getService("iUcKeyInfoSV");
+        IUcContactsInfoSV contactsInfoSV = DubboConsumerFactory.getService("iUcContactsInfoSV");
+        //筛选有用信息
+        InsertGroupKeyInfoRequest insertGroupKeyInfoRequest = new InsertGroupKeyInfoRequest();
+        InsertCustFileExtRequest insertCustFileExtRequest = new InsertCustFileExtRequest();
+        InsertContactsInfoRequest insertContactsInfoRequest = new InsertContactsInfoRequest();
+        
+        //查询联系人
+        QueryContactsInfoSingleRequest contactsInfoSingleRequest = new QueryContactsInfoSingleRequest();
+        contactsInfoSingleRequest.setTenantId(user.getTenantId());
+        contactsInfoSingleRequest.setUserId(user.getUserId());
+        QueryContactsInfoSingleResponse contactsInfoSingleResponse = contactsInfoSV.queryContactsInfoSingle(contactsInfoSingleRequest);
+        BeanUtils.copyProperties(contactsInfoSingleResponse, insertContactsInfoRequest);
+        map.put("insertContactsInfoRequest", insertContactsInfoRequest);
+        
+        //查询关键信息
+        SearchGroupKeyInfoRequest groupKeyInfoRequest = new SearchGroupKeyInfoRequest();
+        SearchGroupKeyInfoResponse groupKeyInfoResponse = new SearchGroupKeyInfoResponse();
+        groupKeyInfoRequest.setTenantId(user.getTenantId());
+        groupKeyInfoRequest.setUserId(user.getUserId());
+        groupKeyInfoResponse = ucKeyInfoSV.searchGroupKeyInfo(groupKeyInfoRequest);
+        BeanUtils.copyProperties(groupKeyInfoResponse, insertGroupKeyInfoRequest);
+        map.put("groupKeyInfoResponse", groupKeyInfoResponse);
+        
+        //查询附件信息
+        QueryCustFileExtRequest custFileExtRequest = new QueryCustFileExtRequest();
+        QueryCustFileExtResponse custFileExtResponse = new QueryCustFileExtResponse();
+        custFileExtRequest.setTenantId(user.getTenantId());
+        custFileExtRequest.setUserId(user.getUserId());
+        custFileExtResponse = ucKeyInfoSV.QueryCustFileExt(custFileExtRequest);
+        BeanUtils.copyProperties(custFileExtResponse, insertCustFileExtRequest);
+        map.put("insertCustFileExtRequest", insertCustFileExtRequest);
+        return map;
+    }
+      
+    
     //企业页面
     @RequestMapping("/toEnterprisePage")
     public ModelAndView toEnterprisePage() {
@@ -70,50 +128,7 @@ public class QualificationController {
         return new ModelAndView("jsp/user/qualification/enterprise",model);
     }
     
-    @RequestMapping(value = "/uploadImg", produces = "application/json;charset=UTF-8")
-    @ResponseBody
-    public Map<String, Object> uploadImg(MultipartFile image, HttpServletRequest request) {
-        
-        Map<String,Object> map = new HashMap<String,Object>();
-        
-        String idpsns = "slp-mall-web-idps";
-        // 获取imageClient
-        IImageClient im = IDPSClientFactory.getImageClient(idpsns);
-        //获取图片信息
-        try {
-            String idpsId = im.upLoadImage(image.getBytes(), UUIDUtil.genId32()+".png");
-            String url = im.getImageUrl(idpsId, ".jpg", "80x80");
-            map.put("isTrue", true);
-            map.put("idpsId", idpsId);
-            map.put("url", url);
-        } catch (IOException e) {
-            LOGGER.error("保存失败");
-            map.put("isTrue", false);
-        }
-        LOGGER.info("Map:---->>"+JSON.toJSONString(map));
-        return map;
-    }
-    
-    @RequestMapping(value = "/deleteImg")
-    @ResponseBody
-    public Map<String, Object> deleteImg(String ipdsId, HttpServletRequest request) {
-        Map<String,Object> map = new HashMap<String,Object>();
-        String idpsns = "slp-mall-web-idps";
-        // 获取imageClient
-        IImageClient im = IDPSClientFactory.getImageClient(idpsns);
-        //获取图片信息
-        try {
-            im.deleteImage(ipdsId);
-            map.put("isTrue", true);
-        } catch (Exception e) {
-            LOGGER.error("保存失败");
-            map.put("isTrue", false);
-        }
-        LOGGER.info("Map:---->>"+JSON.toJSONString(map));
-        return map;
-    }
-    
-    
+    //保存企业申请信息
     @RequestMapping(value="/saveEnterprise")
     @ModelAttribute
     public ResponseData<String> saveEnterprise(HttpServletRequest request,
@@ -122,9 +137,21 @@ public class QualificationController {
             InsertContactsInfoRequest insertContactsInfoRequest){
         ResponseData<String> responseData=null;
         ResponseHeader responseHeader=null;
-        String ipdsId = request.getParameter("ipdsId");
-        String phoneCode = request.getParameter("phoneCode");
         
+        ICacheClient cacheClient = MCSClientFactory.getCacheClient(BandEmail.CACHE_NAMESPACE);
+        String sessionId = request.getSession().getId();
+        String ipdsId = request.getParameter("ipdsId");
+        String userMp = request.getParameter("contactMp");
+        String phoneCode = request.getParameter("phoneCode");
+        SafetyConfirmData safetyConfirmData = new SafetyConfirmData();
+        safetyConfirmData.setUserMp(userMp);
+        safetyConfirmData.setVerifyCode(phoneCode);
+        //验证短信验证码
+        ResponseData<String> phoneCheck = VerifyUtil.checkPhoneVerifyCode(sessionId, cacheClient, safetyConfirmData);
+        String resultCode = phoneCheck.getResponseHeader().getResultCode();
+        if (!VerifyConstants.ResultCodeConstants.SUCCESS_CODE.equals(resultCode)) {
+            return phoneCheck;
+        }else{
         HttpSession session = request.getSession();
         SLPClientUser user = (SLPClientUser) session.getAttribute(SSOClientConstants.USER_SESSION_KEY);
 
@@ -153,6 +180,7 @@ public class QualificationController {
         }
         responseData.setResponseHeader(responseHeader);
         return responseData;
+        }
     }
     
     
@@ -251,6 +279,69 @@ public class QualificationController {
         }
         
         return responseData;
+    }
+    
+    //获取图片
+    @RequestMapping("/getImg")
+    @ResponseBody
+    public ResponseData<String> getImg(HttpServletRequest request ,String ipdsId){
+        ResponseData<String> responseData = null;
+        String idpsns = "slp-mall-web-idps";
+        // 获取imageClient
+        IImageClient im = IDPSClientFactory.getImageClient(idpsns);
+       try{
+            String url = im.getImageUrl(ipdsId, ".jpg");
+            responseData = new ResponseData<String>(ResponseData.AJAX_STATUS_SUCCESS,"查询成功");
+            responseData.setData(url);
+       }catch(Exception e){
+            responseData = new ResponseData<String>(ResponseData.AJAX_STATUS_SUCCESS,"没有查询结果");
+       }
+        return responseData;
+    }
+    
+    //上传图片
+    @RequestMapping(value = "/uploadImg", produces = "application/json;charset=UTF-8")
+    @ResponseBody
+    public Map<String, Object> uploadImg(MultipartFile image, HttpServletRequest request) {
+        
+        Map<String,Object> map = new HashMap<String,Object>();
+        
+        String idpsns = "slp-mall-web-idps";
+        // 获取imageClient
+        IImageClient im = IDPSClientFactory.getImageClient(idpsns);
+        //获取图片信息
+        try {
+            String idpsId = im.upLoadImage(image.getBytes(), UUIDUtil.genId32()+".png");
+            String url = im.getImageUrl(idpsId, ".jpg", "80x80");
+            map.put("isTrue", true);
+            map.put("idpsId", idpsId);
+            map.put("url", url);
+        } catch (IOException e) {
+            LOGGER.error("保存失败");
+            map.put("isTrue", false);
+        }
+        LOGGER.info("Map:---->>"+JSON.toJSONString(map));
+        return map;
+    }
+    
+    //删除服务器图片
+    @RequestMapping(value = "/deleteImg")
+    @ResponseBody
+    public Map<String, Object> deleteImg(String ipdsId, HttpServletRequest request) {
+        Map<String,Object> map = new HashMap<String,Object>();
+        String idpsns = "slp-mall-web-idps";
+        // 获取imageClient
+        IImageClient im = IDPSClientFactory.getImageClient(idpsns);
+        //获取图片信息
+        try {
+            im.deleteImage(ipdsId);
+            map.put("isTrue", true);
+        } catch (Exception e) {
+            LOGGER.error("保存失败");
+            map.put("isTrue", false);
+        }
+        LOGGER.info("Map:---->>"+JSON.toJSONString(map));
+        return map;
     }
     
     public List<GnAreaVo> getProvinceList(){

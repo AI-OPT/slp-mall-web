@@ -396,10 +396,10 @@ $(".account-table .mail-btn").click(function(){
 ;	
 //通讯录详情 批量删除弹出	
 jQuery(document).ready(function($) {
-	$('.click-close').click(function(){
-	$('.eject-mask').fadeIn(100);
-	$('.eject-samll').slideDown(200);
-	})
+//	$('.click-close').click(function(){
+//	$('.eject-mask').fadeIn(100);
+//	$('.eject-samll').slideDown(200);
+//	})
 	$('.eject-samll-title .img').click(function(){
 	$('.eject-mask').fadeOut(100);
 	$('.eject-samll').slideUp(150);
