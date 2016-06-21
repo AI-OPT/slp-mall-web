@@ -215,10 +215,17 @@ define('app/jsp/user/payPassword/payPasswordConfirmInfo', function (require, exp
     		}
     	},
     	_submit:function(){
+    		
+    		var passwordFlag = $("#passwordFlag").val();
+    		if(passwordFlag=="1") {
+    			return false;
+    		}
+    		
     		var validFlag = this._validServicePaw();
     		if(!validFlag) return;
     		var passConfirmFlag = this._passwordConfirmation();
     		if(!passConfirmFlag) return;
+    		
     		var	param={
     				password:$("#passwordInput").val()
 				   };
@@ -387,10 +394,15 @@ define('app/jsp/user/payPassword/payPasswordConfirmInfo', function (require, exp
 							$('#passwordImage').attr('src',_base+'/resources/slpmall/images/icon-a.png');
 							_this._controlMsgText("showPawMsg",msg);
 							_this._controlMsgAttr("showPawMsg",2);
+							$("#passwordFlag").val("1");
+							return false;
+							
 						}else{
 							$("#errorPawMsg").hide();
 							_this._controlMsgText("showPawMsg","");
 							_this._controlMsgAttr("showPawMsg",1);
+							$("#passwordFlag").val("0");
+							return true;
 						}
 					}
 				},
