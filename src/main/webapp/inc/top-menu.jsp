@@ -5,19 +5,19 @@
      <div class="top-menu-main">
      <ul class="left">
          <li>所在地</li>
-         <li class="city"><a href="javascript:void(0)" id="currentCity"><img src="${_slpbase }/images/open-a.png">
+         <li class="city"><a href="javascript:void(0)" id="currentCity"><img src="${_slpbase}/images/open-a.png">
          
          </a>
          <!--选择所在地城市-->
                  <div class="city-hover" style="display:none;">
-                      <ul class="title">
+                      <!-- <ul class="title">
                           <li class="hot">热门城市</li>
                           <li><A href="#">北京</A></li>
                           <li><A href="#">上海</A></li>
                           <li><A href="#">广东</A></li>
                           <li><A href="#">浙江</A></li> 
                           <li><A href="#">江苏</A></li>                             
-                      </ul>
+                      </ul> -->
                        <ul class="city-list" id="cityShowData">
                        <script id="cityTmpl" type="text/x-jsrender">
 							<li><A href="javascript:void(0)" areaCodeId="{{:areaCode}}" areaNameId="{{:areaName}}"class="ATTS_BTN">{{:areaName}}</A></li>
