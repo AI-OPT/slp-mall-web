@@ -452,7 +452,6 @@ define('app/jsp/user/qualification/baseinfo', function (require, exports, module
 		 
 			}*/
 			$('#qualificationEnterprise').submit();
-			alert(1);
 	}
     });
     
@@ -460,26 +459,26 @@ define('app/jsp/user/qualification/baseinfo', function (require, exports, module
 });
 
 
-function uploadImg(imageId) {
-	if(document.getElementById(imageId).value!=""){
-	 $.ajaxFileUpload({  
-         url:_base+"/user/qualification/uploadImg",  
-         secureuri:false,  
-         fileElementId:imageId,//file标签的id  
-         dataType: "json",//返回数据的类型  
-         //data:{imageId:imageId},//一同上传的数据  
-         success: function (data, status) {
-        	if(data.isTrue==true){
-        		document.getElementById("image").src=data.url;
-        		$("#idpsId").val(data.idpsId);
-        	 }
-         },  
-         error: function (data, status, e) {  
-             alert(e);  
-         }  
-     });  
+	function uploadImg(imageId) {
+		if(document.getElementById(imageId).value!=""){
+		 $.ajaxFileUpload({  
+	         url:_base+"/user/qualification/uploadImg",  
+	         secureuri:false,  
+	         fileElementId:imageId,//file标签的id  
+	         dataType: "json",//返回数据的类型  
+	         //data:{imageId:imageId},//一同上传的数据  
+	         success: function (data, status) {
+	        	if(data.isTrue==true){
+	        		document.getElementById("image").src=data.url;
+	        		$("#idpsId").val(data.idpsId);
+	        	 }
+	         },  
+	         error: function (data, status, e) {  
+	             alert(e);  
+	         }  
+	     });  
+		}
 	}
-}
 
 	function deleteImg(imageId){
 		var ipdsId = $("#ipdsId").val();
