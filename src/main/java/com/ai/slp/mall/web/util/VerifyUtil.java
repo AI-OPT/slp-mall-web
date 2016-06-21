@@ -20,10 +20,13 @@ import com.ai.paas.ipaas.ccs.IConfigClient;
 import com.ai.paas.ipaas.mcs.interfaces.ICacheClient;
 import com.ai.runner.center.mmp.api.manager.interfaces.SMSServices;
 import com.ai.runner.center.mmp.api.manager.param.SMDataInfoNotify;
+import com.ai.slp.mall.web.constants.SLPMallConstants.BandEmail;
 import com.ai.slp.mall.web.constants.SLPMallConstants.ExceptionCode;
+import com.ai.slp.mall.web.constants.SLPMallConstants;
 import com.ai.slp.mall.web.constants.VerifyConstants;
 import com.ai.slp.mall.web.constants.VerifyConstants.PictureVerifyConstants;
 import com.ai.slp.mall.web.constants.VerifyConstants.ResultCodeConstants;
+import com.ai.slp.mall.web.model.user.SafetyConfirmData;
 import com.ai.slp.mall.web.model.user.SendEmailRequest;
 import com.ai.slp.user.api.keyinfo.interfaces.IUcKeyInfoSV;
 import com.ai.slp.user.api.keyinfo.param.SearchGroupKeyInfoRequest;
@@ -351,19 +354,47 @@ public final class VerifyUtil {
      * @param cacheVerifyCode
      * @return
      */
-    public static ResponseData<String> checkPhoneVerifyCode(String verifyCode, String cacheVerifyCode) {
+    public static ResponseData<String> checkPhoneVerifyCode(String sessionId,ICacheClient cacheClient,SafetyConfirmData safetyConfirmData) {
+        ResponseHeader header = new ResponseHeader();
         ResponseData<String> responseData = null;
-        ResponseHeader responseHeader = null;
-        if (cacheVerifyCode == null) {
+        // 校验短信验证码是否失效
+        String phoneAddIdenti = cacheClient.get( BandEmail.CACHE_KEY_VERIFY_PHONE + sessionId);
+        if (StringUtil.isBlank(phoneAddIdenti)) {
+            header.setResultCode(SLPMallConstants.SSM_OVERTIME_ERROR);
+            header.setResultMessage("验证码已失效");
             responseData = new ResponseData<String>(ResponseData.AJAX_STATUS_SUCCESS, "验证码已失效", null);
-            responseHeader = new ResponseHeader(false, VerifyConstants.ResultCodeConstants.REGISTER_VERIFY_ERROR, "短信验证码已失效");
-        } else if (!cacheVerifyCode.equals(verifyCode)) {
-            responseData = new ResponseData<String>(ResponseData.AJAX_STATUS_SUCCESS, "短信验证码错误", null);
-            responseHeader = new ResponseHeader(false, VerifyConstants.ResultCodeConstants.REGISTER_VERIFY_ERROR, "短信验证码错误");
-        } else {
-            responseData = new ResponseData<String>(ResponseData.AJAX_STATUS_SUCCESS, "手机校验码正确", null);
-            responseHeader = new ResponseHeader(true, VerifyConstants.ResultCodeConstants.SUCCESS_CODE, "手机校验码正确");
+            responseData.setResponseHeader(header);
+            return responseData;
         }
+        String s[] = phoneAddIdenti.split(";");
+        String phone = s[0];
+        String vitify = s[1];
+        
+        if (!safetyConfirmData.getUserMp().equals(phone)) {
+            header.setResultCode(SLPMallConstants.SSM_DUMPHONE_ERROR);
+            header.setResultMessage("手机与发送短信手机不一致");
+            responseData = new ResponseData<String>(ResponseData.AJAX_STATUS_SUCCESS, "手机与发送短信手机不一致", null);
+            responseData.setResponseHeader(header);
+            return responseData;
+        }
+        if (StringUtil.isBlank(vitify)) {
+            header.setResultCode(SLPMallConstants.SSM_OVERTIME_ERROR);
+            header.setResultMessage("验证码已失效");
+            responseData = new ResponseData<String>(ResponseData.AJAX_STATUS_SUCCESS, "验证码已失效", null);
+            responseData.setResponseHeader(header);
+            return responseData;
+        }
+        // 校验短信验证码
+        if (!safetyConfirmData.getVerifyCode().equals(vitify)) {
+            header.setResultCode(SLPMallConstants.SSM_ERROR);
+            header.setResultMessage("短信验证码错误");
+            responseData = new ResponseData<String>(ResponseData.AJAX_STATUS_SUCCESS, "短信验证码错误", null);
+            responseData.setResponseHeader(header);
+            return responseData;
+        }
+        header.setResultCode(ExceptionCode.SUCCESS);
+        responseData = new ResponseData<String>(ResponseData.AJAX_STATUS_SUCCESS, "正确", null);
+        ResponseHeader responseHeader = new ResponseHeader(true, VerifyConstants.ResultCodeConstants.SUCCESS_CODE, "正确");
         responseData.setResponseHeader(responseHeader);
         return responseData;
     }
