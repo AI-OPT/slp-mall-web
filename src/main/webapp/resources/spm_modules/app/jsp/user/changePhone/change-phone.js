@@ -166,23 +166,33 @@ define(
 					if($("#validateCodeFlag").val()!='0'){
 					var	param={
 							userMp:$("#phone").val(),
-							verifyCode:$("#validateCode").val()
+							verifyCode:$("#validateCode").val(),
+							confirmType:"1"
 	    				   };
 						ajaxController.ajax({
 					        type: "post",
 					        processing: false,
-					        url: _base+"/user/phone/checkPhoneVerifyCode",
+					        url: _base+"/user/verify/confirmInfo",
 					        dataType: "json",
 					        data: param,
 					        message: "正在加载数据..",
 					        success: function (data) {
-					         if(data.responseHeader.resultCode=="100002"){
+					        	if(data.responseHeader.resultCode=="000003"){
+					        	 	$("#validateCodeErrMsg").show();
 					        		$('#validateCodeErrMsgShow').text("短信验证码错误");
-									$("#validateCodeErrMsg").attr("style","display:");
 									$('#validateCodeFlag').val("0");
 									return false;
-					        	}
-					         if(data.responseHeader.resultCode=="000000"){
+					        	}else if(data.responseHeader.resultCode=="000004"){
+					        		$("#validateCodeErrMsg").show();
+					        		$('#validateCodeErrMsgShow').text("短信验证码已失效");
+									$('#validateCodeFlag').val("0");
+									return false;
+					        	}else if(data.responseHeader.resultCode=="000007"){
+					        		$("#validateCodeErrMsg").show();
+					        		$('#validateCodeErrMsgShow').text("手机与发送短信手机不一致");
+									$('#validateCodeFlag').val("0");
+									return false;
+					        	}else{
 					        		$("#changePhoneBorder2").removeClass()
 									.addClass("yellow-border");
 									$("#changePhoneYuan2").removeClass().addClass(
@@ -192,7 +202,9 @@ define(
 									$("#change-phone1").hide();
 									$("#change-phone2").show();
 									$("#change-phone3").hide();
+					        		$('#validateCodeFlag').val("1");
 					        	}
+					        	
 					        	
 					        },
 					        error: function(XMLHttpRequest, textStatus, errorThrown) {
@@ -236,23 +248,38 @@ define(
 					if(phoneCodeFlag!='0'&&newPhoneErrFlag!='0'){
 					var	param={
 							userMp:$("#newPhone").val(),
-							verifyCode:$("#phoneCode").val()
+							verifyCode:$("#phoneCode").val(),
+							confirmType:"1"
 	    				   };
 						ajaxController.ajax({
 					        type: "post",
 					        processing: false,
 					        async:false,
-					        url: _base+"/user/phone/checkPhoneVerifyCode",
+					        url: _base+"/user/verify/confirmInfo",
 					        dataType: "json",
 					        data: param,
 					        message: "正在加载数据..",
 					        success: function (data) {
-					         if(data.responseHeader.resultCode=="100002"){
+					         if(data.responseHeader.resultCode=="000003"){
+					        	 	$("#newPhoneCodeErrMsg").show();
 					        		$('#newPhoneCodeErrMsgShow').text("短信验证码错误");
-									$("#newPhoneCodeErrMsg").attr("style","display:");
 									$('#phoneCodeFlag').val("0");
 									return false;
+					        	}else if(data.responseHeader.resultCode=="000004"){
+					        		$("#newPhoneCodeErrMsg").show();
+					        		$('#newPhoneCodeErrMsgShow').text("短信验证码已失效");
+									$('#phoneCodeFlag').val("0");
+									return false;
+					        	}else if(data.responseHeader.resultCode=="000007"){
+					        		$("#newPhoneCodeErrMsg").show();
+					        		$('#newPhoneCodeErrMsgShow').text("手机与发送短信手机不一致");
+									$('#phoneCodeFlag').val("0");
+									return false;
+					        	}else{
+					        		$("#newPhoneCodeErrMsg").hide();
+					        		$('#phoneCodeFlag').val("1");
 					        	}
+					         
 					        },
 					        error: function(XMLHttpRequest, textStatus, errorThrown) {
 								 alert(XMLHttpRequest.status);
