@@ -94,7 +94,7 @@
 							</p>
 						</c:if> 
 						<p class="success-box">
-							<a href="#">查看余额明细</a><a href="#">设置支付密码</a>
+							<a href="${_base}/account/balance/detail">查看余额明细</a><a href="${_base }/user/payPassword/updatePayPassword">设置支付密码</a>
 						</p>
 					</div>
 				</div>
