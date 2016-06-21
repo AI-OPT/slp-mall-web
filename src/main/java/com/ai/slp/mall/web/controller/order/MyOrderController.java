@@ -27,6 +27,7 @@ import com.ai.paas.ipaas.image.IImageClient;
 import com.ai.paas.ipaas.util.JSonUtil;
 import com.ai.slp.common.api.cache.interfaces.ICacheSV;
 import com.ai.slp.common.api.cache.param.SysParam;
+import com.ai.slp.common.api.cache.param.SysParamMultiCond;
 import com.ai.slp.mall.web.constants.SLPMallConstants;
 import com.ai.slp.mall.web.constants.SLPMallConstants.ExceptionCode;
 import com.ai.slp.mall.web.constants.SLPMallConstants.ProductImageConstant;
@@ -53,9 +54,11 @@ public class MyOrderController {
 	@RequestMapping("/list")
 	public ModelAndView orderList(HttpServletRequest request) {
 		ICacheSV iCacheSV = DubboConsumerFactory.getService(ICacheSV.class);
-		List<SysParam> payStyleParamList = iCacheSV.getSysParams("SLP", "ORD_OD_FEE_TOTAL", "PAY_STYLE");
+		SysParamMultiCond payQParams = new SysParamMultiCond("SLP", "ORD_OD_FEE_TOTAL", "PAY_STYLE");
+		List<SysParam> payStyleParamList = iCacheSV.getSysParamList(payQParams);
 		String payStyleParams = JSonUtil.toJSon(payStyleParamList);
-		List<SysParam> orderStyleParamList = iCacheSV.getSysParams("SLP", "ORD_ORDER", "ORDER_TYPE");
+		SysParamMultiCond orderQParams = new SysParamMultiCond("SLP", "ORD_ORDER", "ORDER_TYPE");
+		List<SysParam> orderStyleParamList = iCacheSV.getSysParamList(orderQParams);
 		String orderStyleParams = JSonUtil.toJSon(orderStyleParamList);
 		Map<String, String> model = new HashMap<String, String>();
 		model.put("payStyleParams", payStyleParams);
