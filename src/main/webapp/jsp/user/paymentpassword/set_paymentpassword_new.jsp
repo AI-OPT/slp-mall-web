@@ -96,7 +96,10 @@
                         <li class="lable" id="errorPasswordMsg" style="display: none;"><img src="${_slpbase }/images/icon-a.png" id="confirmationPasswordImage"/><span id="showPasswordMsg">两次输入的密码不一致</span></li>
                     </ul>
                       <ul>
-                        <li class="checx-word"><input type="button" class="slp-btn regsiter-btn" id="submitBtn" value="提交"/></li>
+                        <li class="checx-word">
+                          <input type="button" class="slp-btn regsiter-btn" id="submitBtn" value="提交"/>
+                          <input type="hidden" id="passwordFlag" value=""/>
+                        </li>
                     </ul>
                 </div>
       </div>
