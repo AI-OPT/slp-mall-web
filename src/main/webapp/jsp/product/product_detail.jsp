@@ -148,11 +148,11 @@
                            <p><input id="productQty" type="text" class="details-int" value="1"></p>
                            <p><input id="addQtyBtn"type="button" class="details-jia" value="+"></p>
                        </li>
-					   <li class="right"><span class="word1">库存:</span><span id="usableNum">{{:usableNum}}</span></li>
                    	</ul>
                    	<ul class="details-list">
                        <li class="word">销量：</li>
                        <li>{{:saleNum}}</li>
+					   <li class="right"><span class="word1">库存:</span><span id="usableNum">{{:usableNum}}</span></li>
                        <!--<li class="right"><span class="word1">评价：</span><span>{{:commentNum}}</span></li>-->
                    	</ul>
 					{{if rechargeType != 'D'}}
