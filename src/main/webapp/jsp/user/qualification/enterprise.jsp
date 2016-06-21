@@ -97,6 +97,7 @@
          <ul>
              <li>
                 <p class="word"><b class="red">*</b>营业执照副本:</p>
+                <input type="hidden" value="营业执照副本" name="list[0].attrValue">
                 <p class="img"><img id="image" src="${_slpbase}/images/fom-t.png" id="certPic"></p>
                 <p class="small-p">
                		<span><input type="file" id="image1" name="image1" class="file" style="display: " onchange="uploadImg('image1');"><input type="button" value="点击上传" type="file" class="file-btn"><a href="javascript:" onclick="deleteImg('image1');">删除</a></span>
@@ -236,7 +237,7 @@
                 	 <input type="hidden" id="phoneCodeFlag">
                 	 <input type="hidden" id="groupIndusteryFlag">
    
-                	 <input type="hidden" id="ipdsId" name="ipdsId">
+                	 <input type="hidden" id="ipdsId" name="list[0].infoName">
                  </li>
              </ul>
      		</div>
