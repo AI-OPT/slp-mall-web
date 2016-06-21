@@ -110,37 +110,6 @@ public class PayPasswordUpdateController {
         return responseData;
     }
 
-    /**
-     * 身份认证
-     * 
-     * @param request
-     * @return
-     */
-    @RequestMapping("/confirmInfo")
-    @ResponseBody
-    public ResponseData<String> confirmInfo(HttpServletRequest request, SafetyConfirmData safetyConfirmData) {
-        ResponseData<String> responseData = null;
-        ICacheClient cacheClient = MCSClientFactory.getCacheClient(BandEmail.CACHE_NAMESPACE);
-        String sessionId = request.getSession().getId();
-        
-        // 检查短信验证码
-        String verifyCodeCache = cacheClient.get(BandEmail.CACHE_KEY_VERIFY_PHONE + sessionId);
-        String verifyCode = safetyConfirmData.getVerifyCode();
-        ResponseData<String> phoneCheck = VerifyUtil.checkPhoneVerifyCode(verifyCode, verifyCodeCache);
-        String phoneResultCode = phoneCheck.getResponseHeader().getResultCode();
-        if (!VerifyConstants.ResultCodeConstants.SUCCESS_CODE.equals(phoneResultCode)) {
-            return phoneCheck;
-        }
-        
-        // 用户信息放入缓存
-        String uuid = UUIDUtil.genId32();
-        SLPClientUser userClient = (SLPClientUser) request.getSession().getAttribute(SSOClientConstants.USER_SESSION_KEY);
-        CacheUtil.setValue(uuid, SLPMallConstants.UUID.OVERTIME, userClient, BandEmail.CACHE_NAMESPACE);
-        responseData = new ResponseData<String>(ResponseData.AJAX_STATUS_SUCCESS, "正确", "/center/bandEmail/setEmail?" + SLPMallConstants.UUID.KEY_NAME + "=" + uuid);
-        ResponseHeader responseHeader = new ResponseHeader(true, VerifyConstants.ResultCodeConstants.SUCCESS_CODE, "正确");
-        responseData.setResponseHeader(responseHeader);
-        return responseData;
-    }
 
     /**
      * 检查支付密码是否和登录密码相同
