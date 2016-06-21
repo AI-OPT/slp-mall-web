@@ -28,6 +28,14 @@ public class SafetyConfirmData implements Serializable{
 	 */
 	private String verifyCode;
 	
+	/**
+	 * 手机号
+	 * @return
+	 * @author zhangyh7
+	 * @ApiDocMethod
+	 */
+	private String userMp;
+	
 	public Long getAccountId() {
 		return accountId;
 	}
@@ -55,5 +63,10 @@ public class SafetyConfirmData implements Serializable{
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
-
+    public String getUserMp() {
+        return userMp;
+    }
+    public void setUserMp(String userMp) {
+        this.userMp = userMp;
+    }
 }
