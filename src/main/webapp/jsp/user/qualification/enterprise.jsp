@@ -57,7 +57,7 @@
          <ul>
              <li>
                 <p class="word"><b class="red">*</b>企业名称:</p>
-                <p><input type="text" class="int-xlarge" placeholder="请填写营业执照上的注册企业名称" id="custName"></p>
+                <p><input type="text" class="int-xlarge" placeholder="请填写营业执照上的注册企业名称" id="custName" name="custName"></p>
                  <label id="custNameErrMsg" style="display:none"><img src="${_slpbase}/images/icon-c.png" id="custNameImage"><span class="ash" id="enterpriseErrMsgShow">4-60个字符，可用中英文、数字、“-”、”_”、“（）”及”( )”</span></label>
              </li>
          </ul>
@@ -66,7 +66,7 @@
                 <p class="word"><b class="red">*</b>企业注册地址:</p>
                 <p>
                 
-                <select class="select-xmini" id="princeCode">
+                <select class="select-xmini" id="princeCode" name="princeCode">
                 	<option value="0">请选择</option>
                 	<c:forEach items="${provinceList}" var="record">
                 		<option value="${record.provinceCode}">${record.areaName}</option>
@@ -75,22 +75,22 @@
                 
                 </p>
                 <p>
-                 <select class="select-xmini" id="cityCode">
+                 <select class="select-xmini" id="cityCode" name="cityCode">
                 	
                  </select>
                 </p>
-                <p><select class="select-xmini" id="countryCode"></select></p>
+                <p><select class="select-xmini" id="countryCode" name="countryCode"></select></p>
                 <label id="registerAddrErrMsg" style="display:none"><img src="${_slpbase}/images/icon-a.png" id="registerAddrImage"><span class="ash" id="registerAddrText">请选择注册地址</span></label>
              </li>
              <li class="right">
-             <p><input type="text" class="int-xlarge" placeholder="详细街道地址" id="certAddr"></p>
+             <p><input type="text" class="int-xlarge" placeholder="详细街道地址" id="certAddr" name="certAddr"></p>
              <label id="certAddrErrMsg" style="display:none"><img src="${_slpbase}/images/icon-c.png" id="certAddrImage"><span class="ash" id="certAddrText">5-120个字符</span></label>
              </li>
          </ul>
    		  <ul>
              <li>
                 <p class="word"><b class="red">*</b>营业执照注册号:</p>
-                <p><input type="text" class="int-medium" placeholder="请填写营业执照上的注册号" id="certNum"></p>
+                <p><input type="text" class="int-medium" placeholder="请填写营业执照上的注册号" id="certNum" name="certNum"></p>
                  <label id="certNumErrMsg" style="display:none"><img src="${_slpbase}/images/icon-c.png" id="certNumImage"><span class="ash" id="certNumText">最多20个字符，允许使用英语字母（区分大小写）、数字及“-”</span></label>
              </li>
          </ul>
@@ -99,7 +99,7 @@
                 <p class="word"><b class="red">*</b>营业执照副本:</p>
                 <p class="img"><img id="image" src="${_slpbase}/images/fom-t.png" id="certPic"></p>
                 <p class="small-p">
-               		<span><input type="file" id="image1" name="image" class="file" style="display: " onchange="uploadImg('image1');"><input type="button" value="点击上传" type="file" class="file-btn"><a href="javascript:" onclick="deleteImg('image1');">删除</a></span>
+               		<span><input type="file" id="image1" name="image1" class="file" style="display: " onchange="uploadImg('image1');"><input type="button" value="点击上传" type="file" class="file-btn"><a href="javascript:" onclick="deleteImg('image1');">删除</a></span>
                 <span>支持JPG/PNG/GIF格式，最大不超过3M</span>
                 </p>
              </li>
@@ -108,7 +108,7 @@
              <li>
                 <p class="word"><b class="red">*</b>行业:</p>
                 <p>
-	                 <select class="select-medium" id="groupIndustery">
+	                 <select class="select-medium" id="groupIndustery" name="groupIndustery">
 	                	<option value="0">请选择</option>
 	                	<c:forEach items="${industryList}" var="re">
 	                		<option value="${re.industryCode }">${re.industryName }</option>
@@ -121,7 +121,7 @@
          <ul>
              <li>
                 <p class="word">官网:</p>
-                <p><input type="text" class="int-medium" placeholder="请填写官网网址" id="groupWebsite"></p>
+                <p><input type="text" class="int-medium" placeholder="请填写官网网址" id="groupWebsite" name="groupWebsite"></p>
                  <label id="groupWebsitErrMsg" style="display:none"><img src="${_slpbase}/images/icon-c.png" id="groupWebsiteImage"><span class="ash" id="groupWebsiteText">3-60个字符，允许使用字母、数字、特殊字符</span></label>
              </li>
          </ul>
@@ -129,7 +129,7 @@
              <li>
                 <p class="word"><b class="red">*</b>公司人数:</p>
                 <p>
-                	<select class="select-medium" id="groupMemberScale">
+                	<select class="select-medium" id="groupMemberScale" name="groupMemberScale">
                 		<option value="0" selected="selected">请选择</option>
                 		<option value="1">1-50人</option>
                 		<option value="2">51-100人</option>
@@ -146,7 +146,7 @@
              <li>
                 <p class="word"><b class="red">*</b>公司性质:</p>
                 <p>
-                <select class="select-medium" id="groupStype">
+                <select class="select-medium" id="groupStype" name="groupStype">
                 	<option value="0" selected="selected">请选择</option>
                		<option value="1">民营企业</option>
                		<option value="2">外商独资</option>
@@ -168,7 +168,7 @@
            <ul>
                 <li>
                     <p class="word">联系人姓名:</p>
-                    <p><input type="text" class="int-medium" placeholder="请填写联系人姓名" id="contactName"></p>
+                    <p><input type="text" class="int-medium" placeholder="请填写联系人姓名" id="contactName" name="contactName"></p>
                      <label id="contactNameErrMsg" style="display:none"><img src="${_slpbase}/images/icon-d.png" id="contactNameImage"><span class="ash" id="contactNameText">4-24个字符，可用汉字或英语字母</span></label>
                  </li>
              </ul>
@@ -176,7 +176,7 @@
                  <li>
                     <p class="word"><b class="red">*</b>所属部门:</p>
                     <p>
-                    <select class="select-medium" id="contactDept">
+                    <select class="select-medium" id="contactDept" name="contactDept">
                     	<option value="0" selected="selected">请选择</option>
 	               		<option value="1">财务部</option>
 	               		<option value="2">人事部</option>
@@ -202,21 +202,21 @@
              <ul>
                  <li>
                     <p class="word">联系人邮箱:</p>
-                    <p><input style="text" class="int-medium" id="contactEmail"></p>
+                    <p><input style="text" class="int-medium" id="contactEmail" name="contactEmail"></p>
                     <label style="display:none" id="emailMsgError"><img src="${_slpbase}/images/icon-a.png" id="emailMsgImage"><span  id="contactEmailText">请填写正确的邮箱</span></label>
                  </li>
              </ul>
               <ul>
                  <li>
                     <p class="word"><b class="red">*</b>联系人手机:</p>
-                    <p><input type="text" class="int-medium" placeholder="" id="contactMp"></p>
+                    <p><input type="text" class="int-medium" placeholder="" id="contactMp" name="contactMp"></p>
                     <label style="display:none" id="contactMpErrMsg"><img src="${_slpbase}/images/icon-a.png" id="contactMpImage"><span id="contactMpText">请填写正确手机号</span></label>
                  </li>
              </ul>
                <ul>
                  <li>
                     <p class="word"><b class="red">*</b>短信验证码:</p>
-                    <p><input type="text" class="int-mini" id="phoneCode"></p>
+                    <p><input type="text" class="int-mini" id="phoneCode" name="phoneCode"></p>
                     <p><input type="button" class="int-btn" value="获取短信验证码" id="sendPhoneCode"></p>
                     <label id="phoneCodeErrMsg" style="display:none"><img src="${_slpbase}/images/icon-a.png" id="phoneCodeImage"><span  id="phoneCodeText">验证码错误</span></label>
                  </li>
@@ -236,7 +236,7 @@
                 	 <input type="hidden" id="phoneCodeFlag">
                 	 <input type="hidden" id="groupIndusteryFlag">
    
-                	 <input type="hidden" id="ipdsId">
+                	 <input type="hidden" id="ipdsId" name="ipdsId">
                  </li>
              </ul>
      		</div>

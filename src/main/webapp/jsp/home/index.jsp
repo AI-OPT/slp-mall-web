@@ -312,7 +312,6 @@
 				<a href="javascript:void(0);" class="mar-none">
                 	<ul onclick="pager._detailPage('{{:skuId}}')">
                 		<li class="word" onclick="pager._detailPage('{{:skuId}}')">{{:prodName}}</li>
-          				<li class="ash">{{:productSellPoint}}</li>
           				<li class="dred">¥{{:~liToYuan(salePrice)}}</li>
           				<li onclick="pager._detailPage('{{:skuId}}')"><img src="{{:picUrl}}"></li> 
                 	</ul>
@@ -321,7 +320,6 @@
 				<a href="javascript:void(0);">
                 	<ul onclick="pager._detailPage('{{:skuId}}')">
                 		<li class="word" onclick="pager._detailPage('{{:skuId}}')">{{:prodName}}</li>
-          				<li class="ash">{{:productSellPoint}}</li>
           				<li class="dred">¥{{:~liToYuan(salePrice)}}</li>
           				<li onclick="pager._detailPage('{{:skuId}}')"><img src="{{:picUrl}}"></li> 
                 	</ul>

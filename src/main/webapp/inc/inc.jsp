@@ -26,6 +26,7 @@
 %>
 <script>
     var _base = "${_base}";
+    var _slpbase = "${_slpbase}";
     var slp_uac_host="${slp_uac_host}";
     var ssoLoginUrl="${ssoLoginUrl}";
 </script>
