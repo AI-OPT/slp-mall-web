@@ -83,7 +83,26 @@ public class ChangePhoneController {
         return responseData;
     }
 
-   
+    @RequestMapping("/checkPhoneVerifyCode")
+    @ResponseBody
+    public ResponseData<String> checkPhoneVerifyCode(HttpServletRequest request) {
+        ResponseHeader responseHeader = null;
+        ICacheClient cacheClient = MCSClientFactory.getCacheClient(BandEmail.CACHE_NAMESPACE);
+        String sessionId = request.getSession().getId();
+        
+        // 检查短信验证码
+        String verifyCodeCache = cacheClient.get(BandEmail.CACHE_KEY_VERIFY_PHONE + sessionId);
+        String verifyCode = request.getParameter("verifyCode");
+        ResponseData<String> phoneCheck = VerifyUtil.checkPhoneVerifyCode(verifyCode,
+                verifyCodeCache);
+        String phoneResultCode = phoneCheck.getResponseHeader().getResultCode();
+        if (VerifyConstants.ResultCodeConstants.SUCCESS_CODE.equals(phoneResultCode)) {
+            responseHeader = new ResponseHeader(true, phoneResultCode, "校验成功");
+        } else
+            responseHeader = new ResponseHeader(false, phoneResultCode, "校验失败");
+        phoneCheck.setResponseHeader(responseHeader);
+        return phoneCheck;
+    }
 
     // 修改手机
     @RequestMapping("/updatePhone")
