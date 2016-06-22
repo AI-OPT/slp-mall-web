@@ -15,7 +15,6 @@ import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -37,6 +36,7 @@ import com.ai.slp.common.api.area.interfaces.IGnAreaQuerySV;
 import com.ai.slp.common.api.area.param.GnAreaVo;
 import com.ai.slp.common.api.cache.interfaces.ICacheSV;
 import com.ai.slp.common.api.cache.param.SysParam;
+import com.ai.slp.common.api.cache.param.SysParamMultiCond;
 import com.ai.slp.user.api.ucuserphonebooks.interfaces.IUserPhoneBooksSV;
 import com.ai.slp.user.api.ucuserphonebooks.param.UcTelGroup;
 import com.ai.slp.user.api.ucuserphonebooks.param.UcTelGroupMantainReq;
@@ -314,8 +314,8 @@ public class UserPhoneBookController {
 	public ResponseData<List<SysParam>> getBasicOrgs() {
 		ResponseData<List<SysParam>> responseData = null;
 		try {
-			List<SysParam> list = DubboConsumerFactory.getService(ICacheSV.class).getSysParams("SLP", "PRODUCT",
-					"BASIC_ORG_ID");
+			SysParamMultiCond param=new SysParamMultiCond("SLP", "PRODUCT","BASIC_ORG_ID");
+			List<SysParam> list = DubboConsumerFactory.getService(ICacheSV.class).getSysParamList(param);
 			responseData = new ResponseData<List<SysParam>>(ResponseData.AJAX_STATUS_SUCCESS, "处理成功", list);
 		} catch (Exception e) {
 			responseData = new ResponseData<List<SysParam>>(ResponseData.AJAX_STATUS_FAILURE, "处理失败");
@@ -323,6 +323,7 @@ public class UserPhoneBookController {
 		return responseData;
 	}
 	
+	@SuppressWarnings("deprecation")
 	@RequestMapping("/download/template")
 	public void downloadFile(HttpServletRequest request, HttpServletResponse response) {
 		OutputStream os = null;
