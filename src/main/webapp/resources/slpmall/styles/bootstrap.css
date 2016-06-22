@@ -200,7 +200,7 @@ th {
   }
   a,
   a:visited {
-    text-decoration: underline;
+    text-decoration:none;
   }
   a[href]:after {
     content: " (" attr(href) ")";
@@ -1086,7 +1086,7 @@ body {
   font-size: 14px;
   line-height: 1.42857143;
   color: #333;
-  background-color: #fff;
+ 
 }
 input,
 button,
@@ -1103,7 +1103,7 @@ a {
 a:hover,
 a:focus {
   color: #23527c;
-  text-decoration: underline;
+  text-decoration: none;
 }
 a:focus {
   outline: thin dotted;
