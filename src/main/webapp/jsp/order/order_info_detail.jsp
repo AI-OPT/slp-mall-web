@@ -123,6 +123,10 @@
                              <p>实付总金额:</p>
                              <p class="color">¥{{:~liToYuan(paidFee)}}</p>
                          </li>
+						 <li>	
+							 <p>支付方式:</p>
+                             <p>{{:payStyleName}}</p>
+                         </li>
 						 {{for payDataList}}
                          <li>
                              <p>{{:payStyleName}}:</p>
