@@ -347,13 +347,13 @@ $(".radioc").click(function () {
 //table切换结束
 
 
-//我的订单 点击展开
-$(function () {
-    $(".order-list-bj ul li .is").click(function () {
-		$(this).children('i').toggleClass("icon-angle-down  icon-angle-up");
-		$(this).parents().children('.open-gaoj').slideToggle(100);
-    });
-});	
+////我的订单 点击展开
+//$(function () {
+//    $(".order-list-bj ul li .is").click(function () {
+//		$(this).children('i').toggleClass("icon-angle-down  icon-angle-up");
+//		$(this).parents().children('.open-gaoj').slideToggle(100);
+//    });
+//});	
 
 
 
