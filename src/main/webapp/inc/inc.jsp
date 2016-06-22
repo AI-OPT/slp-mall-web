@@ -36,8 +36,9 @@
 <script src="${_base}/resources/spm_modules/seajs/2.3.0/dist/sea.js"></script>
 <script src="${_base}/resources/spm_modules/seajs/seajs-css.js"></script>
 <script src="${_base}/resources/spm_modules/app/core/config.js"></script>
-<!-- UED frame.js -->
-<script src="${_slpbase }/scripts/frame.js" type="text/javascript"></script>
+<!-- 公共事件 -->
+<script src="${_base}/resources/spm_modules/app/util/common.js" type="text/javascript"></script>
+
 
 <!-- <link rel="stylesheet" type="text/css" href="${_base}/resources/slpmall/styles/bootstrap.css"> -->
 
