@@ -140,6 +140,7 @@ define('app/jsp/balance/phonebook/phonebookdetail', function (require, exports, 
 			
 			// XMLHttpRequest 对象
 		     var xhr = new XMLHttpRequest();
+		     xhr.upload.addEventListener("progress", uploadProgress, false);
 		     var uploadURL = _base+"/account/phonebook/uploadPhoneBooks?telGroupId="+this.get("telGroupId");
 		     xhr.open("post", uploadURL, true);
 		     
@@ -157,6 +158,19 @@ define('app/jsp/balance/phonebook/phonebookdetail', function (require, exports, 
 				}
 			 };
 			xhr.send(form);
+		},
+		
+		/**
+		 * 上传进度
+		 */
+		_uploadProgress:function(evt) {
+			if (evt.lengthComputable) {
+			var percentComplete = Math.round(evt.loaded * 100 / evt.total);
+			document.getElementById('progressNumber').innerHTML = '<font color=red>当前进度:'+percentComplete.toString() + '%</font>';
+			}
+			else {
+			document.getElementById('progressNumber').innerHTML = 'unable to compute';
+			}
 		},
     	
     	_delBatchEditRow: function(index){
@@ -345,7 +359,8 @@ define('app/jsp/balance/phonebook/phonebookdetail', function (require, exports, 
     	_checkDeleteData:function(){
     		var checkboxs=$("input[name='CHEK_TEL_NO']:checked");
     		if(checkboxs.length==0){
-    			alert("请选择删除记录");
+    			$('.eject-mask').fadeIn(100);
+    			$('.eject-samll-icon').slideDown(200);
     			return;
     		}
     		$('.eject-mask').fadeIn(100);
