@@ -6,6 +6,7 @@ import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -18,6 +19,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.context.ContextLoader;
+import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartRequest;
 import org.springframework.web.servlet.ModelAndView;
@@ -323,9 +326,11 @@ public class UserPhoneBookController {
 		return responseData;
 	}
 	
-	@SuppressWarnings("deprecation")
 	@RequestMapping("/download/template")
 	public void downloadFile(HttpServletRequest request, HttpServletResponse response) {
+		WebApplicationContext webApplicationContext = ContextLoader.getCurrentWebApplicationContext();
+        ServletContext servletContext = webApplicationContext.getServletContext();
+
 		OutputStream os = null;
 		try {
 			os = response.getOutputStream();// 取得输出流
@@ -334,7 +339,7 @@ public class UserPhoneBookController {
 			response.setContentType("application/x-xls");// 定义输出类型
 			response.setHeader("Content-disposition", "attachment; filename=" + exportFileName);// 设定输出文件头
 			String filePath="/resources/template/phonebook.xlsx";
-			String realPath=request.getRealPath(filePath);
+			String realPath=servletContext.getRealPath(filePath);
 			FileInputStream fis =  new FileInputStream(realPath); 
 	         byte[] b = new byte[1024]; 
 	         int i = 0; 
