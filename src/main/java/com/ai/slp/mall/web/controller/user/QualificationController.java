@@ -110,9 +110,9 @@ public class QualificationController {
         insertGroupKeyInfoRequest.setUserId(user.getUserId());
         
         for (InsertCustFileExtRequest insertCustFileExtRequest : custFileListVo.getList()) {
-            insertCustFileExtRequest.setTenantId(user.getTenantId());
-            insertCustFileExtRequest.setUserId(user.getUserId());
-            insertCustFileExtRequest.setAttrId(ipdsId);
+            //insertCustFileExtRequest.setTenantId(user.getTenantId());
+            //insertCustFileExtRequest.setUserId(user.getUserId());
+           // insertCustFileExtRequest.setAttrId(ipdsId);
         }
         
         insertContactsInfoRequest.setTenantId(user.getTenantId());
