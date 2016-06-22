@@ -43,6 +43,10 @@ import com.ai.slp.user.api.contactsinfo.param.InsertContactsInfoRequest;
 import com.ai.slp.user.api.keyinfo.interfaces.IUcKeyInfoSV;
 import com.ai.slp.user.api.keyinfo.param.InsertCustFileExtRequest;
 import com.ai.slp.user.api.keyinfo.param.InsertGroupKeyInfoRequest;
+import com.ai.slp.user.api.keyinfo.param.SearchCustKeyInfoRequest;
+import com.ai.slp.user.api.keyinfo.param.SearchCustKeyInfoResponse;
+import com.ai.slp.user.api.keyinfo.param.SearchGroupKeyInfoRequest;
+import com.ai.slp.user.api.keyinfo.param.SearchGroupKeyInfoResponse;
 import com.alibaba.fastjson.JSON;
  
 @RequestMapping("/user/qualification")
@@ -59,12 +63,33 @@ public class QualificationController {
     //代理商个人页面
     @RequestMapping("/toAgentPersonalPage")
     public ModelAndView toAgentPersonalPage() {
-        return new ModelAndView("jsp/user/qualification/agent-personal");
+        List<GnAreaVo> provinceList = getProvinceList();
+        List<IndustryQueryResponse> industryList = getIndustryList();
+        Map<String,Object> model = new HashMap<String,Object>();
+        model.put("provinceList", provinceList);
+        model.put("industryList", industryList);
+        return new ModelAndView("jsp/user/qualification/agent-personal",model);
     }
+    //供应商页面
+    @RequestMapping("/toSupplierPage")
+    public ModelAndView toSupplierPage() {
+        List<GnAreaVo> provinceList = getProvinceList();
+        List<IndustryQueryResponse> industryList = getIndustryList();
+        Map<String,Object> model = new HashMap<String,Object>();
+        model.put("provinceList", provinceList);
+        model.put("industryList", industryList);
+        return new ModelAndView("jsp/user/qualification/supplier",model);
+    }
+    
     //代理商企业页面
     @RequestMapping("/toAgentEnterprisePage")
     public ModelAndView toAgentEnterprisePage() {
-        return new ModelAndView("jsp/user/qualification/agent-enterprise");
+        List<GnAreaVo> provinceList = getProvinceList();
+        List<IndustryQueryResponse> industryList = getIndustryList();
+        Map<String,Object> model = new HashMap<String,Object>();
+        model.put("provinceList", provinceList);
+        model.put("industryList", industryList);
+        return new ModelAndView("jsp/user/qualification/agent-enterprise",model);
     }
     
     //企业页面
@@ -296,6 +321,26 @@ public class QualificationController {
         return map;
     }
     
+    
+    @RequestMapping("/updateEnterprise")
+    public ModelAndView updateEnterprise(HttpServletRequest request){
+        SLPClientUser userClient = (SLPClientUser) request.getSession().getAttribute(SSOClientConstants.USER_SESSION_KEY);
+        String userId = userClient.getUserId();
+        /**
+         * 获取个人客户关键信息
+         */
+        SearchCustKeyInfoResponse custKeyInfoResponse = getCustKeyBaseinfo(userId);
+        /**
+         * 获取企业客户信息
+         */
+        SearchGroupKeyInfoResponse grouKeyInfoResponse = getGroupKeyBaseinfo(userId);
+        
+        Map<String,Object> model = new HashMap<String,Object>();
+        model.put("custKeyInfo", custKeyInfoResponse);
+        model.put("groupKeyInfo", grouKeyInfoResponse);
+        return new ModelAndView("jsp/user/qualification/enterprise",model);
+    }
+    
     public List<GnAreaVo> getProvinceList(){
         IGnAreaQuerySV areaQuerySV = DubboConsumerFactory.getService("iGnAreaQuerySV");
         List<GnAreaVo> list = areaQuerySV.getProvinceList();
@@ -306,5 +351,23 @@ public class QualificationController {
         IIndustrySV  industrySV = DubboConsumerFactory.getService("iIndustrySV");
         List<IndustryQueryResponse> list = industrySV.queryIndustryList();
         return list;
+    }
+    
+    public SearchCustKeyInfoResponse getCustKeyBaseinfo(String userId){
+        SearchCustKeyInfoRequest custKeyInfRequest = new SearchCustKeyInfoRequest();
+        custKeyInfRequest.setTenantId(SLPMallConstants.COM_TENANT_ID);
+        custKeyInfRequest.setUserId(userId);
+        IUcKeyInfoSV ucKeyInfoSV = DubboConsumerFactory.getService("IUcKeyInfoSV");
+        SearchCustKeyInfoResponse response = ucKeyInfoSV.searchCustKeyInfo(custKeyInfRequest);
+        return response;
+    }
+    
+    public SearchGroupKeyInfoResponse getGroupKeyBaseinfo(String userId){
+        SearchGroupKeyInfoRequest groupKeyInfRequest = new SearchGroupKeyInfoRequest();
+        groupKeyInfRequest.setTenantId(SLPMallConstants.COM_TENANT_ID);
+        groupKeyInfRequest.setUserId(userId);
+        IUcKeyInfoSV ucKeyInfoSV = DubboConsumerFactory.getService("IUcKeyInfoSV");
+        SearchGroupKeyInfoResponse response = ucKeyInfoSV.searchGroupKeyInfo(groupKeyInfRequest);
+        return response;
     }
 }
