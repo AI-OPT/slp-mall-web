@@ -145,9 +145,9 @@ public class QualificationController {
         HttpSession session = request.getSession();
         SLPClientUser user = (SLPClientUser) session.getAttribute(SSOClientConstants.USER_SESSION_KEY);
 
-        insertGroupKeyInfoRequest.setTenantId(user.getTenantId());
-        insertGroupKeyInfoRequest.setUserType(user.getUserType());
-        insertGroupKeyInfoRequest.setUserId(user.getUserId());
+        //insertGroupKeyInfoRequest.setTenantId(user.getTenantId());
+        //insertGroupKeyInfoRequest.setUserType(user.getUserType());
+        //insertGroupKeyInfoRequest.setUserId(user.getUserId());
         
         IUcKeyInfoSV ucKeyInfoSV = DubboConsumerFactory.getService(IUcKeyInfoSV.class);
         try{
