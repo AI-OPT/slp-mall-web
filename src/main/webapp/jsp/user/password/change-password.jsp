@@ -18,6 +18,12 @@
 			pager.render();
 		});
 	})();
+	//关闭提示
+	$(function(){
+		$(".prompt-risk .img").click(function () {
+			$(this).parent('.prompt-risk').hide();
+			});
+		}); 
 </script>
 </head>
 <body>
