@@ -63,6 +63,29 @@ define('app/jsp/producthome/productHome', function (require, exports, module) {
     		this._initFastInfo();
     		this._getPhoneInfo();
     		this._getGprs();
+    		this._fastSwchange1();
+    		this._fastSwchange2();
+    	},
+    	_fastSwchange1(){
+    		$(".charge-title ul li a").click(function () {
+                $(".charge-title ul li a").each(function () {
+                    $(this).removeClass("current");
+                });
+                $(this).addClass("current");
+            });
+    	},
+       _fastSwchange2(){
+    		$('.charge-title ul li a').click(function(){
+    			  var index=$('.charge-title ul li a').index(this);
+    			      if(index==0){
+    			     $('#date1').show();
+    			  $('#date2').hide();
+    			   }
+    			   if(index==1){
+    			     $('#date2').show();
+    			  $('#date1').hide();
+    			   }
+    			  }); 
     	},
     	_changeSwitch1:function(){
     		var _this=this;
