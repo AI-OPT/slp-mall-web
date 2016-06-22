@@ -233,7 +233,13 @@
            <ul>
                 <li>
                     <p class="word"><b class="red">*</b>行业:</p>
-                    <p><select class="select-medium"></select></p>
+                    <p>
+                    <select class="select-medium">
+                    	<option value="0">请选择</option>
+	                	<c:forEach items="${industryList}" var="re">
+	                		<option value="${re.industryCode }">${re.industryName }</option>
+	                	</c:forEach>
+                    </select></p>
                      <label id="tradeErrMsg" style="display:none"><img src="${_slpbase}/images/icon-a.png"><span class="red">请选择所在行业</span></label>
                  </li>
              </ul>
@@ -247,14 +253,31 @@
              <ul>
                 <li>
                     <p class="word"><b class="red">*</b>公司人数:</p>
-                    <p><select class="select-medium"></select></p>
+                    <p><select class="select-medium">
+                    	<option value="0" selected="selected">请选择</option>
+                		<option value="1">1-50人</option>
+                		<option value="2">51-100人</option>
+                		<option value="3">101-200人</option>
+                		<option value="4">201-500人</option>
+                		<option value="5">500-1000人</option>
+                		<option value="6">1000人以上</option>
+                    </select></p>
                      <label id="numerErrMsg" style="display:none"><img src="${_slpbase}/images/icon-a.png"><span class="red">请选择公司人数</span></label>
                  </li>
              </ul>
                <ul>
                 <li>
                     <p class="word"><b class="red">*</b>公司性质:</p>
-                    <p><select class="select-medium"></select></p>
+                    <p><select class="select-medium">
+                    	<option value="0" selected="selected">请选择</option>
+	               		<option value="1">民营企业</option>
+	               		<option value="2">外商独资</option>
+	               		<option value="3">上市公司</option>
+	               		<option value="4">股份制企业</option>
+	               		<option value="5">国有企业机关</option>
+	               		<option value="6">事业单位</option>
+	               		<option value="7">其他</option>
+                    </select></p>
                      <label id="natrueErrMsg" style="display:none"><img src="${_slpbase}/images/icon-a.png"><span class="red">请选择公司性质</span></label>
                  </li>
              </ul>
@@ -273,7 +296,27 @@
               <ul>
                  <li>
                     <p class="word"><b class="red">*</b>所属部门:</p>
-                    <p><select class="select-medium"></select></p>
+                    <p>
+	                    <select class="select-medium">
+	                    	<option value="0" selected="selected">请选择</option>
+		               		<option value="1">财务部</option>
+		               		<option value="2">人事部</option>
+		               		<option value="3">行政部</option>
+		               		<option value="4">企划部</option>
+		               		<option value="5">渠道部</option>
+		               		<option value="6">技术部</option>
+		               		<option value="7">销售部</option>
+		               		<option value="8">工程项目部</option>
+		               		<option value="9">研发部</option>
+		               		<option value="10">采购部</option>
+		               		<option value="11">维修部</option>
+		               		<option value="12">客服部</option>
+		               		<option value="13">市场部</option>
+		               		<option value="14">产品部</option>
+	                   	    <option value="15">总经办</option>
+		               		<option value="16">其他</option>
+	                    </select>
+                    </p>
                     <label id="departmentErrMsg" style="display:none"><img src="${_slpbase}/images/icon-a.png"><span class="red">请选择所在部门信息</span></label>
                  </li>
              </ul>
