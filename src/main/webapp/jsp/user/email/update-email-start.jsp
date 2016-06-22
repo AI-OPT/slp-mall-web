@@ -40,6 +40,12 @@
 				$("#phoneValidate").hide();
 			}
 		}
+		//关闭提示
+		$(function(){
+			$(".prompt-risk .img").click(function () {
+				$(this).parent('.prompt-risk').hide();
+				});
+			}); 
   </script>
 </head>
  
@@ -72,7 +78,7 @@
     	 <!--提示验证失败提示-->
         <div class="prompt-risk">
             <p>提示：邮箱验证失败，请重新填写邮箱地址进行验证</p>
-            <p class="img"><img src="${_slpbase }/images/yue-1.png"/></p>
+            <p class="img" style="margin-top:15px;"><img src="${_slpbase }/images/yue-1.png"/></p>
         </div>
       </c:if>
        <!--步骤-->

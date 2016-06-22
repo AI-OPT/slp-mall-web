@@ -22,7 +22,12 @@
 		function clearPasswordInputValue(){
 			$("#passwordInput").val("");
 		}
-		 
+		//关闭提示
+		$(function(){
+			$(".prompt-risk .img").click(function () {
+				$(this).parent('.prompt-risk').hide();
+				});
+			}); 
   </script>
 </head>
  
@@ -55,7 +60,7 @@
        <!--提示风险-->
         <div class="prompt-risk">
             <p>提示：在使用账户余额等资产时，需要输入支付密码，提升账户安全度。支付密码不允许与登录密码相同！</p>
-            <p class="img"><img src="${_slpbase }/images/yue-1.png"/></p>
+            <p class="img" style="margin-top:15px;"><img src="${_slpbase }/images/yue-1.png"/></p>
         </div>
       
        <!--步骤-->

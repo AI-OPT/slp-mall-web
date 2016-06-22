@@ -11,6 +11,7 @@
 <link href="${_slpbase }/styles/font-awesome.css" rel="stylesheet" type="text/css">
 
 <script src="${_base}/resources/spm_modules/app/jsp/product/carousel.js" type="text/javascript"></script>
+<script src="${_base}/resources/spm_modules/app/jsp/product/product.js" type="text/javascript"></script>
 </head>
 
 <body>
@@ -19,7 +20,7 @@
 		<div id="shopCartMedium" class="eject-medium">
 			<div class="eject-medium-title">
 				<p>添加购物车提示</p>
-				<p class="img"><A href="#"></A></p>
+				<p class="img"><A href="jacascript:voida(0)"></A></p>
 			</div>
 			<div class="eject-medium-list">
 					<div class="eject-buy">
@@ -32,7 +33,7 @@
 						</ul>
 						<ul>
 							<li><a href="${_base}/shopcart/cartDetails"><input type="button" class="slp-btn eject-buy-btn"  value="购物车结算"/></a></li>
-							<li class="word-eg" id="continueShoping"><a href="#">继续浏览</a></li>
+							<li class="word-eg" id="continueShoping"><a href="javascript:void(0)">继续浏览</a></li>
 						</ul>
 						
 					</div>
@@ -92,7 +93,7 @@
                         </div>
                    </script>
                    <div class="collection">
-                   <p>商品ID：${skuId} </p>
+                   <!-- <p>商品ID：${skuId} </p>-->
                    <!-- 保存当前商品的SKU标识的隐藏 -->
                    <input type="hidden" id="skuId" value="788964678909"/>
                    <!-- <p><a href="#"><i class="icon-heart-empty"></i>收藏</a></p> -->

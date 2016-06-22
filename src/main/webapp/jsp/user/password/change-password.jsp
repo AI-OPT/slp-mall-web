@@ -18,6 +18,12 @@
 			pager.render();
 		});
 	})();
+	//关闭提示
+	$(function(){
+		$(".prompt-risk .img").click(function () {
+			$(this).parent('.prompt-risk').hide();
+			});
+		}); 
 </script>
 </head>
 <body>
@@ -45,7 +51,7 @@
       <div class="account-bj">
    			 <div class="prompt-risk">
 	            <p>提示：为确保您账户的安全性，请设置至少6位的密码，您可使用字母、数字、符合及下划线的组合</p>
-	            <p class="img"><img src="${_slpbase }/images/yue-1.png"></p>
+	            <p class="img" style="margin-top:15px;"><img src="${_slpbase }/images/yue-1.png"></p>
 	        </div>
        <!--步骤-->
           <div class="steps">

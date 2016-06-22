@@ -26,7 +26,7 @@ define(
 				// 重写父类
 				setup : function() {
 					ChangePasswordPager.superclass.setup.call(this);
-		    		//activeUserLeftMenu(ChangePasswordPager.USER_LEFT_MNU_ID);
+		    		activeUserLeftMenu(ChangePasswordPager.USER_LEFT_MNU_ID);
 					this._bindHandle();
 				},
 				//_hideInfo : function() {},
