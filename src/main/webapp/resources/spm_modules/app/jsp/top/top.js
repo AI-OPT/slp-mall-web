@@ -32,6 +32,43 @@ define('app/jsp/top/top', function (require, exports, module) {
     		TopPager.superclass.setup.call(this);
     		this._initCity();
     		this._getCity();
+    		this._topChange();
+    	},
+    	_topChange:function(){
+    		  var st = 100;
+    		    $('.city').mouseenter(function () {
+    				$(this).children('a').addClass('b');
+    				$(this).children('.city-hover').show(1);  
+    		    })
+    				$('.city').mouseleave(function () {
+    				$(this).children('a').removeClass('b');
+    				$(this).children('.city-hover').hide(1);  
+    		  
+    		    });	
+    		    $('.use').mouseenter(function () {
+    				$('.use a').addClass('b');
+    				$('.use .use-hover').show(1);
+    		    })
+    				$(".use .use-hover").click(function () {
+    		                $(this).hide(1);
+    		            });
+    					
+    				$('.use').mouseleave(function () {
+    		        $('.use .use-hover').hide(1);
+    				 $('.use a').removeClass('b');
+    		    });	
+    				$('.kefu').mouseenter(function () {
+    					$('.kefu a').addClass('b');
+    					$('.kefu .kefu-hover').show(1);
+    			    })
+    					$(".kefu .kefu-hover").click(function () {
+    			                $(this).hide(1);
+    			            });
+    						
+    					$('.kefu').mouseleave(function () {
+    			        $('.kefu .kefu-hover').hide(1);
+    					 $('.kefu a').removeClass('b');
+    			    });	
     	},
     	_initCity: function(){
     		var _this = this;

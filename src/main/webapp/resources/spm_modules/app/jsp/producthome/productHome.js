@@ -43,8 +43,6 @@ define('app/jsp/producthome/productHome', function (require, exports, module) {
             "click #flowCmcc":"_getFlowProduct",
             "click #flowCtcc":"_getFlowProduct",
             "click #flowCucc":"_getFlowProduct",
-           // "keyup  #phoneNum1":"_getPhoneInfo"	,
-          //  "keyup  #phoneNum2":"_getGprs",	
             "change #phoneFee":"_changeHuafei",
             "change #location":"_changeLocation",
             "change #gprs":"_changeGprsValue",
@@ -64,28 +62,103 @@ define('app/jsp/producthome/productHome', function (require, exports, module) {
     		this._getPhoneInfo();
     		this._getGprs();
     		this._fastSwchange1();
-    		this._fastSwchange2();
+    		this._tpchange();
+    		this._leftChange();
     	},
-    	_fastSwchange1(){
+    	_leftChange:function(){
+    		  var st = 100;
+    		    $('.Mobile').mouseenter(function () {
+    				$('.Mobile a').addClass('b');
+    				$('.Mobile .Mobile-hover').show(1);
+    		    })
+    				$(".Mobile .Mobile-hover").click(function () {
+    		                $(this).hide(1);
+    		            });
+    					
+    				$('.Mobile').mouseleave(function () {
+    		        $('.Mobile .Mobile-hover').hide(1);
+    				 $('.Mobile a').removeClass('b');
+    		    });		
+    				$('.Unicom').mouseenter(function () {
+    					$('.Unicom a').addClass('b');
+    					$('.Unicom .Unicom-hover').show(1);
+    			    })
+    					$(".Unicom .Unicom-hover").click(function () {
+    			                $(this).hide(1);
+    			            });
+    						
+    					$('.Unicom').mouseleave(function () {
+    			        $('.Unicom .Unicom-hover').hide(1);
+    					 $('.Unicom a').removeClass('b');
+    			    });	
+    					 $('.telecom').mouseenter(function () {
+    							$('.telecom a').addClass('b');
+    							$('.telecom .telecom-hover').show(1);
+    					    })
+    							$(".telecom .telecom-hover").click(function () {
+    					                $(this).hide(1);
+    					            });
+    								
+    							$('.telecom').mouseleave(function () {
+    					        $('.telecom .telecom-hover').hide(1);
+    							 $('.telecom a').removeClass('b');
+    					    });
+    	},
+    	_fastSwchange1:function(){
     		$(".charge-title ul li a").click(function () {
                 $(".charge-title ul li a").each(function () {
                     $(this).removeClass("current");
                 });
                 $(this).addClass("current");
             });
-    	},
-       _fastSwchange2(){
     		$('.charge-title ul li a').click(function(){
-    			  var index=$('.charge-title ul li a').index(this);
-    			      if(index==0){
-    			     $('#date1').show();
-    			  $('#date2').hide();
-    			   }
-    			   if(index==1){
-    			     $('#date2').show();
-    			  $('#date1').hide();
-    			   }
-    			  }); 
+  			  var index=$('.charge-title ul li a').index(this);
+  			      if(index==0){
+  			     $('#date1').show();
+  			  $('#date2').hide();
+  			   }
+  			   if(index==1){
+  			     $('#date2').show();
+  			  $('#date1').hide();
+  			   }
+  			  }); 
+    	},
+      
+    	_tpchange:function(){
+    		$(".plist-right-title ul li a").click(function () {
+                $(".plist-right-title ul li a").each(function () {
+                    $(this).removeClass("current");
+                });
+                $(this).addClass("current");
+            });
+			$('.plist-right-title ul li a').click(function(){
+			  var index=$('.plist-right-title ul li a').index(this);
+			  if(index==0){
+			 $('#img-list1').show();
+			  $('#img-list2').hide();
+			   }
+			   if(index==1){
+			     $('#img-list2').show();
+			  $('#img-list1').hide();
+			   }
+			   $(".plist-right-title-tow ul li a").click(function () {
+			   $(".plist-right-title-tow ul li a").each(function () {
+			   $(this).removeClass("current");
+			   });
+			   $(this).addClass("current");
+			   });
+			$('.plist-right-title-tow ul li a').click(function(){
+			var index=$('.plist-right-title-tow ul li a').index(this);
+			if(index==0){
+			$('#img-list3').show();
+			$('#img-list4').hide();
+			}
+			if(index==1){
+			$('#img-list4').show();
+			$('#img-list3').hide();
+			}
+			}); 
+			}); 
     	},
     	_changeSwitch1:function(){
     		var _this=this;
