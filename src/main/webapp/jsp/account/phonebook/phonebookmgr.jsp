@@ -5,6 +5,7 @@
 <meta charset="UTF-8">
 <title>通讯录管理</title>
 <%@ include file="/inc/inc.jsp"%>
+<script src="${_base}/resources/spm_modules/app/jsp/balance/phonebook/phonebook.js" type="text/javascript"></script>
 <link href="${_slpbase }/styles/modular.css" rel="stylesheet"
 	type="text/css">
 <link href="${_slpbase }/styles/global.css" rel="stylesheet"

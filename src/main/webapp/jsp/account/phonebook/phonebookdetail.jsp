@@ -5,6 +5,7 @@
 <meta charset="UTF-8">
 <title>通讯录管理</title>
 <%@ include file="/inc/inc.jsp"%>
+<script src="${_base}/resources/spm_modules/app/jsp/balance/phonebook/phonebook.js" type="text/javascript"></script>
 <link href="${_slpbase }/styles/modular.css" rel="stylesheet" type="text/css">
 <link href="${_slpbase }/styles/global.css" rel="stylesheet" type="text/css">
 <link href="${_slpbase }/styles/frame.css" rel="stylesheet" type="text/css">
@@ -127,7 +128,23 @@
 	<%@ include file="/inc/foot.jsp"%>
 
 	<!--底部 结束-->
-	
+<!-- 信息提示框 -->
+<div id="promptDialogDiv" class="eject-big">
+<div class="eject-samll-icon">
+	<div class="eject-samll-title">
+		<p id="promptDialog_title">提示</p>
+		<p class="img"><A href="javascript:void(0)"></A></p>
+	</div>
+	<!--确认删除-->
+	<div class="eject-medium-list">
+		<div class="eject-medium-complete">
+			<p><img src="${_slpbase }/images/eject-icon-Warning.png"></p>
+			<p id="promptDialog_showMsg" class="word">请选择要删除的联系人</p>
+		</div>
+	</div>	
+</div>	
+<div class="eject-mask"></div>	
+</div>	
 <!--弹出删除弹出框  小-->
 <div class="eject-big">
 <div class="eject-samll">
@@ -185,7 +202,7 @@
 	<!--弹出删除弹出框  中结束-->
 	
 	
-		<!--弹出删除弹出框 大-->
+	<!--添加通讯录弹出框 大-->
 	<div class="eject-big" id="CLOSE_ADD_PHONEBOOK_WINDOW">
 		<div class="eject-large">
 			<!--弹出多行-->
@@ -197,7 +214,7 @@
 							<A href="#"></A>
 						</p>
 					</div>
-					<!--确认删除-->
+					
 					<div class="eject-samll-confirm">
 						<ul>
 							<li class="word block-left">请输入您要添加的行数：</li>
@@ -231,9 +248,10 @@
 						<table width="100%" border="0">
 							<thead>
 								<tr class="bj">
-									<td>序列号</td>
-									<td>姓名</td>
-									<td><span style="color: #f00">*</span>手机号</td>
+									<td width="10%">序列号</td>
+									<td width="25%">姓名</td>
+									<td width="25%"><span style="color: #f00">*</span>手机号</td>
+									<td width="20%"></td>
 									<td width="20%"></td>
 								</tr>
 							</thead>
@@ -252,7 +270,26 @@
 		</div>
 		<div class="eject-mask" id="WINDOW_PHONEBOOK_BATCHEDIT"></div>
 	</div>
-	<!--弹出删除弹出框 大结束-->
+	<!--添加通讯录弹出框 大结束-->
+	
+	<!--弹出删除弹出框  中-->
+	<div class="eject-big">
+		<div class="eject-medium" style="display: block;">
+			<div class="eject-medium-title">
+				<p>批量导入通讯录</p>
+				<p class="img"><A href="#"></A></p>
+			</div>
+			<div class="eject-medium-list">
+				<div class="eject-medium-complete">
+					<p class="word">正在处理上传的通讯录文件,请耐心等待</p>
+					<p class="color-bj"><span style="width:40%;"></span></p>
+					<p class="color-ash">已处理300/900</p>
+				</div>
+			</div>	
+		</div>	
+		<div class="eject-mask"></div>	
+	</div>
+<!--弹出删除弹出框  中结束-->	
 
 	<script type="text/javascript"> 
 	(function () {
@@ -282,10 +319,11 @@
 
 <script id="PhoneBooksBatchEditImpl" type="text/x-jsrender">
 <tr>
-								<td>{{:#index}}</td>
+								<td>{{:#index+1}}</td>
 								<td><input type="text" class="table-int-mini" index="{{:#index}}" name="BATCH_TEL_NAME" value="{{:telName}}"></td>
 								<td><input type="text" class="table-int-mini" index="{{:#index}}" name="BATCH_TEL_MP" value="{{:telMp}}"></td>
-								<td class="eject-table-img" align="left"><span style="color:red" id="SPAN_ERROR_{{:#index}}">{{:error}}</span><a href="javascript:void(0)"  index="{{:#index}}" name="DEL_BATCH_EDIT_ROW">删除</a></td>
+								<td><span style="color:red" id="SPAN_ERROR_{{:#index}}">{{:error}}</span></td>
+								<td class="eject-table-img" align="left"><a href="javascript:void(0)"  index="{{:#index}}" name="DEL_BATCH_EDIT_ROW">删除</a></td>
 							</tr>
 </script>
 	
