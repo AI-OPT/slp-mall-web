@@ -134,14 +134,14 @@ public class QualificationController {
         insertGroupKeyInfoRequest.setUserType(user.getUserType());
         insertGroupKeyInfoRequest.setUserId(user.getUserId());
         
-        for (InsertCustFileExtRequest insertCustFileExtRequest : custFileListVo.getList()) {
+       // for (InsertCustFileExtRequest insertCustFileExtRequest : custFileListVo.getList()) {
             //insertCustFileExtRequest.setTenantId(user.getTenantId());
             //insertCustFileExtRequest.setUserId(user.getUserId());
            // insertCustFileExtRequest.setAttrId(ipdsId);
-        }
+        //}
         
-        insertContactsInfoRequest.setTenantId(user.getTenantId());
-        insertContactsInfoRequest.setUserId(user.getUserId());
+        //insertContactsInfoRequest.setTenantId(user.getTenantId());
+       // insertContactsInfoRequest.setUserId(user.getUserId());
         IUcKeyInfoSV ucKeyInfoSV = DubboConsumerFactory.getService(IUcKeyInfoSV.class);
         IUcContactsInfoSV contactsInfoSV = DubboConsumerFactory.getService(IUcContactsInfoSV.class);
         try{

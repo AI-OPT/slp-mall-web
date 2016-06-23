@@ -3,17 +3,17 @@ package com.ai.slp.mall.web.model.user;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.ai.slp.user.api.keyinfo.param.InsertCustFileExtRequest;
+import com.ai.slp.user.api.keyinfo.param.CmCustFileExtVo;
 
 public class CustFileListVo {
 
-    private List<InsertCustFileExtRequest> list = new ArrayList<InsertCustFileExtRequest>();
+    private List<CmCustFileExtVo> list = new ArrayList<CmCustFileExtVo>();
 
-    public List<InsertCustFileExtRequest> getList() {
+    public List<CmCustFileExtVo> getList() {
         return list;
     }
 
-    public void setList(List<InsertCustFileExtRequest> list) {
+    public void setList(List<CmCustFileExtVo> list) {
         this.list = list;
     }
 

@@ -57,7 +57,7 @@
          <ul>
              <li>
                 <p class="word"><b class="red">*</b>企业名称:</p>
-                <p><input type="text" class="int-xlarge" placeholder="请填写营业执照上的注册企业名称" id="custName" name="custName"></p>
+                <p><input type="text" class="int-xlarge" placeholder="请填写营业执照上的注册企业名称" id="custName" name="custName" value="${ insertGroupKeyInfoRequest.custName}"></p>
                  <label id="custNameErrMsg" style="display:none"><img src="${_slpbase}/images/icon-c.png" id="custNameImage"><span class="ash" id="enterpriseErrMsgShow">4-60个字符，可用中英文、数字、“-”、”_”、“（）”及”( )”</span></label>
              </li>
          </ul>
@@ -66,10 +66,10 @@
                 <p class="word"><b class="red">*</b>企业注册地址:</p>
                 <p>
                 
-                <select class="select-xmini" id="princeCode" name="princeCode">
+                <select class="select-xmini" id="provinceCode" name="provinceCode" >
                 	<option value="0">请选择</option>
                 	<c:forEach items="${provinceList}" var="record">
-                		<option value="${record.provinceCode}">${record.areaName}</option>
+                		<option value="${record.provinceCode}" <c:if test="${insertGroupKeyInfoRequest.provinceCode==record.provinceCode }">selected</c:if>>${record.areaName}</option>
                 	</c:forEach>
                 </select>
                 
@@ -97,10 +97,10 @@
          <ul>
              <li>
                 <p class="word"><b class="red">*</b>营业执照副本:</p>
-                <input type="hidden" value="营业执照副本" name="list[0].attrValue">
-                <p class="img"><img id="image" src="${_slpbase}/images/fom-t.png" id="certPic"></p>
+                <input type="hidden" value="营业执照副本" name="list[0].infoName">
+                <p class="img"><img src="${_slpbase}/images/fom-t.png" id="certPic"></p>
                 <p class="small-p">
-               		<span><input type="file" id="image1" name="image1" class="file" style="display: " onchange="uploadImg('image1');"><input type="button" value="点击上传" type="file" class="file-btn"><a href="javascript:" onclick="deleteImg('image1');">删除</a></span>
+               		<span><input type="file" id="image1" name="image1" class="file" style="display: " onchange="uploadImg('image1','certPic');"><input type="button" value="点击上传" type="file" class="file-btn"><a href="javascript:" onclick="deleteImg('image1','certPic');">删除</a></span>
                 <span>支持JPG/PNG/GIF格式，最大不超过3M</span>
                 </p>
              </li>
@@ -237,7 +237,7 @@
                 	 <input type="hidden" id="phoneCodeFlag">
                 	 <input type="hidden" id="groupIndusteryFlag">
    
-                	 <input type="hidden" id="ipdsId" name="list[0].infoName">
+                	 <input type="hidden" id="idpsId" name="list[0].attrValue">
                  </li>
              </ul>
      		</div>

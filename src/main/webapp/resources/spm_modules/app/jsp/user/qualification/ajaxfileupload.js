@@ -126,17 +126,17 @@ jQuery.extend({
                 jQuery(io).unbind()
 
                 setTimeout(function()
-									{	try 
-										{
-											$(io).remove();
-											$(form).remove();	
-											
-										} catch(e) 
-										{
-											jQuery.handleError(s, xml, null, e);
-										}									
+				{	try 
+					{
+						$(io).remove();
+						$(form).remove();	
+						
+					} catch(e) 
+					{
+						jQuery.handleError(s, xml, null, e);
+					}									
 
-									}, 100)
+				}, 100)
 
                 xml = null
 
