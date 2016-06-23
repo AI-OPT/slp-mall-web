@@ -76,7 +76,7 @@ define('app/jsp/order/orderSubmit', function (require, exports, module) {
       		var temOrderAmount=$("#bamount").val();
       		var balance=parseFloat(temBalance.replace(/,/g,""));
       		var orderAmount=parseFloat(temOrderAmount.replace(/,/g,""));
-      		if(aa<bb){
+      		if(balance<orderAmount){
       			//alert("余额不足,请选择其它方式支付");
       			Dialog({
 					title : '提示',
