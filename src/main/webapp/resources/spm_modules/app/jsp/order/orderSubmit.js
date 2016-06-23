@@ -72,10 +72,10 @@ define('app/jsp/order/orderSubmit', function (require, exports, module) {
 	        }
     	},
     	_showBalanceBtnClick:function(){
-      		var balance=$("#abalance").val();
-      		var orderAmount=$("#bamount").val();
-      		var aa=parseInt((parseFloat(balance.replace(/,/g,""))*100).toFixed(0));
-      		var bb=parseInt((parseFloat(orderAmount.replace(/,/g,""))*100).toFixed(0));
+      		var temBalance=$("#abalance").val();
+      		var temOrderAmount=$("#bamount").val();
+      		var balance=parseFloat(temBalance.replace(/,/g,""));
+      		var orderAmount=parseFloat(temOrderAmount.replace(/,/g,""));
       		if(aa<bb){
       			//alert("余额不足,请选择其它方式支付");
       			Dialog({
