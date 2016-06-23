@@ -1,5 +1,4 @@
-define(
-		'app/jsp/user/qualification/agent-select',
+define('app/jsp/user/qualification/agent-select',
 		function(require, exports, module) {
 			'use strict';
 			var $ = require('jquery'), 
@@ -8,7 +7,6 @@ define(
 			Widget = require('arale-widget/1.2.0/widget'), 
 			Dialog = require("artDialog/src/dialog"), 
 			AjaxController = require('opt-ajax/1.0.0/index');
-			require("app/jsp/user/qualification/birthday");
 			// 实例化AJAX控制处理对象
 			var ajaxController = new AjaxController();
 
@@ -29,7 +27,6 @@ define(
 					QualificationPager.superclass.setup.call(this);
 					//this._hideErroText();
 					this._bindHandle();
-					birth.init('yy_mm_dd');	
 				},
 				//_hideInfo : function() {},
 				// 带下划线的方法，约定为内部私有方法

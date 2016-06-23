@@ -20,7 +20,7 @@ define('app/jsp/user/qualification/baseinfo', function (require, exports, module
     var ajaxController = new AjaxController();
     
     //定义页面组件类
-    var QualificationPager = Widget.extend({
+    var BaseInfoQualificationPager = Widget.extend({
     	//属性，使用时由类的构造函数传入
     	attrs: {
     	},
@@ -53,8 +53,8 @@ define('app/jsp/user/qualification/baseinfo', function (require, exports, module
         },
     	//重写父类
     	setup: function () {
-    		QualificationPager.superclass.setup.call(this);
-    		activeUserLeftMenu(QualificationPager.USER_LEFT_MNU_ID);
+    		BaseInfoQualificationPager.superclass.setup.call(this);
+    		activeUserLeftMenu(BaseInfoQualificationPager.USER_LEFT_MNU_ID);
     		this._bindCalendar();
     	},
     	_bindCalendar:function(){
@@ -85,6 +85,7 @@ define('app/jsp/user/qualification/baseinfo', function (require, exports, module
 			var name = $("#custName").val();
 			var reg = /^[\u4e00-\u9fa5a-zA-Z0-9\-\_\(\)\（\）]{4,60}$/;
     		if(name==""){
+    			$("#custNameErrMsg").show();
     			$("#custName").focus();
     			$('#enterpriseErrMsgShow').text("请输入名称");
     			$('#custNameImage').attr('src',_base+'/resources/slpmall/images/icon-a.png');
@@ -403,26 +404,6 @@ define('app/jsp/user/qualification/baseinfo', function (require, exports, module
 			}
 			
 		},
-		_changeBeginDate:function(){
-			var sysDataStr = this._getSysDate();
-			var beginDate = $("#orderTimeBeginQ").val();
-			var endCalendar = new Calendar({trigger: '#timeEndId',output:"#orderTimeEndQ"});
-			if(beginDate == null || beginDate == "" || beginDate == undefined){
-				endCalendar.range([null,null]);
-			}else{
-				endCalendar.range([beginDate,null]);
-			}
-		},
-		_changeEndDate:function(){
-			var sysDataStr = this._getSysDate();
-			var endDate = $("#orderTimeEndQ").val();
-			var beginCalendar = new Calendar({trigger: '#timeBeginId',output:"#orderTimeBeginQ"});
-			if(endDate == null || endDate == "" || endDate == undefined){
-				beginCalendar.range([null,null]);
-			}else{
-				beginCalendar.range([null,endDate]);
-			}
-		},
 		_getSysDate:function(){
 			var sysDate = new Date();
   			var year = sysDate.getFullYear();    //获取完整的年份(4位,1970-????)
@@ -507,7 +488,7 @@ define('app/jsp/user/qualification/baseinfo', function (require, exports, module
 	}
     });
     
-    module.exports = QualificationPager
+    module.exports = BaseInfoQualificationPager
 });
 
 
