@@ -97,6 +97,8 @@
 .topay-btn{ width:166px; float:left; height:66px; font-size:22px;cursor:pointer;outline:none}
 /**商品详情 按钮**/
 .details-btn{ width:150px; height:50px; margin-right:10px;cursor:pointer; font-size:18px;outline:none}
+.none-bj{ width:150px; height:50px; margin-right:10px;cursor:pointer; font-size:18px;outline:none;background:none; border: 1px solid #f4792c;color:#333}
+.none-bj:hover{color:#fff}
 .slp--ash-btn{ width:150px; height:50px;background:#e4e4e4; color:#999; margin-right:10px; font-size:18px;outline:none}
 /**我的订单 按钮**/
 .order-btn{ width:60px; height:30px; background:#fff; border:1px solid #f4792c; color:#f07938; float:left; font-size:14px; cursor:pointer;outline:none}
