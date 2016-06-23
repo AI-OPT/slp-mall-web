@@ -57,10 +57,23 @@
          </ul>
        	  <ul>
              <li>
-                <p class="word"><b class="red">*</b>企业注册地址:</p>
-                <p><select class="select-xmini" id="prince"></select></p>
-                <p><select class="select-xmini" id="city"></select></p>
-                <p><select class="select-xmini" id="district"></select></p>
+             	 <p class="word"><b class="red">*</b>企业注册地址:</p>
+                <p>
+                
+                <select class="select-xmini" id="princeCode" name="princeCode">
+                	<option value="0">请选择</option>
+                	<c:forEach items="${provinceList}" var="record">
+                		<option value="${record.provinceCode}">${record.areaName}</option>
+                	</c:forEach>
+                </select>
+                
+                </p>
+                <p>
+                 <select class="select-xmini" id="cityCode" name="cityCode">
+                	
+                 </select>
+                </p>
+                <p><select class="select-xmini" id="countryCode" name="countryCode"></select></p>
                  <label id="addErrMsg" style="display:none"><img src="${_slpbase}/images/icon-a.png"><span class="red">企业名称长度为4-60个字符</span></label>
              </li>
              <li class="right">
@@ -126,8 +139,13 @@
                 <p class="word"><b class="red">*</b>身份证复印件:</p>
                 <p class="img"><img src="${_slpbase}/images/fom-t.png"></p>
                 <p class="small-p">
-                <span><input type="button" value="点击上传" class="file-btn"><input type="file" class="file"><a href="#">删除</a></span>
-                <span>请将身份证正面、反面照片合在一张图片上传，支持JPG/PNG/GIF格式，最大不超过3M</span>
+                <span>
+                  <input type="button" value="点击上传" class="file-btn">
+                  <input type="file" class="file">
+                  <a href="#">删除</a>
+                	<span> 请将身份证正面、反面照片合在一起上传</span> 
+                 </span>
+                <span>支持JPG/PNG/GIF格式，最大不超过3M</span>
                 </p>
              </li>
          </ul>
@@ -146,14 +164,32 @@
              <ul>
                 <li>
                     <p class="word"><b class="red">*</b>纳税人类型:</p>
-                    <p><select class="select-medium"></select></p>
+                    <p>
+                     <select class="select-medium">
+                    	<option selected="selected">请选择</option>
+                    	<option>一般纳税人</option>
+                    	<option>小规模纳税人</option>
+                    	<option>非增值税纳税人</option>
+                     </select>
+                    </p>
                      <label id="typeErrMsg" style="display:none"><img src="${_slpbase}/images/icon-a.png"><span class="red">请选择纳税人类型</span></label>
                  </li>
              </ul>
              <ul>
                 <li>
                     <p class="word"><b class="red">*</b>纳税类型税码:</p>
-                    <p><select class="select-medium"></select></p>
+                    <p>
+	                    <select class="select-medium">
+	                    	<option selected="selected">请选择</option>
+	                    	<option>0%</option>
+	                    	<option>3%</option>
+	                    	<option>6%</option>
+	                    	<option>7%</option>
+	                    	<option>11%</option>
+	                    	<option>13%</option>
+	                    	<option>17%</option>
+	                    </select>
+                    </p>
                      <label id="taxCodeErMsg" style="display:none"><img src="${_slpbase}/images/icon-a.png"><span class="red">请选择纳税类型税码</span></label>
                  </li>
              </ul>
@@ -323,7 +359,7 @@
              <ul>
                  <li>
                     <p class="word">联系人邮箱:</p>
-                    <p><select class="select-medium"></select></p>
+                    <p><input type="text" class="int-medium" placeholder="请填写邮箱"></p>
                     <label id="contactEmailErrMsg" style="display:none"><img src="${_slpbase}/images/icon-a.png"><span class="red">请填写正确的邮箱</span></label>
                  </li>
              </ul>

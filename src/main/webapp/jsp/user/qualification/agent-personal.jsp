@@ -73,15 +73,35 @@
          <ul>
              <li>
                 <p class="word"><b class="red">*</b>学历:</p>
-                <p><select class="select-medium" id="education"></select></p>
+                <p>
+                 <select class="select-medium" id="education">
+                 	<option value="0">请选择</option>
+                 	<option>初中及以下</option>
+                 	<option>高中/中专</option>
+                 	<option>大专或同等学历</option>
+                 	<option>本科学历</option>
+                 	<option>硕士研究生</option>
+                 	<option>博士</option>
+                 	<option>其他学历</option>
+                 </select>
+                </p>
              </li>
          </ul>
        	  <ul>
              <li>
                 <p class="word"><b class="red">*</b>联系地址:</p>
-                <p><select class="select-xmini" id="prince"></select></p>
-                <p><select class="select-xmini" id="city"></select></p>
-                <p><select class="select-xmini" id="district"></select></p>
+                  <select class="select-xmini" id="princeCode" name="princeCode">
+                	<option value="0">请选择</option>
+                	<c:forEach items="${provinceList}" var="record">
+                		<option value="${record.provinceCode}">${record.areaName}</option>
+	                	</c:forEach>
+	                </select>
+                <p>
+                 <select class="select-xmini" id="cityCode" name="cityCode">
+                	
+                 </select>
+                </p>
+                <p><select class="select-xmini" id="countryCode" name="countryCode"></select></p>
                  <label id="addErrMsg" style="display:none"><img src="${_slpbase}/images/icon-a.png"><span class="red">请选择联系地址</span></label>
              </li>
              <li class="right">
@@ -92,7 +112,7 @@
           <ul>
              <li>
                 <p class="word"><b class="red">*</b>生日:</p>
-                <p><select class="select-xmini" id="year">
+                <p><select class="select-xmini" id="yy_mm_dd">
                 	 <option value="0">请选择</option>
                    </select>
                  </p>
@@ -113,7 +133,11 @@
                 <p class="word"><b class="red">*</b>收入:</p>
                 <p><select class="select-medium">
                 <option>请选择收入</option>
-                <option>1000-2000</option>
+                <option>3000元及以下</option>
+                <option>3001-5000</option>
+                <option>5001-8000</option>
+                <option>8001-10000</option>
+                <option>10000元以上</option>
                 </select></p>
              </li>
          </ul>
