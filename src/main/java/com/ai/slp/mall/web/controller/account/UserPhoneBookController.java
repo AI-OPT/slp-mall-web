@@ -49,6 +49,7 @@ import com.ai.slp.user.api.ucuserphonebooks.param.UcUserPhonebooksBatchAddReq;
 import com.ai.slp.user.api.ucuserphonebooks.param.UcUserPhonebooksBatchAddResp;
 import com.ai.slp.user.api.ucuserphonebooks.param.UcUserPhonebooksBatchData;
 import com.ai.slp.user.api.ucuserphonebooks.param.UcUserPhonebooksBatchDeleteReq;
+import com.ai.slp.user.api.ucuserphonebooks.param.UcUserPhonebooksModifyReq;
 import com.ai.slp.user.api.ucuserphonebooks.param.UcUserPhonebooksQueryReq;
 import com.ai.slp.user.api.ucuserphonebooks.param.UserPhonebook;
 import com.alibaba.fastjson.JSON;
@@ -56,7 +57,7 @@ import com.alibaba.fastjson.JSON;
 @RestController
 @RequestMapping("/account/phonebook")
 public class UserPhoneBookController {
-	
+
 	private static final Logger LOG = LoggerFactory.getLogger(UserPhoneBookController.class);
 
 	@RequestMapping("/phonebookmgr")
@@ -79,8 +80,7 @@ public class UserPhoneBookController {
 			if (resp.getResponseHeader().isSuccess()) {
 				responseData = new ResponseData<String>(ResponseData.AJAX_STATUS_SUCCESS, "处理成功", "");
 			} else {
-				responseData = new ResponseData<String>(ResponseData.AJAX_STATUS_FAILURE,
-						resp.getResponseHeader().getResultMessage());
+				responseData = new ResponseData<String>(ResponseData.AJAX_STATUS_FAILURE, resp.getResponseHeader().getResultMessage());
 			}
 
 		} catch (Exception e) {
@@ -99,11 +99,9 @@ public class UserPhoneBookController {
 			req.setTenantId(user.getTenantId());
 			UcTelGroupQueryResp resp = DubboConsumerFactory.getService(IUserPhoneBooksSV.class).getUcTelGroups(req);
 			if (resp.getResponseHeader().isSuccess()) {
-				responseData = new ResponseData<List<UcTelGroup>>(ResponseData.AJAX_STATUS_SUCCESS, "处理成功",
-						resp.getGroups());
+				responseData = new ResponseData<List<UcTelGroup>>(ResponseData.AJAX_STATUS_SUCCESS, "处理成功", resp.getGroups());
 			} else {
-				responseData = new ResponseData<List<UcTelGroup>>(ResponseData.AJAX_STATUS_FAILURE,
-						resp.getResponseHeader().getResultMessage());
+				responseData = new ResponseData<List<UcTelGroup>>(ResponseData.AJAX_STATUS_FAILURE, resp.getResponseHeader().getResultMessage());
 			}
 		} catch (Exception e) {
 			responseData = new ResponseData<List<UcTelGroup>>(ResponseData.AJAX_STATUS_FAILURE, "处理失败");
@@ -123,8 +121,7 @@ public class UserPhoneBookController {
 			if (resp.getResponseHeader().isSuccess()) {
 				responseData = new ResponseData<String>(ResponseData.AJAX_STATUS_SUCCESS, "处理成功", "");
 			} else {
-				responseData = new ResponseData<String>(ResponseData.AJAX_STATUS_FAILURE,
-						resp.getResponseHeader().getResultMessage());
+				responseData = new ResponseData<String>(ResponseData.AJAX_STATUS_FAILURE, resp.getResponseHeader().getResultMessage());
 			}
 
 		} catch (Exception e) {
@@ -145,8 +142,7 @@ public class UserPhoneBookController {
 			if (resp.getResponseHeader().isSuccess()) {
 				responseData = new ResponseData<String>(ResponseData.AJAX_STATUS_SUCCESS, "处理成功", "");
 			} else {
-				responseData = new ResponseData<String>(ResponseData.AJAX_STATUS_FAILURE,
-						resp.getResponseHeader().getResultMessage());
+				responseData = new ResponseData<String>(ResponseData.AJAX_STATUS_FAILURE, resp.getResponseHeader().getResultMessage());
 			}
 
 		} catch (Exception e) {
@@ -170,14 +166,12 @@ public class UserPhoneBookController {
 
 	@RequestMapping("/queryUserPhonebooks")
 	@ResponseBody
-	public ResponseData<PageInfo<UserPhonebook>> queryUserPhonebooks(HttpServletRequest request,
-			UcUserPhonebooksQueryReq req) {
+	public ResponseData<PageInfo<UserPhonebook>> queryUserPhonebooks(HttpServletRequest request, UcUserPhonebooksQueryReq req) {
 		ResponseData<PageInfo<UserPhonebook>> responseData = null;
 		try {
 			SLPClientUser user = this.getUserId(request);
 			req.setTenantId(user.getTenantId());
-			PageInfo<UserPhonebook> pagInfo = DubboConsumerFactory.getService(IUserPhoneBooksSV.class)
-					.queryUserPhonebooks(req);
+			PageInfo<UserPhonebook> pagInfo = DubboConsumerFactory.getService(IUserPhoneBooksSV.class).queryUserPhonebooks(req);
 			responseData = new ResponseData<PageInfo<UserPhonebook>>(ResponseData.AJAX_STATUS_SUCCESS, "处理成功", pagInfo);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -206,8 +200,7 @@ public class UserPhoneBookController {
 			if (resp.getResponseHeader().isSuccess()) {
 				responseData = new ResponseData<String>(ResponseData.AJAX_STATUS_SUCCESS, "处理成功", "");
 			} else {
-				responseData = new ResponseData<String>(ResponseData.AJAX_STATUS_FAILURE,
-						resp.getResponseHeader().getResultMessage());
+				responseData = new ResponseData<String>(ResponseData.AJAX_STATUS_FAILURE, resp.getResponseHeader().getResultMessage());
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -226,13 +219,31 @@ public class UserPhoneBookController {
 			req.setDatas(list);
 			SLPClientUser user = this.getUserId(request);
 			req.setTenantId(user.getTenantId());
-			UcUserPhonebooksBatchAddResp resp = DubboConsumerFactory.getService(IUserPhoneBooksSV.class)
-					.batchAddUserPhonebooks(req);
+			UcUserPhonebooksBatchAddResp resp = DubboConsumerFactory.getService(IUserPhoneBooksSV.class).batchAddUserPhonebooks(req);
 			if (resp.getResponseHeader().isSuccess()) {
 				responseData = new ResponseData<String>(ResponseData.AJAX_STATUS_SUCCESS, "处理成功", resp.getResult());
 			} else {
-				responseData = new ResponseData<String>(ResponseData.AJAX_STATUS_FAILURE,
-						resp.getResponseHeader().getResultMessage());
+				responseData = new ResponseData<String>(ResponseData.AJAX_STATUS_FAILURE, resp.getResponseHeader().getResultMessage());
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			responseData = new ResponseData<String>(ResponseData.AJAX_STATUS_FAILURE, "处理失败");
+		}
+		return responseData;
+	}
+
+	@RequestMapping("/modifyPhonebook")
+	@ResponseBody
+	public ResponseData<String> modifyPhonebook(HttpServletRequest request, UcUserPhonebooksModifyReq phonebooksModifyReq) {
+		ResponseData<String> responseData = null;
+		try {
+			SLPClientUser user = this.getUserId(request);
+			phonebooksModifyReq.setTenantId(user.getTenantId());
+			BaseResponse modifyResponse = DubboConsumerFactory.getService(IUserPhoneBooksSV.class).modifyUserPhonebook(phonebooksModifyReq);
+			if (modifyResponse.getResponseHeader().isSuccess()) {
+				responseData = new ResponseData<String>(ResponseData.AJAX_STATUS_SUCCESS, "处理成功");
+			} else {
+				responseData = new ResponseData<String>(ResponseData.AJAX_STATUS_FAILURE, modifyResponse.getResponseHeader().getResultMessage());
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -276,13 +287,11 @@ public class UserPhoneBookController {
 			UcUserPhonebooksBatchAddReq req = new UcUserPhonebooksBatchAddReq();
 			req.setDatas(list);
 			req.setTenantId(user.getTenantId());
-			UcUserPhonebooksBatchAddResp resp = DubboConsumerFactory.getService(IUserPhoneBooksSV.class)
-					.batchAddUserPhonebooks(req);
+			UcUserPhonebooksBatchAddResp resp = DubboConsumerFactory.getService(IUserPhoneBooksSV.class).batchAddUserPhonebooks(req);
 			if (resp.getResponseHeader().isSuccess()) {
 				responseData = new ResponseData<String>(ResponseData.AJAX_STATUS_SUCCESS, "处理成功", resp.getResult());
 			} else {
-				responseData = new ResponseData<String>(ResponseData.AJAX_STATUS_FAILURE,
-						resp.getResponseHeader().getResultMessage());
+				responseData = new ResponseData<String>(ResponseData.AJAX_STATUS_FAILURE, resp.getResponseHeader().getResultMessage());
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -317,7 +326,7 @@ public class UserPhoneBookController {
 	public ResponseData<List<SysParam>> getBasicOrgs() {
 		ResponseData<List<SysParam>> responseData = null;
 		try {
-			SysParamMultiCond param=new SysParamMultiCond("SLP", "PRODUCT","BASIC_ORG_ID");
+			SysParamMultiCond param = new SysParamMultiCond("SLP", "PRODUCT", "BASIC_ORG_ID");
 			List<SysParam> list = DubboConsumerFactory.getService(ICacheSV.class).getSysParamList(param);
 			responseData = new ResponseData<List<SysParam>>(ResponseData.AJAX_STATUS_SUCCESS, "处理成功", list);
 		} catch (Exception e) {
@@ -325,11 +334,11 @@ public class UserPhoneBookController {
 		}
 		return responseData;
 	}
-	
+
 	@RequestMapping("/download/template")
 	public void downloadFile(HttpServletRequest request, HttpServletResponse response) {
 		WebApplicationContext webApplicationContext = ContextLoader.getCurrentWebApplicationContext();
-        ServletContext servletContext = webApplicationContext.getServletContext();
+		ServletContext servletContext = webApplicationContext.getServletContext();
 
 		OutputStream os = null;
 		try {
@@ -338,29 +347,28 @@ public class UserPhoneBookController {
 			response.reset();// 清空输出流
 			response.setContentType("application/x-xls");// 定义输出类型
 			response.setHeader("Content-disposition", "attachment; filename=" + exportFileName);// 设定输出文件头
-			String filePath="/resources/template/phonebook.xlsx";
-			String realPath=servletContext.getRealPath(filePath);
-			FileInputStream fis =  new FileInputStream(realPath); 
-	         byte[] b = new byte[1024]; 
-	         int i = 0; 
-	         while((i = fis.read(b)) > 0) 
-	         { 
-	        	 os.write(b, 0, i); 
-	         } 
-	         os.flush(); 
-			 os.close();
-			 fis.close();
+			String filePath = "/resources/template/phonebook.xlsx";
+			String realPath = servletContext.getRealPath(filePath);
+			FileInputStream fis = new FileInputStream(realPath);
+			byte[] b = new byte[1024];
+			int i = 0;
+			while ((i = fis.read(b)) > 0) {
+				os.write(b, 0, i);
+			}
+			os.flush();
+			os.close();
+			fis.close();
 		} catch (Exception e) {
-			LOG.error("下载文件失败",e);
-			if(os!=null){
+			LOG.error("下载文件失败", e);
+			if (os != null) {
 				try {
 					os.close();
 				} catch (IOException e1) {
-					LOG.error("操作异常",e1);
+					LOG.error("操作异常", e1);
 				}
 			}
 		}
 
-	}//end of download
+	}// end of download
 
 }

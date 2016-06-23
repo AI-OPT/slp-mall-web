@@ -99,8 +99,8 @@
 								<td width="10%"><input type="checkbox" id="CHECK_ALL"
 									class="checkbox-medium" style="display: inline-block;">全选</td>
 								<td>序列号</td>
-								<td>姓名</td>
-								<td>手机号</td>
+								<td>姓名</td><td></td>
+								<td>手机号</td><td></td>
 								<td>归属地</td>
 								<td>运营商</td>
 								<td>操作</td>
@@ -331,11 +331,11 @@
 									<td width="10%"><input type="checkbox" name="CHEK_TEL_NO"
 										class="checkbox-medium" value="{{:telNo}}"></td>
 									<td>{{:telNo}}</td>
-									<td>{{:telName}}</td>
-									<td>{{:telMp}}</td>
+									<td id='telName_{{:telNo}}'>{{:telName}}</td><td><span style="color:red" id="modify_name_error_{{:telNo}}"></span></td>
+									<td id='telMp_{{:telNo}}'>{{:telMp}}</td><td><span style="color:red" id="modify_mp_error_{{:telNo}}"></span></td>
 									<td>{{:provinceName}}</td>
 									<td>{{:basicOrgName}}</td>
-									<td><a href="#" class="click">编辑</a></td>
+									<td><a href="javascript:pager._modifyTelData('{{:telNo}}','{{:telName}}','{{:telMp}}')" class="click">编辑</a></td>
 								</tr> 
 	
 </script>

@@ -499,6 +499,75 @@ define('app/jsp/balance/phonebook/phonebookdetail', function (require, exports, 
 	            }
     		}); 
     	},
+    	/**
+    	 * 编辑按钮事件
+    	 */
+    	_modifyTelData:function(telNo,telName,telMp){
+    		$("#telName_"+telNo).html("<input id='telName_val_"+telNo+"' type='text' class='table-int-mini' value='"+telName+"'>");
+    		$("#telMp_"+telNo).html("<input id='telMp_val_"+telNo+"' type='text' class='table-int-mini' value='"+telMp+"'><input type='button' class='mail-btn' value='保存' onclick=\"pager._saveModifyTelData('"+telNo+"')\">");
+    	},
+    	/**
+    	 * 修改联系人
+    	 */
+    	_saveModifyTelData:function(telNo){
+    		var _this = this;
+    		var telName = $("#telName_val_"+telNo).val();
+    		var telMp = $("#telMp_val_"+telNo).val();
+    		var isOk = this._checkTelData(telNo,telName,telMp);
+    		if(isOk){
+    			ajaxController.ajax({
+    				type: "post",
+    				dataType: "json",
+    				processing: false,
+    				message: "正在处理...",
+    				url: _base+"/account/phonebook/modifyPhonebook",
+    				data: {
+    					telGroupId: this.get("telGroupId"),
+    					telNo:telNo,
+    					telName:telName,
+    					telMp:telMp
+    				},
+    				success: function(data){
+    					//_this._showPromptDialog("提示","删除成功!",2);
+    					_this._queryPhoneBooks();
+    				},
+    				failure: function(){
+    					_this._showPromptDialog("错误","修改失败!",3);
+    				}
+    			});
+    		}
+    	},
+    	/**
+    	 * 检查联系人信息
+    	 */
+    	_checkTelData:function(telNo,telName,telMp){
+    		var isSuccess = true;
+    		if(telName != null || telName != undefined && telName != ""){
+    			var nameRe = /^[A-Za-z\u4e00-\u9fa5]{4,24}$/;
+    			var nameIsOk = nameRe.test(telName);
+    			if(!nameIsOk){
+    				$("#modify_name_error_"+telNo).html("4-24个汉字或英语字母");
+    				isSuccess = false;
+    			}else{
+    				$("#modify_name_error_"+telNo).html("");
+    			}
+    		}else{
+    			$("#modify_name_error_"+telNo).html("");
+    		}
+    		if(telMp == null || telMp == undefined && telMp == ""){
+    			$("#modify_mp_error_"+telNo).html("手机号不能为空");
+    			isSuccess = false;
+    		}else{
+    			var telIsOk = this.checkMobilePhone(telMp);
+    			if(!telIsOk){
+    				$("#modify_mp_error_"+telNo).html("手机号格式不正确");
+    				isSuccess = false;
+    			}else{
+    				$("#modify_mp_error_"+telNo).html("");
+    			}
+    		}
+    		return isSuccess;
+    	}
     	
     });
     
