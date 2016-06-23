@@ -10,6 +10,7 @@
 <link href="${_slpbase }/styles/global.css" rel="stylesheet" type="text/css">
 <link href="${_slpbase }/styles/frame.css" rel="stylesheet" type="text/css">
 <link href="${_slpbase }/styles/font-awesome.css" rel="stylesheet" type="text/css">
+<link rel="stylesheet" type="text/css" href="${_base}/resources/slpmall/styles/bootstrap.css">
 <script type="text/javascript">
 (function() { 
 	seajs.use([ 'app/jsp/user/qualification/baseinfo'], function(QualificationPager) {
@@ -107,9 +108,9 @@
          </ul>
          <ul>
              <li>
-                <p class="word"><b class="red">*</b>成立日期:</p>
-                <p><input type="text" class="int-medium"></p>
-                 <label><img src="${_slpbase}/images/icon-a.png"><span class="red">请选择日期</span></label>
+               <p class="word"><b class="red">*</b>成立日期:</p>
+                <p id="establishTimeId" ><input id="establishTime" type="text" class="int-small" readonly><A href="javascript:void(0);"><i class="icon-calendar"></i></A></p>
+                <label style="display: none;" id="timeErrorMsg"><img src="${_slpbase}/images/icon-a.png" id="timeErrorMsgImage"><span class="red">请选择日期</span></label> 
              </li>
          </ul>
          <ul>
@@ -117,14 +118,14 @@
                 <p class="word"><b class="red">*</b>注册资本:</p>
                 <p><input type="text" class="int-medium" placeholder=""></p>
                 <p>万元</p>
-                 <label><img src="${_slpbase}/images/icon-c.png"><span class="ash">1-12位字符，可用数字及"."</span></label>
+                 <label style="display: none;"><img src="${_slpbase}/images/icon-c.png"><span class="ash">1-12位字符，可用数字及"."</span></label>
              </li>
          </ul>
           <ul>
              <li>
                 <p class="word"><b class="red">*</b>经营范围:</p>
                 <p><textarea type="text" class="textarea-xxlarge"></textarea></p>
-                <label><img src="${_slpbase}/images/icon-c.png"><span class="ash">4-300个字符</span></label>
+                <label style="display: none;"><img src="${_slpbase}/images/icon-c.png"><span class="ash">4-300个字符</span></label>
              </li>
          </ul>
          <ul>
@@ -146,8 +147,13 @@
                 <p class="word"><b class="red">*</b>身份证复印件:</p>
                 <p class="img"><img src="${_slpbase}/images/fom-t.png"></p>
                 <p class="small-p">
-                <span><input type="button" value="点击上传" class="file-btn"><input type="file" class="file"><a href="#">删除</a></span>
-                <span>请将身份证正面、反面照片合在一张图片上传，支持JPG/PNG/GIF格式，最大不超过3M</span>
+	                <span>
+	                	<input type="button" value="点击上传" class="file-btn">
+	                	<input type="file" class="file">
+	                	<a href="#">删除</a>
+	                	<span>请将身份证正面、反面照片合在一张图</span>
+	                </span>
+	                <span>支持JPG/PNG/GIF格式，最大不超过3M</span>
                 </p>
              </li>
          </ul>
@@ -199,7 +205,11 @@
                 <p class="word"><b class="red">*</b>税务登记证:</p>
                 <p class="img"><img src="${_slpbase}/images/fom-t.png"></p>
                 <p class="small-p">
-                <span><input type="button" value="点击上传" class="file-btn"><input type="file" class="file"><a href="#">删除</a></span>
+                <span>
+                  <input type="button" value="点击上传" class="file-btn">
+                  <input type="file" class="file">
+                  <a href="#">删除</a>
+                 </span>
                 <span>支持JPG/PNG/GIF格式，最大不超过3M</span>
                 </p>
              </li>
