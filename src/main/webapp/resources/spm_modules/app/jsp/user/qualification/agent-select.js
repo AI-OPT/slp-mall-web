@@ -29,7 +29,7 @@ define(
 					QualificationPager.superclass.setup.call(this);
 					//this._hideErroText();
 					this._bindHandle();
-					birth.init('year');	
+					birth.init('yy_mm_dd');	
 				},
 				//_hideInfo : function() {},
 				// 带下划线的方法，约定为内部私有方法
