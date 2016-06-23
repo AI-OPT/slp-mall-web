@@ -4,13 +4,17 @@ define('app/jsp/user/qualification/baseinfo', function (require, exports, module
     Widget = require('arale-widget/1.2.0/widget'),
     Dialog = require("artDialog/src/dialog"),
     Uploader = require('arale-upload/1.2.0/index'),
-    AjaxController=require('opt-ajax/1.0.0/index');
-    
+    AjaxController=require('opt-ajax/1.0.0/index'),
+    Calendar = require('arale-calendar/1.1.2/index');
     require("jsviews/jsrender.min");
     require("jsviews/jsviews.min");
     require("treegrid/js/jquery.treegrid.min");
     require("treegrid/js/jquery.cookie");
     require("app/jsp/user/qualification/ajaxfileupload");
+    
+    require("app/util/jsviews-ext");
+    require("opt-paging/aiopt.pagination");
+    require("twbs-pagination/jquery.twbsPagination.min");
     
     //实例化AJAX控制处理对象
     var ajaxController = new AjaxController();
@@ -42,6 +46,7 @@ define('app/jsp/user/qualification/baseinfo', function (require, exports, module
     		"change [id='cityCode']":"_cityCodeChange",
     		"blur [id='contactName']":"_checkContactName",
     		"focus [id='contactName']":"_showContactNameTip",
+    		"blur [id='establishTime']":"_changeEstablishTimeDate",
     		"click [id='toSave']":"_submit"
         },
         init: function(){
@@ -50,8 +55,11 @@ define('app/jsp/user/qualification/baseinfo', function (require, exports, module
     	setup: function () {
     		QualificationPager.superclass.setup.call(this);
     		activeUserLeftMenu(QualificationPager.USER_LEFT_MNU_ID);
+    		this._bindCalendar();
     	},
-    	
+    	_bindCalendar:function(){
+    		var beginCalendar = new Calendar({trigger: '#establishTimeId',output:"#establishTime"});
+		},
     	_showUserNameTip:function(){
     		$("#custNameErrMsg").show();
     		$("#enterpriseErrMsgShow").show();
@@ -383,6 +391,50 @@ define('app/jsp/user/qualification/baseinfo', function (require, exports, module
 					$("#countryCode").html(data.data);
 				}
 			})
+		},
+		_changeEstablishTimeDate:function(){
+			var sysDataStr = this._getSysDate();
+			var establishTime = $("#establishTime").val();
+			var beginCalendar = new Calendar({trigger: '#establishTimeId',output:"#establishTime"});
+			if(establishTime == null || establishTime == "" || establishTime == undefined){
+				beginCalendar.range([null,null]);
+			}else{
+				beginCalendar.range([null,endDate]);
+			}
+			
+		},
+		_changeBeginDate:function(){
+			var sysDataStr = this._getSysDate();
+			var beginDate = $("#orderTimeBeginQ").val();
+			var endCalendar = new Calendar({trigger: '#timeEndId',output:"#orderTimeEndQ"});
+			if(beginDate == null || beginDate == "" || beginDate == undefined){
+				endCalendar.range([null,null]);
+			}else{
+				endCalendar.range([beginDate,null]);
+			}
+		},
+		_changeEndDate:function(){
+			var sysDataStr = this._getSysDate();
+			var endDate = $("#orderTimeEndQ").val();
+			var beginCalendar = new Calendar({trigger: '#timeBeginId',output:"#orderTimeBeginQ"});
+			if(endDate == null || endDate == "" || endDate == undefined){
+				beginCalendar.range([null,null]);
+			}else{
+				beginCalendar.range([null,endDate]);
+			}
+		},
+		_getSysDate:function(){
+			var sysDate = new Date();
+  			var year = sysDate.getFullYear();    //获取完整的年份(4位,1970-????)
+  			var month = sysDate.getMonth()+1;       //获取当前月份(0-11,0代表1月)
+  			var day = sysDate.getDate();
+  			if(month<10){
+  				month = "0"+month;
+  			}
+  			if(day<10){
+  				day = "0"+day;
+  			}
+  			return year+"-"+month+"-"+day;
 		},
 		_submit:function(){
 			var custNameFlag = $("#custNameFlag").val();
