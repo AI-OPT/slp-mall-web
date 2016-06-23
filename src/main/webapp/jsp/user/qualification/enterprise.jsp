@@ -21,7 +21,7 @@
 })(); 
 
 </script>
-</head>
+</head> 
 <body>
  <!--顶部菜单-->
  <%@ include file="/inc/top-menu.jsp" %>

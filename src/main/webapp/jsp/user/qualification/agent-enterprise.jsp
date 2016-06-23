@@ -22,7 +22,7 @@
 			baseInfoPager.render();
 			enterprisePager.render();
 		});
-	})(); 
+	})();  
 </script>
 </head>
 <body>

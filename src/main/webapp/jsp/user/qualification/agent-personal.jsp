@@ -18,7 +18,7 @@
 			var pager = new QualificationPager();
 			pager.render();
 		});
-	})();
+	})(); 
 	
 </script>
 </head>
