@@ -28,8 +28,8 @@ define(
 				setup : function() {
 					QualificationPager.superclass.setup.call(this);
 					//this._hideErroText();
-					birth.init('year');	
 					this._bindHandle();
+					birth.init('year');	
 				},
 				//_hideInfo : function() {},
 				// 带下划线的方法，约定为内部私有方法
