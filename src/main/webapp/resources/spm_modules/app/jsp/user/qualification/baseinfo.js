@@ -73,13 +73,18 @@ define('app/jsp/user/qualification/baseinfo', function (require, exports, module
 		},
 		_showCertNumTip:function(){
 			$("#certNumErrMsg").show();
-			$("#contactNameText").text('最多20个字符，允许使用英语字母（区分大小写）、数字及“-”');
-    		$('#contactNameImage').attr('src',_base+'/resources/slpmall/images/icon-d.png');
+			$("#certNumText").text('最多20个字符，允许使用英语字母（区分大小写）、数字及“-”');
+    		$('#certNumImage').attr('src',_base+'/resources/slpmall/images/icon-d.png');
 		},
 		_showContactNameTip:function(){
 			$("#contactNameErrMsg").show();
-			$("#certNumText").text('最多20个字符，允许使用英语字母（区分大小写）、数字及“-”');
-    		$('#certNumImage').attr('src',_base+'/resources/slpmall/images/icon-d.png');
+			$("#contactNameText").text('最多20个字符，允许使用英语字母（区分大小写）、数字及“-”');
+    		$('#contactNameImage').attr('src',_base+'/resources/slpmall/images/icon-d.png');
+		},
+		_showCheckPhoneTip:function(){
+			$("#contactMpErrMsg").show();
+			$("#contactMpText").text('请输入正确手机号');
+    		$('#contactMpImage').attr('src',_base+'/resources/slpmall/images/icon-d.png');
 		},
     	_validateName:function(){
 			var name = $("#custName").val();
@@ -235,7 +240,7 @@ define('app/jsp/user/qualification/baseinfo', function (require, exports, module
     		if (phone==""){
     			$("#contactMpErrMsg").show();
     			$('#contactMpText').text("请输入手机号码");
-    			$('#phoneImage').attr('src',_base+'/resources/slpmall/images/icon-a.png');
+    			$('#contactMpImage').attr('src',_base+'/resources/slpmall/images/icon-a.png');
     			$("#contactMpFlag").val("0");
 				return false;
 			}else if( /^0?1[3|4|5|8][0-9]\d{8}$/.test(phone)){
