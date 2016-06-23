@@ -143,6 +143,7 @@ public class OrderController {
             listVo.add(pvo);
             vo.setProdExtendInfoVoList(listVo);
             exInfo.setInfoJson(JSON.toJSONString(vo));
+            exInfo.setBatchFlag(SLPMallConstants.Order.BATCH_FLAG);
             orderrequest.setOrdExtendInfo(exInfo);
             IOrderTradeCenterSV iOrderTradeCenterSV = DubboConsumerFactory
                     .getService(com.ai.slp.order.api.ordertradecenter.interfaces.IOrderTradeCenterSV.class);

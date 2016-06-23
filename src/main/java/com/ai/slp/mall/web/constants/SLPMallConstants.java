@@ -372,6 +372,8 @@ public final class SLPMallConstants {
     	
     	public static final String VISITUSERID="900000000000000000";
     	
+    	public static final String BATCH_FLAG="0";
+    	
     }
     public static final class PayPassword{
         private PayPassword(){}
