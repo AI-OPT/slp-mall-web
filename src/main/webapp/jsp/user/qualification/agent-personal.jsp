@@ -92,9 +92,20 @@
           <ul>
              <li>
                 <p class="word"><b class="red">*</b>生日:</p>
-                <p><select class="select-xmini" id="year"></select></p>
-                <p><select class="select-xmini" id="month"></select></p>
-                <p><select class="select-xmini" id="day"></select></p>
+                <p><select class="select-xmini" id="year">
+                	 <option value="0">请选择</option>
+                   </select>
+                 </p>
+                <p>
+                	<select class="select-xmini" id="mm">
+                		<option value="0">请选择</option>
+                	</select>
+                </p>
+                <p>
+                	<select class="select-xmini" id="dd">
+                		<option value="0">请选择</option>
+                	</select>
+                </p>
              </li>
          </ul>
    		  <ul>
