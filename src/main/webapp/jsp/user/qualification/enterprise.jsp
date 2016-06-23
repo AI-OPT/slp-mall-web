@@ -12,8 +12,8 @@
 <link href="${_slpbase }/styles/font-awesome.css" rel="stylesheet" type="text/css">
 <script type="text/javascript">
 (function() { 
-	seajs.use([ 'app/jsp/user/qualification/baseinfo'], function(QualificationPager) {
-		var pager = new QualificationPager({
+	seajs.use([ 'app/jsp/user/qualification/baseinfo'], function(BaseInfoQualificationPager) {
+		var pager = new BaseInfoQualificationPager({
 			element : document.body
 		});
 		pager.render();

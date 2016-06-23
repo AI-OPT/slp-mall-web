@@ -9,14 +9,20 @@
 <link href="${_slpbase }/styles/global.css" rel="stylesheet" type="text/css">
 <link href="${_slpbase }/styles/frame.css" rel="stylesheet" type="text/css">
 <link href="${_slpbase }/styles/font-awesome.css" rel="stylesheet" type="text/css">
+<link rel="stylesheet" type="text/css" href="${_base}/resources/slpmall/styles/bootstrap.css">
 <script type="text/javascript">
-	(function() {
-		seajs.use('app/jsp/user/qualification/agent-select', function(
-				QualificationPager) {
-			var pager = new QualificationPager();
-			pager.render();
+	(function() { 
+		seajs.use([ 'app/jsp/user/qualification/baseinfo','app/jsp/user/qualification/agent-enterprise'], function(BaseInfoQualificationPager,EnterprisePager) {
+			var baseInfoPager = new BaseInfoQualificationPager({
+				element : document.body
+			});
+			var enterprisePager = new EnterprisePager({
+				element : document.body
+			});
+			baseInfoPager.render();
+			enterprisePager.render();
 		});
-	})();
+	})(); 
 </script>
 </head>
 <body>
@@ -51,8 +57,8 @@
          <ul>
              <li>
                 <p class="word"><b class="red">*</b>企业名称:</p>
-                <p><input type="text" class="int-xlarge" placeholder="请填写营业执照上的注册企业名称" id="companyName"></p>
-                 <label id="companyNameErrMsg" style="display:none"><img src="${_slpbase}/images/icon-c.png"><span class="ash">4-60个字符，可用中英文、数字、“-”、”_”、“（）”及”( )”</span></label>
+                <p><input type="text" class="int-xlarge" placeholder="请填写营业执照上的注册企业名称" id="custName" name="custName" ></p>
+                 <label id="custNameErrMsg" style="display:none"><img src="${_slpbase}/images/icon-c.png" id="custNameImage"><span class="ash" id="enterpriseErrMsgShow">4-60个字符，可用中英文、数字、“-”、”_”、“（）”及”( )”</span></label>
              </li>
          </ul>
        	  <ul>
@@ -60,10 +66,10 @@
              	 <p class="word"><b class="red">*</b>企业注册地址:</p>
                 <p>
                 
-                <select class="select-xmini" id="princeCode" name="princeCode">
+                <select class="select-xmini" id="provinceCode" name="provinceCode" >
                 	<option value="0">请选择</option>
                 	<c:forEach items="${provinceList}" var="record">
-                		<option value="${record.provinceCode}">${record.areaName}</option>
+                		<option value="${record.provinceCode}" <c:if test="${insertGroupKeyInfoRequest.provinceCode==record.provinceCode }">selected</c:if>>${record.areaName}</option>
                 	</c:forEach>
                 </select>
                 
@@ -74,18 +80,18 @@
                  </select>
                 </p>
                 <p><select class="select-xmini" id="countryCode" name="countryCode"></select></p>
-                 <label id="addErrMsg" style="display:none"><img src="${_slpbase}/images/icon-a.png"><span class="red">企业名称长度为4-60个字符</span></label>
+                <label id="registerAddrErrMsg" style="display:none"><img src="${_slpbase}/images/icon-a.png" id="registerAddrImage"><span class="ash" id="registerAddrText">请选择注册地址</span></label>
              </li>
              <li class="right">
-             <p><input type="text" class="int-xlarge" placeholder="详细街道地址" id="address"></p>
-             <label id="address" style="display:none"><img src="${_slpbase}/images/icon-c.png"><span class="ash">5-120个字符</span></label>
+            <p><input type="text" class="int-xlarge" placeholder="详细街道地址" id="certAddr" name="certAddr"></p>
+             <label id="certAddrErrMsg" style="display:none"><img src="${_slpbase}/images/icon-c.png" id="certAddrImage"><span class="ash" id="certAddrText">5-120个字符</span></label>
              </li>
          </ul>
    		  <ul>
              <li>
                 <p class="word"><b class="red">*</b>营业执照注册号:</p>
-                <p><input type="text" class="int-medium" placeholder="请填写营业执照上的注册号" id="registerNum"></p>
-                 <label id="registerNumErrMsg" style="display:none"><img src="${_slpbase}/images/icon-c.png"><span class="ash">最多20个字符，允许使用英语字母（区分大小写）、数字及“-”</span></label>
+                <p><input type="text" class="int-medium" placeholder="请填写营业执照上的注册号" id="certNum" name="certNum"></p>
+                 <label id="certNumErrMsg" style="display:none"><img src="${_slpbase}/images/icon-c.png" id="certNumImage"><span class="ash" id="certNumText">最多20个字符，允许使用英语字母（区分大小写）、数字及“-”</span></label>
              </li>
          </ul>
          <ul>
@@ -99,10 +105,10 @@
              </li>
          </ul>
          <ul>
-             <li>
-                <p class="word"><b class="red">*</b>成立日期:</p>
-                <p><input type="text" class="int-medium"></p>
-                 <label id="dateErrMsg" style="display:none"><img src="${_slpbase}/images/icon-a.png"><span class="red">请选择日期</span></label>
+            <li>
+               <p class="word"><b class="red">*</b>成立日期:</p>
+                <p id="establishTimeId" ><input id="establishTime" type="text" class="int-small" readonly><A href="javascript:void(0);"><i class="icon-calendar"></i></A></p>
+                <label style="display: none;" id="timeErrorMsg"><img src="${_slpbase}/images/icon-a.png" id="timeErrorMsgImage"><span class="red">请选择日期</span></label> 
              </li>
          </ul>
          <ul>
@@ -269,52 +275,57 @@
            <ul>
                 <li>
                     <p class="word"><b class="red">*</b>行业:</p>
-                    <p>
-                    <select class="select-medium">
-                    	<option value="0">请选择</option>
+                <p>
+	                 <select class="select-medium" id="groupIndustery" name="groupIndustery">
+	                	<option value="0">请选择</option>
 	                	<c:forEach items="${industryList}" var="re">
 	                		<option value="${re.industryCode }">${re.industryName }</option>
 	                	</c:forEach>
-                    </select></p>
-                     <label id="tradeErrMsg" style="display:none"><img src="${_slpbase}/images/icon-a.png"><span class="red">请选择所在行业</span></label>
+	                </select>
+                </p>
+                <label id="groupIndusteryErrMsg" style="display:none"><img src="${_slpbase}/images/icon-a.png" id="groupIndusteryImage"><span class="ash" id="groupIndusteryText">请选择行业信息</span></label>
                  </li>
              </ul>
              <ul>
                 <li>
-                    <p class="word">官网:</p>
-                    <p><input type="text" class="int-medium" id="officialWeb"></p>
-                     <label id="officialWebErrMsg" style="display:none"><img src="${_slpbase}/images/icon-c.png"><span class="ash">3-60个字符，允许使用字母、数字、特殊字符</span></label>
+                     <p class="word">官网:</p>
+	                <p><input type="text" class="int-medium" placeholder="请填写官网网址" id="groupWebsite" name="groupWebsite"></p>
+	                 <label id="groupWebsitErrMsg" style="display:none"><img src="${_slpbase}/images/icon-c.png" id="groupWebsiteImage"><span class="ash" id="groupWebsiteText">3-60个字符，允许使用字母、数字、特殊字符</span></label>
                  </li>
              </ul>
              <ul>
                 <li>
-                    <p class="word"><b class="red">*</b>公司人数:</p>
-                    <p><select class="select-medium">
-                    	<option value="0" selected="selected">请选择</option>
+                     <p class="word"><b class="red">*</b>公司人数:</p>
+                <p>
+                	<select class="select-medium" id="groupMemberScale" name="groupMemberScale">
+                		<option value="0" selected="selected">请选择</option>
                 		<option value="1">1-50人</option>
                 		<option value="2">51-100人</option>
                 		<option value="3">101-200人</option>
                 		<option value="4">201-500人</option>
                 		<option value="5">500-1000人</option>
                 		<option value="6">1000人以上</option>
-                    </select></p>
-                     <label id="numerErrMsg" style="display:none"><img src="${_slpbase}/images/icon-a.png"><span class="red">请选择公司人数</span></label>
+                	</select>
+                </p>
+                 <label id="groupMemberScaleErrMsg" style="display:none"><img src="${_slpbase}/images/icon-a.png" id="groupMemberScaleImage"><span class="ash" id="groupMemberScaleText">请选择公司人数信息</span></label>
                  </li>
              </ul>
                <ul>
                 <li>
                     <p class="word"><b class="red">*</b>公司性质:</p>
-                    <p><select class="select-medium">
-                    	<option value="0" selected="selected">请选择</option>
-	               		<option value="1">民营企业</option>
-	               		<option value="2">外商独资</option>
-	               		<option value="3">上市公司</option>
-	               		<option value="4">股份制企业</option>
-	               		<option value="5">国有企业机关</option>
-	               		<option value="6">事业单位</option>
-	               		<option value="7">其他</option>
-                    </select></p>
-                     <label id="natrueErrMsg" style="display:none"><img src="${_slpbase}/images/icon-a.png"><span class="red">请选择公司性质</span></label>
+                <p>
+                <select class="select-medium" id="groupStype" name="groupStype">
+                	<option value="0" selected="selected">请选择</option>
+               		<option value="1">民营企业</option>
+               		<option value="2">外商独资</option>
+               		<option value="3">上市公司</option>
+               		<option value="4">股份制企业</option>
+               		<option value="5">国有企业机关</option>
+               		<option value="6">事业单位</option>
+               		<option value="7">其他</option>
+                </select>
+                </p>
+                 <label id="groupStypeErrMsg" style="display:none"><img src="${_slpbase}/images/icon-a.png" id="groupMemberScaleImage"><span class="ash" id="groupStypeText">请选择公司性质信息</span></label>
                  </li>
              </ul>
      </div>
@@ -323,59 +334,59 @@
      <!--信息填写-->
      <div class="nav-form">
            <ul>
-                <li>
+                 <li>
                     <p class="word">联系人姓名:</p>
-                    <p><input type="text" class="int-medium" placeholder="请填写联系人姓名"></p>
-                     <label id="contactNameErrMsg" style="display:none"><img src="${_slpbase}/images/icon-c.png"><span class="ash">4-24个字符，可用汉字或英语字母</span></label>
+                    <p><input type="text" class="int-medium" placeholder="请填写联系人姓名" id="contactName" name="contactName"></p>
+                     <label id="contactNameErrMsg" style="display:none"><img src="${_slpbase}/images/icon-d.png" id="contactNameImage"><span class="ash" id="contactNameText">4-24个字符，可用汉字或英语字母</span></label>
                  </li>
              </ul>
               <ul>
                  <li>
                     <p class="word"><b class="red">*</b>所属部门:</p>
                     <p>
-	                    <select class="select-medium">
-	                    	<option value="0" selected="selected">请选择</option>
-		               		<option value="1">财务部</option>
-		               		<option value="2">人事部</option>
-		               		<option value="3">行政部</option>
-		               		<option value="4">企划部</option>
-		               		<option value="5">渠道部</option>
-		               		<option value="6">技术部</option>
-		               		<option value="7">销售部</option>
-		               		<option value="8">工程项目部</option>
-		               		<option value="9">研发部</option>
-		               		<option value="10">采购部</option>
-		               		<option value="11">维修部</option>
-		               		<option value="12">客服部</option>
-		               		<option value="13">市场部</option>
-		               		<option value="14">产品部</option>
-	                   	    <option value="15">总经办</option>
-		               		<option value="16">其他</option>
-	                    </select>
+                    <select class="select-medium" id="contactDept" name="contactDept">
+                    	<option value="0" selected="selected">请选择</option>
+	               		<option value="1">财务部</option>
+	               		<option value="2">人事部</option>
+	               		<option value="3">行政部</option>
+	               		<option value="4">企划部</option>
+	               		<option value="5">渠道部</option>
+	               		<option value="6">技术部</option>
+	               		<option value="7">销售部</option>
+	               		<option value="8">工程项目部</option>
+	               		<option value="9">研发部</option>
+	               		<option value="10">采购部</option>
+	               		<option value="11">维修部</option>
+	               		<option value="12">客服部</option>
+	               		<option value="13">市场部</option>
+	               		<option value="14">产品部</option>
+                   	    <option value="15">总经办</option>
+	               		<option value="16">其他</option>
+                    </select>
                     </p>
-                    <label id="departmentErrMsg" style="display:none"><img src="${_slpbase}/images/icon-a.png"><span class="red">请选择所在部门信息</span></label>
+                    <label style="display:none" id="contactDeptErrMsg"><img src="${_slpbase}/images/icon-a.png"><span class="ash">请选择所在部门信息</span></label>
                  </li>
              </ul>
              <ul>
-                 <li>
+                <li>
                     <p class="word">联系人邮箱:</p>
-                    <p><input type="text" class="int-medium" placeholder="请填写邮箱"></p>
-                    <label id="contactEmailErrMsg" style="display:none"><img src="${_slpbase}/images/icon-a.png"><span class="red">请填写正确的邮箱</span></label>
+                    <p><input style="text" class="int-medium" id="contactEmail" name="contactEmail"></p>
+                    <label style="display:none" id="emailMsgError"><img src="${_slpbase}/images/icon-a.png" id="emailMsgImage"><span  id="contactEmailText">请填写正确的邮箱</span></label>
                  </li>
              </ul>
               <ul>
                  <li>
                     <p class="word"><b class="red">*</b>联系人手机:</p>
-                    <p><input type="text" class="int-medium" placeholder="请输入联系人手机"></p>
-                    <label id="contactPhoneErrMsg" style="display:none"><img src="${_slpbase}/images/icon-a.png"><span class="red">请填写正确手机号</span></label>
+                    <p><input type="text" class="int-medium" placeholder="" id="contactMp" name="contactMp"></p>
+                    <label style="display:none" id="contactMpErrMsg"><img src="${_slpbase}/images/icon-a.png" id="contactMpImage"><span id="contactMpText">请填写正确手机号</span></label>
                  </li>
              </ul>
                <ul>
                  <li>
                     <p class="word"><b class="red">*</b>短信验证码:</p>
-                    <p><input type="text" class="int-mini"></p>
-                    <p><input type="button" id="SendPhoneCode" class="int-btn" value="获取短信验证码"></p>
-                    <label id="phoneCodeErrMsg" style="display:none"><img src="${_slpbase}/images/icon-a.png"><span class="red">验证码错误</span></label>
+                    <p><input type="text" class="int-mini" id="phoneCode" name="phoneCode"></p>
+                    <p><input type="button" class="int-btn" value="获取短信验证码" id="sendPhoneCode"></p>
+                    <label id="phoneCodeErrMsg" style="display:none"><img src="${_slpbase}/images/icon-a.png" id="phoneCodeImage"><span  id="phoneCodeText">验证码错误</span></label>
                  </li>
              </ul>
               <ul>

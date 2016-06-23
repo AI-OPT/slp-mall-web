@@ -9,8 +9,10 @@
 <link href="${_slpbase }/styles/global.css" rel="stylesheet" type="text/css">
 <link href="${_slpbase }/styles/frame.css" rel="stylesheet" type="text/css">
 <link href="${_slpbase }/styles/font-awesome.css" rel="stylesheet" type="text/css">
+<script src="${_base}/resources/spm_modules/app/jsp/user/qualification/birthday.js" type="text/javascript"></script>
 <script type="text/javascript">
 	(function() {
+		birth.init('yy_mm_dd');
 		seajs.use('app/jsp/user/qualification/agent-select', function(
 				QualificationPager) {
 			var pager = new QualificationPager();
