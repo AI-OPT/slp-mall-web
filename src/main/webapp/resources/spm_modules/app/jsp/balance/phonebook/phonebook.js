@@ -1,17 +1,17 @@
 //通讯录详情 table 点击变换div
-$(document).ready(function(){
-$(".account-table .click").click(function(){
-  $(this).parent().parent().parent().children(".hover").show();
-  $(this).parent().parent(".current").hide();
-});
+//$(document).ready(function(){
+//$(".account-table .click").click(function(){
+//  $(this).parent().parent().parent().children(".hover").show();
+//  $(this).parent().parent(".current").hide();
+//});
+//
+//$(".account-table .mail-btn").click(function(){
+//  $(this).parent().parent().parent().children(".current").show();
+//  $(this).parent().parent(".hover").hide();
+//});
+//
+//});	
 
-$(".account-table .mail-btn").click(function(){
-  $(this).parent().parent().parent().children(".current").show();
-  $(this).parent().parent(".hover").hide();
-});
-
-})
-;	
 //通讯录详情 批量删除弹出	
 jQuery(document).ready(function($) {
 //	$('.click-close').click(function(){
@@ -137,49 +137,3 @@ jQuery(document).ready(function($) {
 	$('#eject-iphone').slideUp(150);
 	})
 })
-
- $(function () {
-    var st = 100;
-    $('.icon-envelope-alt').mouseenter(function () {
-		$('.onclick-email').show(1);
-    })
-		$(".icon-envelope-alt").click(function () {
-                $(this).hide(1);
-           });
-	
-		$('.icon-envelope-alt').mouseleave(function () {
-        $('.onclick-email').hide(1);
-    });
-    
-    $('.icon-tablet').mouseenter(function () {
-		$('.onclick').show(1);
-    })
-		$(".icon-tablet").click(function () {
-                $(this).hide(1);
-           });
-	
-		$('.icon-tablet').mouseleave(function () {
-        $('.onclick').hide(1);
-    });	
- });
- 
-/**限制字数个数**/
-
-
-(function($) {	
-	$.fn.fonts = function(option){
-		option = $.extend({},$.fn.fonts.option,option);
-		return this.each(function(){
-		var objString = $(this).text(),
-		    objLength = $(this).text().length,
-			num = option.fontNum;
-		if(objLength > num){
-            objString = $(this).text(objString.substring(0,num) + "…");
-		}
-		 })
-	}
-	// default options
-	$.fn.fonts.option = {
-	fontNum:100 //font num
-	};
-})(jQuery);
