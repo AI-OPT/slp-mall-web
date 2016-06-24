@@ -179,12 +179,19 @@ define('app/jsp/balance/phonebook/phonebookdetail', function (require, exports, 
 				$("#TEXT_FILE_NAME").val("");
 				return ;
 			}
+			//初始化进度条数据
+			document.getElementById('uploadProgressShow').style.width = '0%';
+			$("#uploadProgressMsg").html("已处理0%");
+			this._showDialog("uploadProgressDiv");
+			
 			var form = new FormData();
 		    form.append("uploadFile", document.getElementById("uploadFile").files[0]); 
 			
 			// XMLHttpRequest 对象
 		     var xhr = new XMLHttpRequest();
-		     xhr.upload.addEventListener("progress", uploadProgress, false);
+		     xhr.upload.addEventListener("progress", function () { _this._uploadProgress(event) }, false);
+		     xhr.addEventListener("load", function () { _this._uploadSuccess() }, false); 
+		     xhr.addEventListener("error", function () { _this._uploadFail() }, false);
 		     var uploadURL = _base+"/account/phonebook/uploadPhoneBooks?telGroupId="+this.get("telGroupId");
 		     xhr.open("post", uploadURL, true);
 		     
@@ -210,12 +217,27 @@ define('app/jsp/balance/phonebook/phonebookdetail', function (require, exports, 
 		 */
 		_uploadProgress:function(evt) {
 			if (evt.lengthComputable) {
-			var percentComplete = Math.round(evt.loaded * 100 / evt.total);
-			document.getElementById('progressNumber').innerHTML = '<font color=red>当前进度:'+percentComplete.toString() + '%</font>';
+				var percentComplete = Math.round(evt.loaded * 100 / evt.total);
+				document.getElementById('uploadProgressShow').style.width = percentComplete+'%';
+				$("#uploadProgressMsg").html("已处理"+percentComplete+"%");
+			}else {
+				document.getElementById('uploadProgressShow').style.width = '100%';
+				$("#uploadProgressMsg").html("已处理100%");
 			}
-			else {
-			document.getElementById('progressNumber').innerHTML = 'unable to compute';
-			}
+		},
+		/**
+		 * 上传成功
+		 */
+		_uploadSuccess:function(){
+			this._hiddenDialog("uploadProgressDiv");
+			this._showPromptDialog("批量导入通讯录","导入通讯录完成！", 2);
+		},
+		/**
+		 * 上传成功
+		 */
+		_uploadFail:function(){
+			//this._hiddenDialog("uploadProgressDiv");
+			this._showMsgDialog("批量导入通讯录","导入通讯录失败！", 3);
 		},
     	/**
     	 * 删除编辑框中一条数据
@@ -384,7 +406,7 @@ define('app/jsp/balance/phonebook/phonebookdetail', function (require, exports, 
     			}else{
     				validPass = false;
     			}
-    			o.userId = _this.get("userId");
+    			//o.userId = _this.get("userId");
     			o.telGroupId = _this.get("telGroupId");
     		});
     		if(!validPass){
@@ -428,12 +450,10 @@ define('app/jsp/balance/phonebook/phonebookdetail', function (require, exports, 
     		var checkboxs=$("input[name='CHEK_TEL_NO']:checked");
     		if(checkboxs.length==0){
     			this._showPromptDialog("提示","请选择要删除的联系人",1);
-//    			$('.eject-mask').fadeIn(100);
-//    			$('#promptDialogDiv').slideDown(200);
     			return;
     		}
     		
-    		_showDialog("deleteDialogDiv")
+    		this._showDialog("deleteDialogDiv")
     	},
     	/**
     	 * 删除联系人
@@ -456,11 +476,13 @@ define('app/jsp/balance/phonebook/phonebookdetail', function (require, exports, 
 					recordIds: recordIds
 				},
 				success: function(data){
-					//alert("删除成功");  
+					//alert("删除成功"); 
+					_this._hiddenDialog("deleteDialogDiv");
 					_this._showPromptDialog("提示","删除成功!",2);
 					_this._queryPhoneBooks();
 				},
 				failure: function(){
+					_this._hiddenDialog("deleteDialogDiv");
 					_this._showPromptDialog("错误","删除失败!",3);
 				}
 			});
@@ -471,6 +493,7 @@ define('app/jsp/balance/phonebook/phonebookdetail', function (require, exports, 
     	 */
     	_queryPhoneBooks: function(){
     		var _this = this;
+    		$("#CHECK_ALL").prop("checked", false);
     		$("#pagination-ul").runnerPagination({
     			url: _base+"/account/phonebook/queryUserPhonebooks",
 	 			method: "POST",
@@ -478,7 +501,7 @@ define('app/jsp/balance/phonebook/phonebookdetail', function (require, exports, 
 	 			processing: false,
 	 			message: "正在查询",
 	            data : {
-					userId: this.get("userId"),
+					//userId: this.get("userId"),
 					telGroupId: this.get("telGroupId"),
 					provinceCode: $("#provinceCode").val(),
 					basicOrgId: $("#basicOrgId").val(),
@@ -499,6 +522,75 @@ define('app/jsp/balance/phonebook/phonebookdetail', function (require, exports, 
 	            }
     		}); 
     	},
+    	/**
+    	 * 编辑按钮事件
+    	 */
+    	_modifyTelData:function(telNo,telName,telMp){
+    		$("#telName_"+telNo).html("<input id='telName_val_"+telNo+"' type='text' class='table-int-mini' value='"+telName+"'>");
+    		$("#telMp_"+telNo).html("<input id='telMp_val_"+telNo+"' type='text' class='table-int-mini' value='"+telMp+"'><input type='button' class='mail-btn' value='保存' onclick=\"pager._saveModifyTelData('"+telNo+"')\">");
+    	},
+    	/**
+    	 * 修改联系人
+    	 */
+    	_saveModifyTelData:function(telNo){
+    		var _this = this;
+    		var telName = $("#telName_val_"+telNo).val();
+    		var telMp = $("#telMp_val_"+telNo).val();
+    		var isOk = this._checkTelData(telNo,telName,telMp);
+    		if(isOk){
+    			ajaxController.ajax({
+    				type: "post",
+    				dataType: "json",
+    				processing: false,
+    				message: "正在处理...",
+    				url: _base+"/account/phonebook/modifyPhonebook",
+    				data: {
+    					telGroupId: this.get("telGroupId"),
+    					telNo:telNo,
+    					telName:telName,
+    					telMp:telMp
+    				},
+    				success: function(data){
+    					//_this._showPromptDialog("提示","删除成功!",2);
+    					_this._queryPhoneBooks();
+    				},
+    				failure: function(){
+    					_this._showPromptDialog("错误","修改失败!",3);
+    				}
+    			});
+    		}
+    	},
+    	/**
+    	 * 检查联系人信息
+    	 */
+    	_checkTelData:function(telNo,telName,telMp){
+    		var isSuccess = true;
+    		if(telName != null || telName != undefined && telName != ""){
+    			var nameRe = /^[A-Za-z\u4e00-\u9fa5]{4,24}$/;
+    			var nameIsOk = nameRe.test(telName);
+    			if(!nameIsOk){
+    				$("#modify_name_error_"+telNo).html("4-24个汉字或英语字母");
+    				isSuccess = false;
+    			}else{
+    				$("#modify_name_error_"+telNo).html("");
+    			}
+    		}else{
+    			$("#modify_name_error_"+telNo).html("");
+    		}
+    		if(telMp == null || telMp == undefined && telMp == ""){
+    			$("#modify_mp_error_"+telNo).html("手机号不能为空");
+    			isSuccess = false;
+    		}else{
+    			var telIsOk = this.checkMobilePhone(telMp);
+    			if(!telIsOk){
+    				$("#modify_mp_error_"+telNo).html("手机号格式不正确");
+    				isSuccess = false;
+    			}else{
+    				$("#modify_mp_error_"+telNo).html("");
+    			}
+    		}
+    		return isSuccess;
+    	}
     	
     });
     

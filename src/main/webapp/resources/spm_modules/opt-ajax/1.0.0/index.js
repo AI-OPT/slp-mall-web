@@ -51,15 +51,15 @@ define('opt-ajax/1.0.0/index', function (require, exports, module) {
 				var status = transport[AjaxController.STATUS_CODE];
 				var statusInfo = transport[AjaxController.STATUS_INFO];
 				if(status && status == AjaxController.AJAX_STATUS_FAILURE){
-					/*var failureDialog = Dialog({
-					    title: '交易失败',
+					var failureDialog = Dialog({
+					    title: '操作失败',
 					    content: statusInfo,
 					    cancel: false,
 					    ok: function () {
 					    	callbacks["failure"] && callbacks["failure"].call(_this,transport); 
 					    }
 					});
-					failureDialog.showModal();*/
+					failureDialog.showModal();
 				} else if(status && status == AjaxController.AJAX_STATUS_LOGIN){
 					//取得当前页面地址
 					var winLocal = window.location.href;
