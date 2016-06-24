@@ -5,7 +5,6 @@
 <meta charset="UTF-8">
 <title>通讯录管理</title>
 <%@ include file="/inc/inc.jsp"%>
-<!-- <script src="${_base}/resources/spm_modules/app/jsp/balance/phonebook/phonebook.js" type="text/javascript"></script> -->
 <link href="${_slpbase }/styles/modular.css" rel="stylesheet" type="text/css">
 <link href="${_slpbase }/styles/global.css" rel="stylesheet" type="text/css">
 <link href="${_slpbase }/styles/frame.css" rel="stylesheet" type="text/css">
@@ -32,15 +31,15 @@
 						<div class="my-order-cnt">
 				<div class="payment-title">
 					<p>
-						<a href="#">账户中心</a>&gt;
+						<a href="${_base}/myorder/list">账户中心</a>&gt;
 					</p>
 					<p>
-						<a href="#">账户设置</a>&gt;
+						<a href="javascript:void(0)">账户设置</a>&gt;
 					</p>
 					<p>
-						<a href="#">通讯录管理</a>&gt;
+						<a href="${_base}/account/phonebook/phonebookmgr">通讯录管理</a>&gt;
 					</p>
-					<p>公司同事-市场部（45）</p>
+					<p>${telGroupName}（${phoneCount}）</p>
 				</div>
 
 				<div class="mail-bj">
@@ -314,6 +313,7 @@
 	</div>
 	<!--添加通讯录弹出框结束-->
 
+	<script src="${_slpbase }/scripts/flickity-docs.min.js"></script>
 	<script type="text/javascript"> 
 	var pager;
 	(function () {
@@ -324,7 +324,6 @@
 	})();
 	</script>
 	
-<script src="${_slpbase }/scripts/flickity-docs.min.js"></script>
 
 <script id="PhoneBooksImpl" type="text/x-jsrender">
 								<tr class="current">

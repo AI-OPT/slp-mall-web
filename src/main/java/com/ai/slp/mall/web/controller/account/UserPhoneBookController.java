@@ -154,12 +154,16 @@ public class UserPhoneBookController {
 	@RequestMapping("/phonebookdetail")
 	public ModelAndView phonebookdetail(HttpServletRequest request) {
 		String telGroupId = request.getParameter("telGroupId");
+		String telGroupName = request.getParameter("telGroupName");
+		String count = request.getParameter("count");
 		if (StringUtil.isBlank(telGroupId)) {
 			throw new BusinessException(ExceptCodeConstants.Special.PARAM_IS_NULL, "请传入分组ID");
 		}
 		SLPClientUser user = this.getUserId(request);
 		request.setAttribute("userId", user.getUserId());
 		request.setAttribute("telGroupId", telGroupId);
+		request.setAttribute("telGroupName", telGroupName);
+		request.setAttribute("phoneCount", count);
 		ModelAndView view = new ModelAndView("jsp/account/phonebook/phonebookdetail");
 		return view;
 	}

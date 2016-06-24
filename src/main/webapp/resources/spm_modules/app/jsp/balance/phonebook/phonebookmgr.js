@@ -45,20 +45,61 @@ define('app/jsp/balance/phonebook/phonebookmgr', function (require, exports, mod
     		this._loadTelGroups();
     	},
     	
+    	
+    	/**
+    	 * 显示对话框
+    	 */
+    	_showDialog:function(id){
+    		$('.eject-mask').fadeIn(100);
+    		$('#'+id).slideDown(200);
+    	},
+    	/**
+    	 * 显示对话框
+    	 * type: 1 警告，2 正确， 3 错误
+    	 */
+    	_showPromptDialog:function(title,msg,type){
+    		$('#promptDialog_title').html(title);
+    		$('#promptDialog_msg').html(msg);
+    		$('.eject-mask').fadeIn(100);
+    		if(type==1){
+    			$('#promptDialog_img').attr('src',_slpbase+'/images/eject-icon-Warning.png')
+    		}else if(type==2){
+    			$('#promptDialog_img').attr('src',_slpbase+'/images/eject-icon-success.png')
+    		}else if(type==3){
+    			$('#promptDialog_img').attr('src',_slpbase+'/images/eject-icon-fail.png')
+    		}
+    		$('#promptDialogDiv').slideDown(200);
+    	},
+    	/**
+    	 * 显示对话框(关闭时不关闭背景浮层)
+    	 * type: 1 警告，2 正确， 3 错误
+    	 */
+    	_showMsgDialog:function(title,msg,type){
+    		$('#msgDialogDiv_title').html(title);
+    		$('#msgDialogDiv_msg').html(msg);
+    		$('.eject-mask').fadeIn(100);
+    		if(type==1){
+    			$('#msgDialogDiv_img').attr('src',_slpbase+'/images/eject-icon-Warning.png')
+    		}else if(type==2){
+    			$('#msgDialogDiv_img').attr('src',_slpbase+'/images/eject-icon-success.png')
+    		}else if(type==3){
+    			$('#msgDialogDiv_img').attr('src',_slpbase+'/images/eject-icon-fail.png')
+    		}
+    		$('#msgDialogDiv').slideDown(200);
+    	},
+    	/**
+    	 * 隐藏对话框
+    	 */
+    	_hiddenDialog:function(id,hidBackground){
+    		if(hidBackground==null || hidBackground == undefined || hidBackground){
+    			$('.eject-mask').fadeOut(100);
+    		}
+    		$('#'+id).slideUp(150);
+    	},
     	_showAddTelGroupWindow: function(){
-    		//alert(this.get("userId"));
-    		$('.trash-close').click(function(){
-    			$('.eject-mask').fadeIn(100);
-    			$('.eject-samll').slideDown(200);
-    		});
-    		$('.eject-samll-title .img').click(function(){
-    			$('.eject-mask').fadeOut(100);
-    			$('.eject-samll').slideUp(150);
-    		});
-    		$('.eject-samll-confirm .close-btn').click(function(){
-    			$('.eject-mask').fadeOut(100);
-    			$('.eject-samll').slideUp(150);
-    		});
+    		$("#TEL_GROUP_NAME").val("");
+    		$("#LBL_ADD_TEL_GROUP").css('display','none');
+    		this._showDialog("addTelGroupDiv");
     	},
     	
     	_submitNewTelGroup: function(){
@@ -135,12 +176,12 @@ define('app/jsp/balance/phonebook/phonebookmgr', function (require, exports, mod
 				}
 			});
     	},
-    	
     	renderTelGroupList: function(){
     		var _this = this;
     		$("[name='BTN_DEL_TEL_GROUP']").bind("click",function(){
     			var telGroupId =$(this).attr("telGroupId");
-    			_this.deleteTelGroup(telGroupId);
+    			_this._showDialog("deleteDialogDiv");
+    			$("#deleteDialogBtn").attr("telGroupId",telGroupId);
     		});
     		
     		$("[name='BTN_MODIFY_TEL_GROUP']").bind("click",function(){
@@ -160,8 +201,7 @@ define('app/jsp/balance/phonebook/phonebookmgr', function (require, exports, mod
     			_this.modifyTelGroup(telGroupId,telGroupName);
     		});
     	},
-    	
-    	deleteTelGroup: function(telGroupId){
+    	_deleteTelGroup: function(){
     		var _this = this;
     		ajaxController.ajax({
 				type: "post",
@@ -171,9 +211,10 @@ define('app/jsp/balance/phonebook/phonebookmgr', function (require, exports, mod
 				url: _base+"/account/phonebook/deleteUcTelGroup",
 				data: {
 					userId: this.get("userId"),
-					telGroupId: telGroupId
+					telGroupId: $("#deleteDialogBtn").attr("telGroupId")
 				},
 				success: function(data){
+					_this._hiddenDialog("deleteDialogDiv");
 					_this._loadTelGroups();
 				}
 			});
