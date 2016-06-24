@@ -125,40 +125,48 @@ define('app/jsp/producthome/productHome', function (require, exports, module) {
     	},
       
     	_tpchange:function(){
+    		//图片table切换2
+    		$(function(){
     		$(".plist-right-title ul li a").click(function () {
-                $(".plist-right-title ul li a").each(function () {
-                    $(this).removeClass("current");
-                });
-                $(this).addClass("current");
-            });
-			$('.plist-right-title ul li a').click(function(){
-			  var index=$('.plist-right-title ul li a').index(this);
-			  if(index==0){
-			 $('#img-list1').show();
-			  $('#img-list2').hide();
-			   }
-			   if(index==1){
-			     $('#img-list2').show();
-			  $('#img-list1').hide();
-			   }
-			   $(".plist-right-title-tow ul li a").click(function () {
-			   $(".plist-right-title-tow ul li a").each(function () {
-			   $(this).removeClass("current");
-			   });
-			   $(this).addClass("current");
-			   });
-			$('.plist-right-title-tow ul li a').click(function(){
-			var index=$('.plist-right-title-tow ul li a').index(this);
-			if(index==0){
-			$('#img-list3').show();
-			$('#img-list4').hide();
-			}
-			if(index==1){
-			$('#img-list4').show();
-			$('#img-list3').hide();
-			}
-			}); 
-			}); 
+    		                $(".plist-right-title ul li a").each(function () {
+    		                    $(this).removeClass("current");
+    		                });
+    		                $(this).addClass("current");
+    		            });
+    		$('.plist-right-title ul li a').click(function(){
+    		  var index=$('.plist-right-title ul li a').index(this);
+    		      if(index==0){
+    		     $('#img-list1').show();
+    		  $('#img-list2').hide();
+    		   }
+    		   if(index==1){
+    		     $('#img-list2').show();
+    		  $('#img-list1').hide();
+    		   }
+    		  }); 
+    		});
+    		//图片table切换3
+    		$(function(){
+    		$(".plist-right-title-tow ul li a").click(function () {
+    		                $(".plist-right-title-tow ul li a").each(function () {
+    		                    $(this).removeClass("current");
+    		                });
+    		                $(this).addClass("current");
+    		            });
+    		$('.plist-right-title-tow ul li a').click(function(){
+    		  var index=$('.plist-right-title-tow ul li a').index(this);
+    		      if(index==0){
+    		     $('#img-list3').show();
+    		  $('#img-list4').hide();
+    		   }
+    		   if(index==1){
+    		     $('#img-list4').show();
+    		  $('#img-list3').hide();
+    		   }
+    		  }); 
+    		});
+    		//table切换结束  
+
     	},
     	_changeSwitch1:function(){
     		var _this=this;
@@ -702,7 +710,6 @@ define('app/jsp/producthome/productHome', function (require, exports, module) {
     		var code = $("#currentCity").attr("currentCityCode");
       		//流量类目ID
       		var productId="10000010020000";
-      		var oprator;
       		//获取运营商类目
           		var isCmcc = $("#flowCmcc").attr("class");
           		var isCtcc = $("#flowCtcc").attr("class");

@@ -74,7 +74,7 @@ public class SearchController {
         ResponseData<PageInfo<ProductDataVO>> responseData = null;
         PageInfo<ProductData> pageInfo = new PageInfo<ProductData> ();
         String strPageNo=(null==request.getParameter("pageNo"))?"1":request.getParameter("pageNo");
-        String strPageSize=(null==request.getParameter("pageSize"))?"10":request.getParameter("pageSize");
+        String strPageSize=(null==request.getParameter("pageSize"))?"12":request.getParameter("pageSize");
         pageInfo.setPageNo(Integer.parseInt(strPageNo));
         pageInfo.setPageSize(Integer.parseInt(strPageSize));
         try {
@@ -196,7 +196,7 @@ public class SearchController {
         List<ProductDataVO> results = new ArrayList<ProductDataVO>();
         PageInfo<ProductDataVO> pageVo = new PageInfo<ProductDataVO>();
         String strPageNo=(null==request.getParameter("pageNo"))?"1":request.getParameter("pageNo");
-        String strPageSize=(null==request.getParameter("pageSize"))?"10":request.getParameter("pageSize");
+        String strPageSize=(null==request.getParameter("pageSize"))?"12":request.getParameter("pageSize");
         pageInfo.setPageNo(Integer.parseInt(strPageNo));
         pageInfo.setPageSize(Integer.parseInt(strPageSize));
         try {
@@ -255,7 +255,7 @@ public class SearchController {
         ResponseData<ProductCommonVO> responseData = null;
         PageInfo<ProductData> pageInfo = new PageInfo<ProductData> ();
         String strPageNo=(null==request.getParameter("pageNo"))?"1":request.getParameter("pageNo");
-        String strPageSize=(null==request.getParameter("pageSize"))?"10":request.getParameter("pageSize");
+        String strPageSize=(null==request.getParameter("pageSize"))?"12":request.getParameter("pageSize");
         pageInfo.setPageNo(Integer.parseInt(strPageNo));
         pageInfo.setPageSize(Integer.parseInt(strPageSize));
         try {
@@ -292,7 +292,7 @@ public class SearchController {
         ResponseData<ProductCommonVO> responseData = null;
         PageInfo<ProductData> pageInfo = new PageInfo<ProductData> ();
         String strPageNo=(null==request.getParameter("pageNo"))?"1":request.getParameter("pageNo");
-        String strPageSize=(null==request.getParameter("pageSize"))?"10":request.getParameter("pageSize");
+        String strPageSize=(null==request.getParameter("pageSize"))?"12":request.getParameter("pageSize");
         pageInfo.setPageNo(Integer.parseInt(strPageNo));
         pageInfo.setPageSize(Integer.parseInt(strPageSize));
         try {

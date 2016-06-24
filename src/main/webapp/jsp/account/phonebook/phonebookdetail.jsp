@@ -234,8 +234,8 @@
 			<div class="eject-medium-list">
 				<div class="eject-medium-complete">
 					<p class="word">正在处理上传的通讯录文件,请耐心等待</p>
-					<p class="color-bj"><span style="width:40%;"></span></p>
-					<p class="color-ash">已处理300/900</p>
+					<p class="color-bj"><span id="uploadProgressShow" style="width:0%;"></span></p>
+					<p class="color-ash" id="uploadProgressMsg">已处理300/900</p>
 				</div>
 			</div>	
 		</div>	
@@ -318,7 +318,7 @@
 	var pager;
 	(function () {
 		seajs.use('app/jsp/balance/phonebook/phonebookdetail', function (PhoneBookDetailPager) {
-			pager = new PhoneBookDetailPager({userId:1000,telGroupId:"<c:out value="${telGroupId}"/>",element: document.body});
+			pager = new PhoneBookDetailPager({telGroupId:"<c:out value="${telGroupId}"/>",element: document.body});
 			pager.render();
 		});
 	})();
