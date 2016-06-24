@@ -20,6 +20,10 @@ define(
 	    		"focus [id='realName']":"_showRealNameTip",
 	    		"focus [id='idNumber']":"_showIdNumberTip",
 	    		"blur [id='idNumber']":"_checkIdNumber",
+	    		"change [id='education']":"_checkEducation",
+	    		"blur [id='countryCode']":"_checkContactAddress",
+	    		"blur [id='dd']":"_checkBithday",
+	    		"change [id='inCome']":"_checkInCome",
 	    		"click [id='savePersonalQualification']":"_submit",
 				},
 				init : function() {
@@ -31,15 +35,17 @@ define(
 					birth.init('yy_mm_dd');
 				},
 				_showRealNameTip:function(){
-					$("#idNumberErrMsg").show();
-					$("#idNumberText").text('18位数字');
-		    		$('#idNumberImage').attr('src',_base+'/resources/slpmall/images/icon-d.png');
-				},
-				_showIdNumberTip:function(){
 					$("#realNameErrMsg").show();
 					$("#realNameText").show();
 					$("#realNameText").text('4-24个字符，可用汉字或英语字母');
 		    		$('#realNameImage').attr('src',_base+'/resources/slpmall/images/icon-d.png');
+				},
+				_showIdNumberTip:function(){
+					$("#idNumberErrMsg").show();
+					$("#idNumberText").show();
+					$("#idNumberImage").show();
+					$("#idNumberText").text('18位数字');
+		    		$('#idNumberImage').attr('src',_base+'/resources/slpmall/images/icon-d.png');
 				},
 				_checkRealName:function(){
 					var name = $("#realName").val();
@@ -63,6 +69,39 @@ define(
 		        			$('#realNameImage').attr('src',_base+'/resources/slpmall/images/icon-a.png');
 		        			$("#realNameFlag").val("0");
 		    			}
+					}
+				},
+				_checkEducation:function(){
+					var educationVal = $("#education").val();
+					if(educationVal=="0"){
+						$("#educationErrMsg").show();
+						$("#educationFlag").val("0");
+					}else{
+						$("#educationErrMsg").hide();
+						$("#educationFlag").val("1");
+					}
+				},
+				_checkContactAddress:function(){
+					//校验联系地址
+					var princeCode = $("#provinceCode").val();
+					var cityCode = $("#cityCode").val();
+					var countryCode = $("#countryCode").val();
+					if(princeCode=="0"||princeCode==null||cityCode=="0"||cityCode==null||countryCode=="0"||countryCode==null){
+						$("#registerAddrErrMsg").show();
+						$("#provinceCodeFlag").val("0");
+					}else{
+						$("#registerAddrErrMsg").hide();
+						$("#provinceCodeFlag").val("1");
+					}
+				},
+				_checkInCome:function(){
+					var income = $("#inCome").val();
+					if(income=="0"){
+						$("#idComeErrMsg").show();
+						$("#inComeFlag").val("0");
+					}else{
+						$("#idComeErrMsg").hide();
+						$("#inComeFlag").val("1");
 					}
 				},
 				_checkIdNumber:function(){
@@ -90,31 +129,7 @@ define(
 						}
 					}
 				},
-				_submit:function(){
-					//校验姓名
-					this._checkRealName();
-					//校验学历
-					var education = $("#education").val();
-					if(education=="0"){
-						$("#educationErrMsg").show();
-						$("#educationFlag").val("0");
-					}else{
-						$("#educationErrMsg").show();
-						$("#educationFlag").val("0");
-					}
-					//校验联系地址
-					var princeCode = $("#princeCode").val();
-					var cityCode = $("#cityCode").val();
-					var countryCode = $("#countryCode").val();
-					if(princeCode=="0"||princeCode==null||cityCode=="0"||cityCode==null||countryCode=="0"||countryCode==null){
-						$("#registerAddrErrMsg").show();
-						$("#provinceCodeFlag").val("0");
-					}else{
-						$("#registerAddrErrMsg").hide();
-						$("#provinceCodeFlag").val("1");
-					}
-					//校验街道地址
-					checkCertAddr();
+				_checkBithday:function(){
 					//校验生日
 					var year = $("#yy_mm_dd").val();
 					var mm = $("#mm").val();
@@ -126,17 +141,19 @@ define(
 						$("#bithdayErrMsg").hide();
 						$("#bithdayFlag").val("1");
 					}
-					//校验收入
-					var income = $("#inCome").val();
-					if(income=="0"){
-						$("#idComeErrMsg").show();
-						$("#inComeFlag").val("0");
-					}else{
-						$("#idComeErrMsg").hide();
-						$("#inComeFlag").val("1");
-					}
+				},
+				_submit:function(){
+					//校验姓名
+					this._checkRealName();
+					//校验学历
+					this._checkEducation();
+					this._checkContactAddress();
+					//校验街道地址
+					checkCertAddr();
+					this._checkInCome();
 					//校验省份证
 					this._checkIdNumber();
+					this.__checkBithday();
 					var realNameFlag = $("#realNameFlag").val();
 					var educationFlag = $("#educationFlag").val();
 					var certAddrFlag =  $("#certAddrFlag").val();
