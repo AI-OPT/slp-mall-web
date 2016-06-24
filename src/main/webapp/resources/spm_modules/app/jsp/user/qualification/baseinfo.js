@@ -11,7 +11,6 @@ define('app/jsp/user/qualification/baseinfo', function (require, exports, module
     require("treegrid/js/jquery.treegrid.min");
     require("treegrid/js/jquery.cookie");
     require("app/jsp/user/qualification/ajaxfileupload");
-    
     require("app/util/jsviews-ext");
     require("opt-paging/aiopt.pagination");
     require("twbs-pagination/jquery.twbsPagination.min");
@@ -42,7 +41,7 @@ define('app/jsp/user/qualification/baseinfo', function (require, exports, module
     		"focus [id='contactMp']":"_showCheckPhoneTip",
     		"blur [id='contactEmail']":"_checkEmailFormat",
     		"click [id='sendPhoneCode']":"_sendVerify",
-    		"change [id='princeCode']":"_princeCodeChange",
+    		"change [id='provinceCode']":"_princeCodeChange",
     		"change [id='cityCode']":"_cityCodeChange",
     		"blur [id='contactName']":"_checkContactName",
     		"focus [id='contactName']":"_showContactNameTip",
@@ -367,7 +366,7 @@ define('app/jsp/user/qualification/baseinfo', function (require, exports, module
 			}); 
 		},
 		_princeCodeChange:function(){
-			var princeCodeVal = $("#princeCode").val();
+			var princeCodeVal = $("#provinceCode").val();
 			ajaxController.ajax({
 				type : "POST",
 				data : {
