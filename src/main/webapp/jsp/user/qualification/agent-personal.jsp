@@ -9,17 +9,20 @@
 <link href="${_slpbase }/styles/global.css" rel="stylesheet" type="text/css">
 <link href="${_slpbase }/styles/frame.css" rel="stylesheet" type="text/css">
 <link href="${_slpbase }/styles/font-awesome.css" rel="stylesheet" type="text/css">
-<script src="${_base}/resources/spm_modules/app/jsp/user/qualification/birthday.js" type="text/javascript"></script>
 <script type="text/javascript">
-	(function() {
-		birth.init('yy_mm_dd');
-		seajs.use('app/jsp/user/qualification/agent-select', function(
-				QualificationPager) {
-			var pager = new QualificationPager();
-			pager.render();
-		});
-	})(); 
-	
+		
+		(function() { 
+			seajs.use(['app/jsp/user/qualification/agent-personal','app/jsp/user/qualification/baseinfo'],function(QualificationPager,BaseInfoQualificationPager) {
+				var enterprisePager = new QualificationPager({
+					element : document.body
+				});
+				var baseinfoPage = new BaseInfoQualificationPager({
+					element : document.body
+				});
+				enterprisePager.render();
+				baseinfoPage.render();
+			});
+		})();  
 </script>
 </head>
 <body>
@@ -61,15 +64,15 @@
          <ul>
              <li>
                 <p class="word"><b class="red">*</b>真实姓名:</p>
-                <p><input type="text" class="int-xlarge" placeholder="请填写真实姓名" id="realName"></p>
-                 <label id="realNameErrMsg" style="display:none"><img src="${_slpbase}/images/icon-c.png"><span class="ash">4-60个字符，可用中英文、数字、“-”、”_”、“（）”及”( )”</span></label>
+               <p><input type="text" class="int-medium" placeholder="请填写真实姓名" id="realName" name="realName"></p>
+                     <label id="realNameErrMsg" style="display:none"><img src="${_slpbase}/images/icon-d.png" id="realNameImage"><span class="ash" id="realNameText">4-24个字符，可用汉字或英语字母</span></label>
              </li>
          </ul>
          <ul>
              <li>
                 <p class="word"><b class="red">*</b>性别:</p>
-                <p><input type="radio" name="gender" class="checkbox-medium" ><span class="Gender">男</span></p>
-                 <p><input type="radio"  name="gender" class="checkbox-medium" ><span class="Gender">女</span></p>
+                <p><input type="radio" name="gender" class="checkbox-medium" name="sex" id="man" checked=><span class="Gender">男</span></p>
+                <p><input type="radio" name="gender" class="checkbox-medium" name="sex" id="woman" ><span class="Gender">女</span></p>
              </li>
          </ul>
          <ul>
@@ -86,29 +89,34 @@
                  	<option>博士</option>
                  	<option>其他学历</option>
                  </select>
+                 <label id="educationErrMsg" style="display:none"><img src="${_slpbase}/images/icon-a.png" id="educationImage"><span class="ash" id="educationText">请输入学历信息</span></label>
                 </p>
              </li>
          </ul>
        	  <ul>
-             <li>
+              <li>
                 <p class="word"><b class="red">*</b>联系地址:</p>
-                  <select class="select-xmini" id="princeCode" name="princeCode">
+                <p>
+                
+                <select class="select-xmini" id="provinceCode" name="provinceCode" >
                 	<option value="0">请选择</option>
                 	<c:forEach items="${provinceList}" var="record">
-                		<option value="${record.provinceCode}">${record.areaName}</option>
-	                	</c:forEach>
-	                </select>
+                		<option value="${record.provinceCode}" <c:if test="${insertGroupKeyInfoRequest.provinceCode==record.provinceCode }">selected</c:if>>${record.areaName}</option>
+                	</c:forEach>
+                </select>
+                
+                </p>
                 <p>
                  <select class="select-xmini" id="cityCode" name="cityCode">
                 	
                  </select>
                 </p>
                 <p><select class="select-xmini" id="countryCode" name="countryCode"></select></p>
-                 <label id="addErrMsg" style="display:none"><img src="${_slpbase}/images/icon-a.png"><span class="red">请选择联系地址</span></label>
+                <label id="registerAddrErrMsg" style="display:none"><img src="${_slpbase}/images/icon-a.png" id="registerAddrImage"><span class="ash" id="registerAddrText">请选择联系地址信息</span></label>
              </li>
              <li class="right">
-             <p><input type="text" class="int-xlarge" placeholder="详细街道地址" id="address"></p>
-             <label id="addressErrMsg" style="display:none"><img src="${_slpbase}/images/icon-c.png"><span class="ash">5-120个字符</span></label>
+             <p><input type="text" class="int-xlarge" placeholder="详细街道地址" id="certAddr" name="certAddr"></p>
+             <label id="certAddrErrMsg" style="display:none"><img src="${_slpbase}/images/icon-c.png" id="certAddrImage"><span class="ash" id="certAddrText">5-120个字符</span></label>
              </li>
          </ul>
           <ul>
@@ -128,25 +136,30 @@
                 		<option value="0">请选择</option>
                 	</select>
                 </p>
+                <label id="bithdayErrMsg" style="display:none"><img src="${_slpbase}/images/icon-a.png" id="bithdayImage"><span class="ash" id="bithdayText">请选择生日信息</span></label>
              </li>
+             
          </ul>
    		  <ul>
              <li>
                 <p class="word"><b class="red">*</b>收入:</p>
-                <p><select class="select-medium">
-                <option>请选择收入</option>
-                <option>3000元及以下</option>
-                <option>3001-5000</option>
-                <option>5001-8000</option>
-                <option>8001-10000</option>
-                <option>10000元以上</option>
-                </select></p>
+                <p>
+	                <select class="select-medium" id="inCome">
+		                <option value="0">请选择收入</option>
+		                <option>3000元及以下</option>
+		                <option>3001-5000</option>
+		                <option>5001-8000</option>
+		                <option>8001-10000</option>
+		                <option>10000元以上</option>
+	                </select>
+                </p>
+                <label id="idComeErrMsg" style="display:none"><img src="${_slpbase}/images/icon-a.png" id="inComeImage"><span class="ash" id="inComeText">请选择收入信息</span></label>
              </li>
          </ul>
          <ul>
              <li>
                 <p class="word">介绍信息:</p>
-                <p><textarea type="text" class="textarea-xxlarge" id="introduce"></textarea></p>
+                <p><textarea type="text" class="textarea-xxlarge" id="introduce" placeholder = "简要介绍您产品销售渠道方面的优势或经验等相关内容"></textarea></p>
              </li>
          </ul>
      </div>
@@ -156,9 +169,9 @@
      <div class="nav-form">
            <ul>
                 <li>
-                    <p class="word">身份证号:</p>
+                	<p class="word"><b class="red">*</b>身份证号:</p>
                     <p><input type="text" class="int-medium" placeholder="请填写和真实姓名一致的18位身份证号码" id="idNumber"></p>
-                     <label id="idNumberErrMsg" style="display:none"><img src="${_slpbase}/images/icon-c.png"><span class="ash">18位数字</span></label>
+                     <label id="idNumberErrMsg" style="display:none"><img src="${_slpbase}/images/icon-c.png" id="idNumberImage"><span class="ash" id="idNumberText">18位数字</span></label>
                  </li>
              </ul>
               <ul>
@@ -258,7 +271,16 @@
                  </li>
              </ul>
              <ul>
-                 <li class="form-btn"><input type="button" class="slp-btn regsiter-btn" value="保存资质"></li>
+                 <li class="form-btn">
+                 	<input type="button" class="slp-btn regsiter-btn" id="savePersonalQualification" value="保存资质">
+                 	<input type="hidden" id="realNameFlag"/>
+                 	<input type="hidden" id="certAddrFlag">
+                 	<input type="hidden" id="idNumberFlag"/>
+                 	<input type="hidden" id="bithdayFlag"/>
+                 	<input type="hidden" id="inComeFlag"/>
+                 	<input type="hidden" id="educationFlag"/>
+                 	<input type="hidden" id="provinceCodeFlag"/>
+                 </li>
              </ul>
      </div>
      </div>

@@ -4,8 +4,8 @@ define('app/jsp/user/qualification/baseinfo', function (require, exports, module
     Widget = require('arale-widget/1.2.0/widget'),
     Dialog = require("artDialog/src/dialog"),
     Uploader = require('arale-upload/1.2.0/index'),
-    AjaxController=require('opt-ajax/1.0.0/index'),
-    Calendar = require('arale-calendar/1.1.2/index');
+    AjaxController=require('opt-ajax/1.0.0/index');
+    //Calendar = require('arale-calendar/1.1.2/index');
     require("jsviews/jsrender.min");
     require("jsviews/jsviews.min");
     require("treegrid/js/jquery.treegrid.min");
@@ -57,7 +57,7 @@ define('app/jsp/user/qualification/baseinfo', function (require, exports, module
     		this._bindCalendar();
     	},
     	_bindCalendar:function(){
-    		var beginCalendar = new Calendar({trigger: '#establishTimeId',output:"#establishTime"});
+    		//var beginCalendar = new Calendar({trigger: '#establishTimeId',output:"#establishTime"});
 		},
     	_showUserNameTip:function(){
     		$("#custNameErrMsg").show();
@@ -77,7 +77,7 @@ define('app/jsp/user/qualification/baseinfo', function (require, exports, module
 		},
 		_showContactNameTip:function(){
 			$("#contactNameErrMsg").show();
-			$("#contactNameText").text('最多20个字符，允许使用英语字母（区分大小写）、数字及“-”');
+			$("#contactNameText").text('4-24个字符，可用汉字或英语字母');
     		$('#contactNameImage').attr('src',_base+'/resources/slpmall/images/icon-d.png');
 		},
 		_showCheckPhoneTip:function(){
@@ -562,3 +562,26 @@ define('app/jsp/user/qualification/baseinfo', function (require, exports, module
 		  return realPath;
 		}
 
+	//街道地址校验
+	function checkCertAddr(){
+		var certAddr = $("#certAddr").val();
+		if(certAddr==null||certAddr==""){
+			$("#certAddrErrMsg").show();
+			$("#certAddrImage").attr("src",_base+'/resources/slpmall/images/icon-a.png');
+			$("#certAddrText").text("请输入街道地址");
+			$("#certAddrFlag").val("0");
+		}else{
+			if(certAddr.length>=5&&certAddr.length<=120){
+				$("#certAddrErrMsg").show();
+				$("#certAddrImage").attr("src",_base+'/resources/slpmall/images/icon-b.png');
+				$("#certAddrText").hide();
+				$("#certAddrFlag").val("1");
+			}else{
+				$("#certAddrErrMsg").show();
+				$("#certAddrText").show();
+				$("#certAddrImage").attr("src",_base+'/resources/slpmall/images/icon-a.png');
+				$("#certAddrText").text("5-120个字符");
+				$("#certAddrFlag").val("0");
+			}
+		}
+	}

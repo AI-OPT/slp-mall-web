@@ -14,6 +14,10 @@ define('app/jsp/user/qualification/agent-select',
 			var QualificationPager = Widget.extend({
 				// 属性，使用时由类的构造函数传入
 				attrs : {},
+				Statics: {
+		    		DEFAULT_PAGE_SIZE: 5,
+		    		USER_LEFT_MNU_ID: "left_mnu_qualification_identify"
+		    	},
 				// 事件代理
 				events : {
 				// key的格式: 事件+空格+对象选择器;value:事件方法
@@ -25,6 +29,7 @@ define('app/jsp/user/qualification/agent-select',
 				// 重写父类
 				setup : function() {
 					QualificationPager.superclass.setup.call(this);
+					activeUserLeftMenu(QualificationPager.USER_LEFT_MNU_ID);
 					//this._hideErroText();
 					this._bindHandle();
 				},
