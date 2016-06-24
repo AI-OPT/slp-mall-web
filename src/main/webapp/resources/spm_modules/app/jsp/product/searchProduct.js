@@ -11,7 +11,7 @@ define('app/jsp/product/searchProduct', function (require, exports, module) {
     require("app/util/jsviews-ext");
     
     require("opt-paging/aiopt.pagination");
-    require("twbs-pagination/jquery.twbsPagination.min");
+    //require("twbs-pagination/jquery.twbsPagination.min");
     var SendMessageUtil = require("app/util/sendMessage");
     
     //实例化AJAX控制处理对象
@@ -24,7 +24,7 @@ define('app/jsp/product/searchProduct', function (require, exports, module) {
     	attrs: {
     	},
     	Statics: {
-    		DEFAULT_PAGE_SIZE: 10
+    		DEFAULT_PAGE_SIZE: 12
     	},
     	//事件代理
     	events: {
