@@ -45,6 +45,7 @@ import com.ai.slp.user.api.contactsinfo.param.InsertContactsInfoRequest;
 import com.ai.slp.user.api.keyinfo.interfaces.IUcKeyInfoSV;
 import com.ai.slp.user.api.keyinfo.param.CmCustFileExtVo;
 import com.ai.slp.user.api.keyinfo.param.InsertCustFileExtRequest;
+import com.ai.slp.user.api.keyinfo.param.InsertCustKeyInfoRequest;
 import com.ai.slp.user.api.keyinfo.param.InsertGroupKeyInfoRequest;
 import com.ai.slp.user.api.keyinfo.param.SearchCustKeyInfoRequest;
 import com.ai.slp.user.api.keyinfo.param.SearchCustKeyInfoResponse;
@@ -123,17 +124,18 @@ public class QualificationController {
         }else{
         HttpSession session = request.getSession();
         SLPClientUser user = (SLPClientUser) session.getAttribute(SSOClientConstants.USER_SESSION_KEY);
+        //企业关键信息
         insertGroupKeyInfoRequest.setTenantId(user.getTenantId());
         insertGroupKeyInfoRequest.setUserType(user.getUserType());
         insertGroupKeyInfoRequest.setUserId(user.getUserId());
-        
-       for (CmCustFileExtVo cmCustFileExtVo : custFileListVo.getList()) {
+        //附件信息
+        for (CmCustFileExtVo cmCustFileExtVo : custFileListVo.getList()) {
            cmCustFileExtVo.setTenantId(user.getTenantId());
            cmCustFileExtVo.setUserId(user.getUserId());
-        }
+            }
         InsertCustFileExtRequest insertCustFileExtRequest = new InsertCustFileExtRequest();
         insertCustFileExtRequest.setList(custFileListVo.getList());
-       
+        //联系人信息
         insertContactsInfoRequest.setTenantId(user.getTenantId());
         insertContactsInfoRequest.setUserId(user.getUserId());
         IUcKeyInfoSV ucKeyInfoSV = DubboConsumerFactory.getService(IUcKeyInfoSV.class);
@@ -155,33 +157,6 @@ public class QualificationController {
         }
     
     
-    @RequestMapping("/saveAgentEnterprise")
-    @ResponseBody
-    public ResponseData<String> saveAgentEnterprise(HttpServletRequest request ,InsertGroupKeyInfoRequest insertGroupKeyInfoRequest){
-        ResponseData<String> responseData=null;
-        ResponseHeader responseHeader=null;
-        
-        HttpSession session = request.getSession();
-        SLPClientUser user = (SLPClientUser) session.getAttribute(SSOClientConstants.USER_SESSION_KEY);
-
-        insertGroupKeyInfoRequest.setTenantId(user.getTenantId());
-        insertGroupKeyInfoRequest.setUserType(user.getUserType());
-        insertGroupKeyInfoRequest.setUserId(user.getUserId());
-        
-        IUcKeyInfoSV ucKeyInfoSV = DubboConsumerFactory.getService(IUcKeyInfoSV.class);
-        try{
-        ucKeyInfoSV.insertGroupKeyInfo(insertGroupKeyInfoRequest);
-        responseData = new ResponseData<String>(SLPMallConstants.Qualification.QUALIFICATION_SUCCESS, "操作成功", null);
-        responseHeader = new ResponseHeader(true,SLPMallConstants.Qualification.QUALIFICATION_SUCCESS,"操作成功");
-        }catch(Exception e){
-            LOGGER.error("更新失败");
-            responseData = new ResponseData<String>(SLPMallConstants.Qualification.QUALIFICATION_ERROR, "操作失败", null);
-            responseHeader = new ResponseHeader(false,SLPMallConstants.Qualification.QUALIFICATION_ERROR,"操作失败");
-        }
-        responseData.setResponseHeader(responseHeader);
-        return responseData;
-    }
-    
     //校验手机验证码
     private ResponseData<String> validatePhoneCode(HttpServletRequest request){
         ICacheClient cacheClient = MCSClientFactory.getCacheClient(BandEmail.CACHE_NAMESPACE);
@@ -199,26 +174,41 @@ public class QualificationController {
             return null;
     }
     
-    @RequestMapping("/savePersonalEnterprise")
+    @RequestMapping("/savePersonalInfo")
     @ResponseBody
-    public ResponseData<String> savePersonalEnterprise(HttpServletRequest request ,InsertGroupKeyInfoRequest insertGroupKeyInfoRequest){
+    public ResponseData<String> savePersonalInfo(HttpServletRequest request 
+            ,InsertCustKeyInfoRequest insertCustKeyInfoRequest
+            ,InsertContactsInfoRequest insertContactsInfoRequest
+            ,CustFileListVo custFileListVo){
         ResponseData<String> responseData=null;
         ResponseHeader responseHeader=null;
         
         HttpSession session = request.getSession();
         SLPClientUser user = (SLPClientUser) session.getAttribute(SSOClientConstants.USER_SESSION_KEY);
-
-        insertGroupKeyInfoRequest.setTenantId(user.getTenantId());
-        insertGroupKeyInfoRequest.setUserType(user.getUserType());
-        insertGroupKeyInfoRequest.setUserId(user.getUserId());
-        
+        //个人信息
+        insertCustKeyInfoRequest.setTenantId(user.getTenantId());
+        insertCustKeyInfoRequest.setUserType(user.getUserType());
+        insertCustKeyInfoRequest.setUserId(user.getUserId());
+        //附件信息
+        for (CmCustFileExtVo cmCustFileExtVo : custFileListVo.getList()) {
+            cmCustFileExtVo.setTenantId(user.getTenantId());
+            cmCustFileExtVo.setUserId(user.getUserId());
+        }
+        InsertCustFileExtRequest insertCustFileExtRequest = new InsertCustFileExtRequest();
+        insertCustFileExtRequest.setList(custFileListVo.getList());
+        //联系人信息
+        insertContactsInfoRequest.setTenantId(user.getUserId());
+        insertContactsInfoRequest.setUserId(user.getUserId());
         IUcKeyInfoSV ucKeyInfoSV = DubboConsumerFactory.getService(IUcKeyInfoSV.class);
+        IUcContactsInfoSV ucContactsInfoSV = DubboConsumerFactory.getService(IUcContactsInfoSV.class);
         try{
-        ucKeyInfoSV.insertGroupKeyInfo(insertGroupKeyInfoRequest);
+        ucKeyInfoSV.insertCustKeyInfo(insertCustKeyInfoRequest);
+        ucKeyInfoSV.insertCustFileExt(insertCustFileExtRequest);
+        ucContactsInfoSV.insertContactsInfo(insertContactsInfoRequest);
         responseData = new ResponseData<String>(SLPMallConstants.Qualification.QUALIFICATION_SUCCESS, "操作成功", null);
         responseHeader = new ResponseHeader(true,SLPMallConstants.Qualification.QUALIFICATION_SUCCESS,"操作成功");
         }catch(Exception e){
-            LOGGER.error("更新失败");
+            LOGGER.error("操作失败");
             responseData = new ResponseData<String>(SLPMallConstants.Qualification.QUALIFICATION_ERROR, "操作失败", null);
             responseHeader = new ResponseHeader(false,SLPMallConstants.Qualification.QUALIFICATION_ERROR,"操作失败");
         }

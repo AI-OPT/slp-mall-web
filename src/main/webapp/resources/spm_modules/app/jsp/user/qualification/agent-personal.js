@@ -16,11 +16,11 @@ define(
 				// 事件代理
 				events : {
 				// key的格式: 事件+空格+对象选择器;value:事件方法
-				"blur [id='realName']":"_checkRealName",
-	    		"focus [id='realName']":"_showRealNameTip",
+				"blur [id='custName']":"_checkcustName",
+	    		"focus [id='custName']":"_showcustNameTip",
 	    		"focus [id='idNumber']":"_showIdNumberTip",
 	    		"blur [id='idNumber']":"_checkIdNumber",
-	    		"change [id='education']":"_checkEducation",
+	    		"change [id='custEducation']":"_checkcustEducation",
 	    		"blur [id='countryCode']":"_checkContactAddress",
 	    		"blur [id='dd']":"_checkBithday",
 	    		"change [id='inCome']":"_checkInCome",
@@ -34,11 +34,11 @@ define(
 					QualificationPager.superclass.setup.call(this);
 					birth.init('yy_mm_dd');
 				},
-				_showRealNameTip:function(){
-					$("#realNameErrMsg").show();
-					$("#realNameText").show();
-					$("#realNameText").text('4-24个字符，可用汉字或英语字母');
-		    		$('#realNameImage').attr('src',_base+'/resources/slpmall/images/icon-d.png');
+				_showcustNameTip:function(){
+					$("#custNameErrMsg").show();
+					$("#custNameText").show();
+					$("#custNameText").text('4-24个字符，可用汉字或英语字母');
+		    		$('#custNameImage').attr('src',_base+'/resources/slpmall/images/icon-d.png');
 				},
 				_showIdNumberTip:function(){
 					$("#idNumberErrMsg").show();
@@ -47,38 +47,38 @@ define(
 					$("#idNumberText").text('18位数字');
 		    		$('#idNumberImage').attr('src',_base+'/resources/slpmall/images/icon-d.png');
 				},
-				_checkRealName:function(){
-					var name = $("#realName").val();
+				_checkcustName:function(){
+					var name = $("#custName").val();
 					var reg = /^[\u4e00-\u9fa5a-zA-Z]{4,24}$/;
 					if(name==null||name==""){
-						$('#realNameErrMsg').show();
-	    				$("#realNameImage").show();
-	        			$('#realNameText').text("4-24个字符，可用汉字或英语字母");
-	        			$('#realNameImage').attr('src',_base+'/resources/slpmall/images/icon-a.png');
-	        			$("#realNameFlag").val("0");
+						$('#custNameErrMsg').show();
+	    				$("#custNameImage").show();
+	        			$('#custNameText').text("4-24个字符，可用汉字或英语字母");
+	        			$('#custNameImage').attr('src',_base+'/resources/slpmall/images/icon-a.png');
+	        			$("#custNameFlag").val("0");
 					}else{
 						if(name.match(reg)){
-		    				$('#realNameErrMsg').show();
-		    				$('#realNameText').hide();
-		    				$('#realNameImage').attr('src',_base+'/resources/slpmall/images/icon-b.png');
-		    				$("#realNameFlag").val("1");
+		    				$('#custNameErrMsg').show();
+		    				$('#custNameText').hide();
+		    				$('#custNameImage').attr('src',_base+'/resources/slpmall/images/icon-b.png');
+		    				$("#custNameFlag").val("1");
 		    			}else{
-		    				$('#realNameErrMsg').show();
-		    				$("#realNameImage").show();
-		        			$('#realNameText').text("4-24个字符，可用汉字或英语字母");
-		        			$('#realNameImage').attr('src',_base+'/resources/slpmall/images/icon-a.png');
-		        			$("#realNameFlag").val("0");
+		    				$('#custNameErrMsg').show();
+		    				$("#custNameImage").show();
+		        			$('#custNameText').text("4-24个字符，可用汉字或英语字母");
+		        			$('#custNameImage').attr('src',_base+'/resources/slpmall/images/icon-a.png');
+		        			$("#custNameFlag").val("0");
 		    			}
 					}
 				},
-				_checkEducation:function(){
-					var educationVal = $("#education").val();
-					if(educationVal=="0"){
-						$("#educationErrMsg").show();
-						$("#educationFlag").val("0");
+				_checkcustEducation:function(){
+					var custEducationVal = $("#custEducation").val();
+					if(custEducationVal=="0"){
+						$("#custEducationErrMsg").show();
+						$("#custEducationFlag").val("0");
 					}else{
-						$("#educationErrMsg").hide();
-						$("#educationFlag").val("1");
+						$("#custEducationErrMsg").hide();
+						$("#custEducationFlag").val("1");
 					}
 				},
 				_checkContactAddress:function(){
@@ -117,7 +117,7 @@ define(
 						if(!reg.test(idNumber)){
 							$('#idNumberErrMsg').show();
 		    				$("#idNumberImage").show();
-		    				$("#realNameText").show();
+		    				$("#custNameText").show();
 		        			$('#idNumberText').text("18位数字");
 		        			$('#idNumberImage').attr('src',_base+'/resources/slpmall/images/icon-a.png');
 		        			$("#idNumberFlag").val("0");
@@ -144,9 +144,9 @@ define(
 				},
 				_submit:function(){
 					//校验姓名
-					this._checkRealName();
+					this._checkcustName();
 					//校验学历
-					this._checkEducation();
+					this._checkcustEducation();
 					this._checkContactAddress();
 					//校验街道地址
 					checkCertAddr();
@@ -154,16 +154,16 @@ define(
 					//校验省份证
 					this._checkIdNumber();
 					this.__checkBithday();
-					var realNameFlag = $("#realNameFlag").val();
-					var educationFlag = $("#educationFlag").val();
+					var custNameFlag = $("#custNameFlag").val();
+					var custEducationFlag = $("#custEducationFlag").val();
 					var certAddrFlag =  $("#certAddrFlag").val();
 					var provinceCodeFlag =  $("#provinceCodeFlag").val();
 					var bithdayFlag =  $("#bithdayFlag").val();
 					var inComeFlag =  $("#inComeFlag").val();
 					var idNumberFlag =  $("#idNumberFlag").val();
 					
-					if(realNameFlag!="0"&&educationFlag!="0"&&certAddrFlag!="0"&&provinceCodeFlag!="0"&&bithdayFlag!="0"&&inComeFlag!="0"&&idNumberFlag!="0"){
-						
+					if(custNameFlag!="0"&&custEducationFlag!="0"&&certAddrFlag!="0"&&provinceCodeFlag!="0"&&bithdayFlag!="0"&&inComeFlag!="0"&&idNumberFlag!="0"){
+						ajaxToSave();
 					}
 				}
 			
@@ -171,3 +171,23 @@ define(
 			module.exports = QualificationPager
 		});
 
+function ajaxToSave(){
+	 $.ajax({
+			type:"post",
+			url:_base+"/user/qualification/savePersonalInfo",
+			dataType: "json",
+			data:$("#agentPersonal").serialize(),
+	        success: function(data) {
+	        	if(data.responseHeader.resultCode=="111111"){
+	        		alert("失败了");
+	        		return false;
+	        	}
+	        	if(data.responseHeader.resultCode=="000000"){
+	        		window.location.href=_base+"/user/qualification/toEnterprisePage";
+	        	}
+	            },
+				error: function(error) {
+					alert("error:"+ error);
+				}
+			});
+}
