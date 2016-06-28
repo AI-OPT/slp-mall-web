@@ -610,6 +610,9 @@ function deleteImg(imageId,certPic){
         		$('#newPhoneCodeErrMsgShow').text("手机与发送短信手机不一致");
 				$('#phoneCodeFlag').val("0");
 				return false;
+        	}else if(data.responseHeader.resultCode=="111111"){
+        		alert("失败了");
+        		return false;
         	}else if(data.responseHeader.resultCode=="000000"){
         		window.location.href=_base+"/user/qualification/toEnterprisePage";
         	}

@@ -1,4 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java"%>
+<%@taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <html>
 <head>
 <%@ include file="/inc/inc.jsp"%>
@@ -60,26 +61,27 @@
      <!--标题-->  
      <div class="account-title"><p>个人资质信息</p></div>
      <!--信息填写-->
+     <form:form id="agentPersonal" method="post">
      <div class="nav-form">
          <ul>
              <li>
                 <p class="word"><b class="red">*</b>真实姓名:</p>
-               <p><input type="text" class="int-medium" placeholder="请填写真实姓名" id="realName" name="realName"></p>
-                     <label id="realNameErrMsg" style="display:none"><img src="${_slpbase}/images/icon-d.png" id="realNameImage"><span class="ash" id="realNameText">4-24个字符，可用汉字或英语字母</span></label>
+               <p><input type="text" class="int-medium" placeholder="请填写真实姓名" id="custName" name="custName"></p>
+                     <label id="custNameErrMsg" style="display:none"><img src="${_slpbase}/images/icon-d.png" id="custNameImage"><span class="ash" id="custNameText">4-24个字符，可用汉字或英语字母</span></label>
              </li>
          </ul>
          <ul>
              <li>
                 <p class="word"><b class="red">*</b>性别:</p>
-                <p><input type="radio" name="gender" class="checkbox-medium" name="sex" id="man" checked=><span class="Gender">男</span></p>
-                <p><input type="radio" name="gender" class="checkbox-medium" name="sex" id="woman" ><span class="Gender">女</span></p>
+                <p><input type="radio" name="gender" class="checkbox-medium" name="custSex" id="man" checked=><span class="Gender">男</span></p>
+                <p><input type="radio" name="gender" class="checkbox-medium" name="custSex" id="woman" ><span class="Gender">女</span></p>
              </li>
          </ul>
          <ul>
              <li>
                 <p class="word"><b class="red">*</b>学历:</p>
                 <p>
-                 <select class="select-medium" id="education">
+                 <select class="select-medium" id="custEducation">
                  	<option value="0">请选择</option>
                  	<option>初中及以下</option>
                  	<option>高中/中专</option>
@@ -89,7 +91,7 @@
                  	<option>博士</option>
                  	<option>其他学历</option>
                  </select>
-                 <label id="educationErrMsg" style="display:none"><img src="${_slpbase}/images/icon-a.png" id="educationImage"><span class="ash" id="educationText">请输入学历信息</span></label>
+                 <label id="custEducationErrMsg" style="display:none"><img src="${_slpbase}/images/icon-a.png" id="custEducationImage"><span class="ash" id="custEducationText">请输入学历信息</span></label>
                 </p>
              </li>
          </ul>
@@ -98,7 +100,7 @@
                 <p class="word"><b class="red">*</b>联系地址:</p>
                 <p>
                 
-                <select class="select-xmini" id="provinceCode" name="provinceCode" >
+                <select class="select-xmini" id="provinceCode" name="custProvinceCode" >
                 	<option value="0">请选择</option>
                 	<c:forEach items="${provinceList}" var="record">
                 		<option value="${record.provinceCode}" <c:if test="${insertGroupKeyInfoRequest.provinceCode==record.provinceCode }">selected</c:if>>${record.areaName}</option>
@@ -107,32 +109,32 @@
                 
                 </p>
                 <p>
-                 <select class="select-xmini" id="cityCode" name="cityCode">
+                 <select class="select-xmini" id="cityCode" name="custCityCode">
                 	
                  </select>
                 </p>
-                <p><select class="select-xmini" id="countryCode" name="countryCode"></select></p>
+                <p><select class="select-xmini" id="countryCode" name="custCountryCode"></select></p>
                 <label id="registerAddrErrMsg" style="display:none"><img src="${_slpbase}/images/icon-a.png" id="registerAddrImage"><span class="ash" id="registerAddrText">请选择联系地址信息</span></label>
              </li>
              <li class="right">
-             <p><input type="text" class="int-xlarge" placeholder="详细街道地址" id="certAddr" name="certAddr"></p>
+             <p><input type="text" class="int-xlarge" placeholder="详细街道地址" id="certAddr" name="custAddr"></p>
              <label id="certAddrErrMsg" style="display:none"><img src="${_slpbase}/images/icon-c.png" id="certAddrImage"><span class="ash" id="certAddrText">5-120个字符</span></label>
              </li>
          </ul>
           <ul>
              <li>
                 <p class="word"><b class="red">*</b>生日:</p>
-                <p><select class="select-xmini" id="yy_mm_dd">
+                <p><select class="select-xmini" id="yy_mm_dd" name="yy_mm_dd">
                 	 <option value="0">请选择</option>
                    </select>
                  </p>
                 <p>
-                	<select class="select-xmini" id="mm">
+                	<select class="select-xmini" id="mm" name="mm">
                 		<option value="0">请选择</option>
                 	</select>
                 </p>
                 <p>
-                	<select class="select-xmini" id="dd">
+                	<select class="select-xmini" id="dd" name="dd">
                 		<option value="0">请选择</option>
                 	</select>
                 </p>
@@ -144,7 +146,7 @@
              <li>
                 <p class="word"><b class="red">*</b>收入:</p>
                 <p>
-	                <select class="select-medium" id="inCome">
+	                <select class="select-medium" id="inCome" name="incomeLevel">
 		                <option value="0">请选择收入</option>
 		                <option>3000元及以下</option>
 		                <option>3001-5000</option>
@@ -170,7 +172,7 @@
            <ul>
                 <li>
                 	<p class="word"><b class="red">*</b>身份证号:</p>
-                    <p><input type="text" class="int-medium" placeholder="请填写和真实姓名一致的18位身份证号码" id="idNumber"></p>
+                    <p><input type="text" class="int-medium" placeholder="请填写和真实姓名一致的18位身份证号码" id="certNum"></p>
                      <label id="idNumberErrMsg" style="display:none"><img src="${_slpbase}/images/icon-c.png" id="idNumberImage"><span class="ash" id="idNumberText">18位数字</span></label>
                  </li>
              </ul>
@@ -185,8 +187,8 @@
                              <!--左侧上传-->
                              	<div class="card-left-big">
                                       <div class="card-left">
-                                          <img src="${_slpbase}/images/formp-p.png"><br>上传照片
-                                          <input type="file" class="file">
+                                          <img src="${_slpbase}/images/formp-p.png" id="certPic"><br>上传照片
+                                          <input type="file" class="file" id="image1" onchange="uploadImg('image1','certPic');">
                                       </div>
                                       <div class="card-left-word"><img src="${_slpbase}/images/icon-a.png">请上传正面照片</div>
                                   </div>
@@ -203,7 +205,6 @@
                              </div>
                      </div>
                      <!--上传身份证件结束-->
-                  </p>
                  </li>
              </ul>
               <ul>
@@ -217,8 +218,8 @@
                              <!--左侧上传-->
                              	<div class="card-left-big">
                                       <div class="card-left">
-                                          <img src="${_slpbase}/images/formp-p.png"><br>上传照片
-                                          <input type="file" class="file">
+                                          <img src="${_slpbase}/images/formp-p.png" id="certPic2"><br>上传照片
+                                          <input type="file" class="file" id="image2" onchange="uploadImg('image2','certPic2');">
                                       </div>
                                       <div class="card-left-word"><img src="${_slpbase}/images/icon-a.png">请上传背面照片</div>
                                   </div>
@@ -235,7 +236,6 @@
                              </div>
                      </div>
                      <!--上传身份证件结束-->
-                  </p>
                  </li>
              </ul>
              <ul>
@@ -249,8 +249,8 @@
                              <!--左侧上传-->
                              	<div class="card-left-big">
                                       <div class="card-left">
-                                          <img src="${_slpbase}/images/formp-p.png"><br>上传照片
-                                          <input type="file" class="file">
+                                          <img src="${_slpbase}/images/formp-p.png" id="certPic3"><br>上传照片
+                                          <input type="file" class="file" id="image3" onchange="uploadImg('image3','certPic3');">
                                       </div>
                                       <div class="card-left-word"><img src="${_slpbase}/images/icon-a.png">请上传手持证件照片</div>
                                   </div>
@@ -267,18 +267,19 @@
                              </div>
                      </div>
                      <!--上传身份证件结束-->
-                  </p>
                  </li>
              </ul>
+             </div>
+             </form:form>
              <ul>
                  <li class="form-btn">
                  	<input type="button" class="slp-btn regsiter-btn" id="savePersonalQualification" value="保存资质">
-                 	<input type="hidden" id="realNameFlag"/>
+                 	<input type="hidden" id="custNameFlag"/>
                  	<input type="hidden" id="certAddrFlag">
                  	<input type="hidden" id="idNumberFlag"/>
                  	<input type="hidden" id="bithdayFlag"/>
                  	<input type="hidden" id="inComeFlag"/>
-                 	<input type="hidden" id="educationFlag"/>
+                 	<input type="hidden" id="custEducationFlag"/>
                  	<input type="hidden" id="provinceCodeFlag"/>
                  </li>
              </ul>
@@ -286,7 +287,6 @@
      </div>
   		</div>  
    		</div>
-   	</div>
 		 <!--底部-->
     		<%@ include file="/inc/foot.jsp" %>
    <!--底部 结束-->
