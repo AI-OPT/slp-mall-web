@@ -295,7 +295,6 @@ define('app/jsp/product/productDetail', function (require, exports, module) {
     	},
       	//加入购物车
     	_joinShopCartClick:function(){
-//			var skuId = $("#skuId").val();
 			var buyNum = Number($("#productQty").val());
 			ajaxController.ajax({
 					type: "post",
@@ -308,6 +307,7 @@ define('app/jsp/product/productDetail', function (require, exports, module) {
 						if(data.statusCode == "1"){
 							var prodTotal = data.data.prodTotal;
 							$("#cartProdTotal").text(prodTotal);
+							$("#cover").show();
 							$("#shopCartMedium").show();
 							$("#shopCartMask").show();
 						}else{
@@ -327,6 +327,7 @@ define('app/jsp/product/productDetail', function (require, exports, module) {
     	_continueShopingClick:function(){
     		$("#shopCartMedium").toggle();
 			$("#shopCartMask").toggle();
+			$("#cover").toggle();
     	}
     	
     });
