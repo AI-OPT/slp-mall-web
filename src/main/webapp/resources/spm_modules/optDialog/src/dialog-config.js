@@ -69,25 +69,25 @@ define({
     // 模板（使用 table 解决 IE7 宽度自适应的 BUG）
     // js 使用 i="***" 属性识别结构，其余的均可自定义
     innerHTML:
-        '<div i="dialog" class="eject-big">'
-        +	'<div class="eject-samll">'
-        +		'<div i="header" class="eject-samll-title">'
+        '<div i="dialog" class="ui-eject-big">'
+        +	'<div class="ui-eject-samll">'
+        +		'<div i="header" class="ui-eject-samll-title">'
 		+			'<p i="title"></p>'
 		+			'<p i="close" class="img"><A href="#"></A></p>'
 		+		'</div>'
-		+		'<div i="body" class="eject-medium-list">'
-		+			'<div class="eject-medium-complete">'
+		+		'<div i="body" class="ui-eject-medium-list">'
+		+			'<div class="ui-eject-medium-complete">'
 		+				'<p><img  i="icon" src=""></p>'
 		+				'<p i="content" class="word"></p>'
 		+			'</div>'
 		+		'</div>'	
-		+		'<div i="footer" class="eject-samll-confirm">'
+		+		'<div i="footer" class="ui-eject-samll-confirm">'
 		+			'<ul>'
-		+				'<li i="button"><input type="button"  class="slp-btn eject-small-btn" value="确认"><input type="button"  class="slp-btn eject-small-btn close-btn" value="取消"></li>'		
+		+				'<li i="button"><input type="button"  class="slp-btn ui-eject-small-btn" value="确认"><input type="button"  class="slp-btn ui-eject-small-btn close-btn" value="取消"></li>'		
 		+			'</ul>'
 		+		'</div>'
 		+	'</div>'	
-		+	'<div class="eject-mask"></div>'	
+		+	'<div class="ui-eject-mask"></div>'	
 		+'</div>'
     
 });
