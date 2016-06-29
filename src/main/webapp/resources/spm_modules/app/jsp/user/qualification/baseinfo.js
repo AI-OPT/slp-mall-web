@@ -41,7 +41,7 @@ define('app/jsp/user/qualification/baseinfo', function (require, exports, module
     		"focus [id='contactMp']":"_showCheckPhoneTip",
     		"blur [id='contactEmail']":"_checkEmailFormat",
     		"click [id='sendPhoneCode']":"_sendVerify",
-    		"change [id='provinceCode']":"_princeCodeChange",
+    		"change [id='provinceCode']":"_provinceCodeChange",
     		"change [id='cityCode']":"_cityCodeChange",
     		"blur [id='contactName']":"_checkContactName",
     		"focus [id='contactName']":"_showContactNameTip",
@@ -365,12 +365,12 @@ define('app/jsp/user/qualification/baseinfo', function (require, exports, module
 				}
 			}); 
 		},
-		_princeCodeChange:function(){
-			var princeCodeVal = $("#provinceCode").val();
+		_provinceCodeChange:function(){
+			var provinceCodeVal = $("#provinceCode").val();
 			ajaxController.ajax({
 				type : "POST",
 				data : {
-					provinceCode:princeCodeVal
+					provinceCode:provinceCodeVal
 				},
 				dataType: 'json',
 				url :_base+"/user/qualification/getCityListByProviceCode",
@@ -393,7 +393,7 @@ define('app/jsp/user/qualification/baseinfo', function (require, exports, module
 				processing: true,
 				message : "正在处理中，请稍候...",
 				success : function(data) {
-					$("#countryCode").html(data.data);
+					$("#countyCode").html(data.data);
 				}
 			})
 		},
@@ -430,10 +430,10 @@ define('app/jsp/user/qualification/baseinfo', function (require, exports, module
 			//校验企业名称
 			this._validateName();
 			//校验注册地址
-			var princeCode = $("#princeCode").val();
+			var provinceCode = $("#provinceCode").val();
 			var cityCode = $("#cityCode").val();
-			var countryCode = $("#countryCode").val();
-			if(princeCode=="0"||princeCode==null||cityCode=="0"||cityCode==null||countryCode=="0"||countryCode==null){
+			var countyCode = $("#countyCode").val();
+			if(provinceCode=="0"||provinceCode==null||cityCode=="0"||cityCode==null||countyCode=="0"||countyCode==null){
 				$("#registerAddrErrMsg").show();
 			}else{
 				$("#registerAddrErrMsg").hide();
@@ -485,10 +485,9 @@ define('app/jsp/user/qualification/baseinfo', function (require, exports, module
 			var groupStypeFlag = $("#groupStypeFlag").val();
 			var contactDeptFlag = $("#contactDeptFlag").val();
 			
-		/*	if(custNameFlag!="0"&&certAddrFlag!="0"&&certNumFlag!="0"&&contactMpFlag!="0"&&phoneCodeFlag!="0"&&groupIndusteryFlag!="0"&&groupMemberScaleFlag!="0"&&groupStypeFlag!="0"&&contactDeptFlag!="0"){
-		 
-			}*/
-			$('#qualificationEnterprise').submit();
+			if(custNameFlag!="0"&&certAddrFlag!="0"&&certNumFlag!="0"&&contactMpFlag!="0"&&phoneCodeFlag!="0"&&groupIndusteryFlag!="0"&&groupMemberScaleFlag!="0"&&groupStypeFlag!="0"&&contactDeptFlag!="0"){
+				ajaxToSave();
+			}
 	}
     });
     
@@ -496,71 +495,74 @@ define('app/jsp/user/qualification/baseinfo', function (require, exports, module
 });
 
 
-	function uploadImg(imageId) {
-		if(document.getElementById(imageId).value!=""){
-		 $.ajaxFileUpload({  
-	         url:_base+"/user/qualification/uploadImg",  
-	         secureuri:false,  
-	         fileElementId:imageId,//file标签的id  
-	         dataType: "json",//返回数据的类型  
-	         //data:{imageId:imageId},//一同上传的数据  
-	         success: function (data, status) {
-	        	if(data.isTrue==true){
-	        		document.getElementById("image").src=data.url;
-	        		$("#idpsId").val(data.idpsId);
-	        	 }
-	         },  
-	         error: function (data, status, e) {  
-	             alert(e);  
-	         }  
-	     });  
-		}
+//上传图片至服务器
+function uploadImg(imageId,certPic) {
+	var image = document.getElementById(imageId).value;
+	$("#imgErrShow").text("支持JPG/PNG/GIF格式，最大不超过3M");
+	$("#imgErrShow").css("color","");
+	if(image==""){
+		$("#imgErrShow").text("图片不能为空");
+		$("#imgErrShow").css("color","red");
+		$("#imgErrShow").show();
+		return false;
+	}else if(!/\.(gif|jpg|png|GIF|JPG|PNG)$/.test(image)){
+		$("#imgErrShow").text("格式不对");
+		$("#imgErrShow").css("color","red"); 
+		$("#imgErrShow").show();
+		return false;
+	}else if(document.getElementById(imageId).files[0].size>3*1024*1024){
+		$("#imgErrShow").text("图片太大");
+		$("#imgErrShow").css("color","red");
+		$("#imgErrShow").show();
+		return false;
 	}
+	 $.ajaxFileUpload({  
+         url:_base+"/user/qualification/uploadImg",  
+         secureuri:false,  
+         fileElementId:imageId,//file标签的id  
+         dataType: "json",//返回数据的类型  
+         data:{imageId:imageId},//一同上传的数据  
+         success: function (data, status) {
+        	if(data.isTrue==true){
+        		document.getElementById(certPic).src=data.url;
+        		$("#idpsId").val(data.idpsId);
+        	 }
+         },  
+         error: function (data, status, e) {  
+             alert(e);  
+         }  
+     });  
+}
 
-	function deleteImg(imageId){
-		var ipdsId = $("#ipdsId").val();
-		if(document.getElementById(imageId).value!=""){
-		$.ajax({
-	        type: "post",
-	        processing: false,
-	        url: _base+"/user/qualification/deleteImg",
-	        dataType: "json",
-	        data: {"ipdsId":ipdsId},
-	        message: "正在加载数据..",
-	        success: function (data) {
-	        	if(data.isTrue==true){
-	        		var url = getRealPath();
-	        		document.getElementById("image").src=url+'/resources/slpmall/images/fom-t.png';
-	        		var obj = document.getElementById(imageId);
-	        		obj.outerHTML=obj.outerHTML; 
-	        		$("#ipdsId").val("");
-	        	}
-	        },
-	        error: function(XMLHttpRequest, textStatus, errorThrown) {
-				 alert(XMLHttpRequest.status);
-				 alert(XMLHttpRequest.readyState);
-				 alert(textStatus);
-				}
-			    }); 
-		}
+//删除服务器图片
+function deleteImg(imageId,certPic){
+	var idpsId = $("#idpsId").val();
+	$("#imgErrShow").text("支持JPG/PNG/GIF格式，最大不超过3M");
+	$("#imgErrShow").css("color","");
+	if(idpsId!=""){
+	$.ajax({
+        type: "post",
+        processing: false,
+        url: _base+"/user/qualification/deleteImg",
+        dataType: "json",
+        data: {"idpsId":idpsId},
+        message: "正在加载数据..",
+        success: function (data) {
+        	if(data.isTrue==true){
+        		var url = getRealPath();
+        		document.getElementById(certPic).src=url+'/resources/slpmall/images/fom-t.png';
+        		var obj = document.getElementById(imageId);
+        		$("#idpsId").val("");
+        	}
+        },
+        error: function(XMLHttpRequest, textStatus, errorThrown) {
+			 alert(XMLHttpRequest.status);
+			 alert(XMLHttpRequest.readyState);
+			 alert(textStatus);
+			}
+		    }); 
 	}
-	
-	//获取当前项目根路径
-	function getRealPath(){
-		  //获取当前网址，如： http://localhost:8083/myproj/view/my.jsp
-		   var curWwwPath=window.document.location.href;
-		   //获取主机地址之后的目录，如： myproj/view/my.jsp
-		  var pathName=window.document.location.pathname;
-		  var pos=curWwwPath.indexOf(pathName);
-		  //获取主机地址，如： http://localhost:8083
-		  var localhostPaht=curWwwPath.substring(0,pos);
-		  //获取带"/"的项目名，如：/myproj
-		  var projectName=pathName.substring(0,pathName.substr(1).indexOf('/')+1);
-		 
-		 //得到了 http://localhost:8083/myproj
-		  var realPath=localhostPaht+projectName;
-		  return realPath;
-		}
+}
 
 	//街道地址校验
 	function checkCertAddr(){
@@ -584,4 +586,39 @@ define('app/jsp/user/qualification/baseinfo', function (require, exports, module
 				$("#certAddrFlag").val("0");
 			}
 		}
+	}
+	
+	function ajaxToSave(){
+	  $.ajax({
+		type:"post",
+		url:_base+"/user/qualification/saveEnterprise",
+		dataType: "json",
+		data:$("#qualificationEnterprise").serialize(),
+        success: function(data) {
+        	if(data.responseHeader.resultCode=="000003"){
+        	 	$("#newPhoneCodeErrMsg").show();
+        		$('#newPhoneCodeErrMsgShow').text("短信验证码错误");
+				$('#phoneCodeFlag').val("0");
+				return false;
+        	}else if(data.responseHeader.resultCode=="000004"){
+        		$("#newPhoneCodeErrMsg").show();
+        		$('#newPhoneCodeErrMsgShow').text("短信验证码已失效");
+				$('#phoneCodeFlag').val("0");
+				return false;
+        	}else if(data.responseHeader.resultCode=="000007"){
+        		$("#newPhoneCodeErrMsg").show();
+        		$('#newPhoneCodeErrMsgShow').text("手机与发送短信手机不一致");
+				$('#phoneCodeFlag').val("0");
+				return false;
+        	}else if(data.responseHeader.resultCode=="111111"){
+        		alert("失败了");
+        		return false;
+        	}else if(data.responseHeader.resultCode=="000000"){
+        		window.location.href=_base+"/user/qualification/toEnterprisePage";
+        	}
+            },
+			error: function(error) {
+				alert("error:"+ error);
+			}
+		});
 	}

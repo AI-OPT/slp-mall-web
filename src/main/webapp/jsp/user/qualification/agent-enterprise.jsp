@@ -1,4 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java"%>
+<%@taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <html>
 <head>
 <%@ include file="/inc/inc.jsp"%>
@@ -53,6 +54,7 @@
      <!--标题-->  
      <div class="account-title"><p>营业执照信息</p></div>
      <!--信息填写-->
+    <form:form id="agentEnterprise" method="post">
      <div class="nav-form">
          <ul>
              <li>
@@ -97,24 +99,24 @@
          <ul>
              <li>
                 <p class="word"><b class="red">*</b>营业执照副本:</p>
-                <p class="img"><img src="${_slpbase}/images/fom-t.png"></p>
+                <p class="img"><img src="${_slpbase}/images/fom-t.png" id="certPic1"></p>
                 <p class="small-p">
-                <span><input type="button" value="点击上传" class="file-btn"><input type="file" class="file"><a href="#">删除</a></span>
+                <span><input type="button" value="点击上传" class="file-btn"><input type="file" class="file" id="image1" onchange="upload('image1','certPic1')"><a href="javascript:void(0);" onclick="deleteImg('image1','certPic1')">删除</a></span>
                 <span>支持JPG/PNG/GIF格式，最大不超过3M</span>
                 </p>
              </li>
          </ul>
          <ul>
             <li>
-               <p class="word"><b class="red">*</b>成立日期:</p>
-                <p id="establishTimeId" ><input id="establishTime" type="text" class="int-small" readonly><A href="javascript:void(0);"><i class="icon-calendar"></i></A></p>
+               <p class="word"><b class="red">*</b>注册日期:</p>
+                <p id="establishTimeId" ><input id="establishTime" name="certIssueDate" type="text" class="int-small" readonly><A href="javascript:void(0);"><i class="icon-calendar"></i></A></p>
                 <label style="display: none;" id="timeErrorMsg"><img src="${_slpbase}/images/icon-a.png" id="timeErrorMsgImage"><span class="red">请选择日期</span></label> 
              </li>
          </ul>
          <ul>
              <li>
                 <p class="word"><b class="red">*</b>注册资本:</p>
-                <p><input type="text" class="int-medium" placeholder=""></p>
+                <p><input type="text" class="int-medium" placeholder="" name="registeredCapitals"></p>
                 <p>万元</p>
                  <label id="capitalErrMsg" style="display:none"><img src="${_slpbase}/images/icon-c.png"><span class="ash">1-12位字符，可用数字及"."</span></label>
              </li>
@@ -122,33 +124,33 @@
           <ul>
              <li>
                 <p class="word"><b class="red">*</b>经营范围:</p>
-                <p><textarea type="text" class="textarea-xxlarge"></textarea></p>
+                <p><textarea type="text" class="textarea-xxlarge" class="groupBusinessScope"></textarea></p>
                 <label id="scopeErrMsg" style="display:none"><img src="${_slpbase}/images/icon-c.png"><span class="ash">4-300个字符</span></label>
              </li>
          </ul>
          <ul>
              <li>
                 <p class="word"><b class="red">*</b>法人姓名:</p>
-                <p><input type="text" class="int-medium" placeholder="" id="corporationName" ></p>
+                <p><input type="text" class="int-medium" placeholder="" id="corporationName" name="legalPerson"></p>
                 <label id="corporationNameErrMsg" style="display:none"><img src="${_slpbase}/images/icon-c.png"><span class="ash">1-12位字符，可用数字及"."</span></label>
              </li>
          </ul>
           <ul>
              <li>
                 <p class="word"><b class="red">*</b>法人身份证号码:</p>
-                <p><input type="text" class="int-medium" placeholder="" id="idNumber"></p>
+                <p><input type="text" class="int-medium" placeholder="" id="idNumber" name="legalCertNum"></p>
                 <label id="idNumberErrMsg" style="display:none"><img src="${_slpbase}/images/icon-c.png"><span class="ash">有效的18位身份证号</span></label>
              </li>
          </ul>
            <ul>
              <li>
                 <p class="word"><b class="red">*</b>身份证复印件:</p>
-                <p class="img"><img src="${_slpbase}/images/fom-t.png"></p>
+                <p class="img"><img src="${_slpbase}/images/fom-t.png" id="certPic2"></p>
                 <p class="small-p">
                 <span>
                   <input type="button" value="点击上传" class="file-btn">
-                  <input type="file" class="file">
-                  <a href="#">删除</a>
+                  <input type="file" class="file" id="image2" onchange="upload('image2','certPic2');">
+                  <a href="javascript:void(0)" onclick="deleteImg('image2','certPic2')">删除</a>
                 	<span> 请将身份证正面、反面照片合在一起上传</span> 
                  </span>
                 <span>支持JPG/PNG/GIF格式，最大不超过3M</span>
@@ -163,7 +165,7 @@
            <ul>
                 <li>
                     <p class="word"><b class="red">*</b>纳税人识别号:</p>
-                    <p><input type="text" class="int-medium" placeholder="" id="identifyNumber"></p>
+                    <p><input type="text" class="int-medium" placeholder="" id="identifyNumber" name="taxpayerCode"></p>
                      <label id="identifyNumberErrMsg" style="display:none"><img src="${_slpbase}/images/icon-a.png"><span class="red">4-20个字符，可用数字及字母</span></label>
                  </li>
              </ul>
@@ -171,7 +173,7 @@
                 <li>
                     <p class="word"><b class="red">*</b>纳税人类型:</p>
                     <p>
-                     <select class="select-medium">
+                     <select class="select-medium" name="taxpayerType">
                     	<option selected="selected">请选择</option>
                     	<option>一般纳税人</option>
                     	<option>小规模纳税人</option>
@@ -185,7 +187,7 @@
                 <li>
                     <p class="word"><b class="red">*</b>纳税类型税码:</p>
                     <p>
-	                    <select class="select-medium">
+	                    <select class="select-medium" name="taxpayerTypeCode">
 	                    	<option selected="selected">请选择</option>
 	                    	<option>0%</option>
 	                    	<option>3%</option>
@@ -202,9 +204,9 @@
               <ul>
              <li>
                 <p class="word"><b class="red">*</b>税务登记证:</p>
-                <p class="img"><img src="${_slpbase}/images/fom-t.png"></p>
+                <p class="img"><img src="${_slpbase}/images/fom-t.png" id="certPic3"></p>
                 <p class="small-p">
-                <span><input type="button" value="点击上传" class="file-btn"><input type="file" class="file"><a href="#">删除</a></span>
+                <span><input type="button" value="点击上传" class="file-btn"><input type="file" class="file" id="image3" onchange="upload('image3','certPic3');"><a href="javascript:void(0)" onclick="deleteImg('image3','certPic3')">删除</a></span>
                 <span>支持JPG/PNG/GIF格式，最大不超过3M</span>
                 </p>
              </li>
@@ -217,16 +219,16 @@
            <ul>
                 <li>
                     <p class="word"><b class="red">*</b>联系人姓名:</p>
-                    <p><input type="text" class="int-medium" placeholder="请填写联系人姓名" id="contactId"></p>
+                    <p><input type="text" class="int-medium" placeholder="请填写联系人姓名" id="contactId" name="contactsName"></p>
                      <label id="contactId" style="display:none"><img src="${_slpbase}/images/icon-a.png"><span class="red">4-50个字符，可用数字及字母</span></label>
                  </li>
              </ul>
               <ul>
              <li>
                 <p class="word"><b class="red">*</b>代码证电子版:</p>
-                <p class="img"><img src="${_slpbase}/images/fom-t.png"></p>
+                <p class="img"><img src="${_slpbase}/images/fom-t.png" id="certPic4"></p>
                 <p class="small-p">
-                <span><input type="button" value="点击上传" class="file-btn"><input type="file" class="file"><a href="#">删除</a></span>
+                <span><input type="button" value="点击上传" class="file-btn"><input type="file" class="file" id="iamge4" onchange="upload('image4','certPic4');"><a href="javascript:void(0)" onclick="deleteImage('image4','certPic4')">删除</a></span>
                 <span>支持JPG/PNG/GIF格式，最大不超过3M</span>
                 </p>
              </li>
@@ -393,6 +395,7 @@
                  <li class="form-btn"><input type="button" id="submit" class="slp-btn regsiter-btn" value="保存资质"></li>
              </ul>
              </div>
+             </form:form>
              </div>
       		</div>
    		</div>

@@ -112,4 +112,15 @@ public final class VerifyConstants {
 		/**企业名称不唯一错误*/
 		public static final String CUST_NAME_NOONE_ERROR = "100003";
 	}
+	
+	public final class QualificationConstants {
+        private QualificationConstants() {
+        }
+        /*** 成功ID */
+        public static final String SUCCESS_CODE = "000000";
+        /*** 失败ID */
+        public static final String ERROR_CODE = "111111";
+
+    }
+	
 }

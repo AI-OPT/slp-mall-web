@@ -10,6 +10,7 @@
 <link href="${_slpbase }/styles/global.css" rel="stylesheet" type="text/css">
 <link href="${_slpbase }/styles/frame.css" rel="stylesheet" type="text/css">
 <link href="${_slpbase }/styles/font-awesome.css" rel="stylesheet" type="text/css">
+
 <script type="text/javascript">
 (function() { 
 	seajs.use([ 'app/jsp/user/qualification/baseinfo'], function(BaseInfoQualificationPager) {
@@ -52,7 +53,7 @@
      <!--标题-->  
      <div class="account-title"><p>企业资质信息</p></div>
      <!--信息填写-->
-     <form:form id="qualificationEnterprise" action="${_base }/user/qualification/saveEnterprise" method="post">
+     <form:form id="qualificationEnterprise" method="post">
      <div class="nav-form">
          <ul>
              <li>
@@ -69,7 +70,7 @@
                 <select class="select-xmini" id="provinceCode" name="provinceCode" >
                 	<option value="0">请选择</option>
                 	<c:forEach items="${provinceList}" var="record">
-                		<option value="${record.provinceCode}" <c:if test="${insertGroupKeyInfoRequest.provinceCode==record.provinceCode }">selected</c:if>>${record.areaName}</option>
+                		<option value="${record.provinceCode}">${record.areaName}</option>
                 	</c:forEach>
                 </select>
                 
@@ -79,7 +80,7 @@
                 	
                  </select>
                 </p>
-                <p><select class="select-xmini" id="countryCode" name="countryCode"></select></p>
+                <p><select class="select-xmini" id="countyCode" name="countyCode"></select></p>
                 <label id="registerAddrErrMsg" style="display:none"><img src="${_slpbase}/images/icon-a.png" id="registerAddrImage"><span class="ash" id="registerAddrText">请选择注册地址</span></label>
              </li>
              <li class="right">
@@ -101,7 +102,7 @@
                 <p class="img"><img src="${_slpbase}/images/fom-t.png" id="certPic"></p>
                 <p class="small-p">
                		<span><input type="file" id="image1" name="image1" class="file" style="display: " onchange="uploadImg('image1','certPic');"><input type="button" value="点击上传" type="file" class="file-btn"><a href="javascript:" onclick="deleteImg('image1','certPic');">删除</a></span>
-                <span>支持JPG/PNG/GIF格式，最大不超过3M</span>
+                	<span id="imgErrShow">支持JPG/PNG/GIF格式，最大不超过3M</span>
                 </p>
              </li>
          </ul>
@@ -109,14 +110,14 @@
              <li>
                 <p class="word"><b class="red">*</b>行业:</p>
                 <p>
-	                 <select class="select-medium" id="groupIndustery" name="groupIndustery">
+	                 <select class="select-medium" id="groupIndustry" name="groupIndustry">
 	                	<option value="0">请选择</option>
 	                	<c:forEach items="${industryList}" var="re">
 	                		<option value="${re.industryCode }">${re.industryName }</option>
 	                	</c:forEach>
 	                </select>
                 </p>
-                <label id="groupIndusteryErrMsg" style="display:none"><img src="${_slpbase}/images/icon-a.png" id="groupIndusteryImage"><span class="ash" id="groupIndusteryText">请选择行业信息</span></label>
+                <label id="groupIndustryErrMsg" style="display:none"><img src="${_slpbase}/images/icon-a.png" id="groupIndustryImage"><span class="ash" id="groupIndustryText">请选择行业信息</span></label>
              </li>
          </ul>
          <ul>
@@ -147,7 +148,7 @@
              <li>
                 <p class="word"><b class="red">*</b>公司性质:</p>
                 <p>
-                <select class="select-medium" id="groupStype" name="groupStype">
+                <select class="select-medium" id="groupType" name="groupType">
                 	<option value="0" selected="selected">请选择</option>
                		<option value="1">民营企业</option>
                		<option value="2">外商独资</option>
@@ -158,7 +159,7 @@
                		<option value="7">其他</option>
                 </select>
                 </p>
-                 <label id="groupStypeErrMsg" style="display:none"><img src="${_slpbase}/images/icon-a.png" id="groupMemberScaleImage"><span class="ash" id="groupStypeText">请选择公司性质信息</span></label>
+                 <label id="groupTypeErrMsg" style="display:none"><img src="${_slpbase}/images/icon-a.png" id="groupMemberScaleImage"><span class="ash" id="groupTypeText">请选择公司性质信息</span></label>
              </li>
          </ul>
      </div>
@@ -226,16 +227,16 @@
                  <li class="form-btn">
                 	 <input type="button" class="slp-btn regsiter-btn" value="保存资质" id="toSave">
                 	 <input type="hidden" id="custNameFlag">
-                	 <input type="hidden" id="princeCodeFlag">
+                	 <input type="hidden" id="provinceCode">
                 	 <input type="hidden" id="certAddrFlag">
                 	 <input type="hidden" id="certNumFlag">
-                	 <input type="hidden" id="groupStypeFlag">
+                	 <input type="hidden" id="groupTypeFlag">
                 	 <input type="hidden" id="groupMemberScaleFlag">
                 	 <input type="hidden" id="contactDeptFlag">
-                	 <input type="hidden" id="princeCodeFlag">
+                	 <input type="hidden" id="provinceCode">
                 	 <input type="hidden" id="contactMpFlag">
                 	 <input type="hidden" id="phoneCodeFlag">
-                	 <input type="hidden" id="groupIndusteryFlag">
+                	 <input type="hidden" id="groupIndustryFlag">
    
                 	 <input type="hidden" id="idpsId" name="list[0].attrValue">
                  </li>

@@ -16,7 +16,7 @@
 
 <body>
 <!--添加购物车提示弹出框  中-->
-<div class="eject-big">
+<div id="cover" class="eject-big">
 		<div id="shopCartMedium" class="eject-medium">
 			<div class="eject-medium-title">
 				<p>添加购物车提示</p>
@@ -94,8 +94,6 @@
                    </script>
                    <div class="collection">
                    <!-- <p>商品ID：${skuId} </p>-->
-                   <!-- 保存当前商品的SKU标识的隐藏 -->
-                   <input type="hidden" id="skuId" value="788964678909"/>
                    <!-- <p><a href="#"><i class="icon-heart-empty"></i>收藏</a></p> -->
                    </div>
                  </div>
