@@ -132,7 +132,7 @@
                                                 <p>订单金额:</p>
                                                 <p>¥{{:~liToYuan(adjustFee)}}</p>
                                             </li>
-											{{if state !='11'}}
+											{{if state !='11' && state !='91'}}
 											<li>	
 												<p>支付方式:</p>
                                                 <p>{{:payStyleName}}</p>
