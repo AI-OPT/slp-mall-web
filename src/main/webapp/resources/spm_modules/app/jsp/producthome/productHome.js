@@ -2,7 +2,8 @@ define('app/jsp/producthome/productHome', function (require, exports, module) {
     'use strict';
     var $=require('jquery'),
     Widget = require('arale-widget/1.2.0/widget'),
-    Dialog = require("artDialog/src/dialog"),
+   // Dialog = require("artDialog/src/dialog"),
+    Dialog = require("optDialog/src/dialog"),
     Paging = require('paging/0.0.1/paging-debug'),
     AjaxController = require('opt-ajax/1.0.0/index');
     require("jsviews/jsrender.min");
@@ -216,8 +217,6 @@ define('app/jsp/producthome/productHome', function (require, exports, module) {
     		if(phoneNum==null||phoneNum==""||phoneNum==undefined){
     			Dialog({
 							title : '提示',
-							width : '200px',
-							height : '50px',
 							content : "手机号不能为空",
 							okValue : "确定",
 							ok : function() {
@@ -288,8 +287,6 @@ define('app/jsp/producthome/productHome', function (require, exports, module) {
     		if(phoneNum==null||phoneNum==""||phoneNum==undefined){
     			Dialog({
 							title : '提示',
-							width : '200px',
-							height : '50px',
 							content : "手机号不能为空",
 							okValue : "确定",
 							ok : function() {
@@ -302,8 +299,6 @@ define('app/jsp/producthome/productHome', function (require, exports, module) {
 			 if(mobileReg.test(phoneNum)==false){
 				 Dialog({
 						title : '提示',
-						width : '200px',
-						height : '50px',
 						content : "手机号格式不对，请重新输入",
 						okValue : "确定",
 						ok : function() {
@@ -317,8 +312,6 @@ define('app/jsp/producthome/productHome', function (require, exports, module) {
     		if(phoneFee==null||phoneFee==""||phoneFee==undefined){
     			Dialog({
 					title : '提示',
-					width : '200px',
-					height : '50px',
 					content : "请选择充值费用",
 					okValue : "确定",
 					ok : function() {
@@ -386,8 +379,6 @@ define('app/jsp/producthome/productHome', function (require, exports, module) {
        			 if(mobileReg.test($.trim($("#phoneNum1").val()))==false){
        				 Dialog({
        						title : '提示',
-       						width : '200px',
-       						height : '50px',
        						content : "手机号格式不对，请重新输入",
        						okValue : "确定",
        						ok : function() {
@@ -488,8 +479,6 @@ define('app/jsp/producthome/productHome', function (require, exports, module) {
            		 if(mobileReg.test(phoneNum)==false){
            						 Dialog({
            								title : '提示',
-           								width : '200px',
-           								height : '50px',
            								content : "手机号格式不对，请重新输入",
            								okValue : "确定",
            								ok : function() {
