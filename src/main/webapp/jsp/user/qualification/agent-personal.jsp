@@ -113,7 +113,7 @@
                 	
                  </select>
                 </p>
-                <p><select class="select-xmini" id="countryCode" name="custCountryCode"></select></p>
+                <p><select class="select-xmini" id="countyCode" name="custCountyCode"></select></p>
                 <label id="registerAddrErrMsg" style="display:none"><img src="${_slpbase}/images/icon-a.png" id="registerAddrImage"><span class="ash" id="registerAddrText">请选择联系地址信息</span></label>
              </li>
              <li class="right">
@@ -188,7 +188,7 @@
                              	<div class="card-left-big">
                                       <div class="card-left">
                                           <img src="${_slpbase}/images/formp-p.png" id="certPic"><br>上传照片
-                                          <input type="file" class="file" id="image1" onchange="uploadImg('image1','certPic');">
+                                          <input type="file" class="file" id="image1" name="image1" onchange="uploadImg('image1','certPic');">
                                       </div>
                                       <div class="card-left-word"><img src="${_slpbase}/images/icon-a.png">请上传正面照片</div>
                                   </div>

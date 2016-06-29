@@ -163,15 +163,17 @@ define(
 					var idNumberFlag =  $("#idNumberFlag").val();
 					
 					if(custNameFlag!="0"&&custEducationFlag!="0"&&certAddrFlag!="0"&&provinceCodeFlag!="0"&&bithdayFlag!="0"&&inComeFlag!="0"&&idNumberFlag!="0"){
-						ajaxToSave();
+						
 					}
+					alert(11);
+					toSave();
 				}
 			
 		});
 			module.exports = QualificationPager
 		});
 
-function ajaxToSave(){
+function toSave(){
 	 $.ajax({
 			type:"post",
 			url:_base+"/user/qualification/savePersonalInfo",
