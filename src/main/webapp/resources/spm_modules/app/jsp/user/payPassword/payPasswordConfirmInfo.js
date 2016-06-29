@@ -85,7 +85,7 @@ define('app/jsp/user/payPassword/payPasswordConfirmInfo', function (require, exp
     			$('#showPawMsg').text("请输入密码");
     			$("#showPawMsg").show();
     			$("#errorPawMsg").show();
-				return false;
+				return false; 
     		}else if(/[\x01-\xFF]*/.test(password)){
     				if(/^\S*$/.test(password)){
     					if(/^[\x21-\x7E]{6,20}$/.test(password)){
