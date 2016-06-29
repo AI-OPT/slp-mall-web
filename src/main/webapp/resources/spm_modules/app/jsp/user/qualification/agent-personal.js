@@ -153,7 +153,7 @@ define(
 					this._checkInCome();
 					//校验省份证
 					this._checkIdNumber();
-					this.__checkBithday();
+					this._checkBithday();
 					var custNameFlag = $("#custNameFlag").val();
 					var custEducationFlag = $("#custEducationFlag").val();
 					var certAddrFlag =  $("#certAddrFlag").val();

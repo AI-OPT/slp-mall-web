@@ -124,7 +124,7 @@
           <ul>
              <li>
                 <p class="word"><b class="red">*</b>经营范围:</p>
-                <p><textarea type="text" class="textarea-xxlarge" class="groupBusinessScope"></textarea></p>
+                <p><textarea type="text" class="textarea-xxlarge" name="groupBusinessScope"></textarea></p>
                 <label id="scopeErrMsg" style="display:none"><img src="${_slpbase}/images/icon-c.png"><span class="ash">4-300个字符</span></label>
              </li>
          </ul>

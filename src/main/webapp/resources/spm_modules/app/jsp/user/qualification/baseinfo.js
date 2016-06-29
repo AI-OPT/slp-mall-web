@@ -496,7 +496,7 @@ define('app/jsp/user/qualification/baseinfo', function (require, exports, module
 
 
 //上传图片至服务器
-function uploadImg(imageId,certPic) {
+function uploadImg(imageId,certPic,idpsId) {
 	var image = document.getElementById(imageId).value;
 	$("#imgErrShow").text("支持JPG/PNG/GIF格式，最大不超过3M");
 	$("#imgErrShow").css("color","");
@@ -525,7 +525,8 @@ function uploadImg(imageId,certPic) {
          success: function (data, status) {
         	if(data.isTrue==true){
         		document.getElementById(certPic).src=data.url;
-        		$("#idpsId").val(data.idpsId);
+        		//$("#idpsId").val(data.idpsId);
+        		document.getElementById(idpsId).value=data.idpsId;
         	 }
          },  
          error: function (data, status, e) {  
@@ -535,7 +536,7 @@ function uploadImg(imageId,certPic) {
 }
 
 //删除服务器图片
-function deleteImg(imageId,certPic){
+function deleteImg(imageId,certPic,idpsId){
 	var idpsId = $("#idpsId").val();
 	$("#imgErrShow").text("支持JPG/PNG/GIF格式，最大不超过3M");
 	$("#imgErrShow").css("color","");
@@ -552,7 +553,7 @@ function deleteImg(imageId,certPic){
         		var url = getRealPath();
         		document.getElementById(certPic).src=url+'/resources/slpmall/images/fom-t.png';
         		var obj = document.getElementById(imageId);
-        		$("#idpsId").val("");
+        		document.getElementById(idpsId).value="";
         	}
         },
         error: function(XMLHttpRequest, textStatus, errorThrown) {
