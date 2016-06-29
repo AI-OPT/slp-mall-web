@@ -103,7 +103,7 @@
                 <select class="select-xmini" id="provinceCode" name="custProvinceCode" >
                 	<option value="0">请选择</option>
                 	<c:forEach items="${provinceList}" var="record">
-                		<option value="${record.provinceCode}" <c:if test="${insertGroupKeyInfoRequest.provinceCode==record.provinceCode }">selected</c:if>>${record.areaName}</option>
+                		<option value="${record.provinceCode}"></option>
                 	</c:forEach>
                 </select>
                 
@@ -161,7 +161,7 @@
          <ul>
              <li>
                 <p class="word">介绍信息:</p>
-                <p><textarea type="text" class="textarea-xxlarge" id="introduce" placeholder = "简要介绍您产品销售渠道方面的优势或经验等相关内容"></textarea></p>
+                <p><textarea type="text" class="textarea-xxlarge" id="introduce" name="personalRemark" placeholder = "简要介绍您产品销售渠道方面的优势或经验等相关内容"></textarea></p>
              </li>
          </ul>
      </div>
@@ -188,7 +188,7 @@
                              	<div class="card-left-big">
                                       <div class="card-left">
                                           <img src="${_slpbase}/images/formp-p.png" id="certPic"><br>上传照片
-                                          <input type="file" class="file" id="image1" name="image1" onchange="uploadImg('image1','certPic');">
+                                          <input type="file" class="file" id="image1" name="image1" onchange="uploadImg('image1','certPic','idpsId1');">
                                       </div>
                                       <div class="card-left-word"><img src="${_slpbase}/images/icon-a.png">请上传正面照片</div>
                                   </div>
@@ -219,7 +219,7 @@
                              	<div class="card-left-big">
                                       <div class="card-left">
                                           <img src="${_slpbase}/images/formp-p.png" id="certPic2"><br>上传照片
-                                          <input type="file" class="file" id="image2" onchange="uploadImg('image2','certPic2');">
+                                          <input type="file" class="file" id="image2" name="image2" onchange="uploadImg('image2','certPic2','idpsId2');">
                                       </div>
                                       <div class="card-left-word"><img src="${_slpbase}/images/icon-a.png">请上传背面照片</div>
                                   </div>
@@ -250,7 +250,7 @@
                              	<div class="card-left-big">
                                       <div class="card-left">
                                           <img src="${_slpbase}/images/formp-p.png" id="certPic3"><br>上传照片
-                                          <input type="file" class="file" id="image3" onchange="uploadImg('image3','certPic3');">
+                                          <input type="file" class="file" id="image3" name="image3" onchange="uploadImg('image3','certPic3','idpsId3');">
                                       </div>
                                       <div class="card-left-word"><img src="${_slpbase}/images/icon-a.png">请上传手持证件照片</div>
                                   </div>
@@ -270,10 +270,10 @@
                  </li>
              </ul>
              </div>
-             </form:form>
              <ul>
                  <li class="form-btn">
                  	<input type="button" class="slp-btn regsiter-btn" id="savePersonalQualification" value="保存资质">
+                 	</li><li>
                  	<input type="hidden" id="custNameFlag"/>
                  	<input type="hidden" id="certAddrFlag">
                  	<input type="hidden" id="idNumberFlag"/>
@@ -281,8 +281,13 @@
                  	<input type="hidden" id="inComeFlag"/>
                  	<input type="hidden" id="custEducationFlag"/>
                  	<input type="hidden" id="provinceCodeFlag"/>
+                 	
+                 	<input type="hidden" id="idpsId1" name="list[0].attrValue"/>
+                 	<input type="hidden" id="idpsId2" name="list[1].attrValue"/>
+                 	<input type="hidden" id="idpsId3" name="list[2].attrValue"/>
                  </li>
              </ul>
+     </form:form>
      </div>
      </div>
   		</div>  

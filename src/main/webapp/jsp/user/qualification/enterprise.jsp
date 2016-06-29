@@ -101,7 +101,7 @@
                 <input type="hidden" value="营业执照副本" name="list[0].infoName">
                 <p class="img"><img src="${_slpbase}/images/fom-t.png" id="certPic"></p>
                 <p class="small-p">
-               		<span><input type="file" id="image1" name="image1" class="file" style="display: " onchange="uploadImg('image1','certPic');"><input type="button" value="点击上传" type="file" class="file-btn"><a href="javascript:" onclick="deleteImg('image1','certPic');">删除</a></span>
+               		<span><input type="file" id="image1" name="image1" class="file" style="display: " onchange="uploadImg('image1','certPic','idpsId');"><input type="button" value="点击上传" type="file" class="file-btn"><a href="javascript:" onclick="deleteImg('image1','certPic','idpsId');">删除</a></span>
                 	<span id="imgErrShow">支持JPG/PNG/GIF格式，最大不超过3M</span>
                 </p>
              </li>
