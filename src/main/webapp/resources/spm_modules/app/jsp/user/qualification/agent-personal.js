@@ -165,7 +165,6 @@ define(
 					if(custNameFlag!="0"&&custEducationFlag!="0"&&certAddrFlag!="0"&&provinceCodeFlag!="0"&&bithdayFlag!="0"&&inComeFlag!="0"&&idNumberFlag!="0"){
 						
 					}
-					alert(11);
 					toSave();
 				}
 			
