@@ -382,6 +382,7 @@ define('app/jsp/user/payPassword/payPasswordConfirmInfo', function (require, exp
 					if(status == "000000"){
 						$("#errorPawMsg").show();
 		        		$("#showPawMsg").hide();
+		        		$("#passwordFlag").val("0");
 		        		//$('#errorPhoneFlag').val("1");
 		        		$('#passwordImage').attr('src',_base+'/resources/slpmall/images/icon-b.png');
 						//window.location.href=_base+"/user/payPassword/setPayPassword"
