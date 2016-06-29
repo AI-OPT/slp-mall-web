@@ -116,30 +116,30 @@
          <ul>
              <li>
                 <p class="word"><b class="red">*</b>注册资本:</p>
-                <p><input type="text" class="int-medium" placeholder="" name="registeredCapitals"></p>
+                <p><input type="text" class="int-medium" placeholder="" name="registeredCapitals" id="capital"></p>
                 <p>万元</p>
-                 <label id="capitalErrMsg" style="display:none"><img src="${_slpbase}/images/icon-c.png"><span class="ash">1-12位字符，可用数字及"."</span></label>
+                 <label id="capitalErrMsg" style="display:none"><img src="${_slpbase}/images/icon-c.png" id="capitalImage"><span class="ash" id="capitalText">1-12位字符，可用数字及"."</span></label>
              </li>
          </ul>
           <ul>
              <li>
                 <p class="word"><b class="red">*</b>经营范围:</p>
-                <p><textarea type="text" class="textarea-xxlarge" name="groupBusinessScope"></textarea></p>
-                <label id="scopeErrMsg" style="display:none"><img src="${_slpbase}/images/icon-c.png"><span class="ash">4-300个字符</span></label>
+                <p><textarea  class="textarea-xxlarge" name ="groupBusinessScope" id="scope"></textarea></p>
+                <label id="scopeErrMsg" style="display:none"><img src="${_slpbase}/images/icon-c.png" id="scopeImage"><span class="ash" id="scopeText">4-300个字符</span></label>
              </li>
          </ul>
          <ul>
              <li>
                 <p class="word"><b class="red">*</b>法人姓名:</p>
                 <p><input type="text" class="int-medium" placeholder="" id="corporationName" name="legalPerson"></p>
-                <label id="corporationNameErrMsg" style="display:none"><img src="${_slpbase}/images/icon-c.png"><span class="ash">1-12位字符，可用数字及"."</span></label>
+                <label id="corporationNameErrMsg" style="display:none"><img src="${_slpbase}/images/icon-c.png" id="corporationNameImage"><span class="ash" id="corporationNameText">1-12位字符，可用数字及"."</span></label>
              </li>
          </ul>
           <ul>
              <li>
                 <p class="word"><b class="red">*</b>法人身份证号码:</p>
                 <p><input type="text" class="int-medium" placeholder="" id="idNumber" name="legalCertNum"></p>
-                <label id="idNumberErrMsg" style="display:none"><img src="${_slpbase}/images/icon-c.png"><span class="ash">有效的18位身份证号</span></label>
+                <label id="idNumberErrMsg" style="display:none"><img src="${_slpbase}/images/icon-c.png" id="idNumberImage"><span class="ash" id="idNumberText">有效的18位身份证号</span></label>
              </li>
          </ul>
            <ul>
@@ -166,29 +166,29 @@
                 <li>
                     <p class="word"><b class="red">*</b>纳税人识别号:</p>
                     <p><input type="text" class="int-medium" placeholder="" id="identifyNumber" name="taxpayerCode"></p>
-                     <label id="identifyNumberErrMsg" style="display:none"><img src="${_slpbase}/images/icon-a.png"><span class="red">4-20个字符，可用数字及字母</span></label>
+                     <label id="identifyNumberErrMsg" style="display:none"><img src="${_slpbase}/images/icon-a.png" id="identifyNumberImage"><span id="identifyNumberText">4-20个字符，可用数字及字母</span></label>
                  </li>
              </ul>
              <ul>
                 <li>
                     <p class="word"><b class="red">*</b>纳税人类型:</p>
                     <p>
-                     <select class="select-medium" name="taxpayerType">
-                    	<option selected="selected">请选择</option>
+                     <select class="select-medium" id="taxpayerType" name="taxpayerType">
+                    	<option selected="selected" value="0">请选择</option>
                     	<option>一般纳税人</option>
                     	<option>小规模纳税人</option>
                     	<option>非增值税纳税人</option>
                      </select>
                     </p>
-                     <label id="typeErrMsg" style="display:none"><img src="${_slpbase}/images/icon-a.png"><span class="red">请选择纳税人类型</span></label>
+                     <label id="taxpayerTypeErrMsg" style="display:none"><img src="${_slpbase}/images/icon-a.png" id="taxpayerTypeImage"><span  id="taxpayerTypeText">请选择纳税人类型信息</span></label>
                  </li>
              </ul>
              <ul>
                 <li>
                     <p class="word"><b class="red">*</b>纳税类型税码:</p>
                     <p>
-	                    <select class="select-medium" name="taxpayerTypeCode">
-	                    	<option selected="selected">请选择</option>
+	                    <select class="select-medium" id="taxCode" name="taxpayerTypeCode">
+	                    	<option selected="selected" value="0">请选择</option>
 	                    	<option>0%</option>
 	                    	<option>3%</option>
 	                    	<option>6%</option>
@@ -198,7 +198,7 @@
 	                    	<option>17%</option>
 	                    </select>
                     </p>
-                     <label id="taxCodeErMsg" style="display:none"><img src="${_slpbase}/images/icon-a.png"><span class="red">请选择纳税类型税码</span></label>
+                     <label id="taxCodeErMsg" style="display:none"><img src="${_slpbase}/images/icon-a.png"><span >请选择纳税类型税码信息</span></label>
                  </li>
              </ul>
               <ul>
@@ -218,9 +218,9 @@
      <div class="nav-form">
            <ul>
                 <li>
-                    <p class="word"><b class="red">*</b>联系人姓名:</p>
-                    <p><input type="text" class="int-medium" placeholder="请填写联系人姓名" id="contactId" name="contactsName"></p>
-                     <label id="contactId" style="display:none"><img src="${_slpbase}/images/icon-a.png"><span class="red">4-50个字符，可用数字及字母</span></label>
+                    <p class="word">联系人姓名:</p>
+                    <p><input type="text" class="int-medium" placeholder="请填写联系人姓名" id="contactName" name="contactsName"></p>
+                     <label id="contactNameErrMsg" style="display:none"><img src="${_slpbase}/images/icon-d.png" id="contactNameImage"><span class="ash" id="contactNameText">4-24个字符，可用汉字或英语字母</span></label>
                  </li>
              </ul>
               <ul>
@@ -392,7 +392,30 @@
                  </li>
              </ul>
               <ul>
-                 <li class="form-btn"><input type="button" id="submit" class="slp-btn regsiter-btn" value="保存资质"></li>
+                 <li class="form-btn">
+                  <input type="button" id="submit" class="slp-btn regsiter-btn" value="保存资质">
+                   <input type="hidden" id="custNameFlag">
+               	   <input type="hidden" id="princeCodeFlag">
+               	   <input type="hidden" id="certAddrFlag">
+               	   <input type="hidden" id="certNumFlag">
+               	   <input type="hidden" id="groupStypeFlag">
+               	   <input type="hidden" id="groupMemberScaleFlag">
+               	   <input type="hidden" id="contactDeptFlag">
+               	   <input type="hidden" id="princeCodeFlag">
+               	   <input type="hidden" id="contactMpFlag">
+               	   <input type="hidden" id="phoneCodeFlag">
+               	   <input type="hidden" id="groupIndusteryFlag">
+               	   
+                  <input type="hidden" id="establishTimeFlag"/>
+                  <input type="hidden" id="capitalFlag"/>
+                  <input type="hidden" id="scopeFlag"/>
+                  <input type="hidden" id="corporationNameFlag"/>
+                  <input type="hidden" id="idNumberFlag"/>
+                  <input type="hidden" id="identifyNumberFlag"/>
+                  <input type="hidden" id="taxpayerTypeFlag"/>
+                  <input type="hidden" id="taxCodeFlag"/>
+                 
+                 </li>
              </ul>
              </div>
              </form:form>
