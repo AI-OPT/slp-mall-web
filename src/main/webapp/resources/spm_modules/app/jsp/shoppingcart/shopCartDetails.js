@@ -3,7 +3,7 @@ define('app/jsp/shoppingcart/shopCartDetails', function (require, exports, modul
     var $=require('jquery'),
 		AjaxController = require('opt-ajax/1.0.0/index'),
     	Widget = require('arale-widget/1.2.0/widget'),
-    	Dialog = require("artDialog/src/dialog");
+    	Dialog = require("optDialog/src/dialog")
     require("jsviews/jsrender.min");
     require("jsviews/jsviews.min");
 	require("app/util/jsviews-ext");
@@ -43,6 +43,8 @@ define('app/jsp/shoppingcart/shopCartDetails', function (require, exports, modul
 			}
 			var d = Dialog({
 				content:errMsg,
+				icon:'fail',
+				okValue: '确 定',
 				ok:function(){
 					this.close();
 				}
@@ -166,6 +168,7 @@ define('app/jsp/shoppingcart/shopCartDetails', function (require, exports, modul
 			});
     		//若没有选中的则不往下进行
     		if(prodIdList.length<=0){
+    			this._showMsg("请先选择至少一件商品，再删除");
     			return;
     		}
     		// 获取ID调用AJAX删除商品服务
@@ -187,7 +190,10 @@ define('app/jsp/shoppingcart/shopCartDetails', function (require, exports, modul
 				success: function(data){
 					if("0"===data.statusCode){
 						var d = Dialog({
-							content:"修改失败",
+							title: '消息',
+							content:"删除失败",
+							icon:'fail',
+							okValue: '确 定',
 							ok:function(){
 								this.close();
 							}
@@ -353,7 +359,10 @@ define('app/jsp/shoppingcart/shopCartDetails', function (require, exports, modul
 			if (msg==null || msg=='')
 				return;
 			Dialog({
+				title: '消息',
 				content:msg,
+				icon:'warning',
+				okValue: '确 定',
 				ok:function(){
 					this.close();
 				}
