@@ -287,7 +287,7 @@ public class OrderController {
             deductParam.setBusinessCode(queryOrderResponse.getOrdOrderVo().getBusiCode());
             deductParam.setAccountId(user.getAcctId());
             deductParam.setSubsId(0);
-            deductParam.setCheckPwd(1);
+            deductParam.setCheckPwd(0);
             deductParam.setPassword(password);
             List<TransSummary> transSummaryList = new ArrayList<TransSummary>();
             TransSummary transSummary = new TransSummary();
