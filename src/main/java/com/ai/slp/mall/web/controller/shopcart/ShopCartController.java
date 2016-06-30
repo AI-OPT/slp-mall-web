@@ -60,7 +60,7 @@ public class ShopCartController {
         try{
 
             //获取service
-            IShopCartSV iShopCartSV = DubboConsumerFactory.getService("IShopCartSV");
+            IShopCartSV iShopCartSV = DubboConsumerFactory.getService(IShopCartSV.class);
             int skuNumLimit = getSkuNumLimit();
             if (skuNumLimit>0 && buyNum>skuNumLimit){
                 throw new BusinessException("","此商品添加数量超过限制,不允许添加");
@@ -90,7 +90,7 @@ public class ShopCartController {
     @RequestMapping("/cartDetails")
     public String queryCartDetails(HttpSession session,Model uiModel){
     	try{
-    		IShopCartSV iShopCartSV = DubboConsumerFactory.getService("IShopCartSV");
+    		IShopCartSV iShopCartSV = DubboConsumerFactory.getService(IShopCartSV.class);
     		UserInfo userInfo = new UserInfo();
             userInfo.setTenantId(SLPMallConstants.COM_TENANT_ID);
     		userInfo.setUserId(getUserId(session));
@@ -134,7 +134,7 @@ public class ShopCartController {
     @RequestMapping("/updateProdNum")
     @ResponseBody
     public ResponseData<CartProdOptRes> updateProdNum(HttpSession session, @RequestParam Long buyNum, @RequestParam String skuId) {
-        IShopCartSV iShopCartSV = DubboConsumerFactory.getService("IShopCartSV");
+        IShopCartSV iShopCartSV = DubboConsumerFactory.getService(IShopCartSV.class);
         ResponseData<CartProdOptRes> responseData = null;
         try {
             int skuNumLimit = getSkuNumLimit();
@@ -250,7 +250,7 @@ public class ShopCartController {
      * 删除购物车中商品
      */
     private CartProdOptRes delProdOfCart(HttpSession session,List<String> skuIds){
-        IShopCartSV iShopCartSV = DubboConsumerFactory.getService("IShopCartSV");
+        IShopCartSV iShopCartSV = DubboConsumerFactory.getService("iShopCartSV");
         //设置参数
         MultiCartProd multiCartProd = new MultiCartProd();
         multiCartProd.setTenantId(SLPMallConstants.COM_TENANT_ID);
