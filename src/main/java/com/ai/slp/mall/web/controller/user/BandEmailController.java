@@ -182,7 +182,7 @@ public class BandEmailController {
                     header.setIsSuccess(true);
                     header.setResultCode(ResultCodeConstants.SUCCESS_CODE);
                     responseData.setResponseHeader(header);
-                    
+                     
                     
                     IUcUserSV iAccountManageSV = DubboConsumerFactory.getService("iUcUserSV");
                     SearchUserRequest accountReq = new SearchUserRequest();
