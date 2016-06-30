@@ -2,7 +2,6 @@ define('app/jsp/product/searchProduct', function (require, exports, module) {
     'use strict';
     var $=require('jquery'),
     Widget = require('arale-widget/1.2.0/widget'),
-    Dialog = require("artDialog/src/dialog"),
     Paging = require('paging/0.0.1/paging-debug'),
     AjaxController = require('opt-ajax/1.0.0/index');
     require("jsviews/jsrender.min");
@@ -86,12 +85,14 @@ define('app/jsp/product/searchProduct', function (require, exports, module) {
     	},
     	//搜索操作
     	_search: function(){
+    		var _this = this;
     		var code =$("#currentCity").attr("currentCityCode");
+    		//获取公共数据
+			_this._getCommonBySearch();
     		var	param={
 					areaCode:code,  
 					skuName:$("#serachName").val()
 				   };
-    		var _this = this;
     		var url = _base+"/search/commonSearch";
     		$("#pagination-ul").runnerPagination({
 	 			url: url,
@@ -104,8 +105,6 @@ define('app/jsp/product/searchProduct', function (require, exports, module) {
 	            message: "正在为您查询数据..",
 	            render: function (data) {
 	            	if(data != null && data != 'undefined' && data.length>0){
-	            		//获取公共数据
-    					_this._getCommonBySearch();
 	            		var template = $.templates("#productListTemple");
     					var htmlOutput = template.render(data);
     					$("#productData").html(htmlOutput);
@@ -145,6 +144,8 @@ define('app/jsp/product/searchProduct', function (require, exports, module) {
     	//首页搜索跳转操作
     	_searchBtnClick: function(){
     		var _this = this;
+    		//获取公共数据
+			_this._getCommonProduct();
     		//设置title
 			var type = $("#billType").val();
 			if(type=="10000010010000"){
@@ -181,8 +182,6 @@ define('app/jsp/product/searchProduct', function (require, exports, module) {
 	            		var template = $.templates("#productListTemple");
     					var htmlOutput = template.render(data);
     					$("#productData").html(htmlOutput);
-    					//获取公共数据
-    					_this._getCommonProduct();
     					//添加样式
     		    		var attrDefId = $("#priceId").val();
     		    		var basic = $("#orgired").val();
@@ -411,9 +410,10 @@ define('app/jsp/product/searchProduct', function (require, exports, module) {
     	//根据选择条件进行查询
     	_changeDataClick: function(){
     		var _this = this;
+    		//获取公共数据
+			//_this._getCommonBySearch();
     		//如果首页跳转的查询条件为首页传入参数，如果是搜索页面，使用默认查询条件
     		var sourceFlag = $("#sourceFlag").val();
-    		//if(sourceFlag=="00"){
     			var	productCatId = $("#catType").val();
     			if(productCatId==null || productCatId==""){
     				//var title =document.getElementById('typeTitleId').innerText
@@ -426,11 +426,6 @@ define('app/jsp/product/searchProduct', function (require, exports, module) {
     			}
     			var priceId = $("#priceSearch").val();
     			var orgired = $("#agentSearch").val();
-    		//}/*else{
-    			/*var	productCatId = $("#billType").val();
-    			var priceId = $("#priceId").val();
-    			var orgired = $("#orgired").val();*/
-    		//}
     		var disapatch = $("#currentDispatch").attr("currentDispatchCode");
     		if(disapatch=="" || disapatch==null){
     			var disapatch="11";
@@ -471,8 +466,6 @@ define('app/jsp/product/searchProduct', function (require, exports, module) {
     					var htmlOutput = template.render(data);
     					$("#productData").html(htmlOutput);
     					$("#isHaveDataFlag").val("11");
-    					//获取公共数据
-    					//_this._getCommonBySearch();
 	            	}else{
 	            		//$("#commonId").attr("style","display: none");
 	            		//$("#commonData").attr("style","display: none");

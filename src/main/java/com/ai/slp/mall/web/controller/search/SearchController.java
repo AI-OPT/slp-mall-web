@@ -263,7 +263,7 @@ public class SearchController {
             ProductQueryResponse resultInfo = iSearchProductSV.queryProductPage(req);
             PageInfo<ProductData> result= resultInfo.getPageInfo();
             ProductCommonVO commonVo = new ProductCommonVO();
-            if(result!=null){
+            if(result!=null && result.getCount()!=0){
                 commonVo.setAccountList(result.getResult().get(0).getAccountList());
                 commonVo.setAgentList(result.getResult().get(0).getAgentList());
                 commonVo.setAreaList(result.getResult().get(0).getAreaList());
