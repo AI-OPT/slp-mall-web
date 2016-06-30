@@ -201,7 +201,7 @@ define('app/jsp/order/orderList', function (require, exports, module) {
 								this.close();
 							}
 						});
-			        	msgDialog.showModal();
+			        	msgDialog.show();
 					}
 				}
 			});

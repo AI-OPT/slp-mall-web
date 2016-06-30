@@ -2,7 +2,7 @@ define('app/jsp/balance/phonebook/phonebookdetail', function (require, exports, 
     'use strict';
     var $=require('jquery'),
     Widget = require('arale-widget/1.2.0/widget'),
-    Dialog = require("artDialog/src/dialog"),
+    Dialog = require("optDialog/src/dialog"),
     Paging = require('paging/0.0.1/paging-debug'),
     Uploader = require('arale-upload/1.2.0/index'),
     AjaxController = require('opt-ajax/1.0.0/index'),
@@ -36,7 +36,7 @@ define('app/jsp/balance/phonebook/phonebookdetail', function (require, exports, 
             "click [id='BTN_QUERY']":"_queryPhoneBooks",
             "click [id='BTN_REFRESH']":"_queryPhoneBooks",
             "click [id='BTN_DELETE']":"_checkDeleteData",
-            "click [id='deletePhone']":"_deletePhoneBooks",
+            //"click [id='deletePhone']":"_deletePhoneBooks",
             "click [id='BTN_BATCH_IMPORT']":"_showBatchImportWindow",
             "click [id='BTN_ADD_PHONEBOOK']":"_showAddPhoneBookWindow",
             "click [id='CHECK_ALL']":"_checkAll",
@@ -105,39 +105,53 @@ define('app/jsp/balance/phonebook/phonebookdetail', function (require, exports, 
     		$('.eject-mask').fadeIn(100);
     		$('#'+id).slideDown(200);
     	},
-    	/**
-    	 * 显示对话框
-    	 * type: 1 警告，2 正确， 3 错误
-    	 */
-    	_showPromptDialog:function(title,msg,type){
-    		$('#promptDialog_title').html(title);
-    		$('#promptDialog_msg').html(msg);
-    		$('.eject-mask').fadeIn(100);
-    		if(type==1){
-    			$('#promptDialog_img').attr('src',_slpbase+'/images/eject-icon-Warning.png')
-    		}else if(type==2){
-    			$('#promptDialog_img').attr('src',_slpbase+'/images/eject-icon-success.png')
-    		}else if(type==3){
-    			$('#promptDialog_img').attr('src',_slpbase+'/images/eject-icon-fail.png')
-    		}
-    		$('#promptDialogDiv').slideDown(200);
-    	},
+//    	/**
+//    	 * 显示对话框
+//    	 * type: 1 警告，2 正确， 3 错误
+//    	 */
+//    	_showPromptDialog:function(title,msg,type){
+//    		$('#promptDialog_title').html(title);
+//    		$('#promptDialog_msg').html(msg);
+//    		$('.eject-mask').fadeIn(100);
+//    		if(type==1){
+//    			$('#promptDialog_img').attr('src',_slpbase+'/images/eject-icon-Warning.png')
+//    		}else if(type==2){
+//    			$('#promptDialog_img').attr('src',_slpbase+'/images/eject-icon-success.png')
+//    		}else if(type==3){
+//    			$('#promptDialog_img').attr('src',_slpbase+'/images/eject-icon-fail.png')
+//    		}
+//    		$('#promptDialogDiv').slideDown(200);
+//    	},
     	/**
     	 * 显示对话框(关闭时不关闭背景浮层)
     	 * type: 1 警告，2 正确， 3 错误
     	 */
     	_showMsgDialog:function(title,msg,type){
-    		$('#msgDialogDiv_title').html(title);
-    		$('#msgDialogDiv_msg').html(msg);
-    		$('.eject-mask').fadeIn(100);
+//    		$('#msgDialogDiv_title').html(title);
+//    		$('#msgDialogDiv_msg').html(msg);
+//    		$('.eject-mask').fadeIn(100);
+//    		if(type==1){
+//    			$('#msgDialogDiv_img').attr('src',_slpbase+'/images/eject-icon-Warning.png')
+//    		}else if(type==2){
+//    			$('#msgDialogDiv_img').attr('src',_slpbase+'/images/eject-icon-success.png')
+//    		}else if(type==3){
+//    			$('#msgDialogDiv_img').attr('src',_slpbase+'/images/eject-icon-fail.png')
+//    		}
+//    		$('#msgDialogDiv').slideDown(200);
+    		var icon = "";
     		if(type==1){
-    			$('#msgDialogDiv_img').attr('src',_slpbase+'/images/eject-icon-Warning.png')
+    			icon='warning';
     		}else if(type==2){
-    			$('#msgDialogDiv_img').attr('src',_slpbase+'/images/eject-icon-success.png')
+    			icon='success';
     		}else if(type==3){
-    			$('#msgDialogDiv_img').attr('src',_slpbase+'/images/eject-icon-fail.png')
+    			icon='fail';
     		}
-    		$('#msgDialogDiv').slideDown(200);
+    		var msgDialog = Dialog({
+				title: title,
+				icon:icon,
+				content: msg,
+			});
+        	msgDialog.show();
     	},
     	/**
     	 * 隐藏对话框
@@ -154,7 +168,7 @@ define('app/jsp/balance/phonebook/phonebookdetail', function (require, exports, 
     	_checkUploadFile: function(){
     		var fileName = $("#uploadFile").val();
     		if(fileName==""){
-    			this._showPromptDialog("提示","请选择文件",1);
+    			this._showMsgDialog("提示","请选择文件",1);
     			//alert("请选择文件");
     			return ;
     		}
@@ -162,7 +176,7 @@ define('app/jsp/balance/phonebook/phonebookdetail', function (require, exports, 
     		var destStr = fileName.substring(fileName.lastIndexOf(".")+1,fileName.length)
     		if(FileListType.indexOf(destStr) == -1){
     		  //alert("只允许上传EXCEL文件。格式支撑xls,xlsx");
-    		  this._showPromptDialog("提示","只允许上传EXCEL文件。格式支撑xls,xlsx",1);
+    		  this._showMsgDialog("提示","只允许上传EXCEL文件。格式支撑xls,xlsx",1);
     		  return false;
     		} 
     		return true;
@@ -204,7 +218,7 @@ define('app/jsp/balance/phonebook/phonebookdetail', function (require, exports, 
 							_this._hiddenDialog("uploadFileDiv");
 							_this._queryPhoneBooks();
 						}else{
-							_this._showPromptDialog("错误","上传失败",3);
+							_this._showMsgDialog("错误","上传失败",3);
 						}
 					}  
 				}
@@ -230,7 +244,7 @@ define('app/jsp/balance/phonebook/phonebookdetail', function (require, exports, 
 		 */
 		_uploadSuccess:function(){
 			this._hiddenDialog("uploadProgressDiv");
-			this._showPromptDialog("批量导入通讯录","导入通讯录完成！", 2);
+			this._showMsgDialog("批量导入通讯录","导入通讯录完成！", 2);
 		},
 		/**
 		 * 上传成功
@@ -449,11 +463,21 @@ define('app/jsp/balance/phonebook/phonebookdetail', function (require, exports, 
     	_checkDeleteData:function(){
     		var checkboxs=$("input[name='CHEK_TEL_NO']:checked");
     		if(checkboxs.length==0){
-    			this._showPromptDialog("提示","请选择要删除的联系人",1);
+    			this._showMsgDialog("提示","请选择要删除的联系人",1);
     			return;
     		}
-    		
-    		this._showDialog("deleteDialogDiv")
+    		//this._showDialog("deleteDialogDiv")
+    		var msgDialog = Dialog({
+				title: "删除操作确认",
+				content: "确定要删除已选联系人吗？",
+				okValue:"确定",
+				ok:function () {
+					_this._deletePhoneBooks()
+				},
+				cancelValue: '取消',
+				cancel:function(){}
+			});
+        	msgDialog.show();
     	},
     	/**
     	 * 删除联系人
@@ -478,12 +502,12 @@ define('app/jsp/balance/phonebook/phonebookdetail', function (require, exports, 
 				success: function(data){
 					//alert("删除成功"); 
 					_this._hiddenDialog("deleteDialogDiv");
-					_this._showPromptDialog("提示","删除成功!",2);
+					_this._showMsgDialog("提示","删除成功!",2);
 					_this._queryPhoneBooks();
 				},
 				failure: function(){
 					_this._hiddenDialog("deleteDialogDiv");
-					_this._showPromptDialog("错误","删除失败!",3);
+					_this._showMsgDialog("错误","删除失败!",3);
 				}
 			});
     		
@@ -551,11 +575,11 @@ define('app/jsp/balance/phonebook/phonebookdetail', function (require, exports, 
     					telMp:telMp
     				},
     				success: function(data){
-    					//_this._showPromptDialog("提示","删除成功!",2);
+    					//_this._showMsgDialog("提示","删除成功!",2);
     					_this._queryPhoneBooks();
     				},
     				failure: function(){
-    					_this._showPromptDialog("错误","修改失败!",3);
+    					_this._showMsgDialog("错误","修改失败!",3);
     				}
     			});
     		}

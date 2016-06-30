@@ -2,7 +2,7 @@ define('app/jsp/balance/phonebook/phonebookmgr', function (require, exports, mod
     'use strict';
     var $=require('jquery'),
     Widget = require('arale-widget/1.2.0/widget'),
-    Dialog = require("artDialog/src/dialog"),
+    Dialog = require("optDialog/src/dialog"),
     Paging = require('paging/0.0.1/paging-debug'),
     AjaxController = require('opt-ajax/1.0.0/index'),
     Calendar = require('arale-calendar/1.1.2/index');
@@ -54,38 +54,24 @@ define('app/jsp/balance/phonebook/phonebookmgr', function (require, exports, mod
     		$('#'+id).slideDown(200);
     	},
     	/**
-    	 * 显示对话框
-    	 * type: 1 警告，2 正确， 3 错误
-    	 */
-    	_showPromptDialog:function(title,msg,type){
-    		$('#promptDialog_title').html(title);
-    		$('#promptDialog_msg').html(msg);
-    		$('.eject-mask').fadeIn(100);
-    		if(type==1){
-    			$('#promptDialog_img').attr('src',_slpbase+'/images/eject-icon-Warning.png')
-    		}else if(type==2){
-    			$('#promptDialog_img').attr('src',_slpbase+'/images/eject-icon-success.png')
-    		}else if(type==3){
-    			$('#promptDialog_img').attr('src',_slpbase+'/images/eject-icon-fail.png')
-    		}
-    		$('#promptDialogDiv').slideDown(200);
-    	},
-    	/**
     	 * 显示对话框(关闭时不关闭背景浮层)
     	 * type: 1 警告，2 正确， 3 错误
     	 */
     	_showMsgDialog:function(title,msg,type){
-    		$('#msgDialogDiv_title').html(title);
-    		$('#msgDialogDiv_msg').html(msg);
-    		$('.eject-mask').fadeIn(100);
+    		var icon = "";
     		if(type==1){
-    			$('#msgDialogDiv_img').attr('src',_slpbase+'/images/eject-icon-Warning.png')
+    			icon='warning';
     		}else if(type==2){
-    			$('#msgDialogDiv_img').attr('src',_slpbase+'/images/eject-icon-success.png')
+    			icon='success';
     		}else if(type==3){
-    			$('#msgDialogDiv_img').attr('src',_slpbase+'/images/eject-icon-fail.png')
+    			icon='fail';
     		}
-    		$('#msgDialogDiv').slideDown(200);
+    		var msgDialog = Dialog({
+				title: title,
+				icon:icon,
+				content: msg
+			});
+        	msgDialog.show();
     	},
     	/**
     	 * 隐藏对话框
@@ -180,8 +166,19 @@ define('app/jsp/balance/phonebook/phonebookmgr', function (require, exports, mod
     		var _this = this;
     		$("[name='BTN_DEL_TEL_GROUP']").bind("click",function(){
     			var telGroupId =$(this).attr("telGroupId");
-    			_this._showDialog("deleteDialogDiv");
     			$("#deleteDialogBtn").attr("telGroupId",telGroupId);
+    			//_this._showDialog("deleteDialogDiv");
+    			var msgDialog = Dialog({
+    				title: "删除操作确认",
+    				content: "确定要删除此通讯录组吗？",
+    				okValue:"确定",
+    				ok:function () {
+    					_this._deleteTelGroup()
+    				},
+    				cancelValue: '取消',
+    				cancel:function(){}
+    			});
+            	msgDialog.show();
     		});
     		
     		$("[name='BTN_MODIFY_TEL_GROUP']").bind("click",function(){
