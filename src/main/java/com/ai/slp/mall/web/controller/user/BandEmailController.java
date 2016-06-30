@@ -188,10 +188,9 @@ public class BandEmailController {
                     SearchUserRequest accountReq = new SearchUserRequest();
                     accountReq.setUserEmail(email);
                     SearchUserResponse accountQueryResponse = iAccountManageSV.queryByEmail(accountReq);
-                    List<UcUserParams> resultList = accountQueryResponse.getList();
                     String emailValidateFlag = BandEmail.EMAIL_NOT_CERTIFIED;
                     
-                    if(!CollectionUtil.isEmpty(resultList)&&BandEmail.EMAIL_CERTIFIED.equals(resultList.get(0).getEmailValidateFlag())){
+                    if(BandEmail.EMAIL_CERTIFIED.equals(accountQueryResponse.getEmailValidateFlag())){
                          emailValidateFlag = BandEmail.EMAIL_CERTIFIED;
                      }
                     SearchUserRequest searchUserReqeust = new SearchUserRequest();
