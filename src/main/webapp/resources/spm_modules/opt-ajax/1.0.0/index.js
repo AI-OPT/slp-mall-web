@@ -1,7 +1,7 @@
 define('opt-ajax/1.0.0/index', function (require, exports, module) {
     'use strict';
     var $=require('jquery'),
-    Dialog = require("artDialog/src/dialog"),
+    Dialog = require("optDialog/src/dialog"),
     Base = require('arale-base/1.2.0/base');
     
     require('jquery-form/3.51.0/jquery.form');
@@ -53,8 +53,10 @@ define('opt-ajax/1.0.0/index', function (require, exports, module) {
 				if(status && status == AjaxController.AJAX_STATUS_FAILURE){
 					var failureDialog = Dialog({
 					    title: '操作失败',
+					    icon: 'fail',
 					    content: statusInfo,
 					    cancel: false,
+					    okValue:'确定',
 					    ok: function () {
 					    	callbacks["failure"] && callbacks["failure"].call(_this,transport); 
 					    }
@@ -81,8 +83,10 @@ define('opt-ajax/1.0.0/index', function (require, exports, module) {
 				if(processing)processingDialog.close();
 				var failureDialog = Dialog({
 				    title: '请求失败',
+				    icon:'fail',
 				    content: "网络请求错误,错误码:"+transport.status+",请重试。",
 				    cancel: false,
+				    okValue:'确定',
 				    ok: function () {
 				    	callbacks["error"] && callbacks["error"].call(_this,transport); 
 				    }

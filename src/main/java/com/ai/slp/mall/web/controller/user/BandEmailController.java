@@ -161,7 +161,7 @@ public class BandEmailController {
         ResponseData<String> responseData = null;
         SLPClientUser userClient = (SLPClientUser) request.getSession().getAttribute(SSOClientConstants.USER_SESSION_KEY);
         IConfigClient configClient = CCSClientFactory.getDefaultConfigClient();
-        try {
+        try { 
                 // 检查ip发送验证码次数
                 ResponseData<String> checkIpSendEmail = VerifyUtil.checkIPSendEmailCount(BandEmail.CACHE_NAMESPACE, IPUtil.getIp(request) + BandEmail.CACHE_KEY_IP_SEND_EMAIL_NUM);
                 if (!checkIpSendEmail.getResponseHeader().isSuccess()) {
@@ -182,16 +182,15 @@ public class BandEmailController {
                     header.setIsSuccess(true);
                     header.setResultCode(ResultCodeConstants.SUCCESS_CODE);
                     responseData.setResponseHeader(header);
-                    
+                     
                     
                     IUcUserSV iAccountManageSV = DubboConsumerFactory.getService("iUcUserSV");
                     SearchUserRequest accountReq = new SearchUserRequest();
                     accountReq.setUserEmail(email);
                     SearchUserResponse accountQueryResponse = iAccountManageSV.queryByEmail(accountReq);
-                    List<UcUserParams> resultList = accountQueryResponse.getList();
                     String emailValidateFlag = BandEmail.EMAIL_NOT_CERTIFIED;
                     
-                    if(!CollectionUtil.isEmpty(resultList)&&BandEmail.EMAIL_CERTIFIED.equals(resultList.get(0).getEmailValidateFlag())){
+                    if(BandEmail.EMAIL_CERTIFIED.equals(accountQueryResponse.getEmailValidateFlag())){
                          emailValidateFlag = BandEmail.EMAIL_CERTIFIED;
                      }
                     SearchUserRequest searchUserReqeust = new SearchUserRequest();

@@ -26,7 +26,7 @@
 .recharge-list .color span{ color:#f4792c; font-size:22px; font-weight:bold;}
 .recharge-list .qg{margin-left:10px; font-size:12px;}
 .rech-btn{ width:230px; height:40px; float:left; margin-left:135px;}
-
+.recharge-list .cmct{width:210px;text-align: right;float:left;}
 /**快充支付**/
 /**路径**/
 .payment-title{ width:100%; float:left; margin:8px 0 6px 0; }
@@ -476,9 +476,10 @@
 
 .mar-account-title{width:100%; margin-bottom:20px; float:left;}
 .account-title{ width:100%; float:left;}
-.account-title p{ width:100%; float:left;font-size:16px;}
+.account-title p{float:left;font-size:16px;}
+.account-title .right{float:right;font-size:16px;}
 .account-title a{ float:right; color:#f4792c; font-size:14px;}
-.account-title i{ float:right; font-size:18px; color:#666; cursor:pointer;}
+.account-title i{ float:right; color:#666; cursor:pointer;}
 .account-title i:hover{ color:#f4792c;}
 .account-title-right p span{float:right;margin-top:10px;}
 .account-title-right p span b{ font-weight: normal; color:#f4792c;}
@@ -500,11 +501,11 @@
 .account-table table tr a:hover{ color:#f4792c;}
 .account-search{ margin-top:20px;}
 .account-search ul{ margin-bottom:0px;}
-
+.account-title-bjcolor{background:#fffaf8;height:40px;line-height:40px;padding:0 20px;}
 /**资质申请**/
 .nav-form{ width:100%; float:left; margin-top:10px; margin-bottom:20px;}
 .nav-form ul{ width:100%; float:left; margin-top:20px;}
-.nav-form ul li{ width:100%; float:left; line-height:30px;}
+.nav-form ul li{ float:left; line-height:30px;}
 .nav-form ul li p{float:left; margin-right:10px; color:#333;}
 .nav-form ul li .word{ width:135px; text-align:right;}
 .nav-form ul li .word .red{ color:#f00;}
@@ -515,7 +516,7 @@
 .nav-form ul .right{ float:left; margin-left:145px; margin-top:10px;}
 .nav-form ul .form-btn{ float:left; margin-left:145px;}
 .nav-form ul .file-btn{ padding:0 10px;height:30px; border:1px solid #e7e7e7; background:#fff; cursor:pointer;}
-.nav-form ul li .small-p{ float:left; position:relative; color:#666; font-size:12px; margin-top:15px;} 
+.nav-form ul li .small-p{width:60%;float:left; position:relative; color:#666; font-size:12px; margin-top:2px;} 
 .nav-form ul li .small-p a{ margin-left:20px; color:#333;}
 .nav-form ul li .small-p span{ width:100%; float:left;}
 .nav-form ul li .small-p .file{ position:absolute; width:100px; left:0; height:30px; top:0;opacity:0;filter:alpha(opacity=0);}
@@ -531,9 +532,9 @@
 .card-left{ width:120px; height:120px; float:left; background:#f1f1f1; color:#999; text-align:center; position:relative;}
 .card-left img{ margin-top:25px; font-size:30px;}
 .card-left .file{ width:120px; height:120px; background:#000; position:absolute; top:0; left:0; opacity:0;filter:alpha(opacity=0);}
-.card-left-word{ float:left;font-size:12px; color:#df0000;}
+.card-left-word{font-size:12px; color:#df0000;}
 .card-left-word img{ float:left; margin:8px 4px 0 0;}
-.card-right-big{ float:left; margin-left:48px;}
+.card-right-big{ float:left;}
 .card-right-big p{ line-height:20px;}
 .card-right{ width:120px; height:120px;background:#f1f1f1;float:left;}
 .card-right img{ margin-top:20px;}
@@ -548,6 +549,8 @@
 .choice-list ul li{ text-align:center; margin-top:35px; font-size:28px; color:#436687}
 .choice-list ul:hover{border:2px solid #f5ad85;}
 .choice-list .current{border:2px solid #f5ad85;}
+
+.mt-0{margin-top:20px; margin-bottom:0;}
 
 /**通讯录详情**/
 .mail-bj{width:100%; float:left;background:#fff;padding:20px 24px 20px 24px; margin-bottom:20px;}

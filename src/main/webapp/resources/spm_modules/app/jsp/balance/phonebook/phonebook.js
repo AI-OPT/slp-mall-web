@@ -1,23 +1,5 @@
-//通讯录详情 table 点击变换div
-//$(document).ready(function(){
-//$(".account-table .click").click(function(){
-//  $(this).parent().parent().parent().children(".hover").show();
-//  $(this).parent().parent(".current").hide();
-//});
-//
-//$(".account-table .mail-btn").click(function(){
-//  $(this).parent().parent().parent().children(".current").show();
-//  $(this).parent().parent(".hover").hide();
-//});
-//
-//});	
-
 //通讯录详情 批量删除弹出	
 jQuery(document).ready(function($) {
-//	$('.click-close').click(function(){
-//	$('.eject-mask').fadeIn(100);
-//	$('.eject-samll').slideDown(200);
-//	})
 	$('.eject-samll-title .img').click(function(){
 	$('.eject-mask').fadeOut(100);
 	$('.eject-samll').slideUp(150);

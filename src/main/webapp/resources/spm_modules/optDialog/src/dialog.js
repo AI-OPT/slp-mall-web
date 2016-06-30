@@ -330,15 +330,15 @@ $.extend(prototype, {
 	icon: function(value){
 		var $icon = this._$('icon');
 		if(value == "fail"){
-			$icon.attr("src","../images/eject-icon-fail.png");	
+			$icon.attr("class","dialog-icon-fail");	
 		}else if(value == "help"){
-			$icon.attr("src","../images/eject-icon-help.png");	
+			$icon.attr("class","dialog-icon-help");		
 		}else if(value == "prompt"){
-			$icon.attr("src","../images/eject-icon-prompt.png");	
+			$icon.attr("class","dialog-icon-prompt");		
 		}else if(value == "success"){
-			$icon.attr("src","../images/eject-icon-success.png");	
+			$icon.attr("class","dialog-icon-success");	
 		}else if(value == "warning"){
-			$icon.attr("src","../images/eject-icon-warning.png");	
+			$icon.attr("class","dialog-icon-warning");		
 		}
 	},
 
@@ -428,7 +428,7 @@ $.extend(prototype, {
                 + ' i-id="' + id + '"'
                 + style
                 + (val.disabled ? ' disabled' : '')
-                + ' class="slp-btn eject-small-btn"'
+                + ' class="slp-btn ui-eject-small-btn"'
                 + 'value="'+ val.value + '"'
                 + '/>';
 

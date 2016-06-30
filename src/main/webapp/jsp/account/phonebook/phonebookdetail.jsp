@@ -128,7 +128,7 @@
 	<!--底部 结束-->
 	
 <!-- 信息提示框 -->
-<div class="eject-big">
+<%-- <div class="eject-big">
 <div class="eject-samll-icon" id="promptDialogDiv" style="z-index:999">
 	<div class="eject-samll-title">
 		<p id="promptDialog_title">提示</p>
@@ -142,11 +142,11 @@
 	</div>	
 </div>	
 <div class="eject-mask"></div>	
-</div>
+</div> --%>
 <!-- 信息提示框结束 -->	
 
 <!-- 信息提示框 关闭时不关闭背景浮层 -->
-<div class="eject-big">
+<%-- <div class="eject-big">
 <div class="eject-samll-icon" id="msgDialogDiv" style="z-index:999">
 	<div class="eject-samll-title">
 		<p id="msgDialogDiv_title">提示</p>
@@ -160,17 +160,17 @@
 	</div>	
 </div>	
 <div class="eject-mask"></div>	
-</div>
+</div> --%>
 <!-- 信息提示框结束 -->	
 
 <!--弹出删除弹出框-->
-<div class="eject-big">
+<!-- <div class="eject-big">
 <div class="eject-samll" id="deleteDialogDiv">
 	<div class="eject-samll-title">
 		<p>删除操作确认</p>
 		<p class="img"><A href="javascript:pager._hiddenDialog('deleteDialogDiv')"></A></p>
 	</div>
-	<!--确认删除-->
+	确认删除
 	<div class="eject-samll-confirm">
 		<ul>
 		<li class="word">确定要删除已选联系人吗？</li>
@@ -181,7 +181,7 @@
 	</div>
 </div>	
 <div class="eject-mask"></div>	
-</div>	
+</div>	 -->
 <!--弹出删除弹出框- 结束-->
 
 <!--批量导入通讯录弹出框  -->

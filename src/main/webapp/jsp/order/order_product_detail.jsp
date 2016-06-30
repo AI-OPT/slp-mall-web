@@ -114,9 +114,9 @@
                          </li>
 						 {{/for}}
                      </ul>
-					{{else state='11'}}
+					{{else state=='11'}}
 						<div class="pay-fail">您还没有完成付款！</div>
-					{{else state='91'}}
+					{{else state=='91'}}
 						<div class="pay-fail">订单已经关闭！</div>
 					{{/if}}
                  </div>

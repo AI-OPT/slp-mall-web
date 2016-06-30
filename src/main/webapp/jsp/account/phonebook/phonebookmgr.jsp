@@ -78,62 +78,6 @@
 	<%@ include file="/inc/foot.jsp"%>
 
 	<!--底部 结束-->
-<!-- 信息提示框 -->
-<div class="eject-big">
-<div class="eject-samll-icon" id="promptDialogDiv" style="z-index:999">
-	<div class="eject-samll-title">
-		<p id="promptDialog_title">提示</p>
-		<p class="img"><A href="javascript:pager._hiddenDialog('promptDialogDiv')"></A></p>
-	</div>
-	<div class="eject-medium-list">
-		<div class="eject-medium-complete">
-			<p><img id="promptDialog_img" src="${_slpbase }/images/eject-icon-Warning.png"></p>
-			<p id="promptDialog_msg" class="word">提示信息</p>
-		</div>
-	</div>	
-</div>	
-<div class="eject-mask"></div>	
-</div>
-<!-- 信息提示框结束 -->	
-
-<!-- 信息提示框 关闭时不关闭背景浮层 -->
-<div class="eject-big">
-<div class="eject-samll-icon" id="msgDialogDiv" style="z-index:999">
-	<div class="eject-samll-title">
-		<p id="msgDialogDiv_title">提示</p>
-		<p class="img"><A href="javascript:pager._hiddenDialog('msgDialogDiv',false)"></A></p>
-	</div>
-	<div class="eject-medium-list">
-		<div class="eject-medium-complete">
-			<p><img id="msgDialogDiv_img" src="${_slpbase }/images/eject-icon-Warning.png"></p>
-			<p id="msgDialogDiv_msg" class="word">提示信息</p>
-		</div>
-	</div>	
-</div>	
-<div class="eject-mask"></div>	
-</div>
-<!-- 信息提示框结束 -->	
-
-<!--弹出删除弹出框-->
-<div class="eject-big">
-<div class="eject-samll" id="deleteDialogDiv">
-	<div class="eject-samll-title">
-		<p>删除操作确认</p>
-		<p class="img"><A href="javascript:pager._hiddenDialog('deleteDialogDiv')"></A></p>
-	</div>
-	<!--确认删除-->
-	<div class="eject-samll-confirm">
-		<ul>
-		<li class="word">确定要删除此通讯录组吗？</li>
-		<li><input id="deleteDialogBtn" onclick="pager._deleteTelGroup()" type="button"  class="slp-btn eject-small-btn" telGroupId="" value="确认">
-			<input type="button"  class="slp-btn eject-small-btn close-btn" value="取消" onclick="pager._hiddenDialog('deleteDialogDiv')">
-		</li>		
-		</ul>
-	</div>
-</div>	
-<div class="eject-mask"></div>	
-</div>	
-<!--弹出删除弹出框- 结束-->
 
 <!--添加通信录弹出框  开始-->
 	<div class="eject-big">

@@ -120,6 +120,6 @@
 
 /**首页充值流量边框**/
 .int-border{width:235px;float:left; border:1px solid #e7e7e7; height:30px;font-size:12px;line-height:30px;padding-right:4px;}
-.int-dex-none{width:185px; height:28px; float:left;border:none; padding:0 4px;font-size:12px;}
-
+.int-dex-none{width:105px; height:28px; float:left;border:none; padding:0 4px;font-size:12px;}
+.charge-list ul .int-border .word{width:135px;float:left; text-align:right;}
 
