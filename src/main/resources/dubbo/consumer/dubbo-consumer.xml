@@ -53,7 +53,7 @@
 		registry="baasRegistry" />
 
 	<!-- 购物车 -->
-	<dubbo:reference id="IShopCartSV"
+	<dubbo:reference id="iShopCartSV"
 		interface="com.ai.slp.order.api.shopcart.interfaces.IShopCartSV"
 		registry="baasRegistry" />
 
