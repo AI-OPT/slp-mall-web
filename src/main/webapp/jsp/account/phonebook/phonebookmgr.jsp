@@ -79,7 +79,7 @@
 
 	<!--底部 结束-->
 <!-- 信息提示框 -->
-<div class="eject-big">
+<%-- <div class="eject-big">
 <div class="eject-samll-icon" id="promptDialogDiv" style="z-index:999">
 	<div class="eject-samll-title">
 		<p id="promptDialog_title">提示</p>
@@ -93,11 +93,11 @@
 	</div>	
 </div>	
 <div class="eject-mask"></div>	
-</div>
+</div> --%>
 <!-- 信息提示框结束 -->	
 
 <!-- 信息提示框 关闭时不关闭背景浮层 -->
-<div class="eject-big">
+<%-- <div class="eject-big">
 <div class="eject-samll-icon" id="msgDialogDiv" style="z-index:999">
 	<div class="eject-samll-title">
 		<p id="msgDialogDiv_title">提示</p>
@@ -111,7 +111,7 @@
 	</div>	
 </div>	
 <div class="eject-mask"></div>	
-</div>
+</div> --%>
 <!-- 信息提示框结束 -->	
 
 <!--弹出删除弹出框-->
