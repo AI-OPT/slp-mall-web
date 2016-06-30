@@ -73,8 +73,8 @@
          <ul>
              <li>
                 <p class="word"><b class="red">*</b>性别:</p>
-                <p><input type="radio" name="gender" class="checkbox-medium" name="custSex" id="man" checked=><span class="Gender">男</span></p>
-                <p><input type="radio" name="gender" class="checkbox-medium" name="custSex" id="woman" ><span class="Gender">女</span></p>
+                <p><input type="radio" class="checkbox-medium" name="custSex" id="man" value="0" checked=><span class="Gender">男</span></p>
+                <p><input type="radio" class="checkbox-medium" name="custSex" id="woman" value="1" ><span class="Gender">女</span></p>
              </li>
          </ul>
          <ul>
@@ -103,7 +103,7 @@
                 <select class="select-xmini" id="provinceCode" name="custProvinceCode" >
                 	<option value="0">请选择</option>
                 	<c:forEach items="${provinceList}" var="record">
-                		<option value="${record.provinceCode}"></option>
+                		<option value="${record.provinceCode}">${record.areaName }</option>
                 	</c:forEach>
                 </select>
                 
@@ -172,108 +172,78 @@
            <ul>
                 <li>
                 	<p class="word"><b class="red">*</b>身份证号:</p>
-                    <p><input type="text" class="int-medium" placeholder="请填写和真实姓名一致的18位身份证号码" id="certNum"></p>
+                    <p><input type="text" class="int-medium" placeholder="请填写和真实姓名一致的18位身份证号码" id="certNum" name="certNum"></p>
                      <label id="idNumberErrMsg" style="display:none"><img src="${_slpbase}/images/icon-c.png" id="idNumberImage"><span class="ash" id="idNumberText">18位数字</span></label>
                  </li>
              </ul>
-              <ul>
-                 <li>
-                    <p class="word"><b class="red">*</b>身份证正面照片:</p>
-                    <p>
-                    <!--上传身份证件-->
-                         <div class="upload-card">
-                       		<p>支持JPG/PNG/GIF格式，大小不超过3M，尺寸不限</p>
-                             <div class="card-big">
-                             <!--左侧上传-->
-                             	<div class="card-left-big">
-                                      <div class="card-left">
-                                          <img src="${_slpbase}/images/formp-p.png" id="certPic"><br>上传照片
-                                          <input type="file" class="file" id="image1" name="image1" onchange="uploadImg('image1','certPic','idpsId1');">
-                                      </div>
-                                      <div class="card-left-word"><img src="${_slpbase}/images/icon-a.png">请上传正面照片</div>
-                                  </div>
-                             <!--左侧上传结束-->   
-                             <!--右侧展示-->   
-                                  <div class="card-right-big">
-                                 		 <p>示例:</p>
-                                         <div class="card-right">
-                                         <img src="${_slpbase}/images/card-1.png">
-                                         </div>
-                                  </div>
-                            <!--右侧展示结束-->         
-                                  
-                             </div>
-                     </div>
-                     <!--上传身份证件结束-->
-                 </li>
-             </ul>
-              <ul>
-                 <li>
-                    <p class="word"><b class="red">*</b>身份证背面照片:</p>
-                    <p>
-                    <!--上传身份证件-->
-                         <div class="upload-card">
-                       		<p>支持JPG/PNG/GIF格式，大小不超过3M，尺寸不限</p>
-                             <div class="card-big">
-                             <!--左侧上传-->
-                             	<div class="card-left-big">
-                                      <div class="card-left">
-                                          <img src="${_slpbase}/images/formp-p.png" id="certPic2"><br>上传照片
-                                          <input type="file" class="file" id="image2" name="image2" onchange="uploadImg('image2','certPic2','idpsId2');">
-                                      </div>
-                                      <div class="card-left-word"><img src="${_slpbase}/images/icon-a.png">请上传背面照片</div>
-                                  </div>
-                             <!--左侧上传结束-->   
-                             <!--右侧展示-->   
-                                  <div class="card-right-big">
-                                 		 <p>示例:</p>
-                                         <div class="card-right">
-                                         <img src="${_slpbase}/images/card-1.png">
-                                         </div>
-                                  </div>
-                            <!--右侧展示结束-->         
-                                  
-                             </div>
-                     </div>
-                     <!--上传身份证件结束-->
-                 </li>
-             </ul>
-             <ul>
-                 <li>
-                    <p class="word"><b class="red">*</b>手持身份证正面照片:</p>
-                    <p>
-                    <!--上传身份证件-->
-                         <div class="upload-card">
-                       		<p>支持JPG/PNG/GIF格式，大小不超过3M，尺寸不限</p>
-                             <div class="card-big">
-                             <!--左侧上传-->
-                             	<div class="card-left-big">
-                                      <div class="card-left">
-                                          <img src="${_slpbase}/images/formp-p.png" id="certPic3"><br>上传照片
-                                          <input type="file" class="file" id="image3" name="image3" onchange="uploadImg('image3','certPic3','idpsId3');">
-                                      </div>
-                                      <div class="card-left-word"><img src="${_slpbase}/images/icon-a.png">请上传手持证件照片</div>
-                                  </div>
-                             <!--左侧上传结束-->   
-                             <!--右侧展示-->   
-                                  <div class="card-right-big">
-                                 		 <p>示例:</p>
-                                         <div class="card-right">
-                                         <img src="${_slpbase}/images/card-1.png">
-                                         </div>
-                                  </div>
-                            <!--右侧展示结束-->         
-                                  
-                             </div>
-                     </div>
-                     <!--上传身份证件结束-->
-                 </li>
-             </ul>
-             </div>
+               <ul>
+	             <li>
+	                <p class="word"><b class="red">*</b>身份证正面照:</p>
+	                <input type="hidden" name="list[0].infoName" value="身份证正面照"/>
+	                <p class="img"><img src="${_slpbase }/images/fom-t.png" id="certPic1"></p>
+	                <p class="small-p">
+	                <span><input type="button" value="点击上传" class="file-btn"><input type="file" class="file" id="image1" name="image1" onchange="uploadImg('image1','certPic1','idpsId1');"><a href="javascript:void(0)" onclick="deleteImg('image1','certPic2','idpsId1');">删除</a></span>
+	                <span>支持JPG/PNG/GIF格式，最大不超过3M</span>
+	                </p>
+	                <%-- <p><div class="card-left-word"><img src="${_slpbase }/images/icon-a.png">请上传手持证件照片</div></p> --%>
+	                </li>
+	              <li>
+	                 <!--右侧展示-->   
+                    <div class="card-right-big">
+                         <p>示例:</p>
+                            <div class="card-right">
+                               <img src="${_slpbase }/images/card-1.png">
+                    </div>
+                   </div>
+	            
+	            </li>
+        		 </ul>
+        		  <ul>
+	             <li>
+	                <p class="word"><b class="red">*</b>身份证背面照片:</p>
+	                <input type="hidden" name="list[1].infoName" value="身份证背面照片"/>
+	                <p class="img"><img src="${_slpbase }/images/fom-t.png" id="certPic2"></p>
+	                <p class="small-p">
+	                <span><input type="button" value="点击上传" class="file-btn"><input type="file" class="file" id="image2" name="image2" onchange="uploadImg('image2','certPic2','idpsId2');"><a href="javascript:void(0)" onclick="deleteImg('image2','certPic2','idpsId2');">删除</a></span>
+	                <span>支持JPG/PNG/GIF格式，最大不超过3M</span>
+	                </p>
+	               <%--  <p><div class="card-left-word"><img src="${_slpbase }/images/icon-a.png">请上传手持证件照片</div></p> --%>
+	                </li>
+	              <li>
+	                 <!--右侧展示-->   
+                    <div class="card-right-big">
+                         <p>示例:</p>
+                            <div class="card-right">
+                               <img src="${_slpbase }/images/card-1.png">
+                    </div>
+                   </div>
+	            
+	            </li>
+        		 </ul>
+        		  <ul>
+	             <li>
+	                <p class="word"><b class="red">*</b>手持身份证正面照片:</p>
+	                <input type="hidden" name="list[2].infoName" value="手持身份证正面照片"/>
+	                <p class="img"><img src="${_slpbase }/images/fom-t.png" id="certPic3"></p>
+	                <p class="small-p">
+	                <span><input type="button" value="点击上传" class="file-btn"><input type="file" class="file" id="image3" name="image3" onchange="uploadImg('image3','certPic3','idpsId3');"><a href="javascript:void(0)" onclick="delete('image3','certPic3','idpsId3');">删除</a></span>
+	                <span>支持JPG/PNG/GIF格式，最大不超过3M</span>
+	                </p>
+	               <%--  <p><div class="card-left-word"><img src="${_slpbase }/images/icon-a.png">请上传手持证件照片</div></p> --%>
+	                </li>
+	              <li>
+	                 <!--右侧展示-->   
+                    <div class="card-right-big">
+                         <p>示例:</p>
+                            <div class="card-right">
+                               <img src="${_slpbase }/images/card-1.png">
+                    </div>
+                   </div>
+	            </li>
+        		 </ul>
              <ul>
                  <li class="form-btn">
                  	<input type="button" class="slp-btn regsiter-btn" id="savePersonalQualification" value="保存资质">
-                 	</li><li>
                  	<input type="hidden" id="custNameFlag"/>
                  	<input type="hidden" id="certAddrFlag">
                  	<input type="hidden" id="idNumberFlag"/>
@@ -287,6 +257,7 @@
                  	<input type="hidden" id="idpsId3" name="list[2].attrValue"/>
                  </li>
              </ul>
+             </div>
      </form:form>
      </div>
      </div>

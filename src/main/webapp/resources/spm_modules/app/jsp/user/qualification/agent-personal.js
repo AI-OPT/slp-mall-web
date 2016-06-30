@@ -179,11 +179,10 @@ function toSave(){
 			dataType: "json",
 			data:$("#agentPersonal").serialize(),
 	        success: function(data) {
-	        	if(data.responseHeader.resultCode=="111111"){
+	        	if(data.responseHeader.resultCode=="00001"){
 	        		alert("失败了");
-	        		return false;
 	        	}
-	        	if(data.responseHeader.resultCode=="000000"){
+	        	if(data.responseHeader.resultCode=="00000"){
 	        		window.location.href=_base+"/user/qualification/toEnterprisePage";
 	        	}
 	            },
