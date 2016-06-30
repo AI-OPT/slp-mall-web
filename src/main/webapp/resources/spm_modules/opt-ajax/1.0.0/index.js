@@ -56,6 +56,7 @@ define('opt-ajax/1.0.0/index', function (require, exports, module) {
 					    icon: 'fail',
 					    content: statusInfo,
 					    cancel: false,
+					    okValue:'确定',
 					    ok: function () {
 					    	callbacks["failure"] && callbacks["failure"].call(_this,transport); 
 					    }
@@ -85,6 +86,7 @@ define('opt-ajax/1.0.0/index', function (require, exports, module) {
 				    icon:'fail',
 				    content: "网络请求错误,错误码:"+transport.status+",请重试。",
 				    cancel: false,
+				    okValue:'确定',
 				    ok: function () {
 				    	callbacks["error"] && callbacks["error"].call(_this,transport); 
 				    }

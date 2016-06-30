@@ -42,7 +42,7 @@ button{outline:none}
 .slp-btn{background:#f4792c; color:#fff; font-size:14px;font-family: "微软雅黑";outline:none}
 .slp-btn:hover{background:#fc721c}
 /**弹出按钮**/
-.ui-eject-small-btn{width:70px; height:35px;background:#f4792c; display: inline-block; margin:50px 0 0 0; line-height:35px; color:#fff; cursor:pointer;}
+.ui-eject-small-btn{width:70px; height:35px;background:#f4792c; display: inline-block; margin:50px 25px 0 25px; line-height:35px; color:#fff; cursor:pointer;}
 .ui-eject-small-btn:hover{background:#fc721c;}
 
 /**遮罩层**/
