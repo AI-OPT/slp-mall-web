@@ -294,23 +294,16 @@ public final class VerifyUtil {
             SearchUserRequest accountReq = new SearchUserRequest();
             accountReq.setUserEmail(email);
             SearchUserResponse accountQueryResponse = iAccountManageSV.queryByEmail(accountReq);
-            List<UcUserParams> resultList = accountQueryResponse.getList();
-            if (accountQueryResponse != null&&resultList!=null) {
-                if(resultList.size()>1){
+            boolean isSuccess = accountQueryResponse.getResponseHeader().isSuccess();
+            if (accountQueryResponse != null) {
+                if(isSuccess&&userId!=accountQueryResponse.getUserId()){
                     header = new ResponseHeader(false, VerifyConstants.ResultCodeConstants.EMAIL_ERROR, "该邮箱已经注册");
                     responseData = new ResponseData<String>(ResponseData.AJAX_STATUS_SUCCESS, "该邮箱已经注册", null);
                     responseData.setResponseHeader(header);
-                }else if(resultList.size()==1){
-                    UcUserParams ucUserParams = resultList.get(0);
-                    if(ucUserParams.getUserId().equals(userId)){
-                        header = new ResponseHeader(false, VerifyConstants.ResultCodeConstants.SUCCESS_CODE, "成功");
-                        responseData = new ResponseData<String>(ResponseData.AJAX_STATUS_SUCCESS, "成功", null);
-                        responseData.setResponseHeader(header);
-                    }else{
-                        header = new ResponseHeader(false, VerifyConstants.ResultCodeConstants.EMAIL_ERROR, "该邮箱已经注册");
-                        responseData = new ResponseData<String>(ResponseData.AJAX_STATUS_SUCCESS, "该邮箱已经注册", null);
-                        responseData.setResponseHeader(header);
-                    }
+                }else if(isSuccess&&userId==accountQueryResponse.getUserId()){
+                    header = new ResponseHeader(false, VerifyConstants.ResultCodeConstants.SUCCESS_CODE, "成功");
+                    responseData = new ResponseData<String>(ResponseData.AJAX_STATUS_SUCCESS, "成功", null);
+                    responseData.setResponseHeader(header);
                 }else{ 
                     header = new ResponseHeader(false, VerifyConstants.ResultCodeConstants.SUCCESS_CODE, "成功");
                     responseData = new ResponseData<String>(ResponseData.AJAX_STATUS_SUCCESS, "成功", null);
