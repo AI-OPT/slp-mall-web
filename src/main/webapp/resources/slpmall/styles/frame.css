@@ -40,7 +40,7 @@
 /**快充**/
 .recharge-xlarge{width:350px;background:#fff;float:left;border:1px solid #e7e7e7;height:40px;}
 .recharge-xlarge:hover{ border:1px solid #fc721c}
-.int-recharge{width:288px;background:none;float:left;border:none;height:38px;padding:0 10px 0 4px;font-size:12px;}
+.int-recharge{width:128px;background:none;float:left;border:none;height:38px;padding:0 10px 0 4px;font-size:12px;}
 
 /**表格中输入框**/
 .table-int-mini{ width:102px;background:#fff; border:1px solid #e7e7e7; height:30px; padding-left:4px; font-size:12px;}
