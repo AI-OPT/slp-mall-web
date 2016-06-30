@@ -11,13 +11,14 @@
 <link href="${_slpbase }/styles/frame.css" rel="stylesheet" type="text/css">
 <link href="${_slpbase }/styles/font-awesome.css" rel="stylesheet" type="text/css">
 <script type="text/javascript">
-		
+		var enterprisePager;
+		var baseinfoPage;
 		(function() { 
 			seajs.use(['app/jsp/user/qualification/agent-personal','app/jsp/user/qualification/baseinfo'],function(QualificationPager,BaseInfoQualificationPager) {
-				var enterprisePager = new QualificationPager({
+				    enterprisePager = new QualificationPager({
 					element : document.body
 				});
-				var baseinfoPage = new BaseInfoQualificationPager({
+				     baseinfoPage = new BaseInfoQualificationPager({
 					element : document.body
 				});
 				enterprisePager.render();

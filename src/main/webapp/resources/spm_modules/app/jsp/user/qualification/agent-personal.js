@@ -147,9 +147,10 @@ define(
 					this._checkcustName();
 					//校验学历
 					this._checkcustEducation();
+					//校验联系地址
 					this._checkContactAddress();
 					//校验街道地址
-					checkCertAddr();
+					baseinfoPage.checkCertAddr();
 					this._checkInCome();
 					//校验省份证
 					this._checkIdNumber();

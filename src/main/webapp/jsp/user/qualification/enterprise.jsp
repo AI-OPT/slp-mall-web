@@ -80,7 +80,7 @@
                 	
                  </select>
                 </p>
-                <p><select class="select-xmini" id="countyCode" name="countyCode"></select></p>
+                <p><select class="select-xmini" id="countryCode" name="countyCode"></select></p>
                 <label id="registerAddrErrMsg" style="display:none"><img src="${_slpbase}/images/icon-a.png" id="registerAddrImage"><span class="ash" id="registerAddrText">请选择注册地址</span></label>
              </li>
              <li class="right">
@@ -110,7 +110,7 @@
              <li>
                 <p class="word"><b class="red">*</b>行业:</p>
                 <p>
-	                 <select class="select-medium" id="groupIndustry" name="groupIndustry">
+	                <select class="select-medium" id="groupIndustry" name="groupIndustry">
 	                	<option value="0">请选择</option>
 	                	<c:forEach items="${industryList}" var="re">
 	                		<option value="${re.industryCode }">${re.industryName }</option>
@@ -159,7 +159,7 @@
                		<option value="7">其他</option>
                 </select>
                 </p>
-                 <label id="groupTypeErrMsg" style="display:none"><img src="${_slpbase}/images/icon-a.png" id="groupMemberScaleImage"><span class="ash" id="groupTypeText">请选择公司性质信息</span></label>
+                 <label id="groupTypeErrMsg" style="display:none"><img src="${_slpbase}/images/icon-a.png" id="groupTypeImage"><span class="ash" id="groupTypeText">请选择公司性质信息</span></label>
              </li>
          </ul>
      </div>

@@ -30,22 +30,42 @@ define('app/jsp/user/qualification/baseinfo', function (require, exports, module
     	//事件代理
     	events: {
     		//key的格式: 事件+空格+对象选择器;value:事件方法
+    		//企业名称事件
     		"blur [id='custName']":"_validateName",
     		"focus [id='custName']":"_showUserNameTip",
+    		//官网事件
     		"blur [id='groupWebsite']":"_checkUrl",
     		"focus [id='certAddr']":"_showCertAddrTip",
+    		//街道地址
     		"blur [id='certAddr']":"_checkCertAddr",
     		"blur [id='certNum']":"_checkCertNum",
+    		//营业执照
     		"focus [id='certNum']":"_showCertNumTip",
     		"blur [id='contactMp']":"_checkPhone",
+    		//联系人手机号
     		"focus [id='contactMp']":"_showCheckPhoneTip",
     		"blur [id='contactEmail']":"_checkEmailFormat",
+    		//发送验证码
     		"click [id='sendPhoneCode']":"_sendVerify",
     		"change [id='provinceCode']":"_provinceCodeChange",
+    		//联系人地址
     		"change [id='cityCode']":"_cityCodeChange",
-    		"blur [id='contactName']":"_checkContactName",
+    		//联系人姓名
     		"focus [id='contactName']":"_showContactNameTip",
+    		"blur [id='contactName']":"_checkContactName",
+    		//成立日期
     		"blur [id='establishTime']":"_changeEstablishTimeDate",
+    		//行业
+    		"change [id='groupIndustry']":"_checkGroupIndustery",
+    		//人数
+    		"change [id='groupMemberScale']":"_checkGroupMember",
+    		//公司性质
+    		"change [id='groupType']":"_checkGroupType",
+    		//所属部门
+    		"change [id='contactDept']":"_checkContactDept",
+    		//地址
+    		"blur [id='countryCode']":"_checkContactAddress",
+    		
     		"click [id='toSave']":"_submit"
         },
         init: function(){
@@ -421,6 +441,59 @@ define('app/jsp/user/qualification/baseinfo', function (require, exports, module
   			}
   			return year+"-"+month+"-"+day;
 		},
+		_checkGroupIndustery:function(){
+			var industery = $("#groupIndustry").val();
+			if(industery=="0"||industery==null){
+				$("#groupIndustryFlag").val("0");
+				$("#groupIndustryErrMsg").show();
+			}else{
+				$("#groupIndustryFlag").val("1");
+				$("#groupIndustryErrMsg").hide();
+			}
+		},
+		_checkGroupMember:function(){
+			var groupMemberScale = $("#groupMemberScale").val();
+			if(groupMemberScale=="0"||groupMemberScale==null){
+				$("#groupMemberScaleFlag").val("0");
+				$("#groupMemberScaleErrMsg").show();
+			}else{
+				$("#groupMemberScaleFlag").val("1");
+				$("#groupMemberScaleErrMsg").hide();
+			}
+		},
+		_checkGroupType:function(){
+			var groupStype = $("#groupType").val();
+			if(groupStype=="0"||groupStype==null){
+				$("#groupTypeFlag").val("0");
+				$("#groupTypeErrMsg").show();
+			}else{
+				$("#groupTypeFlag").val("1");
+				$("#groupTypeErrMsg").hide();
+			}
+		},
+		_checkContactDept:function(){
+			var contactDept = $("#contactDept").val();
+			if(contactDept=="0"||contactDept==null){
+				$("#contactDeptFlag").val("0");
+				$("#contactDeptErrMsg").show();
+			}else{
+				$("#contactDeptFlag").val("1");
+				$("#contactDeptErrMsg").hide();
+			}
+		},
+		_checkContactAddress:function(){
+			//校验联系地址
+			var princeCode = $("#provinceCode").val();
+			var cityCode = $("#cityCode").val();
+			var countryCode = $("#countryCode").val();
+			if(princeCode=="0"||princeCode==null||cityCode=="0"||cityCode==null||countryCode=="0"||countryCode==null){
+				$("#registerAddrErrMsg").show();
+				$("#provinceCodeFlag").val("0");
+			}else{
+				$("#registerAddrErrMsg").hide();
+				$("#provinceCodeFlag").val("1");
+			}
+		},
 		_submit:function(){
 			var custNameFlag = $("#custNameFlag").val();
 			var certAddrFlag = $("#certAddrFlag").val();
@@ -445,41 +518,13 @@ define('app/jsp/user/qualification/baseinfo', function (require, exports, module
 			//检查手机号
 			this._checkPhone();
 			//校验行业
-			var industery = $("#groupIndustery").val();
-			if(industery=="0"||industery==null){
-				$("#groupIndusteryFlag").val("0");
-				$("#groupIndusteryErrMsg").show();
-			}else{
-				$("#groupIndusteryFlag").val("1");
-				$("#groupIndusteryErrMsg").hide();
-			}
+			this._changeGroupIndustery();
 			//校验公司人数
-			var groupMemberScale = $("#groupMemberScale").val();
-			if(groupMemberScale=="0"||groupMemberScale==null){
-				$("#groupMemberScaleFlag").val("0");
-				$("#groupMemberScaleErrMsg").show();
-			}else{
-				$("#groupMemberScaleFlag").val("1");
-				$("#groupMemberScaleErrMsg").hide();
-			}
+			this._checkGroupMemberScaleIndustery();
 			//校验公司性质
-			var groupStype = $("#groupStype").val();
-			if(groupStype=="0"||groupStype==null){
-				$("#groupStypeFlag").val("0");
-				$("#groupStypeErrMsg").show();
-			}else{
-				$("#groupStypeFlag").val("1");
-				$("#groupStypeErrMsg").hide();
-			}
+			this._checkGroupStype();
 			//校验所属部门
-			var contactDept = $("#contactDept").val();
-			if(contactDept=="0"||contactDept==null){
-				$("#contactDeptFlag").val("0");
-				$("#contactDeptErrMsg").show();
-			}else{
-				$("#contactDeptFlag").val("1");
-				$("#contactDeptErrMsg").hide();
-			}
+			this._checkContactDept();
 			var groupIndusteryFlag = $("#groupIndusteryFlag").val();
 			var groupMemberScaleFlag = $("#groupMemberScaleFlag").val();
 			var groupStypeFlag = $("#groupStypeFlag").val();

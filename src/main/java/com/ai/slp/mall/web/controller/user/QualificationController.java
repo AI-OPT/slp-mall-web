@@ -60,7 +60,7 @@ import com.alibaba.fastjson.JSON;
 @Controller
 public class QualificationController {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(BandEmailController.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(QualificationController.class);
 
     //代理商选择页面
     @RequestMapping("/toAgentSelectPage")

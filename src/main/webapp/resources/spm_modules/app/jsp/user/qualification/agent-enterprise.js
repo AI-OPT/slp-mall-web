@@ -15,6 +15,7 @@ define('app/jsp/user/qualification/agent-enterprise', function (require, exports
     require("app/util/jsviews-ext");
     require("opt-paging/aiopt.pagination");
     require("twbs-pagination/jquery.twbsPagination.min");
+    require("app/jsp/user/qualification/baseinfo");
     //实例化AJAX控制处理对象
     var ajaxController = new AjaxController();
     
@@ -30,21 +31,42 @@ define('app/jsp/user/qualification/agent-enterprise', function (require, exports
     	//事件代理
     	events: {
     		//key的格式: 事件+空格+对象选择器;value:事件方法
+    		//注册资本
     		"focus [id='capital']":"_showCapitalTip",
     		"blur [id='capital']":"_checkCapitalValue",
+    		//经营范围
     		"focus [id='scope']" :"_showScopeTip",
     		"blur [id='scope']" :"_checkScopeValue",
+    		//法人姓名
     		"focus [id='corporationName']" :"_showCorporationNameTip",
     		"blur [id='corporationName']" :"_checkCorporationNameValue",
+    		//法人身份证号码
     		"focus [id='idNumber']":"_showIdNumberTip",
     		"blur [id='idNumber']":"_checkIdNumber",
+    		//纳税人识别号
     		"focus [id='identifyNumber']":"_showIdentifyNumberTip",
     		"blur [id='identifyNumber']":"_checkIdentifyNumberValue",
+    		//纳税人类型
     		"change [id='taxpayerType']":"_checkTaxpayerTypeValue",
     		"change [id='taxCode']":"_checkTaxCodeValue",
+    		//组织机构代码
+    		"focus [id='organizationCode']":"_showOrganizationCodeTip",
+    		"blur [id='organizationCode']":"_checkOrganizationCodeValue",
+    		//开户银行名称
+    		"focus [id='bankName']":"_showBankNameTip",
+    		"blur [id='bankName']":"_checkBankNameValue",
+    		//银行支行名称
+    		"focus [id='subbranchName']":"_showSubbranchNameTip",
+    		"blur [id='subbranchName']":"_checkSubbranchNameValue",
+    		//银行账户
+    		"focus [id='bankAccount']":"_showBankAccountTip",
+    		"blur [id='bankAccount']":"_checkBankAccountValue",
+    		
+    		"click [id='submit']":"_submit",
     		
         },
         init: function(){
+        	
         },
     	//重写父类
     	setup: function () {
@@ -83,6 +105,34 @@ define('app/jsp/user/qualification/agent-enterprise', function (require, exports
 			$("#identifyNumberImage").show();
 			$("#identifyNumberText").text('4-20位字符，可用数字及字母');
     		$('#identifyNumberImage').attr('src',_base+'/resources/slpmall/images/icon-d.png');
+		},
+		_showBankNameTip:function(){
+			$("#bankNameErrMsg").show();
+			$("#bankNameText").show();
+			$("#bankNameImage").show();
+			$("#bankNameText").text('4-20位字符');
+    		$('#bankNameImage').attr('src',_base+'/resources/slpmall/images/icon-d.png');
+		},
+		_showSubbranchNameTip:function(){
+			$("#subbranchNameErrMsg").show();
+			$("#subbranchNameText").show();
+			$("#subbranchNameImage").show();
+			$("#subbranchNameText").text('4-20位字符');
+    		$('#subbranchNameImage').attr('src',_base+'/resources/slpmall/images/icon-d.png');
+		},
+		_showBankAccountTip:function(){
+			$("#bankAccountErrMsg").show();
+			$("#bankAccountText").show();
+			$("#bankAccountImage").show();
+			$("#bankAccountText").text('4-20位字符');
+    		$('#bankAccountImage').attr('src',_base+'/resources/slpmall/images/icon-d.png');
+		},
+		_showOrganizationCodeTip:function(){
+			$("#organizationCodeErrMsg").show();
+			$("#organizationCodeText").show();
+			$("#organizationCodeImage").show();
+			$("#organizationCodeText").text('4-50个字符，可用数字、字母、“-”');
+    		$('#organizationCodeImage').attr('src',_base+'/resources/slpmall/images/icon-d.png');
 		},
     	_bindCalendar:function(){
     		var beginCalendar = new Calendar({trigger: '#establishTimeId',output:"#establishTime"});
@@ -263,8 +313,202 @@ define('app/jsp/user/qualification/agent-enterprise', function (require, exports
 				$("#taxCodeFlag").val("1");
 			}
 		},
+		_checkBankNameValue:function(){
+			var bankName = $("#bankName").val();
+			if(bankName==null|bankName==""){
+				$('#bankNameErrMsg').show();
+				$("#bankNameImage").show();
+    			$('#bankNameText').text("请输入开户银行名称");
+    			$('#bankNameImage').attr('src',_base+'/resources/slpmall/images/icon-a.png');
+    			$("#bankNameFlag").val("0");
+			}else{
+				if(bankName.length<4||bankName.length>20){
+					$('#bankNameErrMsg').show();
+    				$("#bankNameImage").show();
+    				$("#bankNameText").show();
+        			$('#bankNameText').text("4-20位字符");
+        			$('#bankNameImage').attr('src',_base+'/resources/slpmall/images/icon-a.png');
+        			$("#bankNameFlag").val("0");
+				}else{
+					$('#bankNameErrMsg').show();
+    				$('#bankNameText').hide();
+    				$('#bankNameImage').attr('src',_base+'/resources/slpmall/images/icon-b.png');
+    				$("#bankNameFlag").val("1");
+				}
+			}
+		},
+		_checkSubbranchNameValue:function(){
+			var subbranchName = $("#subbranchName").val();
+			if(subbranchName==null||subbranchName==""){
+				$('#subbranchNameErrMsg').show();
+				$("#subbranchNameImage").show();
+    			$('#subbranchNameText').text("请输入开户银行名称");
+    			$('#subbranchNameImage').attr('src',_base+'/resources/slpmall/images/icon-a.png');
+    			$("#subbranchNameFlag").val("0");
+			}else{
+				if(subbranchName.length<4||subbranchName.length>20){
+					$('#subbranchNameErrMsg').show();
+    				$("#subbranchNameImage").show();
+    				$("#subbranchNameText").show();
+        			$('#subbranchNameText').text("4-20位字符");
+        			$('#subbranchNameImage').attr('src',_base+'/resources/slpmall/images/icon-a.png');
+        			$("#subbranchNameFlag").val("0");
+				}else{
+					$('#subbranchNameErrMsg').show();
+    				$('#subbranchNameText').hide();
+    				$('#subbranchNameImage').attr('src',_base+'/resources/slpmall/images/icon-b.png');
+    				$("#subbranchNameFlag").val("1");
+				}
+			}
+		},
+		_checkBankAccountValue:function(){
+			var bankAccount = $("#bankAccount").val();
+			if(bankAccount==null|bankAccount==""){
+				$('#bankAccountErrMsg').show();
+				$("#bankAccountImage").show();
+    			$('#bankAccountText').text("请输入银行名称");
+    			$('#bankAccountImage').attr('src',_base+'/resources/slpmall/images/icon-a.png');
+    			$("#bankAccountFlag").val("0");
+			}else{
+				if(bankAccount.length<4||bankAccount.length>20){
+					$('#bankAccountErrMsg').show();
+    				$("#bankAccountImage").show();
+    				$("#bankAccountText").show();
+        			$('#bankAccountText').text("4-20位字符");
+        			$('#bankAccountImage').attr('src',_base+'/resources/slpmall/images/icon-a.png');
+        			$("#bankAccountFlag").val("0");
+				}else{
+					$('#bankAccountErrMsg').show();
+    				$('#bankAccountText').hide();
+    				$('#bankAccountImage').attr('src',_base+'/resources/slpmall/images/icon-b.png');
+    				$("#bankAccountFlag").val("1");
+				}
+			}
+		},
+		_checkEstablishTime:function(){
+			var establishTime = $("#establishTime").val();
+			if(establishTime==null||establishTime==""){
+				$('#establishTimeErrorMsg').show();
+				$("#establishTimeImage").show();
+				$("#establishTimeText").show();
+    			$('#establishTimeText').text("请输入日期");
+    			$('#establishTimeImage').attr('src',_base+'/resources/slpmall/images/icon-a.png');
+    			$("#establishTimeFlag").val("0");
+			}else{
+				$('#establishTimeErrorMsg').show();
+				$('#establishTimeText').hide();
+				$('#establishTimeImage').attr('src',_base+'/resources/slpmall/images/icon-b.png');
+				$("#establishTimeFlag").val("1");
+			}
+		},
+		_checkOrganizationCodeValue:function(){
+			var organizationCode = $("#organizationCode").val();
+			if(organizationCode==null|organizationCode==""){
+				$('#organizationCodeErrMsg').show();
+				$("#organizationCodeImage").show();
+    			$('#organizationCodeText').text("请输入组织机构代码");
+    			$('#organizationCodeImage').attr('src',_base+'/resources/slpmall/images/icon-a.png');
+    			$("#organizationCodeFlag").val("0");
+			}else{
+				var reg = /^[a-zA-Z0-9\-]{4,50}$/;
+				if(organizationCode.match(reg)){
+					$('#organizationCodeErrMsg').show();
+    				$('#organizationCodeText').hide();
+    				$('#organizationCodeImage').attr('src',_base+'/resources/slpmall/images/icon-b.png');
+    				$("#organizationCodeFlag").val("1");
+				}else{
+					$('#organizationCodeErrMsg').show();
+    				$("#organizationCodeImage").show();
+    				$("#organizationCodeText").show();
+        			$('#organizationCodeText').text("4-20位字符");
+        			$('#organizationCodeImage').attr('src',_base+'/resources/slpmall/images/icon-a.png');
+        			$("#organizationCodeFlag").val("0");
+				}
+				
+			}
+		
+		},
 		_submit:function(){
+
 			toSave();
+
+			//校验名称
+			baseInfoPager._validateName();
+			//校验注册地址
+			baseInfoPager._checkContactAddress();
+			//校验街道地址
+			baseInfoPager._checkCertAddr();
+			//营业执照注册号
+			baseInfoPager._checkCertNum();
+			//校验行业
+			baseInfoPager._checkGroupIndustery();
+			//校验公司人数
+			baseInfoPager._checkGroupMember();
+			//校验公司性质
+			baseInfoPager._checkGroupType();
+			//校验所属部门
+			baseInfoPager._checkContactDept();
+			//校验手机
+			baseInfoPager._checkPhone();
+			//校验短信验证码
+			baseInfoPager._sendVerify();
+			//校验注册日期
+			this._checkEstablishTime();
+			//校验注册资本
+			this._checkCapitalValue();
+			//校验经营范围
+			this._checkScopeValue();
+			//校验法人姓名
+			this._checkCorporationNameValue();
+			//校验法人身份证号
+			this._checkIdNumber();
+			//校验纳税人识别号
+			this._checkIdentifyNumberValue();
+			//校验纳税人类型
+			this._checkTaxpayerTypeValue();
+			//校验纳税类型税码
+			this._checkTaxCodeValue();
+			//校验开户行名称
+			this._checkBankNameValue();
+			//校验支行名称
+			this._checkSubbranchNameValue();
+			//校验公司账号
+			this._checkBankAccountValue();
+			this._checkOrganizationCodeValue();
+			
+			var custNameFlag = $("#custNameFlag");
+			var princeCodeFlag = $("#princeCodeFlag");
+			var certAddrFlag = $("#certAddrFlag");
+			var certNumFlag = $("#certNumFlag");
+			var establishTimeFlag = $("#establishTimeFlag");
+			var capitalFlag = $("#capitalFlag");
+			var scopeFlag = $("#scopeFlag");
+			var corporationNameFlag = $("#corporationNameFlag");
+			var idNumberFlag = $("#idNumberFlag");
+			var identifyNumberFlag = $("#identifyNumberFlag");
+			var taxpayerTypeFlag = $("#taxpayerTypeFlag");
+			var taxCodeFlag = $("#taxCodeFlag");
+			var bankNameFlag = $("#bankNameFlag");
+			var subbranchNameFlag = $("#subbranchNameFlag");
+			var bankAccountFlag = $("#bankAccountFlag");
+			var groupIndusteryFlag = $("#groupIndusteryFlag");
+			var groupMemberScaleFlag = $("#groupMemberScaleFlag");
+			var groupStypeFlag = $("#groupStypeFlag");
+			var contactDeptFlag = $("#contactDeptFlag");
+			var contactMpFlag = $("#contactMpFlag");
+			var phoneCodeFlag = $("#phoneCodeFlag");
+			var organizationCodeFlag = $("#organizationCodeFlag");
+			
+			if(custNameFlag!="0"&&princeCodeFlag!="0"&&certAddrFlag!="0"&&certNumFlag!="0"&&establishTimeFlag!="0"
+			  &&capitalFlag!="0"&&scopeFlag!="0"&&corporationNameFlag!="0"&&idNumberFlag!="0"&&identifyNumberFlag!="0"
+			  &&taxpayerTypeFlag!="0"&&taxCodeFlag!="0"&&bankNameFlag!="0"&&subbranchNameFlag!="0"&&bankAccountFlag!="0"
+			  &&groupIndusteryFlag!="0"&&groupMemberScaleFlag!="0"&&groupStypeFlag!="0"&&contactDeptFlag!="0"&&
+			  contactMpFlag!="0"&&phoneCodeFlag!="0"&&organizationCodeFlag!="0"){
+				alert('1');
+			}else{
+				alert('2');
+			}
+
 		}
     });
     
