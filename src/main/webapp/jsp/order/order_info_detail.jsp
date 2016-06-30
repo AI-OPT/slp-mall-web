@@ -60,7 +60,7 @@
                              <p>下单时间:</p>
                              <p>{{:~timesToFmatter(orderTime)}}</p>
                          </li>
-						{{if state !='11'}}
+						{{if state !='11'&&state !='91'}}
                          <li>
                              <p>支付时间:</p>
                              <p>{{:~timesToFmatter(payTime)}}</p>
