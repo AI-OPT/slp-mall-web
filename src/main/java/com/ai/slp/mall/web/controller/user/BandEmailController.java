@@ -161,7 +161,7 @@ public class BandEmailController {
         ResponseData<String> responseData = null;
         SLPClientUser userClient = (SLPClientUser) request.getSession().getAttribute(SSOClientConstants.USER_SESSION_KEY);
         IConfigClient configClient = CCSClientFactory.getDefaultConfigClient();
-        try {
+        try { 
                 // 检查ip发送验证码次数
                 ResponseData<String> checkIpSendEmail = VerifyUtil.checkIPSendEmailCount(BandEmail.CACHE_NAMESPACE, IPUtil.getIp(request) + BandEmail.CACHE_KEY_IP_SEND_EMAIL_NUM);
                 if (!checkIpSendEmail.getResponseHeader().isSuccess()) {
