@@ -158,7 +158,7 @@ public class ProductController {
 			Short activeCycle = producSKU.getActiveCycle();
 			String unit = producSKU.getUnit();
 			ICacheSV iCacheSV = DubboConsumerFactory.getService(ICacheSV.class);
-			SysParamSingleCond params = new SysParamSingleCond ("SLP", "ORD_OD_FEE_TOTAL", "PAY_STYLE", unit);
+			SysParamSingleCond params = new SysParamSingleCond ("SLP", "PRODUCT", "UNIT", unit);
 			SysParam sysParamSingle = iCacheSV.getSysParamSingle(params);
 			activeValue = "支付后" + activeCycle + sysParamSingle.getColumnDesc() + "内充值使用";
 		}
