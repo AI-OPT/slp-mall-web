@@ -222,9 +222,15 @@ public class UserPhoneBookController {
 		ResponseData<String> responseData = null;
 		try {
 			List<UcUserPhonebooksBatchData> list = JSON.parseArray(datas, UcUserPhonebooksBatchData.class);
+			SLPClientUser user = this.getUserId(request);
+			if(list != null && list.size()>0){
+				for(UcUserPhonebooksBatchData phoneBookData : list){
+					phoneBookData.setTenantId(user.getTenantId());
+					phoneBookData.setUserId(user.getUserId());
+				}
+			}
 			UcUserPhonebooksBatchAddReq req = new UcUserPhonebooksBatchAddReq();
 			req.setDatas(list);
-			SLPClientUser user = this.getUserId(request);
 			req.setTenantId(user.getTenantId());
 			UcUserPhonebooksBatchAddResp resp = DubboConsumerFactory.getService(IUserPhoneBooksSV.class).batchAddUserPhonebooks(req);
 			if (resp.getResponseHeader().isSuccess()) {
