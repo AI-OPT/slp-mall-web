@@ -24,6 +24,7 @@ import com.ai.opt.sdk.components.idps.IDPSClientFactory;
 import com.ai.opt.sdk.components.mcs.MCSClientFactory;
 import com.ai.opt.sdk.dubbo.util.DubboConsumerFactory;
 import com.ai.opt.sdk.util.CollectionUtil;
+import com.ai.opt.sdk.util.DateUtil;
 import com.ai.opt.sdk.util.UUIDUtil;
 import com.ai.opt.sdk.web.model.ResponseData;
 import com.ai.opt.sso.client.filter.SLPClientUser;
@@ -178,7 +179,6 @@ public class QualificationController {
     @ResponseBody
     public ResponseData<String> savePersonalInfo(HttpServletRequest request 
             ,InsertCustKeyInfoRequest insertCustKeyInfoRequest
-            ,InsertContactsInfoRequest insertContactsInfoRequest
             ,CustFileListVo custFileListVo){
         ResponseData<String> responseData=null;
         ResponseHeader responseHeader=null;
@@ -189,6 +189,7 @@ public class QualificationController {
         insertCustKeyInfoRequest.setTenantId(user.getTenantId());
         insertCustKeyInfoRequest.setUserType(user.getUserType());
         insertCustKeyInfoRequest.setUserId(user.getUserId());
+        insertCustKeyInfoRequest.setCustBirthday(DateUtil.getTimestamp(request.getParameter("yy_mm_dd")+"-"+request.getParameter("mm")+"-"+request.getParameter("dd")));
         //附件信息
         for (CmCustFileExtVo cmCustFileExtVo : custFileListVo.getList()) {
             cmCustFileExtVo.setTenantId(user.getTenantId());
@@ -197,14 +198,10 @@ public class QualificationController {
         InsertCustFileExtRequest insertCustFileExtRequest = new InsertCustFileExtRequest();
         insertCustFileExtRequest.setList(custFileListVo.getList());
         //联系人信息
-        insertContactsInfoRequest.setTenantId(user.getUserId());
-        insertContactsInfoRequest.setUserId(user.getUserId());
         IUcKeyInfoSV ucKeyInfoSV = DubboConsumerFactory.getService(IUcKeyInfoSV.class);
-        IUcContactsInfoSV ucContactsInfoSV = DubboConsumerFactory.getService(IUcContactsInfoSV.class);
         try{
         ucKeyInfoSV.insertCustKeyInfo(insertCustKeyInfoRequest);
         ucKeyInfoSV.insertCustFileExt(insertCustFileExtRequest);
-        ucContactsInfoSV.insertContactsInfo(insertContactsInfoRequest);
         responseData = new ResponseData<String>(SLPMallConstants.Qualification.QUALIFICATION_SUCCESS, "操作成功", null);
         responseHeader = new ResponseHeader(true,SLPMallConstants.Qualification.QUALIFICATION_SUCCESS,"操作成功");
         }catch(Exception e){
