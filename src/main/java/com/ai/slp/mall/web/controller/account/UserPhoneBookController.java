@@ -10,6 +10,8 @@ import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import net.sf.json.util.JSONUtils;
+
 import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
@@ -35,6 +37,7 @@ import com.ai.opt.sdk.util.StringUtil;
 import com.ai.opt.sdk.web.model.ResponseData;
 import com.ai.opt.sso.client.filter.SLPClientUser;
 import com.ai.opt.sso.client.filter.SSOClientConstants;
+import com.ai.paas.ipaas.util.JSonUtil;
 import com.ai.slp.common.api.area.interfaces.IGnAreaQuerySV;
 import com.ai.slp.common.api.area.param.GnAreaVo;
 import com.ai.slp.common.api.cache.interfaces.ICacheSV;
@@ -258,8 +261,8 @@ public class UserPhoneBookController {
 
 	@RequestMapping("/uploadPhoneBooks")
 	@ResponseBody
-	public ResponseData<String> uploadPhoneBooks(HttpServletRequest request) {
-		ResponseData<String> responseData = null;
+	public ResponseData<UcUserPhonebooksBatchAddResp> uploadPhoneBooks(HttpServletRequest request) {
+		ResponseData<UcUserPhonebooksBatchAddResp> responseData = null;
 		try {
 			String telGroupId = request.getParameter("telGroupId");
 			if (StringUtil.isBlank(telGroupId)) {
@@ -284,6 +287,7 @@ public class UserPhoneBookController {
 				UcUserPhonebooksBatchData o = new UcUserPhonebooksBatchData();
 				o.setTelGroupId(telGroupId);
 				o.setUserId(user.getUserId());
+				o.setTenantId(user.getTenantId());
 				o.setTelName(telName);
 				o.setTelMp(telMp);
 				list.add(o);
@@ -291,15 +295,16 @@ public class UserPhoneBookController {
 			UcUserPhonebooksBatchAddReq req = new UcUserPhonebooksBatchAddReq();
 			req.setDatas(list);
 			req.setTenantId(user.getTenantId());
+			System.out.println(JSonUtil.toJSon(req));
 			UcUserPhonebooksBatchAddResp resp = DubboConsumerFactory.getService(IUserPhoneBooksSV.class).batchAddUserPhonebooks(req);
 			if (resp.getResponseHeader().isSuccess()) {
-				responseData = new ResponseData<String>(ResponseData.AJAX_STATUS_SUCCESS, "处理成功", resp.getResult());
+				responseData = new ResponseData<UcUserPhonebooksBatchAddResp>(ResponseData.AJAX_STATUS_SUCCESS, "处理成功", resp);
 			} else {
-				responseData = new ResponseData<String>(ResponseData.AJAX_STATUS_FAILURE, resp.getResponseHeader().getResultMessage());
+				responseData = new ResponseData<UcUserPhonebooksBatchAddResp>(ResponseData.AJAX_STATUS_FAILURE, resp.getResponseHeader().getResultMessage());
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
-			responseData = new ResponseData<String>(ResponseData.AJAX_STATUS_FAILURE, "处理失败");
+			responseData = new ResponseData<UcUserPhonebooksBatchAddResp>(ResponseData.AJAX_STATUS_FAILURE, "处理失败");
 		}
 		return responseData;
 	}
