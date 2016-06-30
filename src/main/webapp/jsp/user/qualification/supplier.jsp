@@ -81,7 +81,7 @@
                  <select class="select-xmini" id="cityCode" name="cityCode">
                  </select>
                 </p>
-                <p><select class="select-xmini" id="countryCode" name="countryCode"></select></p>
+                <p><select class="select-xmini" id="countyCode" name="countyCode"></select></p>
                 <label id="registerAddrErrMsg" style="display:none"><img src="${_slpbase}/images/icon-a.png" id="registerAddrImage"><span class="ash" id="registerAddrText">请选择注册地址</span></label>
              </li>
              <li class="right">

@@ -21,7 +21,7 @@ define(
 	    		"focus [id='idNumber']":"_showIdNumberTip",
 	    		"blur [id='idNumber']":"_checkIdNumber",
 	    		"change [id='custEducation']":"_checkcustEducation",
-	    		"blur [id='countryCode']":"_checkContactAddress",
+	    		"blur [id='countyCode']":"_checkContactAddress",
 	    		"blur [id='dd']":"_checkBithday",
 	    		"change [id='inCome']":"_checkInCome",
 	    		"click [id='savePersonalQualification']":"_submit",
@@ -85,8 +85,8 @@ define(
 					//校验联系地址
 					var princeCode = $("#provinceCode").val();
 					var cityCode = $("#cityCode").val();
-					var countryCode = $("#countryCode").val();
-					if(princeCode=="0"||princeCode==null||cityCode=="0"||cityCode==null||countryCode=="0"||countryCode==null){
+					var countyCode = $("#countyCode").val();
+					if(princeCode=="0"||princeCode==null||cityCode=="0"||cityCode==null||countyCode=="0"||countyCode==null){
 						$("#registerAddrErrMsg").show();
 						$("#provinceCodeFlag").val("0");
 					}else{

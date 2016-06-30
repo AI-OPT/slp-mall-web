@@ -81,7 +81,7 @@
                 	
                  </select>
                 </p>
-                <p><select class="select-xmini" id="countryCode" name="countryCode"></select></p>
+                <p><select class="select-xmini" id="countyCode" name="countyCode"></select></p>
                 <label id="registerAddrErrMsg" style="display:none"><img src="${_slpbase}/images/icon-a.png" id="registerAddrImage"><span class="ash" id="registerAddrText">请选择注册地址</span></label>
              </li>
              <li class="right">
@@ -101,8 +101,12 @@
                 <p class="word"><b class="red">*</b>营业执照副本:</p>
                 <p class="img"><img src="${_slpbase}/images/fom-t.png" id="certPic1"></p>
                 <p class="small-p">
-                <span><input type="button" value="点击上传" class="file-btn"><input type="file" class="file" id="image1" onchange="upload('image1','certPic1')"><a href="javascript:void(0);" onclick="deleteImg('image1','certPic1')">删除</a></span>
-                <span>支持JPG/PNG/GIF格式，最大不超过3M</span>
+                 <span>
+                  <input type="button" value="点击上传" class="file-btn">
+                  <input type="file" class="file" id="image1" name="image1" onchange="uploadImg('image1','certPic1','idpsId1');">
+                  <a href="javascript:void(0)" onclick="deleteImg('image1','certPic1','idpsId1')">删除</a>
+                  </span>
+                 <span>支持JPG/PNG/GIF格式，最大不超过3M</span>
                 </p>
              </li>
          </ul>
@@ -149,8 +153,8 @@
                 <p class="small-p">
                 <span>
                   <input type="button" value="点击上传" class="file-btn">
-                  <input type="file" class="file" id="image2" onchange="upload('image2','certPic2');">
-                  <a href="javascript:void(0)" onclick="deleteImg('image2','certPic2')">删除</a>
+                  <input type="file" class="file" id="image2" name="image2" onchange="uploadImg('image2','certPic2','idpsId2');">
+                  <a href="javascript:void(0)" onclick="deleteImg('image2','certPic2','idpsId2')">删除</a>
                 	<span> 请将身份证正面、反面照片合在一起上传</span> 
                  </span>
                 <span>支持JPG/PNG/GIF格式，最大不超过3M</span>
@@ -180,7 +184,7 @@
                     	<option>非增值税纳税人</option>
                      </select>
                     </p>
-                     <label id="taxpayerTypeErrMsg" style="display:none"><img src="${_slpbase}/images/icon-a.png" id="taxpayerTypeImage"><span  id="taxpayerTypeText">请选择纳税人类型信息</span></label>
+                     <label id="taxpayerTypeErrMsg" style="display:none"><img src="${_slpbase}/images/icon-a.png" id="taxpayerTypeImage"><span  id="taxpayerTypeText"  name="taxpayerType">请选择纳税人类型信息</span></label>
                  </li>
              </ul>
              <ul>
@@ -206,8 +210,12 @@
                 <p class="word"><b class="red">*</b>税务登记证:</p>
                 <p class="img"><img src="${_slpbase}/images/fom-t.png" id="certPic3"></p>
                 <p class="small-p">
-                <span><input type="button" value="点击上传" class="file-btn"><input type="file" class="file" id="image3" onchange="upload('image3','certPic3');"><a href="javascript:void(0)" onclick="deleteImg('image3','certPic3')">删除</a></span>
-                <span>支持JPG/PNG/GIF格式，最大不超过3M</span>
+                <span>
+                  <input type="button" value="点击上传" class="file-btn">
+                  <input type="file" class="file" id="image3" name="image3" onchange="uploadImg('image3','certPic3','idpsId3');">
+                  <a href="javascript:void(0)" onclick="deleteImg('image3','certPic3','idpsId3')">删除</a>
+                  </span>
+                 <span>支持JPG/PNG/GIF格式，最大不超过3M</span>
                 </p>
              </li>
          </ul>    
@@ -228,8 +236,12 @@
                 <p class="word"><b class="red">*</b>代码证电子版:</p>
                 <p class="img"><img src="${_slpbase}/images/fom-t.png" id="certPic4"></p>
                 <p class="small-p">
-                <span><input type="button" value="点击上传" class="file-btn"><input type="file" class="file" id="iamge4" onchange="upload('image4','certPic4');"><a href="javascript:void(0)" onclick="deleteImage('image4','certPic4')">删除</a></span>
-                <span>支持JPG/PNG/GIF格式，最大不超过3M</span>
+                <span>
+                  <input type="button" value="点击上传" class="file-btn">
+                  <input type="file" class="file" id="image1" name="image4" onchange="uploadImg('image4','certPic4','idpsId4');">
+                  <a href="javascript:void(0)" onclick="deleteImg('image4','certPic4','idpsId4')">删除</a>
+                  </span>
+                 <span>支持JPG/PNG/GIF格式，最大不超过3M</span>
                 </p>
              </li>
          </ul>    
@@ -241,7 +253,7 @@
            <ul>
                 <li>
                     <p class="word"><b class="red">*</b>开户银行名称:</p>
-                    <p><input type="text" class="int-medium" placeholder="请填写开户银行名称"></p>
+                    <p><input type="text" class="int-medium" placeholder="请填写开户银行名称" name="bankNo"></p>
                      <label id="bankNameErrMsg" style="display:none"><img src="${_slpbase}/images/icon-c.png"><span class="ash">4-20个字符</span></label>
                  </li>
              </ul>
@@ -262,10 +274,14 @@
               <ul>
              <li>
                 <p class="word"><b class="red">*</b>银行开户许可证:</p>
-                <p class="img"><img src="${_slpbase}/images/fom-t.png"></p>
+                <p class="img"><img src="${_slpbase}/images/fom-t.png" id="certPic5"></p>
                 <p class="small-p">
-                <span><input type="button" value="点击上传" class="file-btn"><input type="file" class="file"><a href="#">删除</a></span>
-                <span>支持JPG/PNG/GIF格式，最大不超过3M</span>
+                <span>
+                  <input type="button" value="点击上传" class="file-btn">
+                  <input type="file" class="file" id="image5" name="image5" onchange="uploadImg('image5','certPic5','idpsId5');">
+                  <a href="javascript:void(0)" onclick="deleteImg('image5','certPic5','idpsId5')">删除</a>
+                  </span>
+                 <span>支持JPG/PNG/GIF格式，最大不超过3M</span>
                 </p>
              </li>
          </ul>    
@@ -415,6 +431,11 @@
                   <input type="hidden" id="taxpayerTypeFlag"/>
                   <input type="hidden" id="taxCodeFlag"/>
                  
+                 <input type="hidden" id="idpsId1" name="list[0].attrValue">
+                 <input type="hidden" id="idpsId2" name="list[1].attrValue">
+                 <input type="hidden" id="idpsId3" name="list[2].attrValue">
+                 <input type="hidden" id="idpsId4" name="list[3].attrValue">
+                 <input type="hidden" id="idpsId5" name="list[4].attrValue">
                  </li>
              </ul>
              </div>
