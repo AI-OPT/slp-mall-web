@@ -315,7 +315,7 @@ public final class SLPMallConstants {
      * @version V1.3.1
      */
     public static class OrderPayType {
-        /** 现金 */
+        /** 余额 */
         public static final String COUNTER_PAY = "1";
 
         /** 在线支付 */
