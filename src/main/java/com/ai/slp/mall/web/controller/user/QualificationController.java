@@ -37,6 +37,7 @@ import com.ai.slp.common.api.industry.interfaces.IIndustrySV;
 import com.ai.slp.common.api.industry.param.IndustryQueryResponse;
 import com.ai.slp.mall.web.constants.SLPMallConstants;
 import com.ai.slp.mall.web.constants.SLPMallConstants.BandEmail;
+import com.ai.slp.mall.web.constants.SLPMallConstants.ExceptionCode;
 import com.ai.slp.mall.web.constants.VerifyConstants;
 import com.ai.slp.mall.web.model.user.CustFileListVo;
 import com.ai.slp.mall.web.model.user.SafetyConfirmData;
@@ -344,6 +345,33 @@ public class QualificationController {
         model.put("custKeyInfo", custKeyInfoResponse);
         model.put("groupKeyInfo", grouKeyInfoResponse);
         return new ModelAndView("jsp/user/qualification/enterprise",model);
+    }
+    
+    //校验企业名称唯一性
+    @RequestMapping("/checkCustName")
+    @ResponseBody
+    public ResponseData<String> checkCustName(String custName) {
+        IUcKeyInfoSV ucKeyInfoSv = DubboConsumerFactory.getService("iUcKeyInfoSV");
+        SearchGroupKeyInfoRequest keyInfoReqeust = new SearchGroupKeyInfoRequest();
+        keyInfoReqeust.setCustName(custName);
+        ResponseData<String> responseData = null;
+        ResponseHeader header = null;
+        try{
+            SearchGroupKeyInfoResponse keyInfoResponse = ucKeyInfoSv.searchGroupKeyInfo(keyInfoReqeust);
+            String resultCode = keyInfoResponse.getResponseHeader().getResultCode();
+            if(ExceptionCode.NO_RESULT.equals(resultCode)){
+                header = new ResponseHeader(true, VerifyConstants.ResultCodeConstants.SUCCESS_CODE, "成功");
+                responseData = new ResponseData<String>(ResponseData.AJAX_STATUS_SUCCESS, "成功", null);
+                responseData.setResponseHeader(header);
+            }else{
+                header = new ResponseHeader(false, VerifyConstants.ResultCodeConstants.CUST_NAME_NOONE_ERROR, "企业名称已注册");
+                responseData = new ResponseData<String>(ResponseData.AJAX_STATUS_SUCCESS, "企业名称已注册", null);
+                responseData.setResponseHeader(header);
+            }
+        }catch(Exception e){
+            responseData = new ResponseData<String>(ResponseData.AJAX_STATUS_FAILURE, "企业名称校验失败", null);
+        }
+        return responseData;
     }
     
     public List<GnAreaVo> getProvinceList(){

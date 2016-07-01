@@ -80,7 +80,7 @@
                 	
                  </select>
                 </p>
-                <p><select class="select-xmini" id="countryCode" name="countyCode"></select></p>
+                <p><select class="select-xmini" id="countyCode" name="countyCode"></select></p>
                 <label id="registerAddrErrMsg" style="display:none"><img src="${_slpbase}/images/icon-a.png" id="registerAddrImage"><span class="ash" id="registerAddrText">请选择注册地址</span></label>
              </li>
              <li class="right">
@@ -201,11 +201,12 @@
                     <label style="display:none" id="contactDeptErrMsg"><img src="${_slpbase}/images/icon-a.png"><span class="ash">请选择所在部门信息</span></label>
                  </li>
              </ul>
-             <ul>
+           
+              <ul>
                  <li>
                     <p class="word">联系人邮箱:</p>
-                    <p><input style="text" class="int-medium" id="contactEmail" name="contactEmail"></p>
-                    <label style="display:none" id="emailMsgError"><img src="${_slpbase}/images/icon-a.png" id="emailMsgImage"><span  id="contactEmailText">请填写正确的邮箱</span></label>
+                    <p><input type="text" class="int-medium" placeholder="" id="contactEmail" name="contactEmail"></p>
+                    <label style="display:none" id="emailMsgError"><img src="${_slpbase}/images/icon-a.png" id="contactEmailMsgImage"><span id="contactEmailText">请填写正确手机号</span></label>
                  </li>
              </ul>
               <ul>

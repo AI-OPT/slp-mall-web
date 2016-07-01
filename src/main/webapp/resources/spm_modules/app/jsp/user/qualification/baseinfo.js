@@ -46,6 +46,7 @@ define('app/jsp/user/qualification/baseinfo', function (require, exports, module
     		"focus [id='contactMp']":"_showCheckPhoneTip",
     		//邮件校验
     		"blur [id='contactEmail']":"_checkEmailFormat",
+    		"focus [id='contactEmail']":"_showEmailTip",
     		//发送验证码
     		"click [id='sendPhoneCode']":"_sendVerify",
     		
@@ -84,21 +85,25 @@ define('app/jsp/user/qualification/baseinfo', function (require, exports, module
     	_showUserNameTip:function(){
     		$("#custNameErrMsg").show();
     		$("#enterpriseErrMsgShow").show();
+    		$("#enterpriseErrMsgShow").show();
     		$('#custNameImage').attr('src',_base+'/resources/slpmall/images/icon-d.png');
     		$("#enterpriseErrMsgShow").text("4-60个字符，可用中英文、数字、“-”、”_”、“（）”及”( )”");
     	},
     	_showCertAddrTip:function(){
 			$("#certAddrErrMsg").show();
+			$("#certAddrText").show();
 			$("#certAddrText").text("5-120个字符");
     		$('#certAddrImage').attr('src',_base+'/resources/slpmall/images/icon-d.png');
 		},
 		_showCertNumTip:function(){
 			$("#certNumErrMsg").show();
+			$("#certNumText").show();
 			$("#certNumText").text('最多20个字符，允许使用英语字母（区分大小写）、数字及“-”');
     		$('#certNumImage').attr('src',_base+'/resources/slpmall/images/icon-d.png');
 		},
 		_showContactNameTip:function(){
 			$("#contactNameErrMsg").show();
+			$("#contactNameText").show();
 			$("#contactNameText").text('4-24个字符，可用汉字或英语字母');
     		$('#contactNameImage').attr('src',_base+'/resources/slpmall/images/icon-d.png');
 		},
@@ -107,6 +112,12 @@ define('app/jsp/user/qualification/baseinfo', function (require, exports, module
 			$("#contactMpText").show();
 			$("#contactMpText").text('请输入正确手机号');
     		$('#contactMpImage').attr('src',_base+'/resources/slpmall/images/icon-d.png');
+		},
+		_showEmailTip:function(){
+			$("#emailMsgError").show();
+			$("#emailMsgText").show();
+			$("#emailMsgText").text('请输入正确的邮箱地址');
+    		$("#contactEmailMsgImage").attr('src',_base+'/resources/slpmall/images/icon-d.png');
 		},
     	_validateName:function(){
 			var name = $("#custName").val();
@@ -126,7 +137,7 @@ define('app/jsp/user/qualification/baseinfo', function (require, exports, module
             		ajaxController.ajax({
         			        type: "post",
         			        processing: false,
-        			        url: _base+"/user/verify/checkCustName",
+        			        url: _base+"/user/qualification/checkCustName",
         			        dataType: "json",
         			        data: param,
         			        message: "正在加载数据..",
@@ -314,16 +325,16 @@ define('app/jsp/user/qualification/baseinfo', function (require, exports, module
 				if(!/^(\w-*\.*)+@(\w-?)+(\.\w{2,})+$/.test(email)){
 					$("#emailMsgError").show();
 					$("#contactEmailText").show();
-					$("#emailMsgImage").attr("src",_base+'/resources/slpmall/images/icon-a.png');
+					$("#contactEmailMsgImage").attr("src",_base+'/resources/slpmall/images/icon-a.png');
 					return false;
 				}else{
 					$("#emailMsgError").show();
 					$("#contactEmailText").hide();
-					$("#emailMsgImage").attr("src",_base+'/resources/slpmall/images/icon-b.png');
+					$("#contactEmailMsgImage").attr("src",_base+'/resources/slpmall/images/icon-b.png');
 				}
 			}else{
 				$("#emailMsgError").hide();
-				$("#emailMsgImage").hide();
+				$("#contactEmailMsgImage").hide();
 				$("#contactEmailText").hide();
 			}
 		},
@@ -520,11 +531,11 @@ define('app/jsp/user/qualification/baseinfo', function (require, exports, module
 			//检查手机号
 			this._checkPhone();
 			//校验行业
-			this._changeGroupIndustery();
+			this._checkGroupIndustery();
 			//校验公司人数
-			this._checkGroupMemberScaleIndustery();
+			this._checkGroupMember();
 			//校验公司性质
-			this._checkGroupStype();
+			this._checkGroupType();
 			//校验所属部门
 			this._checkContactDept();
 			var groupIndusteryFlag = $("#groupIndusteryFlag").val();
