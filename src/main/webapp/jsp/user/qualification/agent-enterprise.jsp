@@ -253,7 +253,7 @@
                 <p class="small-p">
                 <span>
                   <input type="button" value="点击上传" class="file-btn">
-                  <input type="file" class="file" id="image1" name="image4" onchange="uploadImg('image4','certPic4','idpsId4');">
+                  <input type="file" class="file" id="image4" name="image4" onchange="uploadImg('image4','certPic4','idpsId4');">
                   <a href="javascript:void(0)" onclick="deleteImg('image4','certPic4','idpsId4')">删除</a>
                   </span>
                  <span>支持JPG/PNG/GIF格式，最大不超过3M</span>
