@@ -44,9 +44,11 @@ define('app/jsp/user/qualification/baseinfo', function (require, exports, module
     		"blur [id='contactMp']":"_checkPhone",
     		//联系人手机号
     		"focus [id='contactMp']":"_showCheckPhoneTip",
+    		//邮件校验
     		"blur [id='contactEmail']":"_checkEmailFormat",
     		//发送验证码
     		"click [id='sendPhoneCode']":"_sendVerify",
+    		
     		"change [id='provinceCode']":"_provinceCodeChange",
     		//联系人地址
     		"change [id='cityCode']":"_cityCodeChange",
@@ -102,6 +104,7 @@ define('app/jsp/user/qualification/baseinfo', function (require, exports, module
 		},
 		_showCheckPhoneTip:function(){
 			$("#contactMpErrMsg").show();
+			$("#contactMpText").show();
 			$("#contactMpText").text('请输入正确手机号');
     		$('#contactMpImage').attr('src',_base+'/resources/slpmall/images/icon-d.png');
 		},

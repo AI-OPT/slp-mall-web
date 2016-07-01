@@ -31,6 +31,8 @@ define('app/jsp/user/qualification/agent-enterprise', function (require, exports
     	//事件代理
     	events: {
     		//key的格式: 事件+空格+对象选择器;value:事件方法
+    		//注册日期
+    		"blur [id='establishTime']":"_checkEstablishTime",
     		//注册资本
     		"focus [id='capital']":"_showCapitalTip",
     		"blur [id='capital']":"_checkCapitalValue",
@@ -48,6 +50,7 @@ define('app/jsp/user/qualification/agent-enterprise', function (require, exports
     		"blur [id='identifyNumber']":"_checkIdentifyNumberValue",
     		//纳税人类型
     		"change [id='taxpayerType']":"_checkTaxpayerTypeValue",
+    		//纳税人代码
     		"change [id='taxCode']":"_checkTaxCodeValue",
     		//组织机构代码
     		"focus [id='organizationCode']":"_showOrganizationCodeTip",
@@ -70,6 +73,9 @@ define('app/jsp/user/qualification/agent-enterprise', function (require, exports
         },
     	//重写父类
     	setup: function () {
+    		$("#provinceCode").val("0");
+			$("#cityCode").val("0");
+			$("#countyCode").val("0");
     		EnterprisePager.superclass.setup.call(this);
     		activeUserLeftMenu(EnterprisePager.USER_LEFT_MNU_ID);
     		this._bindCalendar();
@@ -429,9 +435,6 @@ define('app/jsp/user/qualification/agent-enterprise', function (require, exports
 		
 		},
 		_submit:function(){
-
-			toSave();
-
 			//校验名称
 			baseInfoPager._validateName();
 			//校验注册地址
@@ -451,7 +454,7 @@ define('app/jsp/user/qualification/agent-enterprise', function (require, exports
 			//校验手机
 			baseInfoPager._checkPhone();
 			//校验短信验证码
-			baseInfoPager._sendVerify();
+			//baseInfoPager._sendVerify();
 			//校验注册日期
 			this._checkEstablishTime();
 			//校验注册资本
@@ -476,35 +479,35 @@ define('app/jsp/user/qualification/agent-enterprise', function (require, exports
 			this._checkBankAccountValue();
 			this._checkOrganizationCodeValue();
 			
-			var custNameFlag = $("#custNameFlag");
-			var princeCodeFlag = $("#princeCodeFlag");
-			var certAddrFlag = $("#certAddrFlag");
-			var certNumFlag = $("#certNumFlag");
-			var establishTimeFlag = $("#establishTimeFlag");
-			var capitalFlag = $("#capitalFlag");
-			var scopeFlag = $("#scopeFlag");
-			var corporationNameFlag = $("#corporationNameFlag");
-			var idNumberFlag = $("#idNumberFlag");
-			var identifyNumberFlag = $("#identifyNumberFlag");
-			var taxpayerTypeFlag = $("#taxpayerTypeFlag");
-			var taxCodeFlag = $("#taxCodeFlag");
-			var bankNameFlag = $("#bankNameFlag");
-			var subbranchNameFlag = $("#subbranchNameFlag");
-			var bankAccountFlag = $("#bankAccountFlag");
-			var groupIndusteryFlag = $("#groupIndusteryFlag");
-			var groupMemberScaleFlag = $("#groupMemberScaleFlag");
-			var groupStypeFlag = $("#groupStypeFlag");
-			var contactDeptFlag = $("#contactDeptFlag");
-			var contactMpFlag = $("#contactMpFlag");
-			var phoneCodeFlag = $("#phoneCodeFlag");
-			var organizationCodeFlag = $("#organizationCodeFlag");
-			
-			if(custNameFlag!="0"&&princeCodeFlag!="0"&&certAddrFlag!="0"&&certNumFlag!="0"&&establishTimeFlag!="0"
+			var custNameFlag = $("#custNameFlag").val();
+			var certAddrFlag = $("#certAddrFlag").val();
+			var certNumFlag = $("#certNumFlag").val();
+			var establishTimeFlag = $("#establishTimeFlag").val();
+			var capitalFlag = $("#capitalFlag").val();
+			var scopeFlag = $("#scopeFlag").val();
+			var corporationNameFlag = $("#corporationNameFlag").val();
+			var idNumberFlag = $("#idNumberFlag").val();
+			var identifyNumberFlag = $("#identifyNumberFlag").val();
+			var taxpayerTypeFlag = $("#taxpayerTypeFlag").val();
+			var taxCodeFlag = $("#taxCodeFlag").val();
+			var bankNameFlag = $("#bankNameFlag").val();
+			var subbranchNameFlag = $("#subbranchNameFlag").val();
+			var bankAccountFlag = $("#bankAccountFlag").val();
+			var groupIndusteryFlag = $("#groupIndusteryFlag").val();
+			var groupMemberScaleFlag = $("#groupMemberScaleFlag").val();
+			var groupStypeFlag = $("#groupStypeFlag").val();
+			var contactDeptFlag = $("#contactDeptFlag").val();
+			var contactMpFlag = $("#contactMpFlag").val();
+			var phoneCodeFlag = $("#phoneCodeFlag").val();
+			var organizationCodeFlag = $("#organizationCodeFlag").val();
+			var provinceCodeFlag = $("#provinceCodeFlag").val();
+			alert(provinceCodeFlag);
+			if(custNameFlag!="0"&&certAddrFlag!="0"&&certNumFlag!="0"&&establishTimeFlag!="0"
 			  &&capitalFlag!="0"&&scopeFlag!="0"&&corporationNameFlag!="0"&&idNumberFlag!="0"&&identifyNumberFlag!="0"
 			  &&taxpayerTypeFlag!="0"&&taxCodeFlag!="0"&&bankNameFlag!="0"&&subbranchNameFlag!="0"&&bankAccountFlag!="0"
 			  &&groupIndusteryFlag!="0"&&groupMemberScaleFlag!="0"&&groupStypeFlag!="0"&&contactDeptFlag!="0"&&
-			  contactMpFlag!="0"&&phoneCodeFlag!="0"&&organizationCodeFlag!="0"){
-				alert('1');
+			  contactMpFlag!="0"&&phoneCodeFlag!="0"&&organizationCodeFlag!="0"&&provinceCodeFlag!="0"){
+				alert(1);
 			}else{
 				alert('2');
 			}
@@ -515,7 +518,7 @@ define('app/jsp/user/qualification/agent-enterprise', function (require, exports
     module.exports = EnterprisePager
 });
 
-function toSave(){
+/*function toSave(){
 	 $.ajax({
 		type:"post",
 		url:_base+"/user/qualification/saveEnterprise",
@@ -548,4 +551,4 @@ function toSave(){
 				alert("error:"+ error);
 			}
 		});
-}
+}*/

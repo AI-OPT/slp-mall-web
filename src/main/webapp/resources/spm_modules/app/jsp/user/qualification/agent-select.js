@@ -29,7 +29,7 @@ define('app/jsp/user/qualification/agent-select',
 				// 重写父类
 				setup : function() {
 					AgengSelectPager.superclass.setup.call(this);
-					activeUserLeftMenu(AgengSelectPager.USER_LEFT_MNU_ID);
+					//activeUserLeftMenu(AgengSelectPager.USER_LEFT_MNU_ID);
 					//this._hideErroText();
 					this._bindHandle();
 				},
