@@ -417,7 +417,7 @@ define('app/jsp/fastcharge/fastCharge', function (require, exports, module) {
     							
     						}else{
     							$("#gsd2").html("未知运营商");
-    							 $("#listLfee").html("");
+    							 $("#listLfee").html("无面额信息");
     							 $("#lPrice").html("");
     						}
     					}
