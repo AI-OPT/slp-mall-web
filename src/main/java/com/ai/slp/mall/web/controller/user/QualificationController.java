@@ -354,6 +354,7 @@ public class QualificationController {
         IUcKeyInfoSV ucKeyInfoSv = DubboConsumerFactory.getService("iUcKeyInfoSV");
         SearchGroupKeyInfoRequest keyInfoReqeust = new SearchGroupKeyInfoRequest();
         keyInfoReqeust.setCustName(custName);
+        keyInfoReqeust.setTenantId(SLPMallConstants.COM_TENANT_ID);
         ResponseData<String> responseData = null;
         ResponseHeader header = null;
         try{
