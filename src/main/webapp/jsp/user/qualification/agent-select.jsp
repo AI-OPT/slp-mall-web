@@ -11,9 +11,8 @@
 <link href="${_slpbase }/styles/font-awesome.css" rel="stylesheet" type="text/css">
 <script type="text/javascript">
 	(function() {
-		seajs.use('app/jsp/user/qualification/agent-select', function(
-				QualificationPager) {
-			var pager = new QualificationPager();
+		seajs.use('app/jsp/user/qualification/agent-select', function(AgengSelectPager) {
+			var pager = new AgengSelectPager();
 			pager.render();
 		});
 	})();

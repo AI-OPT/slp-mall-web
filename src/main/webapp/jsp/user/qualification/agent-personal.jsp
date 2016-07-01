@@ -11,17 +11,17 @@
 <link href="${_slpbase }/styles/frame.css" rel="stylesheet" type="text/css">
 <link href="${_slpbase }/styles/font-awesome.css" rel="stylesheet" type="text/css">
 <script type="text/javascript">
-		var enterprisePager;
+		var agentPersonalPager;
 		var baseinfoPage;
 		(function() { 
-			seajs.use(['app/jsp/user/qualification/agent-personal','app/jsp/user/qualification/baseinfo'],function(QualificationPager,BaseInfoQualificationPager) {
-				    enterprisePager = new QualificationPager({
+			seajs.use(['app/jsp/user/qualification/agent-personal','app/jsp/user/qualification/baseinfo'],function(AgentPersonalPager,BaseInfoQualificationPager) {
+				    agentPersonalPager = new AgentPersonalPager({
 					element : document.body
 				});
-				     baseinfoPage = new BaseInfoQualificationPager({
+				    baseinfoPage = new BaseInfoQualificationPager({
 					element : document.body
 				});
-				enterprisePager.render();
+				agentPersonalPager.render();
 				baseinfoPage.render();
 			});
 		})();  
@@ -111,10 +111,13 @@
                 </p>
                 <p>
                  <select class="select-xmini" id="cityCode" name="custCityCode">
-                	
+                	<option value="0">请选择</option>
                  </select>
                 </p>
-                <p><select class="select-xmini" id="countyCode" name="custCountyCode"></select></p>
+                <p>
+                  <select class="select-xmini" id="countyCode" name="custCountyCode">
+                	<option value="0">请选择</option>
+                  </select></p>
                 <label id="registerAddrErrMsg" style="display:none"><img src="${_slpbase}/images/icon-a.png" id="registerAddrImage"><span class="ash" id="registerAddrText">请选择联系地址信息</span></label>
              </li>
              <li class="right">
@@ -173,7 +176,7 @@
            <ul>
                 <li>
                 	<p class="word"><b class="red">*</b>身份证号:</p>
-                    <p><input type="text" class="int-medium" placeholder="请填写和真实姓名一致的18位身份证号码" id="certNum" name="certNum"></p>
+                    <p><input type="text" class="int-medium" placeholder="请填写和真实姓名一致的18位身份证号码" id="idNumber" name="certNum"></p>
                      <label id="idNumberErrMsg" style="display:none"><img src="${_slpbase}/images/icon-c.png" id="idNumberImage"><span class="ash" id="idNumberText">18位数字</span></label>
                  </li>
              </ul>
