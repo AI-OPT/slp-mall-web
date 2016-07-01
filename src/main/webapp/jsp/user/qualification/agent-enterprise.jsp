@@ -80,10 +80,14 @@
                 </p>
                 <p>
                  <select class="select-xmini" id="cityCode" name="cityCode">
-                	
+                	<option value="0">请选择</option>
                  </select>
                 </p>
-                <p><select class="select-xmini" id="countyCode" name="countyCode"></select></p>
+                <p>
+                 <select class="select-xmini" id="countryCode" name="countyCode">
+                 	<option value="0">请选择</option>
+                 </select>
+                </p>
                 <label id="registerAddrErrMsg" style="display:none"><img src="${_slpbase}/images/icon-a.png" id="registerAddrImage"><span class="ash" id="registerAddrText">请选择注册地址</span></label>
              </li>
              <li class="right">
@@ -115,8 +119,11 @@
          <ul>
             <li>
                <p class="word"><b class="red">*</b>注册日期:</p>
-                <p id="establishTimeId" ><input id="establishTime" name="certIssueDate" type="text" class="int-small" readonly><A href="javascript:void(0);"><i class="icon-calendar"></i></A></p>
-                <label style="display: none;" id="establishTimeErrorMsg"><img src="${_slpbase}/images/icon-a.png" id="timeErrorMsgImage"><span class="ash" id="establishTimeText">请选择日期</span></label>  
+                <p id="establishTimeId">
+                  <input id="establishTime" name="certIssueDate" type="text" class="int-small" readonly>
+                  <A href="javascript:void(0);"><i class="icon-calendar"></i></A>
+                 </p>
+                <label style="display: none;" id="establishTimeErrorMsg"><img src="${_slpbase}/images/icon-a.png" id="establishTimeImage"><span class="ash" id="establishTimeText">请选择日期</span></label>  
              </li>
          </ul>
          <ul>
@@ -423,7 +430,7 @@
                	   <input type="hidden" id="groupStypeFlag">
                	   <input type="hidden" id="groupMemberScaleFlag">
                	   <input type="hidden" id="contactDeptFlag">
-               	   <input type="hidden" id="princeCodeFlag">
+               	   <input type="hidden" id="provinceCodeFlag">
                	   <input type="hidden" id="contactMpFlag">
                	   <input type="hidden" id="phoneCodeFlag">
                	   <input type="hidden" id="groupIndusteryFlag">

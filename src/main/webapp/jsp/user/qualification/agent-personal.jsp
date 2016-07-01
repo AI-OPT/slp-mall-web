@@ -115,7 +115,7 @@
                  </select>
                 </p>
                 <p>
-                  <select class="select-xmini" id="countyCode" name="custCountyCode">
+                  <select class="select-xmini" id="countryCode" name="custCountyCode">
                 	<option value="0">请选择</option>
                   </select></p>
                 <label id="registerAddrErrMsg" style="display:none"><img src="${_slpbase}/images/icon-a.png" id="registerAddrImage"><span class="ash" id="registerAddrText">请选择联系地址信息</span></label>

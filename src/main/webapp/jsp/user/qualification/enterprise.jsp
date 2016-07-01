@@ -233,7 +233,7 @@
                 	 <input type="hidden" id="groupTypeFlag">
                 	 <input type="hidden" id="groupMemberScaleFlag">
                 	 <input type="hidden" id="contactDeptFlag">
-                	 <input type="hidden" id="provinceCode">
+                	 <input type="hidden" id="provinceCodeFlag">
                 	 <input type="hidden" id="contactMpFlag">
                 	 <input type="hidden" id="phoneCodeFlag">
                 	 <input type="hidden" id="groupIndustryFlag">
