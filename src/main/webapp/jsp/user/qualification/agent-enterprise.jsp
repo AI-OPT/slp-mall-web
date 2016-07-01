@@ -84,7 +84,7 @@
                  </select>
                 </p>
                 <p>
-                 <select class="select-xmini" id="countryCode" name="countyCode">
+                 <select class="select-xmini" id="countyCode" name="countyCode">
                  	<option value="0">请选择</option>
                  </select>
                 </p>
