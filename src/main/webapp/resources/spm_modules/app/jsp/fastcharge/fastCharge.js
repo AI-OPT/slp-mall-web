@@ -109,8 +109,10 @@ define('app/jsp/fastcharge/fastCharge', function (require, exports, module) {
 									 _this._lfeeChange();
 									 $("#listLfee p:first").click();
 								}else{
-									 $("#listLfee").html("");
+									 $("#listLfee").html("无面额信息");
 								}
+							}else{
+								$("#listLfee").html("无面额信息");
 							}
 							
 							
@@ -209,6 +211,17 @@ define('app/jsp/fastcharge/fastCharge', function (require, exports, module) {
 			 
 			 
 			var chargeFee= $(".lfee.current a").text();
+			if($.trim(chargeFee).length===0){
+				 Dialog({
+						title : '提示',
+						content : "抱歉，暂时不支持此号码的充值",
+						okValue : "确定",
+						ok : function() {
+							this.close;
+						}
+					}).showModal();
+	    			return false;
+			}
 			var skuId=$(".lfee.current").attr('skuId');
     		ajaxController.ajax({
 				type: "post",
@@ -276,9 +289,17 @@ define('app/jsp/fastcharge/fastCharge', function (require, exports, module) {
 			 
 			 var phoneFee= $(".hfee.current").attr('salePrice')
     		if(typeof($(".hfee.current").attr("skuId"))=="undefined"){
-    			console.log("meiyou");
+    			Dialog({
+					title : '提示',
+					content : "抱歉，暂不支持此号码的充值",
+					okValue : "确定",
+					ok : function() {
+						this.close;
+					}
+				}).showModal();
     			return false;
     		}
+			 
     		//$("#uuu").click();
     		
     		ajaxController.ajax({
@@ -374,6 +395,7 @@ define('app/jsp/fastcharge/fastCharge', function (require, exports, module) {
     								success: function(data){
     									var d=data.data;
     									$("#listLfee").html("");
+    									$("#lPrice").html("");
     									if(d){
     										if(d.phoneFee != null&& d.phoneFee != 'undefined'&& d.phoneFee.length > 0){
        										 var template = $.templates("#lfeeDataTmpl");
@@ -382,8 +404,10 @@ define('app/jsp/fastcharge/fastCharge', function (require, exports, module) {
        										 _this._lfeeChange();
        										 $("#listLfee p:first").click();
        									}else{
-       										 $("#listLfee").html("");
+       										 $("#listLfee").html("无面额信息");
        									}
+    									}else{
+    										 $("#listLfee").html("无面额信息");
     									}
     									
     									
@@ -391,6 +415,10 @@ define('app/jsp/fastcharge/fastCharge', function (require, exports, module) {
     								}
     							});
     							
+    						}else{
+    							$("#gsd2").html("未知运营商");
+    							 $("#listLfee").html("");
+    							 $("#lPrice").html("");
     						}
     					}
     				});
@@ -470,8 +498,10 @@ define('app/jsp/fastcharge/fastCharge', function (require, exports, module) {
        										 _this._hfeeChange();
        										 $("#listHfee p:first").click();
        									}else{
-       										 $("#listHfee").html("");
+       										 $("#listHfee").html("无面额信息");
        									}
+    									}else{
+    										 $("#listHfee").html("无面额信息");
     									}
     									
     									
@@ -479,7 +509,12 @@ define('app/jsp/fastcharge/fastCharge', function (require, exports, module) {
     								}
     							});
     							
+    						}else{
+    							$("#gsd1").html("未知运营商");
+    							 $("#listHfee").html("无面额信息");
+    							 $("#hPrice").text("");
     						}
+    						
     					}
     				});
         		}
