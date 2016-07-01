@@ -41,6 +41,8 @@ import com.ai.slp.mall.web.constants.VerifyConstants;
 import com.ai.slp.mall.web.model.user.CustFileListVo;
 import com.ai.slp.mall.web.model.user.SafetyConfirmData;
 import com.ai.slp.mall.web.util.VerifyUtil;
+import com.ai.slp.user.api.bankinfo.interfaces.IUcBankInfoSV;
+import com.ai.slp.user.api.bankinfo.param.InsertBankInfoRequest;
 import com.ai.slp.user.api.contactsinfo.interfaces.IUcContactsInfoSV;
 import com.ai.slp.user.api.contactsinfo.param.InsertContactsInfoRequest;
 import com.ai.slp.user.api.keyinfo.interfaces.IUcKeyInfoSV;
@@ -58,7 +60,7 @@ import com.alibaba.fastjson.JSON;
 @Controller
 public class QualificationController {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(BandEmailController.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(QualificationController.class);
 
     //代理商选择页面
     @RequestMapping("/toAgentSelectPage")
@@ -111,8 +113,9 @@ public class QualificationController {
     //保存企业申请信息
     @RequestMapping(value="/saveEnterprise")
     @ResponseBody
-    public ResponseData<String> saveEnterprise(HttpServletRequest request,
-            InsertGroupKeyInfoRequest insertGroupKeyInfoRequest
+    public ResponseData<String> saveEnterprise(HttpServletRequest request
+            ,InsertBankInfoRequest insertBankInfoRequest
+            ,InsertGroupKeyInfoRequest insertGroupKeyInfoRequest
             ,InsertContactsInfoRequest insertContactsInfoRequest
             ,CustFileListVo custFileListVo ,Model model) throws UnsupportedEncodingException{
         
@@ -139,11 +142,14 @@ public class QualificationController {
         //联系人信息
         insertContactsInfoRequest.setTenantId(user.getTenantId());
         insertContactsInfoRequest.setUserId(user.getUserId());
+        
+        IUcBankInfoSV ucBankInfoSV = DubboConsumerFactory.getService(IUcBankInfoSV.class);
         IUcKeyInfoSV ucKeyInfoSV = DubboConsumerFactory.getService(IUcKeyInfoSV.class);
         IUcContactsInfoSV contactsInfoSV = DubboConsumerFactory.getService(IUcContactsInfoSV.class);
         try{
         ucKeyInfoSV.insertGroupKeyInfo(insertGroupKeyInfoRequest);
         ucKeyInfoSV.insertCustFileExt(insertCustFileExtRequest);
+        ucBankInfoSV.insertBankInfo(insertBankInfoRequest);
         contactsInfoSV.insertContactsInfo(insertContactsInfoRequest);
         responseData = new ResponseData<String>(VerifyConstants.QualificationConstants.SUCCESS_CODE, "操作成功", null);
         responseHeader = new ResponseHeader(true,VerifyConstants.QualificationConstants.SUCCESS_CODE,"操作成功");

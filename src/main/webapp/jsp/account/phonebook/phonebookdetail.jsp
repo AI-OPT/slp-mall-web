@@ -234,7 +234,7 @@
 				<div class="eject-medium-complete">
 					<p class="word">正在处理上传的通讯录文件,请耐心等待</p>
 					<p class="color-bj"><span id="uploadProgressShow" style="width:0%;"></span></p>
-					<p class="color-ash" id="uploadProgressMsg">已处理300/900</p>
+					<p class="color-ash" id="uploadProgressMsg">已处理0%</p>
 				</div>
 			</div>	
 		</div>	

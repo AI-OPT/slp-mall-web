@@ -204,7 +204,7 @@ define('app/jsp/balance/phonebook/phonebookdetail', function (require, exports, 
 			// XMLHttpRequest 对象
 		     var xhr = new XMLHttpRequest();
 		     xhr.upload.addEventListener("progress", function () { _this._uploadProgress(event) }, false);
-		     xhr.addEventListener("load", function () { _this._uploadSuccess() }, false); 
+		     xhr.addEventListener("load", function (result) { _this._uploadSuccess(result) }, false); 
 		     xhr.addEventListener("error", function () { _this._uploadFail() }, false);
 		     var uploadURL = _base+"/account/phonebook/uploadPhoneBooks?telGroupId="+this.get("telGroupId");
 		     xhr.open("post", uploadURL, true);
@@ -242,12 +242,14 @@ define('app/jsp/balance/phonebook/phonebookdetail', function (require, exports, 
 		/**
 		 * 上传成功
 		 */
-		_uploadSuccess:function(){
+		_uploadSuccess:function(result){
+			var responseStr = result.currentTarget.response;
+			var value = JSON.parse(responseStr).data;
 			this._hiddenDialog("uploadProgressDiv");
-			this._showMsgDialog("批量导入通讯录","导入通讯录完成！", 2);
+			this._showMsgDialog("批量导入通讯录","导入通讯录完成！<p>共<span>"+value.totalCount+"</span>条数据；成功导入<span>"+value.successCount+"</span>条；失败<span>"+value.failCount+"</span>条；</p>", 2);
 		},
 		/**
-		 * 上传成功
+		 * 上传失败
 		 */
 		_uploadFail:function(){
 			//this._hiddenDialog("uploadProgressDiv");
@@ -461,6 +463,7 @@ define('app/jsp/balance/phonebook/phonebookdetail', function (require, exports, 
     	 * 删除前检查
     	 */
     	_checkDeleteData:function(){
+    		var _this = this;
     		var checkboxs=$("input[name='CHEK_TEL_NO']:checked");
     		if(checkboxs.length==0){
     			this._showMsgDialog("提示","请选择要删除的联系人",1);
