@@ -66,7 +66,7 @@ define('app/jsp/user/qualification/baseinfo', function (require, exports, module
     		//所属部门
     		"change [id='contactDept']":"_checkContactDept",
     		//地址
-    		"blur [id='countryCode']":"_checkContactAddress",
+    		"blur [id='countyCode']":"_checkContactAddress",
     		
     		"click [id='toSave']":"_submit"
         },
@@ -487,8 +487,8 @@ define('app/jsp/user/qualification/baseinfo', function (require, exports, module
 			//校验联系地址
 			var princeCode = $("#provinceCode").val();
 			var cityCode = $("#cityCode").val();
-			var countryCode = $("#countryCode").val();
-			if(princeCode=="0"||princeCode==null||cityCode=="0"||cityCode==null||countryCode=="0"||countryCode==null){
+			var countyCode = $("#countyCode").val();
+			if(princeCode=="0"||princeCode==null||cityCode=="0"||cityCode==null||countyCode=="0"||countyCode==null){
 				$("#registerAddrErrMsg").show();
 				$("#provinceCodeFlag").val("0");
 			}else{
