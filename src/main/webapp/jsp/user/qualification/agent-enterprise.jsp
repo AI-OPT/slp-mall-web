@@ -105,6 +105,7 @@
          <ul>
              <li>
                 <p class="word"><b class="red">*</b>营业执照副本:</p>
+                 <input type="hidden" name="list[0].infoName" value="营业执照副本"/>
                 <p class="img"><img src="${_slpbase}/images/fom-t.png" id="certPic1"></p>
                 <p class="small-p">
                  <span>
@@ -120,7 +121,7 @@
             <li>
                <p class="word"><b class="red">*</b>注册日期:</p>
                 <p id="establishTimeId">
-                  <input id="establishTime" name="certIssueDate" type="text" class="int-small" readonly>
+                  <input id="establishTime" name="establishTime" type="text" class="int-small" readonly>
                   <A href="javascript:void(0);"><i class="icon-calendar"></i></A>
                  </p>
                 <label style="display: none;" id="establishTimeErrorMsg"><img src="${_slpbase}/images/icon-a.png" id="establishTimeImage"><span class="ash" id="establishTimeText">请选择日期</span></label>  
@@ -158,6 +159,7 @@
            <ul>
              <li>
                 <p class="word"><b class="red">*</b>身份证复印件:</p>
+                <input type="hidden" name="list[1].infoName" value="身份证复印件"/>
                 <p class="img"><img src="${_slpbase}/images/fom-t.png" id="certPic2"></p>
                 <p class="small-p">
                 <span>
@@ -219,6 +221,7 @@
               <ul>
              <li>
                 <p class="word"><b class="red">*</b>税务登记证:</p>
+                 <input type="hidden" name="list[2].infoName" value="税务登记证"/>
                 <p class="img"><img src="${_slpbase}/images/fom-t.png" id="certPic3"></p>
                 <p class="small-p">
                 <span>
@@ -245,6 +248,7 @@
               <ul>
              <li>
                 <p class="word"><b class="red">*</b>代码证电子版:</p>
+                <input type="hidden" name="list[3].infoName" value="代码证电子版"/>
                 <p class="img"><img src="${_slpbase}/images/fom-t.png" id="certPic4"></p>
                 <p class="small-p">
                 <span>
@@ -287,6 +291,7 @@
               <ul>
              <li>
                 <p class="word"><b class="red">*</b>银行开户许可证:</p>
+                <input type="hidden" name="list[4].infoName" value="银行开户许可证"/>
                 <p class="img"><img src="${_slpbase}/images/fom-t.png" id="certPic5"></p>
                 <p class="small-p">
                 <span>

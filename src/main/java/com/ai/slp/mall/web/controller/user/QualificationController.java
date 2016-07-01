@@ -121,7 +121,7 @@ public class QualificationController {
         
         ResponseData<String> responseData=null;
         ResponseHeader responseHeader=null;
-        
+       // establishTime
         //判断手机验证码
         if(validatePhoneCode(request)!=null){
             return validatePhoneCode(request);

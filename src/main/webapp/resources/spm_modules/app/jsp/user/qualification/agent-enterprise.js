@@ -508,22 +508,23 @@ define('app/jsp/user/qualification/agent-enterprise', function (require, exports
 			  &&groupIndusteryFlag!="0"&&groupMemberScaleFlag!="0"&&groupStypeFlag!="0"&&contactDeptFlag!="0"&&
 			  contactMpFlag!="0"&&phoneCodeFlag!="0"&&organizationCodeFlag!="0"&&provinceCodeFlag!="0"){
 				alert(1);
+				
 			}else{
 				alert('2');
 			}
-
+			toSave();
 		}
     });
     
     module.exports = EnterprisePager
 });
 
-/*function toSave(){
+function toSave(){
 	 $.ajax({
 		type:"post",
 		url:_base+"/user/qualification/saveEnterprise",
 		dataType: "json",
-		data:$("#agentPersonal").serialize(),
+		data:$("#agentEnterprise").serialize(),
         success: function(data) {
         	if(data.responseHeader.resultCode=="000003"){
         	 	$("#newPhoneCodeErrMsg").show();
@@ -551,4 +552,4 @@ define('app/jsp/user/qualification/agent-enterprise', function (require, exports
 				alert("error:"+ error);
 			}
 		});
-}*/
+}
