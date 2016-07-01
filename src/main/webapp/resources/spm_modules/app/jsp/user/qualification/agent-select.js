@@ -11,7 +11,7 @@ define('app/jsp/user/qualification/agent-select',
 			var ajaxController = new AjaxController();
 
 			// 定义页面组件类
-			var QualificationPager = Widget.extend({
+			var AgengSelectPager = Widget.extend({
 				// 属性，使用时由类的构造函数传入
 				attrs : {},
 				Statics: {
@@ -28,8 +28,8 @@ define('app/jsp/user/qualification/agent-select',
 				},
 				// 重写父类
 				setup : function() {
-					QualificationPager.superclass.setup.call(this);
-					activeUserLeftMenu(QualificationPager.USER_LEFT_MNU_ID);
+					AgengSelectPager.superclass.setup.call(this);
+					activeUserLeftMenu(AgengSelectPager.USER_LEFT_MNU_ID);
 					//this._hideErroText();
 					this._bindHandle();
 				},
@@ -50,7 +50,7 @@ define('app/jsp/user/qualification/agent-select',
 				}
 			
 		});
-			module.exports = QualificationPager
+			module.exports = AgengSelectPager
 		});
 
 	function addPersonalClass(){

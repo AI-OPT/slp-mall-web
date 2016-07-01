@@ -10,28 +10,36 @@ define(
 			var ajaxController = new AjaxController();
 
 			// 定义页面组件类
-			var QualificationPager = Widget.extend({
+			var AgentPersonalPager = Widget.extend({
 				// 属性，使用时由类的构造函数传入
 				attrs : {},
 				// 事件代理
 				events : {
 				// key的格式: 事件+空格+对象选择器;value:事件方法
+				//真实姓名校验
 				"blur [id='custName']":"_checkcustName",
 	    		"focus [id='custName']":"_showcustNameTip",
+	    		//身份证校验
 	    		"focus [id='idNumber']":"_showIdNumberTip",
 	    		"blur [id='idNumber']":"_checkIdNumber",
+	    		//学历校验
 	    		"change [id='custEducation']":"_checkcustEducation",
 	    		"blur [id='countyCode']":"_checkContactAddress",
+	    		//生日校验
 	    		"blur [id='dd']":"_checkBithday",
+	    		//收入校验
 	    		"change [id='inCome']":"_checkInCome",
+	    		//提交
 	    		"click [id='savePersonalQualification']":"_submit",
 				},
 				init : function() {
-					//_hideErroText();
 				},
 				// 重写父类
 				setup : function() {
-					QualificationPager.superclass.setup.call(this);
+					$("#provinceCode").val("0");
+					$("#cityCode").val("0");
+					$("#countyCode").val("0");
+					AgentPersonalPager.superclass.setup.call(this);
 					birth.init('yy_mm_dd');
 				},
 				_showcustNameTip:function(){
@@ -150,10 +158,12 @@ define(
 					//校验联系地址
 					this._checkContactAddress();
 					//校验街道地址
-					baseinfoPage.checkCertAddr();
+					baseinfoPage._checkCertAddr();
+					//校验收入
 					this._checkInCome();
 					//校验省份证
 					this._checkIdNumber();
+					//校验生日信息
 					this._checkBithday();
 					var custNameFlag = $("#custNameFlag").val();
 					var custEducationFlag = $("#custEducationFlag").val();
@@ -164,13 +174,12 @@ define(
 					var idNumberFlag =  $("#idNumberFlag").val();
 					
 					if(custNameFlag!="0"&&custEducationFlag!="0"&&certAddrFlag!="0"&&provinceCodeFlag!="0"&&bithdayFlag!="0"&&inComeFlag!="0"&&idNumberFlag!="0"){
-						
+						toSave();
 					}
-					toSave();
 				}
 			
 		});
-			module.exports = QualificationPager
+			module.exports = AgentPersonalPager
 		});
 
 function toSave(){

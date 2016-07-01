@@ -608,30 +608,6 @@ function deleteImg(imageId,certPic,idpsId){
 		    }); 
 	}
 }
-
-	//街道地址校验
-	function checkCertAddr(){
-		var certAddr = $("#certAddr").val();
-		if(certAddr==null||certAddr==""){
-			$("#certAddrErrMsg").show();
-			$("#certAddrImage").attr("src",_base+'/resources/slpmall/images/icon-a.png');
-			$("#certAddrText").text("请输入街道地址");
-			$("#certAddrFlag").val("0");
-		}else{
-			if(certAddr.length>=5&&certAddr.length<=120){
-				$("#certAddrErrMsg").show();
-				$("#certAddrImage").attr("src",_base+'/resources/slpmall/images/icon-b.png');
-				$("#certAddrText").hide();
-				$("#certAddrFlag").val("1");
-			}else{
-				$("#certAddrErrMsg").show();
-				$("#certAddrText").show();
-				$("#certAddrImage").attr("src",_base+'/resources/slpmall/images/icon-a.png');
-				$("#certAddrText").text("5-120个字符");
-				$("#certAddrFlag").val("0");
-			}
-		}
-	}
 	
 	function ajaxToSave(){
 	  $.ajax({
