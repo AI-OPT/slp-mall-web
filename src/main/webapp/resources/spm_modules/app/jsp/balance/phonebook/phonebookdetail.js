@@ -105,39 +105,11 @@ define('app/jsp/balance/phonebook/phonebookdetail', function (require, exports, 
     		$('.eject-mask').fadeIn(100);
     		$('#'+id).slideDown(200);
     	},
-//    	/**
-//    	 * 显示对话框
-//    	 * type: 1 警告，2 正确， 3 错误
-//    	 */
-//    	_showPromptDialog:function(title,msg,type){
-//    		$('#promptDialog_title').html(title);
-//    		$('#promptDialog_msg').html(msg);
-//    		$('.eject-mask').fadeIn(100);
-//    		if(type==1){
-//    			$('#promptDialog_img').attr('src',_slpbase+'/images/eject-icon-Warning.png')
-//    		}else if(type==2){
-//    			$('#promptDialog_img').attr('src',_slpbase+'/images/eject-icon-success.png')
-//    		}else if(type==3){
-//    			$('#promptDialog_img').attr('src',_slpbase+'/images/eject-icon-fail.png')
-//    		}
-//    		$('#promptDialogDiv').slideDown(200);
-//    	},
     	/**
     	 * 显示对话框(关闭时不关闭背景浮层)
     	 * type: 1 警告，2 正确， 3 错误
     	 */
     	_showMsgDialog:function(title,msg,type){
-//    		$('#msgDialogDiv_title').html(title);
-//    		$('#msgDialogDiv_msg').html(msg);
-//    		$('.eject-mask').fadeIn(100);
-//    		if(type==1){
-//    			$('#msgDialogDiv_img').attr('src',_slpbase+'/images/eject-icon-Warning.png')
-//    		}else if(type==2){
-//    			$('#msgDialogDiv_img').attr('src',_slpbase+'/images/eject-icon-success.png')
-//    		}else if(type==3){
-//    			$('#msgDialogDiv_img').attr('src',_slpbase+'/images/eject-icon-fail.png')
-//    		}
-//    		$('#msgDialogDiv').slideDown(200);
     		var icon = "";
     		if(type==1){
     			icon='warning';
@@ -157,10 +129,22 @@ define('app/jsp/balance/phonebook/phonebookdetail', function (require, exports, 
     	 * 隐藏对话框
     	 */
     	_hiddenDialog:function(id,hidBackground){
-    		if(hidBackground==null || hidBackground == undefined || hidBackground){
-    			$('.eject-mask').fadeOut(100);
-    		}
+    		$('#'+id).parent().parent().find('div.eject-mask').fadeOut(100);
     		$('#'+id).slideUp(150);
+    	},
+    	/**
+    	 * 隐藏添加多行提示框
+    	 */
+    	_hiddenAddNumDialog: function(){
+    		this._hiddenDialog('addMoreDialogDiv');
+    		$("#INPUT_ROW").val("");
+    	},
+    	/**
+    	 * 隐藏添加弹出框
+    	 */
+    	_hiddenAddDialog: function(){
+    		this._hiddenAddNumDialog();
+    		this._hiddenDialog('addDialogDiv');
     	},
     	/**
     	 * 检查上传文件
@@ -287,7 +271,7 @@ define('app/jsp/balance/phonebook/phonebookdetail', function (require, exports, 
         			telMp: ""
         		});
     		}
-    		this._hiddenDialog("addMoreDialogDiv",false);
+    		this._hiddenDialog("addMoreDialogDiv");
     		this.renderBatchEditPhoneBooks(data);
     	},
     	/**
@@ -391,27 +375,27 @@ define('app/jsp/balance/phonebook/phonebookdetail', function (require, exports, 
     		var _this = this;
     		var arr = this.batcheditdata?this.batcheditdata:[];
     		if(arr.length==0){
-    			//alert("没有需要保存的通信录");
     			this._showMsgDialog("提示","没有需要保存的通信录",1);
     			return ;
     		}
     		
     		var validPass= true;
     		$.each(arr,function(i,o){
-    			var telName = o.telName;
-    			var telMp =o.telMp;
+    			var telName = $.trim(o.telName);
+    			var telMp =$.trim(o.telMp);
     			var onepass=true;
     			if(_this.checkBlank(telName)){
-    				o.error = "请输入姓名";
-    				$("#SPAN_ERROR_"+i).html("请输入姓名");
-    				onepass = false;
+    				var length = telName.length;
+    				if(length > 4){
+    					alert("联系人姓名长度不能超过24");
+    					onepass = false;
+    				}
     			}
     			if(_this.checkBlank(telMp)){
     				o.error = "请输入手机号码";
     				$("#SPAN_ERROR_"+i).html("请输入手机号码");
     				onepass = false;
-    			}
-    			if(!_this.checkMobilePhone(telMp)){
+    			}else if(!_this.checkMobilePhone(telMp)){
     				o.error = "手机号码格式有误";
     				$("#SPAN_ERROR_"+i).html("手机号码格式有误");
     				onepass = false;
@@ -448,6 +432,9 @@ define('app/jsp/balance/phonebook/phonebookdetail', function (require, exports, 
     	 * 判空
     	 */
     	checkBlank: function(value){
+    		if(value == null || value == undefined){
+    			return true;
+    		}
     		var v = $.trim(value);
     		return v==""?true:false;
     	},
@@ -546,6 +533,10 @@ define('app/jsp/balance/phonebook/phonebookdetail', function (require, exports, 
 	            	}else{
     					$("#TBODY_PHONEBOOKS").html("没有搜索到相关信息");
 	            	}
+	            },
+	            callback: function(data){
+	            	var count = data.count;
+	            	$("#phoneCount").text(count);
 	            }
     		}); 
     	},

@@ -96,9 +96,9 @@ public class ProductController {
 				model.put("activeDateValue", activeValue);
 				// 设置商品详情展示信息
 				model.put("productInfo", productInfoHtml);
-				//设置商品类目
+				// 设置商品类目
 				model.put("productCatId", producSKU.getProductCatId());
-				setProdDetail(productInfoHtml,model);
+				setProdDetail(productInfoHtml, model);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -106,27 +106,28 @@ public class ProductController {
 		}
 		return new ModelAndView("jsp/product/product_detail", model);
 	}
-	
+
 	private ProductSKUResponse getSKUProduct(ProductSKURequest productskurequest) {
 		ProductSKUResponse producSKU = null;
 		try {
 			IProductDetailSV iProductDetailSV = DubboConsumerFactory.getService("iProductDetailSV");
 			productskurequest.setTenantId("SLP");
 			producSKU = iProductDetailSV.queryProducSKUById(productskurequest);
-		}catch(Exception e){
+		} catch (Exception e) {
 			LOG.error("商品详情查询报错：", e);
 		}
 		return producSKU;
 	}
-	
+
 	/**
 	 * 获得商品类目集
+	 * 
 	 * @param request
 	 * @return
 	 */
 	@RequestMapping("/getProductCatList")
 	@ResponseBody
-	public  ResponseData<List<ProductCatInfo>> getProductCatList(HttpServletRequest request,ProductCatUniqueReq queryParams) {
+	public ResponseData<List<ProductCatInfo>> getProductCatList(HttpServletRequest request, ProductCatUniqueReq queryParams) {
 		ResponseData<List<ProductCatInfo>> responseData = null;
 		try {
 			IProductCatSV iProductCatSV = DubboConsumerFactory.getService("iProductCatSV");
@@ -138,7 +139,7 @@ public class ProductController {
 		}
 		return responseData;
 	}
-	
+
 	/**
 	 * 获得商品有效期
 	 * 
@@ -158,9 +159,11 @@ public class ProductController {
 			Short activeCycle = producSKU.getActiveCycle();
 			String unit = producSKU.getUnit();
 			ICacheSV iCacheSV = DubboConsumerFactory.getService(ICacheSV.class);
-			SysParamSingleCond params = new SysParamSingleCond ("SLP", "PRODUCT", "UNIT", unit);
+			SysParamSingleCond params = new SysParamSingleCond("SLP", "PRODUCT", "UNIT", unit);
 			SysParam sysParamSingle = iCacheSV.getSysParamSingle(params);
-			activeValue = "支付后" + activeCycle + sysParamSingle.getColumnDesc() + "内充值使用";
+			if (sysParamSingle != null) {
+				activeValue = "支付后" + activeCycle + sysParamSingle.getColumnDesc() + "内充值使用";
+			}
 		}
 		return activeValue;
 	}
@@ -193,6 +196,7 @@ public class ProductController {
 		productImages.setSmallImagesUrl(smallImagetList);
 		return productImages;
 	}
+
 	/**
 	 * 设置商品属性中的图片 返回
 	 * 
@@ -235,7 +239,7 @@ public class ProductController {
 			if (productSKUConfig != null && productSKUConfig.getResponseHeader().isSuccess()) {
 				List<ProductSKUAttr> configParamterList = productSKUConfig.getProductAttrList();
 				responseData = new ResponseData<List<ProductSKUAttr>>(ResponseData.AJAX_STATUS_SUCCESS, "查询成功", configParamterList);
-			}else{
+			} else {
 				responseData = new ResponseData<List<ProductSKUAttr>>(ResponseData.AJAX_STATUS_SUCCESS, "无数据", null);
 			}
 		} catch (Exception e) {
@@ -245,7 +249,7 @@ public class ProductController {
 		}
 		return responseData;
 	}
-	
+
 	/**
 	 * 下单并且跳转到支付页面
 	 */
@@ -286,8 +290,7 @@ public class ProductController {
 		String orderId = null;
 		try {
 			String orderKey = request.getParameter("orderKey");
-			PayOrderRequest res = (PayOrderRequest) CacheUtil.getValue(orderKey, SLPMallConstants.Order.CACHE_NAMESPACE,
-					PayOrderRequest.class);
+			PayOrderRequest res = (PayOrderRequest) CacheUtil.getValue(orderKey, SLPMallConstants.Order.CACHE_NAMESPACE, PayOrderRequest.class);
 			OrderTradeCenterRequest orderrequest = new OrderTradeCenterRequest();
 			HttpSession session = request.getSession();
 			SLPClientUser user = (SLPClientUser) session.getAttribute(SSOClientConstants.USER_SESSION_KEY);
@@ -320,8 +323,7 @@ public class ProductController {
 			vo.setProdExtendInfoVoList(listVo);
 			exInfo.setInfoJson(JSON.toJSONString(vo));
 			orderrequest.setOrdExtendInfo(exInfo);
-			IOrderTradeCenterSV iOrderTradeCenterSV = DubboConsumerFactory
-					.getService(com.ai.slp.order.api.ordertradecenter.interfaces.IOrderTradeCenterSV.class);
+			IOrderTradeCenterSV iOrderTradeCenterSV = DubboConsumerFactory.getService(com.ai.slp.order.api.ordertradecenter.interfaces.IOrderTradeCenterSV.class);
 			OrderTradeCenterResponse response = iOrderTradeCenterSV.apply(orderrequest);
 			orderId = String.valueOf(response.getOrderId());
 		} catch (Exception e) {
@@ -332,16 +334,16 @@ public class ProductController {
 		return "redirect:/order/pay?orderId=" + orderId;
 	}
 
-	public void setProdDetail(String fileId,Map<String, String> uiMap){
-		LOG.info("The product detail id is === "+fileId);
-		if (StringUtils.isBlank(fileId)){
+	public void setProdDetail(String fileId, Map<String, String> uiMap) {
+		LOG.info("The product detail id is === " + fileId);
+		if (StringUtils.isBlank(fileId)) {
 			return;
 		}
-		IDSSClient client= DSSClientFactory.getDSSClient(IPaasConstants.DssParams.PROD_DETAIL_DSS);
+		IDSSClient client = DSSClientFactory.getDSSClient(IPaasConstants.DssParams.PROD_DETAIL_DSS);
 		String context = client.findById(fileId);
-		if (StringUtils.isNotBlank(context)){
+		if (StringUtils.isNotBlank(context)) {
 			JSONObject object = JSON.parseObject(context);
-			uiMap.put("prodDetail",object.getString("content"));
+			uiMap.put("prodDetail", object.getString("content"));
 		}
 	}
 }

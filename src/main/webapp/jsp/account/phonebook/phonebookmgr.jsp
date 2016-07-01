@@ -55,6 +55,7 @@
 						</ul>
 					</div>
 					<div class="account-table">
+						<input id="deleteGroupId" style="display:none" />
 						<table width="100%" border="0">
 							<tr class="bj">
 								<td>序列号</td>
@@ -119,7 +120,7 @@
 									<td>{{:count}}</td>
 									<td>{{:updateTimeStr}}</td>
 									<td>
-										<a href="${_base}/account/phonebook/phonebookdetail?telGroupId={{:telGroupId}}&telGroupName={{:telGroupName}}&count={{:count}}">管理联系人</a>
+										<a href="${_base}/account/phonebook/phonebookdetail?telGroupId={{:telGroupId}}&telGroupName={{:telGroupName}}">管理联系人</a>
 										<a href="javascript:void(0)" class="charge-phone">充话费</a>
 										<a href="javascript:void(0)" class="charge-flow">充流量</a>
 									</td>

@@ -76,10 +76,8 @@ define('app/jsp/balance/phonebook/phonebookmgr', function (require, exports, mod
     	/**
     	 * 隐藏对话框
     	 */
-    	_hiddenDialog:function(id,hidBackground){
-    		if(hidBackground==null || hidBackground == undefined || hidBackground){
-    			$('.eject-mask').fadeOut(100);
-    		}
+    	_hiddenDialog:function(id){
+    		$('#'+id).parent().parent().find('div.eject-mask').fadeOut(100);
     		$('#'+id).slideUp(150);
     	},
     	_showAddTelGroupWindow: function(){
@@ -99,10 +97,12 @@ define('app/jsp/balance/phonebook/phonebookmgr', function (require, exports, mod
 					return v;
 				},
 				fieldRules: {
-					required: true
+					required: true,
+					regexp:/^[\u4e00-\u9fa5\w-_]{2,20}$/,
 				},
 				ruleMessages: {
-					required: "请输入通讯录组名称"
+					required: "请输入通讯录组名称",
+					regexp:"请输入长度为 2-20个字符的 汉字、字母、数字、“-”、“_”的组合"
 				}
 			});
 			var res=validator.fireRulesAndReturnFirstError();
@@ -166,7 +166,7 @@ define('app/jsp/balance/phonebook/phonebookmgr', function (require, exports, mod
     		var _this = this;
     		$("[name='BTN_DEL_TEL_GROUP']").bind("click",function(){
     			var telGroupId =$(this).attr("telGroupId");
-    			$("#deleteDialogBtn").attr("telGroupId",telGroupId);
+    			$("#deleteGroupId").val(telGroupId);
     			//_this._showDialog("deleteDialogDiv");
     			var msgDialog = Dialog({
     				title: "删除操作确认",
@@ -190,9 +190,14 @@ define('app/jsp/balance/phonebook/phonebookmgr', function (require, exports, mod
     		
     		$("[name='BTN_SAVE_TEL_GROUP']").bind("click",function(){
     			var telGroupId = $(this).attr("telGroupId");
-    			var telGroupName = $("#INPUT_TEL_GROUP_"+telGroupId).val();
-    			if($.trim(telGroupName)==""){
+    			var telGroupName = $.trim($("#INPUT_TEL_GROUP_"+telGroupId).val());
+    			if(telGroupName==""){
     				alert("名称不能为空");
+    				return ;
+    			}
+    			var regexp = /^[\u4e00-\u9fa5\w-_]{2,20}$/
+    			if(!regexp.test(telGroupName)){
+    				alert("请输入长度为 2-20个字符的 汉字、字母、数字、“-”、“_”的组合");
     				return ;
     			}
     			_this.modifyTelGroup(telGroupId,telGroupName);
@@ -208,7 +213,7 @@ define('app/jsp/balance/phonebook/phonebookmgr', function (require, exports, mod
 				url: _base+"/account/phonebook/deleteUcTelGroup",
 				data: {
 					userId: this.get("userId"),
-					telGroupId: $("#deleteDialogBtn").attr("telGroupId")
+					telGroupId: $("#deleteGroupId").val()
 				},
 				success: function(data){
 					_this._hiddenDialog("deleteDialogDiv");

@@ -39,7 +39,7 @@
 					<p>
 						<a href="${_base}/account/phonebook/phonebookmgr">通讯录管理</a>&gt;
 					</p>
-					<p>${telGroupName}（${phoneCount}）</p>
+					<p>${telGroupName}（</p><p id= phoneCount></p><p>）</p>
 				</div>
 
 				<div class="mail-bj">
@@ -127,63 +127,6 @@
 	<%@ include file="/inc/foot.jsp"%>
 	<!--底部 结束-->
 	
-<!-- 信息提示框 -->
-<%-- <div class="eject-big">
-<div class="eject-samll-icon" id="promptDialogDiv" style="z-index:999">
-	<div class="eject-samll-title">
-		<p id="promptDialog_title">提示</p>
-		<p class="img"><A href="javascript:pager._hiddenDialog('promptDialogDiv')"></A></p>
-	</div>
-	<div class="eject-medium-list">
-		<div class="eject-medium-complete">
-			<p><img id="promptDialog_img" src="${_slpbase }/images/eject-icon-Warning.png"></p>
-			<p id="promptDialog_msg" class="word">提示信息</p>
-		</div>
-	</div>	
-</div>	
-<div class="eject-mask"></div>	
-</div> --%>
-<!-- 信息提示框结束 -->	
-
-<!-- 信息提示框 关闭时不关闭背景浮层 -->
-<%-- <div class="eject-big">
-<div class="eject-samll-icon" id="msgDialogDiv" style="z-index:999">
-	<div class="eject-samll-title">
-		<p id="msgDialogDiv_title">提示</p>
-		<p class="img"><A href="javascript:pager._hiddenDialog('msgDialogDiv',false)"></A></p>
-	</div>
-	<div class="eject-medium-list">
-		<div class="eject-medium-complete">
-			<p><img id="msgDialogDiv_img" src="${_slpbase }/images/eject-icon-Warning.png"></p>
-			<p id="msgDialogDiv_msg" class="word">提示信息</p>
-		</div>
-	</div>	
-</div>	
-<div class="eject-mask"></div>	
-</div> --%>
-<!-- 信息提示框结束 -->	
-
-<!--弹出删除弹出框-->
-<!-- <div class="eject-big">
-<div class="eject-samll" id="deleteDialogDiv">
-	<div class="eject-samll-title">
-		<p>删除操作确认</p>
-		<p class="img"><A href="javascript:pager._hiddenDialog('deleteDialogDiv')"></A></p>
-	</div>
-	确认删除
-	<div class="eject-samll-confirm">
-		<ul>
-		<li class="word">确定要删除已选联系人吗？</li>
-		<li><input id="deletePhone" type="button"  class="slp-btn eject-small-btn" value="确认">
-			<input type="button"  class="slp-btn eject-small-btn close-btn" value="取消" onclick="pager._hiddenDialog('deleteDialogDiv')">
-		</li>		
-		</ul>
-	</div>
-</div>	
-<div class="eject-mask"></div>	
-</div>	 -->
-<!--弹出删除弹出框- 结束-->
-
 <!--批量导入通讯录弹出框  -->
 	<div class="eject-big">
 		<div class="eject-medium" id="uploadFileDiv">
@@ -247,11 +190,11 @@
 		<div class="eject-large" id="addDialogDiv">
 			<!--弹出多行-->
 			<div class="eject-big">
-				<div class="eject-samll" id="addMoreDialogDiv">
+				<div class="eject-samll" id="addMoreDialogDiv" style="border: 1px solid #e7e7e7;">
 					<div class="samll-block-title">
 						<p>添加多行</p>
 						<p class="img">
-							<A href="javascript:pager._hiddenDialog('addMoreDialogDiv',false)"></A>
+							<A href="javascript:pager._hiddenAddNumDialog()"></A>
 						</p>
 					</div>
 					
@@ -263,7 +206,7 @@
 							<li><span style="color:red" id="addDialogDiv_error"></span></li>
 							<li><input type="button" class="slp-btn eject-small-btn"
 								value="确认" id="BTN_INPUT_ROW"><input type="button"
-								class="slp-btn eject-small-btn close-btn1" value="取消" onclick="pager._hiddenDialog('addMoreDialogDiv',false)"></li>
+								class="slp-btn eject-small-btn close-btn1" value="取消" onclick="pager._hiddenAddNumDialog()"></li>
 						</ul>
 					</div>
 				</div>
@@ -273,7 +216,7 @@
 			<div class="eject-large-title">
 				<p>添加通讯录</p>
 				<p class="img">
-					<A href="javascript:pager._hiddenDialog('addDialogDiv')"></A>
+					<A href="javascript:pager._hiddenAddDialog()"></A>
 				</p>
 			</div>
 			<div class="eject-large-list">
