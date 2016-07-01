@@ -176,8 +176,8 @@ define('app/jsp/user/qualification/agent-enterprise', function (require, exports
 	    		$('#capitalImage').attr('src',_base+'/resources/slpmall/images/icon-a.png');
 	    		$("#capitalFlag").val("0");
 			}else{
-				var reg = /^\d+(\.\d+)$/;
-				if(reg.test(capital)){
+				var reg = /^[\d+(\.\d+)|d+]{1,12}$/;
+				if(capital.match(reg)){
 					$('#capitalErrMsg').show();
     				$('#capitalText').hide();
     				$('#capitalImage').attr('src',_base+'/resources/slpmall/images/icon-b.png');
@@ -501,18 +501,14 @@ define('app/jsp/user/qualification/agent-enterprise', function (require, exports
 			var phoneCodeFlag = $("#phoneCodeFlag").val();
 			var organizationCodeFlag = $("#organizationCodeFlag").val();
 			var provinceCodeFlag = $("#provinceCodeFlag").val();
-			alert(provinceCodeFlag);
 			if(custNameFlag!="0"&&certAddrFlag!="0"&&certNumFlag!="0"&&establishTimeFlag!="0"
 			  &&capitalFlag!="0"&&scopeFlag!="0"&&corporationNameFlag!="0"&&idNumberFlag!="0"&&identifyNumberFlag!="0"
 			  &&taxpayerTypeFlag!="0"&&taxCodeFlag!="0"&&bankNameFlag!="0"&&subbranchNameFlag!="0"&&bankAccountFlag!="0"
 			  &&groupIndusteryFlag!="0"&&groupMemberScaleFlag!="0"&&groupStypeFlag!="0"&&contactDeptFlag!="0"&&
 			  contactMpFlag!="0"&&phoneCodeFlag!="0"&&organizationCodeFlag!="0"&&provinceCodeFlag!="0"){
-				alert(1);
-				
-			}else{
-				alert('2');
+				toSave();
 			}
-			toSave();
+			
 		}
     });
     

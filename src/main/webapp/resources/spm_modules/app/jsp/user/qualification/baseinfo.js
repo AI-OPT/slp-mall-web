@@ -120,7 +120,6 @@ define('app/jsp/user/qualification/baseinfo', function (require, exports, module
     		}else{
     			if(name.match(reg)){
     				$("#custNameFlag").val("1");
-    				
     				var	param={
     						custName:$("#custName").val()
         				   };
