@@ -406,7 +406,7 @@ public class QualificationController {
         SearchCustKeyInfoRequest custKeyInfRequest = new SearchCustKeyInfoRequest();
         custKeyInfRequest.setTenantId(SLPMallConstants.COM_TENANT_ID);
         custKeyInfRequest.setUserId(userId);
-        IUcKeyInfoSV ucKeyInfoSV = DubboConsumerFactory.getService("IUcKeyInfoSV");
+        IUcKeyInfoSV ucKeyInfoSV = DubboConsumerFactory.getService("iUcKeyInfoSV");
         SearchCustKeyInfoResponse response = ucKeyInfoSV.searchCustKeyInfo(custKeyInfRequest);
         return response;
     }
@@ -415,7 +415,7 @@ public class QualificationController {
         SearchGroupKeyInfoRequest groupKeyInfRequest = new SearchGroupKeyInfoRequest();
         groupKeyInfRequest.setTenantId(SLPMallConstants.COM_TENANT_ID);
         groupKeyInfRequest.setUserId(userId);
-        IUcKeyInfoSV ucKeyInfoSV = DubboConsumerFactory.getService("IUcKeyInfoSV");
+        IUcKeyInfoSV ucKeyInfoSV = DubboConsumerFactory.getService("iUcKeyInfoSV");
         SearchGroupKeyInfoResponse response = ucKeyInfoSV.searchGroupKeyInfo(groupKeyInfRequest);
         return response;
     }
