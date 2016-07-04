@@ -15,7 +15,7 @@
 	var baseInfoPager;
 	var enterprisePager;
 	(function() { 
-		seajs.use([ 'app/jsp/user/qualification/baseinfo','app/jsp/user/qualification/agent-enterprise'], function(BaseInfoQualificationPager,EnterprisePager) {
+		seajs.use([ 'app/jsp/user/qualification/baseinfo','app/jsp/user/qualification/agent-supplier-enterprise'], function(BaseInfoQualificationPager,EnterprisePager) {
 			    baseInfoPager = new BaseInfoQualificationPager({
 				element : document.body
 			});

@@ -15,15 +15,19 @@
 	var baseInfoPager;
 	var enterprisePager;
 	(function() { 
-		seajs.use([ 'app/jsp/user/qualification/baseinfo','app/jsp/user/qualification/agent-enterprise'], function(BaseInfoQualificationPager,EnterprisePager) {
+		seajs.use([ 'app/jsp/user/qualification/baseinfo','app/jsp/user/qualification/agent-supplier-enterprise','app/jsp/user/qualification/qualificationSubmit'], function(BaseInfoQualificationPager,EnterprisePager,QualificationSubmitPager) {
 			    baseInfoPager = new BaseInfoQualificationPager({
 				element : document.body
 			});
 			    enterprisePager = new EnterprisePager({
 				element : document.body
 			});
+			   var qualificationSubmitPager = new QualificationSubmitPager({
+					element : document.body
+				});
 			baseInfoPager.render();
 			enterprisePager.render();
+			qualificationSubmitPager.render();
 		});
 	})();  
 </script>
@@ -427,7 +431,7 @@
              </ul>
               <ul>
                  <li class="form-btn">
-                  <input type="button" id="submit" class="slp-btn regsiter-btn" value="保存资质">
+                  <input type="button" id="agentEnterpriseSubmit" class="slp-btn regsiter-btn" value="保存资质">
                    <input type="hidden" id="custNameFlag">
                	   <input type="hidden" id="princeCodeFlag">
                	   <input type="hidden" id="certAddrFlag">

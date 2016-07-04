@@ -15,11 +15,11 @@
 var baseInfoPager;
 var qualificationSubmitPager;
 (function() { 
-	seajs.use([ 'app/jsp/user/qualification/baseinfo','app/jsp/user/qualification/qualificationSubmit'], function(BaseInfoQualificationPager,qualificationSubmitPager) {
+	seajs.use([ 'app/jsp/user/qualification/baseinfo','app/jsp/user/qualification/qualificationSubmit'], function(BaseInfoQualificationPager,QualificationSubmitPager) {
 		baseInfoPager = new BaseInfoQualificationPager({
 			element : document.body
 		});
-		qualificationSubmitPager = new qualificationSubmitPager({
+		qualificationSubmitPager = new QualificationSubmitPager({
 			element : document.body
 		});
 		baseInfoPager.render();

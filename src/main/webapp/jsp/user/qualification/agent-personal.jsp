@@ -13,16 +13,21 @@
 <script type="text/javascript">
 		var agentPersonalPager;
 		var baseinfoPage;
+		var qualificationSubmitPager;
 		(function() { 
-			seajs.use(['app/jsp/user/qualification/agent-personal','app/jsp/user/qualification/baseinfo'],function(AgentPersonalPager,BaseInfoQualificationPager) {
+			seajs.use(['app/jsp/user/qualification/agent-personal','app/jsp/user/qualification/baseinfo','app/jsp/user/qualification/qualificationSubmit'],function(AgentPersonalPager,BaseInfoQualificationPager,QualificationSubmitPager) {
 				    agentPersonalPager = new AgentPersonalPager({
 					element : document.body
 				});
 				    baseinfoPage = new BaseInfoQualificationPager({
 					element : document.body
 				});
+				    qualificationSubmitPager = new QualificationSubmitPager({
+						element : document.body
+				});
 				agentPersonalPager.render();
 				baseinfoPage.render();
+				qualificationSubmitPager.render();
 			});
 		})();  
 </script>
