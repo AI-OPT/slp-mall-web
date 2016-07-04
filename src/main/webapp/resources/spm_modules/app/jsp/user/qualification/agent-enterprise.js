@@ -27,7 +27,7 @@ define('app/jsp/user/qualification/agent-enterprise', function (require, exports
     	Statics: {
     		DEFAULT_PAGE_SIZE: 5,
     		USER_LEFT_MNU_ID: "left_mnu_qualification_identify"
-    	},
+    	}, 
     	//事件代理
     	events: {
     		//key的格式: 事件+空格+对象选择器;value:事件方法

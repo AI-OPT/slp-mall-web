@@ -13,7 +13,7 @@ define('app/jsp/user/qualification/baseinfo', function (require, exports, module
     require("app/util/jsviews-ext");
     require("opt-paging/aiopt.pagination");
     require("twbs-pagination/jquery.twbsPagination.min");
-     
+      
     //实例化AJAX控制处理对象
     var ajaxController = new AjaxController();
     
