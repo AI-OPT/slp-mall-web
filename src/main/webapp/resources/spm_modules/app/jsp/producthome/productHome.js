@@ -246,7 +246,7 @@ define('app/jsp/producthome/productHome', function (require, exports, module) {
 					title : '提示',
 					width : '200px',
 					height : '50px',
-					content : "请选择充值费用",
+					content : "请选择充值面额",
 					okValue : "确定",
 					ok : function() {
 						this.close;
@@ -312,7 +312,7 @@ define('app/jsp/producthome/productHome', function (require, exports, module) {
     		if(phoneFee==null||phoneFee==""||phoneFee==undefined){
     			Dialog({
 					title : '提示',
-					content : "请选择充值费用",
+					content : "请选择充值面额",
 					okValue : "确定",
 					ok : function() {
 						this.close;
