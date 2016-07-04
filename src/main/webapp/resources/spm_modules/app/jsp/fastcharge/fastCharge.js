@@ -342,6 +342,8 @@ define('app/jsp/fastcharge/fastCharge', function (require, exports, module) {
     		$("#phoneNum2").bind('input propertychange',function(){
     			$("#submitGpBtn").removeAttr('href');
     			$("#gsd2").html("");
+    			$("#pcode").val("");
+				$("#orgcode").val("");
     			if($.trim($("#phoneNum2").val()).length==0){
     				$("#listLfee").html("");
     				_this._initLf();
