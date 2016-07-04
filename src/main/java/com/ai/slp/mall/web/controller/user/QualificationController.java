@@ -12,7 +12,6 @@ import javax.servlet.http.HttpSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
@@ -130,7 +129,9 @@ public class QualificationController {
         HttpSession session = request.getSession();
         SLPClientUser user = (SLPClientUser) session.getAttribute(SSOClientConstants.USER_SESSION_KEY);
         //企业关键信息
-        insertGroupKeyInfoRequest.setCertIssueDate(DateUtil.getTimestamp(request.getParameter("establishTime")));
+        if(request.getParameter("establishTime")!=null){
+            insertGroupKeyInfoRequest.setCertIssueDate(DateUtil.getTimestamp(request.getParameter("establishTime")));
+        }
         insertGroupKeyInfoRequest.setTenantId(user.getTenantId());
         insertGroupKeyInfoRequest.setUserType(user.getUserType());
         insertGroupKeyInfoRequest.setUserId(user.getUserId());
@@ -164,7 +165,7 @@ public class QualificationController {
         contactsInfoSV.insertContactsInfo(insertContactsInfoRequest);
         //判断是否保存银行信息
         if(ucBankInfoSV!=null){
-            BaseResponse response = ucBankInfoSV.insertBankInfo(insertBankInfoRequest);
+            ucBankInfoSV.insertBankInfo(insertBankInfoRequest);
         }
         responseData = new ResponseData<String>(VerifyConstants.QualificationConstants.SUCCESS_CODE, "操作成功", null);
         responseHeader = new ResponseHeader(true,VerifyConstants.QualificationConstants.SUCCESS_CODE,"操作成功");
