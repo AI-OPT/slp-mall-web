@@ -64,8 +64,17 @@ define('app/jsp/user/qualification/agent-enterprise', function (require, exports
     		//银行账户
     		"focus [id='bankAccount']":"_showBankAccountTip",
     		"blur [id='bankAccount']":"_checkBankAccountValue",
+    		//供应商品类型
+    		"change [id='supplyGoods']":"_checkSupplyGoodsValue",
+    		//品牌名称中文
+    		"focus [id='brandNameC']":"_showBrandNameCTip",
+    		"blur [id='brandNameC']":"_checkBrandNameCValue",
+    		//品牌名称英文
+    		"focus [id='brandNameE']":"_showBrandNameETip",
+    		"blur [id='brandNameE']":"_checkBrandNameValue",
     		
     		"click [id='submit']":"_submit",
+    		"click [id='toSave']":"_submit",
     		
         },
         init: function(){
@@ -139,6 +148,20 @@ define('app/jsp/user/qualification/agent-enterprise', function (require, exports
 			$("#organizationCodeImage").show();
 			$("#organizationCodeText").text('4-50个字符，可用数字、字母、“-”');
     		$('#organizationCodeImage').attr('src',_base+'/resources/slpmall/images/icon-d.png');
+		},
+		_showBrandNameCTip:function(){
+			$("#brandNameCErrMsg").show();
+			$("#brandNameCText").show();
+			$("#brandNameCImage").show();
+			$("#brandNameCText").text('2-20个汉字');
+    		$('#brandNameCImage').attr('src',_base+'/resources/slpmall/images/icon-d.png');
+		},
+		_showBrandNameETip:function(){
+			$("#brandNameEErrMsg").show();
+			$("#brandNameEText").show();
+			$("#brandNameEImage").show();
+			$("#brandNameEText").text('2-40个字符');
+    		$('#brandNameEImage').attr('src',_base+'/resources/slpmall/images/icon-d.png');
 		},
     	_bindCalendar:function(){
     		var beginCalendar = new Calendar({trigger: '#establishTimeId',output:"#establishTime"});
@@ -433,6 +456,57 @@ define('app/jsp/user/qualification/agent-enterprise', function (require, exports
 				
 			}
 		
+		},
+		_checkSupplyGoodsValue:function(){
+			var supplyGoods = $("#supplyGoods").val();
+			if(supplyGoods=="0"||supplyGoods==null){
+				$("#supplyGoodsFlag").val("0");
+				$("#supplyGoodsErrMsg").show();
+			}else{
+				$("#supplyGoodsFlag").val("1");
+				$("#supplyGoodsErrMsg").hide();
+			}
+		},
+		_checkBrandNameCValue:function(){
+			var brandNameC = $("#brandNameC").val();
+			if(brandNameC!=""){
+				var reg = /^[\u4e00-\u9fa5]{2,20}$/;
+				if(brandNameC.match(reg)){
+					$('#brandNameCErrMsg').show();
+    				$('#brandNameCText').hide();
+    				$('#brandNameCImage').attr('src',_base+'/resources/slpmall/images/icon-b.png');
+				}else{
+					$('#brandNameCErrMsg').show();
+    				$("#brandNameCmage").show();
+    				$("#brandNameCText").show();
+        			$('#brandNameCText').text("4-20位字符");
+        			$('#brandNameCImage').attr('src',_base+'/resources/slpmall/images/icon-a.png');
+				}
+			}else{
+				$('#brandNameCErrMsg').hide();
+				$('#brandNameCText').hide();
+				$('#brandNameCImage').hide();
+			}
+		},
+		_checkBrandNameValue:function(){
+			var brandNameE = $("#brandNameE").val();
+			if(brandNameE!=""){
+				if(brandNameE.length>2&&brandNameE.length<40){
+					$('#brandNameEErrMsg').show();
+    				$('#brandNameEText').hide();
+    				$('#brandNameEImage').attr('src',_base+'/resources/slpmall/images/icon-b.png');
+				}else{
+					$('#brandNameEErrMsg').show();
+    				$("#brandNameEImage").show();
+    				$("#brandNameEText").show();
+        			$('#brandNameEText').text("4-20位字符");
+        			$('#brandNameEImage').attr('src',_base+'/resources/slpmall/images/icon-a.png');
+				}
+			}else{
+				$('#brandNameEErrMsg').hide();
+				$('#brandNameEText').hide();
+				$('#brandNameEImage').hide();
+			}
 		},
 		_submit:function(){
 			//校验名称
