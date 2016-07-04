@@ -106,7 +106,7 @@ define('app/jsp/balance/phonebook/phonebookdetail', function (require, exports, 
     		$('#'+id).slideDown(200);
     	},
     	/**
-    	 * 显示对话框(关闭时不关闭背景浮层)
+    	 * 显示对话框
     	 * type: 1 警告，2 正确， 3 错误
     	 */
     	_showMsgDialog:function(title,msg,type){
@@ -442,7 +442,7 @@ define('app/jsp/balance/phonebook/phonebookdetail', function (require, exports, 
     	 * 检查手机格式
     	 */
     	checkMobilePhone: function(value){
-    		var re = /^1[3|4|5|7|8][0-9]\d{4,8}$/;
+    		var re = /^1\d{10}$/;
 			var valid =  (re.test(value))?true:false;	
 			return valid;
     	},
