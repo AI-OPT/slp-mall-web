@@ -29,8 +29,6 @@ define(
 	    		"blur [id='dd']":"_checkBithday",
 	    		//收入校验
 	    		"change [id='inCome']":"_checkInCome",
-	    		//提交
-	    		"click [id='savePersonalQualification']":"_submit",
 				},
 				init : function() {
 				},
@@ -149,55 +147,8 @@ define(
 						$("#bithdayErrMsg").hide();
 						$("#bithdayFlag").val("1");
 					}
-				},
-				_submit:function(){
-					//校验姓名
-					this._checkcustName();
-					//校验学历
-					this._checkcustEducation();
-					//校验联系地址
-					this._checkContactAddress();
-					//校验街道地址
-					baseinfoPage._checkCertAddr();
-					//校验收入
-					this._checkInCome();
-					//校验省份证
-					this._checkIdNumber();
-					//校验生日信息
-					this._checkBithday();
-					var custNameFlag = $("#custNameFlag").val();
-					var custEducationFlag = $("#custEducationFlag").val();
-					var certAddrFlag =  $("#certAddrFlag").val();
-					var provinceCodeFlag =  $("#provinceCodeFlag").val();
-					var bithdayFlag =  $("#bithdayFlag").val();
-					var inComeFlag =  $("#inComeFlag").val();
-					var idNumberFlag =  $("#idNumberFlag").val();
-					
-					if(custNameFlag!="0"&&custEducationFlag!="0"&&certAddrFlag!="0"&&provinceCodeFlag!="0"&&bithdayFlag!="0"&&inComeFlag!="0"&&idNumberFlag!="0"){
-						toSave();
-					}
 				}
-			
 		});
 			module.exports = AgentPersonalPager
 		});
 
-function toSave(){
-	 $.ajax({
-			type:"post",
-			url:_base+"/user/qualification/savePersonalInfo",
-			dataType: "json",
-			data:$("#agentPersonal").serialize(),
-	        success: function(data) {
-	        	if(data.responseHeader.resultCode=="00001"){
-	        		alert("失败了");
-	        	}
-	        	if(data.responseHeader.resultCode=="00000"){
-	        		window.location.href=_base+"/user/qualification/toEnterprisePage";
-	        	}
-	            },
-				error: function(error) {
-					alert("error:"+ error);
-				}
-			});
-}

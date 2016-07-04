@@ -28,15 +28,24 @@ define('app/jsp/user/qualification/qualificationSubmit', function (require, expo
     	},
     	//事件代理
     	events: {
-    		"click [id='enterpriseToSave']":"_enterpriseSubmit"
+    		//企业提交
+    		"click [id='enterpriseToSave']":"_enterpriseSubmit",
+    		//代理商企业提交
+    		"click [id='agentEnterpriseSubmit']":"_agentEnterpriseSubmit",
+    		//代理商个人提交
+    		"click [id='savePersonalQualification']":"_agentPersonalSubmit",
         },
         init: function(){
         },
     	//重写父类
     	setup: function () {
     		QualificationSubmitPager.superclass.setup.call(this);
+    		//左侧相对应标签选中
     		activeUserLeftMenu(QualificationSubmitPager.USER_LEFT_MNU_ID);
     	},
+    	/**
+    	 * 企业提交方法
+    	 */
     	_enterpriseSubmit:function(){
 			//校验企业名称
 			baseInfoPager._validateName();
@@ -72,10 +81,124 @@ define('app/jsp/user/qualification/qualificationSubmit', function (require, expo
 			var groupMemberScaleFlag = $("#groupMemberScaleFlag").val();
 			var groupStypeFlag = $("#groupStypeFlag").val();
 			var contactDeptFlag = $("#contactDeptFlag").val();
-			
 			if(custNameFlag!="0"&&certAddrFlag!="0"&&certNumFlag!="0"&&contactMpFlag!="0"&&phoneCodeFlag!="0"&&groupIndusteryFlag!="0"&&groupMemberScaleFlag!="0"&&groupStypeFlag!="0"&&contactDeptFlag!="0"){
 				ajaxToSave();
 			}
+	},
+	/**
+	 * 代理商企业、供应商企业在提交前对必填信息校验
+	 */
+	_checkEnterpriseValue:function(){
+		//校验名称
+		baseInfoPager._validateName();
+		//校验注册地址
+		baseInfoPager._checkContactAddress();
+		//校验街道地址
+		baseInfoPager._checkCertAddr();
+		//营业执照注册号
+		baseInfoPager._checkCertNum();
+		//校验行业
+		baseInfoPager._checkGroupIndustery();
+		//校验公司人数
+		baseInfoPager._checkGroupMember();
+		//校验公司性质
+		baseInfoPager._checkGroupType();
+		//校验所属部门
+		baseInfoPager._checkContactDept();
+		//校验手机
+		baseInfoPager._checkPhone();
+		//校验短信验证码
+		//baseInfoPager._sendVerify();
+		//校验注册日期
+		enterprisePager._checkEstablishTime();
+		//校验注册资本
+		enterprisePager._checkCapitalValue();
+		//校验经营范围
+		enterprisePager._checkScopeValue();
+		//校验法人姓名
+		enterprisePager._checkCorporationNameValue();
+		//校验法人身份证号
+		enterprisePager._checkIdNumber();
+		//校验纳税人识别号
+		enterprisePager._checkIdentifyNumberValue();
+		//校验纳税人类型
+		enterprisePager._checkTaxpayerTypeValue();
+		//校验纳税类型税码
+		enterprisePager._checkTaxCodeValue();
+		//校验开户行名称
+		enterprisePager._checkBankNameValue();
+		//校验支行名称
+		enterprisePager._checkSubbranchNameValue();
+		//校验公司账号
+		enterprisePager._checkBankAccountValue();
+		enterprisePager._checkOrganizationCodeValue();
+	},
+	/**
+	 * 代理商企业提交
+	 */
+	_agentEnterpriseSubmit:function(){
+		//提交前对必要信息进行校验
+		this._checkEnterpriseValue();
+		var custNameFlag = $("#custNameFlag").val();
+		var certAddrFlag = $("#certAddrFlag").val();
+		var certNumFlag = $("#certNumFlag").val();
+		var establishTimeFlag = $("#establishTimeFlag").val();
+		var capitalFlag = $("#capitalFlag").val();
+		var scopeFlag = $("#scopeFlag").val();
+		var corporationNameFlag = $("#corporationNameFlag").val();
+		var idNumberFlag = $("#idNumberFlag").val();
+		var identifyNumberFlag = $("#identifyNumberFlag").val();
+		var taxpayerTypeFlag = $("#taxpayerTypeFlag").val();
+		var taxCodeFlag = $("#taxCodeFlag").val();
+		var bankNameFlag = $("#bankNameFlag").val();
+		var subbranchNameFlag = $("#subbranchNameFlag").val();
+		var bankAccountFlag = $("#bankAccountFlag").val();
+		var groupIndusteryFlag = $("#groupIndusteryFlag").val();
+		var groupMemberScaleFlag = $("#groupMemberScaleFlag").val();
+		var groupStypeFlag = $("#groupStypeFlag").val();
+		var contactDeptFlag = $("#contactDeptFlag").val();
+		var contactMpFlag = $("#contactMpFlag").val();
+		var phoneCodeFlag = $("#phoneCodeFlag").val();
+		var organizationCodeFlag = $("#organizationCodeFlag").val();
+		var provinceCodeFlag = $("#provinceCodeFlag").val();
+		if(custNameFlag!="0"&&certAddrFlag!="0"&&certNumFlag!="0"&&establishTimeFlag!="0"
+		  &&capitalFlag!="0"&&scopeFlag!="0"&&corporationNameFlag!="0"&&idNumberFlag!="0"&&identifyNumberFlag!="0"
+		  &&taxpayerTypeFlag!="0"&&taxCodeFlag!="0"&&bankNameFlag!="0"&&subbranchNameFlag!="0"&&bankAccountFlag!="0"
+		  &&groupIndusteryFlag!="0"&&groupMemberScaleFlag!="0"&&groupStypeFlag!="0"&&contactDeptFlag!="0"&&
+		  contactMpFlag!="0"&&phoneCodeFlag!="0"&&organizationCodeFlag!="0"&&provinceCodeFlag!="0"){
+			toAgentEnterpriseSave();
+		}
+		
+	},
+	/**
+	 * 代理商个人提交方法
+	 */
+	_agentPersonalSubmit:function(){
+		//校验姓名
+		agentPersonalPager._checkcustName();
+		//校验学历
+		agentPersonalPager._checkcustEducation();
+		//校验联系地址
+		agentPersonalPager._checkContactAddress();
+		//校验街道地址
+		baseinfoPage._checkCertAddr();
+		//校验收入
+		agentPersonalPager._checkInCome();
+		//校验省份证
+		agentPersonalPager._checkIdNumber();
+		//校验生日信息
+		agentPersonalPager._checkBithday();
+		var custNameFlag = $("#custNameFlag").val();
+		var custEducationFlag = $("#custEducationFlag").val();
+		var certAddrFlag =  $("#certAddrFlag").val();
+		var provinceCodeFlag =  $("#provinceCodeFlag").val();
+		var bithdayFlag =  $("#bithdayFlag").val();
+		var inComeFlag =  $("#inComeFlag").val();
+		var idNumberFlag =  $("#idNumberFlag").val();
+		
+		if(custNameFlag!="0"&&custEducationFlag!="0"&&certAddrFlag!="0"&&provinceCodeFlag!="0"&&bithdayFlag!="0"&&inComeFlag!="0"&&idNumberFlag!="0"){
+			toAgentPersonalSave();
+		}
 	}
     });
     
@@ -203,3 +326,62 @@ function deleteImg(imageId,certPic,idpsId){
 		  var realPath=localhostPaht+projectName;
 		  return realPath;
 		}
+	/**
+	 * 代理商企业保存方法
+	 */
+	function toAgentEnterpriseSave(){
+		 $.ajax({
+			type:"post",
+			url:_base+"/user/qualification/saveEnterprise",
+			dataType: "json",
+			data:$("#agentEnterprise").serialize(),
+	        success: function(data) {
+	        	if(data.responseHeader.resultCode=="000003"){
+	        	 	$("#newPhoneCodeErrMsg").show();
+	        		$('#newPhoneCodeErrMsgShow').text("短信验证码错误");
+					$('#phoneCodeFlag').val("0");
+					return false;
+	        	}else if(data.responseHeader.resultCode=="000004"){
+	        		$("#newPhoneCodeErrMsg").show();
+	        		$('#newPhoneCodeErrMsgShow').text("短信验证码已失效");
+					$('#phoneCodeFlag').val("0");
+					return false;
+	        	}else if(data.responseHeader.resultCode=="000007"){
+	        		$("#newPhoneCodeErrMsg").show();
+	        		$('#newPhoneCodeErrMsgShow').text("手机与发送短信手机不一致");
+					$('#phoneCodeFlag').val("0");
+					return false;
+	        	}else if(data.responseHeader.resultCode=="111111"){
+	        		alert("失败了");
+	        		return false;
+	        	}else if(data.responseHeader.resultCode=="000000"){
+	        		window.location.href=_base+"/user/qualification/toEnterprisePage";
+	        	}
+	            },
+				error: function(error) {
+					alert("error:"+ error);
+				}
+			});
+	}
+	/**
+	 * 代理商个人保存方法
+	 */
+	function toAgentPersonalSave(){
+		 $.ajax({
+				type:"post",
+				url:_base+"/user/qualification/savePersonalInfo",
+				dataType: "json",
+				data:$("#agentPersonal").serialize(),
+		        success: function(data) {
+		        	if(data.responseHeader.resultCode=="00001"){
+		        		alert("失败了");
+		        	}
+		        	if(data.responseHeader.resultCode=="00000"){
+		        		window.location.href=_base+"/user/qualification/toEnterprisePage";
+		        	}
+		            },
+					error: function(error) {
+						alert("error:"+ error);
+					}
+				});
+	}

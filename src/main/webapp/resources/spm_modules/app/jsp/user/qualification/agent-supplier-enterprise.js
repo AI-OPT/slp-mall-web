@@ -1,4 +1,4 @@
-define('app/jsp/user/qualification/agent-enterprise', function (require, exports, module) {
+define('app/jsp/user/qualification/agent-supplier-enterprise', function (require, exports, module) {
     'use strict';
     var $=require('jquery'),
     Widget = require('arale-widget/1.2.0/widget'),
@@ -74,7 +74,6 @@ define('app/jsp/user/qualification/agent-enterprise', function (require, exports
     		"blur [id='brandNameE']":"_checkBrandNameValue",
     		
     		"click [id='submit']":"_submit",
-    		"click [id='toSave']":"_submit",
     		
         },
         init: function(){
@@ -508,82 +507,6 @@ define('app/jsp/user/qualification/agent-enterprise', function (require, exports
 				$('#brandNameEImage').hide();
 			}
 		},
-		_submit:function(){
-			//校验名称
-			baseInfoPager._validateName();
-			//校验注册地址
-			baseInfoPager._checkContactAddress();
-			//校验街道地址
-			baseInfoPager._checkCertAddr();
-			//营业执照注册号
-			baseInfoPager._checkCertNum();
-			//校验行业
-			baseInfoPager._checkGroupIndustery();
-			//校验公司人数
-			baseInfoPager._checkGroupMember();
-			//校验公司性质
-			baseInfoPager._checkGroupType();
-			//校验所属部门
-			baseInfoPager._checkContactDept();
-			//校验手机
-			baseInfoPager._checkPhone();
-			//校验短信验证码
-			//baseInfoPager._sendVerify();
-			//校验注册日期
-			this._checkEstablishTime();
-			//校验注册资本
-			this._checkCapitalValue();
-			//校验经营范围
-			this._checkScopeValue();
-			//校验法人姓名
-			this._checkCorporationNameValue();
-			//校验法人身份证号
-			this._checkIdNumber();
-			//校验纳税人识别号
-			this._checkIdentifyNumberValue();
-			//校验纳税人类型
-			this._checkTaxpayerTypeValue();
-			//校验纳税类型税码
-			this._checkTaxCodeValue();
-			//校验开户行名称
-			this._checkBankNameValue();
-			//校验支行名称
-			this._checkSubbranchNameValue();
-			//校验公司账号
-			this._checkBankAccountValue();
-			this._checkOrganizationCodeValue();
-			
-			var custNameFlag = $("#custNameFlag").val();
-			var certAddrFlag = $("#certAddrFlag").val();
-			var certNumFlag = $("#certNumFlag").val();
-			var establishTimeFlag = $("#establishTimeFlag").val();
-			var capitalFlag = $("#capitalFlag").val();
-			var scopeFlag = $("#scopeFlag").val();
-			var corporationNameFlag = $("#corporationNameFlag").val();
-			var idNumberFlag = $("#idNumberFlag").val();
-			var identifyNumberFlag = $("#identifyNumberFlag").val();
-			var taxpayerTypeFlag = $("#taxpayerTypeFlag").val();
-			var taxCodeFlag = $("#taxCodeFlag").val();
-			var bankNameFlag = $("#bankNameFlag").val();
-			var subbranchNameFlag = $("#subbranchNameFlag").val();
-			var bankAccountFlag = $("#bankAccountFlag").val();
-			var groupIndusteryFlag = $("#groupIndusteryFlag").val();
-			var groupMemberScaleFlag = $("#groupMemberScaleFlag").val();
-			var groupStypeFlag = $("#groupStypeFlag").val();
-			var contactDeptFlag = $("#contactDeptFlag").val();
-			var contactMpFlag = $("#contactMpFlag").val();
-			var phoneCodeFlag = $("#phoneCodeFlag").val();
-			var organizationCodeFlag = $("#organizationCodeFlag").val();
-			var provinceCodeFlag = $("#provinceCodeFlag").val();
-			if(custNameFlag!="0"&&certAddrFlag!="0"&&certNumFlag!="0"&&establishTimeFlag!="0"
-			  &&capitalFlag!="0"&&scopeFlag!="0"&&corporationNameFlag!="0"&&idNumberFlag!="0"&&identifyNumberFlag!="0"
-			  &&taxpayerTypeFlag!="0"&&taxCodeFlag!="0"&&bankNameFlag!="0"&&subbranchNameFlag!="0"&&bankAccountFlag!="0"
-			  &&groupIndusteryFlag!="0"&&groupMemberScaleFlag!="0"&&groupStypeFlag!="0"&&contactDeptFlag!="0"&&
-			  contactMpFlag!="0"&&phoneCodeFlag!="0"&&organizationCodeFlag!="0"&&provinceCodeFlag!="0"){
-				toSave();
-			}
-			
-		}
     });
     
     module.exports = EnterprisePager
