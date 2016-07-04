@@ -35,6 +35,7 @@ import com.ai.slp.product.api.webfront.param.FastProductReq;
 import com.ai.slp.product.api.webfront.param.FastSkuProdInfo;
 import com.ai.slp.product.api.webfront.param.ProductHomeRequest;
 import com.ai.slp.product.api.webfront.param.ProductHomeResponse;
+import com.alibaba.fastjson.JSON;
 
 @RestController
 public class HomeController {
@@ -229,14 +230,16 @@ public class HomeController {
 			
 			req.setProvCode(Integer.valueOf(fastProduct.getProvCode()));
 			FastProductInfoRes res = iProductHomeSV.queryFastProduct(req);
-
 			FastProductInfo info = new FastProductInfo();
 
 			Map<String, FastSkuProdInfo> PhoneInfoMap = res.getNationMap();
 
-			for (Entry<String, FastSkuProdInfo> map : res.getLocalMap().entrySet()) { // 去重
-				PhoneInfoMap.put(map.getKey(), map.getValue());
+			if( null!=res.getLocalMap()){
+				for (Entry<String, FastSkuProdInfo> map : res.getLocalMap().entrySet()) { // 去重
+					PhoneInfoMap.put(map.getKey(), map.getValue());
+				}
 			}
+			
 			info.setPhoneInfoMap(PhoneInfoMap);
 			FastProductResponse feeRes = new FastProductResponse();
 			List<PhoneFee> phoneFee = new ArrayList<PhoneFee>();
