@@ -272,7 +272,7 @@
 								<tr class="current">
 									<td width="10%"><input type="checkbox" name="CHEK_TEL_NO"
 										class="checkbox-medium" value="{{:telNo}}"></td>
-									<td>{{:telNo}}</td>
+									<td>{{:#index+1}}</td>
 									<td id='telName_{{:telNo}}'>{{:telName}}</td><td><span style="color:red" id="modify_name_error_{{:telNo}}"></span></td>
 									<td id='telMp_{{:telNo}}'>{{:telMp}}</td><td><span style="color:red" id="modify_mp_error_{{:telNo}}"></span></td>
 									<td>{{:provinceName}}</td>
@@ -286,7 +286,7 @@
 <tr>
 								<td>{{:#index+1}}</td>
 								<td><input type="text" class="table-int-mini" index="{{:#index}}" name="BATCH_TEL_NAME" value="{{:telName}}"></td>
-								<td><input type="text" class="table-int-mini" index="{{:#index}}" name="BATCH_TEL_MP" value="{{:telMp}}"></td>
+								<td><input type="text" class="table-int-mini" index="{{:#index}}" name="BATCH_TEL_MP" value="{{:telMp}}" maxLength="11"></td>
 								<td><span style="color:red" id="SPAN_ERROR_{{:#index}}">{{:error}}</span></td>
 								<td class="eject-table-img" align="left"><a href="javascript:void(0)"  index="{{:#index}}" name="DEL_BATCH_EDIT_ROW">删除</a></td>
 							</tr>

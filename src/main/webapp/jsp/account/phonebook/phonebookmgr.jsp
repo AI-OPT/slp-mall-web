@@ -113,7 +113,7 @@
 	
 	<script id="TelGroupImpl" type="text/x-jsrender">
 								<tr class="current">
-									<td width="10%">{{:telGroupId}}</td>
+									<td width="10%">{{:#index+1}}</td>
 									<td><span id="SPAN_TEL_GROUP_TEXT_{{:telGroupId}}">{{:telGroupName}}</span><span id="SPAN_TEL_GROUP_INPUT_{{:telGroupId}}" style="display:none"><input type="text" value="{{:telGroupName}}" id="INPUT_TEL_GROUP_{{:telGroupId}}" class="table-int-mini"/><input type="button" name="BTN_SAVE_TEL_GROUP" telGroupId="{{:telGroupId}}" class="mail-btn" value="保存"></span>
 										<a href="javascript:void(0)" class="click"><i class="icon-pencil" name="BTN_MODIFY_TEL_GROUP" id="BTN_MODIFY_TEL_GROUP_{{:telGroupId}}" telGroupId="{{:telGroupId}}"></i></a>
 										<a href="javascript:void(0)" class="trash-close"><i class="icon-trash" name="BTN_DEL_TEL_GROUP" telGroupId="{{:telGroupId}}"></i></a></td>

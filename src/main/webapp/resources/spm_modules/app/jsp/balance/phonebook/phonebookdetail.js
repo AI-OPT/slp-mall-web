@@ -545,7 +545,7 @@ define('app/jsp/balance/phonebook/phonebookdetail', function (require, exports, 
     	 */
     	_modifyTelData:function(telNo,telName,telMp){
     		$("#telName_"+telNo).html("<input id='telName_val_"+telNo+"' type='text' class='table-int-mini' value='"+telName+"'>");
-    		$("#telMp_"+telNo).html("<input id='telMp_val_"+telNo+"' type='text' class='table-int-mini' value='"+telMp+"'><input type='button' class='mail-btn' value='保存' onclick=\"pager._saveModifyTelData('"+telNo+"')\">");
+    		$("#telMp_"+telNo).html("<input id='telMp_val_"+telNo+"' type='text' class='table-int-mini' value='"+telMp+"' maxLength='11'><input type='button' class='mail-btn' value='保存' onclick=\"pager._saveModifyTelData('"+telNo+"')\">");
     	},
     	/**
     	 * 修改联系人
