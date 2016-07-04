@@ -386,7 +386,7 @@ define('app/jsp/balance/phonebook/phonebookdetail', function (require, exports, 
     			var onepass=true;
     			if(_this.checkBlank(telName)){
     				var length = telName.length;
-    				if(length > 4){
+    				if(length > 24){
     					alert("联系人姓名长度不能超过24");
     					onepass = false;
     				}
@@ -422,8 +422,10 @@ define('app/jsp/balance/phonebook/phonebookdetail', function (require, exports, 
 					datas: JSON.stringify(arr)
 				},
 				success: function(data){
+					var resultValue = data.data;
 					_this._hiddenDialog("addDialogDiv");
 					_this._queryPhoneBooks();
+					_this._showMsgDialog("添加联系人","添加操作完成！<p>共<span>"+resultValue.totalCount+"</span>条数据；成功导入<span>"+resultValue.successCount+"</span>条；失败<span>"+resultValue.failCount+"</span>条；</p>", 2);
 				}
 			});
     		

@@ -218,8 +218,8 @@ public class UserPhoneBookController {
 
 	@RequestMapping("/batchAddUserPhonebooks")
 	@ResponseBody
-	public ResponseData<String> batchAddUserPhonebooks(HttpServletRequest request, String datas) {
-		ResponseData<String> responseData = null;
+	public ResponseData<UcUserPhonebooksBatchAddResp> batchAddUserPhonebooks(HttpServletRequest request, String datas) {
+		ResponseData<UcUserPhonebooksBatchAddResp> responseData = null;
 		try {
 			List<UcUserPhonebooksBatchData> list = JSON.parseArray(datas, UcUserPhonebooksBatchData.class);
 			SLPClientUser user = this.getUserId(request);
@@ -234,13 +234,13 @@ public class UserPhoneBookController {
 			req.setTenantId(user.getTenantId());
 			UcUserPhonebooksBatchAddResp resp = DubboConsumerFactory.getService(IUserPhoneBooksSV.class).batchAddUserPhonebooks(req);
 			if (resp.getResponseHeader().isSuccess()) {
-				responseData = new ResponseData<String>(ResponseData.AJAX_STATUS_SUCCESS, "处理成功", resp.getResult());
+				responseData = new ResponseData<UcUserPhonebooksBatchAddResp>(ResponseData.AJAX_STATUS_SUCCESS, "处理成功", resp);
 			} else {
-				responseData = new ResponseData<String>(ResponseData.AJAX_STATUS_FAILURE, resp.getResponseHeader().getResultMessage());
+				responseData = new ResponseData<UcUserPhonebooksBatchAddResp>(ResponseData.AJAX_STATUS_FAILURE, resp.getResponseHeader().getResultMessage());
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
-			responseData = new ResponseData<String>(ResponseData.AJAX_STATUS_FAILURE, "处理失败");
+			responseData = new ResponseData<UcUserPhonebooksBatchAddResp>(ResponseData.AJAX_STATUS_FAILURE, "处理失败");
 		}
 		return responseData;
 	}
