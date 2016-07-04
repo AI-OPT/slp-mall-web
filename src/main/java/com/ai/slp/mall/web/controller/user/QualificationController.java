@@ -19,6 +19,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.ai.opt.base.vo.BaseResponse;
 import com.ai.opt.base.vo.ResponseHeader;
 import com.ai.opt.sdk.components.idps.IDPSClientFactory;
 import com.ai.opt.sdk.components.mcs.MCSClientFactory;
@@ -115,10 +116,9 @@ public class QualificationController {
     @RequestMapping(value="/saveEnterprise")
     @ResponseBody
     public ResponseData<String> saveEnterprise(HttpServletRequest request
-            ,InsertBankInfoRequest insertBankInfoRequest
             ,InsertGroupKeyInfoRequest insertGroupKeyInfoRequest
             ,InsertContactsInfoRequest insertContactsInfoRequest
-            ,CustFileListVo custFileListVo ,Model model) throws UnsupportedEncodingException{
+            ,CustFileListVo custFileListVo) throws UnsupportedEncodingException{
         
         ResponseData<String> responseData=null;
         ResponseHeader responseHeader=null;
@@ -130,6 +130,7 @@ public class QualificationController {
         HttpSession session = request.getSession();
         SLPClientUser user = (SLPClientUser) session.getAttribute(SSOClientConstants.USER_SESSION_KEY);
         //企业关键信息
+        insertGroupKeyInfoRequest.setCertIssueDate(DateUtil.getTimestamp(request.getParameter("establishTime")));
         insertGroupKeyInfoRequest.setTenantId(user.getTenantId());
         insertGroupKeyInfoRequest.setUserType(user.getUserType());
         insertGroupKeyInfoRequest.setUserId(user.getUserId());
@@ -143,15 +144,28 @@ public class QualificationController {
         //联系人信息
         insertContactsInfoRequest.setTenantId(user.getTenantId());
         insertContactsInfoRequest.setUserId(user.getUserId());
-        
-        IUcBankInfoSV ucBankInfoSV = DubboConsumerFactory.getService(IUcBankInfoSV.class);
+        IUcBankInfoSV ucBankInfoSV = null;
+        InsertBankInfoRequest insertBankInfoRequest = null;
+        //银行信息
+        if(request.getParameter("bankName")!=null&&request.getParameter("bankAccount")!=null){
+            insertBankInfoRequest = new InsertBankInfoRequest();
+            insertBankInfoRequest.setTenantId(user.getTenantId());
+            insertBankInfoRequest.setUserId(user.getUserId());
+            insertBankInfoRequest.setBankName(request.getParameter("bankName"));
+            insertBankInfoRequest.setAcctNo(request.getParameter("bankAccount"));
+            insertBankInfoRequest.setSubBranchName(request.getParameter("subbranchName"));
+            ucBankInfoSV = DubboConsumerFactory.getService(IUcBankInfoSV.class);
+        }
         IUcKeyInfoSV ucKeyInfoSV = DubboConsumerFactory.getService(IUcKeyInfoSV.class);
         IUcContactsInfoSV contactsInfoSV = DubboConsumerFactory.getService(IUcContactsInfoSV.class);
         try{
         ucKeyInfoSV.insertGroupKeyInfo(insertGroupKeyInfoRequest);
         ucKeyInfoSV.insertCustFileExt(insertCustFileExtRequest);
-        ucBankInfoSV.insertBankInfo(insertBankInfoRequest);
         contactsInfoSV.insertContactsInfo(insertContactsInfoRequest);
+        //判断是否保存银行信息
+        if(ucBankInfoSV!=null){
+            BaseResponse response = ucBankInfoSV.insertBankInfo(insertBankInfoRequest);
+        }
         responseData = new ResponseData<String>(VerifyConstants.QualificationConstants.SUCCESS_CODE, "操作成功", null);
         responseHeader = new ResponseHeader(true,VerifyConstants.QualificationConstants.SUCCESS_CODE,"操作成功");
         }catch(Exception e){

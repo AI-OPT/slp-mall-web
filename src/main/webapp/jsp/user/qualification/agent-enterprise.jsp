@@ -273,7 +273,7 @@
                 <li>
                     <p class="word"><b class="red">*</b>开户银行名称:</p>
 
-                    <p><input type="text" class="int-medium" placeholder="请填写开户银行名称" id="bankName"></p>
+                    <p><input type="text" class="int-medium" placeholder="请填写开户银行名称" id="bankName" name="bankName"></p>
                     <label id="bankNameErrMsg" style="display:none"><img src="${_slpbase}/images/icon-c.png" id="bankNameImage"><span class="ash" id="bankNameText">4-20个字符</span></label>
 
                  </li>
@@ -281,14 +281,14 @@
              <ul>
                 <li>
                     <p class="word"><b class="red">*</b>开户银行支行名称:</p>
-                    <p><input type="text" class="int-medium" placeholder="请填写开户银行支行名称" id="subbranchName"></p>
+                    <p><input type="text" class="int-medium" placeholder="请填写开户银行支行名称" id="subbranchName" name="subbranchName"></p>
                      <label id="subbranchNameErrMsg" style="display:none"><img src="${_slpbase}/images/icon-a.png" id="subbranchNameImage"><span class="ash"  id="subbranchNameText">请输入支行名称</span></label>
                  </li>
              </ul>
              <ul>
                 <li>
                     <p class="word"><b class="red">*</b>公司银行账户:</p>
-                    <p><input type="text" class="int-medium" placeholder="请填写公司银行账户" id="bankAccount"></p>
+                    <p><input type="text" class="int-medium" placeholder="请填写公司银行账户" id="bankAccount" name="bankAccount"></p>
                      <label id="bankAccountErrMsg" style="display:none"><img src="${_slpbase}/images/icon-a.png" id="bankAccountImage"><span class="ash" id="bankAccountText">请输入银行名称</span></label>
                  </li>
              </ul>
