@@ -401,7 +401,37 @@ public class QualificationController {
         model.put("industryList", industryList);
         return new ModelAndView("jsp/user/qualification/enterprise_edit", model);
     }
-
+    @RequestMapping("/editAgentEnterprise")
+    public ModelAndView editAgentEnterprise(HttpServletRequest request){
+        SLPClientUser userClient = (SLPClientUser) request.getSession().getAttribute(SSOClientConstants.USER_SESSION_KEY);
+        String userId = userClient.getUserId();
+        /**
+         * 获取个人客户关键信息
+         */
+        QueryContactsInfoSingleResponse contactsInfoInfoResponse = getContactsInfo(userId);
+        /**
+         * 获取企业客户信息
+         */
+        SearchGroupKeyInfoResponse grouKeyInfoResponse = getGroupKeyBaseinfo(userId);
+        /**
+         * 获取图片信息
+         */
+        QueryCustFileExtResponse custFileResponse = getCustFileExt(userId);
+        /**
+         * 
+         */
+       // IUcBankInfoSV 
+        
+        List<GnAreaVo> provinceList = getProvinceList();
+        List<IndustryQueryResponse> industryList = getIndustryList();
+        Map<String,Object> model = new HashMap<String,Object>();
+        model.put("contactsInfo", contactsInfoInfoResponse);
+        model.put("groupKeyInfo", grouKeyInfoResponse);
+        model.put("custFileResponse", custFileResponse);
+        model.put("provinceList", provinceList);
+        model.put("industryList", industryList);
+        return new ModelAndView("jsp/user/qualification/agent-enterprise-edit",model);
+    }
     // 校验企业名称唯一性
     @RequestMapping("/checkCustName")
     @ResponseBody
