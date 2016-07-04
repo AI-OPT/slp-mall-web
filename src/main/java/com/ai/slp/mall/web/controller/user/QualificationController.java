@@ -46,11 +46,15 @@ import com.ai.slp.user.api.bankinfo.interfaces.IUcBankInfoSV;
 import com.ai.slp.user.api.bankinfo.param.InsertBankInfoRequest;
 import com.ai.slp.user.api.contactsinfo.interfaces.IUcContactsInfoSV;
 import com.ai.slp.user.api.contactsinfo.param.InsertContactsInfoRequest;
+import com.ai.slp.user.api.contactsinfo.param.QueryContactsInfoSingleRequest;
+import com.ai.slp.user.api.contactsinfo.param.QueryContactsInfoSingleResponse;
 import com.ai.slp.user.api.keyinfo.interfaces.IUcKeyInfoSV;
 import com.ai.slp.user.api.keyinfo.param.CmCustFileExtVo;
 import com.ai.slp.user.api.keyinfo.param.InsertCustFileExtRequest;
 import com.ai.slp.user.api.keyinfo.param.InsertCustKeyInfoRequest;
 import com.ai.slp.user.api.keyinfo.param.InsertGroupKeyInfoRequest;
+import com.ai.slp.user.api.keyinfo.param.QueryCustFileExtRequest;
+import com.ai.slp.user.api.keyinfo.param.QueryCustFileExtResponse;
 import com.ai.slp.user.api.keyinfo.param.SearchCustKeyInfoRequest;
 import com.ai.slp.user.api.keyinfo.param.SearchCustKeyInfoResponse;
 import com.ai.slp.user.api.keyinfo.param.SearchGroupKeyInfoRequest;
@@ -343,23 +347,31 @@ public class QualificationController {
     }
     
     
-    @RequestMapping("/updateEnterprise")
-    public ModelAndView updateEnterprise(HttpServletRequest request){
+    @RequestMapping("/editEnterprise")
+    public ModelAndView editEnterprise(HttpServletRequest request){
         SLPClientUser userClient = (SLPClientUser) request.getSession().getAttribute(SSOClientConstants.USER_SESSION_KEY);
         String userId = userClient.getUserId();
         /**
          * 获取个人客户关键信息
          */
-        SearchCustKeyInfoResponse custKeyInfoResponse = getCustKeyBaseinfo(userId);
+        QueryContactsInfoSingleResponse contactsInfoInfoResponse = getContactsInfo(userId);
         /**
          * 获取企业客户信息
          */
         SearchGroupKeyInfoResponse grouKeyInfoResponse = getGroupKeyBaseinfo(userId);
-        
+        /**
+         * 获取图片信息
+         */
+        QueryCustFileExtResponse custFileResponse = getCustFileExt(userId);
+        List<GnAreaVo> provinceList = getProvinceList();
+        List<IndustryQueryResponse> industryList = getIndustryList();
         Map<String,Object> model = new HashMap<String,Object>();
-        model.put("custKeyInfo", custKeyInfoResponse);
+        model.put("contactsInfo", contactsInfoInfoResponse);
         model.put("groupKeyInfo", grouKeyInfoResponse);
-        return new ModelAndView("jsp/user/qualification/enterprise",model);
+        model.put("custFileResponse", custFileResponse);
+        model.put("provinceList", provinceList);
+        model.put("industryList", industryList);
+        return new ModelAndView("jsp/user/qualification/enterprise_edit",model);
     }
     
     //校验企业名称唯一性
@@ -417,6 +429,22 @@ public class QualificationController {
         groupKeyInfRequest.setUserId(userId);
         IUcKeyInfoSV ucKeyInfoSV = DubboConsumerFactory.getService("iUcKeyInfoSV");
         SearchGroupKeyInfoResponse response = ucKeyInfoSV.searchGroupKeyInfo(groupKeyInfRequest);
+        return response;
+    }
+    public QueryCustFileExtResponse getCustFileExt(String userId){
+        QueryCustFileExtRequest custFileExtInfoRequest = new QueryCustFileExtRequest();
+        custFileExtInfoRequest.setTenantId(SLPMallConstants.COM_TENANT_ID);
+        custFileExtInfoRequest.setUserId(userId);
+        IUcKeyInfoSV ucKeyInfoSV = DubboConsumerFactory.getService("iUcKeyInfoSV");
+        QueryCustFileExtResponse response = ucKeyInfoSV.queryCustFileExt(custFileExtInfoRequest);
+        return response;
+    }
+    public QueryContactsInfoSingleResponse getContactsInfo(String userId){
+        QueryContactsInfoSingleRequest contactsInfoRequest = new QueryContactsInfoSingleRequest();
+        contactsInfoRequest.setTenantId(SLPMallConstants.COM_TENANT_ID);
+        contactsInfoRequest.setUserId(userId);
+        IUcContactsInfoSV ucContactsInfoSV = DubboConsumerFactory.getService("iUcContactsInfoSV");
+        QueryContactsInfoSingleResponse response = ucContactsInfoSV.queryContactsInfoSingle(contactsInfoRequest);
         return response;
     }
 }
