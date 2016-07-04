@@ -12,12 +12,18 @@
 <link href="${_slpbase }/styles/font-awesome.css" rel="stylesheet" type="text/css">
 
 <script type="text/javascript">
+var baseInfoPager;
+var qualificationSubmitPager;
 (function() { 
-	seajs.use([ 'app/jsp/user/qualification/baseinfo'], function(BaseInfoQualificationPager) {
-		var pager = new BaseInfoQualificationPager({
+	seajs.use([ 'app/jsp/user/qualification/baseinfo','app/jsp/user/qualification/qualificationSubmit'], function(BaseInfoQualificationPager,qualificationSubmitPager) {
+		baseInfoPager = new BaseInfoQualificationPager({
 			element : document.body
 		});
-		pager.render();
+		qualificationSubmitPager = new qualificationSubmitPager({
+			element : document.body
+		});
+		baseInfoPager.render();
+		qualificationSubmitPager.render();
 	});
 })(); 
 
@@ -206,14 +212,14 @@
                  <li>
                     <p class="word">联系人邮箱:</p>
                     <p><input type="text" class="int-medium" placeholder="" id="contactEmail" name="contactEmail"></p>
-                    <label style="display:none" id="emailMsgError"><img src="${_slpbase}/images/icon-a.png" id="contactEmailMsgImage"><span id="contactEmailText">请填写正确手机号</span></label>
+                    <label style="display:none" id="emailMsgError"><img src="${_slpbase}/images/icon-a.png" id="contactEmailMsgImage"><span id="contactEmailText" class="ash">请填写正确手机号</span></label>
                  </li>
              </ul>
               <ul>
                  <li>
                     <p class="word"><b class="red">*</b>联系人手机:</p>
                     <p><input type="text" class="int-medium" placeholder="" id="contactMp" name="contactMp"></p>
-                    <label style="display:none" id="contactMpErrMsg"><img src="${_slpbase}/images/icon-a.png" id="contactMpImage"><span id="contactMpText">请填写正确手机号</span></label>
+                    <label style="display:none" id="contactMpErrMsg"><img src="${_slpbase}/images/icon-a.png" id="contactMpImage"><span id="contactMpText" class="ash">请填写正确手机号</span></label>
                  </li>
              </ul>
                <ul>
@@ -221,12 +227,12 @@
                     <p class="word"><b class="red">*</b>短信验证码:</p>
                     <p><input type="text" class="int-mini" id="phoneCode" name="phoneCode"></p>
                     <p><input type="button" class="int-btn" value="获取短信验证码" id="sendPhoneCode"></p>
-                    <label id="phoneCodeErrMsg" style="display:none"><img src="${_slpbase}/images/icon-a.png" id="phoneCodeImage"><span  id="phoneCodeText">验证码错误</span></label>
+                    <label id="phoneCodeErrMsg" style="display:none"><img src="${_slpbase}/images/icon-a.png" id="phoneCodeImage"><span  id="phoneCodeText" class="ash">验证码错误</span></label>
                  </li>
              </ul>
               <ul>
                  <li class="form-btn">
-                	 <input type="button" class="slp-btn regsiter-btn" value="保存资质" id="toSave">
+                	 <input type="button" class="slp-btn regsiter-btn" value="保存资质" id="enterpriseToSave">
                 	 <input type="hidden" id="custNameFlag">
                 	 <input type="hidden" id="provinceCode">
                 	 <input type="hidden" id="certAddrFlag">

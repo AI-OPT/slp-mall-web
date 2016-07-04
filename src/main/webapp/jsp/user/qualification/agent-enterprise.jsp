@@ -181,7 +181,7 @@
                 <li>
                     <p class="word"><b class="red">*</b>纳税人识别号:</p>
                     <p><input type="text" class="int-medium" placeholder="" id="identifyNumber" name="taxpayerCode"></p>
-                    <label id="identifyNumberErrMsg" style="display:none"><img src="${_slpbase}/images/icon-a.png" id="identifyNumberImage"><span id="identifyNumberText">4-20个字符，可用数字及字母</span></label>
+                    <label id="identifyNumberErrMsg" style="display:none"><img src="${_slpbase}/images/icon-a.png" id="identifyNumberImage"><span class="ash" id="identifyNumberText">4-20个字符，可用数字及字母</span></label>
                  </li>
              </ul>
              <ul>
@@ -196,7 +196,7 @@
                      </select>
                     </p>
 
-                     <label id="taxpayerTypeErrMsg" style="display:none"><img src="${_slpbase}/images/icon-a.png" id="taxpayerTypeImage"><span  id="taxpayerTypeText"  name="taxpayerType">请选择纳税人类型信息</span></label>
+                     <label id="taxpayerTypeErrMsg" style="display:none"><img src="${_slpbase}/images/icon-a.png" id="taxpayerTypeImage"><span class="ash" id="taxpayerTypeText"  name="taxpayerType">请选择纳税人类型信息</span></label>
 
                  </li>
              </ul>
@@ -215,7 +215,7 @@
 	                    	<option>17%</option>
 	                    </select>
                     </p>
-                     <label id="taxCodeErMsg" style="display:none"><img src="${_slpbase}/images/icon-a.png"><span >请选择纳税类型税码信息</span></label>
+                     <label id="taxCodeErMsg" style="display:none"><img src="${_slpbase}/images/icon-a.png"><span class="ash">请选择纳税类型税码信息</span></label>
                  </li>
              </ul>
               <ul>
@@ -407,14 +407,14 @@
                 <li>
                     <p class="word">联系人邮箱:</p>
                     <p><input style="text" class="int-medium" id="contactEmail" name="contactEmail"></p>
-                    <label style="display:none" id="emailMsgError"><img src="${_slpbase}/images/icon-a.png" id="emailMsgImage"><span  id="contactEmailText">请填写正确的邮箱</span></label>
+                    <label style="display:none" id="emailMsgError"><img src="${_slpbase}/images/icon-a.png" id="emailMsgImage"><span class="ash" id="contactEmailText">请填写正确的邮箱</span></label>
                  </li>
              </ul>
               <ul>
                  <li>
                     <p class="word"><b class="red">*</b>联系人手机:</p>
                     <p><input type="text" class="int-medium" placeholder="" id="contactMp" name="contactMp"></p>
-                    <label style="display:none" id="contactMpErrMsg"><img src="${_slpbase}/images/icon-a.png" id="contactMpImage"><span id="contactMpText">请填写正确手机号</span></label>
+                    <label style="display:none" id="contactMpErrMsg"><img src="${_slpbase}/images/icon-a.png" id="contactMpImage"><span class="ash" id="contactMpText">请填写正确手机号</span></label>
                  </li>
              </ul>
                <ul>
@@ -422,7 +422,7 @@
                     <p class="word"><b class="red">*</b>短信验证码:</p>
                     <p><input type="text" class="int-mini" id="phoneCode" name="phoneCode"></p>
                     <p><input type="button" class="int-btn" value="获取短信验证码" id="sendPhoneCode"></p>
-                    <label id="phoneCodeErrMsg" style="display:none"><img src="${_slpbase}/images/icon-a.png" id="phoneCodeImage"><span  id="phoneCodeText">验证码错误</span></label>
+                    <label id="phoneCodeErrMsg" style="display:none"><img src="${_slpbase}/images/icon-a.png" id="phoneCodeImage"><span class="ash" id="phoneCodeText">验证码错误</span></label>
                  </li>
              </ul>
               <ul>
