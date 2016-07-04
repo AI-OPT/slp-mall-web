@@ -465,6 +465,8 @@ define('app/jsp/producthome/productHome', function (require, exports, module) {
     		$("#phoneNum2").bind('input propertychange',function(){
     			$("#submitGpBtn").removeAttr('href');
     			$("#gsd2").html("");
+    			$("#gbasicOrgId").val("");
+			    $("#PCode1").val("");
        		 if($.trim($("#phoneNum2").val()).length==0){
        			 $("#gprs").html("");
                 	$("#realFee1").text("");
