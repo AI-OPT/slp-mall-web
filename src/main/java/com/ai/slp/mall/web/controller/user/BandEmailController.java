@@ -1,7 +1,6 @@
 package com.ai.slp.mall.web.controller.user;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -19,8 +18,6 @@ import com.ai.opt.base.vo.ResponseHeader;
 import com.ai.opt.sdk.components.ccs.CCSClientFactory;
 import com.ai.opt.sdk.components.mcs.MCSClientFactory;
 import com.ai.opt.sdk.dubbo.util.DubboConsumerFactory;
-import com.ai.opt.sdk.util.CollectionUtil;
-import com.ai.opt.sdk.util.RandomUtil;
 import com.ai.opt.sdk.util.StringUtil;
 import com.ai.opt.sdk.util.UUIDUtil;
 import com.ai.opt.sdk.web.model.ResponseData;
@@ -40,12 +37,12 @@ import com.ai.slp.mall.web.model.user.SendEmailRequest;
 import com.ai.slp.mall.web.util.CacheUtil;
 import com.ai.slp.mall.web.util.IPUtil;
 import com.ai.slp.mall.web.util.VerifyUtil;
-import com.ai.slp.user.api.register.param.UcUserParams;
 import com.ai.slp.user.api.ucUserSecurity.interfaces.IUcUserSecurityManageSV;
 import com.ai.slp.user.api.ucUserSecurity.param.UcUserEmailRequest;
 import com.ai.slp.user.api.ucuser.intefaces.IUcUserSV;
 import com.ai.slp.user.api.ucuser.param.SearchUserRequest;
 import com.ai.slp.user.api.ucuser.param.SearchUserResponse;
+import com.ai.slp.user.api.ucuser.param.UpdateUserInfoRequest;
 
 @RequestMapping("/user/bandEmail")
 @Controller
@@ -193,13 +190,13 @@ public class BandEmailController {
                     if(BandEmail.EMAIL_CERTIFIED.equals(accountQueryResponse.getEmailValidateFlag())){
                          emailValidateFlag = BandEmail.EMAIL_CERTIFIED;
                      }
-                    SearchUserRequest searchUserReqeust = new SearchUserRequest();
-                    searchUserReqeust.setUserId(userClient.getUserId());
-                    searchUserReqeust.setUserEmail(email);
-                    searchUserReqeust.setEmailValidateFlag(emailValidateFlag);
-                    searchUserReqeust.setTenantId(userClient.getTenantId());
+                    UpdateUserInfoRequest updateUserInfoRequest = new UpdateUserInfoRequest();
+                    updateUserInfoRequest.setUserId(userClient.getUserId());
+                    updateUserInfoRequest.setUserEmail(email);
+                    updateUserInfoRequest.setEmailValidateFlag(emailValidateFlag);
+                    updateUserInfoRequest.setTenantId(userClient.getTenantId());
                     IUcUserSV ucUser = DubboConsumerFactory.getService("iUcUserSV");
-                    ucUser.updateBaseInfo(searchUserReqeust);
+                    ucUser.updateBaseInfo(updateUserInfoRequest);
                     
                     return responseData;
                 } else if ("0002".equals(rasultCode)) {
@@ -376,14 +373,14 @@ public class BandEmailController {
         }
         request.getSession().setAttribute(SSOClientConstants.USER_SESSION_KEY, userClient);
         CacheUtil.deletCache(uuid, BandEmail.CACHE_NAMESPACE);
-        SearchUserRequest searchUserReqeust = new SearchUserRequest();
-        searchUserReqeust.setUserId(userClient.getUserId());
-        searchUserReqeust.setEmailValidateFlag(BandEmail.EMAIL_CERTIFIED);
-        searchUserReqeust.setTenantId(userClient.getTenantId());
-        searchUserReqeust.setUserEmail(userClient.getUserEmail());
-        searchUserReqeust.setEmailValidateFlag(BandEmail.EMAIL_CERTIFIED);
+        UpdateUserInfoRequest updateUserInfoRequest = new UpdateUserInfoRequest();
+        updateUserInfoRequest.setUserId(userClient.getUserId());
+        updateUserInfoRequest.setEmailValidateFlag(BandEmail.EMAIL_CERTIFIED);
+        updateUserInfoRequest.setTenantId(userClient.getTenantId());
+        updateUserInfoRequest.setUserEmail(userClient.getUserEmail());
+        updateUserInfoRequest.setEmailValidateFlag(BandEmail.EMAIL_CERTIFIED);
         IUcUserSV ucUser = DubboConsumerFactory.getService("iUcUserSV");
-        ucUser.updateBaseInfo(searchUserReqeust);
+        ucUser.updateBaseInfo(updateUserInfoRequest);
         return new ModelAndView("redirect:/user/bandEmail/bandEmailAuthenticateSuccess?email="+userClient.getUserEmail());
     }
     
@@ -457,13 +454,13 @@ public class BandEmailController {
     public ModelAndView updateFinishSuccess(HttpServletRequest request) {
         SLPClientUser userClient = (SLPClientUser) request.getSession().getAttribute(SSOClientConstants.USER_SESSION_KEY);
         request.getSession().setAttribute(SSOClientConstants.USER_SESSION_KEY, userClient);
-        SearchUserRequest searchUserReqeust = new SearchUserRequest();
-        searchUserReqeust.setUserId(userClient.getUserId());
-        searchUserReqeust.setEmailValidateFlag(BandEmail.EMAIL_CERTIFIED);
-        searchUserReqeust.setTenantId(userClient.getTenantId());
-        searchUserReqeust.setUserEmail(userClient.getUserEmail());
+        UpdateUserInfoRequest updateUserInfoRequest = new UpdateUserInfoRequest();
+        updateUserInfoRequest.setUserId(userClient.getUserId());
+        updateUserInfoRequest.setEmailValidateFlag(BandEmail.EMAIL_CERTIFIED);
+        updateUserInfoRequest.setTenantId(userClient.getTenantId());
+        updateUserInfoRequest.setUserEmail(userClient.getUserEmail());
         IUcUserSV ucUser = DubboConsumerFactory.getService("iUcUserSV");
-        ucUser.updateBaseInfo(searchUserReqeust);
+        ucUser.updateBaseInfo(updateUserInfoRequest);
         Map<String,String> model = new HashMap<String,String>();
         model.put("email", userClient.getUserEmail());
         return new ModelAndView("jsp/user/email/update-email-finish",model);
