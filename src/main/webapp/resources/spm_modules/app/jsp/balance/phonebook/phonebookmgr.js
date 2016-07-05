@@ -208,6 +208,10 @@ define('app/jsp/balance/phonebook/phonebookmgr', function (require, exports, mod
     			_this.modifyTelGroup(telGroupId,telGroupName);
     		});
     	},
+    	_searchPhoneBooksDetail(telGroupId,telGroupName){
+    		var url = _base+"/account/phonebook/phonebookdetail?telGroupId="+telGroupId+"&telGroupName="+ encodeURIComponent(encodeURIComponent(telGroupName));
+    		window.location.href = url;
+    	},
     	_deleteTelGroup: function(){
     		var _this = this;
     		ajaxController.ajax({
