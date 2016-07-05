@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -33,6 +34,9 @@ import com.ai.paas.ipaas.image.IImageClient;
 import com.ai.paas.ipaas.mcs.interfaces.ICacheClient;
 import com.ai.slp.common.api.area.interfaces.IGnAreaQuerySV;
 import com.ai.slp.common.api.area.param.GnAreaVo;
+import com.ai.slp.common.api.cache.interfaces.ICacheSV;
+import com.ai.slp.common.api.cache.param.SysParam;
+import com.ai.slp.common.api.cache.param.SysParamMultiCond;
 import com.ai.slp.common.api.industry.interfaces.IIndustrySV;
 import com.ai.slp.common.api.industry.param.IndustryQueryResponse;
 import com.ai.slp.mall.web.constants.SLPMallConstants;
@@ -80,11 +84,28 @@ public class QualificationController {
     // 代理商个人页面
     @RequestMapping("/toAgentPersonalPage")
     public ModelAndView toAgentPersonalPage() {
+        //获取注册地址
         List<GnAreaVo> provinceList = getProvinceList();
+        //获取行业信息
         List<IndustryQueryResponse> industryList = getIndustryList();
         Map<String, Object> model = new HashMap<String, Object>();
+        //获取公司人数
+        Map<String,String> groupMemberMap = getGroupMemberScaleMap();
+        //获取公司性质
+        Map<String,String> groupTypeMap = getGroupTypeMap();
+        //获取所属部门
+        Map<String,String> contactDeptMap = getContactDeptMap();
+        //获取学历信息
+        Map<String,String> educationMap = getCustEducationMap();
+        Map<String,String> incomeLevelMap = getIncomeLevelMap();
         model.put("provinceList", provinceList);
         model.put("industryList", industryList);
+        model.put("groupMember", groupMemberMap);
+        model.put("groupTypeMap", groupTypeMap);
+        model.put("contactDeptMap", contactDeptMap);
+        model.put("educationMap", educationMap);
+        model.put("incomeLevelMap", incomeLevelMap);
+        
         return new ModelAndView("jsp/user/qualification/agent-personal", model);
     }
 
@@ -93,9 +114,26 @@ public class QualificationController {
     public ModelAndView toSupplierPage() {
         List<GnAreaVo> provinceList = getProvinceList();
         List<IndustryQueryResponse> industryList = getIndustryList();
+        //获取纳税人类型
+        Map<String,String> taxpayerTypeMap = getTaxpayerTypeMap();
+        //获取纳税类型税码信息
+        Map<String,String> taxpayerTypeCodeMap = getTaxpayerTypeCodeMap();
+        //获取公司人数
+        Map<String,String> groupMemberMap = getGroupMemberScaleMap();
+        //获取公司性质
+        Map<String,String> groupTypeMap = getGroupTypeMap();
+        //获取所属部门
+        Map<String,String> contactDeptMap = getContactDeptMap();
+        
         Map<String, Object> model = new HashMap<String, Object>();
         model.put("provinceList", provinceList);
         model.put("industryList", industryList);
+        model.put("taxpayerTypeMap", taxpayerTypeMap);
+        model.put("taxpayerTypeCodeMap", taxpayerTypeCodeMap);
+        model.put("groupMemberMap", groupMemberMap);
+        model.put("groupTypeMap", groupTypeMap);
+        model.put("contactDeptMap", contactDeptMap);
+        
         return new ModelAndView("jsp/user/qualification/supplier", model);
     }
 
@@ -104,20 +142,49 @@ public class QualificationController {
     public ModelAndView toAgentEnterprisePage() {
         List<GnAreaVo> provinceList = getProvinceList();
         List<IndustryQueryResponse> industryList = getIndustryList();
+        //获取纳税人类型
+        Map<String,String> taxpayerTypeMap = getTaxpayerTypeMap();
+        //获取纳税类型税码信息
+        Map<String,String> taxpayerTypeCodeMap = getTaxpayerTypeCodeMap();
+        //获取公司人数
+        Map<String,String> groupMemberMap = getGroupMemberScaleMap();
+        //获取公司性质
+        Map<String,String> groupTypeMap = getGroupTypeMap();
+        //获取所属部门
+        Map<String,String> contactDeptMap = getContactDeptMap();
+        
         Map<String, Object> model = new HashMap<String, Object>();
         model.put("provinceList", provinceList);
         model.put("industryList", industryList);
+        model.put("taxpayerTypeMap", taxpayerTypeMap);
+        model.put("taxpayerTypeCodeMap", taxpayerTypeCodeMap);
+        model.put("groupMemberMap", groupMemberMap);
+        model.put("groupTypeMap", groupTypeMap);
+        model.put("contactDeptMap", contactDeptMap);
+       
         return new ModelAndView("jsp/user/qualification/agent-enterprise", model);
     }
 
     // 企业页面
     @RequestMapping("/toEnterprisePage")
     public ModelAndView toEnterprisePage() {
+        //获取注册地址
         List<GnAreaVo> provinceList = getProvinceList();
+        //获取行业信息
         List<IndustryQueryResponse> industryList = getIndustryList();
         Map<String, Object> model = new HashMap<String, Object>();
+        //获取公司人数
+        Map<String,String> groupMemberMap = getGroupMemberScaleMap();
+        //获取公司性质
+        Map<String,String> groupTypeMap = getGroupTypeMap();
+        //获取所属部门
+        Map<String,String> contactDeptMap = getContactDeptMap();
         model.put("provinceList", provinceList);
         model.put("industryList", industryList);
+        model.put("groupMember", groupMemberMap);
+        model.put("groupTypeMap", groupTypeMap);
+        model.put("contactDeptMap", contactDeptMap);
+        
         return new ModelAndView("jsp/user/qualification/enterprise", model);
     }
 
@@ -587,5 +654,142 @@ public class QualificationController {
             LOGGER.error("获取图片错误",e);
         }
         return map;
+    }
+    /**
+     *获取公司人数
+     * @return
+     * @author zhangyh7
+     * @ApiDocMethod
+     */
+    public Map<String,String> getGroupMemberScaleMap(){
+        SysParamMultiCond sysParam = new SysParamMultiCond();
+        sysParam.setTenantId(SLPMallConstants.COM_TENANT_ID);
+        sysParam.setTypeCode("USER");
+        sysParam.setParamCode("groupMemberScale");
+        ICacheSV cacheSv = DubboConsumerFactory.getService("iCacheSV");
+        List<SysParam> groupMemberScaleSysParam = cacheSv.getSysParamList(sysParam);
+        Map<String,String> groupMemberScaleMap = new LinkedHashMap<String,String>();
+        for(SysParam param:groupMemberScaleSysParam){
+            groupMemberScaleMap.put(param.getColumnValue(), param.getColumnDesc());
+        }
+        return groupMemberScaleMap;
+    }
+    /**
+     * 获取公司类型
+     * @return
+     * @author zhangyh7
+     * @ApiDocMethod
+     */
+    public Map<String,String> getGroupTypeMap(){
+        SysParamMultiCond sysParam = new SysParamMultiCond();
+        sysParam.setTenantId(SLPMallConstants.COM_TENANT_ID);
+        sysParam.setTypeCode("USER");
+        sysParam.setParamCode("groupType");
+        ICacheSV cacheSv = DubboConsumerFactory.getService("iCacheSV");
+        List<SysParam> groupTypeParam = cacheSv.getSysParamList(sysParam);
+        Map<String,String> groupTypeMapMap = new LinkedHashMap<String,String>();
+        for(SysParam param:groupTypeParam){
+            groupTypeMapMap.put(param.getColumnValue(), param.getColumnDesc());
+        }
+        return groupTypeMapMap;
+    }
+    /**
+     * 获取部门
+     * @return
+     * @author zhangyh7
+     * @ApiDocMethod
+     */
+    public Map<String,String> getContactDeptMap(){
+        SysParamMultiCond sysParam = new SysParamMultiCond();
+        sysParam.setTenantId(SLPMallConstants.COM_TENANT_ID);
+        sysParam.setTypeCode("USER");
+        sysParam.setParamCode("contactDept");
+        ICacheSV cacheSv = DubboConsumerFactory.getService("iCacheSV");
+        List<SysParam> contactDeptParam = cacheSv.getSysParamList(sysParam);
+        Map<String,String> contactDeptMap = new LinkedHashMap<String,String>();
+        for(SysParam param:contactDeptParam){
+            contactDeptMap.put(param.getColumnValue(), param.getColumnDesc());
+        }
+        return contactDeptMap;
+    }
+    
+    /**
+     * 获取纳税人类型
+     * @return
+     * @author zhangyh7
+     * @ApiDocMethod
+     */
+    public Map<String,String> getTaxpayerTypeMap(){
+        SysParamMultiCond sysParam = new SysParamMultiCond();
+        sysParam.setTenantId(SLPMallConstants.COM_TENANT_ID);
+        sysParam.setTypeCode("USER");
+        sysParam.setParamCode("taxpayerType");
+        ICacheSV cacheSv = DubboConsumerFactory.getService("iCacheSV");
+        List<SysParam> taxpayerTypeParam = cacheSv.getSysParamList(sysParam);
+        Map<String,String> taxpayerTypeMap = new LinkedHashMap<String,String>();
+        for(SysParam param:taxpayerTypeParam){
+            taxpayerTypeMap.put(param.getColumnValue(), param.getColumnDesc());
+        }
+        return taxpayerTypeMap;
+    }
+    
+    /**
+     * 获取纳税人编码
+     * @return
+     * @author zhangyh7
+     * @ApiDocMethod
+     */
+    public Map<String,String> getTaxpayerTypeCodeMap(){
+        SysParamMultiCond sysParam = new SysParamMultiCond();
+        sysParam.setTenantId(SLPMallConstants.COM_TENANT_ID);
+        sysParam.setTypeCode("USER");
+        sysParam.setParamCode("taxpayerTypeCode");
+        ICacheSV cacheSv = DubboConsumerFactory.getService("iCacheSV");
+        List<SysParam> taxpayerCodeParam = cacheSv.getSysParamList(sysParam);
+        Map<String,String> taxpayerCodeMap = new LinkedHashMap<String,String>();
+        for(SysParam param:taxpayerCodeParam){
+            taxpayerCodeMap.put(param.getColumnValue(), param.getColumnDesc());
+        }
+        return taxpayerCodeMap;
+    }
+    
+    /**
+     * 获取学历信息
+     * @return
+     * @author zhangyh7
+     * @ApiDocMethod
+     */
+    public Map<String,String> getCustEducationMap(){
+        SysParamMultiCond sysParam = new SysParamMultiCond();
+        sysParam.setTenantId(SLPMallConstants.COM_TENANT_ID);
+        sysParam.setTypeCode("USER");
+        sysParam.setParamCode("education");
+        ICacheSV cacheSv = DubboConsumerFactory.getService("iCacheSV");
+        List<SysParam> educationParam = cacheSv.getSysParamList(sysParam);
+        Map<String,String> educationParamMap = new LinkedHashMap<String,String>();
+        for(SysParam param:educationParam){
+            educationParamMap.put(param.getColumnValue(), param.getColumnDesc());
+        }
+        return educationParamMap;
+    }
+    
+    /**
+     * 获取收入信息
+     * @return
+     * @author zhangyh7
+     * @ApiDocMethod
+     */
+    public Map<String,String> getIncomeLevelMap(){
+        SysParamMultiCond sysParam = new SysParamMultiCond();
+        sysParam.setTenantId(SLPMallConstants.COM_TENANT_ID);
+        sysParam.setTypeCode("USER");
+        sysParam.setParamCode("incomeLevel");
+        ICacheSV cacheSv = DubboConsumerFactory.getService("iCacheSV");
+        List<SysParam> incomeLevelParam = cacheSv.getSysParamList(sysParam);
+        Map<String,String> incomeLevelMap = new LinkedHashMap<String,String>();
+        for(SysParam param:incomeLevelParam){
+            incomeLevelMap.put(param.getColumnValue(), param.getColumnDesc());
+        }
+        return incomeLevelMap;
     }
 }
