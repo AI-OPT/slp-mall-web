@@ -88,7 +88,6 @@ public class QualificationController {
         List<GnAreaVo> provinceList = getProvinceList();
         //获取行业信息
         List<IndustryQueryResponse> industryList = getIndustryList();
-        Map<String, Object> model = new HashMap<String, Object>();
         //获取公司人数
         Map<String,String> groupMemberMap = getGroupMemberScaleMap();
         //获取公司性质
@@ -97,7 +96,10 @@ public class QualificationController {
         Map<String,String> contactDeptMap = getContactDeptMap();
         //获取学历信息
         Map<String,String> educationMap = getCustEducationMap();
+        //获取收入信息
         Map<String,String> incomeLevelMap = getIncomeLevelMap();
+        
+        Map<String, Object> model = new HashMap<String, Object>();
         model.put("provinceList", provinceList);
         model.put("industryList", industryList);
         model.put("groupMember", groupMemberMap);
@@ -463,6 +465,13 @@ public class QualificationController {
         QueryCustFileExtResponse custFileResponse = getCustFileExt(userId);
         List<CmCustFileExtVo> custFileExtVoList = custFileResponse.getList();
         Map<String,String> imageMap = getImageUrl(custFileExtVoList);
+        //获取公司人数
+        Map<String,String> groupMemberMap = getGroupMemberScaleMap();
+        //获取公司性质
+        Map<String,String> groupTypeMap = getGroupTypeMap();
+        //获取所属部门
+        Map<String,String> contactDeptMap = getContactDeptMap();
+        
         
         List<GnAreaVo> provinceList = getProvinceList();
         List<IndustryQueryResponse> industryList = getIndustryList();
@@ -473,6 +482,9 @@ public class QualificationController {
         model.put("provinceList", provinceList);
         model.put("industryList", industryList);
         model.put("imageMap", imageMap);
+        model.put("groupMemberMap", groupMemberMap);
+        model.put("groupTypeMap", groupTypeMap);
+        model.put("contactDeptMap", contactDeptMap);
         return new ModelAndView("jsp/user/qualification/enterprise_edit", model);
     }
     
@@ -489,6 +501,19 @@ public class QualificationController {
          */
         QueryCustFileExtResponse custFileResponse = getCustFileExt(userId);
         List<GnAreaVo> provinceList = getProvinceList();
+        
+        //获取公司人数
+        Map<String,String> groupMemberMap = getGroupMemberScaleMap();
+        //获取公司性质
+        Map<String,String> groupTypeMap = getGroupTypeMap();
+        //获取所属部门
+        Map<String,String> contactDeptMap = getContactDeptMap();
+        //获取学历信息
+        Map<String,String> educationMap = getCustEducationMap();
+        //获取收入信息
+        Map<String,String> incomeLevelMap = getIncomeLevelMap();
+        
+        
         Map<String, Object> model = new HashMap<String, Object>();
         List<String> urlList = new ArrayList<String>();
         urlList.add("");
@@ -496,6 +521,11 @@ public class QualificationController {
         model.put("custFileResponse", custFileResponse);
         model.put("provinceList", provinceList);
         model.put("urlList", urlList);
+        model.put("groupMemberMap", groupMemberMap);
+        model.put("groupTypeMap", groupTypeMap);
+        model.put("contactDeptMap", contactDeptMap);
+        model.put("educationMap", educationMap);
+        model.put("incomeLevelMap", incomeLevelMap);
         return new ModelAndView("jsp/user/qualification/agent-personal-edit", model);
     }
     
@@ -522,6 +552,17 @@ public class QualificationController {
          */
         QueryBankInfoSingleResponse bankInfoResponse = getBankInfo(userId);
         
+        //获取纳税人类型
+        Map<String,String> taxpayerTypeMap = getTaxpayerTypeMap();
+        //获取纳税类型税码信息
+        Map<String,String> taxpayerTypeCodeMap = getTaxpayerTypeCodeMap();
+        //获取公司人数
+        Map<String,String> groupMemberMap = getGroupMemberScaleMap();
+        //获取公司性质
+        Map<String,String> groupTypeMap = getGroupTypeMap();
+        //获取所属部门
+        Map<String,String> contactDeptMap = getContactDeptMap();
+        
         List<GnAreaVo> provinceList = getProvinceList();
         List<IndustryQueryResponse> industryList = getIndustryList();
         Map<String,Object> model = new HashMap<String,Object>();
@@ -532,6 +573,11 @@ public class QualificationController {
         model.put("industryList", industryList);
         model.put("bankInfo", bankInfoResponse);
         model.put("imageMap", imageMap);
+        model.put("taxpayerTypeMap", taxpayerTypeMap);
+        model.put("taxpayerTypeCodeMap", taxpayerTypeCodeMap);
+        model.put("groupMemberMap", groupMemberMap);
+        model.put("groupTypeMap", groupTypeMap);
+        model.put("contactDeptMap", contactDeptMap);
         return new ModelAndView("jsp/user/qualification/agent-enterprise-edit",model);
     }
     // 校验企业名称唯一性
