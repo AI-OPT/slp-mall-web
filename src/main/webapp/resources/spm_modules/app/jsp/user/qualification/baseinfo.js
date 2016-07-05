@@ -67,7 +67,6 @@ define('app/jsp/user/qualification/baseinfo', function (require, exports, module
     		"change [id='contactDept']":"_checkContactDept",
     		//地址
     		"blur [id='countyCode']":"_checkContactAddress",
-    		"click [id='toSave']":"_submit"
         },
         init: function(){
         },
