@@ -109,10 +109,10 @@ define('app/jsp/fastcharge/fastCharge', function (require, exports, module) {
 									 _this._lfeeChange();
 									 $("#listLfee p:first").click();
 								}else{
-									 $("#listLfee").html("无面额信息");
+									 $("#listLfee").html("无适用面额");
 								}
 							}else{
-								$("#listLfee").html("无面额信息");
+								$("#listLfee").html("无适用面额");
 							}
 							
 							
@@ -342,6 +342,7 @@ define('app/jsp/fastcharge/fastCharge', function (require, exports, module) {
     		$("#phoneNum2").bind('input propertychange',function(){
     			$("#submitGpBtn").removeAttr('href');
     			$("#gsd2").html("");
+    			$("#gsd2").css("color","");
     			$("#pcode").val("");
 				$("#orgcode").val("");
     			if($.trim($("#phoneNum2").val()).length==0){
@@ -353,14 +354,16 @@ define('app/jsp/fastcharge/fastCharge', function (require, exports, module) {
         		if($.trim($("#phoneNum2").val()).length==11){
         			 var mobileReg = /^0?1[3|4|5|8|7][0-9]\d{8}$/; 
         			 if(mobileReg.test($.trim($("#phoneNum2").val()))==false){
-        				 Dialog({
+        				 $("#gsd2").css("color","#f4792c");
+        				 $("#gsd2").html("号码格式有误");
+        				/* Dialog({
         						title : '提示',
         						content : "手机号格式不对，请重新输入",
         						okValue : "确定",
         						ok : function() {
         							this.close;
         						}
-        					}).showModal();
+        					}).showModal();*/
         	    			return false;
 
         			 }
@@ -406,10 +409,10 @@ define('app/jsp/fastcharge/fastCharge', function (require, exports, module) {
        										 _this._lfeeChange();
        										 $("#listLfee p:first").click();
        									}else{
-       										 $("#listLfee").html("无面额信息");
+       										 $("#listLfee").html("无适用面额");
        									}
     									}else{
-    										 $("#listLfee").html("无面额信息");
+    										 $("#listLfee").html("无适用面额");
     									}
     									
     									
@@ -419,7 +422,7 @@ define('app/jsp/fastcharge/fastCharge', function (require, exports, module) {
     							
     						}else{
     							$("#gsd2").html("未知运营商");
-    							 $("#listLfee").html("无面额信息");
+    							 $("#listLfee").html("无适用面额");
     							 $("#lPrice").html("");
     						}
     					}
@@ -438,6 +441,7 @@ define('app/jsp/fastcharge/fastCharge', function (require, exports, module) {
     		$("#phoneNum1").bind('input propertychange',function(){
     			$("#submitOdrBtn").removeAttr('href');
     			$("#gsd1").html("");
+    			 $("#gsd1").css("color","");
     			if($.trim($("#phoneNum1").val()).length==0){
        			 $("#listHfee").html("");
        			 
@@ -448,14 +452,16 @@ define('app/jsp/fastcharge/fastCharge', function (require, exports, module) {
         		if($.trim($("#phoneNum1").val()).length==11){
         			 var mobileReg = /^0?1[3|4|5|8|7][0-9]\d{8}$/; 
         			 if(mobileReg.test($.trim($("#phoneNum1").val()))==false){
-        				 Dialog({
+        				/* Dialog({
         						title : '提示',
         						content : "手机号格式不对，请重新输入",
         						okValue : "确定",
         						ok : function() {
         							this.close;
         						}
-        					}).showModal();
+        					}).showModal();*/
+        				 $("#gsd1").css("color","#f4792c");
+        				 $("#gsd1").html("号码格式有误");
         	    			return false;
 
         			 }
@@ -500,10 +506,10 @@ define('app/jsp/fastcharge/fastCharge', function (require, exports, module) {
        										 _this._hfeeChange();
        										 $("#listHfee p:first").click();
        									}else{
-       										 $("#listHfee").html("无面额信息");
+       										 $("#listHfee").html("无适用面额");
        									}
     									}else{
-    										 $("#listHfee").html("无面额信息");
+    										 $("#listHfee").html("无适用面额");
     									}
     									
     									
@@ -513,7 +519,7 @@ define('app/jsp/fastcharge/fastCharge', function (require, exports, module) {
     							
     						}else{
     							$("#gsd1").html("未知运营商");
-    							 $("#listHfee").html("无面额信息");
+    							 $("#listHfee").html("无适用面额");
     							 $("#hPrice").text("");
     						}
     						

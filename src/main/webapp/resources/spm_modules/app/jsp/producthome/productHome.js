@@ -367,6 +367,7 @@ define('app/jsp/producthome/productHome', function (require, exports, module) {
     			//var _this=this;
        		 $("#submitOdrBtn").removeAttr('href');
        		$("#gsd1").html("");
+       		$("#gsd1").css("color","");
        		if($.trim($("#phoneNum1").val()).length==0){
        			$("#phoneFee").html("");
       			 $("#realFee").text("");
@@ -377,14 +378,16 @@ define('app/jsp/producthome/productHome', function (require, exports, module) {
        		if($.trim($("#phoneNum1").val()).length==11){
        			 var mobileReg = /^0?1[3|4|5|8|7][0-9]\d{8}$/; 
        			 if(mobileReg.test($.trim($("#phoneNum1").val()))==false){
-       				 Dialog({
+       				/* Dialog({
        						title : '提示',
        						content : "手机号格式不对，请重新输入",
        						okValue : "确定",
        						ok : function() {
        							this.close;
        						}
-       					}).showModal();
+       					}).showModal();*/
+       				$("#gsd1").css("color","#d4251f");
+       				$("#gsd1").html("号码格式有误");
        	    			return false;
 
        			 }
@@ -467,6 +470,7 @@ define('app/jsp/producthome/productHome', function (require, exports, module) {
     			$("#gsd2").html("");
     			$("#gbasicOrgId").val("");
 			    $("#PCode1").val("");
+			    $("#gsd2").css("color","");
        		 if($.trim($("#phoneNum2").val()).length==0){
        			 $("#gprs").html("");
                 	$("#realFee1").text("");
@@ -481,14 +485,8 @@ define('app/jsp/producthome/productHome', function (require, exports, module) {
            		var mobileReg = /^0?1[3|4|5|8|7][0-9]\d{8}$/; 
            		
            		 if(mobileReg.test(phoneNum)==false){
-           						 Dialog({
-           								title : '提示',
-           								content : "手机号格式不对，请重新输入",
-           								okValue : "确定",
-           								ok : function() {
-           									this.close;
-           								}
-           							}).showModal();
+           			$("#gsd2").css("color","#d4251f");
+           			$("#gsd2").html("号码格式有误");			
            			    return false;
 
            		 }
