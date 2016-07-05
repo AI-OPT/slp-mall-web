@@ -585,9 +585,6 @@ define('app/jsp/balance/phonebook/phonebookdetail', function (require, exports, 
     				success: function(data){
     					//_this._showMsgDialog("提示","删除成功!",2);
     					_this._queryPhoneBooks();
-    				},
-    				failure: function(){
-    					_this._showMsgDialog("错误","修改失败!",3);
     				}
     			});
     		}
