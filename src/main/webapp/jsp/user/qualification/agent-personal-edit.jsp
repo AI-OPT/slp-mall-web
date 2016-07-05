@@ -5,31 +5,37 @@
 <%@ include file="/inc/inc.jsp"%>
 <!--Support IE Text -->
 <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
-<title>资质申请－代理商－个人</title>
+<title>资质申请－代理商－企业</title>
 <link href="${_slpbase }/styles/modular.css" rel="stylesheet" type="text/css">
 <link href="${_slpbase }/styles/global.css" rel="stylesheet" type="text/css">
 <link href="${_slpbase }/styles/frame.css" rel="stylesheet" type="text/css">
 <link href="${_slpbase }/styles/font-awesome.css" rel="stylesheet" type="text/css">
+<link rel="stylesheet" type="text/css" href="${_base}/resources/slpmall/styles/bootstrap.css">
+<script type="text/javascript" src="${_base}/resources/spm_modules/jquery/1.9.1/jquery.js"></script>
 <script type="text/javascript">
-		var agentPersonalPager;
-		var baseinfoPage;
-		var qualificationSubmitPager;
-		(function() { 
-			seajs.use(['app/jsp/user/qualification/agent-personal','app/jsp/user/qualification/baseinfo','app/jsp/user/qualification/qualificationSubmit'],function(AgentPersonalPager,BaseInfoQualificationPager,QualificationSubmitPager) {
-				    agentPersonalPager = new AgentPersonalPager({
-					element : document.body
-				});
-				    baseinfoPage = new BaseInfoQualificationPager({
-					element : document.body
-				});
-				    qualificationSubmitPager = new QualificationSubmitPager({
-						element : document.body
-				});
-				agentPersonalPager.render();
-				baseinfoPage.render();
-				qualificationSubmitPager.render();
+
+function editAgentPersonal(){
+	$("#qf-edit").show(10);
+	$("#qf-browse").hide(10);
+}
+	var baseInfoPager;
+	var enterprisePager;
+	(function() { 
+		seajs.use([ 'app/jsp/user/qualification/baseinfo','app/jsp/user/qualification/agent-supplier-enterprise','app/jsp/user/qualification/qualificationSubmit'], function(BaseInfoQualificationPager,EnterprisePager,QualificationSubmitPager) {
+			    baseInfoPager = new BaseInfoQualificationPager({
+				element : document.body
 			});
-		})();  
+			    enterprisePager = new EnterprisePager({
+				element : document.body
+			});
+			   var qualificationSubmitPager = new QualificationSubmitPager({
+					element : document.body
+				});
+			baseInfoPager.render();
+			enterprisePager.render();
+			qualificationSubmitPager.render();
+		});
+	})();  
 </script>
 </head>
 <body>
@@ -54,20 +60,105 @@
           <p><a href="#">资质认证</a></p>
       </div>
       <div class="account-bj">
-       <!--提示风险-->
-        <div class="prompt-risk small-risk">
-            <p>提醒：代理商用户在完善基础认证信息后，才能查看代理商专属价格及专属货品，赶快提交认证所需信息吧！</p>
-            <p class="img"><img src="${_slpbase}/images/yue-1.png"></p>
-        </div>
-      <!--标题-->
-     <div class="mar-account-title">
-     <div class="account-title"><p>资质类型:个人</p></div>
-     </div>
-     
      <!--标题-->  
-     <div class="account-title"><p>个人资质信息</p></div>
+     <div class="mar-account-title">
+     	
+      <div class="account-title account-title-bjcolor">
+      	<p>资质类型:个人</p>
+      	<p class="right"><i class="icon-edit qualifications" onclick="editAgentPersonal();">修改</i></p>
+      </div>
+      </div>
+     <div class="account-title">
+     	<p>个人资质信息</p>
+     </div>
+     <!--信息预览-->
+     <div id="qf-browse">
+     <div class="nav-form">
+         <ul>
+             <li>
+                <p class="word">真实姓名:</p>
+                <p>${custKeyInfo.custName}</p>
+             </li>
+         </ul>
+         <ul>
+             <li>
+                <p class="word">性别:</p>
+                <p><c:choose>
+				<c:when test="${custKeyInfo.custSex}==0">男
+				</c:when>
+				<c:otherwise>女</c:otherwise>
+				</c:choose></p>
+             </li>
+         </ul>
+         <ul>
+             <li>
+                <p class="word">学历:</p>
+                <p>${custKeyInfo.custEducation }</p>
+             </li>
+         </ul>
+       	  <ul>
+             <li>
+                <p class="word">联系地址:</p>
+                <p>${custKeyInfo.provinceCode}</p>
+             </li>
+         </ul>
+          <ul>
+             <li>
+                <p class="word">生日:</p>
+                <p>${custKeyInfo.custBirthday }</p>
+             </li>
+         </ul>
+   		  <ul>
+             <li>
+                <p class="word">收入:</p>
+                <p>${custKeyInfo.incomeLevel }</p>
+             </li>
+         </ul>
+         <ul>
+             <li>
+                <p class="word">介绍信息:</p>
+                <p>${custKeyInfo.personalRemark }</p>
+             </li>
+         </ul>
+     </div>
+     <!--标题-->  
+     <div class="account-title"><p>身份证信息</p></div>
+     <!--信息预览-->
+     
+     <div class="nav-form">
+           <ul>
+                <li>
+                    <p class="word">身份证号:</p>
+                    <p>${custKeyInfo.certNum }</p>
+                 </li>
+             </ul>
+              <ul>
+                 <li>
+                    <p class="word"><b class="red">*</b>身份证正面照片:</p>
+                    <p> <img src="${urlList[0] }"></p>
+                 </li>
+             </ul>
+              <ul>
+                 <li>
+                    <p class="word"><b class="red">*</b>身份证背面照片:</p>
+                     <p> <img src="${urlList[1] }"></p>
+                 </li>
+             </ul>
+             <ul>
+                 <li>
+                    <p class="word"><b class="red">*</b>手持身份证正面照片:</p>
+                    <p> <img src="${urlList[2] }"></p>
+                 </li>
+             </ul>
+     </div>
+     </div>
+     <div  id="qf-edit" style="display:none;">
+     	<div class="prompt-risk small-risk mt-0">
+            <p>您的资质信息修改后需人工审核才能生效，审核时间为3个工作日，确定要修改资质信息吗？</p>
+            <p class="img"><img src="${_slpbase }/images/yue-1.png"></p>
+        </div>
      <!--信息填写-->
-     <form:form id="agentPersonal" method="post">
+      <form:form id="agentPersonal" method="post">
      <div class="nav-form">
          <ul>
              <li>
@@ -189,8 +280,6 @@
 	             <li>
 	                <p class="word"><b class="red">*</b>身份证正面照:</p>
 	                <input type="hidden" name="list[0].infoName" value="身份证正面照"/>
-	                 <input type="hidden" value="11" name="list[0].infoType">
-               		 <input type="hidden" value="11001" name="list[0].infoItem">
 	                <p class="img"><img src="${_slpbase }/images/fom-t.png" id="certPic1"></p>
 	                <p class="small-p">
 	                <span><input type="button" value="点击上传" class="file-btn"><input type="file" class="file" id="image1" name="image1" onchange="uploadImg('image1','certPic1','idpsId1');"><a href="javascript:void(0)" onclick="deleteImg('image1','certPic2','idpsId1');">删除</a></span>
@@ -213,8 +302,6 @@
 	             <li>
 	                <p class="word"><b class="red">*</b>身份证背面照片:</p>
 	                <input type="hidden" name="list[1].infoName" value="身份证背面照片"/>
-	                  <input type="hidden" value="11" name="list[1].infoType">
-               		 <input type="hidden" value="11002" name="list[1].infoItem">
 	                <p class="img"><img src="${_slpbase }/images/fom-t.png" id="certPic2"></p>
 	                <p class="small-p">
 	                <span><input type="button" value="点击上传" class="file-btn"><input type="file" class="file" id="image2" name="image2" onchange="uploadImg('image2','certPic2','idpsId2');"><a href="javascript:void(0)" onclick="deleteImg('image2','certPic2','idpsId2');">删除</a></span>
@@ -237,8 +324,6 @@
 	             <li>
 	                <p class="word"><b class="red">*</b>手持身份证正面照片:</p>
 	                <input type="hidden" name="list[2].infoName" value="手持身份证正面照片"/>
-	                 <input type="hidden" value="11" name="list[2].infoType">
-               		 <input type="hidden" value="11003" name="list[2].infoItem">
 	                <p class="img"><img src="${_slpbase }/images/fom-t.png" id="certPic3"></p>
 	                <p class="small-p">
 	                <span><input type="button" value="点击上传" class="file-btn"><input type="file" class="file" id="image3" name="image3" onchange="uploadImg('image3','certPic3','idpsId3');"><a href="javascript:void(0)" onclick="delete('image3','certPic3','idpsId3');">删除</a></span>
@@ -258,7 +343,7 @@
         		 </ul>
              <ul>
                  <li class="form-btn">
-                 	<input type="button" class="slp-btn regsiter-btn" id="savePersonalQualification" value="保存资质">
+                 	<input type="button" class="slp-btn regsiter-btn" id="updateAgentPersonal" value="保存资质">
                  	<input type="hidden" id="custNameFlag"/>
                  	<input type="hidden" id="certAddrFlag">
                  	<input type="hidden" id="idNumberFlag"/>
@@ -276,8 +361,9 @@
      </form:form>
      </div>
      </div>
-  		</div>  
-   		</div>
+  	</div>  
+  	</div>
+     </div>
 		 <!--底部-->
     		<%@ include file="/inc/foot.jsp" %>
    <!--底部 结束-->

@@ -2,6 +2,7 @@ package com.ai.slp.mall.web.controller.user;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -403,6 +404,30 @@ public class QualificationController {
         model.put("industryList", industryList);
         return new ModelAndView("jsp/user/qualification/enterprise_edit", model);
     }
+    
+    @RequestMapping("/editAgentPersonal")
+    public ModelAndView editAgentPersonal(HttpServletRequest request) {
+        SLPClientUser userClient = (SLPClientUser) request.getSession().getAttribute(SSOClientConstants.USER_SESSION_KEY);
+        String userId = userClient.getUserId();
+        /**
+         * 获取个人客户信息
+         */
+        SearchCustKeyInfoResponse custKeyInfoResponse = getCustKeyBaseinfo(userId);
+        /**
+         * 获取图片信息
+         */
+        QueryCustFileExtResponse custFileResponse = getCustFileExt(userId);
+        List<GnAreaVo> provinceList = getProvinceList();
+        Map<String, Object> model = new HashMap<String, Object>();
+        List<String> urlList = new ArrayList<String>();
+        urlList.add("");
+        model.put("custKeyInfo", custKeyInfoResponse);
+        model.put("custFileResponse", custFileResponse);
+        model.put("provinceList", provinceList);
+        model.put("urlList", urlList);
+        return new ModelAndView("jsp/user/qualification/agent-personal-edit", model);
+    }
+    
     @RequestMapping("/editAgentEnterprise")
     public ModelAndView editAgentEnterprise(HttpServletRequest request){
         SLPClientUser userClient = (SLPClientUser) request.getSession().getAttribute(SSOClientConstants.USER_SESSION_KEY);

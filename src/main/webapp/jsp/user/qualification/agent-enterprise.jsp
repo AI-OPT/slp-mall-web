@@ -110,6 +110,8 @@
              <li>
                 <p class="word"><b class="red">*</b>营业执照副本:</p>
                  <input type="hidden" name="list[0].infoName" value="营业执照副本"/>
+                  <input type="hidden" value="12" name="list[0].infoType">
+                <input type="hidden" value="12001" name="list[0].infoItem">
                 <p class="img"><img src="${_slpbase}/images/fom-t.png" id="certPic1"></p>
                 <p class="small-p">
                  <span>
@@ -164,6 +166,8 @@
              <li>
                 <p class="word"><b class="red">*</b>身份证复印件:</p>
                 <input type="hidden" name="list[1].infoName" value="身份证复印件"/>
+                 <input type="hidden" value="11" name="list[1].infoType">
+                <input type="hidden" value="11004" name="list[1].infoItem">
                 <p class="img"><img src="${_slpbase}/images/fom-t.png" id="certPic2"></p>
                 <p class="small-p">
                 <span>
@@ -226,6 +230,8 @@
              <li>
                 <p class="word"><b class="red">*</b>税务登记证:</p>
                  <input type="hidden" name="list[2].infoName" value="税务登记证"/>
+                <input type="hidden" value="13" name="list[2].infoType">
+                <input type="hidden" value="13001" name="list[2].infoItem">
                 <p class="img"><img src="${_slpbase}/images/fom-t.png" id="certPic3"></p>
                 <p class="small-p">
                 <span>
@@ -253,6 +259,8 @@
              <li>
                 <p class="word"><b class="red">*</b>代码证电子版:</p>
                 <input type="hidden" name="list[3].infoName" value="代码证电子版"/>
+                <input type="hidden" value="14" name="list[3].infoType">
+                <input type="hidden" value="14001" name="list[3].infoItem">
                 <p class="img"><img src="${_slpbase}/images/fom-t.png" id="certPic4"></p>
                 <p class="small-p">
                 <span>
@@ -296,6 +304,8 @@
              <li>
                 <p class="word"><b class="red">*</b>银行开户许可证:</p>
                 <input type="hidden" name="list[4].infoName" value="银行开户许可证"/>
+                <input type="hidden" value="15" name="list[4].infoType">
+                <input type="hidden" value="15001" name="list[4].infoItem">
                 <p class="img"><img src="${_slpbase}/images/fom-t.png" id="certPic5"></p>
                 <p class="small-p">
                 <span>
