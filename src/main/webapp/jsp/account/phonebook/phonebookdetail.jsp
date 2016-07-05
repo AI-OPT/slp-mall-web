@@ -269,17 +269,18 @@
 	
 
 <script id="PhoneBooksImpl" type="text/x-jsrender">
+					{{for result ~pageSize=pageSize ~pageNo=pageNo}}
 								<tr class="current">
 									<td width="10%"><input type="checkbox" name="CHEK_TEL_NO"
 										class="checkbox-medium" value="{{:telNo}}"></td>
-									<td>{{:#index+1}}</td>
+									<td>{{:(#index+1)+(~pageSize*(~pageNo-1))}}</td>
 									<td id='telName_{{:telNo}}'>{{:telName}}</td>
 									<td id='telMp_{{:telNo}}'>{{:telMp}}</td>
 									<td>{{:provinceName}}</td>
 									<td>{{:basicOrgName}}</td>
 									<td><a href="javascript:pager._modifyTelData('{{:telNo}}','{{:telName}}','{{:telMp}}')" class="click">编辑</a></td>
 								</tr> 
-	
+					{{/for}}
 </script>
 
 <script id="PhoneBooksBatchEditImpl" type="text/x-jsrender">

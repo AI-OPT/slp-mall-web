@@ -535,17 +535,27 @@ define('app/jsp/balance/phonebook/phonebookdetail', function (require, exports, 
 	           	visiblePages:5,
 	            message: "正在为您查询数据..",
 	            render: function (data) {
-	            	if(data != null && data != 'undefined' && data.length>0){
+//	            	if(data != null && data != 'undefined' && data.length>0){
+//	            		var template = $.templates("#PhoneBooksImpl");
+//	                    var htmlOutput = template.render(data);
+//	                    $("#TBODY_PHONEBOOKS").html(htmlOutput);
+//	            	}else{
+//    					$("#TBODY_PHONEBOOKS").html("没有搜索到相关信息");
+//	            	}
+	            },
+	            callback: function(data){
+	            	var count = data.count;
+	            	$("#phoneCount").text(count);
+//	            	var renderData = data.result;
+//	            	renderData["pageSize"] = data.pageSize;
+//	            	renderData["pageNo"] = data.pageNo;
+	              	if(data.result != null && data.result != 'undefined' && data.result.length>0){
 	            		var template = $.templates("#PhoneBooksImpl");
 	                    var htmlOutput = template.render(data);
 	                    $("#TBODY_PHONEBOOKS").html(htmlOutput);
 	            	}else{
     					$("#TBODY_PHONEBOOKS").html("没有搜索到相关信息");
 	            	}
-	            },
-	            callback: function(data){
-	            	var count = data.count;
-	            	$("#phoneCount").text(count);
 	            }
     		}); 
     	},
