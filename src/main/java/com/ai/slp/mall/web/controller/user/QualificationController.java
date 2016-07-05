@@ -394,6 +394,9 @@ public class QualificationController {
          * 获取图片信息
          */
         QueryCustFileExtResponse custFileResponse = getCustFileExt(userId);
+        List<CmCustFileExtVo> custFileExtVoList = custFileResponse.getList();
+        Map<String,String> imageMap = getImageUrl(custFileExtVoList);
+        
         List<GnAreaVo> provinceList = getProvinceList();
         List<IndustryQueryResponse> industryList = getIndustryList();
         Map<String, Object> model = new HashMap<String, Object>();
@@ -402,6 +405,7 @@ public class QualificationController {
         model.put("custFileResponse", custFileResponse);
         model.put("provinceList", provinceList);
         model.put("industryList", industryList);
+        model.put("imageMap", imageMap);
         return new ModelAndView("jsp/user/qualification/enterprise_edit", model);
     }
     
@@ -444,6 +448,8 @@ public class QualificationController {
          * 获取图片信息
          */
         QueryCustFileExtResponse custFileResponse = getCustFileExt(userId);
+        List<CmCustFileExtVo> custFileExtVoList = custFileResponse.getList();
+        Map<String,String> imageMap = getImageUrl(custFileExtVoList);
         /**
          * 银行信息
          */
@@ -458,6 +464,7 @@ public class QualificationController {
         model.put("provinceList", provinceList);
         model.put("industryList", industryList);
         model.put("bankInfo", bankInfoResponse);
+        model.put("imageMap", imageMap);
         return new ModelAndView("jsp/user/qualification/agent-enterprise-edit",model);
     }
     // 校验企业名称唯一性
@@ -559,8 +566,26 @@ public class QualificationController {
         QueryBankInfoSingleRequest bankInfoRequest = new QueryBankInfoSingleRequest();
         bankInfoRequest.setTenantId(SLPMallConstants.COM_TENANT_ID);
         bankInfoRequest.setUserId(userId);
-        IUcBankInfoSV ucContactsInfoSV = DubboConsumerFactory.getService("iUcBankInfoSV");
-        QueryBankInfoSingleResponse response = ucContactsInfoSV.queryBankInfoSingle(bankInfoRequest);
+        IUcBankInfoSV ucBankInfoSV = DubboConsumerFactory.getService("iUcBankInfoSV");
+        QueryBankInfoSingleResponse response = ucBankInfoSV.queryBankInfoSingle(bankInfoRequest);
         return response;
+    }
+    
+    
+    public Map<String,String> getImageUrl(List<CmCustFileExtVo> custFileExtVoList){
+        String idpsns = "slp-mall-web-idps";
+        // 获取imageClient
+        IImageClient im = IDPSClientFactory.getImageClient(idpsns);
+        Map<String,String> map = new HashMap<String,String>();
+        try {
+            for(CmCustFileExtVo cmUcstFile:custFileExtVoList){
+                String url = im.getImageUrl(cmUcstFile.getAttrValue(), ".jpg");
+                map.put(cmUcstFile.getInfoItem(), url);
+            }
+           
+        } catch (Exception e) {
+            LOGGER.error("获取图片错误",e);
+        }
+        return map;
     }
 }
