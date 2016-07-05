@@ -44,7 +44,7 @@
                     <ul>
                         <li class="word" >请输入充值手机号:</li>
                         <li class="recharge-xlarge"><input type="text" id="phoneNum1" maxlength="11" class="int-recharge"><span class="cmct" id="gsd1"></span></li>
-                        <li><a href="#">给多人充值</a></li>
+                        <li><a href="${_base}/account/phonebook/phonebookmgr">给多人充值</a></li>
                     </ul>
                     <ul>
                         <li class="word">充值额:</li>
@@ -78,7 +78,7 @@
                     <ul>
                         <li class="word" >请输入充值手机号:</li>
                         <li  class="recharge-xlarge"><input type="text" id="phoneNum2" maxlength="11" class="int-recharge"><span class="cmct" id="gsd2"></span></li>
-                        <li><a href="#">给多人充值</a></li>
+                        <li><a href="${_base}/account/phonebook/phonebookmgr">给多人充值</a></li>
                     </ul>
                     <ul>
                         <li class="word">流量额:</li>
