@@ -384,29 +384,29 @@ define('app/jsp/balance/phonebook/phonebookdetail', function (require, exports, 
     			var telName = $.trim(o.telName);
     			var telMp =$.trim(o.telMp);
     			var onepass=true;
-    			if(_this.checkBlank(telName)){
+    			var errormsg = "";
+    			if(!_this.checkBlank(telName)){
     				var length = telName.length;
     				if(length > 24){
-    					alert("联系人姓名长度不能超过24");
+    					errormsg +=" 联系人姓名长度不能超过24;\n";
     					onepass = false;
     				}
     			}
     			if(_this.checkBlank(telMp)){
-    				o.error = "请输入手机号码";
-    				$("#SPAN_ERROR_"+i).html("请输入手机号码");
+    				errormsg +=" 请输入手机号码;\n";
     				onepass = false;
     			}else if(!_this.checkMobilePhone(telMp)){
-    				o.error = "手机号码格式有误";
-    				$("#SPAN_ERROR_"+i).html("手机号码格式有误");
+    				errormsg +=" 手机号码格式有误;\n";
     				onepass = false;
     			}
     			if(onepass){
     				o.error = "";
+    				errormsg = "";
     				$("#SPAN_ERROR_"+i).html("");
     			}else{
     				validPass = false;
+    				$("#SPAN_ERROR_"+i).html("<img src='"+_slpbase+"/images/icon-a.png'>"+errormsg);
     			}
-    			//o.userId = _this.get("userId");
     			o.telGroupId = _this.get("telGroupId");
     		});
     		if(!validPass){
@@ -546,8 +546,14 @@ define('app/jsp/balance/phonebook/phonebookdetail', function (require, exports, 
     	 * 编辑按钮事件
     	 */
     	_modifyTelData:function(telNo,telName,telMp){
-    		$("#telName_"+telNo).html("<input id='telName_val_"+telNo+"' type='text' class='table-int-mini' value='"+telName+"'>");
-    		$("#telMp_"+telNo).html("<input id='telMp_val_"+telNo+"' type='text' class='table-int-mini' value='"+telMp+"' maxLength='11'><input type='button' class='mail-btn' value='保存' onclick=\"pager._saveModifyTelData('"+telNo+"')\">");
+    		$("#telName_"+telNo).html(
+    				"<input id='telName_val_"+telNo+"' type='text' class='table-int-mini' value='"+telName+"'>" +
+    				"<div id='modify_name_error_"+telNo+"' class='ejecr-pos-border' style='display: none;'>" +
+    				"<i class='icon-caret-up'></i></div>");
+    		$("#telMp_"+telNo).html(
+    				"<input id='telMp_val_"+telNo+"' type='text' class='table-int-mini' value='"+telMp+"' maxLength='11'><input type='button' class='mail-btn' value='保存' onclick=\"pager._saveModifyTelData('"+telNo+"')\">" +
+    				"<div id='modify_mp_error_"+telNo+"' class='ejecr-pos-border' style='display: none;'>" +
+					"<i class='icon-caret-up'></i></div>");
     	},
     	/**
     	 * 修改联系人
@@ -586,27 +592,32 @@ define('app/jsp/balance/phonebook/phonebookdetail', function (require, exports, 
     	_checkTelData:function(telNo,telName,telMp){
     		var isSuccess = true;
     		if(telName != null || telName != undefined && telName != ""){
-    			var nameRe = /^[A-Za-z\u4e00-\u9fa5]{4,24}$/;
-    			var nameIsOk = nameRe.test(telName);
-    			if(!nameIsOk){
-    				$("#modify_name_error_"+telNo).html("4-24个汉字或英语字母");
+    			var nameSize = telName.length;
+    			if(nameSize>24){
+    				$("#modify_name_error_"+telNo).html("<i class='icon-caret-up'></i>长度不能超过24");
+    				$("#modify_name_error_"+telNo).css("display","block");
     				isSuccess = false;
     			}else{
     				$("#modify_name_error_"+telNo).html("");
+    				$("#modify_name_error_"+telNo).css("display","none");
     			}
     		}else{
     			$("#modify_name_error_"+telNo).html("");
+    			$("#modify_name_error_"+telNo).css("display","none");
     		}
     		if(telMp == null || telMp == undefined && telMp == ""){
-    			$("#modify_mp_error_"+telNo).html("手机号不能为空");
+    			$("#modify_mp_error_"+telNo).html("<i class='icon-caret-up'></i>手机号不能为空");
+    			$("#modify_mp_error_"+telNo).css("display","block");
     			isSuccess = false;
     		}else{
     			var telIsOk = this.checkMobilePhone(telMp);
     			if(!telIsOk){
-    				$("#modify_mp_error_"+telNo).html("手机号格式不正确");
+    				$("#modify_mp_error_"+telNo).html("<i class='icon-caret-up'></i>手机号格式不正确");
+    				$("#modify_mp_error_"+telNo).css("display","block");
     				isSuccess = false;
     			}else{
     				$("#modify_mp_error_"+telNo).html("");
+    				$("#modify_mp_error_"+telNo).css("display","none");
     			}
     		}
     		return isSuccess;

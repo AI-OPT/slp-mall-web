@@ -493,7 +493,7 @@
 .account-table table .bj{ background:#fbfafa;}
 .account-table table .bj td{font-size:14px; color:#333;}
 .account-table table .bj:hover{background:#fbfafa;}
-.account-table table tr td{ text-align:center; font-size:14px; color:#666;}
+.account-table table tr td{ text-align:center; font-size:14px; color:#666; position:relative;}
 .account-table table tr .color{ color:#f4792c;font-weight:bold;}
 .account-table table tr .color-balck{color:#333;font-weight:bold;}
 .account-table table tr a{ color:#333; margin-left: 8px;}
@@ -560,6 +560,8 @@
 .mail-title ul li{float:left;line-height:30px; margin:8px 10px 8px 0;}
 .mail-title ul li p{float:left;margin-right:14px;}
 .mail-title ul li .word{ width:100px; text-align:right;}
+.ejecr-pos-border{border:1px solid #f07938;background:#fff;text-align:left;font-size:12px;padding:5px 10px;position:absolute;left:32px;top:45px; z-index:99;}
+.ejecr-pos-border .icon-caret-up{position:absolute;top:-18px;left:40px;font-size:20px;color:#f07938}
 /**按钮组**/
 .buttong-oup{ width:100%; float:left;}
 .buttong-oup ul{ float:right;}

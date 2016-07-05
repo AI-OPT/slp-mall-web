@@ -191,14 +191,19 @@ define('app/jsp/balance/phonebook/phonebookmgr', function (require, exports, mod
     		$("[name='BTN_SAVE_TEL_GROUP']").bind("click",function(){
     			var telGroupId = $(this).attr("telGroupId");
     			var telGroupName = $.trim($("#INPUT_TEL_GROUP_"+telGroupId).val());
-    			if(telGroupName==""){
-    				alert("名称不能为空");
-    				return ;
-    			}
     			var regexp = /^[\u4e00-\u9fa5\w-_]{2,20}$/
-    			if(!regexp.test(telGroupName)){
-    				alert("请输入长度为 2-20个字符的 汉字、字母、数字、“-”、“_”的组合");
+    			if(telGroupName==""){
+    				$("#name_error_"+telGroupId).css("display","block");
+    				$("#name_error_"+telGroupId).html("<i class='icon-caret-up'></i>名称不能为空");
     				return ;
+    			}else if(!regexp.test(telGroupName)){
+    				$("#name_error_"+telGroupId).css("display","block");
+    				$("#name_error_"+telGroupId).html("<i class='icon-caret-up'></i>请输入长度为 2-20个字符的 汉字、字母、数字、“-”、“_”的组合");
+    				return ;
+    			}else{
+    				$("#name_error_"+telGroupId).css("display","none");
+    				$("#name_error_"+telGroupId).html("");
+
     			}
     			_this.modifyTelGroup(telGroupId,telGroupName);
     		});

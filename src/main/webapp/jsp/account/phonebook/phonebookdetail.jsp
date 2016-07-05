@@ -97,12 +97,12 @@
 							<tr class="bj">
 								<td width="10%"><input type="checkbox" id="CHECK_ALL"
 									class="checkbox-medium" style="display: inline-block;">全选</td>
-								<td>序列号</td>
-								<td>姓名</td><td></td>
-								<td>手机号</td><td></td>
-								<td>归属地</td>
-								<td>运营商</td>
-								<td>操作</td>
+								<td width="15%">序列号</td>
+								<td width="15%">姓名</td>
+								<td width="20%">手机号</td>
+								<td width="15%">归属地</td>
+								<td width="15%">运营商</td>
+								<td width="20%">操作</td>
 							</tr>
 							<tbody id="TBODY_PHONEBOOKS">
 								
@@ -233,10 +233,10 @@
 							<thead>
 								<tr class="bj">
 									<td width="10%">序列号</td>
-									<td width="25%">姓名</td>
-									<td width="25%"><span style="color: #f00">*</span>手机号</td>
-									<td width="20%"></td>
-									<td width="20%"></td>
+									<td width="20%">姓名</td>
+									<td width="20%"><span style="color: #f00">*</span>手机号</td>
+									<td width="28%"></td>
+									<td width="22%"></td>
 								</tr>
 							</thead>
 							<tbody id="TBODY_PhoneBooksBatchEdit">
@@ -273,8 +273,8 @@
 									<td width="10%"><input type="checkbox" name="CHEK_TEL_NO"
 										class="checkbox-medium" value="{{:telNo}}"></td>
 									<td>{{:#index+1}}</td>
-									<td id='telName_{{:telNo}}'>{{:telName}}</td><td><span style="color:red" id="modify_name_error_{{:telNo}}"></span></td>
-									<td id='telMp_{{:telNo}}'>{{:telMp}}</td><td><span style="color:red" id="modify_mp_error_{{:telNo}}"></span></td>
+									<td id='telName_{{:telNo}}'>{{:telName}}</td>
+									<td id='telMp_{{:telNo}}'>{{:telMp}}</td>
 									<td>{{:provinceName}}</td>
 									<td>{{:basicOrgName}}</td>
 									<td><a href="javascript:pager._modifyTelData('{{:telNo}}','{{:telName}}','{{:telMp}}')" class="click">编辑</a></td>
@@ -288,7 +288,8 @@
 								<td><input type="text" class="table-int-mini" index="{{:#index}}" name="BATCH_TEL_NAME" value="{{:telName}}"></td>
 								<td><input type="text" class="table-int-mini" index="{{:#index}}" name="BATCH_TEL_MP" value="{{:telMp}}" maxLength="11"></td>
 								<td><span style="color:red" id="SPAN_ERROR_{{:#index}}">{{:error}}</span></td>
-								<td class="eject-table-img" align="left"><a href="javascript:void(0)"  index="{{:#index}}" name="DEL_BATCH_EDIT_ROW">删除</a></td>
+								<!--<td class="eject-table-img" align="left"><a href="javascript:void(0)"  index="{{:#index}}" name="DEL_BATCH_EDIT_ROW">删除</a></td>-->
+								<td class="eject-table-img" align="left"> <a href="javascript:void(0)" class="trash-close" index="{{:#index}}" name="DEL_BATCH_EDIT_ROW"><i class="icon-trash"></i></a></td>
 							</tr>
 </script>
 	
