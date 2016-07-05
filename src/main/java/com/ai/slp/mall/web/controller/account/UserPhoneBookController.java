@@ -3,14 +3,14 @@ package com.ai.slp.mall.web.controller.account;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import net.sf.json.util.JSONUtils;
 
 import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFRow;
@@ -158,15 +158,18 @@ public class UserPhoneBookController {
 	public ModelAndView phonebookdetail(HttpServletRequest request) {
 		String telGroupId = request.getParameter("telGroupId");
 		String telGroupName = request.getParameter("telGroupName");
-		//String count = request.getParameter("count");
-		if (StringUtil.isBlank(telGroupId)) {
-			throw new BusinessException(ExceptCodeConstants.Special.PARAM_IS_NULL, "请传入分组ID");
-		}
 		SLPClientUser user = this.getUserId(request);
 		request.setAttribute("userId", user.getUserId());
 		request.setAttribute("telGroupId", telGroupId);
-		request.setAttribute("telGroupName", telGroupName);
-		//request.setAttribute("phoneCount", count);
+		if (StringUtil.isBlank(telGroupId)) {
+			throw new BusinessException(ExceptCodeConstants.Special.PARAM_IS_NULL, "请传入分组ID");
+		}
+		try {
+			String nameChinese = URLDecoder.decode(telGroupName,"UTF-8");
+			request.setAttribute("telGroupName", nameChinese);
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		} 
 		ModelAndView view = new ModelAndView("jsp/account/phonebook/phonebookdetail");
 		return view;
 	}
