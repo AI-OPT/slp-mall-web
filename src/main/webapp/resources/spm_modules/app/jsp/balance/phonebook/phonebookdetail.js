@@ -395,7 +395,7 @@ define('app/jsp/balance/phonebook/phonebookdetail', function (require, exports, 
     			if(!_this.checkBlank(telName)){
     				var length = telName.length;
     				if(length > 24){
-    					errormsg +=" 联系人姓名长度不能超过24;\n";
+    					errormsg +=" 姓名长度为1-24个字符;\n";
     					onepass = false;
     				}
     			}
@@ -611,7 +611,7 @@ define('app/jsp/balance/phonebook/phonebookdetail', function (require, exports, 
     		if(telName != null || telName != undefined && telName != ""){
     			var nameSize = telName.length;
     			if(nameSize>24){
-    				$("#modify_name_error_"+telNo).html("<i class='icon-caret-up'></i>长度不能超过24");
+    				$("#modify_name_error_"+telNo).html("<i class='icon-caret-up'></i>姓名长度为1-24个字符");
     				$("#modify_name_error_"+telNo).css("display","block");
     				isSuccess = false;
     			}else{
