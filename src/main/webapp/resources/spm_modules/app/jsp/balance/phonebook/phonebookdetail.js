@@ -128,7 +128,7 @@ define('app/jsp/balance/phonebook/phonebookdetail', function (require, exports, 
     	/**
     	 * 隐藏对话框
     	 */
-    	_hiddenDialog:function(id,hidBackground){
+    	_hiddenDialog:function(id){
     		$('#'+id).parent().parent().find('div.eject-mask').fadeOut(100);
     		$('#'+id).slideUp(150);
     	},
@@ -197,9 +197,9 @@ define('app/jsp/balance/phonebook/phonebookdetail', function (require, exports, 
 				if (xhr.readyState == 4) {// 4 = "loaded"
 					if (xhr.status == 200) {
 						var responseData = $.parseJSON(xhr.response);
+						_this._hiddenDialog("uploadFileDiv");
 						if(responseData.statusCode=="1"){
 							//alert(responseData.data);
-							_this._hiddenDialog("uploadFileDiv");
 							_this._queryPhoneBooks();
 						}else{
 							_this._showMsgDialog("错误","上传失败",3);
@@ -236,7 +236,8 @@ define('app/jsp/balance/phonebook/phonebookdetail', function (require, exports, 
 		 * 上传失败
 		 */
 		_uploadFail:function(){
-			//this._hiddenDialog("uploadProgressDiv");
+			this._hiddenDialog("uploadFileDiv");
+			this._hiddenDialog("uploadProgressDiv");
 			this._showMsgDialog("批量导入通讯录","导入通讯录失败！", 3);
 		},
     	/**
@@ -534,21 +535,9 @@ define('app/jsp/balance/phonebook/phonebookdetail', function (require, exports, 
 	           	pageSize: PhoneBookDetailPager.DEFAULT_PAGE_SIZE,
 	           	visiblePages:5,
 	            message: "正在为您查询数据..",
-	            render: function (data) {
-//	            	if(data != null && data != 'undefined' && data.length>0){
-//	            		var template = $.templates("#PhoneBooksImpl");
-//	                    var htmlOutput = template.render(data);
-//	                    $("#TBODY_PHONEBOOKS").html(htmlOutput);
-//	            	}else{
-//    					$("#TBODY_PHONEBOOKS").html("没有搜索到相关信息");
-//	            	}
-	            },
 	            callback: function(data){
 	            	var count = data.count;
 	            	$("#phoneCount").text(count);
-//	            	var renderData = data.result;
-//	            	renderData["pageSize"] = data.pageSize;
-//	            	renderData["pageNo"] = data.pageNo;
 	              	if(data.result != null && data.result != 'undefined' && data.result.length>0){
 	            		var template = $.templates("#PhoneBooksImpl");
 	                    var htmlOutput = template.render(data);
