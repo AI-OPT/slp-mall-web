@@ -34,6 +34,10 @@ define('app/jsp/user/qualification/qualificationSubmit', function (require, expo
     		"click [id='agentEnterpriseSubmit']":"_agentEnterpriseSubmit",
     		//代理商个人提交
     		"click [id='savePersonalQualification']":"_agentPersonalSubmit",
+    		//代理商企业修改资质信息
+    		"click [id='agentEnterpriseUpdate']":"_agentEnterpriseUpdate",
+    		//代理商企业修改联系人信息
+    		"click [id='agentEnterpriseContactsUpdate']":"_agentEnterpriseContactsUpdate",
         },
         init: function(){
         },
@@ -86,6 +90,15 @@ define('app/jsp/user/qualification/qualificationSubmit', function (require, expo
 			}
 	},
 	/**
+	 * 企业、代理商、供应商在提交前对联系人的必要信息校验
+	 */
+	_checkEnterpriseContactValue:function(){
+		//校验所属部门
+		baseInfoPager._checkContactDept();
+		//校验手机
+		baseInfoPager._checkPhone();
+	},
+	/**
 	 * 代理商企业、供应商企业在提交前对必填信息校验
 	 */
 	_checkEnterpriseValue:function(){
@@ -103,10 +116,6 @@ define('app/jsp/user/qualification/qualificationSubmit', function (require, expo
 		baseInfoPager._checkGroupMember();
 		//校验公司性质
 		baseInfoPager._checkGroupType();
-		//校验所属部门
-		baseInfoPager._checkContactDept();
-		//校验手机
-		baseInfoPager._checkPhone();
 		//校验短信验证码
 		//baseInfoPager._sendVerify();
 		//校验注册日期
@@ -137,8 +146,13 @@ define('app/jsp/user/qualification/qualificationSubmit', function (require, expo
 	 * 代理商企业提交
 	 */
 	_agentEnterpriseSubmit:function(){
-		//提交前对必要信息进行校验
+		//提交前对资质必要信息进行校验
 		this._checkEnterpriseValue();
+		//提交前对联系人信息进行校验
+		this._checkEnterpriseContactValue();
+		/**
+		 * 获取标志信息
+		 */
 		var custNameFlag = $("#custNameFlag").val();
 		var certAddrFlag = $("#certAddrFlag").val();
 		var certNumFlag = $("#certNumFlag").val();
@@ -161,6 +175,7 @@ define('app/jsp/user/qualification/qualificationSubmit', function (require, expo
 		var phoneCodeFlag = $("#phoneCodeFlag").val();
 		var organizationCodeFlag = $("#organizationCodeFlag").val();
 		var provinceCodeFlag = $("#provinceCodeFlag").val();
+		
 		if(custNameFlag!="0"&&certAddrFlag!="0"&&certNumFlag!="0"&&establishTimeFlag!="0"
 		  &&capitalFlag!="0"&&scopeFlag!="0"&&corporationNameFlag!="0"&&idNumberFlag!="0"&&identifyNumberFlag!="0"
 		  &&taxpayerTypeFlag!="0"&&taxCodeFlag!="0"&&bankNameFlag!="0"&&subbranchNameFlag!="0"&&bankAccountFlag!="0"
@@ -199,7 +214,64 @@ define('app/jsp/user/qualification/qualificationSubmit', function (require, expo
 		if(custNameFlag!="0"&&custEducationFlag!="0"&&certAddrFlag!="0"&&provinceCodeFlag!="0"&&bithdayFlag!="0"&&inComeFlag!="0"&&idNumberFlag!="0"){
 			toAgentPersonalSave();
 		}
+	},
+	/**
+	 * 代理商资质信息修改
+	 */
+	_agentEnterpriseUpdate:function(){
+		/**
+		 * 校验资质信息
+		 */
+		this._checkEnterpriseValue();
+		/**
+		 * 获取必要信息的标准信息
+		 */
+		var custNameFlag = $("#custNameFlag").val();
+		var certAddrFlag = $("#certAddrFlag").val();
+		var certNumFlag = $("#certNumFlag").val();
+		var establishTimeFlag = $("#establishTimeFlag").val();
+		var capitalFlag = $("#capitalFlag").val();
+		var scopeFlag = $("#scopeFlag").val();
+		var corporationNameFlag = $("#corporationNameFlag").val();
+		var idNumberFlag = $("#idNumberFlag").val();
+		var identifyNumberFlag = $("#identifyNumberFlag").val();
+		var taxpayerTypeFlag = $("#taxpayerTypeFlag").val();
+		var taxCodeFlag = $("#taxCodeFlag").val();
+		var bankNameFlag = $("#bankNameFlag").val();
+		var subbranchNameFlag = $("#subbranchNameFlag").val();
+		var bankAccountFlag = $("#bankAccountFlag").val();
+		var groupIndusteryFlag = $("#groupIndusteryFlag").val();
+		var groupMemberScaleFlag = $("#groupMemberScaleFlag").val();
+		var groupStypeFlag = $("#groupStypeFlag").val();
+		
+		if(custNameFlag!="0"&&certAddrFlag!="0"&&certNumFlag!="0"&&establishTimeFlag!="0"
+			  &&capitalFlag!="0"&&scopeFlag!="0"&&corporationNameFlag!="0"&&idNumberFlag!="0"&&identifyNumberFlag!="0"
+			  &&taxpayerTypeFlag!="0"&&taxCodeFlag!="0"&&bankNameFlag!="0"&&subbranchNameFlag!="0"&&bankAccountFlag!="0"
+			  &&groupIndusteryFlag!="0"&&groupMemberScaleFlag!="0"&&groupStypeFlag!="0"){
+				/**
+				 * 代理商资质修改
+				 */
+			
+			}
+	},
+	/**
+	 * 代理商联系人修改
+	 */
+	_agentEnterpriseContactsUpdate:function(){
+		/**
+		 * 联系人信息校验
+		 */
+		this._checkEnterpriseContactValue();
+		var contactDeptFlag = $("#contactDeptFlag").val();
+		var contactMpFlag = $("#contactMpFlag").val();
+		if(contactDeptFlag!="0"&&contactMpFlag!="0"){
+			/**
+			 * 代理商联系人修改
+			 */
+		}
+		
 	}
+	
     });
     
     module.exports = QualificationSubmitPager

@@ -121,7 +121,7 @@ function updateContactsInfo(){
        <div  id="qf-edit" style="display:none;">   
         <div class="prompt-risk small-risk mt-0">
             <p>您的资质信息修改后需人工审核才能生效，审核时间为3个工作日，确定要修改资质信息吗？</p>
-            <p class="img"><img src="../images/yue-1.png"></p>
+            <p class="img"><img src="${_slpbase}/images/yue-1.png" style="margin-top: 10px"></p>
         </div>
      	<div class="nav-form">
          <ul>

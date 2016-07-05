@@ -244,7 +244,7 @@
      <div  id="qf-edit" style="display:none;">
      	<div class="prompt-risk small-risk mt-0">
             <p>您的资质信息修改后需人工审核才能生效，审核时间为3个工作日，确定要修改资质信息吗？</p>
-            <p class="img"><img src="../images/yue-1.png"></p>
+            <p class="img"><img src="${_slpbase}/images/yue-1.png" style="margin-top: 10px"></p>
         </div>
  
      <!--信息填写-->
@@ -530,7 +530,7 @@
 	             </li>
              </ul>
              <ul>
-              <li class="form-btn" id="qf-btn"><input type="button" class="slp-btn regsiter-btn" value="保存资质"></li>
+              <li class="form-btn" id="qf-btn"><input type="button" id="agentEnterpriseUpdate" class="slp-btn regsiter-btn" value="保存资质"></li>
         	 </ul>
     	 </div>
      </div>	
@@ -625,7 +625,42 @@
                  </li>
              </ul>
               <ul>
-                 <li class="form-btn" id="ct-btn"><input type="button" class="slp-btn regsiter-btn" value="保存联系人"></li>
+                 <li class="form-btn" id="ct-btn">
+                   <input type="button" class="slp-btn regsiter-btn" id="agentEnterpriseContactsUpdate" value="保存联系人">
+                   <input type="hidden" id="custNameFlag">
+               	   <input type="hidden" id="princeCodeFlag">
+               	   <input type="hidden" id="certAddrFlag">
+               	   <input type="hidden" id="certNumFlag">
+               	   <input type="hidden" id="groupStypeFlag">
+               	   <input type="hidden" id="groupMemberScaleFlag">
+               	   <input type="hidden" id="contactDeptFlag">
+               	   <input type="hidden" id="provinceCodeFlag">
+               	   <input type="hidden" id="contactMpFlag">
+               	   <input type="hidden" id="phoneCodeFlag">
+               	   <input type="hidden" id="groupIndusteryFlag">
+               	   
+                  <input type="hidden" id="establishTimeFlag"/>
+                  <input type="hidden" id="capitalFlag"/>
+                  <input type="hidden" id="scopeFlag"/>
+                  <input type="hidden" id="corporationNameFlag"/>
+                  <input type="hidden" id="idNumberFlag"/>
+                  <input type="hidden" id="identifyNumberFlag"/>
+                  <input type="hidden" id="taxpayerTypeFlag"/>
+                  <input type="hidden" id="taxCodeFlag"/>
+
+                 
+                 <input type="hidden" id="idpsId1" name="list[0].attrValue">
+                 <input type="hidden" id="idpsId2" name="list[1].attrValue">
+                 <input type="hidden" id="idpsId3" name="list[2].attrValue">
+                 <input type="hidden" id="idpsId4" name="list[3].attrValue">
+                 <input type="hidden" id="idpsId5" name="list[4].attrValue">
+
+                  <input type="hidden" id="bankNameFlag"/>
+                  <input type="hidden" id="subbranchNameFlag"/>
+                  <input type="hidden" id="bankAccountFlag"/>
+                  <input type="hidden" id="organizationCodeFlag"/>
+                 </li>
+                 
              </ul>
      </div>
       
