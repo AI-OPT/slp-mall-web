@@ -89,13 +89,9 @@
                 <p>
                  <select class="select-medium" id="custEducation">
                  	<option value="0">请选择</option>
-                 	<option>初中及以下</option>
-                 	<option>高中/中专</option>
-                 	<option>大专或同等学历</option>
-                 	<option>本科学历</option>
-                 	<option>硕士研究生</option>
-                 	<option>博士</option>
-                 	<option>其他学历</option>
+                 	<c:forEach var="map" items="${educationMap}">
+                 		<option value="${map.key}">${map.value}</option>
+                 	</c:forEach>
                  </select>
                  <label id="custEducationErrMsg" style="display:none"><img src="${_slpbase}/images/icon-a.png" id="custEducationImage"><span class="ash" id="custEducationText">请输入学历信息</span></label>
                 </p>
@@ -157,11 +153,9 @@
                 <p>
 	                <select class="select-medium" id="inCome" name="incomeLevel">
 		                <option value="0">请选择收入</option>
-		                <option>3000元及以下</option>
-		                <option>3001-5000</option>
-		                <option>5001-8000</option>
-		                <option>8001-10000</option>
-		                <option>10000元以上</option>
+		                <c:forEach var="map" items="${incomeLevelMap}">
+                 			<option value="${map.key}">${map.value}</option>
+                 		</c:forEach>
 	                </select>
                 </p>
                 <label id="idComeErrMsg" style="display:none"><img src="${_slpbase}/images/icon-a.png" id="inComeImage"><span class="ash" id="inComeText">请选择收入信息</span></label>

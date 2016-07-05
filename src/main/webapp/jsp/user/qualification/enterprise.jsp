@@ -141,12 +141,9 @@ var qualificationSubmitPager;
                 <p>
                 	<select class="select-medium" id="groupMemberScale" name="groupMemberScale">
                 		<option value="0" selected="selected">请选择</option>
-                		<option value="1">1-50人</option>
-                		<option value="2">51-100人</option>
-                		<option value="3">101-200人</option>
-                		<option value="4">201-500人</option>
-                		<option value="5">500-1000人</option>
-                		<option value="6">1000人以上</option>
+                		<c:forEach var="map" items="${groupMember}">
+	                		<option value="${map.key}">${map.value}</option>
+                		</c:forEach>
                 	</select>
                 </p>
                  <label id="groupMemberScaleErrMsg" style="display:none"><img src="${_slpbase}/images/icon-a.png" id="groupMemberScaleImage"><span class="ash" id="groupMemberScaleText">请选择公司人数信息</span></label>
@@ -158,13 +155,9 @@ var qualificationSubmitPager;
                 <p>
                 <select class="select-medium" id="groupType" name="groupType">
                 	<option value="0" selected="selected">请选择</option>
-               		<option value="1">民营企业</option>
-               		<option value="2">外商独资</option>
-               		<option value="3">上市公司</option>
-               		<option value="4">股份制企业</option>
-               		<option value="5">国有企业机关</option>
-               		<option value="6">事业单位</option>
-               		<option value="7">其他</option>
+                	<c:forEach var="map" items="${groupTypeMap}">
+	                	<option value="${map.key}">${map.value}</option>
+                	</c:forEach>
                 </select>
                 </p>
                  <label id="groupTypeErrMsg" style="display:none"><img src="${_slpbase}/images/icon-a.png" id="groupTypeImage"><span class="ash" id="groupTypeText">请选择公司性质信息</span></label>
@@ -188,22 +181,9 @@ var qualificationSubmitPager;
                     <p>
                     <select class="select-medium" id="contactDept" name="contactDept">
                     	<option value="0" selected="selected">请选择</option>
-	               		<option value="1">财务部</option>
-	               		<option value="2">人事部</option>
-	               		<option value="3">行政部</option>
-	               		<option value="4">企划部</option>
-	               		<option value="5">渠道部</option>
-	               		<option value="6">技术部</option>
-	               		<option value="7">销售部</option>
-	               		<option value="8">工程项目部</option>
-	               		<option value="9">研发部</option>
-	               		<option value="10">采购部</option>
-	               		<option value="11">维修部</option>
-	               		<option value="12">客服部</option>
-	               		<option value="13">市场部</option>
-	               		<option value="14">产品部</option>
-                   	    <option value="15">总经办</option>
-	               		<option value="16">其他</option>
+	               		<c:forEach var="map" items="${contactDeptMap}">
+	                	    <option value="${map.key}">${map.value}</option>
+                	    </c:forEach>
                     </select>
                     </p>
                     <label style="display:none" id="contactDeptErrMsg"><img src="${_slpbase}/images/icon-a.png"><span class="ash">请选择所在部门信息</span></label>
