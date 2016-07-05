@@ -255,14 +255,16 @@ define('app/jsp/balance/phonebook/phonebookdetail', function (require, exports, 
     	_confirmInputRow: function(){
     		var row = $.trim($("#INPUT_ROW").val());
     		if(isNaN(row)){
-    			$("#addDialogDiv_error").html("请输入数字");
+    			$("#addDialogDiv_error").html("<img src='"+_slpbase+"/images/icon-a.png'> 请输入数字");
     			return;
-    		}else if(row<1 || row>100){
-    			$("#addDialogDiv_error").html("请输入数字[2~100]");
-    			return;
-    		}else{
-    			$("#addDialogDiv_error").html("");
     		}
+    		var rowNum = Number(row);
+    		if(rowNum<2 || rowNum>100){
+    			$("#addDialogDiv_error").html("<img src='"+_slpbase+"/images/icon-a.png'> 请输入数字[2~100]");
+    			return;
+    		}
+    		
+    		$("#addDialogDiv_error").html("");
     		
     		var data = this.batcheditdata?this.batcheditdata:[];
     		for(var i=0;i<row;i++){
@@ -271,6 +273,7 @@ define('app/jsp/balance/phonebook/phonebookdetail', function (require, exports, 
         			telMp: ""
         		});
     		}
+    		$("#INPUT_ROW").val("");
     		this._hiddenDialog("addMoreDialogDiv");
     		this.renderBatchEditPhoneBooks(data);
     	},
@@ -363,6 +366,10 @@ define('app/jsp/balance/phonebook/phonebookdetail', function (require, exports, 
     	 */
     	_showAddPhoneBookWindow: function(){
     		this.batcheditdata = [];
+    		this.batcheditdata.push({
+    			telName: "",
+    			telMp: ""
+    		});
     		this.renderBatchEditPhoneBooks(this.batcheditdata);
     		$("#INPUT_ROW").val("");
     		

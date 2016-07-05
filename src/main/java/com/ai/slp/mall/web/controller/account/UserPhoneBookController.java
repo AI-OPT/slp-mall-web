@@ -1,7 +1,9 @@
 package com.ai.slp.mall.web.controller.account;
 
+import java.io.BufferedInputStream;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
@@ -281,8 +283,8 @@ public class UserPhoneBookController {
 			List<UcUserPhonebooksBatchData> list = new ArrayList<UcUserPhonebooksBatchData>();
 			MultipartRequest multipartRequest = (MultipartRequest) request;
 			MultipartFile uploadFile = multipartRequest.getFile("uploadFile");
-
-			XSSFWorkbook workbook = new XSSFWorkbook(uploadFile.getInputStream());
+			InputStream inputStream = uploadFile.getInputStream();
+			XSSFWorkbook workbook = new XSSFWorkbook(new BufferedInputStream(inputStream));
 			XSSFSheet sheet = workbook.getSheetAt(0);
 			for (int i = 1; i <= sheet.getLastRowNum(); i++) {
 				XSSFRow row = sheet.getRow(i);

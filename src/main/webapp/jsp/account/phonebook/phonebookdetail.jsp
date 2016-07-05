@@ -171,7 +171,7 @@
 		<div class="eject-medium" id="uploadProgressDiv">
 			<div class="eject-medium-title">
 				<p>批量导入通讯录</p>
-				<p class="img"><A href="javascript:pager._hiddenDialog('uploadProgressDiv')"></A></p>
+				<!-- <p class="img"><A href="javascript:pager._hiddenDialog('uploadProgressDiv')"></A></p> -->
 			</div>
 			<div class="eject-medium-list">
 				<div class="eject-medium-complete">
