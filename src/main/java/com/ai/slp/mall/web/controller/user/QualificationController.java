@@ -43,6 +43,8 @@ import com.ai.slp.mall.web.model.user.SafetyConfirmData;
 import com.ai.slp.mall.web.util.VerifyUtil;
 import com.ai.slp.user.api.bankinfo.interfaces.IUcBankInfoSV;
 import com.ai.slp.user.api.bankinfo.param.InsertBankInfoRequest;
+import com.ai.slp.user.api.bankinfo.param.QueryBankInfoSingleRequest;
+import com.ai.slp.user.api.bankinfo.param.QueryBankInfoSingleResponse;
 import com.ai.slp.user.api.contactsinfo.interfaces.IUcContactsInfoSV;
 import com.ai.slp.user.api.contactsinfo.param.InsertContactsInfoRequest;
 import com.ai.slp.user.api.contactsinfo.param.QueryContactsInfoSingleRequest;
@@ -380,7 +382,7 @@ public class QualificationController {
                 .getAttribute(SSOClientConstants.USER_SESSION_KEY);
         String userId = userClient.getUserId();
         /**
-         * 获取个人客户关键信息
+         * 获取联系人信息
          */
         QueryContactsInfoSingleResponse contactsInfoInfoResponse = getContactsInfo(userId);
         /**
@@ -406,7 +408,7 @@ public class QualificationController {
         SLPClientUser userClient = (SLPClientUser) request.getSession().getAttribute(SSOClientConstants.USER_SESSION_KEY);
         String userId = userClient.getUserId();
         /**
-         * 获取个人客户关键信息
+         * 获取联系人信息
          */
         QueryContactsInfoSingleResponse contactsInfoInfoResponse = getContactsInfo(userId);
         /**
@@ -418,9 +420,9 @@ public class QualificationController {
          */
         QueryCustFileExtResponse custFileResponse = getCustFileExt(userId);
         /**
-         * 
+         * 银行信息
          */
-       // IUcBankInfoSV 
+        QueryBankInfoSingleResponse bankInfoResponse = getBankInfo(userId);
         
         List<GnAreaVo> provinceList = getProvinceList();
         List<IndustryQueryResponse> industryList = getIndustryList();
@@ -430,6 +432,7 @@ public class QualificationController {
         model.put("custFileResponse", custFileResponse);
         model.put("provinceList", provinceList);
         model.put("industryList", industryList);
+        model.put("bankInfo", bankInfoResponse);
         return new ModelAndView("jsp/user/qualification/agent-enterprise-edit",model);
     }
     // 校验企业名称唯一性
@@ -524,5 +527,15 @@ public class QualificationController {
         updateUserInfoRequest.setVerifyFlag("1");
         ucUserSV.updateBaseInfo(updateUserInfoRequest);
         return true;
+    }
+    
+    
+    public QueryBankInfoSingleResponse getBankInfo(String userId) {
+        QueryBankInfoSingleRequest bankInfoRequest = new QueryBankInfoSingleRequest();
+        bankInfoRequest.setTenantId(SLPMallConstants.COM_TENANT_ID);
+        bankInfoRequest.setUserId(userId);
+        IUcBankInfoSV ucContactsInfoSV = DubboConsumerFactory.getService("iUcBankInfoSV");
+        QueryBankInfoSingleResponse response = ucContactsInfoSV.queryBankInfoSingle(bankInfoRequest);
+        return response;
     }
 }
