@@ -131,7 +131,7 @@
            <ul>
              <li>
                 <p class="word">身份证复印件:</p>
-                <p class="img"><img src="../images/fom-t.png"></p>
+                <p class="img"><img src="${imageMap['11004']}"></p>
              </li>
          </ul>
      </div>
@@ -160,7 +160,7 @@
               <ul>
              <li>
                 <p class="word">税务登记证:</p>
-                <p class="img"><img src="../images/fom-t.png"></p>
+                <p class="img"><img src="${imageMap['13001']}"></p>
              </li>
          </ul>    
      </div>
@@ -177,7 +177,7 @@
               <ul>
              <li>
                 <p class="word">代码证电子版:</p>
-                <p class="img"><img src="../images/fom-t.png"></p>
+                <p class="img"><img src="${imageMap['14001']}"></p>
              </li>
          </ul>    
      </div>
@@ -206,7 +206,7 @@
               <ul>
              <li>
                 <p class="word">银行开户许可证:</p>
-                <p class="img"><img src="../images/fom-t.png"></p>
+                <p class="img"><img src="${imageMap['15001']}"></p>
              </li>
          </ul>    
      </div>
