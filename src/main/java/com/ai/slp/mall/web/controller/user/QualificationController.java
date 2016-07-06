@@ -543,12 +543,10 @@ public class QualificationController {
         
         ICacheSV cacheSv = DubboConsumerFactory.getService("iCacheSV");
         
-        /*String provinceName = cacheSv.getAreaName(custKeyInfoResponse.getProvinceCode());
-        String cityCode = cacheSv.getAreaName(custKeyInfoResponse.getCityCode());
-        String county = cacheSv.getAreaName(custKeyInfoResponse.getCountyCode());
-        
-        custKeyInfoResponse.setProvinceCode(provinceName+cityCode+county);*/
-        
+        String provinceName = cacheSv.getAreaName(custKeyInfoResponse.getCustProvinceCode());
+        String cityCode = cacheSv.getAreaName(custKeyInfoResponse.getCustCityCode());
+        String county = cacheSv.getAreaName(custKeyInfoResponse.getCustCountyCode());
+        custKeyInfoResponse.setProvinceCode(provinceName+cityCode+county);
         Map<String, Object> model = new HashMap<String, Object>();
         List<String> urlList = new ArrayList<String>();
         urlList.add("");
@@ -651,7 +649,7 @@ public class QualificationController {
         grouKeyInfoResponse.setGroupType(groupTypeMap.get(grouKeyInfoResponse.getGroupType()));
         contactsInfoInfoResponse.setContactDept(contactDeptMap.get(contactsInfoInfoResponse.getContactDept()));
         grouKeyInfoResponse.setTaxpayerType(taxpayerTypeMap.get(grouKeyInfoResponse.getTaxpayerType()));
-        grouKeyInfoResponse.setTaxpayerCode(taxpayerTypeCodeMap.get(grouKeyInfoResponse.getTaxpayerCode()));
+        grouKeyInfoResponse.setTaxpayerTypeCode(taxpayerTypeCodeMap.get(grouKeyInfoResponse.getTaxpayerTypeCode()));
         grouKeyInfoResponse.setGroupIndustry(industryMap.get(grouKeyInfoResponse.getGroupIndustry()));
         
         Map<String,Object> model = new HashMap<String,Object>();
