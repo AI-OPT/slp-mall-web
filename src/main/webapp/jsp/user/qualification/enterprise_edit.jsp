@@ -123,6 +123,7 @@ function updateContactsInfo(){
             <p>您的资质信息修改后需人工审核才能生效，审核时间为3个工作日，确定要修改资质信息吗？</p>
             <p class="img"><img src="${_slpbase}/images/yue-1.png" style="margin-top: 10px"></p>
         </div>
+        <form:form id="enterprise" method="post">
      	<div class="nav-form">
          <ul>
              <li>
@@ -168,6 +169,8 @@ function updateContactsInfo(){
               <li>
                 <p class="word"><b class="red">*</b>营业执照副本:</p>
                 <input type="hidden" value="营业执照副本" name="list[0].infoName">
+                <input type="hidden" value="12" name="list[0].infoType">
+                <input type="hidden" value="12001" name="list[0].infoItem">
                 <p class="img"><img src="${_slpbase}/images/fom-t.png" id="certPic"></p>
                 <p class="small-p">
                		<span><input type="file" id="image1" name="image1" class="file" style="display: " onchange="uploadImg('image1','certPic','idpsId');"><input type="button" value="点击上传" type="file" class="file-btn"><a href="javascript:" onclick="deleteImg('image1','certPic','idpsId');">删除</a></span>
@@ -225,7 +228,7 @@ function updateContactsInfo(){
              </li>
          </ul>
          <ul>
-              <li class="form-btn" id="qf-btn"><input type="button" class="slp-btn regsiter-btn" value="保存资质"></li>
+              <li class="form-btn" id="qf-btn"><input type="button" class="slp-btn regsiter-btn" value="保存资质" id="updateEnterprise"></li>
          </ul>
      </div>
      </div>
@@ -307,12 +310,13 @@ function updateContactsInfo(){
                  </li>
              </ul>
               <ul>
-                 <li class="form-btn" id="ct-btn"><input type="button" class="slp-btn regsiter-btn" value="保存联系人"></li>
+                 <li class="form-btn" id="ct-btn"><input type="button" class="slp-btn regsiter-btn" value="保存联系人" id="updateEnterpriseContactsInfo">
+                  <input type="hidden" id="idpsId" name="list[0].attrValue">
+                  </li>
              </ul>
      </div>
-      
       </div>
-
+      </form:form>
   </div>  
      
      

@@ -36,8 +36,14 @@ define('app/jsp/user/qualification/qualificationSubmit', function (require, expo
     		"click [id='savePersonalQualification']":"_agentPersonalSubmit",
     		//代理商企业修改资质信息
     		"click [id='agentEnterpriseUpdate']":"_agentEnterpriseUpdate",
-    		//代理商企业修改联系人信息
-    		"click [id='agentEnterpriseContactsUpdate']":"_agentEnterpriseContactsUpdate",
+    		//修改企业联系人信息
+    		"click [id='enterpriseContactsInfo']":"_updateEnterpriseContactsInfo",
+    		//修改企业代理联系人信息
+    		"click [id='agentEnterpriseContactsInfo']":"_updateAgentEnterpriseContactsInfo",
+    		//更新个人代理信息
+    		"click [id='updateAgentPersonal']":"_updatePersonalQualification",
+    		//更新企业信息
+    		"click [id='updateEnterprise']":"_updateEnterprise",
         },
         init: function(){
         },
@@ -196,7 +202,7 @@ define('app/jsp/user/qualification/qualificationSubmit', function (require, expo
 		//校验联系地址
 		agentPersonalPager._checkContactAddress();
 		//校验街道地址
-		baseinfoPage._checkCertAddr();
+		baseinfoPager._checkCertAddr();
 		//校验收入
 		agentPersonalPager._checkInCome();
 		//校验省份证
@@ -215,6 +221,53 @@ define('app/jsp/user/qualification/qualificationSubmit', function (require, expo
 			toAgentPersonalSave();
 		}
 	},
+	
+	
+	/**
+	 * 企业用户修改
+	 */
+	
+	_updateEnterprise:function(){
+		//校验企业名称
+		baseInfoPager._validateName();
+		//校验注册地址
+		var provinceCode = $("#provinceCode").val();
+		var cityCode = $("#cityCode").val();
+		var countyCode = $("#countyCode").val();
+		if(provinceCode=="0"||provinceCode==null||cityCode=="0"||cityCode==null||countyCode=="0"||countyCode==null){
+			$("#registerAddrErrMsg").show();
+		}else{
+			$("#registerAddrErrMsg").hide();
+		}
+		//校验街道地址
+		baseInfoPager._checkCertAddr();
+		//校验注册号
+		baseInfoPager._checkCertNum();
+		//检查手机号
+		baseInfoPager._checkPhone();
+		//校验行业
+		baseInfoPager._checkGroupIndustery();
+		//校验公司人数
+		baseInfoPager._checkGroupMember();
+		//校验公司性质
+		baseInfoPager._checkGroupType();
+		//校验所属部门
+		baseInfoPager._checkContactDept();
+		var custNameFlag = $("#custNameFlag").val();
+		var certAddrFlag = $("#certAddrFlag").val();
+		var certNumFlag = $("#certNumFlag").val();
+		var contactMpFlag = $("#contactMpFlag").val();
+		var phoneCodeFlag = $("#phoneCodeFlag").val();
+		var groupIndusteryFlag = $("#groupIndusteryFlag").val();
+		var groupMemberScaleFlag = $("#groupMemberScaleFlag").val();
+		var groupStypeFlag = $("#groupStypeFlag").val();
+		var contactDeptFlag = $("#contactDeptFlag").val();
+		if(custNameFlag!="0"&&certAddrFlag!="0"&&certNumFlag!="0"&&contactMpFlag!="0"&&phoneCodeFlag!="0"&&groupIndusteryFlag!="0"&&groupMemberScaleFlag!="0"&&groupStypeFlag!="0"&&contactDeptFlag!="0"){
+			updateEnterpriseInfo(_base+"/user/qualification/editEnterprise");
+		}
+	},
+	
+	
 	/**
 	 * 代理商资质信息修改
 	 */
@@ -251,13 +304,44 @@ define('app/jsp/user/qualification/qualificationSubmit', function (require, expo
 				/**
 				 * 代理商资质修改
 				 */
+			updateEnterpriseInfo(_base+"/user/qualification/editAgentEnterprise);
+			}
+	},
+		
+		/**
+		 * 代理商个人更新
+		 */
+		_updatePersonalQualification:function(){
+			//校验姓名
+			agentPersonalPager._checkcustName();
+			//校验学历
+			agentPersonalPager._checkcustEducation();
+			//校验联系地址
+			agentPersonalPager._checkContactAddress();
+			//校验街道地址
+			baseInfoPager._checkCertAddr();
+			//校验收入
+			agentPersonalPager._checkInCome();
+			//校验省份证
+			agentPersonalPager._checkIdNumber();
+			//校验生日信息
+			agentPersonalPager._checkBithday();
+			var custNameFlag = $("#custNameFlag").val();
+			var custEducationFlag = $("#custEducationFlag").val();
+			var certAddrFlag =  $("#certAddrFlag").val();
+			var provinceCodeFlag =  $("#provinceCodeFlag").val();
+			var bithdayFlag =  $("#bithdayFlag").val();
+			var inComeFlag =  $("#inComeFlag").val();
+			var idNumberFlag =  $("#idNumberFlag").val();
 			
+			if(custNameFlag!="0"&&custEducationFlag!="0"&&certAddrFlag!="0"&&provinceCodeFlag!="0"&&bithdayFlag!="0"&&inComeFlag!="0"&&idNumberFlag!="0"){
+				updatePersonalQualification();
 			}
 	},
 	/**
-	 * 代理商联系人修改
+	 * 企业联系人修改
 	 */
-	_agentEnterpriseContactsUpdate:function(){
+	_updateEnterpriseContactsInfo:function(){
 		/**
 		 * 联系人信息校验
 		 */
@@ -266,8 +350,27 @@ define('app/jsp/user/qualification/qualificationSubmit', function (require, expo
 		var contactMpFlag = $("#contactMpFlag").val();
 		if(contactDeptFlag!="0"&&contactMpFlag!="0"){
 			/**
-			 * 代理商联系人修改
+			 * 联系人修改
 			 */
+			updateContactInfo(_base+"/user/qualification/editEnterprise");
+		}
+		
+	},
+	/**
+	 * 企业代理联系人修改
+	 */
+	_updateAgentEnterpriseContactsInfo:function(){
+		/**
+		 * 联系人信息校验
+		 */
+		this._checkEnterpriseContactValue();
+		var contactDeptFlag = $("#contactDeptFlag").val();
+		var contactMpFlag = $("#contactMpFlag").val();
+		if(contactDeptFlag!="0"&&contactMpFlag!="0"){
+			/**
+			 * 联系人修改
+			 */
+			updateContactInfo(_base+"/user/qualification/editAgentEnterprise");
 		}
 		
 	}
@@ -373,7 +476,7 @@ function deleteImg(imageId,certPic,idpsId){
         		alert("失败了");
         		return false;
         	}else if(data.responseHeader.resultCode=="000000"){
-        		window.location.href=_base+"/user/qualification/toEnterprisePage";
+        		window.location.href=_base+"/user/qualification/editEnterprise";
         	}
             },
 			error: function(error) {
@@ -427,13 +530,13 @@ function deleteImg(imageId,certPic,idpsId){
 	        		alert("失败了");
 	        		return false;
 	        	}else if(data.responseHeader.resultCode=="000000"){
-	        		window.location.href=_base+"/user/qualification/toEnterprisePage";
+	        		window.location.href=_base+"/user/qualification/editAgentEnterprise";
 	        	}
 	            },
 				error: function(error) {
 					alert("error:"+ error);
 				}
-			});
+		});
 	}
 	/**
 	 * 代理商个人保存方法
@@ -449,11 +552,77 @@ function deleteImg(imageId,certPic,idpsId){
 		        		alert("失败了");
 		        	}
 		        	if(data.responseHeader.resultCode=="00000"){
-		        		window.location.href=_base+"/user/qualification/toEnterprisePage";
+		        		window.location.href=_base+"/user/qualification/editAgentPersonal";
 		        	}
 		            },
 					error: function(error) {
 						alert("error:"+ error);
 					}
 				});
+	}
+	
+	/**
+	 * 更新个人代理信息方法
+	 */
+	function updatePersonalQualification(){
+		$.ajax({
+			type:"post",
+			url:_base+"/user/qualification/updatePersonalInfo",
+			dataType: "json",
+			data:$("#agentPersonal").serialize(),
+			success: function(data) {
+				if(data.responseHeader.resultCode=="00001"){
+					alert("失败了");
+				}
+				if(data.responseHeader.resultCode=="00000"){
+					window.location.href=_base+"/user/qualification/editAgentPersonal";
+				}
+			},
+			error: function(error) {
+				alert("error:"+ error);
+			}
+		});
+	}
+	
+	function updateEnterpriseInfo(url){
+		$.ajax({
+	        type: "post",
+	        processing: false,
+	        url: _base+"/user/qualification/updateEnterpriseInfo",
+	        dataType: "json",
+	        data: $("#enterprise").serialize(),
+	        message: "正在加载数据..",
+	        success: function (data) {
+	        	if(data.responseHeader.resultCode=='00000'){
+	        		window.location.href=url;
+	        	}
+	        },
+	        error: function(XMLHttpRequest, textStatus, errorThrown) {
+				 alert(XMLHttpRequest.status);
+				 alert(XMLHttpRequest.readyState);
+				 alert(textStatus);
+				}
+			    }); 
+	}
+	
+	
+	function updateContactInfo(url){
+		$.ajax({
+	        type: "post",
+	        processing: false,
+	        url: _base+"/user/qualification/updateContactsInfo",
+	        dataType: "json",
+	        data: $("#enterprise").serialize(),
+	        message: "正在加载数据..",
+	        success: function (data) {
+	        	if(data.responseHeader.resultCode=='00000'){
+	        		window.location.href=url;
+	        	}
+	        },
+	        error: function(XMLHttpRequest, textStatus, errorThrown) {
+				 alert(XMLHttpRequest.status);
+				 alert(XMLHttpRequest.readyState);
+				 alert(textStatus);
+				}
+			    }); 
 	}
