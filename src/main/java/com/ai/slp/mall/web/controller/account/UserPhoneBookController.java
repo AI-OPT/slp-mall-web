@@ -327,7 +327,7 @@ public class UserPhoneBookController {
 		return responseData;
 	}
 	
-	public static Workbook createWorkbook(InputStream in) throws IOException,InvalidFormatException {
+	private Workbook createWorkbook(InputStream in) throws IOException,InvalidFormatException {
         if (!in.markSupported()) {
             in = new PushbackInputStream(in, 8);
         }
