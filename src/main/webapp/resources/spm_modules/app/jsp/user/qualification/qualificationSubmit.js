@@ -304,7 +304,7 @@ define('app/jsp/user/qualification/qualificationSubmit', function (require, expo
 				/**
 				 * 代理商资质修改
 				 */
-			updateEnterpriseInfo(_base+"/user/qualification/editAgentEnterprise);
+			updateEnterpriseInfo(_base+"/user/qualification/editAgentEnterprise");
 			}
 	},
 		
