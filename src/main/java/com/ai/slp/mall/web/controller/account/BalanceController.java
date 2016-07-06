@@ -67,38 +67,6 @@ public class BalanceController {
         return view;
     }
 	
-	@RequestMapping("/account/recharge/one")
-	public ModelAndView one(HttpServletRequest request) {
-		Map<String,Object> paramMap = new HashMap<String,Object>();
-		paramMap.put("linkModel", "accountBalance");
-		paramMap.put("testName", "zhangzd");
-        ModelAndView view = new ModelAndView("jsp/account/recharge/one",paramMap);
-        return view;
-    }
-	@RequestMapping("/account/recharge/two")
-	public ModelAndView two(HttpServletRequest request) {
-		Map<String,Object> paramMap = new HashMap<String,Object>();
-		paramMap.put("linkModel", "accountBalance");
-		paramMap.put("testName", "zhangzd");
-        ModelAndView view = new ModelAndView("jsp/account/recharge/two",paramMap);
-        return view;
-    }
-	@RequestMapping("/account/recharge/three")
-	public ModelAndView three(HttpServletRequest request) {
-		Map<String,Object> paramMap = new HashMap<String,Object>();
-		paramMap.put("linkModel", "accountBalance");
-		paramMap.put("testName", "zhangzd");
-        ModelAndView view = new ModelAndView("jsp/account/recharge/three",paramMap);
-        return view;
-    }
-	@RequestMapping("/account/recharge/four")
-	public ModelAndView four(HttpServletRequest request) {
-		Map<String,Object> paramMap = new HashMap<String,Object>();
-		paramMap.put("linkModel", "accountBalance");
-		paramMap.put("testName", "zhangzd");
-        ModelAndView view = new ModelAndView("jsp/account/recharge/four",paramMap);
-        return view;
-    }
 	//produces = "application/json;charset=UTF-8"
 	//produces = "text/html;charset=UTF-8"
 	@RequestMapping(value="/account/test",method = RequestMethod.POST, produces = "text/html;charset=UTF-8")
