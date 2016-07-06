@@ -5,6 +5,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.PushbackInputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.util.ArrayList;
@@ -14,9 +15,15 @@ import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.poi.xssf.usermodel.XSSFCell;
-import org.apache.poi.xssf.usermodel.XSSFRow;
-import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.POIXMLDocument;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
+import org.apache.poi.openxml4j.opc.OPCPackage;
+import org.apache.poi.poifs.filesystem.POIFSFileSystem;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -284,15 +291,15 @@ public class UserPhoneBookController {
 			MultipartRequest multipartRequest = (MultipartRequest) request;
 			MultipartFile uploadFile = multipartRequest.getFile("uploadFile");
 			InputStream inputStream = uploadFile.getInputStream();
-			XSSFWorkbook workbook = new XSSFWorkbook(new BufferedInputStream(inputStream));
-			XSSFSheet sheet = workbook.getSheetAt(0);
+			Workbook workbook = createWorkbook(new BufferedInputStream(inputStream));
+			Sheet sheet = workbook.getSheetAt(0);
 			for (int i = 1; i <= sheet.getLastRowNum(); i++) {
-				XSSFRow row = sheet.getRow(i);
+				Row row = sheet.getRow(i);
 				if (row == null) {
 					continue;
 				}
-				XSSFCell cell0 = row.getCell(0);
-				XSSFCell cell1 = row.getCell(1);
+				Cell cell0 = row.getCell(0);
+				Cell cell1 = row.getCell(1);
 				String telName = cell0.getStringCellValue();
 				String telMp = cell1.getStringCellValue();
 				UcUserPhonebooksBatchData o = new UcUserPhonebooksBatchData();
@@ -319,6 +326,20 @@ public class UserPhoneBookController {
 		}
 		return responseData;
 	}
+	
+	public static Workbook createWorkbook(InputStream in) throws IOException,InvalidFormatException {
+        if (!in.markSupported()) {
+            in = new PushbackInputStream(in, 8);
+        }
+        if (POIFSFileSystem.hasPOIFSHeader(in)) {
+            return new HSSFWorkbook(in);
+        }
+        if (POIXMLDocument.hasOOXMLHeader(in)) {
+            return new XSSFWorkbook(OPCPackage.open(in));
+        }
+        throw new IllegalArgumentException("你的excel版本目前poi解析不了");
+
+    }
 
 	private SLPClientUser getUserId(HttpServletRequest request) {
 		SLPClientUser user = (SLPClientUser) request.getSession().getAttribute(SSOClientConstants.USER_SESSION_KEY);
