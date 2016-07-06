@@ -2,6 +2,7 @@ package com.ai.slp.mall.web.controller.user;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -486,22 +487,36 @@ public class QualificationController {
         Map<String,String> groupTypeMap = getGroupTypeMap();
         //获取所属部门
         Map<String,String> contactDeptMap = getContactDeptMap();
-        
-        
+        //获取地区信息
         List<GnAreaVo> provinceList = getProvinceList();
-        List<IndustryQueryResponse> industryList = getIndustryList();
+        //获取行业信息
+        Map<String,String> industryMap = getIndustry();
+        
+        ICacheSV cacheSv = DubboConsumerFactory.getService("iCacheSV");
+        String provinceName = cacheSv.getAreaName(grouKeyInfoResponse.getProvinceCode());
+        String cityCode = cacheSv.getAreaName(grouKeyInfoResponse.getCityCode());
+        String county = cacheSv.getAreaName(grouKeyInfoResponse.getCountyCode());
+        
+        grouKeyInfoResponse.setProvinceCode(provinceName+cityCode+county);
+        grouKeyInfoResponse.setGroupIndustry(industryMap.get(grouKeyInfoResponse.getGroupIndustry()));
+        grouKeyInfoResponse.setGroupMemberScale(groupMemberMap.get(grouKeyInfoResponse.getGroupMemberScale()));
+        grouKeyInfoResponse.setGroupType(groupTypeMap.get(grouKeyInfoResponse.getGroupType()));
+        contactsInfoInfoResponse.setContactDept(contactDeptMap.get(contactsInfoInfoResponse.getContactDept()));
+        
         Map<String, Object> model = new HashMap<String, Object>();
         model.put("contactsInfo", contactsInfoInfoResponse);
         model.put("groupKeyInfo", grouKeyInfoResponse);
         model.put("custFileResponse", custFileResponse);
         model.put("provinceList", provinceList);
-        model.put("industryList", industryList);
+        model.put("industryMap", industryMap);
         model.put("imageMap", imageMap);
         model.put("groupMemberMap", groupMemberMap);
         model.put("groupTypeMap", groupTypeMap);
         model.put("contactDeptMap", contactDeptMap);
         return new ModelAndView("jsp/user/qualification/enterprise_edit", model);
     }
+    
+    
     
     @RequestMapping("/editAgentPersonal")
     public ModelAndView editAgentPersonal(HttpServletRequest request) {
@@ -515,34 +530,33 @@ public class QualificationController {
          * 获取图片信息
          */
         QueryCustFileExtResponse custFileResponse = getCustFileExt(userId);
-        List<CmCustFileExtVo> custFileExtVoList = custFileResponse.getList();
-        Map<String,String> imageMap = getImageUrl(custFileExtVoList);
-        List<GnAreaVo> provinceList = getProvinceList();
-        
-        //获取公司人数
-        Map<String,String> groupMemberMap = getGroupMemberScaleMap();
-        //获取公司性质
-        Map<String,String> groupTypeMap = getGroupTypeMap();
-        //获取所属部门
-        Map<String,String> contactDeptMap = getContactDeptMap();
         //获取学历信息
         Map<String,String> educationMap = getCustEducationMap();
         //获取收入信息
         Map<String,String> incomeLevelMap = getIncomeLevelMap();
         
+        custKeyInfoResponse.setIncomeLevel(incomeLevelMap.get(custKeyInfoResponse.getIncomeLevel()));
+        custKeyInfoResponse.setCustEducation(educationMap.get(custKeyInfoResponse.getCustEducation()));
+        
+        ICacheSV cacheSv = DubboConsumerFactory.getService("iCacheSV");
+        String provinceName = cacheSv.getAreaName(custKeyInfoResponse.getProvinceCode());
+        String cityCode = cacheSv.getAreaName(custKeyInfoResponse.getCityCode());
+        String county = cacheSv.getAreaName(custKeyInfoResponse.getCountyCode());
+        
+        custKeyInfoResponse.setProvinceCode(provinceName+cityCode+county);
         
         Map<String, Object> model = new HashMap<String, Object>();
+        List<String> urlList = new ArrayList<String>();
+        urlList.add("");
         model.put("custKeyInfo", custKeyInfoResponse);
         model.put("custFileResponse", custFileResponse);
-        model.put("provinceList", provinceList);
-        model.put("imageMap", imageMap);
-        model.put("groupMemberMap", groupMemberMap);
-        model.put("groupTypeMap", groupTypeMap);
-        model.put("contactDeptMap", contactDeptMap);
+        model.put("urlList", urlList);
         model.put("educationMap", educationMap);
         model.put("incomeLevelMap", incomeLevelMap);
         return new ModelAndView("jsp/user/qualification/agent-personal-edit", model);
     }
+    
+    
  //更新用户信息
     @RequestMapping("/updatePersonalInfo")
     @ResponseBody
@@ -617,15 +631,30 @@ public class QualificationController {
         Map<String,String> groupTypeMap = getGroupTypeMap();
         //获取所属部门
         Map<String,String> contactDeptMap = getContactDeptMap();
-        
+        //获取地区信息
         List<GnAreaVo> provinceList = getProvinceList();
-        List<IndustryQueryResponse> industryList = getIndustryList();
+        //获取行业信息
+        Map<String,String> industryMap = getIndustry();
+        
+        ICacheSV cacheSv = DubboConsumerFactory.getService("iCacheSV");
+        String provinceName = cacheSv.getAreaName(grouKeyInfoResponse.getProvinceCode());
+        String cityCode = cacheSv.getAreaName(grouKeyInfoResponse.getCityCode());
+        String county = cacheSv.getAreaName(grouKeyInfoResponse.getCountyCode());
+        
+        grouKeyInfoResponse.setProvinceCode(provinceName+cityCode+county);
+        grouKeyInfoResponse.setGroupMemberScale(groupMemberMap.get(grouKeyInfoResponse.getGroupMemberScale()));
+        grouKeyInfoResponse.setGroupType(groupTypeMap.get(grouKeyInfoResponse.getGroupType()));
+        contactsInfoInfoResponse.setContactDept(contactDeptMap.get(contactsInfoInfoResponse.getContactDept()));
+        grouKeyInfoResponse.setTaxpayerType(taxpayerTypeMap.get(grouKeyInfoResponse.getTaxpayerType()));
+        grouKeyInfoResponse.setTaxpayerCode(taxpayerTypeCodeMap.get(grouKeyInfoResponse.getTaxpayerCode()));
+        grouKeyInfoResponse.setGroupIndustry(industryMap.get(grouKeyInfoResponse.getGroupIndustry()));
+        
         Map<String,Object> model = new HashMap<String,Object>();
         model.put("contactsInfo", contactsInfoInfoResponse);
         model.put("groupKeyInfo", grouKeyInfoResponse);
         model.put("custFileResponse", custFileResponse);
         model.put("provinceList", provinceList);
-        model.put("industryList", industryList);
+        model.put("industryMap", industryMap);
         model.put("bankInfo", bankInfoResponse);
         model.put("imageMap", imageMap);
         model.put("taxpayerTypeMap", taxpayerTypeMap);
@@ -1026,5 +1055,22 @@ public class QualificationController {
             incomeLevelMap.put(param.getColumnValue(), param.getColumnDesc());
         }
         return incomeLevelMap;
+    }
+    
+    /**
+     * 获取行业信息
+     * @return
+     * @author zhangyh7
+     * @ApiDocMethod
+     */
+    public Map<String,String> getIndustry() {
+        IIndustrySV industrySV = DubboConsumerFactory.getService("iIndustrySV");
+        List<IndustryQueryResponse> list = industrySV.queryIndustryList();
+        Map<String,String> industryMap = new LinkedHashMap<String,String>();
+        for(int i=0;i<list.size();i++){
+            IndustryQueryResponse response = list.get(i);
+            industryMap.put(response.getIndustryCode(), response.getIndustryName());
+        }
+        return industryMap;
     }
 }
