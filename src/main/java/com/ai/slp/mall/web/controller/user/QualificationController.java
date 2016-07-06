@@ -46,6 +46,9 @@ import com.ai.slp.mall.web.constants.VerifyConstants;
 import com.ai.slp.mall.web.model.user.CustFileListVo;
 import com.ai.slp.mall.web.model.user.SafetyConfirmData;
 import com.ai.slp.mall.web.util.VerifyUtil;
+import com.ai.slp.product.api.productcat.interfaces.IProductCatSV;
+import com.ai.slp.product.api.productcat.param.ProdCatInfo;
+import com.ai.slp.product.api.productcat.param.ProductCatQuery;
 import com.ai.slp.user.api.bankinfo.interfaces.IUcBankInfoSV;
 import com.ai.slp.user.api.bankinfo.param.InsertBankInfoRequest;
 import com.ai.slp.user.api.bankinfo.param.QueryBankInfoSingleRequest;
@@ -127,6 +130,10 @@ public class QualificationController {
         //获取所属部门
         Map<String,String> contactDeptMap = getContactDeptMap();
         
+        IProductCatSV productCatSV = DubboConsumerFactory.getService("iProductCatSV");
+        ProductCatQuery catQuery = new ProductCatQuery();
+        catQuery.setTenantId(SLPMallConstants.COM_TENANT_ID);
+        List<ProdCatInfo> prodCatInfoList = productCatSV.queryCatByNameOrFirst(catQuery);
         Map<String, Object> model = new HashMap<String, Object>();
         model.put("provinceList", provinceList);
         model.put("industryList", industryList);
@@ -135,6 +142,7 @@ public class QualificationController {
         model.put("groupMemberMap", groupMemberMap);
         model.put("groupTypeMap", groupTypeMap);
         model.put("contactDeptMap", contactDeptMap);
+        model.put("prodCatInfoList", prodCatInfoList);
         
         return new ModelAndView("jsp/user/qualification/supplier", model);
     }
