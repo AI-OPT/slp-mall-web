@@ -117,7 +117,9 @@ public class QualificationController {
     // 供应商页面
     @RequestMapping("/toSupplierPage")
     public ModelAndView toSupplierPage() {
+        //获取地区信息
         List<GnAreaVo> provinceList = getProvinceList();
+        //获取行业数据
         List<IndustryQueryResponse> industryList = getIndustryList();
         //获取纳税人类型
         Map<String,String> taxpayerTypeMap = getTaxpayerTypeMap();
@@ -129,11 +131,12 @@ public class QualificationController {
         Map<String,String> groupTypeMap = getGroupTypeMap();
         //获取所属部门
         Map<String,String> contactDeptMap = getContactDeptMap();
-        
+        //获取商品信息
         IProductCatSV productCatSV = DubboConsumerFactory.getService("iProductCatSV");
         ProductCatQuery catQuery = new ProductCatQuery();
         catQuery.setTenantId(SLPMallConstants.COM_TENANT_ID);
         List<ProdCatInfo> prodCatInfoList = productCatSV.queryCatByNameOrFirst(catQuery);
+        
         Map<String, Object> model = new HashMap<String, Object>();
         model.put("provinceList", provinceList);
         model.put("industryList", industryList);
@@ -150,7 +153,9 @@ public class QualificationController {
     // 代理商企业页面
     @RequestMapping("/toAgentEnterprisePage")
     public ModelAndView toAgentEnterprisePage() {
+        //获取地区信息
         List<GnAreaVo> provinceList = getProvinceList();
+        //获取行业信息
         List<IndustryQueryResponse> industryList = getIndustryList();
         //获取纳税人类型
         Map<String,String> taxpayerTypeMap = getTaxpayerTypeMap();
@@ -622,18 +627,35 @@ public class QualificationController {
         return responseData;
     }
 
+    /**
+     * 获取地区信息
+     * @return
+     * @author zhangyh7
+     * @ApiDocMethod
+     */
     public List<GnAreaVo> getProvinceList() {
         IGnAreaQuerySV areaQuerySV = DubboConsumerFactory.getService("iGnAreaQuerySV");
         List<GnAreaVo> list = areaQuerySV.getProvinceList();
         return list;
     }
-
+    /**
+     * 获取行业信息
+     * @return
+     * @author zhangyh7
+     * @ApiDocMethod
+     */
     List<IndustryQueryResponse> getIndustryList() {
         IIndustrySV industrySV = DubboConsumerFactory.getService("iIndustrySV");
         List<IndustryQueryResponse> list = industrySV.queryIndustryList();
         return list;
     }
-
+    /**
+     * 获取个人信息
+     * @param userId
+     * @return
+     * @author zhangyh7
+     * @ApiDocMethod
+     */
     public SearchCustKeyInfoResponse getCustKeyBaseinfo(String userId) {
         SearchCustKeyInfoRequest custKeyInfRequest = new SearchCustKeyInfoRequest();
         custKeyInfRequest.setTenantId(SLPMallConstants.COM_TENANT_ID);
@@ -642,7 +664,13 @@ public class QualificationController {
         SearchCustKeyInfoResponse response = ucKeyInfoSV.searchCustKeyInfo(custKeyInfRequest);
         return response;
     }
-
+    /**
+     * 获取企业信息
+     * @param userId
+     * @return
+     * @author zhangyh7
+     * @ApiDocMethod
+     */
     public SearchGroupKeyInfoResponse getGroupKeyBaseinfo(String userId) {
         SearchGroupKeyInfoRequest groupKeyInfRequest = new SearchGroupKeyInfoRequest();
         groupKeyInfRequest.setTenantId(SLPMallConstants.COM_TENANT_ID);
@@ -651,7 +679,13 @@ public class QualificationController {
         SearchGroupKeyInfoResponse response = ucKeyInfoSV.searchGroupKeyInfo(groupKeyInfRequest);
         return response;
     }
-
+    /**
+     * 获取图片信息
+     * @param userId
+     * @return
+     * @author zhangyh7
+     * @ApiDocMethod
+     */
     public QueryCustFileExtResponse getCustFileExt(String userId) {
         QueryCustFileExtRequest custFileExtInfoRequest = new QueryCustFileExtRequest();
         custFileExtInfoRequest.setTenantId(SLPMallConstants.COM_TENANT_ID);
@@ -660,7 +694,13 @@ public class QualificationController {
         QueryCustFileExtResponse response = ucKeyInfoSV.queryCustFileExt(custFileExtInfoRequest);
         return response;
     }
-
+    /**
+     * 获取联系人信息
+     * @param userId
+     * @return
+     * @author zhangyh7
+     * @ApiDocMethod
+     */
     public QueryContactsInfoSingleResponse getContactsInfo(String userId) {
         QueryContactsInfoSingleRequest contactsInfoRequest = new QueryContactsInfoSingleRequest();
         contactsInfoRequest.setTenantId(SLPMallConstants.COM_TENANT_ID);
@@ -682,7 +722,13 @@ public class QualificationController {
         return true;
     }
     
-    
+    /**
+     * 获取银行信息
+     * @param userId
+     * @return
+     * @author zhangyh7
+     * @ApiDocMethod
+     */
     public QueryBankInfoSingleResponse getBankInfo(String userId) {
         QueryBankInfoSingleRequest bankInfoRequest = new QueryBankInfoSingleRequest();
         bankInfoRequest.setTenantId(SLPMallConstants.COM_TENANT_ID);
