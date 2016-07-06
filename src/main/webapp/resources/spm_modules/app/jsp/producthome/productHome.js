@@ -206,6 +206,7 @@ define('app/jsp/producthome/productHome', function (require, exports, module) {
     		//$("#phoneNum2").val("");
     		$("#gprs").html("");
     		$("#gsd2").html("");
+    		$("#location").val("national");
     		$("#gprs").append("<option value='¥49.00-¥50.00'>1G</option>");
     		$("#gprs").append("<option value='¥35.00-¥40.00'>500M</option>");
     		$("#gprs").append("<option value='¥29.50-¥29.90'>300M</option>");

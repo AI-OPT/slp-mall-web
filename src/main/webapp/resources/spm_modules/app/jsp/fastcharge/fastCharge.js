@@ -145,6 +145,7 @@ define('app/jsp/fastcharge/fastCharge', function (require, exports, module) {
     	_switchLf:function(){
     		var _this=this;
     		$("#gsd2").html("");
+    		$("#LQG").prop("checked",true)
     		$("#phoneNum2").val("");
     		_this._initLf();
     	},
@@ -156,6 +157,7 @@ define('app/jsp/fastcharge/fastCharge', function (require, exports, module) {
     	},
     	_initLf:function(){
     		var _this=this;
+    	
    		 $("#listLfee").html("<p salePrice='45.50-49.50元' class='lfee'><a href='javascript:void(0);'>1G</a></p><p salePrice='49.00-50.00元' class='lfee current'><a href='javascript:void(0);'>500M</a></p>" +
    		 		"<p saleprice='29.00-29.90元' class='lfee'><a href='javascript:void(0);'>300M</a></p><p class='lfee' salePrice='9.95-20.00元'><a href='javascript:void(0);'>100M</a>");
    		 _this._lfeeChange1();
