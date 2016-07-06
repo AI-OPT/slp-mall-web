@@ -257,10 +257,8 @@
            <ul>
                  <li>
                     <p class="word"><b class="red">*</b>开户银行名称:</p>
-
                     <p><input type="text" class="int-medium" placeholder="请填写开户银行名称" id="bankName"></p>
                     <label id="bankNameErrMsg" style="display:none"><img src="${_slpbase}/images/icon-c.png" id="bankNameImage"><span class="ash" id="bankNameText">4-20个字符</span></label>
-
                  </li>
              </ul>
              <ul>
@@ -352,9 +350,12 @@
                     <p>
                        <select class="select-medium" id="supplyGoods">
                        	 <option value="0">请选择</option>
+                       	 <c:forEach var="prodCatInfo" items="${prodCatInfoList}">
+                       	 	<option value="${prodCatInfo.productCatId}">${prodCatInfo.productCatName}</option>
+                       	 </c:forEach>
                        </select>
                      </p>
-                     <label id="supplyGoodsErrMsg"><img src="${_slpbase}/images/icon-a.png" id="supplyGoodsImage"><span id="supplyGoodsText" class="ash">请选择供应商品类型</span></label>
+                     <label id="supplyGoodsErrMsg" style="display: none;"><img src="${_slpbase}/images/icon-a.png" id="supplyGoodsImage"><span id="supplyGoodsText" class="ash">请选择供应商品类型</span></label>
                  </li>
              </ul>
              <ul>
