@@ -535,15 +535,19 @@ public class QualificationController {
         //获取收入信息
         Map<String,String> incomeLevelMap = getIncomeLevelMap();
         
+        //获取地区信息
+        List<GnAreaVo> provinceList = getProvinceList();
+        
         custKeyInfoResponse.setIncomeLevel(incomeLevelMap.get(custKeyInfoResponse.getIncomeLevel()));
         custKeyInfoResponse.setCustEducation(educationMap.get(custKeyInfoResponse.getCustEducation()));
         
         ICacheSV cacheSv = DubboConsumerFactory.getService("iCacheSV");
-        String provinceName = cacheSv.getAreaName(custKeyInfoResponse.getProvinceCode());
+        
+        /*String provinceName = cacheSv.getAreaName(custKeyInfoResponse.getProvinceCode());
         String cityCode = cacheSv.getAreaName(custKeyInfoResponse.getCityCode());
         String county = cacheSv.getAreaName(custKeyInfoResponse.getCountyCode());
         
-        custKeyInfoResponse.setProvinceCode(provinceName+cityCode+county);
+        custKeyInfoResponse.setProvinceCode(provinceName+cityCode+county);*/
         
         Map<String, Object> model = new HashMap<String, Object>();
         List<String> urlList = new ArrayList<String>();
@@ -553,6 +557,7 @@ public class QualificationController {
         model.put("urlList", urlList);
         model.put("educationMap", educationMap);
         model.put("incomeLevelMap", incomeLevelMap);
+        model.put("provinceList", provinceList);
         return new ModelAndView("jsp/user/qualification/agent-personal-edit", model);
     }
     
