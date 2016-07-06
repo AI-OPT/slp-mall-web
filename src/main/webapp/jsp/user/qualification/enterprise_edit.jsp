@@ -106,7 +106,7 @@ function updateContactsInfo(){
           <ul>
              <li>
                 <p class="word">公司人数:</p>
-                <p>${groupKeyInfo.groupMemberScale}人</p>
+                <p>${groupKeyInfo.groupMemberScale}</p>
              </li>
          </ul>
          <ul>
@@ -184,8 +184,8 @@ function updateContactsInfo(){
                 <p>
 	                <select class="select-medium" id="groupIndustry" name="groupIndustry">
 	                	<option value="0">请选择</option>
-	                	<c:forEach items="${industryList}" var="re">
-	                		<option value="${re.industryCode }">${re.industryName }</option>
+	                	<c:forEach items="${industryMap}" var="map">
+	                		<option value="${map.key }">${map.value }</option>
 	                	</c:forEach>
 	                </select>
                 </p>

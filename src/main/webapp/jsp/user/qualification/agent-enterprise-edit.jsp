@@ -512,8 +512,8 @@
                 <p>
 	                 <select class="select-medium" id="groupIndustry" name="groupIndustery">
 	                	<option value="0">请选择</option>
-	                	<c:forEach items="${industryList}" var="re">
-	                		<option value="${re.industryCode }">${re.industryName }</option>
+	                	 <c:forEach items="${industryMap}" var="map">
+	                		<option value="${map.key }">${map.value }</option>
 	                	</c:forEach>
 	                </select>
                 </p>
