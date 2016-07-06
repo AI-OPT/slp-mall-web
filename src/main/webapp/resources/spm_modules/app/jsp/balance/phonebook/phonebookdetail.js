@@ -178,8 +178,6 @@ define('app/jsp/balance/phonebook/phonebookdetail', function (require, exports, 
 				return ;
 			}
 			//初始化进度条数据
-			document.getElementById('uploadProgressShow').style.width = '0%';
-			$("#uploadProgressMsg").html("已处理0%");
 			this._showDialog("uploadProgressDiv");
 			
 			var form = new FormData();
@@ -187,9 +185,9 @@ define('app/jsp/balance/phonebook/phonebookdetail', function (require, exports, 
 			
 			// XMLHttpRequest 对象
 		     var xhr = new XMLHttpRequest();
-		     xhr.upload.addEventListener("progress", function () { _this._uploadProgress(event) }, false);
-		     xhr.addEventListener("load", function (result) { _this._uploadSuccess(result) }, false); 
-		     xhr.addEventListener("error", function () { _this._uploadFail() }, false);
+		     //xhr.upload.addEventListener("progress", function () { _this._uploadProgress(event) }, false);
+		     xhr.addEventListener("load", function (result,loadingDialog) { _this._uploadSuccess(result,loadingDialog) }, false); 
+		     xhr.addEventListener("error", function (loadingDialog) { _this._uploadFail(loadingDialog) }, false);
 		     var uploadURL = _base+"/account/phonebook/uploadPhoneBooks?telGroupId="+this.get("telGroupId");
 		     xhr.open("post", uploadURL, true);
 		     
@@ -210,19 +208,19 @@ define('app/jsp/balance/phonebook/phonebookdetail', function (require, exports, 
 			xhr.send(form);
 		},
 		
-		/**
-		 * 上传进度
-		 */
-		_uploadProgress:function(evt) {
-			if (evt.lengthComputable) {
-				var percentComplete = Math.round(evt.loaded * 100 / evt.total);
-				document.getElementById('uploadProgressShow').style.width = percentComplete+'%';
-				$("#uploadProgressMsg").html("已处理"+percentComplete+"%");
-			}else {
-				document.getElementById('uploadProgressShow').style.width = '100%';
-				$("#uploadProgressMsg").html("已处理100%");
-			}
-		},
+//		/**
+//		 * 上传进度
+//		 */
+//		_uploadProgress:function(evt) {
+//			if (evt.lengthComputable) {
+//				var percentComplete = Math.round(evt.loaded * 100 / evt.total);
+//				document.getElementById('uploadProgressShow').style.width = percentComplete+'%';
+//				$("#uploadProgressMsg").html("已处理"+percentComplete+"%");
+//			}else {
+//				document.getElementById('uploadProgressShow').style.width = '100%';
+//				$("#uploadProgressMsg").html("已处理100%");
+//			}
+//		},
 		/**
 		 * 上传成功
 		 */
