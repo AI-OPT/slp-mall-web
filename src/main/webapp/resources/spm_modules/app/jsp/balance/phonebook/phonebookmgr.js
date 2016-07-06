@@ -155,10 +155,15 @@ define('app/jsp/balance/phonebook/phonebookmgr', function (require, exports, mod
 				},
 				success: function(data){
 					var d = data.data; 
-					var template = $.templates("#TelGroupImpl");
-                    var htmlOutput = template.render(d?d:[]);
-                    $("#TBODY_TEL_GROUP").html(htmlOutput);
-                    _this.renderTelGroupList();
+					if(d!=null && d != undefined && d.length>0){
+						var template = $.templates("#TelGroupImpl");
+	                    var htmlOutput = template.render(d);
+	                    $("#TBODY_TEL_GROUP").html(htmlOutput);
+	                    _this.renderTelGroupList();
+					}else{
+						 $("#TBODY_TEL_GROUP").html("没有搜索到相关信息");
+					}
+					
 				}
 			});
     	},

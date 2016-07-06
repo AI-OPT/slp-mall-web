@@ -255,12 +255,8 @@ define('app/jsp/balance/phonebook/phonebookdetail', function (require, exports, 
     	 */
     	_confirmInputRow: function(){
     		var row = $.trim($("#INPUT_ROW").val());
-    		if(isNaN(row)){
-    			$("#addDialogDiv_error").html("<img src='"+_slpbase+"/images/icon-a.png'> 请输入数字");
-    			return;
-    		}
-    		var rowNum = Number(row);
-    		if(rowNum<2 || rowNum>100){
+    		var rowRE = /^([2-9]|[1-9][0-9]|100)$/;
+    		if(!rowRE.test(row)){
     			$("#addDialogDiv_error").html("<img src='"+_slpbase+"/images/icon-a.png'> 请输入数字[2~100]");
     			return;
     		}
