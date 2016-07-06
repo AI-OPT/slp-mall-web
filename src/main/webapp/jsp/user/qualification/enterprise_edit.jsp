@@ -106,7 +106,7 @@ function updateContactsInfo(){
           <ul>
              <li>
                 <p class="word">公司人数:</p>
-                <p>${groupKeyInfo.groupMemberScale}人</p>
+                <p>${groupKeyInfo.groupMemberScale}</p>
              </li>
          </ul>
          <ul>
