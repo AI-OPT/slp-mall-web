@@ -2,6 +2,7 @@ package com.ai.slp.mall.web.controller.user;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -52,12 +53,10 @@ import com.ai.slp.user.api.bankinfo.interfaces.IUcBankInfoSV;
 import com.ai.slp.user.api.bankinfo.param.InsertBankInfoRequest;
 import com.ai.slp.user.api.bankinfo.param.QueryBankInfoSingleRequest;
 import com.ai.slp.user.api.bankinfo.param.QueryBankInfoSingleResponse;
-import com.ai.slp.user.api.bankinfo.param.UpdateBankInfoRequest;
 import com.ai.slp.user.api.contactsinfo.interfaces.IUcContactsInfoSV;
 import com.ai.slp.user.api.contactsinfo.param.InsertContactsInfoRequest;
 import com.ai.slp.user.api.contactsinfo.param.QueryContactsInfoSingleRequest;
 import com.ai.slp.user.api.contactsinfo.param.QueryContactsInfoSingleResponse;
-import com.ai.slp.user.api.contactsinfo.param.UpdateContactsInfoRequest;
 import com.ai.slp.user.api.keyinfo.interfaces.IUcKeyInfoSV;
 import com.ai.slp.user.api.keyinfo.param.CmCustFileExtVo;
 import com.ai.slp.user.api.keyinfo.param.InsertCustFileExtRequest;
@@ -69,9 +68,6 @@ import com.ai.slp.user.api.keyinfo.param.SearchCustKeyInfoRequest;
 import com.ai.slp.user.api.keyinfo.param.SearchCustKeyInfoResponse;
 import com.ai.slp.user.api.keyinfo.param.SearchGroupKeyInfoRequest;
 import com.ai.slp.user.api.keyinfo.param.SearchGroupKeyInfoResponse;
-import com.ai.slp.user.api.keyinfo.param.UpdateCustFileExtRequest;
-import com.ai.slp.user.api.keyinfo.param.UpdateCustKeyInfoRequest;
-import com.ai.slp.user.api.keyinfo.param.UpdateGroupKeyInfoRequest;
 import com.ai.slp.user.api.ucuser.intefaces.IUcUserSV;
 import com.ai.slp.user.api.ucuser.param.UpdateUserInfoRequest;
 import com.alibaba.fastjson.JSON;
@@ -91,27 +87,13 @@ public class QualificationController {
     // 代理商个人页面
     @RequestMapping("/toAgentPersonalPage")
     public ModelAndView toAgentPersonalPage() {
-        //获取注册地址
-        List<GnAreaVo> provinceList = getProvinceList();
-        //获取行业信息
-        List<IndustryQueryResponse> industryList = getIndustryList();
-        //获取公司人数
-        Map<String,String> groupMemberMap = getGroupMemberScaleMap();
-        //获取公司性质
-        Map<String,String> groupTypeMap = getGroupTypeMap();
-        //获取所属部门
-        Map<String,String> contactDeptMap = getContactDeptMap();
+       
         //获取学历信息
         Map<String,String> educationMap = getCustEducationMap();
         //获取收入信息
         Map<String,String> incomeLevelMap = getIncomeLevelMap();
         
         Map<String, Object> model = new HashMap<String, Object>();
-        model.put("provinceList", provinceList);
-        model.put("industryList", industryList);
-        model.put("groupMember", groupMemberMap);
-        model.put("groupTypeMap", groupTypeMap);
-        model.put("contactDeptMap", contactDeptMap);
         model.put("educationMap", educationMap);
         model.put("incomeLevelMap", incomeLevelMap);
         
@@ -124,7 +106,7 @@ public class QualificationController {
         //获取地区信息
         List<GnAreaVo> provinceList = getProvinceList();
         //获取行业数据
-        List<IndustryQueryResponse> industryList = getIndustryList();
+        Map<String,String> industryMap = getIndustry();
         //获取纳税人类型
         Map<String,String> taxpayerTypeMap = getTaxpayerTypeMap();
         //获取纳税类型税码信息
@@ -143,7 +125,7 @@ public class QualificationController {
         
         Map<String, Object> model = new HashMap<String, Object>();
         model.put("provinceList", provinceList);
-        model.put("industryList", industryList);
+        model.put("industryMap", industryMap);
         model.put("taxpayerTypeMap", taxpayerTypeMap);
         model.put("taxpayerTypeCodeMap", taxpayerTypeCodeMap);
         model.put("groupMemberMap", groupMemberMap);
@@ -160,7 +142,7 @@ public class QualificationController {
         //获取地区信息
         List<GnAreaVo> provinceList = getProvinceList();
         //获取行业信息
-        List<IndustryQueryResponse> industryList = getIndustryList();
+        Map<String,String> industryMap = getIndustry();
         //获取纳税人类型
         Map<String,String> taxpayerTypeMap = getTaxpayerTypeMap();
         //获取纳税类型税码信息
@@ -174,7 +156,7 @@ public class QualificationController {
         
         Map<String, Object> model = new HashMap<String, Object>();
         model.put("provinceList", provinceList);
-        model.put("industryList", industryList);
+        model.put("industryMap", industryMap);
         model.put("taxpayerTypeMap", taxpayerTypeMap);
         model.put("taxpayerTypeCodeMap", taxpayerTypeCodeMap);
         model.put("groupMemberMap", groupMemberMap);
@@ -190,7 +172,7 @@ public class QualificationController {
         //获取注册地址
         List<GnAreaVo> provinceList = getProvinceList();
         //获取行业信息
-        List<IndustryQueryResponse> industryList = getIndustryList();
+        Map<String,String> industryMap = getIndustry();
         Map<String, Object> model = new HashMap<String, Object>();
         //获取公司人数
         Map<String,String> groupMemberMap = getGroupMemberScaleMap();
@@ -199,7 +181,7 @@ public class QualificationController {
         //获取所属部门
         Map<String,String> contactDeptMap = getContactDeptMap();
         model.put("provinceList", provinceList);
-        model.put("industryList", industryList);
+        model.put("industryMap", industryMap);
         model.put("groupMember", groupMemberMap);
         model.put("groupTypeMap", groupTypeMap);
         model.put("contactDeptMap", contactDeptMap);
@@ -226,10 +208,12 @@ public class QualificationController {
             SLPClientUser user = (SLPClientUser) session
                     .getAttribute(SSOClientConstants.USER_SESSION_KEY);
             // 企业关键信息
-            if (request.getParameter("establishTime") != null) 
-        insertGroupKeyInfoRequest.setCertIssueDate(DateUtil.getTimestamp(request.getParameter("establishTime")));            insertGroupKeyInfoRequest.setTenantId(user.getTenantId());            insertGroupKeyInfoRequest.setUserType(user.getUserType());
-        insertGroupKeyInfoRequest.setTenantId(user.getTenantId());
-        insertGroupKeyInfoRequest.setUserType(user.getUserType());
+            if (request.getParameter("establishTime") != null) {
+                insertGroupKeyInfoRequest.setCertIssueDate(
+                        DateUtil.getTimestamp(request.getParameter("establishTime")));
+            }
+            insertGroupKeyInfoRequest.setTenantId(user.getTenantId());
+            insertGroupKeyInfoRequest.setUserType(user.getUserType());
             insertGroupKeyInfoRequest.setUserId(user.getUserId());
             // 附件信息
             for (CmCustFileExtVo cmCustFileExtVo : custFileListVo.getList()) {
@@ -268,7 +252,7 @@ public class QualificationController {
                     ucBankInfoSV.insertBankInfo(insertBankInfoRequest);
                 }
                 // 修改用户信息认证状态
-                updateUserInfo(user,"10");
+                updateUserInfo(user);
                 responseData = new ResponseData<String>(
                         VerifyConstants.QualificationConstants.SUCCESS_CODE, "操作成功", null);
                 responseHeader = new ResponseHeader(true,
@@ -332,7 +316,7 @@ public class QualificationController {
         try {
             ucKeyInfoSV.insertCustKeyInfo(insertCustKeyInfoRequest);
             ucKeyInfoSV.insertCustFileExt(insertCustFileExtRequest);
-            updateUserInfo(user,"10");
+            updateUserInfo(user);
             responseData = new ResponseData<String>(
                     SLPMallConstants.Qualification.QUALIFICATION_SUCCESS, "操作成功", null);
             responseHeader = new ResponseHeader(true,
@@ -486,16 +470,28 @@ public class QualificationController {
         Map<String,String> groupTypeMap = getGroupTypeMap();
         //获取所属部门
         Map<String,String> contactDeptMap = getContactDeptMap();
-        
-        
+        //获取地区信息
         List<GnAreaVo> provinceList = getProvinceList();
-        List<IndustryQueryResponse> industryList = getIndustryList();
+        //获取行业信息
+        Map<String,String> industryMap = getIndustry();
+        
+        ICacheSV cacheSv = DubboConsumerFactory.getService("iCacheSV");
+        String provinceName = cacheSv.getAreaName(grouKeyInfoResponse.getProvinceCode());
+        String cityCode = cacheSv.getAreaName(grouKeyInfoResponse.getCityCode());
+        String county = cacheSv.getAreaName(grouKeyInfoResponse.getCountyCode());
+        
+        grouKeyInfoResponse.setProvinceCode(provinceName+cityCode+county);
+        grouKeyInfoResponse.setGroupIndustry(industryMap.get(grouKeyInfoResponse.getGroupIndustry()));
+        grouKeyInfoResponse.setGroupMemberScale(groupMemberMap.get(grouKeyInfoResponse.getGroupMemberScale()));
+        grouKeyInfoResponse.setGroupType(groupTypeMap.get(grouKeyInfoResponse.getGroupType()));
+        contactsInfoInfoResponse.setContactDept(contactDeptMap.get(contactsInfoInfoResponse.getContactDept()));
+        
         Map<String, Object> model = new HashMap<String, Object>();
         model.put("contactsInfo", contactsInfoInfoResponse);
         model.put("groupKeyInfo", grouKeyInfoResponse);
         model.put("custFileResponse", custFileResponse);
         model.put("provinceList", provinceList);
-        model.put("industryList", industryList);
+        model.put("industryMap", industryMap);
         model.put("imageMap", imageMap);
         model.put("groupMemberMap", groupMemberMap);
         model.put("groupTypeMap", groupTypeMap);
@@ -515,71 +511,22 @@ public class QualificationController {
          * 获取图片信息
          */
         QueryCustFileExtResponse custFileResponse = getCustFileExt(userId);
-        List<CmCustFileExtVo> custFileExtVoList = custFileResponse.getList();
-        Map<String,String> imageMap = getImageUrl(custFileExtVoList);
-        List<GnAreaVo> provinceList = getProvinceList();
-        
-        //获取公司人数
-        Map<String,String> groupMemberMap = getGroupMemberScaleMap();
-        //获取公司性质
-        Map<String,String> groupTypeMap = getGroupTypeMap();
-        //获取所属部门
-        Map<String,String> contactDeptMap = getContactDeptMap();
         //获取学历信息
         Map<String,String> educationMap = getCustEducationMap();
         //获取收入信息
         Map<String,String> incomeLevelMap = getIncomeLevelMap();
-        
+        custKeyInfoResponse.setIncomeLevel(incomeLevelMap.get(custKeyInfoResponse.getIncomeLevel()));
+        custKeyInfoResponse.setCustEducation(educationMap.get(custKeyInfoResponse.getCustEducation()));
         
         Map<String, Object> model = new HashMap<String, Object>();
+        List<String> urlList = new ArrayList<String>();
+        urlList.add("");
         model.put("custKeyInfo", custKeyInfoResponse);
         model.put("custFileResponse", custFileResponse);
-        model.put("provinceList", provinceList);
-        model.put("imageMap", imageMap);
-        model.put("groupMemberMap", groupMemberMap);
-        model.put("groupTypeMap", groupTypeMap);
-        model.put("contactDeptMap", contactDeptMap);
+        model.put("urlList", urlList);
         model.put("educationMap", educationMap);
         model.put("incomeLevelMap", incomeLevelMap);
         return new ModelAndView("jsp/user/qualification/agent-personal-edit", model);
-    }
- //更新用户信息
-    @RequestMapping("/updatePersonalInfo")
-    @ResponseBody
-    public ResponseData<String> updatePersonalInfo(HttpServletRequest request,
-            UpdateCustKeyInfoRequest updateCustKeyInfoRequest, CustFileListVo custFileListVo) {
-        ResponseData<String> responseData = null;
-        ResponseHeader responseHeader = null;
-
-        HttpSession session = request.getSession();
-        SLPClientUser user = (SLPClientUser) session.getAttribute(SSOClientConstants.USER_SESSION_KEY);
-        
-        // 个人信息
-        updateCustKeyInfoRequest.setTenantId(user.getTenantId());
-        updateCustKeyInfoRequest.setUserType(user.getUserType());
-        updateCustKeyInfoRequest.setUserId(user.getUserId());
-        updateCustKeyInfoRequest.setCustBirthday(DateUtil.getTimestamp(request.getParameter("yy_mm_dd") + "-"+ request.getParameter("mm") + "-" + request.getParameter("dd")));
-        // 附件信息
-        for (CmCustFileExtVo cmCustFileExtVo : custFileListVo.getList()) {
-            cmCustFileExtVo.setTenantId(user.getTenantId());
-            cmCustFileExtVo.setUserId(user.getUserId());
-        }
-        UpdateCustFileExtRequest updateCustFileExtRequest = new UpdateCustFileExtRequest();
-        updateCustFileExtRequest.setList(custFileListVo.getList());
-        // 联系人信息
-        IUcKeyInfoSV ucKeyInfoSV = DubboConsumerFactory.getService(IUcKeyInfoSV.class);
-        try {
-            ucKeyInfoSV.updateCustKeyInfo(updateCustKeyInfoRequest);
-            ucKeyInfoSV.updateCustFileExt(updateCustFileExtRequest);
-            responseData = new ResponseData<String>(SLPMallConstants.Qualification.QUALIFICATION_SUCCESS, "操作成功", null);
-            responseHeader = new ResponseHeader(true,SLPMallConstants.Qualification.QUALIFICATION_SUCCESS, "操作成功");
-        } catch (Exception e) {
-            LOGGER.error("操作失败");
-            responseData = new ResponseData<String>(SLPMallConstants.Qualification.QUALIFICATION_ERROR, "操作失败", null);
-            responseHeader = new ResponseHeader(false,SLPMallConstants.Qualification.QUALIFICATION_ERROR, "操作失败");
-        }
-        responseData.setResponseHeader(responseHeader);
-        return responseData;
     }
     
     @RequestMapping("/editAgentEnterprise")
@@ -615,15 +562,30 @@ public class QualificationController {
         Map<String,String> groupTypeMap = getGroupTypeMap();
         //获取所属部门
         Map<String,String> contactDeptMap = getContactDeptMap();
-        
+        //获取地区信息
         List<GnAreaVo> provinceList = getProvinceList();
-        List<IndustryQueryResponse> industryList = getIndustryList();
+        //获取行业信息
+        Map<String,String> industryMap = getIndustry();
+        
+        ICacheSV cacheSv = DubboConsumerFactory.getService("iCacheSV");
+        String provinceName = cacheSv.getAreaName(grouKeyInfoResponse.getProvinceCode());
+        String cityCode = cacheSv.getAreaName(grouKeyInfoResponse.getCityCode());
+        String county = cacheSv.getAreaName(grouKeyInfoResponse.getCountyCode());
+        
+        grouKeyInfoResponse.setProvinceCode(provinceName+cityCode+county);
+        grouKeyInfoResponse.setGroupMemberScale(groupMemberMap.get(grouKeyInfoResponse.getGroupMemberScale()));
+        grouKeyInfoResponse.setGroupType(groupTypeMap.get(grouKeyInfoResponse.getGroupType()));
+        contactsInfoInfoResponse.setContactDept(contactDeptMap.get(contactsInfoInfoResponse.getContactDept()));
+        grouKeyInfoResponse.setTaxpayerType(taxpayerTypeMap.get(grouKeyInfoResponse.getTaxpayerType()));
+        grouKeyInfoResponse.setTaxpayerCode(taxpayerTypeCodeMap.get(grouKeyInfoResponse.getTaxpayerCode()));
+        grouKeyInfoResponse.setGroupIndustry(industryMap.get(grouKeyInfoResponse.getGroupIndustry()));
+        
         Map<String,Object> model = new HashMap<String,Object>();
         model.put("contactsInfo", contactsInfoInfoResponse);
         model.put("groupKeyInfo", grouKeyInfoResponse);
         model.put("custFileResponse", custFileResponse);
         model.put("provinceList", provinceList);
-        model.put("industryList", industryList);
+        model.put("industryMap", industryMap);
         model.put("bankInfo", bankInfoResponse);
         model.put("imageMap", imageMap);
         model.put("taxpayerTypeMap", taxpayerTypeMap);
@@ -633,95 +595,6 @@ public class QualificationController {
         model.put("contactDeptMap", contactDeptMap);
         return new ModelAndView("jsp/user/qualification/agent-enterprise-edit",model);
     }
-   //更新企业关键信息
-    @RequestMapping("/updateEnterpriseInfo")
-    @ResponseBody
-    public ResponseData<String> updateEnterpriseInfo(HttpServletRequest request,
-            UpdateGroupKeyInfoRequest updateGroupKeyInfoRequest, CustFileListVo custFileListVo) {
-        ResponseData<String> responseData = null;
-        ResponseHeader responseHeader = null;
-
-        HttpSession session = request.getSession();
-        SLPClientUser user = (SLPClientUser) session.getAttribute(SSOClientConstants.USER_SESSION_KEY);
-        
-        // 企业信息
-        updateGroupKeyInfoRequest.setTenantId(user.getTenantId());
-        updateGroupKeyInfoRequest.setUserType(user.getUserType());
-        updateGroupKeyInfoRequest.setUserId(user.getUserId());
-        if (request.getParameter("establishTime") != null) {
-            updateGroupKeyInfoRequest.setCertIssueDate(DateUtil.getTimestamp(request.getParameter("establishTime")));
-        }
-        // 附件信息
-        for (CmCustFileExtVo cmCustFileExtVo : custFileListVo.getList()) {
-            cmCustFileExtVo.setTenantId(user.getTenantId());
-            cmCustFileExtVo.setUserId(user.getUserId());
-        }
-        
-        //判断银行信息是否存在
-        IUcBankInfoSV ucBankInfoSV=null;
-        UpdateBankInfoRequest updateBankInfoRequest=null;
-        if (request.getParameter("bankName") != null&& request.getParameter("bankAccount") != null) {
-            updateBankInfoRequest = new UpdateBankInfoRequest();
-            updateBankInfoRequest.setTenantId(user.getTenantId());
-            updateBankInfoRequest.setUserId(user.getUserId());
-            updateBankInfoRequest.setBankName(request.getParameter("bankName"));
-            updateBankInfoRequest.setAcctNo(request.getParameter("bankAccount"));
-            updateBankInfoRequest.setSubBranchName(request.getParameter("subbranchName"));
-            ucBankInfoSV = DubboConsumerFactory.getService(IUcBankInfoSV.class);
-        }
-        UpdateCustFileExtRequest updateCustFileExtRequest = new UpdateCustFileExtRequest();
-        updateCustFileExtRequest.setList(custFileListVo.getList());
-        // 获取服务
-        IUcKeyInfoSV ucKeyInfoSV = DubboConsumerFactory.getService(IUcKeyInfoSV.class);
-        try {
-            ucKeyInfoSV.updateGroupKeyInfo(updateGroupKeyInfoRequest);
-            ucKeyInfoSV.updateCustFileExt(updateCustFileExtRequest);
-            if(ucBankInfoSV!=null)
-                ucBankInfoSV.updateBankInfo(updateBankInfoRequest);
-            responseData = new ResponseData<String>(SLPMallConstants.Qualification.QUALIFICATION_SUCCESS, "操作成功", null);
-            responseHeader = new ResponseHeader(true,SLPMallConstants.Qualification.QUALIFICATION_SUCCESS, "操作成功");
-        } catch (Exception e) {
-            LOGGER.error("操作失败");
-            responseData = new ResponseData<String>(SLPMallConstants.Qualification.QUALIFICATION_ERROR, "操作失败", null);
-            responseHeader = new ResponseHeader(false,SLPMallConstants.Qualification.QUALIFICATION_ERROR, "操作失败");
-        }
-        responseData.setResponseHeader(responseHeader);
-        return responseData;
-    }
-    
-    
-  //更新联系人关键信息
-    @RequestMapping("/updateContactsInfo")
-    @ResponseBody
-    public ResponseData<String> updateContactsInfo(HttpServletRequest request,
-           UpdateContactsInfoRequest updateContactsInfoRequest) {
-        ResponseData<String> responseData = null;
-        ResponseHeader responseHeader = null;
-
-        HttpSession session = request.getSession();
-        SLPClientUser user = (SLPClientUser) session.getAttribute(SSOClientConstants.USER_SESSION_KEY);
-        if (validatePhoneCode(request) != null) {
-            return validatePhoneCode(request);
-        }else{
-        // 联系人信息
-        updateContactsInfoRequest.setTenantId(user.getTenantId());
-        updateContactsInfoRequest.setUserId(user.getUserId());
-        // 获取服务
-        IUcContactsInfoSV ucContactsInfoSV = DubboConsumerFactory.getService(IUcContactsInfoSV.class);
-        try {
-            ucContactsInfoSV.updateContactsInfo(updateContactsInfoRequest);
-            responseData = new ResponseData<String>(SLPMallConstants.Qualification.QUALIFICATION_SUCCESS, "操作成功", null);
-            responseHeader = new ResponseHeader(true,SLPMallConstants.Qualification.QUALIFICATION_SUCCESS, "操作成功");
-        } catch (Exception e) {
-            LOGGER.error("操作失败");
-            responseData = new ResponseData<String>(SLPMallConstants.Qualification.QUALIFICATION_ERROR, "操作失败", null);
-            responseHeader = new ResponseHeader(false,SLPMallConstants.Qualification.QUALIFICATION_ERROR, "操作失败");
-        }
-        }
-        responseData.setResponseHeader(responseHeader);
-        return responseData;
-    }
-    
     // 校验企业名称唯一性
     @RequestMapping("/checkCustName")
     @ResponseBody
@@ -773,10 +646,15 @@ public class QualificationController {
      * @author zhangyh7
      * @ApiDocMethod
      */
-    List<IndustryQueryResponse> getIndustryList() {
+    public Map<String,String> getIndustry() {
         IIndustrySV industrySV = DubboConsumerFactory.getService("iIndustrySV");
         List<IndustryQueryResponse> list = industrySV.queryIndustryList();
-        return list;
+        Map<String,String> industryMap = new LinkedHashMap<String,String>();
+        for(int i=0;i<list.size();i++){
+            IndustryQueryResponse response = list.get(i);
+            industryMap.put(response.getIndustryCode(), response.getIndustryName());
+        }
+        return industryMap;
     }
     /**
      * 获取个人信息
@@ -841,12 +719,12 @@ public class QualificationController {
     }
 
     // 更新用户认证状态
-    private boolean updateUserInfo(SLPClientUser user,String auditState) throws Exception {
+    private boolean updateUserInfo(SLPClientUser user) throws Exception {
         IUcUserSV ucUserSV = DubboConsumerFactory.getService(IUcUserSV.class);
         UpdateUserInfoRequest updateUserInfoRequest = new UpdateUserInfoRequest();
         updateUserInfoRequest.setTenantId(user.getTenantId());
         updateUserInfoRequest.setUserId(user.getUserId());
-        updateUserInfoRequest.setAuditState(auditState);
+        updateUserInfoRequest.setVerifyFlag("1");
         ucUserSV.updateBaseInfo(updateUserInfoRequest);
         return true;
     }
@@ -1021,4 +899,6 @@ public class QualificationController {
         }
         return incomeLevelMap;
     }
+    
+    
 }
