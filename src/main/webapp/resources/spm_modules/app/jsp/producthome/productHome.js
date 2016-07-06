@@ -229,8 +229,6 @@ define('app/jsp/producthome/productHome', function (require, exports, module) {
 			 if(mobileReg.test(phoneNum)==false){
 				 Dialog({
 						title : '提示',
-						width : '200px',
-						height : '50px',
 						content : "手机号格式不对，请重新输入",
 						okValue : "确定",
 						ok : function() {
