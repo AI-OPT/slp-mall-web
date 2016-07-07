@@ -298,9 +298,10 @@
                  <span>
                   <input type="button" value="点击上传" class="file-btn">
                   <input type="file" class="file" id="image1" name="image1" onchange="uploadImg('image1','certPic1','idpsId1');">
-                  <a href="javascript:void(0)" onclick="deleteImg('image1','certPic1','idpsId1')">删除</a>
+                  <a href="javascript:void(0)" onclick="deleteImg('image1','certPic1','idpsId1','imgErrShow1')">删除</a>
                   </span>
                  <span>支持JPG/PNG/GIF格式，最大不超过3M</span>
+                 <span id="imgErrShow1"></span>
                 </p>
              </li>
          </ul>
@@ -354,10 +355,11 @@
                 <span>
                   <input type="button" value="点击上传" class="file-btn">
                   <input type="file" class="file" id="image2" name="image2" onchange="uploadImg('image2','certPic2','idpsId2');">
-                  <a href="javascript:void(0)" onclick="deleteImg('image2','certPic2','idpsId2')">删除</a>
+                    <a href="javascript:void(0)" onclick="deleteImg('image2','certPic2','idpsId2','imgErrShow2')">删除</a>
                 	<span> 请将身份证正面、反面照片合在一起上传</span> 
                  </span>
                 <span>支持JPG/PNG/GIF格式，最大不超过3M</span>
+                <span id="imgErrShow2"></span>
                 </p>
              </li>
          </ul>
@@ -414,9 +416,10 @@
                 <span>
                   <input type="button" value="点击上传" class="file-btn">
                   <input type="file" class="file" id="image3" name="image3" onchange="uploadImg('image3','certPic3','idpsId3');">
-                  <a href="javascript:void(0)" onclick="deleteImg('image3','certPic3','idpsId3')">删除</a>
+                  <a href="javascript:void(0)" onclick="deleteImg('image3','certPic3','idpsId3','imgErrShow3')">删除</a>
                   </span>
                  <span>支持JPG/PNG/GIF格式，最大不超过3M</span>
+                 <span id="imgErrShow3"></span>
                 </p>
              </li>
          </ul>    
@@ -443,9 +446,10 @@
                 <span>
                   <input type="button" value="点击上传" class="file-btn">
                   <input type="file" class="file" id="image4" name="image4" onchange="uploadImg('image4','certPic4','idpsId4');">
-                  <a href="javascript:void(0)" onclick="deleteImg('image4','certPic4','idpsId4')">删除</a>
+                  <a href="javascript:void(0)" onclick="deleteImg('image4','certPic4','idpsId4','imgErrShow4')">删除</a>
                   </span>
                  <span>支持JPG/PNG/GIF格式，最大不超过3M</span>
+                 <span id="imgErrShow4"></span>
                 </p>
              </li>
          </ul>    
@@ -488,9 +492,10 @@
                 <span>
                   <input type="button" value="点击上传" class="file-btn">
                   <input type="file" class="file" id="image5" name="image5" onchange="uploadImg('image5','certPic5','idpsId5');">
-                  <a href="javascript:void(0)" onclick="deleteImg('image5','certPic5','idpsId5')">删除</a>
+                  <a href="javascript:void(0)" onclick="deleteImg('image5','certPic5','idpsId5','imgErrShow5')">删除</a>
                   </span>
                  <span>支持JPG/PNG/GIF格式，最大不超过3M</span>
+                 <span id="imgErrShow5"></span>
                 </p>
              </li>
          </ul>    

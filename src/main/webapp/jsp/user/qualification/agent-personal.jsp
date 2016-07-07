@@ -187,8 +187,9 @@
                		 <input type="hidden" value="11001" name="list[0].infoItem">
 	                <p class="img"><img src="${_slpbase }/images/fom-t.png" id="certPic1"></p>
 	                <p class="small-p">
-	                <span><input type="button" value="点击上传" class="file-btn"><input type="file" class="file" id="image1" name="image1" onchange="uploadImg('image1','certPic1','idpsId1');"><a href="javascript:void(0)" onclick="deleteImg('image1','certPic1','idpsId1');">删除</a></span>
+	                <span><input type="button" value="点击上传" class="file-btn"><input type="file" class="file" id="image1" name="image1" onchange="uploadImg('image1','certPic1','idpsId1','imgErrShow1');"><a href="javascript:void(0)" onclick="deleteImg('image1','certPic1','idpsId1','imgErrShow1');">删除</a></span>
 	                <span>支持JPG/PNG/GIF格式，最大不超过3M</span>
+	                <span id="imgErrShow1"></span>
 	                </p>
 	                <%-- <p><div class="card-left-word"><img src="${_slpbase }/images/icon-a.png">请上传手持证件照片</div></p> --%>
 	                </li>
@@ -211,8 +212,9 @@
                		 <input type="hidden" value="11002" name="list[1].infoItem">
 	                <p class="img"><img src="${_slpbase }/images/fom-t.png" id="certPic2"></p>
 	                <p class="small-p">
-	                <span><input type="button" value="点击上传" class="file-btn"><input type="file" class="file" id="image2" name="image2" onchange="uploadImg('image2','certPic2','idpsId2');"><a href="javascript:void(0)" onclick="deleteImg('image2','certPic2','idpsId2');">删除</a></span>
+	                <span><input type="button" value="点击上传" class="file-btn"><input type="file" class="file" id="image2" name="image2" onchange="uploadImg('image2','certPic2','idpsId2','imgErrShow2');"><a href="javascript:void(0)" onclick="deleteImg('image2','certPic2','idpsId2','imgErrShow2');">删除</a></span>
 	                <span>支持JPG/PNG/GIF格式，最大不超过3M</span>
+	                <span id="imgErrShow2"></span>
 	                </p>
 	               <%--  <p><div class="card-left-word"><img src="${_slpbase }/images/icon-a.png">请上传手持证件照片</div></p> --%>
 	                </li>
@@ -235,8 +237,9 @@
                		 <input type="hidden" value="11003" name="list[2].infoItem">
 	                <p class="img"><img src="${_slpbase }/images/fom-t.png" id="certPic3"></p>
 	                <p class="small-p">
-	                <span><input type="button" value="点击上传" class="file-btn"><input type="file" class="file" id="image3" name="image3" onchange="uploadImg('image3','certPic3','idpsId3');"><a href="javascript:void(0)" onclick="deleteImg('image3','certPic3','idpsId3');">删除</a></span>
+	                <span><input type="button" value="点击上传" class="file-btn"><input type="file" class="file" id="image3" name="image3" onchange="uploadImg('image3','certPic3','idpsId3','imgErrShow3');"><a href="javascript:void(0)" onclick="deleteImg('image3','certPic3','idpsId3','imgErrShow3');">删除</a></span>
 	                <span>支持JPG/PNG/GIF格式，最大不超过3M</span>
+	                <span id="imgErrShow3"></span>
 	                </p>
 	               <%--  <p><div class="card-left-word"><img src="${_slpbase }/images/icon-a.png">请上传手持证件照片</div></p> --%>
 	                </li>

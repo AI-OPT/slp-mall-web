@@ -333,7 +333,7 @@
                 <p>
 	                 <select class="select-medium" id="groupIndustry" name="groupIndustry">
 	                	<option value="0">请选择</option>
-	                	 <c:forEach items="${industryMap}" var="map">
+	                	 <c:forEach items="${industryList}" var="map">
 	                		<option value="${map.key }">${map.value }</option>
 	                	</c:forEach>
 	                </select>
@@ -500,7 +500,7 @@
                     <select class="select-medium" id="contactDept" name="contactDept">
                     	<option value="0" selected="selected">请选择</option>
 	               		<c:forEach items="${contactDeptMap}" var="map">
-	                			<option value="${map.key}">${map.value }</option>
+	                			<option value="${map.}">${map.value }</option>
 	                		</c:forEach>
                     </select>
                     </p>

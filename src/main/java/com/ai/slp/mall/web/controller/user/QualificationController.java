@@ -92,8 +92,6 @@ public class QualificationController {
     public ModelAndView toAgentPersonalPage() {
         //获取注册地址
         List<GnAreaVo> provinceList = getProvinceList();
-        //获取行业信息
-        List<IndustryQueryResponse> industryList = getIndustryList();
         //获取公司人数
         Map<String,String> groupMemberMap = getGroupMemberScaleMap();
         //获取公司性质
@@ -107,7 +105,6 @@ public class QualificationController {
         
         Map<String, Object> model = new HashMap<String, Object>();
         model.put("provinceList", provinceList);
-        model.put("industryList", industryList);
         model.put("groupMember", groupMemberMap);
         model.put("groupTypeMap", groupTypeMap);
         model.put("contactDeptMap", contactDeptMap);
@@ -123,7 +120,7 @@ public class QualificationController {
         //获取地区信息
         List<GnAreaVo> provinceList = getProvinceList();
         //获取行业数据
-        List<IndustryQueryResponse> industryList = getIndustryList();
+        Map<String,String> industryMap = getIndustry();
         //获取纳税人类型
         Map<String,String> taxpayerTypeMap = getTaxpayerTypeMap();
         //获取纳税类型税码信息
@@ -142,7 +139,7 @@ public class QualificationController {
         
         Map<String, Object> model = new HashMap<String, Object>();
         model.put("provinceList", provinceList);
-        model.put("industryList", industryList);
+        model.put("industryMap", industryMap);
         model.put("taxpayerTypeMap", taxpayerTypeMap);
         model.put("taxpayerTypeCodeMap", taxpayerTypeCodeMap);
         model.put("groupMemberMap", groupMemberMap);
@@ -159,7 +156,7 @@ public class QualificationController {
         //获取地区信息
         List<GnAreaVo> provinceList = getProvinceList();
         //获取行业信息
-        List<IndustryQueryResponse> industryList = getIndustryList();
+        Map<String,String> industryMap = getIndustry();
         //获取纳税人类型
         Map<String,String> taxpayerTypeMap = getTaxpayerTypeMap();
         //获取纳税类型税码信息
@@ -173,7 +170,7 @@ public class QualificationController {
         
         Map<String, Object> model = new HashMap<String, Object>();
         model.put("provinceList", provinceList);
-        model.put("industryList", industryList);
+        model.put("industryMap", industryMap);
         model.put("taxpayerTypeMap", taxpayerTypeMap);
         model.put("taxpayerTypeCodeMap", taxpayerTypeCodeMap);
         model.put("groupMemberMap", groupMemberMap);
@@ -189,7 +186,7 @@ public class QualificationController {
         //获取注册地址
         List<GnAreaVo> provinceList = getProvinceList();
         //获取行业信息
-        List<IndustryQueryResponse> industryList = getIndustryList();
+        Map<String,String> industryMap = getIndustry();
         Map<String, Object> model = new HashMap<String, Object>();
         //获取公司人数
         Map<String,String> groupMemberMap = getGroupMemberScaleMap();
@@ -198,7 +195,7 @@ public class QualificationController {
         //获取所属部门
         Map<String,String> contactDeptMap = getContactDeptMap();
         model.put("provinceList", provinceList);
-        model.put("industryList", industryList);
+        model.put("industryMap", industryMap);
         model.put("groupMember", groupMemberMap);
         model.put("groupTypeMap", groupTypeMap);
         model.put("contactDeptMap", contactDeptMap);
