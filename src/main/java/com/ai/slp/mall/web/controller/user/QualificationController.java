@@ -669,6 +669,82 @@ public class QualificationController {
         model.put("contactDeptMap", contactDeptMap);
         return new ModelAndView("jsp/user/qualification/agent-enterprise-edit",model);
     }
+    
+    
+    @RequestMapping("/editSupplier")
+    public ModelAndView editSupplier(HttpServletRequest request){
+        SLPClientUser userClient = (SLPClientUser) request.getSession().getAttribute(SSOClientConstants.USER_SESSION_KEY);
+        String userId = userClient.getUserId();
+        /**
+         * 获取联系人信息
+         */
+        QueryContactsInfoSingleResponse contactsInfoInfoResponse = getContactsInfo(userId);
+        /**
+         * 获取企业客户信息
+         */
+        SearchGroupKeyInfoResponse grouKeyInfoResponse = getGroupKeyBaseinfo(userId);
+        /**
+         * 获取图片信息
+         */
+        QueryCustFileExtResponse custFileResponse = getCustFileExt(userId);
+        List<CmCustFileExtVo> custFileExtVoList = custFileResponse.getList();
+        Map<String,String> imageMap = getImageUrl(custFileExtVoList);
+        /**
+         * 银行信息
+         */
+        QueryBankInfoSingleResponse bankInfoResponse = getBankInfo(userId);
+        
+        //获取纳税人类型
+        Map<String,String> taxpayerTypeMap = getTaxpayerTypeMap();
+        //获取纳税类型税码信息
+        Map<String,String> taxpayerTypeCodeMap = getTaxpayerTypeCodeMap();
+        //获取公司人数
+        Map<String,String> groupMemberMap = getGroupMemberScaleMap();
+        //获取公司性质
+        Map<String,String> groupTypeMap = getGroupTypeMap();
+        //获取所属部门
+        Map<String,String> contactDeptMap = getContactDeptMap();
+        //获取地区信息
+        List<GnAreaVo> provinceList = getProvinceList();
+        //获取行业信息
+        Map<String,String> industryMap = getIndustry();
+        
+        ICacheSV cacheSv = DubboConsumerFactory.getService("iCacheSV");
+        String provinceName = cacheSv.getAreaName(grouKeyInfoResponse.getProvinceCode());
+        String cityCode = cacheSv.getAreaName(grouKeyInfoResponse.getCityCode());
+        String county = cacheSv.getAreaName(grouKeyInfoResponse.getCountyCode());
+        
+        grouKeyInfoResponse.setProvinceCode(provinceName+cityCode+county);
+        grouKeyInfoResponse.setGroupMemberScale(groupMemberMap.get(grouKeyInfoResponse.getGroupMemberScale()));
+        grouKeyInfoResponse.setGroupType(groupTypeMap.get(grouKeyInfoResponse.getGroupType()));
+        contactsInfoInfoResponse.setContactDept(contactDeptMap.get(contactsInfoInfoResponse.getContactDept()));
+        grouKeyInfoResponse.setTaxpayerType(taxpayerTypeMap.get(grouKeyInfoResponse.getTaxpayerType()));
+        grouKeyInfoResponse.setTaxpayerTypeCode(taxpayerTypeCodeMap.get(grouKeyInfoResponse.getTaxpayerTypeCode()));
+        grouKeyInfoResponse.setGroupIndustry(industryMap.get(grouKeyInfoResponse.getGroupIndustry()));
+        
+        //获取商品信息
+        IProductCatSV productCatSV = DubboConsumerFactory.getService("iProductCatSV");
+        ProductCatQuery catQuery = new ProductCatQuery();
+        catQuery.setTenantId(SLPMallConstants.COM_TENANT_ID);
+        List<ProdCatInfo> prodCatInfoList = productCatSV.queryCatByNameOrFirst(catQuery);
+        
+        Map<String,Object> model = new HashMap<String,Object>();
+        model.put("contactsInfo", contactsInfoInfoResponse);
+        model.put("groupKeyInfo", grouKeyInfoResponse);
+        model.put("custFileResponse", custFileResponse);
+        model.put("provinceList", provinceList);
+        model.put("industryMap", industryMap);
+        model.put("bankInfo", bankInfoResponse);
+        model.put("imageMap", imageMap);
+        model.put("taxpayerTypeMap", taxpayerTypeMap);
+        model.put("taxpayerTypeCodeMap", taxpayerTypeCodeMap);
+        model.put("groupMemberMap", groupMemberMap);
+        model.put("groupTypeMap", groupTypeMap);
+        model.put("contactDeptMap", contactDeptMap);
+        model.put("prodCatInfoList", prodCatInfoList);
+        return new ModelAndView("jsp/user/qualification/supplier-edit",model);
+    }
+    
    //更新企业关键信息
     @RequestMapping("/updateEnterpriseInfo")
     @ResponseBody

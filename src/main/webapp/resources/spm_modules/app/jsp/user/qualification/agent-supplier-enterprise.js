@@ -76,6 +76,10 @@ define('app/jsp/user/qualification/agent-supplier-enterprise', function (require
     		"click [id='updateAgentEnterprise']":"_updateAgentEnterprise",
     		//代理商企业个人信息修改
     		"click [id='updateAgentEnterpriseContacts']":"_updateAgentEnterpriseContacts",
+    		//供应商企业信息修改
+    		"click [id='updateSupplier']":"_updateSupplier",
+    		//供应商个人信息修改
+    		"click [id='updateSupplierContacts']":"_updateSupplierContacts",
     		
     		"click [id='submit']":"_submit",
     		
@@ -518,7 +522,15 @@ define('app/jsp/user/qualification/agent-supplier-enterprise', function (require
 		_updateAgentEnterpriseContacts:function(){
 			$("#ct-edit").show(10);
 			$("#ct-browse").hide(10);
-		}
+		},
+		_updateSupplier:function(){
+			$("#qf-edit").show(10);
+			$("#qf-browse").hide(10);
+		},
+		_updateSupplierContacts:function(){
+			$("#ct-edit").show(10);
+			$("#ct-browse").hide(10);
+		},
     });
     
     module.exports = EnterprisePager
