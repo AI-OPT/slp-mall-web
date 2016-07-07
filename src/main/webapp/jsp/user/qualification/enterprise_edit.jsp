@@ -15,16 +15,8 @@
 var baseInfoPager;
 var qualificationSubmitPager;
 
-function updateEnterprise(){
-	$("#qf-edit").show(10);
-	$("#qf-browse").hide(10);
-}
-function updateContactsInfo(){
-	$("#ct-edit").show(10);
-	$("#ct-browse").hide(10);
-}
 (function() { 
-	
+	var auditState = "${groupKeyInfo.auditState}";
 	seajs.use([ 'app/jsp/user/qualification/baseinfo','app/jsp/user/qualification/qualificationSubmit'], function(BaseInfoQualificationPager,QualificationSubmitPager) {
 		baseInfoPager = new BaseInfoQualificationPager({
 			element : document.body
@@ -62,7 +54,7 @@ function updateContactsInfo(){
       <div class="account-bj">
       <div class="account-title account-title-bjcolor">
      	<p>企业资质信息</p>
-     	<p class="right"><i class="icon-edit qualifications" onclick="updateEnterprise()">修改</i></p>
+     	<p class="right"><i class="icon-edit qualifications" id="enterpriseUpdate" >修改</i></p>
      </div>
 
      <!--信息填写-->
@@ -235,7 +227,7 @@ function updateContactsInfo(){
     <!--标题-->  
      <div class="account-title account-title-bjcolor">
      	<p>联系人信息</p>
-     	<p class="right"><i class="icon-edit contacts" onclick="updateContactsInfo()">修改</i></p>
+     	<p class="right"><i class="icon-edit contacts" id="updateEnterpriseContacts">修改</i></p>
      </div>
      <!--信息填写-->
      <div class="nav-form" id="ct-browse">

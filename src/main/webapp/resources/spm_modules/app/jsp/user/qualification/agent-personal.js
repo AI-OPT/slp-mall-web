@@ -29,6 +29,7 @@ define(
 	    		"blur [id='dd']":"_checkBithday",
 	    		//收入校验
 	    		"change [id='inCome']":"_checkInCome",
+	    		"click [id='updateAgengPersonal']":"_updateAgengPersonal",
 				},
 				init : function() {
 				},
@@ -147,6 +148,10 @@ define(
 						$("#bithdayErrMsg").hide();
 						$("#bithdayFlag").val("1");
 					}
+				},
+				_updateAgengPersonal:function(){
+					$("#qf-edit").show(10);
+					$("#qf-browse").hide(10);
 				}
 		});
 			module.exports = AgentPersonalPager

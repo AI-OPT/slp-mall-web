@@ -67,6 +67,12 @@ define('app/jsp/user/qualification/baseinfo', function (require, exports, module
     		"change [id='contactDept']":"_checkContactDept",
     		//地址
     		"blur [id='countyCode']":"_checkContactAddress",
+    		//企业信息修改
+    		"click [id='enterpriseUpdate']":"_updateEnterprise",
+    		//联系人修改
+    		"click [id='updateEnterpriseContacts']":"_updateEnterpriseContactsInfo",
+    		
+    		
         },
         init: function(){
         },
@@ -500,7 +506,14 @@ define('app/jsp/user/qualification/baseinfo', function (require, exports, module
 				$("#provinceCodeFlag").val("1");
 			}
 		},
-		
+		_updateEnterprise:function(){
+			$("#qf-edit").show(10);
+			$("#qf-browse").hide(10);
+		},
+	    _updateEnterpriseContactsInfo:function(){
+			$("#ct-edit").show(10);
+			$("#ct-browse").hide(10);
+		}
     });
     
     module.exports = BaseInfoQualificationPager

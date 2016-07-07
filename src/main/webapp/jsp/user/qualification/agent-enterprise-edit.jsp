@@ -14,15 +14,8 @@
 <script type="text/javascript">
 	var baseInfoPager;
 	var enterprisePager;
-	function updateEnterprise(){
-		$("#qf-edit").show(10);
-		$("#qf-browse").hide(10);
-	}
-	function updateContactsInfo(){
-		$("#ct-edit").show(10);
-		$("#ct-browse").hide(10);
-	}
 	(function() { 
+		var auditState = "${groupKeyInfo.auditState}";
 		seajs.use([ 'app/jsp/user/qualification/baseinfo','app/jsp/user/qualification/agent-supplier-enterprise','app/jsp/user/qualification/qualificationSubmit'], function(BaseInfoQualificationPager,EnterprisePager,QualificationSubmitPager) {
 			    baseInfoPager = new BaseInfoQualificationPager({
 				element : document.body
@@ -65,7 +58,7 @@
       <div class="mar-account-title">
       <div class="account-title account-title-bjcolor">
       	<p>资质类型:企业</p>
-      	<p class="right"><i class="icon-edit qualifications" onclick="updateEnterprise()">修改</i></p>
+      	<p class="right"><i class="icon-edit qualifications" id="updateAgentEnterprise">修改</i></p>
       </div>
       </div>
      <!--标题-->  
@@ -564,7 +557,7 @@
       <!--标题-->  
      <div class="account-title account-title-bjcolor">
      	<p>联系人信息</p>
-     	<p class="right"><i class="icon-edit contacts" onclick="updateContactsInfo()">修改</i></p>
+     	<p class="right"><i class="icon-edit contacts" id="updateAgentEnterpriseContacts">修改</i></p>
      </div>
      <!--信息填写-->
      <div class="nav-form" id="ct-browse">

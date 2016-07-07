@@ -72,6 +72,10 @@ define('app/jsp/user/qualification/agent-supplier-enterprise', function (require
     		//品牌名称英文
     		"focus [id='brandNameE']":"_showBrandNameETip",
     		"blur [id='brandNameE']":"_checkBrandNameValue",
+    		//代理商企业修改
+    		"click [id='updateAgentEnterprise']":"_updateAgentEnterprise",
+    		//代理商企业个人信息修改
+    		"click [id='updateAgentEnterpriseContacts']":"_updateAgentEnterpriseContacts",
     		
     		"click [id='submit']":"_submit",
     		
@@ -507,6 +511,14 @@ define('app/jsp/user/qualification/agent-supplier-enterprise', function (require
 				$('#brandNameEImage').hide();
 			}
 		},
+		_updateAgentEnterprise:function(){
+			$("#qf-edit").show(10);
+			$("#qf-browse").hide(10);
+		},
+		_updateAgentEnterpriseContacts:function(){
+			$("#ct-edit").show(10);
+			$("#ct-browse").hide(10);
+		}
     });
     
     module.exports = EnterprisePager
