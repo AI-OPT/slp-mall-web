@@ -19,20 +19,20 @@ function editAgentPersonal(){
 	$("#qf-browse").hide(10);
 }
 	var baseInfoPager;
-	var enterprisePager;
+	var agentPersonalPager;
 	(function() { 
-		seajs.use([ 'app/jsp/user/qualification/baseinfo','app/jsp/user/qualification/agent-personal','app/jsp/user/qualification/qualificationSubmit'], function(BaseInfoQualificationPager,EnterprisePager,QualificationSubmitPager) {
+		seajs.use([ 'app/jsp/user/qualification/baseinfo','app/jsp/user/qualification/agent-personal','app/jsp/user/qualification/qualificationSubmit'], function(BaseInfoQualificationPager,AgentPersonalPager,QualificationSubmitPager) {
 			    baseInfoPager = new BaseInfoQualificationPager({
 				element : document.body
 			});
-			    enterprisePager = new EnterprisePager({
+			    agentPersonalPager = new AgentPersonalPager({
 				element : document.body
 			});
 			   var qualificationSubmitPager = new QualificationSubmitPager({
 					element : document.body
 				});
 			baseInfoPager.render();
-			enterprisePager.render();
+			agentPersonalPager.render();
 			qualificationSubmitPager.render();
 		});
 	})();  
@@ -135,19 +135,19 @@ function editAgentPersonal(){
               <ul>
                  <li>
                     <p class="word"><b class="red">*</b>身份证正面照片:</p>
-                    <p> <img src="${urlList[0] }"></p>
+                    <p> <img src="${imageMap.get('11001') }" height="80" width="80"></p>
                  </li>
              </ul>
               <ul>
                  <li>
                     <p class="word"><b class="red">*</b>身份证背面照片:</p>
-                     <p> <img src="${urlList[1] }"></p>
+                     <p> <img src="${imageMap.get('11002') }" height="80" width="80"></p>
                  </li>
              </ul>
              <ul>
                  <li>
                     <p class="word"><b class="red">*</b>手持身份证正面照片:</p>
-                    <p> <img src="${urlList[2] }"></p>
+                    <p> <img src="${imageMap.get('11003') }" height="80" width="80"></p>
                  </li>
              </ul>
      </div>
@@ -178,7 +178,7 @@ function editAgentPersonal(){
              <li>
                 <p class="word"><b class="red">*</b>学历:</p>
                 <p>
-                 <select class="select-medium" id="custEducation">
+                 <select class="select-medium" id="custEducation" name="custEducation">
                  	<option value="0">请选择</option>
                  	<c:forEach var="map" items="${educationMap}">
                  		<option value="${map.key}">${map.value}</option>

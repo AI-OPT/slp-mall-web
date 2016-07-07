@@ -416,7 +416,7 @@ function uploadImg(imageId,certPic,idpsId) {
         	 }
          },  
          error: function (data, status, e) {  
-             alert(e);  
+             alert(+e);  
          }  
      });  
 }

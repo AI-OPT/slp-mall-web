@@ -435,7 +435,7 @@
            <ul>
                 <li>
                     <p class="word"><b class="red">*</b>组织机构代码:</p>
-                    <p><input type="text" class="int-medium" placeholder="请填写组织机构代码" id="organizationCode" name="contactsName"></p>
+                    <p><input type="text" class="int-medium" placeholder="请填写组织机构代码" id="organizationCode" name="orgCode"></p>
                      <label id="organizationCodeErrMsg" style="display:none"><img src="${_slpbase}/images/icon-d.png" id="organizationCodeImage"><span class="ash" id="organizationCodeText">4-24个字符，可用汉字或英语字母</span></label>
                  </li>
              </ul>
@@ -510,7 +510,7 @@
                 <li>
                     <p class="word"><b class="red">*</b>行业:</p>
                 <p>
-	                 <select class="select-medium" id="groupIndustry" name="groupIndustery">
+	                 <select class="select-medium" id="groupIndustry" name="groupIndustry">
 	                	<option value="0">请选择</option>
 	                	 <c:forEach items="${industryMap}" var="map">
 	                		<option value="${map.key }">${map.value }</option>

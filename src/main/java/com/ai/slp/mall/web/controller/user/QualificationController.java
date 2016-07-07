@@ -2,7 +2,6 @@ package com.ai.slp.mall.web.controller.user;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -318,9 +317,7 @@ public class QualificationController {
         insertCustKeyInfoRequest.setTenantId(user.getTenantId());
         insertCustKeyInfoRequest.setUserType(user.getUserType());
         insertCustKeyInfoRequest.setUserId(user.getUserId());
-        insertCustKeyInfoRequest
-                .setCustBirthday(DateUtil.getTimestamp(request.getParameter("yy_mm_dd") + "-"
-                        + request.getParameter("mm") + "-" + request.getParameter("dd")));
+        insertCustKeyInfoRequest.setCustBirthday(DateUtil.getTimestamp(request.getParameter("yy_mm_dd") + "-"+ request.getParameter("mm") + "-" + request.getParameter("dd")));
         // 附件信息
         for (CmCustFileExtVo cmCustFileExtVo : custFileListVo.getList()) {
             cmCustFileExtVo.setTenantId(user.getTenantId());
@@ -530,6 +527,8 @@ public class QualificationController {
          * 获取图片信息
          */
         QueryCustFileExtResponse custFileResponse = getCustFileExt(userId);
+        List<CmCustFileExtVo> custFileExtVoList = custFileResponse.getList();
+        Map<String,String> imageMap = getImageUrl(custFileExtVoList);
         //获取学历信息
         Map<String,String> educationMap = getCustEducationMap();
         //获取收入信息
@@ -548,11 +547,8 @@ public class QualificationController {
         String county = cacheSv.getAreaName(custKeyInfoResponse.getCustCountyCode());
         custKeyInfoResponse.setProvinceCode(provinceName+cityCode+county);
         Map<String, Object> model = new HashMap<String, Object>();
-        List<String> urlList = new ArrayList<String>();
-        urlList.add("");
         model.put("custKeyInfo", custKeyInfoResponse);
-        model.put("custFileResponse", custFileResponse);
-        model.put("urlList", urlList);
+        model.put("imageMap", imageMap);
         model.put("educationMap", educationMap);
         model.put("incomeLevelMap", incomeLevelMap);
         model.put("provinceList", provinceList);

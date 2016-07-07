@@ -15,15 +15,19 @@
 	var baseInfoPager;
 	var enterprisePager;
 	(function() { 
-		seajs.use([ 'app/jsp/user/qualification/baseinfo','app/jsp/user/qualification/agent-supplier-enterprise'], function(BaseInfoQualificationPager,EnterprisePager) {
+		seajs.use([ 'app/jsp/user/qualification/baseinfo','app/jsp/user/qualification/agent-supplier-enterprise','app/jsp/user/qualification/qualificationSubmit'], function(BaseInfoQualificationPager,EnterprisePager,QualificationSubmitPager) {
 			    baseInfoPager = new BaseInfoQualificationPager({
 				element : document.body
 			});
 			    enterprisePager = new EnterprisePager({
 				element : document.body
 			});
+			    qualificationSubmitPager = new QualificationSubmitPager({
+				element : document.body
+			});
 			baseInfoPager.render();
 			enterprisePager.render();
+			qualificationSubmitPager.render();
 		});
 	})();  
 
@@ -110,10 +114,14 @@
          <ul>
              <li>
                 <p class="word"><b class="red">*</b>营业执照副本:</p>
-                <p class="img"><img src="${_slpbase}/images/fom-t.png"></p>
+                <p class="img"><img src="${_slpbase}/images/fom-t.png" id="certPic1"></p>
                 <p class="small-p">
-                <span><input type="button" value="点击上传" class="file-btn"><input type="file" class="file"><a href="#">删除</a></span>
-                <span>支持JPG/PNG/GIF格式，最大不超过3M</span>
+	                <span>
+	                	<input type="button" value="点击上传" class="file-btn">
+	                	<input type="file" class="file" id="image1" name="image1" onchange="uploadImg('image1','certPic1',idpsId1);">
+	                	<a href="javascript:void(0)" onclick="deleteImg('image1','certPic1','idpsId1');">删除</a>
+	                </span>
+	                <span>支持JPG/PNG/GIF格式，最大不超过3M</span>
                 </p>
              </li>
          </ul>
@@ -213,17 +221,17 @@
                      <label id="taxCodeErMsg" style="display:none"><img src="${_slpbase}/images/icon-a.png"><span class="ash">请选择纳税类型税码信息</span></label>
                  </li>
              </ul>
-              <ul>
+            <ul>
              <li>
                 <p class="word"><b class="red">*</b>税务登记证:</p>
                 <p class="img"><img src="${_slpbase}/images/fom-t.png"></p>
                 <p class="small-p">
-                <span>
-                  <input type="button" value="点击上传" class="file-btn">
-                  <input type="file" class="file">
-                  <a href="#">删除</a>
-                 </span>
-                <span>支持JPG/PNG/GIF格式，最大不超过3M</span>
+	                <span>
+	                	<input type="button" value="点击上传" class="file-btn">
+	                	<input type="file" class="file">
+	                	<a href="#">删除</a>
+	                </span>
+	                <span>支持JPG/PNG/GIF格式，最大不超过3M</span>
                 </p>
              </li>
          </ul>    
@@ -239,16 +247,20 @@
                      <label id="organizationCodeErrMsg" style="display:none"><img src="${_slpbase}/images/icon-d.png" id="organizationCodeImage"><span class="ash" id="organizationCodeText">4-24个字符，可用汉字或英语字母</span></label>
                  </li>
              </ul>
-              <ul>
+         <ul>
              <li>
                 <p class="word"><b class="red">*</b>代码证电子版:</p>
                 <p class="img"><img src="${_slpbase}/images/fom-t.png"></p>
                 <p class="small-p">
-                <span><input type="button" value="点击上传" class="file-btn"><input type="file" class="file"><a href="#">删除</a></span>
-                <span>支持JPG/PNG/GIF格式，最大不超过3M</span>
+	                <span>
+	                	<input type="button" value="点击上传" class="file-btn">
+	                	<input type="file" class="file">
+	                	<a href="#">删除</a>
+	                </span>
+	                <span>支持JPG/PNG/GIF格式，最大不超过3M</span>
                 </p>
              </li>
-         </ul>    
+         </ul>   
      </div>
     <!--标题-->  
      <div class="account-title"><p>银行开户许可证</p></div>
@@ -275,16 +287,20 @@
                      <label id="bankAccountErrMsg" style="display:none"><img src="${_slpbase}/images/icon-a.png" id="bankAccountImage"><span class="ash" id="bankAccountText">请输入银行名称</span></label>
                  </li>
              </ul>
-              <ul>
+            <ul>
              <li>
-                <p class="word"><b class="red">*</b>银行开户许可证:</p>
+                <p class="word"><b class="red">*</b>开户许可证:</p>
                 <p class="img"><img src="${_slpbase}/images/fom-t.png"></p>
                 <p class="small-p">
-                <span><input type="button" value="点击上传" class="file-btn"><input type="file" class="file"><a href="#">删除</a></span>
-                <span>支持JPG/PNG/GIF格式，最大不超过3M</span>
+	                <span>
+	                	<input type="button" value="点击上传" class="file-btn">
+	                	<input type="file" class="file">
+	                	<a href="#">删除</a>
+	                </span>
+	                <span>支持JPG/PNG/GIF格式，最大不超过3M</span>
                 </p>
              </li>
-         </ul>    
+         </ul>   
      </div>
       <!--标题-->  
      <div class="account-title"><p>企业介绍信息</p></div>
@@ -372,43 +388,59 @@
                     <label style="display: none;" id="brandNameEErrMsg"><img src="${_slpbase}/images/icon-a.png" id="brandNameEImage"><span class="ash" id="brandNameEText">请选择供应商品类型</span></label>
                  </li>
              </ul>
-              <ul>
+         <ul>
              <li>
-                <p class="word">商品注册证:</p>
+                <p class="word"><b class="red">*</b>商品注册证:</p>
                 <p class="img"><img src="${_slpbase}/images/fom-t.png"></p>
                 <p class="small-p">
-                <span><input type="button" value="点击上传" class="file-btn"><input type="file" class="file"><a href="#">删除</a></span>
-                <span>支持JPG/PNG/GIF格式，最大不超过3M</span>
+	                <span>
+	                	<input type="button" value="点击上传" class="file-btn">
+	                	<input type="file" class="file">
+	                	<a href="#">删除</a>
+	                </span>
+	                <span>支持JPG/PNG/GIF格式，最大不超过3M</span>
                 </p>
              </li>
          </ul>
-          <ul>
+         <ul>
              <li>
-                <p class="word">行业资质证明:</p>
+                <p class="word"><b class="red">*</b>行业资质证明:</p>
                 <p class="img"><img src="${_slpbase}/images/fom-t.png"></p>
                 <p class="small-p">
-                <span><input type="button" value="点击上传" class="file-btn"><input type="file" class="file"><a href="#">删除</a></span>
-                <span>支持JPG/PNG/GIF格式，最大不超过3M</span>
+	                <span>
+	                	<input type="button" value="点击上传" class="file-btn">
+	                	<input type="file" class="file">
+	                	<a href="#">删除</a>
+	                </span>
+	                <span>支持JPG/PNG/GIF格式，最大不超过3M</span>
                 </p>
              </li>
          </ul> 
-          <ul>
+        <ul>
              <li>
-                <p class="word">商品质检/检验报告:</p>
+                <p class="word"><b class="red">*</b>商品质检/检验报告:</p>
                 <p class="img"><img src="${_slpbase}/images/fom-t.png"></p>
                 <p class="small-p">
-                <span><input type="button" value="点击上传" class="file-btn"><input type="file" class="file"><a href="#">删除</a></span>
-                <span>支持JPG/PNG/GIF格式，最大不超过3M</span>
+	                <span>
+	                	<input type="button" value="点击上传" class="file-btn">
+	                	<input type="file" class="file">
+	                	<a href="#">删除</a>
+	                </span>
+	                <span>支持JPG/PNG/GIF格式，最大不超过3M</span>
                 </p>
              </li>
          </ul> 
          <ul>
              <li>
-                <p class="word">卫生/生产许可证:</p>
+                <p class="word"><b class="red">*</b>卫生/生产许可证:</p>
                 <p class="img"><img src="${_slpbase}/images/fom-t.png"></p>
                 <p class="small-p">
-                <span><input type="button" value="点击上传" class="file-btn"><input type="file" class="file"><a href="#">删除</a></span>
-                <span>支持JPG/PNG/GIF格式，最大不超过3M</span>
+	                <span>
+	                	<input type="button" value="点击上传" class="file-btn">
+	                	<input type="file" class="file">
+	                	<a href="#">删除</a>
+	                </span>
+	                <span>支持JPG/PNG/GIF格式，最大不超过3M</span>
                 </p>
              </li>
          </ul>            
@@ -490,12 +522,15 @@
                   <input type="hidden" id="supplyGoodsFlag"/>
                   <input type="hidden" id="brandNameEFlag"/>
                   <input type="hidden" id="brandNameCFlag"/>
-                  <input type="hidden" id="ipdsId" name="list[0].infoName">
                  <input type="hidden" id="idpsId1" name="list[0].attrValue">
                  <input type="hidden" id="idpsId2" name="list[1].attrValue">
                  <input type="hidden" id="idpsId3" name="list[2].attrValue">
                  <input type="hidden" id="idpsId4" name="list[3].attrValue">
                  <input type="hidden" id="idpsId5" name="list[4].attrValue">
+                 <input type="hidden" id="idpsId6" name="list[5].attrValue">
+                 <input type="hidden" id="idpsId7" name="list[6].attrValue">
+                 <input type="hidden" id="idpsId8" name="list[7].attrValue">
+                 <input type="hidden" id="idpsId9" name="list[8].attrValue">
                 	 
                  </li>
              </ul>
