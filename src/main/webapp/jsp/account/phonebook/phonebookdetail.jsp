@@ -285,7 +285,7 @@
 <script id="PhoneBooksBatchEditImpl" type="text/x-jsrender">
 <tr>
 								<td>{{:#index+1}}</td>
-								<td><input type="text" class="table-int-mini" index="{{:#index}}" name="BATCH_TEL_NAME" value="{{:telName}}"></td>
+								<td><input type="text" class="table-int-mini" index="{{:#index}}" name="BATCH_TEL_NAME" value="{{:telName}}" maxLength="24"></td>
 								<td><input type="text" class="table-int-mini" index="{{:#index}}" name="BATCH_TEL_MP" value="{{:telMp}}" maxLength="11"></td>
 								<td><span style="color:red" id="SPAN_ERROR_{{:#index}}">{{:error}}</span></td>
 								<!--<td class="eject-table-img" align="left"><a href="javascript:void(0)"  index="{{:#index}}" name="DEL_BATCH_EDIT_ROW">删除</a></td>-->

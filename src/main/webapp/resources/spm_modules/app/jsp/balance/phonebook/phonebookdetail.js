@@ -547,7 +547,7 @@ define('app/jsp/balance/phonebook/phonebookdetail', function (require, exports, 
     	 */
     	_modifyTelData:function(telNo,telName,telMp){
     		$("#telName_"+telNo).html(
-    				"<input id='telName_val_"+telNo+"' type='text' class='table-int-mini' value='"+telName+"'>" +
+    				"<input id='telName_val_"+telNo+"' type='text' class='table-int-mini' value='"+telName+"' maxLength='24'>" +
     				"<div id='modify_name_error_"+telNo+"' class='ejecr-pos-border' style='display: none;'>" +
     				"<i class='icon-caret-up'></i></div>");
     		$("#telMp_"+telNo).html(

@@ -95,7 +95,7 @@
 						<li>
 							<p>请输入通讯录组名称:</p>
 							<p>
-								<input type="text" class="int-medium" id="TEL_GROUP_NAME">
+								<input type="text" class="int-medium" id="TEL_GROUP_NAME" maxLength="20">
 							</p> <label><img src="${_slpbase }/images/icon-c.png"><span
 								class="ash">2-20个字符，可用汉字、字母、数字、“-”、“_”的组合</span></label> <label id="LBL_ADD_TEL_GROUP" style="display:none"><img
 								src="${_slpbase }/images/icon-a.png"><span class="red" id="SPAN_ADD_TEL_GROUP_TIP"></span></label>
@@ -114,7 +114,7 @@
 	<script id="TelGroupImpl" type="text/x-jsrender">
 								<tr class="current">
 									<td width="10%">{{:#index+1}}</td>
-									<td><span id="SPAN_TEL_GROUP_TEXT_{{:telGroupId}}">{{:telGroupName}}</span><span id="SPAN_TEL_GROUP_INPUT_{{:telGroupId}}" style="display:none"><input type="text" value="{{:telGroupName}}" id="INPUT_TEL_GROUP_{{:telGroupId}}" class="table-int-mini"/><input type="button" name="BTN_SAVE_TEL_GROUP" telGroupId="{{:telGroupId}}" class="mail-btn" value="保存"></span>
+									<td><span id="SPAN_TEL_GROUP_TEXT_{{:telGroupId}}">{{:telGroupName}}</span><span id="SPAN_TEL_GROUP_INPUT_{{:telGroupId}}" style="display:none"><input type="text" value="{{:telGroupName}}" id="INPUT_TEL_GROUP_{{:telGroupId}}" class="table-int-mini" maxLength="20"/><input type="button" name="BTN_SAVE_TEL_GROUP" telGroupId="{{:telGroupId}}" class="mail-btn" value="保存"></span>
 										<div id="name_error_{{:telGroupId}}" class="ejecr-pos-border" style="display: none;"></div>
 										<a href="javascript:void(0)" class="click"><i class="icon-pencil" name="BTN_MODIFY_TEL_GROUP" id="BTN_MODIFY_TEL_GROUP_{{:telGroupId}}" telGroupId="{{:telGroupId}}"></i></a>
 										<a href="javascript:void(0)" class="trash-close"><i class="icon-trash" name="BTN_DEL_TEL_GROUP" telGroupId="{{:telGroupId}}"></i></a></td>
