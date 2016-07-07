@@ -516,7 +516,7 @@ define('app/jsp/balance/phonebook/phonebookdetail', function (require, exports, 
     			url: _base+"/account/phonebook/queryUserPhonebooks",
 	 			method: "POST",
 	 			dataType: "json",
-	 			processing: false,
+	 			processing: true,
 	 			message: "正在查询",
 	            data : {
 					//userId: this.get("userId"),
@@ -602,7 +602,7 @@ define('app/jsp/balance/phonebook/phonebookdetail', function (require, exports, 
     			$("#modify_name_error_"+telNo).html("");
     			$("#modify_name_error_"+telNo).css("display","none");
     		}
-    		if(telMp == null || telMp == undefined && telMp == ""){
+    		if(telMp == null || telMp == undefined || telMp == ""){
     			$("#modify_mp_error_"+telNo).html("<i class='icon-caret-up'></i>手机号不能为空");
     			$("#modify_mp_error_"+telNo).css("display","block");
     			isSuccess = false;
