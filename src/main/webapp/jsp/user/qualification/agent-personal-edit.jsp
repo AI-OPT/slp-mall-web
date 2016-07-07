@@ -105,7 +105,9 @@ function editAgentPersonal(){
           <ul>
              <li>
                 <p class="word">生日:</p>
-                <p>${custKeyInfo.custBirthday }</p>
+                <p>
+                	${birthday}
+                </p>
              </li>
          </ul>
    		  <ul>

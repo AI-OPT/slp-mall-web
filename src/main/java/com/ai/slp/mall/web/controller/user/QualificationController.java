@@ -2,6 +2,7 @@ package com.ai.slp.mall.web.controller.user;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -541,12 +542,16 @@ public class QualificationController {
         custKeyInfoResponse.setIncomeLevel(incomeLevelMap.get(custKeyInfoResponse.getIncomeLevel()));
         custKeyInfoResponse.setCustEducation(educationMap.get(custKeyInfoResponse.getCustEducation()));
         
-        ICacheSV cacheSv = DubboConsumerFactory.getService("iCacheSV");
+       //格式化生日的日期格式
+        SimpleDateFormat fomate = new SimpleDateFormat("yyyy-MM-dd");
+        String birthday = fomate.format(custKeyInfoResponse.getCustBirthday());
         
+       ICacheSV cacheSv = DubboConsumerFactory.getService("iCacheSV");
         String provinceName = cacheSv.getAreaName(custKeyInfoResponse.getCustProvinceCode());
         String cityCode = cacheSv.getAreaName(custKeyInfoResponse.getCustCityCode());
         String county = cacheSv.getAreaName(custKeyInfoResponse.getCustCountyCode());
         custKeyInfoResponse.setProvinceCode(provinceName+cityCode+county);
+        
         Map<String, Object> model = new HashMap<String, Object>();
         List<String> urlList = new ArrayList<String>();
         urlList.add("");
@@ -556,6 +561,7 @@ public class QualificationController {
         model.put("educationMap", educationMap);
         model.put("incomeLevelMap", incomeLevelMap);
         model.put("provinceList", provinceList);
+        model.put("birthday", birthday);
         return new ModelAndView("jsp/user/qualification/agent-personal-edit", model);
     }
     
