@@ -417,7 +417,7 @@ define('app/jsp/balance/phonebook/phonebookdetail', function (require, exports, 
     		ajaxController.ajax({
 				type: "post",
 				dataType: "json",
-				processing: false,
+				processing: true,
 				message: "正在处理...",
 				url: _base+"/account/phonebook/batchAddUserPhonebooks",
 				data: {
@@ -427,7 +427,7 @@ define('app/jsp/balance/phonebook/phonebookdetail', function (require, exports, 
 					var resultValue = data.data;
 					_this._hiddenDialog("addDialogDiv");
 					_this._queryPhoneBooks();
-					_this._showMsgDialog("添加联系人","添加操作完成！<p>共<span>"+resultValue.totalCount+"</span>条数据；成功导入<span>"+resultValue.successCount+"</span>条；失败<span>"+resultValue.failCount+"</span>条；</p>", 2);
+					_this._showMsgDialog("添加联系人","添加操作完成！<p>共<span>"+resultValue.totalCount+"</span>条数据；成功添加<span>"+resultValue.successCount+"</span>条；失败<span>"+resultValue.failCount+"</span>条；</p>", 2);
 				}
 			});
     		
@@ -487,7 +487,7 @@ define('app/jsp/balance/phonebook/phonebookdetail', function (require, exports, 
     		ajaxController.ajax({
 				type: "post",
 				dataType: "json",
-				processing: false,
+				processing: true,
 				message: "正在处理...",
 				url: _base+"/account/phonebook/batchDeleteUserPhonebooks",
 				data: {
@@ -567,7 +567,7 @@ define('app/jsp/balance/phonebook/phonebookdetail', function (require, exports, 
     			ajaxController.ajax({
     				type: "post",
     				dataType: "json",
-    				processing: false,
+    				processing: true,
     				message: "正在处理...",
     				url: _base+"/account/phonebook/modifyPhonebook",
     				data: {
