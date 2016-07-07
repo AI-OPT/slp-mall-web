@@ -5,7 +5,7 @@
 <%@ include file="/inc/inc.jsp"%>
 <!--Support IE Text -->
 <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
-<title>资质申请－代理商－企业</title>
+<title>资质申请－代理商－个人</title>
 <link href="${_slpbase }/styles/modular.css" rel="stylesheet" type="text/css">
 <link href="${_slpbase }/styles/global.css" rel="stylesheet" type="text/css">
 <link href="${_slpbase }/styles/frame.css" rel="stylesheet" type="text/css">
@@ -273,15 +273,17 @@ function editAgentPersonal(){
                  </li>
              </ul>
                <ul>
-	             <li>
+	            <li>
 	                <p class="word"><b class="red">*</b>身份证正面照:</p>
-	                <input type="hidden" name="list[0].infoName" value="身份证正面照"/>
-	                <p class="img"><img src="${_slpbase }/images/fom-t.png" id="certPic1"></p>
+	                <input type="hidden" value="身份证正面照" name="list[0].infoName">
+	                 <input type="hidden" name="list[0].infoType" value="11">
+               		 <input type="hidden" name="list[0].infoItem" value="11001">
+	                <p class="img"><img id="certPic1" src="/slp-mall/resources/slpmall/images/fom-t.png"></p>
 	                <p class="small-p">
-	                <span><input type="button" value="点击上传" class="file-btn"><input type="file" class="file" id="image1" name="image1" onchange="uploadImg('image1','certPic1','idpsId1');"><a href="javascript:void(0)" onclick="deleteImg('image1','certPic2','idpsId1');">删除</a></span>
+	                <span><input type="button" class="file-btn" value="点击上传"><input type="file" onchange="uploadImg('image1','certPic1','idpsId1');" name="image1" id="image1" class="file"><a onclick="deleteImg('image1','certPic1','idpsId1');" href="javascript:void(0)">删除</a></span>
 	                <span>支持JPG/PNG/GIF格式，最大不超过3M</span>
 	                </p>
-	                <%-- <p><div class="card-left-word"><img src="${_slpbase }/images/icon-a.png">请上传手持证件照片</div></p> --%>
+	                
 	                </li>
 	              <li>
 	                 <!--右侧展示-->   
@@ -298,6 +300,8 @@ function editAgentPersonal(){
 	             <li>
 	                <p class="word"><b class="red">*</b>身份证背面照片:</p>
 	                <input type="hidden" name="list[1].infoName" value="身份证背面照片"/>
+	                <input type="hidden" value="11" name="list[1].infoType">
+               		<input type="hidden" value="11002" name="list[1].infoItem">
 	                <p class="img"><img src="${_slpbase }/images/fom-t.png" id="certPic2"></p>
 	                <p class="small-p">
 	                <span><input type="button" value="点击上传" class="file-btn"><input type="file" class="file" id="image2" name="image2" onchange="uploadImg('image2','certPic2','idpsId2');"><a href="javascript:void(0)" onclick="deleteImg('image2','certPic2','idpsId2');">删除</a></span>
@@ -320,6 +324,8 @@ function editAgentPersonal(){
 	             <li>
 	                <p class="word"><b class="red">*</b>手持身份证正面照片:</p>
 	                <input type="hidden" name="list[2].infoName" value="手持身份证正面照片"/>
+	                <input type="hidden" value="11" name="list[2].infoType">
+               		 <input type="hidden" value="11003" name="list[2].infoItem">
 	                <p class="img"><img src="${_slpbase }/images/fom-t.png" id="certPic3"></p>
 	                <p class="small-p">
 	                <span><input type="button" value="点击上传" class="file-btn"><input type="file" class="file" id="image3" name="image3" onchange="uploadImg('image3','certPic3','idpsId3');"><a href="javascript:void(0)" onclick="deleteImg('image3','certPic3','idpsId3');">删除</a></span>
