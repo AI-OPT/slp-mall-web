@@ -66,6 +66,7 @@
      <!--标题-->  
      <div class="account-title"><p>营业执照信息</p></div>
      <!--信息填写-->
+     <form:form id="enterprise" method="post">
      <div class="nav-form">
          <ul>
               <li>
@@ -114,14 +115,18 @@
          <ul>
              <li>
                 <p class="word"><b class="red">*</b>营业执照副本:</p>
+                <input type="hidden" name="list[0].infoName" value="营业执照副本"/>
+                <input type="hidden" value="12" name="list[0].infoType">
+                <input type="hidden" value="12001" name="list[0].infoItem">
                 <p class="img"><img src="${_slpbase}/images/fom-t.png" id="certPic1"></p>
                 <p class="small-p">
 	                <span>
 	                	<input type="button" value="点击上传" class="file-btn">
-	                	<input type="file" class="file" id="image1" name="image1" onchange="uploadImg('image1','certPic1',idpsId1);">
-	                	<a href="javascript:void(0)" onclick="deleteImg('image1','certPic1','idpsId1');">删除</a>
+	                	<input type="file" class="file" id="image1" name="image1" onchange="uploadImg('image1','certPic1','idpsId1','imgErrShow1');">
+	                	<a href="javascript:void(0)" onclick="deleteImg('image1','certPic1','idpsId1','imgErrShow1','imgErrShow1');">删除</a>
 	                </span>
 	                <span>支持JPG/PNG/GIF格式，最大不超过3M</span>
+	                <span id="imgErrShow1"></span>
                 </p>
              </li>
          </ul>
@@ -167,15 +172,19 @@
            <ul>
              <li>
                 <p class="word"><b class="red">*</b>身份证复印件:</p>
-                <p class="img"><img src="${_slpbase}/images/fom-t.png"></p>
+				 <input type="hidden" name="list[1].infoName" value="身份证复印件"/>
+                 <input type="hidden" value="11" name="list[1].infoType">
+                 <input type="hidden" value="11004" name="list[1].infoItem">
+                <p class="img"><img src="${_slpbase}/images/fom-t.png" id="certPic2"></p>
                 <p class="small-p">
 	                <span>
 	                	<input type="button" value="点击上传" class="file-btn">
-	                	<input type="file" class="file">
-	                	<a href="#">删除</a>
+	                	<input type="file" class="file" id="image2" name="image2" onchange="uploadImg('image2','certPic2','idpsId2','imgErrShow2');">
+	                	<a href="javascript:void(0)" onclick="deleteImg('image2','certPic2','idpsId2','imgErrShow2');">删除</a>
 	                	<span>请将身份证正面、反面照片合在一张图</span>
 	                </span>
 	                <span>支持JPG/PNG/GIF格式，最大不超过3M</span>
+	                <span id="imgErrShow2"></span>
                 </p>
              </li>
          </ul>
@@ -224,14 +233,18 @@
             <ul>
              <li>
                 <p class="word"><b class="red">*</b>税务登记证:</p>
-                <p class="img"><img src="${_slpbase}/images/fom-t.png"></p>
+                 <input type="hidden" name="list[2].infoName" value="税务登记证"/>
+                <input type="hidden" value="13" name="list[2].infoType">
+                <input type="hidden" value="13001" name="list[2].infoItem">
+                <p class="img"><img src="${_slpbase}/images/fom-t.png" id="certPic3"></p>
                 <p class="small-p">
 	                <span>
 	                	<input type="button" value="点击上传" class="file-btn">
-	                	<input type="file" class="file">
-	                	<a href="#">删除</a>
+	                	<input type="file" class="file" id="image3" name="image3" onchange="uploadImg('image3','certPic3','idpsId3','imgErrShow3');">
+	                	<a href="javascript:void(0)" onclick="deleteImg('image3','certPic3','idpsId3','imgErrShow3');">删除</a>
 	                </span>
 	                <span>支持JPG/PNG/GIF格式，最大不超过3M</span>
+	                <span id="imgErrShow3"></span>
                 </p>
              </li>
          </ul>    
@@ -243,21 +256,25 @@
             <ul>
                 <li>
                     <p class="word"><b class="red">*</b>组织机构代码:</p>
-                    <p><input type="text" class="int-medium" placeholder="请填写组织机构代码" id="organizationCode" name="contactsName"></p>
+                    <p><input type="text" class="int-medium" placeholder="请填写组织机构代码" id="organizationCode" name="orgCode"></p>
                      <label id="organizationCodeErrMsg" style="display:none"><img src="${_slpbase}/images/icon-d.png" id="organizationCodeImage"><span class="ash" id="organizationCodeText">4-24个字符，可用汉字或英语字母</span></label>
                  </li>
              </ul>
          <ul>
              <li>
                 <p class="word"><b class="red">*</b>代码证电子版:</p>
-                <p class="img"><img src="${_slpbase}/images/fom-t.png"></p>
+                  <input type="hidden" name="list[3].infoName" value="代码证电子版"/>
+                <input type="hidden" value="14" name="list[3].infoType">
+                <input type="hidden" value="14001" name="list[3].infoItem">
+                <p class="img"><img src="${_slpbase}/images/fom-t.png" id="certPic4"></p>
                 <p class="small-p">
 	                <span>
 	                	<input type="button" value="点击上传" class="file-btn">
-	                	<input type="file" class="file">
-	                	<a href="#">删除</a>
+	                	<input type="file" class="file" id="image4" name="image4" onchange="uploadImg('image4','certPic4','idpsId4','imgErrShow4');">
+	                	<a href="javascript:void(0)" onclick="deleteImg('image4','certPic4','idpsId4','imgErrShow4');">删除</a>
 	                </span>
 	                <span>支持JPG/PNG/GIF格式，最大不超过3M</span>
+	                <span id="imgErrShow4"></span>
                 </p>
              </li>
          </ul>   
@@ -269,35 +286,39 @@
            <ul>
                  <li>
                     <p class="word"><b class="red">*</b>开户银行名称:</p>
-                    <p><input type="text" class="int-medium" placeholder="请填写开户银行名称" id="bankName"></p>
+                    <p><input type="text" class="int-medium" placeholder="请填写开户银行名称" id="bankName" name="bankName"></p>
                     <label id="bankNameErrMsg" style="display:none"><img src="${_slpbase}/images/icon-c.png" id="bankNameImage"><span class="ash" id="bankNameText">4-20个字符</span></label>
                  </li>
              </ul>
              <ul>
                  <li>
                     <p class="word"><b class="red">*</b>开户银行支行名称:</p>
-                    <p><input type="text" class="int-medium" placeholder="请填写开户银行支行名称" id="subbranchName"></p>
+                    <p><input type="text" class="int-medium" placeholder="请填写开户银行支行名称" id="subbranchName" name="subbranchName"></p>
                      <label id="subbranchNameErrMsg" style="display:none"><img src="${_slpbase}/images/icon-a.png" id="subbranchNameImage"><span class="ash"  id="subbranchNameText">请输入支行名称</span></label>
                  </li>
              </ul>
              <ul>
                  <li>
                     <p class="word"><b class="red">*</b>公司银行账户:</p>
-                    <p><input type="text" class="int-medium" placeholder="请填写公司银行账户" id="bankAccount"></p>
+                    <p><input type="text" class="int-medium" placeholder="请填写公司银行账户" id="bankAccount" name="bankAccount"></p>
                      <label id="bankAccountErrMsg" style="display:none"><img src="${_slpbase}/images/icon-a.png" id="bankAccountImage"><span class="ash" id="bankAccountText">请输入银行名称</span></label>
                  </li>
              </ul>
             <ul>
              <li>
-                <p class="word"><b class="red">*</b>开户许可证:</p>
-                <p class="img"><img src="${_slpbase}/images/fom-t.png"></p>
+                <p class="word"><b class="red">*</b>银行开户许可证:</p>
+                <input type="hidden" name="list[4].infoName" value="银行开户许可证"/>
+                <input type="hidden" value="15" name="list[4].infoType">
+                <input type="hidden" value="15001" name="list[4].infoItem">
+                <p class="img"><img src="${_slpbase}/images/fom-t.png" id="certPic5"></p>
                 <p class="small-p">
 	                <span>
 	                	<input type="button" value="点击上传" class="file-btn">
-	                	<input type="file" class="file">
-	                	<a href="#">删除</a>
+	                	<input type="file" class="file" id="image5" name="image5" onchange="uploadImg('image5','certPic5','idpsId5','imgErrShow5');">
+	                	<a href="javascript:void(0)" onclick="deleteImg('image5','certPic5','idpsId5','imgErrShow5');">删除</a>
 	                </span>
 	                <span>支持JPG/PNG/GIF格式，最大不超过3M</span>
+	                <span id="imgErrShow5"></span>
                 </p>
              </li>
          </ul>   
@@ -310,7 +331,7 @@
                  <li>
                     <p class="word"><b class="red">*</b>行业:</p>
                 <p>
-	                 <select class="select-medium" id="groupIndustry" name="groupIndustery">
+	                 <select class="select-medium" id="groupIndustry" name="groupIndustry">
 	                	<option value="0">请选择</option>
 	                	 <c:forEach items="${industryMap}" var="map">
 	                		<option value="${map.key }">${map.value }</option>
@@ -357,14 +378,14 @@
              </ul>
      </div>
       <!--标题-->  
-     <div class="account-title"><p>组织机构代码证</p></div>
+     <div class="account-title"><p>供应商品信息</p></div>
      <!--信息填写-->
      <div class="nav-form">
            <ul>
                 <li>
                     <p class="word"><b class="red">*</b>供应商品信息:</p>
                     <p>
-                       <select class="select-medium" id="supplyGoods">
+                       <select class="select-medium" id="supplyGoods" name="">
                        	 <option value="0">请选择</option>
                        	 <c:forEach var="prodCatInfo" items="${prodCatInfoList}">
                        	 	<option value="${prodCatInfo.productCatId}">${prodCatInfo.productCatName}</option>
@@ -377,70 +398,86 @@
              <ul>
                 <li>
                     <p class="word">品牌名称（中文):</p>
-                    <p><input type="text" class="int-medium" id="brandNameC"/></p>
+                    <p><input type="text" class="int-medium" id="brandNameC" name=""/></p>
                     <label style="display: none;" id="brandNameCErrMsg"><img src="${_slpbase}/images/icon-a.png" id="brandNameCImage"><span class="ash" id="brandNameCText">请选择供应商品类型</span></label>
                  </li>
              </ul>
              <ul>
                 <li>
                     <p class="word">品牌名称（英文):</p>
-                    <p><input type="text" class="int-medium" id="brandNameE"/></p>
+                    <p><input type="text" class="int-medium" id="brandNameE" name=""/></p>
                     <label style="display: none;" id="brandNameEErrMsg"><img src="${_slpbase}/images/icon-a.png" id="brandNameEImage"><span class="ash" id="brandNameEText">请选择供应商品类型</span></label>
                  </li>
              </ul>
          <ul>
              <li>
                 <p class="word"><b class="red">*</b>商品注册证:</p>
-                <p class="img"><img src="${_slpbase}/images/fom-t.png"></p>
+                <input type="hidden" name="list[5].infoName" value="商品注册证"/>
+                <input type="hidden" value="16" name="list[5].infoType">
+                <input type="hidden" value="16001" name="list[5].infoItem">
+                <p class="img"><img src="${_slpbase}/images/fom-t.png" id="certPic6"></p>
                 <p class="small-p">
 	                <span>
 	                	<input type="button" value="点击上传" class="file-btn">
-	                	<input type="file" class="file">
-	                	<a href="#">删除</a>
+	                	<input type="file" class="file" id="image6" name="image6" onchange="uploadImg('image6','certPic6','idpsId6','imgErrShow6');">
+	                	<a href="javascript:void(0)" onclick="deleteImg('image6','certPic6','idpsId6','imgErrShow6');">删除</a>
 	                </span>
 	                <span>支持JPG/PNG/GIF格式，最大不超过3M</span>
+	                <span id="imgErrShow6"></span>
                 </p>
              </li>
          </ul>
          <ul>
              <li>
                 <p class="word"><b class="red">*</b>行业资质证明:</p>
-                <p class="img"><img src="${_slpbase}/images/fom-t.png"></p>
+                <input type="hidden" name="list[6].infoName" value="行业资质证明"/>
+                <input type="hidden" value="17" name="list[6].infoType">
+                <input type="hidden" value="17001" name="list[6].infoItem">
+                <p class="img"><img src="${_slpbase}/images/fom-t.png" id="certPic7"></p>
                 <p class="small-p">
 	                <span>
 	                	<input type="button" value="点击上传" class="file-btn">
-	                	<input type="file" class="file">
-	                	<a href="#">删除</a>
+	                	<input type="file" class="file" id="image7" name="image7" onchange="uploadImg('image7','certPic7','idpsId7','imgErrShow7');">
+	                	<a href="javascript:void(0)" onclick="deleteImg('image7','certPic7','idpsId7','imgErrShow7');">删除</a>
 	                </span>
 	                <span>支持JPG/PNG/GIF格式，最大不超过3M</span>
+	                <span id="imgErrShow7"></span>
                 </p>
              </li>
          </ul> 
         <ul>
              <li>
                 <p class="word"><b class="red">*</b>商品质检/检验报告:</p>
-                <p class="img"><img src="${_slpbase}/images/fom-t.png"></p>
+                <input type="hidden" name="list[7].infoName" value="商品质检/检验报告"/>
+                <input type="hidden" value="18" name="list[7].infoType">
+                <input type="hidden" value="18001" name="list[7].infoItem">
+                <p class="img"><img src="${_slpbase}/images/fom-t.png" id="certPic8"></p>
                 <p class="small-p">
 	                <span>
 	                	<input type="button" value="点击上传" class="file-btn">
-	                	<input type="file" class="file">
-	                	<a href="#">删除</a>
+	                	<input type="file" class="file" id="image8" name="image8" onchange="uploadImg('image8','certPic8','idpsId8','imgErrShow8');">
+	                	<a href="javascript:void(0)" onclick="deleteImg('image8','certPic8','idpsId8','imgErrShow8');">删除</a>
 	                </span>
 	                <span>支持JPG/PNG/GIF格式，最大不超过3M</span>
+	                <span id="imgErrShow8"></span>
                 </p>
              </li>
          </ul> 
          <ul>
              <li>
                 <p class="word"><b class="red">*</b>卫生/生产许可证:</p>
-                <p class="img"><img src="${_slpbase}/images/fom-t.png"></p>
+                <input type="hidden" name="list[8].infoName" value="卫生/生产许可证"/>
+                <input type="hidden" value="19" name="list[8].infoType">
+                <input type="hidden" value="19001" name="list[8].infoItem">
+                <p class="img"><img src="${_slpbase}/images/fom-t.png" id="certPic9"></p>
                 <p class="small-p">
 	                <span>
 	                	<input type="button" value="点击上传" class="file-btn">
-	                	<input type="file" class="file">
-	                	<a href="#">删除</a>
+	                	<input type="file" class="file" id="image9" name="image9" onchange="uploadImg('image9','certPic9','idpsId9','imgErrShow9');">
+	                	<a href="javascript:void(0)" onclick="deleteImg('image9','certPic9','idpsId9','imgErrShow9');">删除</a>
 	                </span>
 	                <span>支持JPG/PNG/GIF格式，最大不超过3M</span>
+	                <span id="imgErrShow9"></span>
                 </p>
              </li>
          </ul>            
@@ -494,7 +531,7 @@
              </ul>
               <ul>
                  <li class="form-btn">
-                   <input type="button" class="slp-btn regsiter-btn" value="保存资质" id="toSave">
+                   <input type="button" class="slp-btn regsiter-btn" value="保存资质" id="toSaveSuppliser">
                    <input type="hidden" id="custNameFlag">
                	   <input type="hidden" id="princeCodeFlag">
                	   <input type="hidden" id="certAddrFlag">
@@ -535,6 +572,7 @@
                  </li>
              </ul>
      		</div>
+     		</form:form>
              </div>
       		</div>
    		</div>

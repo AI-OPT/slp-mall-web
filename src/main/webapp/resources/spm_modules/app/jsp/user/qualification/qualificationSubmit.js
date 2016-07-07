@@ -44,6 +44,8 @@ define('app/jsp/user/qualification/qualificationSubmit', function (require, expo
     		"click [id='updateAgentPersonal']":"_updatePersonalQualification",
     		//更新企业信息
     		"click [id='updateEnterprise']":"_updateEnterprise",
+			//保存供货商信息
+			"click [id='toSaveSuppliser']":"_toSaveSuppliser"
         },
         init: function(){
         },
@@ -373,6 +375,10 @@ define('app/jsp/user/qualification/qualificationSubmit', function (require, expo
 			updateContactInfo(_base+"/user/qualification/editAgentEnterprise");
 		}
 		
+	},
+	
+	_toSaveSuppliser:function(){
+		toSaveSuppliser();
 	}
 	
     });
@@ -382,24 +388,23 @@ define('app/jsp/user/qualification/qualificationSubmit', function (require, expo
 
 
 //上传图片至服务器
-function uploadImg(imageId,certPic,idpsId) {
+function uploadImg(imageId,certPic,idpsId,imgErrShowId) {
 	var image = document.getElementById(imageId).value;
-	$("#imgErrShow").text("支持JPG/PNG/GIF格式，最大不超过3M");
-	$("#imgErrShow").css("color","");
+	document.getElementById(imgErrShowId).innerHTML="";
 	if(image==""){
-		$("#imgErrShow").text("图片不能为空");
-		$("#imgErrShow").css("color","red");
-		$("#imgErrShow").show();
+		document.getElementById(imgErrShowId).innerHTML="图片不能为空";
+		document.getElementById(imgErrShowId).style.color="red";
+		document.getElementById(imgErrShowId).style.display="block";
 		return false;
 	}else if(!/\.(gif|jpg|png|GIF|JPG|PNG)$/.test(image)){
-		$("#imgErrShow").text("格式不对");
-		$("#imgErrShow").css("color","red"); 
-		$("#imgErrShow").show();
+		document.getElementById(imgErrShowId).innerHTML="格式不对";
+		document.getElementById(imgErrShowId).style.color="red";
+		document.getElementById(imgErrShowId).style.display="block";
 		return false;
 	}else if(document.getElementById(imageId).files[0].size>3*1024*1024){
-		$("#imgErrShow").text("图片太大");
-		$("#imgErrShow").css("color","red");
-		$("#imgErrShow").show();
+		document.getElementById(imgErrShowId).innerHTML="图片太大";
+		document.getElementById(imgErrShowId).style.color="red";
+		document.getElementById(imgErrShowId).style.display="block";
 		return false;
 	}
 	 $.ajaxFileUpload({  
@@ -411,21 +416,19 @@ function uploadImg(imageId,certPic,idpsId) {
          success: function (data, status) {
         	if(data.isTrue==true){
         		document.getElementById(certPic).src=data.url;
-        		//$("#idpsId").val(data.idpsId);
         		document.getElementById(idpsId).value=data.idpsId;
         	 }
-         },  
+         },
          error: function (data, status, e) {  
-             alert(+e);  
-         }  
+             alert(e);  
+         }
      });  
 }
 
 //删除服务器图片
-function deleteImg(imageId,certPic,idpsId){
+function deleteImg(imageId,certPic,idpsId,imgErrShowId){
 	var idpsIdValue = $("#idpsId").val();
-	$("#imgErrShow").text("支持JPG/PNG/GIF格式，最大不超过3M");
-	$("#imgErrShow").css("color","");
+	document.getElementById(imgErrShowId).innerHTML="";
 	if(idpsIdValue!=""){
 	$.ajax({
         type: "post",
@@ -611,6 +614,27 @@ function deleteImg(imageId,certPic,idpsId){
 	        type: "post",
 	        processing: false,
 	        url: _base+"/user/qualification/updateContactsInfo",
+	        dataType: "json",
+	        data: $("#enterprise").serialize(),
+	        message: "正在加载数据..",
+	        success: function (data) {
+	        	if(data.responseHeader.resultCode=='00000'){
+	        		window.location.href=url;
+	        	}
+	        },
+	        error: function(XMLHttpRequest, textStatus, errorThrown) {
+				 alert(XMLHttpRequest.status);
+				 alert(XMLHttpRequest.readyState);
+				 alert(textStatus);
+				}
+			    }); 
+	}
+	
+	function toSaveSuppliser(){
+		$.ajax({
+	        type: "post",
+	        processing: false,
+	        url: _base+"/user/qualification/saveEnterprise",
 	        dataType: "json",
 	        data: $("#enterprise").serialize(),
 	        message: "正在加载数据..",

@@ -73,8 +73,6 @@ import com.ai.slp.user.api.keyinfo.param.SearchGroupKeyInfoResponse;
 import com.ai.slp.user.api.keyinfo.param.UpdateCustFileExtRequest;
 import com.ai.slp.user.api.keyinfo.param.UpdateCustKeyInfoRequest;
 import com.ai.slp.user.api.keyinfo.param.UpdateGroupKeyInfoRequest;
-import com.ai.slp.user.api.ucuser.intefaces.IUcUserSV;
-import com.ai.slp.user.api.ucuser.param.UpdateUserInfoRequest;
 import com.alibaba.fastjson.JSON;
 
 @RequestMapping("/user/qualification")
@@ -228,10 +226,11 @@ public class QualificationController {
                     .getAttribute(SSOClientConstants.USER_SESSION_KEY);
             // 企业关键信息
             if (request.getParameter("establishTime") != null) 
-        insertGroupKeyInfoRequest.setCertIssueDate(DateUtil.getTimestamp(request.getParameter("establishTime")));            insertGroupKeyInfoRequest.setTenantId(user.getTenantId());            insertGroupKeyInfoRequest.setUserType(user.getUserType());
-        insertGroupKeyInfoRequest.setTenantId(user.getTenantId());
-        insertGroupKeyInfoRequest.setUserType(user.getUserType());
+                insertGroupKeyInfoRequest.setCertIssueDate(DateUtil.getTimestamp(request.getParameter("establishTime")));            insertGroupKeyInfoRequest.setTenantId(user.getTenantId());            insertGroupKeyInfoRequest.setUserType(user.getUserType());
+            insertGroupKeyInfoRequest.setTenantId(user.getTenantId());
+            insertGroupKeyInfoRequest.setUserType(user.getUserType());
             insertGroupKeyInfoRequest.setUserId(user.getUserId());
+            insertGroupKeyInfoRequest.setAuditState("10");
             // 附件信息
             for (CmCustFileExtVo cmCustFileExtVo : custFileListVo.getList()) {
                 cmCustFileExtVo.setTenantId(user.getTenantId());
@@ -268,18 +267,12 @@ public class QualificationController {
                 if (ucBankInfoSV != null) {
                     ucBankInfoSV.insertBankInfo(insertBankInfoRequest);
                 }
-                // 修改用户信息认证状态
-                updateUserInfo(user,"10");
-                responseData = new ResponseData<String>(
-                        VerifyConstants.QualificationConstants.SUCCESS_CODE, "操作成功", null);
-                responseHeader = new ResponseHeader(true,
-                        VerifyConstants.QualificationConstants.SUCCESS_CODE, "操作成功");
+                responseData = new ResponseData<String>(VerifyConstants.QualificationConstants.SUCCESS_CODE, "操作成功", null);
+                responseHeader = new ResponseHeader(true,VerifyConstants.QualificationConstants.SUCCESS_CODE, "操作成功");
             } catch (Exception e) {
                 LOGGER.error("操作失败");
-                responseData = new ResponseData<String>(
-                        VerifyConstants.QualificationConstants.ERROR_CODE, "操作失败", null);
-                responseHeader = new ResponseHeader(false,
-                        VerifyConstants.QualificationConstants.ERROR_CODE, "操作失败");
+                responseData = new ResponseData<String>(VerifyConstants.QualificationConstants.ERROR_CODE, "操作失败", null);
+                responseHeader = new ResponseHeader(false,VerifyConstants.QualificationConstants.ERROR_CODE, "操作失败");
             }
         }
         responseData.setResponseHeader(responseHeader);
@@ -331,11 +324,8 @@ public class QualificationController {
         try {
             ucKeyInfoSV.insertCustKeyInfo(insertCustKeyInfoRequest);
             ucKeyInfoSV.insertCustFileExt(insertCustFileExtRequest);
-            updateUserInfo(user,"10");
-            responseData = new ResponseData<String>(
-                    SLPMallConstants.Qualification.QUALIFICATION_SUCCESS, "操作成功", null);
-            responseHeader = new ResponseHeader(true,
-                    SLPMallConstants.Qualification.QUALIFICATION_SUCCESS, "操作成功");
+            responseData = new ResponseData<String>(SLPMallConstants.Qualification.QUALIFICATION_SUCCESS, "操作成功", null);
+            responseHeader = new ResponseHeader(true,SLPMallConstants.Qualification.QUALIFICATION_SUCCESS, "操作成功");
         } catch (Exception e) {
             LOGGER.error("操作失败");
             responseData = new ResponseData<String>(
@@ -591,7 +581,6 @@ public class QualificationController {
             ucKeyInfoSV.updateCustKeyInfo(updateCustKeyInfoRequest);
             ucKeyInfoSV.updateCustFileExt(updateCustFileExtRequest);
             //更新用户审核状态
-            updateUserInfo(user, "10");
             responseData = new ResponseData<String>(SLPMallConstants.Qualification.QUALIFICATION_SUCCESS, "操作成功", null);
             responseHeader = new ResponseHeader(true,SLPMallConstants.Qualification.QUALIFICATION_SUCCESS, "操作成功");
         } catch (Exception e) {
@@ -760,6 +749,7 @@ public class QualificationController {
         updateGroupKeyInfoRequest.setTenantId(user.getTenantId());
         updateGroupKeyInfoRequest.setUserType(user.getUserType());
         updateGroupKeyInfoRequest.setUserId(user.getUserId());
+        updateGroupKeyInfoRequest.setAuditState("10");
         if (request.getParameter("establishTime") != null) {
             updateGroupKeyInfoRequest.setCertIssueDate(DateUtil.getTimestamp(request.getParameter("establishTime")));
         }
@@ -791,7 +781,6 @@ public class QualificationController {
             if(ucBankInfoSV!=null)
                 ucBankInfoSV.updateBankInfo(updateBankInfoRequest);
           //更新用户审核状态
-            updateUserInfo(user, "10");
             responseData = new ResponseData<String>(SLPMallConstants.Qualification.QUALIFICATION_SUCCESS, "操作成功", null);
             responseHeader = new ResponseHeader(true,SLPMallConstants.Qualification.QUALIFICATION_SUCCESS, "操作成功");
         } catch (Exception e) {
@@ -824,8 +813,6 @@ public class QualificationController {
         IUcContactsInfoSV ucContactsInfoSV = DubboConsumerFactory.getService(IUcContactsInfoSV.class);
         try {
             ucContactsInfoSV.updateContactsInfo(updateContactsInfoRequest);
-          //更新用户审核状态
-            updateUserInfo(user, "10");
             responseData = new ResponseData<String>(SLPMallConstants.Qualification.QUALIFICATION_SUCCESS, "操作成功", null);
             responseHeader = new ResponseHeader(true,SLPMallConstants.Qualification.QUALIFICATION_SUCCESS, "操作成功");
         } catch (Exception e) {
@@ -956,17 +943,6 @@ public class QualificationController {
         return response;
     }
 
-    // 更新用户认证状态
-    private boolean updateUserInfo(SLPClientUser user,String auditState) throws Exception {
-        IUcUserSV ucUserSV = DubboConsumerFactory.getService(IUcUserSV.class);
-        UpdateUserInfoRequest updateUserInfoRequest = new UpdateUserInfoRequest();
-        updateUserInfoRequest.setTenantId(user.getTenantId());
-        updateUserInfoRequest.setUserId(user.getUserId());
-        updateUserInfoRequest.setAuditState(auditState);
-        ucUserSV.updateBaseInfo(updateUserInfoRequest);
-        return true;
-    }
-    
     /**
      * 获取银行信息
      * @param userId
