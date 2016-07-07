@@ -322,7 +322,7 @@ function editAgentPersonal(){
 	                <input type="hidden" name="list[2].infoName" value="手持身份证正面照片"/>
 	                <p class="img"><img src="${_slpbase }/images/fom-t.png" id="certPic3"></p>
 	                <p class="small-p">
-	                <span><input type="button" value="点击上传" class="file-btn"><input type="file" class="file" id="image3" name="image3" onchange="uploadImg('image3','certPic3','idpsId3');"><a href="javascript:void(0)" onclick="delete('image3','certPic3','idpsId3');">删除</a></span>
+	                <span><input type="button" value="点击上传" class="file-btn"><input type="file" class="file" id="image3" name="image3" onchange="uploadImg('image3','certPic3','idpsId3');"><a href="javascript:void(0)" onclick="deleteImg('image3','certPic3','idpsId3');">删除</a></span>
 	                <span>支持JPG/PNG/GIF格式，最大不超过3M</span>
 	                </p>
 	               <%--  <p><div class="card-left-word"><img src="${_slpbase }/images/icon-a.png">请上传手持证件照片</div></p> --%>
