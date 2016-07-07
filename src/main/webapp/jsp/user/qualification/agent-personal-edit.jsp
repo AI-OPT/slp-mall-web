@@ -14,13 +14,10 @@
 <script type="text/javascript" src="${_base}/resources/spm_modules/jquery/1.9.1/jquery.js"></script>
 <script type="text/javascript">
 
-function editAgentPersonal(){
-	$("#qf-edit").show(10);
-	$("#qf-browse").hide(10);
-}
 	var baseInfoPager;
 	var agentPersonalPager;
 	(function() { 
+		var auditState = "${custKeyInfo.auditState}"
 		seajs.use([ 'app/jsp/user/qualification/baseinfo','app/jsp/user/qualification/agent-personal','app/jsp/user/qualification/qualificationSubmit'], function(BaseInfoQualificationPager,AgentPersonalPager,QualificationSubmitPager) {
 			    baseInfoPager = new BaseInfoQualificationPager({
 				element : document.body
@@ -65,7 +62,7 @@ function editAgentPersonal(){
      	
       <div class="account-title account-title-bjcolor">
       	<p>资质类型:个人</p>
-      	<p class="right"><i class="icon-edit qualifications" onclick="editAgentPersonal();">修改</i></p>
+      	<p class="right"><i class="icon-edit qualifications" id="updateAgengPersonal">修改</i></p>
       </div>
       </div>
      <div class="account-title">
