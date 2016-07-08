@@ -17,8 +17,8 @@ define(
 				events : {
 				// key的格式: 事件+空格+对象选择器;value:事件方法
 				//真实姓名校验
-				"blur [id='custName']":"_checkcustName",
-	    		"focus [id='custName']":"_showcustNameTip",
+				"blur [id='realName']":"_checkcustName",
+	    		"focus [id='realName']":"_showcustNameTip",
 	    		//身份证校验
 	    		"focus [id='idNumber']":"_showIdNumberTip",
 	    		"blur [id='idNumber']":"_checkIdNumber",
@@ -42,10 +42,10 @@ define(
 					birth.init('yy_mm_dd');
 				},
 				_showcustNameTip:function(){
-					$("#custNameErrMsg").show();
-					$("#custNameText").show();
-					$("#custNameText").text('4-24个字符，可用汉字或英语字母');
-		    		$('#custNameImage').attr('src',_base+'/resources/slpmall/images/icon-d.png');
+					$("#realNameErrMsg").show();
+					$("#realNameText").show();
+					$("#realNameText").text('4-24个字符，可用汉字或英语字母');
+		    		$('#realNameImage').attr('src',_base+'/resources/slpmall/images/icon-d.png');
 				},
 				_showIdNumberTip:function(){
 					$("#idNumberErrMsg").show();
@@ -55,26 +55,26 @@ define(
 		    		$('#idNumberImage').attr('src',_base+'/resources/slpmall/images/icon-d.png');
 				},
 				_checkcustName:function(){
-					var name = $("#custName").val();
+					var name = $("#realName").val();
 					var reg = /^[\u4e00-\u9fa5a-zA-Z]{4,24}$/;
 					if(name==null||name==""){
-						$('#custNameErrMsg').show();
-	    				$("#custNameImage").show();
-	        			$('#custNameText').text("4-24个字符，可用汉字或英语字母");
-	        			$('#custNameImage').attr('src',_base+'/resources/slpmall/images/icon-a.png');
-	        			$("#custNameFlag").val("0");
+						$('#realNameErrMsg').show();
+	    				$("#realNameImage").show();
+	        			$('#realNameText').text("4-24个字符，可用汉字或英语字母");
+	        			$('#realNameImage').attr('src',_base+'/resources/slpmall/images/icon-a.png');
+	        			$("#realNameFlag").val("0");
 					}else{
 						if(name.match(reg)){
-		    				$('#custNameErrMsg').show();
-		    				$('#custNameText').hide();
-		    				$('#custNameImage').attr('src',_base+'/resources/slpmall/images/icon-b.png');
-		    				$("#custNameFlag").val("1");
+		    				$('#realNameErrMsg').show();
+		    				$('#realNameText').hide();
+		    				$('#realNameImage').attr('src',_base+'/resources/slpmall/images/icon-b.png');
+		    				$("#realNameFlag").val("1");
 		    			}else{
-		    				$('#custNameErrMsg').show();
-		    				$("#custNameImage").show();
-		        			$('#custNameText').text("4-24个字符，可用汉字或英语字母");
-		        			$('#custNameImage').attr('src',_base+'/resources/slpmall/images/icon-a.png');
-		        			$("#custNameFlag").val("0");
+		    				$('#realNameErrMsg').show();
+		    				$("#realNameImage").show();
+		        			$('#realNameText').text("4-24个字符，可用汉字或英语字母");
+		        			$('#realNameImage').attr('src',_base+'/resources/slpmall/images/icon-a.png');
+		        			$("#realNameFlag").val("0");
 		    			}
 					}
 				},

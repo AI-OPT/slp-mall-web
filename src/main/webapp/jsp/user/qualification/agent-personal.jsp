@@ -72,8 +72,8 @@
          <ul>
              <li>
                 <p class="word"><b class="red">*</b>真实姓名:</p>
-               <p><input type="text" class="int-medium" placeholder="请填写真实姓名" id="custName" name="custName"></p>
-                     <label id="custNameErrMsg" style="display:none"><img src="${_slpbase}/images/icon-d.png" id="custNameImage"><span class="ash" id="custNameText">4-24个字符，可用汉字或英语字母</span></label>
+               <p><input type="text" class="int-medium" placeholder="请填写真实姓名" id="realName" name="custName"></p>
+                     <label id="realNameErrMsg" style="display:none"><img src="${_slpbase}/images/icon-d.png" id="realNameImage"><span class="ash" id="realNameText">4-24个字符，可用汉字或英语字母</span></label>
              </li>
          </ul>
          <ul>
@@ -262,7 +262,7 @@
              <ul>
                  <li class="form-btn">
                  	<input type="button" class="slp-btn regsiter-btn" id="savePersonalQualification" value="保存资质">
-                 	<input type="hidden" id="custNameFlag"/>
+                 	<input type="hidden" id="realNameFlag"/>
                  	<input type="hidden" id="certAddrFlag">
                  	<input type="hidden" id="idNumberFlag"/>
                  	<input type="hidden" id="bithdayFlag"/>
