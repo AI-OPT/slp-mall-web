@@ -516,8 +516,7 @@ define('app/jsp/balance/phonebook/phonebookdetail', function (require, exports, 
     			url: _base+"/account/phonebook/queryUserPhonebooks",
 	 			method: "POST",
 	 			dataType: "json",
-	 			processing: true,
-	 			message: "正在查询",
+	 			renderId:"TBODY_PHONEBOOKS",
 	            data : {
 					//userId: this.get("userId"),
 					telGroupId: this.get("telGroupId"),
@@ -536,8 +535,6 @@ define('app/jsp/balance/phonebook/phonebookdetail', function (require, exports, 
 	            		var template = $.templates("#PhoneBooksImpl");
 	                    var htmlOutput = template.render(data);
 	                    $("#TBODY_PHONEBOOKS").html(htmlOutput);
-	            	}else{
-    					$("#TBODY_PHONEBOOKS").html("没有搜索到相关信息");
 	            	}
 	            }
     		}); 

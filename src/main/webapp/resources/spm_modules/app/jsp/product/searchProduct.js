@@ -103,6 +103,7 @@ define('app/jsp/product/searchProduct', function (require, exports, module) {
 	           	pageSize: QueryProductPager.DEFAULT_PAGE_SIZE,
 	           	visiblePages:5,
 	            message: "正在为您查询数据..",
+	            resultImageType:"1",
 	            render: function (data) {
 	            	if(data != null && data != 'undefined' && data.length>0){
 	            		var template = $.templates("#productListTemple");
@@ -177,6 +178,7 @@ define('app/jsp/product/searchProduct', function (require, exports, module) {
 	           	pageSize: QueryProductPager.DEFAULT_PAGE_SIZE,
 	           	visiblePages:5,
 	            message: "正在为您查询数据..",
+	            resultImageType:"1",
 	            render: function (data) {
 	            	if(data != null && data != 'undefined' && data.length>0){
 	            		var template = $.templates("#productListTemple");

@@ -705,3 +705,5 @@
 /**个人企业用户无订单纪录**/
 .none-orderlist{width:100%;float:left; padding:100px  0  100px 170px;}
 .none-orderlist p{float:left;line-height: 140px;margin-right: 20px;font-size:16px;}
+/**未查询到**/
+.not-query{text-align:center;}
