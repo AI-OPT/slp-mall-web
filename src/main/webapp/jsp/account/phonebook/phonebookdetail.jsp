@@ -108,6 +108,7 @@
 								
 							</tbody> 
 						</table>
+						<div id="showMessageDiv"></div>
 					</div>
 
 				   <!--分页-->          

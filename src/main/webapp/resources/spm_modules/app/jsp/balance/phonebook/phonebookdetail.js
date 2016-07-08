@@ -517,6 +517,7 @@ define('app/jsp/balance/phonebook/phonebookdetail', function (require, exports, 
 	 			method: "POST",
 	 			dataType: "json",
 	 			renderId:"TBODY_PHONEBOOKS",
+	 			messageId:"showMessageDiv",
 	            data : {
 					//userId: this.get("userId"),
 					telGroupId: this.get("telGroupId"),
