@@ -16,8 +16,8 @@
 
 	var baseInfoPager;
 	var agentPersonalPager;
+	var auditState = "${custKeyInfo.auditState}";
 	(function() { 
-		var auditState = "${custKeyInfo.auditState}"
 		seajs.use([ 'app/jsp/user/qualification/baseinfo','app/jsp/user/qualification/agent-personal','app/jsp/user/qualification/qualificationSubmit'], function(BaseInfoQualificationPager,AgentPersonalPager,QualificationSubmitPager) {
 			    baseInfoPager = new BaseInfoQualificationPager({
 				element : document.body

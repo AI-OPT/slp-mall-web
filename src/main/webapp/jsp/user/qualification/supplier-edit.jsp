@@ -14,6 +14,7 @@
 <script type="text/javascript">
 	var baseInfoPager;
 	var enterprisePager;
+	var auditState = "${groupKeyInfo.auditState}";
 	(function() { 
 		seajs.use([ 'app/jsp/user/qualification/baseinfo','app/jsp/user/qualification/agent-supplier-enterprise','app/jsp/user/qualification/qualificationSubmit'], function(BaseInfoQualificationPager,EnterprisePager,QualificationSubmitPager) {
 			    baseInfoPager = new BaseInfoQualificationPager({

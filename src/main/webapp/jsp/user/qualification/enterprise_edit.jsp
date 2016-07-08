@@ -14,9 +14,8 @@
 <script type="text/javascript">
 var baseInfoPager;
 var qualificationSubmitPager;
-
+var auditState = "${groupKeyInfo.auditState}";
 (function() { 
-	var auditState = "${groupKeyInfo.auditState}";
 	seajs.use([ 'app/jsp/user/qualification/baseinfo','app/jsp/user/qualification/qualificationSubmit'], function(BaseInfoQualificationPager,QualificationSubmitPager) {
 		baseInfoPager = new BaseInfoQualificationPager({
 			element : document.body
