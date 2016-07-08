@@ -524,7 +524,7 @@ public class QualificationController {
         String cityCode = cacheSv.getAreaName(grouKeyInfoResponse.getCityCode());
         String county = cacheSv.getAreaName(grouKeyInfoResponse.getCountyCode());
         
-        grouKeyInfoResponse.setProvinceCode(provinceName+cityCode+county);
+        grouKeyInfoResponse.setProvinceCode(provinceName+" "+cityCode+" "+county+" "+grouKeyInfoResponse.getCertAddr());
         grouKeyInfoResponse.setGroupIndustry(industryMap.get(grouKeyInfoResponse.getGroupIndustry()));
         grouKeyInfoResponse.setGroupMemberScale(groupMemberMap.get(grouKeyInfoResponse.getGroupMemberScale()));
         grouKeyInfoResponse.setGroupType(groupTypeMap.get(grouKeyInfoResponse.getGroupType()));
@@ -578,8 +578,7 @@ public class QualificationController {
         String provinceName = cacheSv.getAreaName(custKeyInfoResponse.getCustProvinceCode());
         String cityCode = cacheSv.getAreaName(custKeyInfoResponse.getCustCityCode());
         String county = cacheSv.getAreaName(custKeyInfoResponse.getCustCountyCode());
-        custKeyInfoResponse.setProvinceCode(provinceName+cityCode+county);
-        
+        custKeyInfoResponse.setProvinceCode(provinceName+" "+cityCode+" "+county+" "+custKeyInfoResponse.getCustAddr());
         Map<String, Object> model = new HashMap<String, Object>();
         model.put("custKeyInfo", custKeyInfoResponse);
         model.put("imageMap", imageMap);
@@ -674,7 +673,7 @@ public class QualificationController {
         String cityCode = cacheSv.getAreaName(grouKeyInfoResponse.getCityCode());
         String county = cacheSv.getAreaName(grouKeyInfoResponse.getCountyCode());
         
-        grouKeyInfoResponse.setProvinceCode(provinceName+cityCode+county);
+        grouKeyInfoResponse.setProvinceCode(provinceName+" "+cityCode+" "+county+" "+grouKeyInfoResponse.getCertAddr());
         grouKeyInfoResponse.setGroupMemberScale(groupMemberMap.get(grouKeyInfoResponse.getGroupMemberScale()));
         grouKeyInfoResponse.setGroupType(groupTypeMap.get(grouKeyInfoResponse.getGroupType()));
         contactsInfoInfoResponse.setContactDept(contactDeptMap.get(contactsInfoInfoResponse.getContactDept()));
@@ -742,7 +741,7 @@ public class QualificationController {
         String cityCode = cacheSv.getAreaName(grouKeyInfoResponse.getCityCode());
         String county = cacheSv.getAreaName(grouKeyInfoResponse.getCountyCode());
         
-        grouKeyInfoResponse.setProvinceCode(provinceName+cityCode+county);
+        grouKeyInfoResponse.setProvinceCode(provinceName+" "+cityCode+" "+county+" "+grouKeyInfoResponse.getCertAddr());
         grouKeyInfoResponse.setGroupMemberScale(groupMemberMap.get(grouKeyInfoResponse.getGroupMemberScale()));
         grouKeyInfoResponse.setGroupType(groupTypeMap.get(grouKeyInfoResponse.getGroupType()));
         contactsInfoInfoResponse.setContactDept(contactDeptMap.get(contactsInfoInfoResponse.getContactDept()));
