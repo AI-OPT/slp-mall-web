@@ -34,14 +34,17 @@ define('app/jsp/user/qualification/baseinfo', function (require, exports, module
     		"focus [id='custName']":"_showUserNameTip",
     		//官网事件
     		"blur [id='groupWebsite']":"_checkUrl",
-    		"focus [id='certAddr']":"_showCertAddrTip",
+    		"focus [id='groupWebsite']":"_showGroupWebsite",
     		//街道地址
+    		"focus [id='certAddr']":"_showCertAddrTip",
     		"blur [id='certAddr']":"_checkCertAddr",
-    		"blur [id='certNum']":"_checkCertNum",
+    		
     		//营业执照
+    		"blur [id='certNum']":"_checkCertNum",
     		"focus [id='certNum']":"_showCertNumTip",
-    		"blur [id='contactMp']":"_checkPhone",
+    		
     		//联系人手机号
+    		"blur [id='contactMp']":"_checkPhone",
     		"focus [id='contactMp']":"_showCheckPhoneTip",
     		//邮件校验
     		"blur [id='contactEmail']":"_checkEmailFormat",
@@ -112,6 +115,12 @@ define('app/jsp/user/qualification/baseinfo', function (require, exports, module
 			$("#emailMsgText").show();
 			$("#emailMsgText").text('请输入正确的邮箱地址');
     		$("#contactEmailMsgImage").attr('src',_base+'/resources/slpmall/images/icon-d.png');
+		},
+		_showGroupWebsite:function(){
+			$("#groupWebsitErrMsg").show();
+			$("#groupWebsitText").show();
+			$("#groupWebsitText").text('3-60个字符，允许使用字母、数字、特殊字符');
+    		$("#groupWebsiteImage").attr('src',_base+'/resources/slpmall/images/icon-d.png');
 		},
     	_validateName:function(){
 			var name = $("#custName").val();
@@ -200,17 +209,24 @@ define('app/jsp/user/qualification/baseinfo', function (require, exports, module
 			        + "((/?)|" // a slash isn't required if there is no file name
 			        + "(/[0-9a-z_!~*'().;?:@&=+$,%#-]+)+/?)$";
 		    var urlValue = $("#groupWebsite").val();
-	        if (urlValue.match(regExp)){
-	        	$("#groupWebsitErrMsg").show();
-	        	$("#groupWebsiteText").hide();
-	        	$('#groupWebsiteImage').attr('src',_base+'/resources/slpmall/images/icon-b.png');
-				return true;
-	        }else{
-	        	$("#groupWebsitErrMsg").show();
-	        	$("#groupWebsiteText").show();
-	        	$('#groupWebsiteImage').attr('src',_base+'/resources/slpmall/images/icon-a.png');
-	        	$("#groupWebsiteText").text("请输入正确的网址");
-	        }
+		    if(urlValue!=""){
+		    	if (urlValue.match(regExp)){
+		        	$("#groupWebsitErrMsg").show();
+		        	$("#groupWebsiteText").hide();
+		        	$('#groupWebsiteImage').attr('src',_base+'/resources/slpmall/images/icon-b.png');
+					return true;
+		        }else{
+		        	$("#groupWebsitErrMsg").show();
+		        	$("#groupWebsiteText").show();
+		        	$('#groupWebsiteImage').attr('src',_base+'/resources/slpmall/images/icon-a.png');
+		        	$("#groupWebsiteText").text("请输入正确的网址");
+		        }
+		    }else{
+		    	$('#groupWebsitErrMsg').hide();
+				$('#groupWebsiteText').hide();
+				$('#groupWebsiteImage').hide();
+		    }
+	        
 		},
 		
 		//街道地址校验
