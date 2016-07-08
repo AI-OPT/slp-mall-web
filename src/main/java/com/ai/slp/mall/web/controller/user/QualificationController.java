@@ -27,6 +27,7 @@ import com.ai.opt.sdk.constants.ExceptCodeConstants;
 import com.ai.opt.sdk.dubbo.util.DubboConsumerFactory;
 import com.ai.opt.sdk.util.CollectionUtil;
 import com.ai.opt.sdk.util.DateUtil;
+import com.ai.opt.sdk.util.StringUtil;
 import com.ai.opt.sdk.util.UUIDUtil;
 import com.ai.opt.sdk.web.model.ResponseData;
 import com.ai.opt.sso.client.filter.SLPClientUser;
@@ -97,7 +98,7 @@ public class QualificationController {
          * 获取个人客户信息
          */
         SearchCustKeyInfoResponse custKeyInfoResponse = getCustKeyBaseinfo(userId);
-        if(!ExceptCodeConstants.Special.NO_RESULT.equals(custKeyInfoResponse.getResponseHeader().getResultCode())){
+        if(!StringUtil.isBlank(custKeyInfoResponse.getUserId())){
            return  new ModelAndView("redirect:/user/qualification/editAgentPersonal");
         }
         
