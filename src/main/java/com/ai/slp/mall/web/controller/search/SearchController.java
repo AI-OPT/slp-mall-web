@@ -119,7 +119,7 @@ public class SearchController {
             LOG.debug("商品查询出参:"+JSONArray.fromObject(resultInfo).toString());
             responseData = new ResponseData<PageInfo<ProductDataVO>>(ResponseData.AJAX_STATUS_SUCCESS, "查询成功", pageVo);
         } catch (Exception e) {
-            responseData = new ResponseData<PageInfo<ProductDataVO>>(ResponseData.AJAX_STATUS_FAILURE, "查询失败");
+            responseData = new ResponseData<PageInfo<ProductDataVO>>(ResponseData.AJAX_STATUS_SUCCESS, "查询失败");
             LOG.error("获取信息出错：", e);
         }
         return responseData;
@@ -169,7 +169,7 @@ public class SearchController {
             LOG.debug("商品查询出参:"+JSONArray.fromObject(resultInfo).toString());
             responseData = new ResponseData<List<ProductDataVO>>(ResponseData.AJAX_STATUS_SUCCESS, "查询成功", voList);
         } catch (Exception e) {
-            responseData = new ResponseData<List<ProductDataVO>>(ResponseData.AJAX_STATUS_FAILURE, "查询失败");
+            responseData = new ResponseData<List<ProductDataVO>>(ResponseData.AJAX_STATUS_SUCCESS, "查询失败");
             LOG.error("获取信息出错：", e);
         }
         return responseData;
@@ -235,7 +235,7 @@ public class SearchController {
             LOG.debug("商品查询出参:"+JSONArray.fromObject(resultInfo).toString());
             responseData = new ResponseData<PageInfo<ProductDataVO>>(ResponseData.AJAX_STATUS_SUCCESS, "查询成功", pageVo);
         } catch (Exception e) {
-            responseData = new ResponseData<PageInfo<ProductDataVO>>(ResponseData.AJAX_STATUS_FAILURE, "查询失败");
+            responseData = new ResponseData<PageInfo<ProductDataVO>>(ResponseData.AJAX_STATUS_SUCCESS, "查询失败");
             LOG.error("获取信息出错：", e);
         }
         return responseData;
@@ -271,7 +271,7 @@ public class SearchController {
             LOG.debug("商品查询出参:"+JSONArray.fromObject(resultInfo).toString());
             responseData = new ResponseData<ProductCommonVO>(ResponseData.AJAX_STATUS_SUCCESS, "查询成功", commonVo);
         } catch (Exception e) {
-            responseData = new ResponseData<ProductCommonVO>(ResponseData.AJAX_STATUS_FAILURE, "查询失败");
+            responseData = new ResponseData<ProductCommonVO>(ResponseData.AJAX_STATUS_SUCCESS, "查询失败");
             LOG.error("获取信息出错：", e);
         }
         return responseData;
@@ -300,7 +300,7 @@ public class SearchController {
             ProductQueryResponse resultInfo = iSearchProductSV.searchProduct(req);
             PageInfo<ProductData> result= resultInfo.getPageInfo();
             ProductCommonVO commonVo = new ProductCommonVO();
-            if(result!=null){
+            if(result!=null && result.getCount()>0){
                 commonVo.setAccountList(result.getResult().get(0).getAccountList());
                 commonVo.setAgentList(result.getResult().get(0).getAgentList());
                 commonVo.setAreaList(result.getResult().get(0).getAreaList());
@@ -308,7 +308,7 @@ public class SearchController {
             LOG.debug("商品查询出参:"+JSONArray.fromObject(resultInfo).toString());
             responseData = new ResponseData<ProductCommonVO>(ResponseData.AJAX_STATUS_SUCCESS, "查询成功", commonVo);
         } catch (Exception e) {
-            responseData = new ResponseData<ProductCommonVO>(ResponseData.AJAX_STATUS_FAILURE, "查询失败");
+            responseData = new ResponseData<ProductCommonVO>(ResponseData.AJAX_STATUS_SUCCESS, "查询失败");
             LOG.error("获取信息出错：", e);
         }
         return responseData;
