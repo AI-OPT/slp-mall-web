@@ -137,14 +137,20 @@
 				</div>
 
 			</div>
-			<div class="recharge-bj-tow">
-				<!--白色背景-->
-				<div class="balance-title">
-					<p>
-						<input id="useBalanceChk" type="checkbox" class="checkbox">
-					</p>
-					<p>使用账户余额 （{{:~liToYuan(balance)}}元可用）</p>
-				</div>
+	
+			<c:choose>
+				<c:when test="${empty user}"></c:when>
+					<c:otherwise>
+						<div class="recharge-bj-tow">
+							<!--白色背景-->
+							<div class="balance-title">
+								<p>
+									<input id="useBalanceChk" type="checkbox" class="checkbox">
+								</p>
+								<p>使用账户余额 （{{:~liToYuan(balance)}}元可用）</p>
+							</div>
+					</c:otherwise>
+			</c:choose>
 				<div class="balance-table" style="display: none;">
 					<ul>
 						<li>
@@ -170,7 +176,7 @@
 					</ul>
 				</div>
 			</div>
-
+		
 			<div class="recharge-bj-tow recharge-bj-three">
 				<!--白色背景-->
 				<div class="right-btn">

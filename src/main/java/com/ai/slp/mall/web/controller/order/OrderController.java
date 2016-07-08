@@ -235,6 +235,7 @@ public class OrderController {
         orderSubmit.setOrdProductResList(ordProductResList);
         String orderSubmitJson = JSonUtil.toJSon(orderSubmit);
         model.addAttribute("orderSubmitJson", orderSubmitJson);
+        model.addAttribute("user", user);
 
         return "jsp/order/order_submit";
     }
