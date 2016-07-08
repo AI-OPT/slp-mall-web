@@ -241,7 +241,8 @@ public class QualificationController {
             insertContactsInfoRequest.setUserId(user.getUserId());
             IUcBankInfoSV ucBankInfoSV = null;
             InsertBankInfoRequest insertBankInfoRequest = null;
-            // 银行信息
+            
+            // 保存银行信息
             if (request.getParameter("bankName") != null
                     && request.getParameter("bankAccount") != null) {
                 insertBankInfoRequest = new InsertBankInfoRequest();

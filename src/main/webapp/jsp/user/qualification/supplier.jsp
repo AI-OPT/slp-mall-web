@@ -14,6 +14,7 @@
 <script type="text/javascript">
 	var baseInfoPager;
 	var enterprisePager;
+	var qualificationSubmitPager;
 	(function() { 
 		seajs.use([ 'app/jsp/user/qualification/baseinfo','app/jsp/user/qualification/agent-supplier-enterprise','app/jsp/user/qualification/qualificationSubmit'], function(BaseInfoQualificationPager,EnterprisePager,QualificationSubmitPager) {
 			    baseInfoPager = new BaseInfoQualificationPager({
@@ -333,7 +334,7 @@
                 <p>
 	                 <select class="select-medium" id="groupIndustry" name="groupIndustry">
 	                	<option value="0">请选择</option>
-	                	 <c:forEach items="${industryList}" var="map">
+	                	 <c:forEach items="${industryMap}" var="map">
 	                		<option value="${map.key }">${map.value }</option>
 	                	</c:forEach>
 	                </select>
@@ -385,7 +386,7 @@
                 <li>
                     <p class="word"><b class="red">*</b>供应商品信息:</p>
                     <p>
-                       <select class="select-medium" id="supplyGoods" name="">
+                       <select class="select-medium" id="supplyGoods" name="productCat">
                        	 <option value="0">请选择</option>
                        	 <c:forEach var="prodCatInfo" items="${prodCatInfoList}">
                        	 	<option value="${prodCatInfo.productCatId}">${prodCatInfo.productCatName}</option>
@@ -398,14 +399,14 @@
              <ul>
                 <li>
                     <p class="word">品牌名称（中文):</p>
-                    <p><input type="text" class="int-medium" id="brandNameC" name=""/></p>
+                    <p><input type="text" class="int-medium" id="brandNameC" name="brandName"/></p>
                     <label style="display: none;" id="brandNameCErrMsg"><img src="${_slpbase}/images/icon-a.png" id="brandNameCImage"><span class="ash" id="brandNameCText">请选择供应商品类型</span></label>
                  </li>
              </ul>
              <ul>
                 <li>
                     <p class="word">品牌名称（英文):</p>
-                    <p><input type="text" class="int-medium" id="brandNameE" name=""/></p>
+                    <p><input type="text" class="int-medium" id="brandNameE" name="brandNameEng"/></p>
                     <label style="display: none;" id="brandNameEErrMsg"><img src="${_slpbase}/images/icon-a.png" id="brandNameEImage"><span class="ash" id="brandNameEText">请选择供应商品类型</span></label>
                  </li>
              </ul>
@@ -500,7 +501,7 @@
                     <select class="select-medium" id="contactDept" name="contactDept">
                     	<option value="0" selected="selected">请选择</option>
 	               		<c:forEach items="${contactDeptMap}" var="map">
-	                			<option value="${map.}">${map.value }</option>
+	                			<option value="${map.key}">${map.value }</option>
 	                		</c:forEach>
                     </select>
                     </p>

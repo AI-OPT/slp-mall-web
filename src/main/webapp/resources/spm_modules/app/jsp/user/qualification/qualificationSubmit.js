@@ -37,15 +37,19 @@ define('app/jsp/user/qualification/qualificationSubmit', function (require, expo
     		//代理商企业修改资质信息
     		"click [id='agentEnterpriseUpdate']":"_agentEnterpriseUpdate",
     		//修改企业联系人信息
-    		"click [id='enterpriseContactsInfo']":"_updateEnterpriseContactsInfo",
+    		"click [id='updateEnterprise']":"_updateEnterpriseContactsInfo",
     		//修改企业代理联系人信息
     		"click [id='agentEnterpriseContactsInfo']":"_updateAgentEnterpriseContactsInfo",
+    		//修改供货商联系人信息
+    		"click [id='supplierContactsInfo']":"_updateSupplierContactsInfo",
     		//更新个人代理信息
     		"click [id='updateAgentPersonal']":"_updatePersonalQualification",
     		//更新企业信息
     		"click [id='updateEnterprise']":"_updateEnterprise",
 			//保存供货商信息
-			"click [id='toSaveSuppliser']":"_toSaveSuppliser"
+			"click [id='toSaveSuppliser']":"_toSaveSuppliser",
+			//更新供货商信息
+			"click [id='updateSupplierInfo']":"_updateSupplierInfo"
         },
         init: function(){
         },
@@ -269,6 +273,14 @@ define('app/jsp/user/qualification/qualificationSubmit', function (require, expo
 		}
 	},
 	
+	/**
+	 * 供货商修改
+	 */
+	
+	_updateEnterprise:function(){
+		updateEnterpriseInfo(_base+"/user/qualification/editSupplier");
+	},
+	
 	
 	/**
 	 * 代理商资质信息修改
@@ -308,6 +320,16 @@ define('app/jsp/user/qualification/qualificationSubmit', function (require, expo
 				 */
 			updateEnterpriseInfo(_base+"/user/qualification/editAgentEnterprise");
 			}
+	},
+	
+	/**
+	 * 供货商信息修改
+	 */
+	_updateSupplierInfo:function(){
+			/**
+			 * 供货商资质修改
+			 */
+			updateEnterpriseInfo(_base+"/user/qualification/editSupplier");
 	},
 		
 		/**
@@ -373,6 +395,24 @@ define('app/jsp/user/qualification/qualificationSubmit', function (require, expo
 			 * 联系人修改
 			 */
 			updateContactInfo(_base+"/user/qualification/editAgentEnterprise");
+		}
+		
+	},
+	/**
+	 * 供货商联系人修改
+	 */
+	_updateSupplierContactsInfo:function(){
+		/**
+		 * 联系人信息校验
+		 */
+		this._checkEnterpriseContactValue();
+		var contactDeptFlag = $("#contactDeptFlag").val();
+		var contactMpFlag = $("#contactMpFlag").val();
+		if(contactDeptFlag!="0"&&contactMpFlag!="0"){
+			/**
+			 * 联系人修改
+			 */
+			updateContactInfo(_base+"/user/qualification/editSupplier");
 		}
 		
 	},
@@ -587,6 +627,8 @@ function deleteImg(imageId,certPic,idpsId,imgErrShowId){
 		});
 	}
 	
+	//更新企业信息方法
+	//根据url跳转成功页面
 	function updateEnterpriseInfo(url){
 		$.ajax({
 	        type: "post",
@@ -639,8 +681,26 @@ function deleteImg(imageId,certPic,idpsId,imgErrShowId){
 	        data: $("#enterprise").serialize(),
 	        message: "正在加载数据..",
 	        success: function (data) {
-	        	if(data.responseHeader.resultCode=='00000'){
-	        		window.location.href=url;
+	        	if(data.responseHeader.resultCode=="000003"){
+	        	 	$("#newPhoneCodeErrMsg").show();
+	        		$('#newPhoneCodeErrMsgShow').text("短信验证码错误");
+					$('#phoneCodeFlag').val("0");
+					return false;
+	        	}else if(data.responseHeader.resultCode=="000004"){
+	        		$("#newPhoneCodeErrMsg").show();
+	        		$('#newPhoneCodeErrMsgShow').text("短信验证码已失效");
+					$('#phoneCodeFlag').val("0");
+					return false;
+	        	}else if(data.responseHeader.resultCode=="000007"){
+	        		$("#newPhoneCodeErrMsg").show();
+	        		$('#newPhoneCodeErrMsgShow').text("手机与发送短信手机不一致");
+					$('#phoneCodeFlag').val("0");
+					return false;
+	        	}else if(data.responseHeader.resultCode=="111111"){
+	        		alert("失败了");
+	        		return false;
+	        	}else if(data.responseHeader.resultCode=="000000"){
+	        		window.location.href=_base+"/user/qualification/editSupplier";
 	        	}
 	        },
 	        error: function(XMLHttpRequest, textStatus, errorThrown) {
