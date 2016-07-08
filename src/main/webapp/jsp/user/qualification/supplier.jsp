@@ -388,8 +388,8 @@
                     <p>
                        <select class="select-medium" id="supplyGoods" name="productCat">
                        	 <option value="0">请选择</option>
-                       	 <c:forEach var="prodCatInfo" items="${prodCatInfoList}">
-                       	 	<option value="${prodCatInfo.productCatId}">${prodCatInfo.productCatName}</option>
+                       	 <c:forEach var="prodCatInfo" items="${prodCatMap}">
+                       	 	<option value="${prodCatInfo.key}">${prodCatInfo.value}</option>
                        	 </c:forEach>
                        </select>
                      </p>
