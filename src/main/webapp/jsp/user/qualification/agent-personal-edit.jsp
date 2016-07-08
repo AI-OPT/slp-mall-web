@@ -62,7 +62,7 @@
      	
       <div class="account-title account-title-bjcolor">
       	<p>资质类型:个人</p>
-      	<p class="right"><i class="icon-edit qualifications" id="updateAgengPersonal">修改</i></p>
+      	<p class="right"><i class="icon-edit qualifications" id="editEnterprise">修改</i></p>
       </div>
       </div>
      <div class="account-title">

@@ -53,7 +53,7 @@ var auditState = "${groupKeyInfo.auditState}";
       <div class="account-bj">
       <div class="account-title account-title-bjcolor">
      	<p>企业资质信息</p>
-     	<p class="right"><i class="icon-edit qualifications" id="enterpriseUpdate" >修改</i></p>
+     	<p class="right"><i class="icon-edit qualifications" id="editEnterprise" >修改</i></p>
      </div>
 
      <!--信息填写-->
@@ -227,7 +227,7 @@ var auditState = "${groupKeyInfo.auditState}";
     <!--标题-->  
      <div class="account-title account-title-bjcolor">
      	<p>联系人信息</p>
-     	<p class="right"><i class="icon-edit contacts" id="updateEnterpriseContacts">修改</i></p>
+     	<p class="right"><i class="icon-edit contacts" id="editContactInfo">修改</i></p>
      </div>
      <!--信息填写-->
      <div class="nav-form" id="ct-browse">

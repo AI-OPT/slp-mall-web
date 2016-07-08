@@ -310,6 +310,7 @@ public class QualificationController {
         insertCustKeyInfoRequest.setUserType(user.getUserType());
         insertCustKeyInfoRequest.setUserId(user.getUserId());
         insertCustKeyInfoRequest.setCustBirthday(DateUtil.getTimestamp(request.getParameter("yy_mm_dd") + "-"+ request.getParameter("mm") + "-" + request.getParameter("dd")));
+        insertCustKeyInfoRequest.setAuditState("10");
         // 附件信息
         for (CmCustFileExtVo cmCustFileExtVo : custFileListVo.getList()) {
             cmCustFileExtVo.setTenantId(user.getTenantId());
@@ -778,7 +779,6 @@ public class QualificationController {
             ucKeyInfoSV.updateCustFileExt(updateCustFileExtRequest);
             if(ucBankInfoSV!=null)
                 ucBankInfoSV.updateBankInfo(updateBankInfoRequest);
-          //更新用户审核状态
             responseData = new ResponseData<String>(SLPMallConstants.Qualification.QUALIFICATION_SUCCESS, "操作成功", null);
             responseHeader = new ResponseHeader(true,SLPMallConstants.Qualification.QUALIFICATION_SUCCESS, "操作成功");
         } catch (Exception e) {
@@ -807,10 +807,17 @@ public class QualificationController {
         // 联系人信息
         updateContactsInfoRequest.setTenantId(user.getTenantId());
         updateContactsInfoRequest.setUserId(user.getUserId());
+        //修改审核状态
+        UpdateGroupKeyInfoRequest updateGroupKeyInfoRequest = new UpdateGroupKeyInfoRequest();
+        updateGroupKeyInfoRequest.setTenantId(SLPMallConstants.COM_TENANT_ID);
+        updateGroupKeyInfoRequest.setUserId(user.getUserId());
+        updateGroupKeyInfoRequest.setAuditState("10");
         // 获取服务
         IUcContactsInfoSV ucContactsInfoSV = DubboConsumerFactory.getService(IUcContactsInfoSV.class);
+        IUcKeyInfoSV ucKeyInfoSV = DubboConsumerFactory.getService(IUcKeyInfoSV.class);
         try {
             ucContactsInfoSV.updateContactsInfo(updateContactsInfoRequest);
+            ucKeyInfoSV.updateGroupKeyInfo(updateGroupKeyInfoRequest);
             responseData = new ResponseData<String>(SLPMallConstants.Qualification.QUALIFICATION_SUCCESS, "操作成功", null);
             responseHeader = new ResponseHeader(true,SLPMallConstants.Qualification.QUALIFICATION_SUCCESS, "操作成功");
         } catch (Exception e) {

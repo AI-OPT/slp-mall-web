@@ -59,7 +59,7 @@
      <div class="mar-account-title">
       <div class="account-title account-title-bjcolor">
       	<p>资质类型:供货商</p>
-      	<p class="right"><i class="icon-edit qualifications" id="updateSupplier">修改</i></p>
+      	<p class="right"><i class="icon-edit qualifications" id="editEnterprise">修改</i></p>
       </div>
       </div>
      <!--标题-->  
@@ -716,7 +716,7 @@
       <!--标题-->  
      <div class="account-title account-title-bjcolor">
      	<p>联系人信息</p>
-     	<p class="right"><i class="icon-edit contacts" id="updateSupplierContacts">修改</i></p>
+     	<p class="right"><i class="icon-edit contacts" id="editContactInfo">修改</i></p>
      </div>
      <!--信息填写-->
      <div class="nav-form" id="ct-browse">

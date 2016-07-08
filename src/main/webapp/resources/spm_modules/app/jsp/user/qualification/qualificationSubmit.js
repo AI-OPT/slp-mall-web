@@ -2,7 +2,7 @@ define('app/jsp/user/qualification/qualificationSubmit', function (require, expo
     'use strict';
     var $=require('jquery'),
     Widget = require('arale-widget/1.2.0/widget'),
-    Dialog = require("artDialog/src/dialog"),
+    Dialog = require("optDialog/src/dialog"),
     Uploader = require('arale-upload/1.2.0/index'),
     AjaxController=require('opt-ajax/1.0.0/index');
     require("jsviews/jsrender.min");
@@ -49,7 +49,11 @@ define('app/jsp/user/qualification/qualificationSubmit', function (require, expo
 			//保存供货商信息
 			"click [id='toSaveSuppliser']":"_toSaveSuppliser",
 			//更新供货商信息
-			"click [id='updateSupplierInfo']":"_updateSupplierInfo"
+			"click [id='updateSupplierInfo']":"_updateSupplierInfo",
+			//修改资质显示
+			"click [id='editEnterprise']":"_editEnterprise",
+			//修改联系人显示	
+			"click [id='editContactInfo']":"_editContactInfo"
         },
         init: function(){
         },
@@ -419,6 +423,42 @@ define('app/jsp/user/qualification/qualificationSubmit', function (require, expo
 	
 	_toSaveSuppliser:function(){
 		toSaveSuppliser();
+	},
+	
+	_editEnterprise:function(){
+		if(auditState=='11'||auditState=='12'){
+			$("#qf-browse").hide();
+			$("#qf-edit").show();
+		}
+		if(auditState=='10'){
+			var dialog = Dialog({
+				title : '提示',
+				content : "正在审核中,不能修改",
+				okValue : "确定",
+				ok : function() {
+					this.close;
+				}
+			});
+			dialog.show();
+		}
+	},
+	
+	_editContactInfo:function(){
+		if(auditState=='11'||auditState=='12'){
+			$("#qf-browse").hide();
+			$("#qf-edit").show();
+		}
+		if(auditState=='10'){
+			var dialog = Dialog({
+				title : '提示',
+				content : "正在审核中,不能修改",
+				okValue : "确定",
+				ok : function() {
+					this.close;
+				}
+			});
+			dialog.show();
+	}
 	}
 	
     });
