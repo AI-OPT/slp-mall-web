@@ -23,6 +23,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.ai.opt.base.vo.ResponseHeader;
 import com.ai.opt.sdk.components.idps.IDPSClientFactory;
 import com.ai.opt.sdk.components.mcs.MCSClientFactory;
+import com.ai.opt.sdk.constants.ExceptCodeConstants;
 import com.ai.opt.sdk.dubbo.util.DubboConsumerFactory;
 import com.ai.opt.sdk.util.CollectionUtil;
 import com.ai.opt.sdk.util.DateUtil;
@@ -89,7 +90,17 @@ public class QualificationController {
 
     // 代理商个人页面
     @RequestMapping("/toAgentPersonalPage")
-    public ModelAndView toAgentPersonalPage() {
+    public ModelAndView toAgentPersonalPage(HttpServletRequest request) {
+        SLPClientUser userClient = (SLPClientUser) request.getSession().getAttribute(SSOClientConstants.USER_SESSION_KEY);
+        String userId = userClient.getUserId();
+        /**
+         * 获取个人客户信息
+         */
+        SearchCustKeyInfoResponse custKeyInfoResponse = getCustKeyBaseinfo(userId);
+        if(!ExceptCodeConstants.Special.NO_RESULT.equals(custKeyInfoResponse.getResponseHeader().getResultCode())){
+           return  new ModelAndView("redirect:/user/qualification/editAgentPersonal");
+        }
+        
         //获取注册地址
         List<GnAreaVo> provinceList = getProvinceList();
         //获取公司人数
@@ -116,7 +127,17 @@ public class QualificationController {
 
     // 供应商页面
     @RequestMapping("/toSupplierPage")
-    public ModelAndView toSupplierPage() {
+    public ModelAndView toSupplierPage(HttpServletRequest request) {
+        SLPClientUser userClient = (SLPClientUser) request.getSession()
+                .getAttribute(SSOClientConstants.USER_SESSION_KEY);
+        String userId = userClient.getUserId();
+        /**
+         * 获取企业客户信息
+         */
+        SearchGroupKeyInfoResponse grouKeyInfoResponse = getGroupKeyBaseinfo(userId);
+        if(!ExceptCodeConstants.Special.NO_RESULT.equals(grouKeyInfoResponse.getResponseHeader().getResultCode())){
+           return  new ModelAndView("redirect:/user/qualification/editSupplier");
+        }
         //获取地区信息
         List<GnAreaVo> provinceList = getProvinceList();
         //获取行业数据
@@ -132,10 +153,7 @@ public class QualificationController {
         //获取所属部门
         Map<String,String> contactDeptMap = getContactDeptMap();
         //获取商品信息
-        IProductCatSV productCatSV = DubboConsumerFactory.getService("iProductCatSV");
-        ProductCatQuery catQuery = new ProductCatQuery();
-        catQuery.setTenantId(SLPMallConstants.COM_TENANT_ID);
-        List<ProdCatInfo> prodCatInfoList = productCatSV.queryCatByNameOrFirst(catQuery);
+        Map<String,String> prodCatMap = getProdCatInfo();
         
         Map<String, Object> model = new HashMap<String, Object>();
         model.put("provinceList", provinceList);
@@ -145,14 +163,24 @@ public class QualificationController {
         model.put("groupMemberMap", groupMemberMap);
         model.put("groupTypeMap", groupTypeMap);
         model.put("contactDeptMap", contactDeptMap);
-        model.put("prodCatInfoList", prodCatInfoList);
+        model.put("prodCatMap", prodCatMap);
         
         return new ModelAndView("jsp/user/qualification/supplier", model);
     }
 
     // 代理商企业页面
     @RequestMapping("/toAgentEnterprisePage")
-    public ModelAndView toAgentEnterprisePage() {
+    public ModelAndView toAgentEnterprisePage(HttpServletRequest request) {
+        SLPClientUser userClient = (SLPClientUser) request.getSession()
+                .getAttribute(SSOClientConstants.USER_SESSION_KEY);
+        String userId = userClient.getUserId();
+        /**
+         * 获取企业客户信息
+         */
+        SearchGroupKeyInfoResponse grouKeyInfoResponse = getGroupKeyBaseinfo(userId);
+        if(!ExceptCodeConstants.Special.NO_RESULT.equals(grouKeyInfoResponse.getResponseHeader().getResultCode())){
+            return new ModelAndView("redirect:/user/qualification/editAgentEnterprise");
+        }
         //获取地区信息
         List<GnAreaVo> provinceList = getProvinceList();
         //获取行业信息
@@ -182,7 +210,18 @@ public class QualificationController {
 
     // 企业页面
     @RequestMapping("/toEnterprisePage")
-    public ModelAndView toEnterprisePage() {
+    public ModelAndView toEnterprisePage(HttpServletRequest request) {
+        SLPClientUser userClient = (SLPClientUser) request.getSession()
+                .getAttribute(SSOClientConstants.USER_SESSION_KEY);
+        String userId = userClient.getUserId();
+        /**
+         * 获取企业客户信息
+         */
+        SearchGroupKeyInfoResponse grouKeyInfoResponse = getGroupKeyBaseinfo(userId);
+        if(!ExceptCodeConstants.Special.NO_RESULT.equals(grouKeyInfoResponse.getResponseHeader().getResultCode())){
+            return new ModelAndView("redirect:/user/qualification/editEnterprise");
+        }
+        
         //获取注册地址
         List<GnAreaVo> provinceList = getProvinceList();
         //获取行业信息
@@ -371,7 +410,7 @@ public class QualificationController {
         if (!CollectionUtil.isEmpty(list)) {
             for (int i = 0; i < list.size(); i++) {
                 GnAreaVo gnAreaVo = list.get(i);
-                str = str + "<option value=" + gnAreaVo.getCityCode() + ">" + gnAreaVo.getAreaName()
+                str = str + "<option value=" + gnAreaVo.getAreaCode() + ">" + gnAreaVo.getAreaName()
                         + "</option>";
             }
             str = "<option value='0'>请选择</option>" + str;
@@ -711,10 +750,8 @@ public class QualificationController {
         grouKeyInfoResponse.setGroupIndustry(industryMap.get(grouKeyInfoResponse.getGroupIndustry()));
         
         //获取商品信息
-        IProductCatSV productCatSV = DubboConsumerFactory.getService("iProductCatSV");
-        ProductCatQuery catQuery = new ProductCatQuery();
-        catQuery.setTenantId(SLPMallConstants.COM_TENANT_ID);
-        List<ProdCatInfo> prodCatInfoList = productCatSV.queryCatByNameOrFirst(catQuery);
+        Map<String,String> prodCatMap = getProdCatInfo();
+        grouKeyInfoResponse.setProductCat(prodCatMap.get(grouKeyInfoResponse.getProductCat()));
         
         Map<String,Object> model = new HashMap<String,Object>();
         model.put("contactsInfo", contactsInfoInfoResponse);
@@ -729,7 +766,7 @@ public class QualificationController {
         model.put("groupMemberMap", groupMemberMap);
         model.put("groupTypeMap", groupTypeMap);
         model.put("contactDeptMap", contactDeptMap);
-        model.put("prodCatInfoList", prodCatInfoList);
+        model.put("prodCatMap", prodCatMap);
         return new ModelAndView("jsp/user/qualification/supplier-edit",model);
     }
     
@@ -1134,5 +1171,23 @@ public class QualificationController {
             industryMap.put(response.getIndustryCode(), response.getIndustryName());
         }
         return industryMap;
+    }
+    
+    /**
+     * 获取商品信息
+     * @return
+     * @author zhangyh7
+     * @ApiDocMethod
+     */
+    public Map<String,String> getProdCatInfo() {
+        IProductCatSV productCatSV = DubboConsumerFactory.getService("iProductCatSV");
+        ProductCatQuery catQuery = new ProductCatQuery();
+        catQuery.setTenantId(SLPMallConstants.COM_TENANT_ID);
+        List<ProdCatInfo> prodCatInfoList = productCatSV.queryCatByNameOrFirst(catQuery);
+        Map<String,String> prodCatInfoMap = new HashMap<String,String>();
+        for(ProdCatInfo catInfo : prodCatInfoList){
+            prodCatInfoMap.put(catInfo.getProductCatId(), catInfo.getProductCatName());
+        }
+        return prodCatInfoMap;
     }
 }
