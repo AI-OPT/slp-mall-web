@@ -101,7 +101,7 @@ public class QualificationController {
         if(!StringUtil.isBlank(custKeyInfoResponse.getUserId())){
            return  new ModelAndView("redirect:/user/qualification/editAgentPersonal");
         }
-        
+         
         //获取注册地址
         List<GnAreaVo> provinceList = getProvinceList();
         //获取公司人数
