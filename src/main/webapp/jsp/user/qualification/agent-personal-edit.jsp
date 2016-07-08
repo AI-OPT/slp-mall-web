@@ -279,7 +279,8 @@
 	                <p class="small-p">
 		                <span>
 		                    <input type="button" value="点击上传" class="file-btn">
-		                    <input type="file" class="file" id="image1" name="image1" onchange="uploadImg('image1','certPic1','idpsId1','imgErrShow1');"><a href="javascript:void(0)" onclick="deleteImg('image1','certPic1','idpsId1','imgErrShow1');">删除</a>
+		                    <input type="file" class="file" id="image1" name="image1" onchange="uploadImg('image1','certPic1','idpsId1','imgErrShow1');">
+		                    <a href="javascript:void(0)" onclick="deleteImg('image1','certPic1','idpsId1','imgErrShow1');">删除</a>
 		                </span>
 		                <span>支持JPG/PNG/GIF格式，最大不超过3M</span>
 	                	<span id="imgErrShow1"></span>
@@ -308,7 +309,8 @@
 	                	
 		                <span>
 		                   <input type="button" value="点击上传" class="file-btn">
-		                   <input type="file" class="file" id="image2" name="image2" onchange="uploadImg('image2','certPic2','idpsId2','imgErrShow2');"><a href="javascript:void(0)" onclick="deleteImg('image2','certPic2','idpsId2','imgErrShow2');">删除</a>
+		                   <input type="file" class="file" id="image2" name="image2" onchange="uploadImg('image2','certPic2','idpsId2','imgErrShow2');">
+		                   <a href="javascript:void(0)" onclick="deleteImg('image2','certPic2','idpsId2','imgErrShow2');">删除</a>
 		                </span>
 		                <span>支持JPG/PNG/GIF格式，最大不超过3M</span>
 		                <span id="imgErrShow2"></span>
