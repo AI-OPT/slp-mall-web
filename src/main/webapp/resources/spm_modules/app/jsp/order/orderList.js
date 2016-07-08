@@ -159,7 +159,8 @@ define('app/jsp/order/orderList', function (require, exports, module) {
 	           	pageSize: OrderListPager.DEFAULT_PAGE_SIZE,
 	           	visiblePages:5,
 	            message: "正在为您查询数据..",
-	            renderId="orderListData",
+	            renderId:"orderListData",
+	            messageId:"showMessageDiv",
 	            render: function (data) {
 	            	if(data != null && data != 'undefined' && data.length>0){
 	            		var template = $.templates("#orderListTemple");

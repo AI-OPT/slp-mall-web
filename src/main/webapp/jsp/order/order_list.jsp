@@ -112,6 +112,7 @@
                    </table>
              </div>
              <div id="orderListData"></div>
+             <div id="showMessageDiv"></div>
              <script id="orderListTemple" type="text/x-jsrender">
              
                <div class="shopping-cart addto-list">
