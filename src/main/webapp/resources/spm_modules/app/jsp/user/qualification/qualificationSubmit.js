@@ -422,7 +422,45 @@ define('app/jsp/user/qualification/qualificationSubmit', function (require, expo
 	},
 	
 	_toSaveSuppliser:function(){
-		toSaveSuppliser();
+		//提交前对资质必要信息进行校验
+		this._checkEnterpriseValue();
+		//提交前对联系人信息进行校验
+		this._checkEnterpriseContactValue();
+		enterprisePager._checkSupplyGoodsValue();
+		/**
+		 * 获取标志信息
+		 */
+		var custNameFlag = $("#custNameFlag").val();
+		var certAddrFlag = $("#certAddrFlag").val();
+		var certNumFlag = $("#certNumFlag").val();
+		var establishTimeFlag = $("#establishTimeFlag").val();
+		var capitalFlag = $("#capitalFlag").val();
+		var scopeFlag = $("#scopeFlag").val();
+		var corporationNameFlag = $("#corporationNameFlag").val();
+		var idNumberFlag = $("#idNumberFlag").val();
+		var identifyNumberFlag = $("#identifyNumberFlag").val();
+		var taxpayerTypeFlag = $("#taxpayerTypeFlag").val();
+		var taxCodeFlag = $("#taxCodeFlag").val();
+		var bankNameFlag = $("#bankNameFlag").val();
+		var subbranchNameFlag = $("#subbranchNameFlag").val();
+		var bankAccountFlag = $("#bankAccountFlag").val();
+		var groupIndusteryFlag = $("#groupIndusteryFlag").val();
+		var groupMemberScaleFlag = $("#groupMemberScaleFlag").val();
+		var groupStypeFlag = $("#groupStypeFlag").val();
+		var contactDeptFlag = $("#contactDeptFlag").val();
+		var contactMpFlag = $("#contactMpFlag").val();
+		var phoneCodeFlag = $("#phoneCodeFlag").val();
+		var organizationCodeFlag = $("#organizationCodeFlag").val();
+		var provinceCodeFlag = $("#provinceCodeFlag").val();
+		var supplyGoodsFlag = $("#supplyGoodsFlag").val();
+		if(custNameFlag!="0"&&certAddrFlag!="0"&&certNumFlag!="0"&&establishTimeFlag!="0"
+		  &&capitalFlag!="0"&&scopeFlag!="0"&&corporationNameFlag!="0"&&idNumberFlag!="0"&&identifyNumberFlag!="0"
+		  &&taxpayerTypeFlag!="0"&&taxCodeFlag!="0"&&bankNameFlag!="0"&&subbranchNameFlag!="0"&&bankAccountFlag!="0"
+		  &&groupIndusteryFlag!="0"&&groupMemberScaleFlag!="0"&&groupStypeFlag!="0"&&contactDeptFlag!="0"&&
+		  contactMpFlag!="0"&&phoneCodeFlag!="0"&&organizationCodeFlag!="0"&&provinceCodeFlag!="0"&&supplyGoodsFlag!="0"){
+			toSaveSuppliser();
+		}
+		
 	},
 	
 	_editEnterprise:function(){
