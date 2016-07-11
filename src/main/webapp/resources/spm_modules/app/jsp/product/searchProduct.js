@@ -104,6 +104,7 @@ define('app/jsp/product/searchProduct', function (require, exports, module) {
 	           	visiblePages:5,
 	            message: "正在为您查询数据..",
 	            resultImageType:"1",
+	            messageId:"productData",
 	            render: function (data) {
 	            	if(data != null && data != 'undefined' && data.length>0){
 	            		var template = $.templates("#productListTemple");
@@ -118,18 +119,12 @@ define('app/jsp/product/searchProduct', function (require, exports, module) {
     						//document.getElementById("typeTitleId").innerHTML="流量充值";
     						$("#typeTitleId").text("流量充值");
     					}
-    					//获取所在地code
-    					//var name ="地域:"+$("#currentCity").attr("currentCityName");
-    					//document.getElementById("areaTile").innerHTML=name;
     					$("#isHaveDataFlag").val("11");
 	            	}else{
-	            		//获取所在地code
-    					//var name ="地域:"+$("#currentCity").attr("currentCityName");
-    				//	document.getElementById("areaTile").innerHTML=name;
 	            		//隐藏公共信息
 	            		$("#commonId").attr("style","display: none");
 	            		//$("#commonData").attr("style","display: none");
-    					$("#productData").html("抱歉没有找到相关商品，更换搜索词试一试吧");
+    					//$("#productData").html("抱歉没有找到相关商品，更换搜索词试一试吧");
     					$("#isHaveDataFlag").val("00");
 	            	}
 	            },
@@ -179,6 +174,7 @@ define('app/jsp/product/searchProduct', function (require, exports, module) {
 	           	visiblePages:5,
 	            message: "正在为您查询数据..",
 	            resultImageType:"1",
+	            messageId:"productData",
 	            render: function (data) {
 	            	if(data != null && data != 'undefined' && data.length>0){
 	            		var template = $.templates("#productListTemple");
@@ -194,7 +190,7 @@ define('app/jsp/product/searchProduct', function (require, exports, module) {
 	            		$("#isHaveDataFlag").val("00");
 	            		$("#commonId").attr("style","display: none");
 	            		//$("#commonData").attr("style","display: none");
-    					$("#productData").html("抱歉没有找到相关商品，更换搜索词试一试吧");
+    					//$("#productData").html("抱歉没有找到相关商品，更换搜索词试一试吧");
 	            	}
 	            },
 	            callback: function(data){
@@ -462,6 +458,8 @@ define('app/jsp/product/searchProduct', function (require, exports, module) {
 	           	pageSize: QueryProductPager.DEFAULT_PAGE_SIZE,
 	           	visiblePages:5,
 	            message: "正在为您查询数据..",
+	            resultImageType:"1",
+	            messageId:"productData",
 	            render: function (data) {
 	            	if(data != null && data != 'undefined' && data.length>0){
 	            		var template = $.templates("#productListTemple");
@@ -472,7 +470,7 @@ define('app/jsp/product/searchProduct', function (require, exports, module) {
 	            		//$("#commonId").attr("style","display: none");
 	            		//$("#commonData").attr("style","display: none");
 	            		$("#isHaveDataFlag").val("00");
-    					$("#productData").html("抱歉没有找到相关商品，更换搜索词试一试吧");
+    					//$("#productData").html("抱歉没有找到相关商品，更换搜索词试一试吧");
 	            	}
 	            },
 	            callback: function(data){
