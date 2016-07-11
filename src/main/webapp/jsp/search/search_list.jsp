@@ -240,17 +240,14 @@
 					</div>
 						   
 	    </script>
-           
-         <!--分页-->
+      </div>
+        <!--分页-->
           
           <div style="text-align: right">
 			 <ul id="pagination-ul"></ul>
 		  </div>
 			 <!--分页-->
-      </div>
-      
         </div>
-       
        		</div>
         </div>
      

@@ -90,29 +90,32 @@ public class SearchController {
             if(result!=null){
                 List<ProductData> proList = result.getResult();
                 if(!CollectionUtil.isEmpty(proList)){
-                    for(ProductData data:proList){
-                        ProductDataVO vo = new ProductDataVO();
-                        vo.setAccountList(data.getAccountList());
-                        vo.setAgentList(data.getAgentList());
-                        vo.setAreaList(data.getAreaList());
-                        vo.setProdId(data.getProdId());
-                        vo.setProdName(data.getProdName());
-                        vo.setSkuId(data.getSkuId());
-                        vo.setSalePrice(data.getSalePrice());
-                        vo.setPicUrl(ImageUtil.getImage(data.getImageinfo().getVfsId(),data.getImageinfo().getPicType()));
-                        //获取缩略图id
-                       List<ProductImage> iamgeList = data.getThumbnail();
-                       Map<String,String> map = new HashMap<String,String>();
-                       //List<String> vsidList = new ArrayList<String>();
-                       if(!CollectionUtil.isEmpty(iamgeList)){
-                           for(ProductImage img:iamgeList){
-                              // map.set(img.getVfsId());
-                               map.put(img.getVfsId(), img.getPicType());
-                           }  
-                       }
-                        vo.setThumnailUrl(ImageUtil.getImages(map));
-                        results.add(vo);
-                    }
+                	if(!StringUtil.isBlank(proList.get(0).getSkuName())){
+                        for(ProductData data:proList){
+                            ProductDataVO vo = new ProductDataVO();
+                            vo.setAccountList(data.getAccountList());
+                            vo.setAgentList(data.getAgentList());
+                            vo.setAreaList(data.getAreaList());
+                            vo.setProdId(data.getProdId());
+                            vo.setProdName(data.getProdName());
+                            vo.setSkuId(data.getSkuId());
+                            vo.setSalePrice(data.getSalePrice());
+                            if(data.getImageinfo()!=null){
+                            	 vo.setPicUrl(ImageUtil.getImage(data.getImageinfo().getVfsId(),data.getImageinfo().getPicType()));
+                            }
+                            //获取缩略图id
+                           List<ProductImage> iamgeList = data.getThumbnail();
+                           Map<String,String> map = new HashMap<String,String>();
+                           if(!CollectionUtil.isEmpty(iamgeList)){
+                               for(ProductImage img:iamgeList){
+                                   map.put(img.getVfsId(), img.getPicType());
+                               }  
+                           }
+                            vo.setThumnailUrl(ImageUtil.getImages(map));
+                            results.add(vo);
+                        }
+                	}
+            
                 }
             }
             pageVo.setResult(results);
@@ -210,25 +213,29 @@ public class SearchController {
             if(result!=null){
                 List<ProductData> proList = result.getResult();
                 if(!CollectionUtil.isEmpty(proList)){
-                    for(ProductData data:proList){
-                        ProductDataVO vo = new ProductDataVO();
-                        vo.setProdId(data.getProdId());
-                        vo.setSkuId(data.getSkuId());
-                        vo.setProdName(data.getProdName());
-                        vo.setSalePrice(data.getSalePrice());
-                        vo.setProductCatId(data.getProductCatId());
-                        vo.setPicUrl(ImageUtil.getImage(data.getImageinfo().getVfsId(),data.getImageinfo().getPicType()));
-                        //获取缩略图id
-                       List<ProductImage> iamgeList = data.getThumbnail();
-                       Map<String,String> map = new HashMap<String,String>();
-                       if(!CollectionUtil.isEmpty(iamgeList)){
-                           for(ProductImage img:iamgeList){
-                               map.put(img.getVfsId(), img.getPicType());
-                           }  
-                       }
-                        vo.setThumnailUrl(ImageUtil.getImages(map));
-                        results.add(vo);
-                    }
+                	if(!StringUtil.isBlank(proList.get(0).getSkuName())){
+                	     for(ProductData data:proList){
+                             ProductDataVO vo = new ProductDataVO();
+                             vo.setProdId(data.getProdId());
+                             vo.setSkuId(data.getSkuId());
+                             vo.setProdName(data.getProdName());
+                             vo.setSalePrice(data.getSalePrice());
+                             vo.setProductCatId(data.getProductCatId());
+                             if(data.getImageinfo()!=null){
+                             	vo.setPicUrl(ImageUtil.getImage(data.getImageinfo().getVfsId(),data.getImageinfo().getPicType()));
+                             }
+                             //获取缩略图id
+                            List<ProductImage> iamgeList = data.getThumbnail();
+                            Map<String,String> map = new HashMap<String,String>();
+                            if(!CollectionUtil.isEmpty(iamgeList)){
+                                for(ProductImage img:iamgeList){
+                                    map.put(img.getVfsId(), img.getPicType());
+                                }  
+                            }
+                             vo.setThumnailUrl(ImageUtil.getImages(map));
+                             results.add(vo);
+                         }
+                	}
                 }
             }
             pageVo.setResult(results);
