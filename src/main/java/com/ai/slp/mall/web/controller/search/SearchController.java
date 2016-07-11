@@ -90,7 +90,7 @@ public class SearchController {
             if(result!=null){
                 List<ProductData> proList = result.getResult();
                 if(!CollectionUtil.isEmpty(proList)){
-                	if(!StringUtil.isBlank(proList.get(0).getSkuName())){
+                	if(!StringUtil.isBlank(proList.get(0).getProdName())){
                         for(ProductData data:proList){
                             ProductDataVO vo = new ProductDataVO();
                             vo.setAccountList(data.getAccountList());
@@ -213,7 +213,7 @@ public class SearchController {
             if(result!=null){
                 List<ProductData> proList = result.getResult();
                 if(!CollectionUtil.isEmpty(proList)){
-                	if(!StringUtil.isBlank(proList.get(0).getSkuName())){
+                	if(!StringUtil.isBlank(proList.get(0).getProdName())){
                 	     for(ProductData data:proList){
                              ProductDataVO vo = new ProductDataVO();
                              vo.setProdId(data.getProdId());
