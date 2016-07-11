@@ -99,6 +99,8 @@ define('app/jsp/user/qualification/qualificationSubmit', function (require, expo
 			baseInfoPager._checkGroupType();
 			//校验所属部门
 			baseInfoPager._checkContactDept();
+			//手机验证码是否为空校验
+			baseInfoPager._checkPhoneCode();
 			var custNameFlag = $("#custNameFlag").val();
 			var certAddrFlag = $("#certAddrFlag").val();
 			var certNumFlag = $("#certNumFlag").val();
@@ -109,7 +111,8 @@ define('app/jsp/user/qualification/qualificationSubmit', function (require, expo
 			var groupStypeFlag = $("#groupStypeFlag").val();
 			var contactDeptFlag = $("#contactDeptFlag").val();
 			var picFlag = $("#picFlag").val();
-			if(picFlag!="0"&&custNameFlag!="0"&&certAddrFlag!="0"&&certNumFlag!="0"&&contactMpFlag!="0"&&phoneCodeFlag!="0"&&groupIndusteryFlag!="0"&&groupMemberScaleFlag!="0"&&groupStypeFlag!="0"&&contactDeptFlag!="0"){
+			var phoneCodeFlag = $("#phoneCodeFlag").val();
+			if(picFlag!="0"&&custNameFlag!="0"&&certAddrFlag!="0"&&certNumFlag!="0"&&contactMpFlag!="0"&&phoneCodeFlag!="0"&&groupIndusteryFlag!="0"&&groupMemberScaleFlag!="0"&&groupStypeFlag!="0"&&contactDeptFlag!="0"&&phoneCodeFlag!="0"){
 				ajaxToSave();
 			}
 	},
@@ -121,6 +124,8 @@ define('app/jsp/user/qualification/qualificationSubmit', function (require, expo
 		baseInfoPager._checkContactDept();
 		//校验手机
 		baseInfoPager._checkPhone();
+		//校验手机验证码
+		baseInfoPager._checkPhoneCode();
 	},
 	/**
 	 * 代理商企业、供应商企业在提交前对必填信息校验
@@ -204,12 +209,12 @@ define('app/jsp/user/qualification/qualificationSubmit', function (require, expo
 		var organizationCodeFlag = $("#organizationCodeFlag").val();
 		var provinceCodeFlag = $("#provinceCodeFlag").val();
 		var picFlag = $("#picFlag").val();
-		
+		var phoneCodeFlag = $("#phoneCodeFlag").val();
 		if(picFlag!="0"&&custNameFlag!="0"&&certAddrFlag!="0"&&certNumFlag!="0"&&establishTimeFlag!="0"
 		  &&capitalFlag!="0"&&scopeFlag!="0"&&corporationNameFlag!="0"&&idNumberFlag!="0"&&identifyNumberFlag!="0"
 		  &&taxpayerTypeFlag!="0"&&taxCodeFlag!="0"&&bankNameFlag!="0"&&subbranchNameFlag!="0"&&bankAccountFlag!="0"
 		  &&groupIndusteryFlag!="0"&&groupMemberScaleFlag!="0"&&groupStypeFlag!="0"&&contactDeptFlag!="0"&&
-		  contactMpFlag!="0"&&phoneCodeFlag!="0"&&organizationCodeFlag!="0"&&provinceCodeFlag!="0"){
+		  contactMpFlag!="0"&&phoneCodeFlag!="0"&&organizationCodeFlag!="0"&&provinceCodeFlag!="0"&&phoneCodeFlag!="0"){
 			toAgentEnterpriseSave();
 		}
 		
@@ -293,7 +298,8 @@ define('app/jsp/user/qualification/qualificationSubmit', function (require, expo
 		var groupMemberScaleFlag = $("#groupMemberScaleFlag").val();
 		var groupStypeFlag = $("#groupStypeFlag").val();
 		var contactDeptFlag = $("#contactDeptFlag").val();
-		if(picFlag!="0"&&custNameFlag!="0"&&certAddrFlag!="0"&&certNumFlag!="0"&&contactMpFlag!="0"&&phoneCodeFlag!="0"&&groupIndusteryFlag!="0"&&groupMemberScaleFlag!="0"&&groupStypeFlag!="0"&&contactDeptFlag!="0"){
+		var phoneCodeFlag = $("#phoneCodeFlag").val();
+		if(picFlag!="0"&&custNameFlag!="0"&&certAddrFlag!="0"&&certNumFlag!="0"&&contactMpFlag!="0"&&phoneCodeFlag!="0"&&groupIndusteryFlag!="0"&&groupMemberScaleFlag!="0"&&groupStypeFlag!="0"&&contactDeptFlag!="0"&&phoneCodeFlag!="0"){
 			updateEnterpriseInfo(_base+"/user/qualification/editEnterprise");
 		}
 	},
@@ -332,11 +338,11 @@ define('app/jsp/user/qualification/qualificationSubmit', function (require, expo
 		var groupIndusteryFlag = $("#groupIndusteryFlag").val();
 		var groupMemberScaleFlag = $("#groupMemberScaleFlag").val();
 		var groupStypeFlag = $("#groupStypeFlag").val();
-		
+		var phoneCodeFlag = $("#phoneCodeFlag").val();
 		if(picFlag!="0"&&custNameFlag!="0"&&certAddrFlag!="0"&&certNumFlag!="0"&&establishTimeFlag!="0"
 			  &&capitalFlag!="0"&&scopeFlag!="0"&&corporationNameFlag!="0"&&idNumberFlag!="0"&&identifyNumberFlag!="0"
 			  &&taxpayerTypeFlag!="0"&&taxCodeFlag!="0"&&bankNameFlag!="0"&&subbranchNameFlag!="0"&&bankAccountFlag!="0"
-			  &&groupIndusteryFlag!="0"&&groupMemberScaleFlag!="0"&&groupStypeFlag!="0"){
+			  &&groupIndusteryFlag!="0"&&groupMemberScaleFlag!="0"&&groupStypeFlag!="0"&&phoneCodeFlag!="0"){
 				/**
 				 * 代理商资质修改
 				 */
@@ -380,11 +386,11 @@ define('app/jsp/user/qualification/qualificationSubmit', function (require, expo
 		var provinceCodeFlag = $("#provinceCodeFlag").val();
 		var supplyGoodsFlag = $("#supplyGoodsFlag").val();
 		var picFlag=$("#picFlag").val();
-		
+		var phoneCodeFlag = $("#phoneCodeFlag").val();
 		if(picFlag!="0"&&custNameFlag!="0"&&certAddrFlag!="0"&&certNumFlag!="0"&&establishTimeFlag!="0"
 		  &&capitalFlag!="0"&&scopeFlag!="0"&&corporationNameFlag!="0"&&idNumberFlag!="0"&&identifyNumberFlag!="0"
 		  &&taxpayerTypeFlag!="0"&&taxCodeFlag!="0"&&bankNameFlag!="0"&&subbranchNameFlag!="0"&&bankAccountFlag!="0"
-		  &&groupIndusteryFlag!="0"&&groupMemberScaleFlag!="0"&&groupStypeFlag!="0"&&organizationCodeFlag!="0"&&provinceCodeFlag!="0"&&supplyGoodsFlag!="0"){
+		  &&groupIndusteryFlag!="0"&&groupMemberScaleFlag!="0"&&groupStypeFlag!="0"&&organizationCodeFlag!="0"&&provinceCodeFlag!="0"&&supplyGoodsFlag!="0"&&phoneCodeFlag!="0"){
 			/**
 			 * 供货商资质修改
 			 */
@@ -438,7 +444,8 @@ define('app/jsp/user/qualification/qualificationSubmit', function (require, expo
 		this._checkEnterpriseContactValue();
 		var contactDeptFlag = $("#contactDeptFlag").val();
 		var contactMpFlag = $("#contactMpFlag").val();
-		if(contactDeptFlag!="0"&&contactMpFlag!="0"){
+		var phoneCodeFlag = $("#phoneCodeFlag").val();
+		if(contactDeptFlag!="0"&&contactMpFlag!="0"&&phoneCodeFlag!="0"){
 			/**
 			 * 联系人修改
 			 */
@@ -456,7 +463,8 @@ define('app/jsp/user/qualification/qualificationSubmit', function (require, expo
 		this._checkEnterpriseContactValue();
 		var contactDeptFlag = $("#contactDeptFlag").val();
 		var contactMpFlag = $("#contactMpFlag").val();
-		if(contactDeptFlag!="0"&&contactMpFlag!="0"){
+		var phoneCodeFlag = $("#phoneCodeFlag").val();
+		if(contactDeptFlag!="0"&&contactMpFlag!="0"&&phoneCodeFlag!="0"){
 			/**
 			 * 联系人修改
 			 */
@@ -474,7 +482,8 @@ define('app/jsp/user/qualification/qualificationSubmit', function (require, expo
 		this._checkEnterpriseContactValue();
 		var contactDeptFlag = $("#contactDeptFlag").val();
 		var contactMpFlag = $("#contactMpFlag").val();
-		if(contactDeptFlag!="0"&&contactMpFlag!="0"){
+		var phoneCodeFlag = $("#phoneCodeFlag").val();
+		if(contactDeptFlag!="0"&&contactMpFlag!="0"&&phoneCodeFlag!="0"){
 			/**
 			 * 联系人修改
 			 */
@@ -520,11 +529,12 @@ define('app/jsp/user/qualification/qualificationSubmit', function (require, expo
 		var organizationCodeFlag = $("#organizationCodeFlag").val();
 		var provinceCodeFlag = $("#provinceCodeFlag").val();
 		var supplyGoodsFlag = $("#supplyGoodsFlag").val();
+		var phoneCodeFlag = $("#phoneCodeFlag").val();
 		if(picFlag!="0"&&custNameFlag!="0"&&certAddrFlag!="0"&&certNumFlag!="0"&&establishTimeFlag!="0"
 		  &&capitalFlag!="0"&&scopeFlag!="0"&&corporationNameFlag!="0"&&idNumberFlag!="0"&&identifyNumberFlag!="0"
 		  &&taxpayerTypeFlag!="0"&&taxCodeFlag!="0"&&bankNameFlag!="0"&&subbranchNameFlag!="0"&&bankAccountFlag!="0"
 		  &&groupIndusteryFlag!="0"&&groupMemberScaleFlag!="0"&&groupStypeFlag!="0"&&contactDeptFlag!="0"&&
-		  contactMpFlag!="0"&&phoneCodeFlag!="0"&&organizationCodeFlag!="0"&&provinceCodeFlag!="0"&&supplyGoodsFlag!="0"){
+		  contactMpFlag!="0"&&phoneCodeFlag!="0"&&organizationCodeFlag!="0"&&provinceCodeFlag!="0"&&supplyGoodsFlag!="0"&&phoneCodeFlag!="0"){
 			toSaveSuppliser();
 		}
 		

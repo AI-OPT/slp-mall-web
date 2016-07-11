@@ -70,12 +70,17 @@ define('app/jsp/user/qualification/baseinfo', function (require, exports, module
     		"change [id='contactDept']":"_checkContactDept",
     		//地址
     		"blur [id='countyCode']":"_checkContactAddress",
+    		//检查手机验证码
+    		"blur [id='phoneCode']":"_checkPhoneCode",
     		
         },
         init: function(){
         },
     	//重写父类
     	setup: function () {
+    		$("#provinceCode").val("0");
+		$("#cityCode").val("0");
+		$("#countyCode").val("0");
     		BaseInfoQualificationPager.superclass.setup.call(this);
     		activeUserLeftMenu(BaseInfoQualificationPager.USER_LEFT_MNU_ID);
     	},
@@ -527,6 +532,18 @@ define('app/jsp/user/qualification/baseinfo', function (require, exports, module
 			}else{
 				$("#registerAddrErrMsg").hide();
 				$("#provinceCodeFlag").val("1");
+			}
+		},
+		_checkPhoneCode:function(){
+			var phoneCode = $("#phoneCode").val();
+			if(phoneCode==""){
+				$("#phoneCodeErrMsg").show();
+    			$('#phoneCodeText').text("请输入手机验证码");
+    			$('#phoneCodeImage').attr('src',_base+'/resources/slpmall/images/icon-a.png');
+    			$("#phoneCodeFlag").val("0");
+			}else{
+				$("#phoneCodeErrMsg").hide();
+				$("#phoneCodeFlag").val("1");
 			}
 		}
     });
