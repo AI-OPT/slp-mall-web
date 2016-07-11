@@ -617,7 +617,7 @@
                  <li>
                     <p class="word">联系人邮箱:</p>
                     <p><input style="text" class="int-medium" id="contactEmail" name="contactEmail"></p>
-                    <label style="display:none" id="emailMsgError"><img src="${_slpbase}/images/icon-a.png" id="emailMsgImage"><span class="ash" id="contactEmailText">请填写正确的邮箱</span></label>
+                    <label style="display:none" id="emailMsgError"><img src="${_slpbase}/images/icon-a.png" id="contactEmailMsgImage"><span class="ash" id="contactEmailText">请填写正确的邮箱</span></label>
                  </li>
              </ul>
               <ul>

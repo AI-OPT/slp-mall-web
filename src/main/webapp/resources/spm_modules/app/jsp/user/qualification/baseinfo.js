@@ -111,10 +111,10 @@ define('app/jsp/user/qualification/baseinfo', function (require, exports, module
     		$('#contactMpImage').attr('src',_base+'/resources/slpmall/images/icon-d.png');
 		},
 		_showEmailTip:function(){
-			$("#emailMsgError").show();
-			$("#emailMsgText").show();
 			$("#emailMsgText").text('请输入正确的邮箱地址');
     		$("#contactEmailMsgImage").attr('src',_base+'/resources/slpmall/images/icon-d.png');
+    		$("#emailMsgError").show();
+    		$("#emailMsgText").show();
 		},
 		_showGroupWebsite:function(){
 			$("#groupWebsitErrMsg").show();
@@ -179,7 +179,7 @@ define('app/jsp/user/qualification/baseinfo', function (require, exports, module
 		},
 		_checkContactName:function(){
 			var name = $("#contactName").val();
-			var reg = /^[\u4e00-\u9fa5a-zA-Z]{4,24}$/;
+			var reg = /^[\u4e00-\u9fa5a-zA-Z]{2,24}$/;
     		if(name!=""){
     			if(name.match(reg)){
     				$('#contactNameErrMsg').show();
@@ -350,9 +350,9 @@ define('app/jsp/user/qualification/baseinfo', function (require, exports, module
 					$("#contactEmailMsgImage").attr("src",_base+'/resources/slpmall/images/icon-a.png');
 					return false;
 				}else{
-					$("#emailMsgError").show();
 					$("#contactEmailText").hide();
 					$("#contactEmailMsgImage").attr("src",_base+'/resources/slpmall/images/icon-b.png');
+					$("#emailMsgError").show();
 				}
 			}else{
 				$("#emailMsgError").hide();

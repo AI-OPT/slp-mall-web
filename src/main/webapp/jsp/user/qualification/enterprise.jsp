@@ -200,7 +200,7 @@ var qualificationSubmitPager;
                  <li>
                     <p class="word">联系人邮箱:</p>
                     <p><input type="text" class="int-medium" placeholder="" id="contactEmail" name="contactEmail"></p>
-                    <label style="display:none" id="emailMsgError"><img src="${_slpbase}/images/icon-a.png" id="contactEmailMsgImage"><span id="contactEmailText" class="ash">请填写正确手机号</span></label>
+                    <label style="display:none" id="emailMsgError"><img src="${_slpbase}/images/icon-a.png" id="contactEmailMsgImage"><span id="contactEmailText" class="ash">请输入正确的邮箱地址</span></label>
                  </li>
              </ul>
               <ul>

@@ -12,21 +12,21 @@
 <link href="${_slpbase }/styles/font-awesome.css" rel="stylesheet" type="text/css">
 <script type="text/javascript">
 		var agentPersonalPager;
-		var baseinfoPager;
+		var baseInfoPager;
 		var qualificationSubmitPager;
 		(function() { 
 			seajs.use(['app/jsp/user/qualification/agent-personal','app/jsp/user/qualification/baseinfo','app/jsp/user/qualification/qualificationSubmit'],function(AgentPersonalPager,BaseInfoQualificationPager,QualificationSubmitPager) {
 				    agentPersonalPager = new AgentPersonalPager({
 					element : document.body
 				});
-				    baseinfoPager = new BaseInfoQualificationPager({
+				    baseInfoPager = new BaseInfoQualificationPager({
 					element : document.body
 				});
 				    qualificationSubmitPager = new QualificationSubmitPager({
 					element : document.body
 				});
 				agentPersonalPager.render();
-				baseinfoPager.render();
+				baseInfoPager.render();
 				qualificationSubmitPager.render();
 			});
 		})();  
