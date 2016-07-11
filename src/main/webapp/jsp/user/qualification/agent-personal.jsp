@@ -269,6 +269,7 @@
                  	<input type="hidden" id="inComeFlag"/>
                  	<input type="hidden" id="custEducationFlag"/>
                  	<input type="hidden" id="provinceCodeFlag"/>
+                 	<input type="hidden" id="picFlag"/>
                  	
                  	<input type="hidden" id="idpsId1" name="list[0].attrValue"/>
                  	<input type="hidden" id="idpsId2" name="list[1].attrValue"/>
