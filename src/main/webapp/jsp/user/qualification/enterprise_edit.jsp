@@ -305,6 +305,18 @@ var auditState = "${groupKeyInfo.auditState}";
               <ul>
                  <li class="form-btn" id="ct-btn"><input type="button" class="slp-btn regsiter-btn" value="保存联系人" id="updateContactsEnterprise">
                   <input type="hidden" id="idpsId" name="list[0].attrValue">
+                  <input type="hidden" id="custNameFlag">
+            	  <input type="hidden" id="provinceCode">
+            	  <input type="hidden" id="certAddrFlag">
+            	  <input type="hidden" id="certNumFlag">
+            	  <input type="hidden" id="groupTypeFlag">
+            	  <input type="hidden" id="groupMemberScaleFlag">
+            	  <input type="hidden" id="contactDeptFlag">
+            	  <input type="hidden" id="provinceCodeFlag">
+            	  <input type="hidden" id="contactMpFlag">
+            	  <input type="hidden" id="phoneCodeFlag">
+            	  <input type="hidden" id="groupIndustryFlag">
+            	  <input type="hidden" id="picFlag">
                   </li>
              </ul>
      </div>

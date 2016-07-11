@@ -277,6 +277,18 @@ define('app/jsp/user/qualification/baseinfo', function (require, exports, module
 				}
 			}
 		},
+		//校验图片是否上传
+		_checkPic:function(imgId,imgErrShowId){
+			var image = document.getElementById(imgId).value;
+			if(image==''){
+				$('#picFlag').val("0");
+				document.getElementById(imgErrShowId).innerHTML="图片不能为空";
+				document.getElementById(imgErrShowId).style.color="red";
+				document.getElementById(imgErrShowId).style.display="block";
+				return false;
+			}
+		},
+		//校验手机号
 		_checkPhone: function(){
     		var phone = $('#contactMp').val();
     		if (phone==""){

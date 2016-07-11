@@ -559,6 +559,8 @@
                   <input type="hidden" id="supplyGoodsFlag"/>
                   <input type="hidden" id="brandNameEFlag"/>
                   <input type="hidden" id="brandNameCFlag"/>
+                  <input type="hidden" id="picFlag"/>
+                  
                  <input type="hidden" id="idpsId1" name="list[0].attrValue">
                  <input type="hidden" id="idpsId2" name="list[1].attrValue">
                  <input type="hidden" id="idpsId3" name="list[2].attrValue">

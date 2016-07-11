@@ -116,7 +116,7 @@ var qualificationSubmitPager;
                		<span><input type="file" id="image1" name="image1" class="file" style="display: " onchange="uploadImg('image1','certPic','idpsId','imgErrShow');">
                		<input type="button" value="点击上传" type="file" class="file-btn"><a href="javascript:" onclick="deleteImg('image1','certPic','idpsId','imgErrShow');">删除</a></span>
                 	<span>支持JPG/PNG/GIF格式，最大不超过3M</span>
-                	<span id="imgErrShow">支持JPG/PNG/GIF格式，最大不超过3M</span>
+                	<span id="imgErrShow"></span>
                 </p>
              </li>
          </ul>
@@ -232,6 +232,7 @@ var qualificationSubmitPager;
                 	 <input type="hidden" id="contactMpFlag">
                 	 <input type="hidden" id="phoneCodeFlag">
                 	 <input type="hidden" id="groupIndustryFlag">
+                	 <input type="hidden" id="picFlag">
    
                 	 <input type="hidden" id="idpsId" name="list[0].attrValue">
                  </li>

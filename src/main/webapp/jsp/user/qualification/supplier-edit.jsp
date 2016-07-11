@@ -803,6 +803,7 @@
                	   <input type="hidden" id="contactMpFlag">
                	   <input type="hidden" id="phoneCodeFlag">
                	   <input type="hidden" id="groupIndusteryFlag">
+               	   <input type="hidden" id="picFlag">
                	   
                   <input type="hidden" id="establishTimeFlag"/>
                   <input type="hidden" id="capitalFlag"/>

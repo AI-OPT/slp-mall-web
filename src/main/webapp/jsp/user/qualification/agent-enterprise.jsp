@@ -443,6 +443,7 @@
                   <input type="hidden" id="identifyNumberFlag"/>
                   <input type="hidden" id="taxpayerTypeFlag"/>
                   <input type="hidden" id="taxCodeFlag"/>
+                  <input type="hidden" id="picFlag"/>
 
                  
                  <input type="hidden" id="idpsId1" name="list[0].attrValue">
