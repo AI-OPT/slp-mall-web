@@ -79,8 +79,7 @@
        	   <ul>
              <li>
              	 <p class="word"><b class="red">*</b>企业注册地址:</p>
-                <p>
-                
+                <p>               													
                 <select class="select-xmini" id="provinceCode" name="provinceCode" >
                 	<option value="0">请选择</option>
                 	<c:forEach items="${provinceList}" var="record">

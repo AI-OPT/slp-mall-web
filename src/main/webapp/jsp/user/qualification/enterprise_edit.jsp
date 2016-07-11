@@ -303,7 +303,7 @@ var auditState = "${groupKeyInfo.auditState}";
                  </li>
              </ul>
               <ul>
-                 <li class="form-btn" id="ct-btn"><input type="button" class="slp-btn regsiter-btn" value="保存联系人" id="updateEnterprise">
+                 <li class="form-btn" id="ct-btn"><input type="button" class="slp-btn regsiter-btn" value="保存联系人" id="updateContactsEnterprise">
                   <input type="hidden" id="idpsId" name="list[0].attrValue">
                   </li>
              </ul>
