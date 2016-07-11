@@ -225,7 +225,7 @@ define('app/jsp/user/qualification/qualificationSubmit', function (require, expo
 		//校验联系地址
 		agentPersonalPager._checkContactAddress();
 		//校验街道地址
-		baseinfoPager._checkCertAddr();
+		baseInfoPager._checkCertAddr();
 		//校验收入
 		agentPersonalPager._checkInCome();
 		//校验省份证
@@ -234,7 +234,7 @@ define('app/jsp/user/qualification/qualificationSubmit', function (require, expo
 		agentPersonalPager._checkBithday();
 		//校验图片是否上传
 		for(var i=1;i<=3;i++){
-		baseinfoPager._checkPic('image'+i,'imgErrShow'+i);
+		baseInfoPager._checkPic('image'+i,'imgErrShow'+i);
 		}
 		var picFlag = $("#picFlag").val();
 		var custNameFlag = $("#custNameFlag").val();
@@ -413,7 +413,7 @@ define('app/jsp/user/qualification/qualificationSubmit', function (require, expo
 			agentPersonalPager._checkBithday();
 			//校验图片是否上传
 			for(var i=1;i<=3;i++){
-			 baseinfoPager._checkPic('image'+i,'imgErrShow'+i);
+			 baseInfoPager._checkPic('image'+i,'imgErrShow'+i);
 			}
 			var picFlag = $("#picFlag").val();
 			var custNameFlag = $("#custNameFlag").val();
@@ -581,16 +581,19 @@ function uploadImg(imageId,certPic,idpsId,imgErrShowId) {
 		document.getElementById(imgErrShowId).innerHTML="图片不能为空";
 		document.getElementById(imgErrShowId).style.color="red";
 		document.getElementById(imgErrShowId).style.display="block";
+		$("#picFlag").val("0");
 		return false;
 	}else if(!/\.(gif|jpg|png|GIF|JPG|PNG)$/.test(image)){
 		document.getElementById(imgErrShowId).innerHTML="格式不对";
 		document.getElementById(imgErrShowId).style.color="red";
 		document.getElementById(imgErrShowId).style.display="block";
+		$("#picFlag").val("0");
 		return false;
 	}else if(document.getElementById(imageId).files[0].size>3*1024*1024){
 		document.getElementById(imgErrShowId).innerHTML="图片太大";
 		document.getElementById(imgErrShowId).style.color="red";
 		document.getElementById(imgErrShowId).style.display="block";
+		$("#picFlag").val("0");
 		return false;
 	}
 	 $.ajaxFileUpload({  
@@ -603,6 +606,7 @@ function uploadImg(imageId,certPic,idpsId,imgErrShowId) {
         	if(data.isTrue==true){
         		document.getElementById(certPic).src=data.url;
         		document.getElementById(idpsId).value=data.idpsId;
+        		$("#picFlag").val("1");
         	 }
          },
          error: function (data, status, e) {  
@@ -626,6 +630,7 @@ function deleteImg(imageId,certPic,idpsId,imgErrShowId){
         success: function (data) {
         	if(data.isTrue==true){
         		var url = getRealPath();
+        		$("#picFlag").val("0");
         		document.getElementById(certPic).src=url+'/resources/slpmall/images/fom-t.png';
         		document.getElementById(idpsId).value="";
         	}
