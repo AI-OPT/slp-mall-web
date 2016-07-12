@@ -44,7 +44,7 @@
         </div>
         <div class="fsast-search">
              <ul>
-                  <li><input type="text" class="fsast-xlarge" id="serachName"></li>
+                  <li><input type="text" class="fsast-xlarge" id="serachName" onkeypress="if (event.keyCode == 13) index_search_pager._searchBtnClick();"></li>
                   <li><A href="javascript:void(0);" id="BTN_SEARCH"><i class="icon-search"></i></A></li>
              </ul> 
         </div>
