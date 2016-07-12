@@ -61,6 +61,7 @@
                       </tbody>                                                                                                                                                                           
                       
 					</table>
+					<div id="showMessageDiv"></div>
                 </div>
             </div>
                
