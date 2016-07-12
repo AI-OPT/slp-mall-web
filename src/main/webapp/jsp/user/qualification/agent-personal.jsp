@@ -73,7 +73,7 @@
              <li>
                 <p class="word"><b class="red">*</b>真实姓名:</p>
                <p><input type="text" class="int-medium" placeholder="请填写真实姓名" id="realName" name="custName"></p>
-                     <label id="realNameErrMsg" style="display:none"><img src="${_slpbase}/images/icon-d.png" id="realNameImage"><span class="ash" id="realNameText">4-24个字符，可用汉字或英语字母</span></label>
+                     <label id="realNameErrMsg" style="display:none"><img src="${_slpbase}/images/icon-d.png" id="realNameImage"><span id="realNameText">2-24个字符，可用汉字或英语字母</span></label>
              </li>
          </ul>
          <ul>
