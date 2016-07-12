@@ -75,6 +75,8 @@ import com.ai.slp.user.api.keyinfo.param.SearchGroupKeyInfoResponse;
 import com.ai.slp.user.api.keyinfo.param.UpdateCustFileExtRequest;
 import com.ai.slp.user.api.keyinfo.param.UpdateCustKeyInfoRequest;
 import com.ai.slp.user.api.keyinfo.param.UpdateGroupKeyInfoRequest;
+import com.ai.slp.user.api.ucuser.intefaces.IUcUserSV;
+import com.ai.slp.user.api.ucuser.param.UpdateUserInfoRequest;
 import com.alibaba.fastjson.JSON;
 
 @RequestMapping("/user/qualification")
@@ -294,12 +296,13 @@ public class QualificationController {
                 ucBankInfoSV = DubboConsumerFactory.getService(IUcBankInfoSV.class);
             }
             IUcKeyInfoSV ucKeyInfoSV = DubboConsumerFactory.getService(IUcKeyInfoSV.class);
-            IUcContactsInfoSV contactsInfoSV = DubboConsumerFactory
-                    .getService(IUcContactsInfoSV.class);
+            IUcContactsInfoSV contactsInfoSV = DubboConsumerFactory.getService(IUcContactsInfoSV.class);
 
             try {
                 ucKeyInfoSV.insertGroupKeyInfo(insertGroupKeyInfoRequest);
                 ucKeyInfoSV.insertCustFileExt(insertCustFileExtRequest);
+                //更改用户账户状态
+                updateUserState(user, "10");
                 contactsInfoSV.insertContactsInfo(insertContactsInfoRequest);
                 // 判断是否保存银行信息
                 if (ucBankInfoSV != null) {
@@ -363,6 +366,8 @@ public class QualificationController {
         try {
             ucKeyInfoSV.insertCustKeyInfo(insertCustKeyInfoRequest);
             ucKeyInfoSV.insertCustFileExt(insertCustFileExtRequest);
+            //更改用户账户状态
+            updateUserState(user, "10");
             responseData = new ResponseData<String>(SLPMallConstants.Qualification.QUALIFICATION_SUCCESS, "操作成功", null);
             responseHeader = new ResponseHeader(true,SLPMallConstants.Qualification.QUALIFICATION_SUCCESS, "操作成功");
         } catch (Exception e) {
@@ -491,8 +496,7 @@ public class QualificationController {
 
     @RequestMapping("/editEnterprise")
     public ModelAndView editEnterprise(HttpServletRequest request) {
-        SLPClientUser userClient = (SLPClientUser) request.getSession()
-                .getAttribute(SSOClientConstants.USER_SESSION_KEY);
+        SLPClientUser userClient = (SLPClientUser) request.getSession().getAttribute(SSOClientConstants.USER_SESSION_KEY);
         String userId = userClient.getUserId();
         /**
          * 获取联系人信息
@@ -590,7 +594,7 @@ public class QualificationController {
     }
     
     
- //更新用户信息
+    //更新用户信息
     @RequestMapping("/updatePersonalInfo")
     @ResponseBody
     public ResponseData<String> updatePersonalInfo(HttpServletRequest request,
@@ -618,7 +622,8 @@ public class QualificationController {
         try {
             ucKeyInfoSV.updateCustKeyInfo(updateCustKeyInfoRequest);
             ucKeyInfoSV.updateCustFileExt(updateCustFileExtRequest);
-            //更新用户审核状态
+            //更改用户账户状态
+            updateUserState(user, "10");
             responseData = new ResponseData<String>(SLPMallConstants.Qualification.QUALIFICATION_SUCCESS, "操作成功", null);
             responseHeader = new ResponseHeader(true,SLPMallConstants.Qualification.QUALIFICATION_SUCCESS, "操作成功");
         } catch (Exception e) {
@@ -816,6 +821,8 @@ public class QualificationController {
             ucKeyInfoSV.updateCustFileExt(updateCustFileExtRequest);
             if(ucBankInfoSV!=null)
                 ucBankInfoSV.updateBankInfo(updateBankInfoRequest);
+            //更改用户账户状态
+            updateUserState(user, "10");
             responseData = new ResponseData<String>(SLPMallConstants.Qualification.QUALIFICATION_SUCCESS, "操作成功", null);
             responseHeader = new ResponseHeader(true,SLPMallConstants.Qualification.QUALIFICATION_SUCCESS, "操作成功");
         } catch (Exception e) {
@@ -828,7 +835,7 @@ public class QualificationController {
     }
     
     
-  //更新联系人关键信息
+    //更新联系人关键信息
     @RequestMapping("/updateContactsInfo")
     @ResponseBody
     public ResponseData<String> updateContactsInfo(HttpServletRequest request,
@@ -854,7 +861,10 @@ public class QualificationController {
         IUcKeyInfoSV ucKeyInfoSV = DubboConsumerFactory.getService(IUcKeyInfoSV.class);
         try {
             ucContactsInfoSV.updateContactsInfo(updateContactsInfoRequest);
+            //修改认证状态
             ucKeyInfoSV.updateGroupKeyInfo(updateGroupKeyInfoRequest);
+            //更改用户账户状态
+            updateUserState(user, "10");
             responseData = new ResponseData<String>(SLPMallConstants.Qualification.QUALIFICATION_SUCCESS, "操作成功", null);
             responseHeader = new ResponseHeader(true,SLPMallConstants.Qualification.QUALIFICATION_SUCCESS, "操作成功");
         } catch (Exception e) {
@@ -1190,4 +1200,14 @@ public class QualificationController {
         }
         return prodCatInfoMap;
     }
+    
+    public static void updateUserState(SLPClientUser user,String userState){
+    	 IUcUserSV ucUserSV = DubboConsumerFactory.getService(IUcUserSV.class);
+    	 UpdateUserInfoRequest updateUserInfoRequest = new UpdateUserInfoRequest();
+    	 updateUserInfoRequest.setTenantId(user.getTenantId());
+    	 updateUserInfoRequest.setUserId(user.getUserId());
+    	 updateUserInfoRequest.setUserState(userState);
+    	 ucUserSV.updateBaseInfo(updateUserInfoRequest);
+    }
+    
 }
