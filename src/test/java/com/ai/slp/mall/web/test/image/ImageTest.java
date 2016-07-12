@@ -16,7 +16,7 @@ public class ImageTest {
     IImageClient im = IDPSClientFactory.getImageClient(idpsns);
 
     //待上传的图片路径
-    String filepath="E:\\qie.jpg";
+    String filepath="C:/Users/zh/Pictures/查干湖妙音寺星轨002.JPG";
     //将路径转换为byte[]
     byte[] buff=ImageByteUtil.image2byte(filepath);
     
@@ -24,9 +24,9 @@ public class ImageTest {
     String idpsId=im.upLoadImage(buff, "qie.jpg");
     System.out.println("idpsId="+idpsId);
     //获取上传图片的URL
-    //System.out.println(im.getImageUrl(idpsId, ".jpg"));
+    System.out.println(im.getImageUrl(idpsId, ".jpg"));
     //获取上传图片指定尺寸的URL
-    System.out.println(im.getImageUrl("5745678dd601800009c0b0e9", ".jpg","100x80"));
+    System.out.println(im.getImageUrl("idpsId", ".jpg","100x80"));
 
     }
 

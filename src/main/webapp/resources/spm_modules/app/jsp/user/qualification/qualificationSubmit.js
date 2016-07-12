@@ -112,7 +112,7 @@ define('app/jsp/user/qualification/qualificationSubmit', function (require, expo
 			var contactDeptFlag = $("#contactDeptFlag").val();
 			var picFlag = $("#picFlag").val();
 			var phoneCodeFlag = $("#phoneCodeFlag").val();
-			if(picFlag!="0"&&custNameFlag!="0"&&certAddrFlag!="0"&&certNumFlag!="0"&&contactMpFlag!="0"&&phoneCodeFlag!="0"&&groupIndusteryFlag!="0"&&groupMemberScaleFlag!="0"&&groupStypeFlag!="0"&&contactDeptFlag!="0"&&phoneCodeFlag!="0"){
+			if(custNameFlag!="0"&&certAddrFlag!="0"&&certNumFlag!="0"&&contactMpFlag!="0"&&phoneCodeFlag!="0"&&groupIndusteryFlag!="0"&&groupMemberScaleFlag!="0"&&groupStypeFlag!="0"&&contactDeptFlag!="0"&&phoneCodeFlag!="0"){
 				ajaxToSave();
 			}
 	},
@@ -530,7 +530,7 @@ define('app/jsp/user/qualification/qualificationSubmit', function (require, expo
 		var provinceCodeFlag = $("#provinceCodeFlag").val();
 		var supplyGoodsFlag = $("#supplyGoodsFlag").val();
 		var phoneCodeFlag = $("#phoneCodeFlag").val();
-		if(picFlag!="0"&&custNameFlag!="0"&&certAddrFlag!="0"&&certNumFlag!="0"&&establishTimeFlag!="0"
+		if(custNameFlag!="0"&&certAddrFlag!="0"&&certNumFlag!="0"&&establishTimeFlag!="0"
 		  &&capitalFlag!="0"&&scopeFlag!="0"&&corporationNameFlag!="0"&&idNumberFlag!="0"&&identifyNumberFlag!="0"
 		  &&taxpayerTypeFlag!="0"&&taxCodeFlag!="0"&&bankNameFlag!="0"&&subbranchNameFlag!="0"&&bankAccountFlag!="0"
 		  &&groupIndusteryFlag!="0"&&groupMemberScaleFlag!="0"&&groupStypeFlag!="0"&&contactDeptFlag!="0"&&
@@ -662,18 +662,24 @@ function deleteImg(imageId,certPic,idpsId,imgErrShowId){
 		data:$("#qualificationEnterprise").serialize(),
         success: function(data) {
         	if(data.responseHeader.resultCode=="000003"){
-        	 	$("#newPhoneCodeErrMsg").show();
-        		$('#newPhoneCodeErrMsgShow').text("短信验证码错误");
+        		$('#phoneCodeText').text("短信验证码错误");
+        		$("#phoneCodeImage").attr("src",_base+'/resources/slpmall/images/icon-a.png');
+        		$("#phoneCodeText").show();
+        		$('#phoneCodeErrMsg').show();
 				$('#phoneCodeFlag').val("0");
 				return false;
         	}else if(data.responseHeader.resultCode=="000004"){
-        		$("#newPhoneCodeErrMsg").show();
-        		$('#newPhoneCodeErrMsgShow').text("短信验证码已失效");
+        		$('#phoneCodeText').text("短信验证码已失效");
+        		$("#phoneCodeImage").attr("src",_base+'/resources/slpmall/images/icon-a.png');
+        		$("#phoneCodeText").show();
+        		$('#phoneCodeErrMsg').show();
 				$('#phoneCodeFlag').val("0");
 				return false;
         	}else if(data.responseHeader.resultCode=="000007"){
-        		$("#newPhoneCodeErrMsg").show();
-        		$('#newPhoneCodeErrMsgShow').text("手机与发送短信手机不一致");
+        		$('#phoneCodeText').text("手机与发送短信手机不一致");
+        		$("#phoneCodeImage").attr("src",_base+'/resources/slpmall/images/icon-a.png');
+        		$("#phoneCodeText").show();
+        		$('#phoneCodeErrMsg').show();
 				$('#phoneCodeFlag').val("0");
 				return false;
         	}else if(data.responseHeader.resultCode=="111111"){
@@ -716,18 +722,24 @@ function deleteImg(imageId,certPic,idpsId,imgErrShowId){
 			data:$("#agentEnterprise").serialize(),
 	        success: function(data) {
 	        	if(data.responseHeader.resultCode=="000003"){
-	        	 	$("#newPhoneCodeErrMsg").show();
-	        		$('#newPhoneCodeErrMsgShow').text("短信验证码错误");
+	        		$('#phoneCodeText').text("短信验证码错误");
+	        		$("#phoneCodeImage").attr("src",_base+'/resources/slpmall/images/icon-a.png');
+	        		$("#phoneCodeText").show();
+	        		$('#phoneCodeErrMsg').show();
 					$('#phoneCodeFlag').val("0");
 					return false;
 	        	}else if(data.responseHeader.resultCode=="000004"){
-	        		$("#newPhoneCodeErrMsg").show();
-	        		$('#newPhoneCodeErrMsgShow').text("短信验证码已失效");
+	        		$('#phoneCodeText').text("短信验证码已失效");
+	        		$("#phoneCodeImage").attr("src",_base+'/resources/slpmall/images/icon-a.png');
+	        		$("#phoneCodeText").show();
+	        		$('#phoneCodeErrMsg').show();
 					$('#phoneCodeFlag').val("0");
 					return false;
 	        	}else if(data.responseHeader.resultCode=="000007"){
-	        		$("#newPhoneCodeErrMsg").show();
-	        		$('#newPhoneCodeErrMsgShow').text("手机与发送短信手机不一致");
+	        		$('#phoneCodeText').text("手机与发送短信手机不一致");
+	        		$("#phoneCodeImage").attr("src",_base+'/resources/slpmall/images/icon-a.png');
+	        		$("#phoneCodeText").show();
+	        		$('#phoneCodeErrMsg').show();
 					$('#phoneCodeFlag').val("0");
 					return false;
 	        	}else if(data.responseHeader.resultCode=="111111"){
@@ -815,14 +827,39 @@ function deleteImg(imageId,certPic,idpsId,imgErrShowId){
 	function updateContactInfo(url){
 		$.ajax({
 	        type: "post",
+	        async:false,
 	        processing: false,
 	        url: _base+"/user/qualification/updateContactsInfo",
 	        dataType: "json",
 	        data: $("#enterprise").serialize(),
 	        message: "正在加载数据..",
 	        success: function (data) {
-	        	if(data.responseHeader.resultCode=='00000'){
-	        		window.location.href=url;
+	        	if(data.responseHeader.resultCode=="000003"){
+	        		$('#phoneCodeText').text("短信验证码错误");
+	        		$("#phoneCodeImage").attr("src",_base+'/resources/slpmall/images/icon-a.png');
+	        		$('#phoneCodeText').show();
+	        		$('#phoneCodeErrMsg').show();
+					$('#phoneCodeFlag').val("0");
+					return false;
+	        	}else if(data.responseHeader.resultCode=="000004"){
+	        		$('#phoneCodeText').text("短信验证码已失效");
+	        		$("#phoneCodeImage").attr("src",_base+'/resources/slpmall/images/icon-a.png');
+	        		$('#phoneCodeText').show();
+	        		$('#phoneCodeErrMsg').show();
+					$('#phoneCodeFlag').val("0");
+					return false;
+	        	}else if(data.responseHeader.resultCode=="000007"){
+	        		$('#phoneCodeText').text("手机与发送短信手机不一致");
+	        		$("#phoneCodeImage").attr("src",_base+'/resources/slpmall/images/icon-a.png');
+	        		$('#phoneCodeText').show();
+	        		$('#phoneCodeErrMsg').show();
+					$('#phoneCodeFlag').val("0");
+					return false;
+	        	}else if(data.responseHeader.resultCode=="00001"){
+	        		alert("失败了");
+	        		return false;
+	        	}else if(data.responseHeader.resultCode=="00000"){
+	        		window.location.href=_base+"/user/qualification/editEnterprise";
 	        	}
 	        },
 	        error: function(XMLHttpRequest, textStatus, errorThrown) {
@@ -843,18 +880,24 @@ function deleteImg(imageId,certPic,idpsId,imgErrShowId){
 	        message: "正在加载数据..",
 	        success: function (data) {
 	        	if(data.responseHeader.resultCode=="000003"){
-	        	 	$("#newPhoneCodeErrMsg").show();
 	        		$('#newPhoneCodeErrMsgShow').text("短信验证码错误");
+	        		$("#phoneCodeImage").attr("src",_base+'/resources/slpmall/images/icon-a.png');
+	        		$('#phoneCodeText').show();
+	        	 	$("#newPhoneCodeErrMsg").show();
 					$('#phoneCodeFlag').val("0");
 					return false;
 	        	}else if(data.responseHeader.resultCode=="000004"){
-	        		$("#newPhoneCodeErrMsg").show();
 	        		$('#newPhoneCodeErrMsgShow').text("短信验证码已失效");
+	        		$("#phoneCodeImage").attr("src",_base+'/resources/slpmall/images/icon-a.png');
+	        		$('#phoneCodeText').show();
+	        		$("#newPhoneCodeErrMsg").show();
 					$('#phoneCodeFlag').val("0");
 					return false;
 	        	}else if(data.responseHeader.resultCode=="000007"){
-	        		$("#newPhoneCodeErrMsg").show();
 	        		$('#newPhoneCodeErrMsgShow').text("手机与发送短信手机不一致");
+	        		$("#phoneCodeImage").attr("src",_base+'/resources/slpmall/images/icon-a.png');
+	        		$('#phoneCodeText').show();
+	        		$("#newPhoneCodeErrMsg").show();
 					$('#phoneCodeFlag').val("0");
 					return false;
 	        	}else if(data.responseHeader.resultCode=="111111"){

@@ -106,7 +106,7 @@ define('app/jsp/user/qualification/baseinfo', function (require, exports, module
 		_showContactNameTip:function(){
 			$("#contactNameErrMsg").show();
 			$("#contactNameText").show();
-			$("#contactNameText").text('4-24个字符，可用汉字或英语字母');
+			$("#contactNameText").text('2-24个字符，可用汉字或英语字母');
     		$('#contactNameImage').attr('src',_base+'/resources/slpmall/images/icon-d.png');
 		},
 		_showCheckPhoneTip:function(){
