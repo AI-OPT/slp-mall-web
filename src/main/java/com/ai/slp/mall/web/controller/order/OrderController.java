@@ -90,7 +90,7 @@ public class OrderController {
                 orderReq.setUserType(user.getUserType());
             } else {
                 orderReq.setUserId(SLPMallConstants.Order.VISITUSERID);
-                orderReq.setUserType("10");
+                orderReq.setUserType(SLPMallConstants.Order.USERTYPE_VISITOR);
             }
             String orderKey = UUIDUtil.genId32();
 
