@@ -35,7 +35,6 @@ import com.ai.slp.product.api.webfront.param.FastProductReq;
 import com.ai.slp.product.api.webfront.param.FastSkuProdInfo;
 import com.ai.slp.product.api.webfront.param.ProductHomeRequest;
 import com.ai.slp.product.api.webfront.param.ProductHomeResponse;
-import com.alibaba.fastjson.JSON;
 
 @RestController
 public class HomeController {
@@ -91,7 +90,7 @@ public class HomeController {
 
 			responseData = new ResponseData<List<ProductHomeVO>>(ResponseData.AJAX_STATUS_SUCCESS, "查询成功", resultList);
 		} catch (Exception e) {
-			responseData = new ResponseData<List<ProductHomeVO>>(ResponseData.AJAX_STATUS_FAILURE, "查询失败");
+			responseData = new ResponseData<List<ProductHomeVO>>(ResponseData.AJAX_STATUS_SUCCESS, "查询失败");
 		}
 		return responseData;
 	}
@@ -133,7 +132,7 @@ public class HomeController {
 
 			responseData = new ResponseData<List<ProductHomeVO>>(ResponseData.AJAX_STATUS_SUCCESS, "查询成功", resultList);
 		} catch (Exception e) {
-			responseData = new ResponseData<List<ProductHomeVO>>(ResponseData.AJAX_STATUS_FAILURE, "查询失败");
+			responseData = new ResponseData<List<ProductHomeVO>>(ResponseData.AJAX_STATUS_SUCCESS, "查询失败");
 		}
 		return responseData;
 	}
@@ -176,7 +175,7 @@ public class HomeController {
 
 			responseData = new ResponseData<List<ProductHomeVO>>(ResponseData.AJAX_STATUS_SUCCESS, "查询成功", resultList);
 		} catch (Exception e) {
-			responseData = new ResponseData<List<ProductHomeVO>>(ResponseData.AJAX_STATUS_FAILURE, "查询失败");
+			responseData = new ResponseData<List<ProductHomeVO>>(ResponseData.AJAX_STATUS_SUCCESS, "查询失败");
 		}
 		return responseData;
 	}
@@ -197,7 +196,7 @@ public class HomeController {
 
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage());
-			responseData = new ResponseData<ServiceNum>(ResponseData.AJAX_STATUS_FAILURE, "获取信息失败", null);
+			responseData = new ResponseData<ServiceNum>(ResponseData.AJAX_STATUS_SUCCESS, "获取信息失败", null);
 
 		}
 
@@ -353,7 +352,7 @@ public class HomeController {
 			responseData = new ResponseData<FastProductResponse>(ResponseData.AJAX_STATUS_SUCCESS, "获取信息成功", feeRes);
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage());
-			responseData = new ResponseData<FastProductResponse>(ResponseData.AJAX_STATUS_FAILURE, "获取信息失败", null);
+			responseData = new ResponseData<FastProductResponse>(ResponseData.AJAX_STATUS_SUCCESS, "获取信息失败", null);
 		}
 
 		return responseData;

@@ -44,7 +44,7 @@ public class HeadController {
             LOG.debug("地区查询出参:"+JSONArray.fromObject(resultInfo).toString());
             responseData = new ResponseData<List<GnAreaVo>>(ResponseData.AJAX_STATUS_SUCCESS, "查询成功", resultInfo);
         } catch (Exception e) {
-            responseData = new ResponseData<List<GnAreaVo>>(ResponseData.AJAX_STATUS_FAILURE, "查询失败");
+            responseData = new ResponseData<List<GnAreaVo>>(ResponseData.AJAX_STATUS_SUCCESS, "查询失败");
             LOG.error("获取信息出错：", e);
         }
         return responseData;
@@ -69,7 +69,7 @@ public class HeadController {
             }
             responseData = new ResponseData<GnAreaVo>(ResponseData.AJAX_STATUS_SUCCESS, "查询成功", addr);
         } catch (Exception e) {
-            responseData = new ResponseData<GnAreaVo>(ResponseData.AJAX_STATUS_FAILURE, "查询失败");
+            responseData = new ResponseData<GnAreaVo>(ResponseData.AJAX_STATUS_SUCCESS, "查询失败");
             LOG.error("获取ip信息出错：", e);
         }
         return responseData;
@@ -88,7 +88,7 @@ public class HeadController {
             request.getSession().setAttribute("currentCityName",name);
             responseData = new ResponseData<String>(ResponseData.AJAX_STATUS_SUCCESS, "查询成功", null);
         } catch (Exception e) {
-            responseData = new ResponseData<String>(ResponseData.AJAX_STATUS_FAILURE, "查询失败");
+            responseData = new ResponseData<String>(ResponseData.AJAX_STATUS_SUCCESS, "查询失败");
             LOG.error("获取ip信息出错：", e);
         }
         return responseData;
@@ -115,7 +115,7 @@ public class HeadController {
            
             responseData = new ResponseData<GnAreaVo>(ResponseData.AJAX_STATUS_SUCCESS, "查询成功", area);
         } catch (Exception e) {
-            responseData = new ResponseData<GnAreaVo>(ResponseData.AJAX_STATUS_FAILURE, "查询失败");
+            responseData = new ResponseData<GnAreaVo>(ResponseData.AJAX_STATUS_SUCCESS, "查询失败");
             LOG.error("获取ip信息出错：", e);
         }
         return responseData;
