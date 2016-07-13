@@ -15,7 +15,7 @@ public class ImageUtil {
         // 获取imageClient
         im = IDPSClientFactory.getImageClient(idpsns);
         // 获取上传图片的URL
-        return im.getImageUrl(vsid, "." + pictype);
+        return im.getImageUrl(vsid,pictype);
     }
     
     public static String getHotImage(String vsid, String pictype) {
@@ -26,7 +26,7 @@ public class ImageUtil {
         im = IDPSClientFactory.getImageClient(idpsns);
         // 获取上传图片的URL
         // 获取上传图片的URL
-        return im.getImageUrl(vsid, "." + pictype);
+        return im.getImageUrl(vsid,pictype);
         // 获取上传图片指定尺寸的URL
         // System.out.println(im.getImageUrl("574514c1d601800009c0b0ba", ".jpg","100x80"));
     }
@@ -40,13 +40,9 @@ public class ImageUtil {
         List<String> list = new ArrayList<String>();
         // 获取上传图片指定尺寸的URL
         for (Map.Entry<String, String> entry : imgMap.entrySet()) {
-            String url = im.getImageUrl(entry.getKey(), "." + entry.getValue(), "100x80");
+            String url = im.getImageUrl(entry.getKey(),entry.getValue(), "100x80");
             list.add(url);
         }
-        /*
-         * for(String visIDs:imgList){ String url = im.getImageUrl(visIDs, ".jpg","100x80");
-         * list.add(url); }
-         */
         return list;
     }
 
