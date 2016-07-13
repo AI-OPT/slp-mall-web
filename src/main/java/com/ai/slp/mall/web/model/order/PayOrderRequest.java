@@ -10,6 +10,14 @@ public class PayOrderRequest {
 	private String provinceCode;
 	private String chargeFee;
 	private String phoneNum;
+	private String userType;
+	
+	public String getUserType() {
+		return userType;
+	}
+	public void setUserType(String userType) {
+		this.userType = userType;
+	}
 	public String getUserId() {
 		return userId;
 	}

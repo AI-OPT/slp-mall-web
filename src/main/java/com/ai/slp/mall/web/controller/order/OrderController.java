@@ -87,8 +87,10 @@ public class OrderController {
                     .getAttribute(SSOClientConstants.USER_SESSION_KEY);
             if (null != user) {
                 orderReq.setUserId(user.getUserId());
+                orderReq.setUserType(user.getUserType());
             } else {
                 orderReq.setUserId(SLPMallConstants.Order.VISITUSERID);
+                orderReq.setUserType("10");
             }
             String orderKey = UUIDUtil.genId32();
 
@@ -124,6 +126,7 @@ public class OrderController {
             OrdBaseInfo baseInfo = new OrdBaseInfo();
             baseInfo.setUserId(res.getUserId());
             baseInfo.setOrderType(res.getOrderType());
+            baseInfo.setUserType(res.getUserType());
             orderrequest.setOrdBaseInfo(baseInfo);
 
             List<OrdProductInfo> list = new ArrayList<OrdProductInfo>();
