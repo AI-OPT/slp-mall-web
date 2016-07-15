@@ -278,16 +278,12 @@ define('app/jsp/user/qualification/qualificationSubmit', function (require, expo
 		baseInfoPager._checkCertAddr();
 		//校验注册号
 		baseInfoPager._checkCertNum();
-		//检查手机号
-		baseInfoPager._checkPhone();
 		//校验行业
 		baseInfoPager._checkGroupIndustery();
 		//校验公司人数
 		baseInfoPager._checkGroupMember();
 		//校验公司性质
 		baseInfoPager._checkGroupType();
-		//校验所属部门
-		baseInfoPager._checkContactDept();
 		var picFlag = $("#picFlag").val();
 		var custNameFlag = $("#custNameFlag").val();
 		var certAddrFlag = $("#certAddrFlag").val();
@@ -299,7 +295,7 @@ define('app/jsp/user/qualification/qualificationSubmit', function (require, expo
 		var groupStypeFlag = $("#groupStypeFlag").val();
 		var contactDeptFlag = $("#contactDeptFlag").val();
 		var phoneCodeFlag = $("#phoneCodeFlag").val();
-		if(picFlag!="0"&&custNameFlag!="0"&&certAddrFlag!="0"&&certNumFlag!="0"&&contactMpFlag!="0"&&phoneCodeFlag!="0"&&groupIndusteryFlag!="0"&&groupMemberScaleFlag!="0"&&groupStypeFlag!="0"&&contactDeptFlag!="0"&&phoneCodeFlag!="0"){
+		if(picFlag!="0"&&custNameFlag!="0"&&certAddrFlag!="0"&&certNumFlag!="0"&&groupIndusteryFlag!="0"&&groupMemberScaleFlag!="0"&&groupStypeFlag!="0"){
 			updateEnterpriseInfo(_base+"/user/qualification/editEnterprise");
 		}
 	},
@@ -342,7 +338,7 @@ define('app/jsp/user/qualification/qualificationSubmit', function (require, expo
 		if(picFlag!="0"&&custNameFlag!="0"&&certAddrFlag!="0"&&certNumFlag!="0"&&establishTimeFlag!="0"
 			  &&capitalFlag!="0"&&scopeFlag!="0"&&corporationNameFlag!="0"&&idNumberFlag!="0"&&identifyNumberFlag!="0"
 			  &&taxpayerTypeFlag!="0"&&taxCodeFlag!="0"&&bankNameFlag!="0"&&subbranchNameFlag!="0"&&bankAccountFlag!="0"
-			  &&groupIndusteryFlag!="0"&&groupMemberScaleFlag!="0"&&groupStypeFlag!="0"&&phoneCodeFlag!="0"){
+			  &&groupIndusteryFlag!="0"&&groupMemberScaleFlag!="0"&&groupStypeFlag!="0"){
 				/**
 				 * 代理商资质修改
 				 */
@@ -390,7 +386,7 @@ define('app/jsp/user/qualification/qualificationSubmit', function (require, expo
 		if(picFlag!="0"&&custNameFlag!="0"&&certAddrFlag!="0"&&certNumFlag!="0"&&establishTimeFlag!="0"
 		  &&capitalFlag!="0"&&scopeFlag!="0"&&corporationNameFlag!="0"&&idNumberFlag!="0"&&identifyNumberFlag!="0"
 		  &&taxpayerTypeFlag!="0"&&taxCodeFlag!="0"&&bankNameFlag!="0"&&subbranchNameFlag!="0"&&bankAccountFlag!="0"
-		  &&groupIndusteryFlag!="0"&&groupMemberScaleFlag!="0"&&groupStypeFlag!="0"&&organizationCodeFlag!="0"&&provinceCodeFlag!="0"&&supplyGoodsFlag!="0"&&phoneCodeFlag!="0"){
+		  &&groupIndusteryFlag!="0"&&groupMemberScaleFlag!="0"&&groupStypeFlag!="0"&&organizationCodeFlag!="0"&&provinceCodeFlag!="0"&&supplyGoodsFlag!="0"){
 			/**
 			 * 供货商资质修改
 			 */
