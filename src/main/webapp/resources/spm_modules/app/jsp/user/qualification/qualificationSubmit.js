@@ -656,6 +656,9 @@ function deleteImg(imageId,certPic,idpsId,imgErrShowId){
 		url:_base+"/user/qualification/saveEnterprise",
 		dataType: "json",
 		data:$("#qualificationEnterprise").serialize(),
+		beforeSend: function(){
+			document.getElementById("enterpriseToSave").disabled=true;
+		},
         success: function(data) {
         	if(data.responseHeader.resultCode=="000003"){
         		$('#phoneCodeText').text("短信验证码错误");
@@ -663,6 +666,7 @@ function deleteImg(imageId,certPic,idpsId,imgErrShowId){
         		$("#phoneCodeText").show();
         		$('#phoneCodeErrMsg').show();
 				$('#phoneCodeFlag').val("0");
+				document.getElementById("enterpriseToSave").disabled=false;
 				return false;
         	}else if(data.responseHeader.resultCode=="000004"){
         		$('#phoneCodeText').text("短信验证码已失效");
@@ -670,6 +674,7 @@ function deleteImg(imageId,certPic,idpsId,imgErrShowId){
         		$("#phoneCodeText").show();
         		$('#phoneCodeErrMsg').show();
 				$('#phoneCodeFlag').val("0");
+				document.getElementById("enterpriseToSave").disabled=false;
 				return false;
         	}else if(data.responseHeader.resultCode=="000007"){
         		$('#phoneCodeText').text("手机与发送短信手机不一致");
@@ -677,18 +682,22 @@ function deleteImg(imageId,certPic,idpsId,imgErrShowId){
         		$("#phoneCodeText").show();
         		$('#phoneCodeErrMsg').show();
 				$('#phoneCodeFlag').val("0");
+				document.getElementById("enterpriseToSave").disabled=false;
 				return false;
         	}else if(data.responseHeader.resultCode=="111111"){
-        		alert("失败了");
+        		alert("保存失败");
+        		document.getElementById("enterpriseToSave").disabled=false;
         		return false;
         	}else if(data.responseHeader.resultCode=="000000"){
         		window.location.href=_base+"/user/qualification/editEnterprise";
         	}
             },
 			error: function(error) {
+				flag=1;
 				alert("error:"+ error);
 			}
 		});
+	  }
 	}
 	
 	//获取当前项目根路径
@@ -711,11 +720,16 @@ function deleteImg(imageId,certPic,idpsId,imgErrShowId){
 	 * 代理商企业保存方法
 	 */
 	function toAgentEnterpriseSave(){
+		 var flag=1;
+		 if(flag){
 		 $.ajax({
 			type:"post",
 			url:_base+"/user/qualification/saveEnterprise",
 			dataType: "json",
 			data:$("#agentEnterprise").serialize(),
+			beforeSend: function(){
+				document.getElementById("agentEnterpriseSubmit").disabled=true;
+			},
 	        success: function(data) {
 	        	if(data.responseHeader.resultCode=="000003"){
 	        		$('#phoneCodeText').text("短信验证码错误");
@@ -723,6 +737,7 @@ function deleteImg(imageId,certPic,idpsId,imgErrShowId){
 	        		$("#phoneCodeText").show();
 	        		$('#phoneCodeErrMsg').show();
 					$('#phoneCodeFlag').val("0");
+					document.getElementById("agentEnterpriseSubmit").disabled=false;
 					return false;
 	        	}else if(data.responseHeader.resultCode=="000004"){
 	        		$('#phoneCodeText').text("短信验证码已失效");
@@ -730,6 +745,7 @@ function deleteImg(imageId,certPic,idpsId,imgErrShowId){
 	        		$("#phoneCodeText").show();
 	        		$('#phoneCodeErrMsg').show();
 					$('#phoneCodeFlag').val("0");
+					document.getElementById("agentEnterpriseSubmit").disabled=false;
 					return false;
 	        	}else if(data.responseHeader.resultCode=="000007"){
 	        		$('#phoneCodeText').text("手机与发送短信手机不一致");
@@ -737,18 +753,22 @@ function deleteImg(imageId,certPic,idpsId,imgErrShowId){
 	        		$("#phoneCodeText").show();
 	        		$('#phoneCodeErrMsg').show();
 					$('#phoneCodeFlag').val("0");
+					document.getElementById("agentEnterpriseSubmit").disabled=false;
 					return false;
 	        	}else if(data.responseHeader.resultCode=="111111"){
 	        		alert("失败了");
+	        		document.getElementById("agentEnterpriseSubmit").disabled=false;
 	        		return false;
 	        	}else if(data.responseHeader.resultCode=="000000"){
 	        		window.location.href=_base+"/user/qualification/editAgentEnterprise";
 	        	}
 	            },
 				error: function(error) {
+					document.getElementById("agentEnterpriseSubmit").disabled=false;
 					alert("error:"+ error);
 				}
 		});
+		 }
 	}
 	/**
 	 * 代理商个人保存方法
@@ -759,8 +779,12 @@ function deleteImg(imageId,certPic,idpsId,imgErrShowId){
 				url:_base+"/user/qualification/savePersonalInfo",
 				dataType: "json",
 				data:$("#agentPersonal").serialize(),
+				beforeSend: function(){
+					document.getElementById("savePersonalQualification").disabled=true;
+				},
 		        success: function(data) {
 		        	if(data.responseHeader.resultCode=="00001"){
+		        		document.getElementById("savePersonalQualification").disabled=false;
 		        		alert("失败了");
 		        	}
 		        	if(data.responseHeader.resultCode=="00000"){
@@ -874,6 +898,9 @@ function deleteImg(imageId,certPic,idpsId,imgErrShowId){
 	        dataType: "json",
 	        data: $("#enterprise").serialize(),
 	        message: "正在加载数据..",
+			beforeSend: function(){
+				document.getElementById("toSaveSuppliser").disabled=true;
+			},
 	        success: function (data) {
 	        	if(data.responseHeader.resultCode=="000003"){
 	        		$('#newPhoneCodeErrMsgShow').text("短信验证码错误");
@@ -881,6 +908,7 @@ function deleteImg(imageId,certPic,idpsId,imgErrShowId){
 	        		$('#phoneCodeText').show();
 	        	 	$("#newPhoneCodeErrMsg").show();
 					$('#phoneCodeFlag').val("0");
+					document.getElementById("toSaveSuppliser").disabled=false;
 					return false;
 	        	}else if(data.responseHeader.resultCode=="000004"){
 	        		$('#newPhoneCodeErrMsgShow').text("短信验证码已失效");
@@ -888,6 +916,7 @@ function deleteImg(imageId,certPic,idpsId,imgErrShowId){
 	        		$('#phoneCodeText').show();
 	        		$("#newPhoneCodeErrMsg").show();
 					$('#phoneCodeFlag').val("0");
+					document.getElementById("toSaveSuppliser").disabled=false;
 					return false;
 	        	}else if(data.responseHeader.resultCode=="000007"){
 	        		$('#newPhoneCodeErrMsgShow').text("手机与发送短信手机不一致");
@@ -895,8 +924,10 @@ function deleteImg(imageId,certPic,idpsId,imgErrShowId){
 	        		$('#phoneCodeText').show();
 	        		$("#newPhoneCodeErrMsg").show();
 					$('#phoneCodeFlag').val("0");
+					document.getElementById("toSaveSuppliser").disabled=false;
 					return false;
 	        	}else if(data.responseHeader.resultCode=="111111"){
+	        		document.getElementById("toSaveSuppliser").disabled=false;
 	        		alert("失败了");
 	        		return false;
 	        	}else if(data.responseHeader.resultCode=="000000"){
@@ -904,6 +935,7 @@ function deleteImg(imageId,certPic,idpsId,imgErrShowId){
 	        	}
 	        },
 	        error: function(XMLHttpRequest, textStatus, errorThrown) {
+	        	document.getElementById("toSaveSuppliser").disabled=false;
 				 alert(XMLHttpRequest.status);
 				 alert(XMLHttpRequest.readyState);
 				 alert(textStatus);
