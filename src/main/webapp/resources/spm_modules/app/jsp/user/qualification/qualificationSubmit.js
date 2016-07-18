@@ -697,7 +697,6 @@ function deleteImg(imageId,certPic,idpsId,imgErrShowId){
 				alert("error:"+ error);
 			}
 		});
-	  }
 	}
 	
 	//获取当前项目根路径
@@ -720,8 +719,6 @@ function deleteImg(imageId,certPic,idpsId,imgErrShowId){
 	 * 代理商企业保存方法
 	 */
 	function toAgentEnterpriseSave(){
-		 var flag=1;
-		 if(flag){
 		 $.ajax({
 			type:"post",
 			url:_base+"/user/qualification/saveEnterprise",
@@ -768,7 +765,6 @@ function deleteImg(imageId,certPic,idpsId,imgErrShowId){
 					alert("error:"+ error);
 				}
 		});
-		 }
 	}
 	/**
 	 * 代理商个人保存方法
@@ -872,7 +868,7 @@ function deleteImg(imageId,certPic,idpsId,imgErrShowId){
 	        		$('#phoneCodeText').text("手机与发送短信手机不一致");
 	        		$("#phoneCodeImage").attr("src",_base+'/resources/slpmall/images/icon-a.png');
 	        		$('#phoneCodeText').show();
-	        		$('#phoneCodeErrMsg').show();
+	         		$('#phoneCodeErrMsg').show();
 					$('#phoneCodeFlag').val("0");
 					return false;
 	        	}else if(data.responseHeader.resultCode=="00001"){
@@ -891,54 +887,54 @@ function deleteImg(imageId,certPic,idpsId,imgErrShowId){
 	}
 	
 	function toSaveSuppliser(){
-		$.ajax({
-	        type: "post",
-	        processing: false,
-	        url: _base+"/user/qualification/saveEnterprise",
-	        dataType: "json",
-	        data: $("#enterprise").serialize(),
-	        message: "正在加载数据..",
-			beforeSend: function(){
-				document.getElementById("toSaveSuppliser").disabled=true;
-			},
-	        success: function (data) {
-	        	if(data.responseHeader.resultCode=="000003"){
-	        		$('#newPhoneCodeErrMsgShow').text("短信验证码错误");
-	        		$("#phoneCodeImage").attr("src",_base+'/resources/slpmall/images/icon-a.png');
-	        		$('#phoneCodeText').show();
-	        	 	$("#newPhoneCodeErrMsg").show();
-					$('#phoneCodeFlag').val("0");
-					document.getElementById("toSaveSuppliser").disabled=false;
-					return false;
-	        	}else if(data.responseHeader.resultCode=="000004"){
-	        		$('#newPhoneCodeErrMsgShow').text("短信验证码已失效");
-	        		$("#phoneCodeImage").attr("src",_base+'/resources/slpmall/images/icon-a.png');
-	        		$('#phoneCodeText').show();
-	        		$("#newPhoneCodeErrMsg").show();
-					$('#phoneCodeFlag').val("0");
-					document.getElementById("toSaveSuppliser").disabled=false;
-					return false;
-	        	}else if(data.responseHeader.resultCode=="000007"){
-	        		$('#newPhoneCodeErrMsgShow').text("手机与发送短信手机不一致");
-	        		$("#phoneCodeImage").attr("src",_base+'/resources/slpmall/images/icon-a.png');
-	        		$('#phoneCodeText').show();
-	        		$("#newPhoneCodeErrMsg").show();
-					$('#phoneCodeFlag').val("0");
-					document.getElementById("toSaveSuppliser").disabled=false;
-					return false;
-	        	}else if(data.responseHeader.resultCode=="111111"){
-	        		document.getElementById("toSaveSuppliser").disabled=false;
-	        		alert("失败了");
-	        		return false;
-	        	}else if(data.responseHeader.resultCode=="000000"){
-	        		window.location.href=_base+"/user/qualification/editSupplier";
-	        	}
-	        },
-	        error: function(XMLHttpRequest, textStatus, errorThrown) {
-	        	document.getElementById("toSaveSuppliser").disabled=false;
-				 alert(XMLHttpRequest.status);
-				 alert(XMLHttpRequest.readyState);
-				 alert(textStatus);
-				}
-			    }); 
+	$.ajax({
+        type: "post",
+        processing: false,
+        url: _base+"/user/qualification/saveEnterprise",
+        dataType: "json",
+        data: $("#enterprise").serialize(),
+        message: "正在加载数据..",
+		beforeSend: function(){
+			document.getElementById("toSaveSuppliser").disabled=true;
+		},
+        success: function (data) {
+        	if(data.responseHeader.resultCode=="000003"){
+        		$('#newPhoneCodeErrMsgShow').text("短信验证码错误");
+        		$("#phoneCodeImage").attr("src",_base+'/resources/slpmall/images/icon-a.png');
+        		$('#phoneCodeText').show();
+        	 	$("#newPhoneCodeErrMsg").show();
+				$('#phoneCodeFlag').val("0");
+				document.getElementById("toSaveSuppliser").disabled=false;
+				return false;
+        	}else if(data.responseHeader.resultCode=="000004"){
+        		$('#newPhoneCodeErrMsgShow').text("短信验证码已失效");
+        		$("#phoneCodeImage").attr("src",_base+'/resources/slpmall/images/icon-a.png');
+        		$('#phoneCodeText').show();
+        		$("#newPhoneCodeErrMsg").show();
+				$('#phoneCodeFlag').val("0");
+				document.getElementById("toSaveSuppliser").disabled=false;
+				return false;
+        	}else if(data.responseHeader.resultCode=="000007"){
+        		$('#newPhoneCodeErrMsgShow').text("手机与发送短信手机不一致");
+        		$("#phoneCodeImage").attr("src",_base+'/resources/slpmall/images/icon-a.png');
+        		$('#phoneCodeText').show();
+        		$("#newPhoneCodeErrMsg").show();
+				$('#phoneCodeFlag').val("0");
+				document.getElementById("toSaveSuppliser").disabled=false;
+				return false;
+        	}else if(data.responseHeader.resultCode=="111111"){
+        		document.getElementById("toSaveSuppliser").disabled=false;
+        		alert("失败了");
+        		return false;
+        	}else if(data.responseHeader.resultCode=="000000"){
+        		window.location.href=_base+"/user/qualification/editSupplier";
+        	}
+        },
+        error: function(XMLHttpRequest, textStatus, errorThrown) {
+        	document.getElementById("toSaveSuppliser").disabled=false;
+			 alert(XMLHttpRequest.status);
+			 alert(XMLHttpRequest.readyState);
+			 alert(textStatus);
+			}
+		    }); 
 	}
