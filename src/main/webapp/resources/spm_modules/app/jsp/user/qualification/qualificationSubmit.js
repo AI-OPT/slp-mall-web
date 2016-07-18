@@ -83,7 +83,7 @@ define('app/jsp/user/qualification/qualificationSubmit', function (require, expo
 				$("#registerAddrErrMsg").hide();
 			}
 			//校验图片是否上传
-			baseInfoPager._checkPic('image1','imgErrShow');
+			baseInfoPager._checkPic('idpsId','imgErrShow');
 			
 			//校验街道地址
 			baseInfoPager._checkCertAddr();
@@ -181,7 +181,7 @@ define('app/jsp/user/qualification/qualificationSubmit', function (require, expo
 		this._checkEnterpriseContactValue();
 		//校验图片是否上传
 		for(var i=1;i<=5;i++){
-		baseInfoPager._checkPic('image'+i,'imgErrShow'+i);
+		baseInfoPager._checkPic('idpsId'+i,'imgErrShow'+i);
 		}
 		/**
 		 * 获取标志信息
@@ -239,7 +239,7 @@ define('app/jsp/user/qualification/qualificationSubmit', function (require, expo
 		agentPersonalPager._checkBithday();
 		//校验图片是否上传
 		for(var i=1;i<=3;i++){
-		baseInfoPager._checkPic('image'+i,'imgErrShow'+i);
+			baseInfoPager._checkPic('idpsId'+i,'imgErrShow'+i);
 		}
 		var picFlag = $("#picFlag").val();
 		var custNameFlag = $("#custNameFlag").val();
@@ -273,7 +273,7 @@ define('app/jsp/user/qualification/qualificationSubmit', function (require, expo
 			$("#registerAddrErrMsg").hide();
 		}
 		//校验图片是否上传
-		baseInfoPager._checkPic('image1','imgErrShow');
+		baseInfoPager._checkPic('idpsId','imgErrShow');
 		//校验街道地址
 		baseInfoPager._checkCertAddr();
 		//校验注册号
@@ -314,7 +314,7 @@ define('app/jsp/user/qualification/qualificationSubmit', function (require, expo
 		 */
 		//校验图片是否上传
 		for(var i=1;i<=5;i++){
-		baseInfoPager._checkPic('image'+i,'imgErrShow'+i);
+		baseInfoPager._checkPic('idpsId'+i,'imgErrShow'+i);
 		}
 		var picFlag = $("#picFlag").val();
 		var custNameFlag = $("#custNameFlag").val();
@@ -355,7 +355,7 @@ define('app/jsp/user/qualification/qualificationSubmit', function (require, expo
 		enterprisePager._checkSupplyGoodsValue();
 		//校验图片是否上传
 		for(var i=1;i<=9;i++){
-			baseInfoPager._checkPic('image'+i,'imgErrShow'+i);
+			baseInfoPager._checkPic('idpsId'+i,'imgErrShow'+i);
 		}
 		/**
 		 * 获取标志信息
@@ -415,7 +415,7 @@ define('app/jsp/user/qualification/qualificationSubmit', function (require, expo
 			agentPersonalPager._checkBithday();
 			//校验图片是否上传
 			for(var i=1;i<=3;i++){
-			 baseInfoPager._checkPic('image'+i,'imgErrShow'+i);
+			 baseInfoPager._checkPic('idpsId'+i,'imgErrShow'+i);
 			}
 			var picFlag = $("#picFlag").val();
 			var custNameFlag = $("#custNameFlag").val();
@@ -496,7 +496,7 @@ define('app/jsp/user/qualification/qualificationSubmit', function (require, expo
 		enterprisePager._checkSupplyGoodsValue();
 		//校验图片是否上传
 		for(var i=1;i<=9;i++){
-			baseInfoPager._checkPic('image'+i,'imgErrShow'+i);
+			baseInfoPager._checkPic('idpsId'+i,'imgErrShow'+i);
 		}
 		/**
 		 * 获取标志信息
@@ -693,7 +693,7 @@ function deleteImg(imageId,certPic,idpsId,imgErrShowId){
         	}
             },
 			error: function(error) {
-				flag=1;
+				document.getElementById("enterpriseToSave").disabled=false;
 				alert("error:"+ error);
 			}
 		});
@@ -788,6 +788,7 @@ function deleteImg(imageId,certPic,idpsId,imgErrShowId){
 		        	}
 		            },
 					error: function(error) {
+						document.getElementById("savePersonalQualification").disabled=false;
 						alert("error:"+ error);
 					}
 				});
@@ -931,10 +932,11 @@ function deleteImg(imageId,certPic,idpsId,imgErrShowId){
         	}
         },
         error: function(XMLHttpRequest, textStatus, errorThrown) {
-        	document.getElementById("toSaveSuppliser").disabled=false;
+        	 document.getElementById("toSaveSuppliser").disabled=false;
 			 alert(XMLHttpRequest.status);
 			 alert(XMLHttpRequest.readyState);
 			 alert(textStatus);
 			}
 		    }); 
 	}
+	

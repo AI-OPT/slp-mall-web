@@ -283,9 +283,11 @@ define('app/jsp/user/qualification/baseinfo', function (require, exports, module
 			}
 		},
 		//校验图片是否上传
-		_checkPic:function(imgId,imgErrShowId){
-			var image = document.getElementById(imgId).value;
-			if(image==''){
+		_checkPic:function(idpsId,imgErrShowId){
+			alert(idpsId);
+			var idpsIdVal = document.getElementById(idpsId).value;
+			alert(idpsIdVal);
+			if(idpsIdVal==''){
 				$('#picFlag').val("0");
 				document.getElementById(imgErrShowId).innerHTML="图片不能为空";
 				document.getElementById(imgErrShowId).style.color="red";
