@@ -17,6 +17,20 @@
 	var baseInfoPager;
 	var agentPersonalPager;
 	var auditState = "${custKeyInfo.auditState}";
+	
+	var provinceCode = "${codeMap.provinceCode}";
+	var cityCode = "${codeMap.cityCode}";
+	var countyCode = "${codeMap.countyCode}";
+	var certAddr = "${codeMap.certAddr}";
+	
+	var gender = "${custKeyInfo.custSex}";
+	var year = "${codeMap.year}";
+	var month = "${codeMap.month}";
+	if(month.substr(0,1)=='0')
+		month=month.substr(1,2);
+	var day = "${codeMap.day}";
+	if(day.substr(0,1)=='0')
+		day=day.substr(1,2);
 	(function() { 
 		seajs.use([ 'app/jsp/user/qualification/baseinfo','app/jsp/user/qualification/agent-personal','app/jsp/user/qualification/qualificationSubmit'], function(BaseInfoQualificationPager,AgentPersonalPager,QualificationSubmitPager) {
 			    baseInfoPager = new BaseInfoQualificationPager({
@@ -33,6 +47,11 @@
 			qualificationSubmitPager.render();
 		});
 	})();  
+	
+	$(function(){
+		$("#inCome").val("${codeMap.incomeLevel}");
+		$("#custEducation").val("${codeMap.custEducation}");
+	});
 </script>
 </head>
 <body>
@@ -81,7 +100,7 @@
              <li>
                 <p class="word">性别:</p>
                 <p><c:choose>
-				<c:when test="${custKeyInfo.custSex}==0">男
+				<c:when test="${custKeyInfo.custSex==0}">男
 				</c:when>
 				<c:otherwise>女</c:otherwise>
 				</c:choose></p>
@@ -162,15 +181,15 @@
          <ul>
              <li>
                 <p class="word"><b class="red">*</b>真实姓名:</p>
-               <p><input type="text" class="int-medium" placeholder="请填写真实姓名" id="realName" name="custName"></p>
+               <p><input type="text" class="int-medium" placeholder="请填写真实姓名" id="realName" name="custName" value="${custKeyInfo.custName}"></p>
                      <label id="realNameErrMsg" style="display:none"><img src="${_slpbase}/images/icon-d.png" id="realNameImage"><span class="ash" id="realNameText">2-24个字符，可用汉字或英语字母</span></label>
              </li>
          </ul>
          <ul>
              <li>
                 <p class="word"><b class="red">*</b>性别:</p>
-                <p><input type="radio" class="checkbox-medium" name="custSex" id="man" value="0" checked=><span class="Gender">男</span></p>
-                <p><input type="radio" class="checkbox-medium" name="custSex" id="woman" value="1" ><span class="Gender">女</span></p>
+                <p><input type="radio" class="checkbox-medium" name="custSex" id="man" value="0"><span class="Gender">男</span></p>
+                <p><input type="radio" class="checkbox-medium" name="custSex" id="woman" value="1"><span class="Gender">女</span></p>
              </li>
          </ul>
          <ul>
@@ -203,11 +222,17 @@
                 <p>
                  <select class="select-xmini" id="cityCode" name="custCityCode">
                 	<option value="0">请选择</option>
+                	<c:forEach items="${cityList}" var="record">
+                		<option value="${record.cityCode}">${record.areaName }</option>
+                	</c:forEach>
                  </select>
                 </p>
                 <p>
                   <select class="select-xmini" id="countyCode" name="custCountyCode">
                 	<option value="0">请选择</option>
+                	<c:forEach items="${countyList}" var="record">
+                		<option value="${record.areaCode}">${record.areaName }</option>
+                	</c:forEach>
                   </select></p>
                 <label id="registerAddrErrMsg" style="display:none"><img src="${_slpbase}/images/icon-a.png" id="registerAddrImage"><span class="ash" id="registerAddrText">请选择联系地址信息</span></label>
              </li>
@@ -254,7 +279,7 @@
          <ul>
              <li>
                 <p class="word">介绍信息:</p>
-                <p><textarea type="text" class="textarea-xxlarge" id="introduce" name="personalRemark" placeholder = "简要介绍您产品销售渠道方面的优势或经验等相关内容"></textarea></p>
+                <p><textarea type="text" class="textarea-xxlarge" id="introduce" name="personalRemark" placeholder = "简要介绍您产品销售渠道方面的优势或经验等相关内容">${custKeyInfo.personalRemark }</textarea></p>
              </li>
          </ul>
      </div>
@@ -265,7 +290,7 @@
            <ul>
                 <li>
                 	<p class="word"><b class="red">*</b>身份证号:</p>
-                    <p><input type="text" class="int-medium" placeholder="请填写和真实姓名一致的18位身份证号码" id="idNumber" name="certNum"></p>
+                    <p><input type="text" class="int-medium" placeholder="请填写和真实姓名一致的18位身份证号码" id="idNumber" name="certNum" value="${custKeyInfo.certNum }"></p>
                      <label id="idNumberErrMsg" style="display:none"><img src="${_slpbase}/images/icon-c.png" id="idNumberImage"><span class="ash" id="idNumberText">18位数字</span></label>
                  </li>
              </ul>
@@ -275,7 +300,7 @@
 	                <input type="hidden" value="身份证正面照" name="list[0].infoName">
 	                 <input type="hidden" name="list[0].infoType" value="11">
                		 <input type="hidden" name="list[0].infoItem" value="11001">
-	                <p class="img"><img id="certPic1" src="/slp-mall/resources/slpmall/images/fom-t.png"></p>
+	                <p class="img"><img id="certPic1" src="${imageMap.get('11001') }"></p>
 	                <p class="small-p">
 		                <span>
 		                    <input type="button" value="点击上传" class="file-btn">
@@ -304,7 +329,7 @@
 	                <input type="hidden" name="list[1].infoName" value="身份证背面照片"/>
 	                <input type="hidden" value="11" name="list[1].infoType">
                		<input type="hidden" value="11002" name="list[1].infoItem">
-	                <p class="img"><img src="${_slpbase }/images/fom-t.png" id="certPic2"></p>
+	                <p class="img"><img src="${imageMap.get('11002') }" id="certPic2"></p>
 	                <p class="small-p">
 	                	
 		                <span>
@@ -334,7 +359,7 @@
 	                <input type="hidden" name="list[2].infoName" value="手持身份证正面照片"/>
 	                <input type="hidden" value="11" name="list[2].infoType">
                		 <input type="hidden" value="11003" name="list[2].infoItem">
-	                <p class="img"><img src="${_slpbase }/images/fom-t.png" id="certPic3"></p>
+	                <p class="img"><img src="${imageMap.get('11003') }" id="certPic3"></p>
 	                <p class="small-p">
 	                <span>
 	                    <input type="button" value="点击上传" class="file-btn">

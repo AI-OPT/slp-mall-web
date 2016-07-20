@@ -40,6 +40,44 @@ define(
 					$("#countyCode").val("0");
 					AgentPersonalPager.superclass.setup.call(this);
 					birth.init('yy_mm_dd');
+					this._birthday();
+					this._gender();
+				},
+				
+				_gender:function(){
+					if(gender=='0')
+						$("#man").attr("checked","checked");
+					if(gender=='1')
+						$("#woman").attr("checked","checked");
+				},
+				_birthday:function(){
+					$("#yy_mm_dd").val(year);
+					$("#mm").val(month);
+					var t = ((year % 4)==0) && ((year % 100)!=0) || ((year % 400)==0);
+					var d;
+					 switch( parseInt(month) ){
+			            case 1:
+			            case 3:
+			            case 5:
+			            case 7:
+			            case 8:
+			            case 10:
+			            case 12:
+			                d = 31;
+			                break;
+			            case 4:
+			            case 6:
+			            case 9:
+			            case 11:
+			                d = 30;
+			                break;
+			            case 2:
+			                d = t ? 29 : 28;
+			        }
+				 for(var j = 0; j < d; j++) {
+			          document.getElementById('dd').options.add(new Option(j + 1, j + 1));
+			        }
+					$("#dd").val(day);
 				},
 				_showcustNameTip:function(){
 					$("#realNameErrMsg").show();

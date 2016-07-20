@@ -14,18 +14,12 @@
 <script type="text/javascript">
 	var baseInfoPager;
 	var enterprisePager;
+	var auditState = "${groupKeyInfo.auditState}";
+	
 	var provinceCode = "${addressMap.provinceCode}";
 	var cityCode = "${addressMap.cityCode}";
 	var countyCode = "${addressMap.countyCode}";
-	var auditState = "${groupKeyInfo.auditState}";
-	var taxpayerType = "${codeMap.taxpayerCode}";
-	var taxpayerTypeCode = "${codeMap.taxpayerTypeCode}";
-	var groupIndustry = "${codeMap.groupIndustry}";
-	var groupType = "${codeMap.groupType}";
-	var groupMemberScale = "${codeMap.groupMemberScale}";
-	var productCat = "${codeMap.productCat}";
-	var contactDept = "${codeMap.contactDept}";
-	var certIssueDate = "${groupKeyInfo.certIssueDate}".substr(0,10 );
+	var certAddr = "${addressMap.certAddr}";
 	(function() { 
 		seajs.use([ 'app/jsp/user/qualification/baseinfo','app/jsp/user/qualification/agent-supplier-enterprise','app/jsp/user/qualification/qualificationSubmit'], function(BaseInfoQualificationPager,EnterprisePager,QualificationSubmitPager) {
 			    baseInfoPager = new BaseInfoQualificationPager({
@@ -42,6 +36,15 @@
 			qualificationSubmitPager.render();
 		});
 	})();  
+	$(function(){
+		$("#taxpayerType").val(${codeMap.taxpayerCode});
+		$("#taxCode").val(${codeMap.taxpayerTypeCode});
+		$("#supplyGoods").val(${codeMap.productCat});
+		$("#groupIndustry").val("${codeMap.groupIndustry}");
+		$("#groupMemberScale").val(${codeMap.groupMemberScale});
+		$("#groupType").val(${codeMap.groupType});
+		$("#contactDept").val(${codeMap.contactDept});
+	});
 </script>
 </head>
 <body>
@@ -105,7 +108,7 @@
          <ul>
              <li>
                 <p class="word">成立日期:</p>
-                <p>${groupKeyInfo.certIssueDate }</p>
+                <p>${codeMap.certIssueDate }</p>
              </li>
          </ul>
          <ul>
@@ -374,7 +377,7 @@
              <li>
                <p class="word"><b class="red">*</b>注册日期:</p>
                 <p id="establishTimeId">
-                  <input id="establishTime" name="establishTime" type="text" class="int-small" readonly value=${groupKeyInfo.certIssueDate }>
+                  <input id="establishTime" name="establishTime" type="text" class="int-small" readonly value=${codeMap.certIssueDate }>
                   <A href="javascript:void(0);"><i class="icon-calendar"></i></A>
                  </p>
                 <label style="display: none;" id="establishTimeErrorMsg"><img src="${_slpbase}/images/icon-a.png" id="establishTimeImage"><span class="ash" id="establishTimeText">请选择日期</span></label>  

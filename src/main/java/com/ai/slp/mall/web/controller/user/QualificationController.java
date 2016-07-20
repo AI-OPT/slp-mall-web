@@ -523,6 +523,20 @@ public class QualificationController {
         //获取行业信息
         Map<String,String> industryMap = getIndustry();
         
+        IGnAreaQuerySV areaQuerySV = DubboConsumerFactory.getService("iGnAreaQuerySV");
+        List<GnAreaVo> cityList = areaQuerySV.getCityListByProviceCode(grouKeyInfoResponse.getProvinceCode());
+        List<GnAreaVo> countyList = areaQuerySV.getCountyListByCityCode(grouKeyInfoResponse.getCityCode());
+        //获取下拉Code
+        Map<String,String> codeMap = new HashMap<String,String>();
+        codeMap.put("provinceCode", grouKeyInfoResponse.getProvinceCode());
+        codeMap.put("cityCode", grouKeyInfoResponse.getCityCode());
+        codeMap.put("countyCode", grouKeyInfoResponse.getCountyCode());
+        codeMap.put("certAddr", grouKeyInfoResponse.getCertAddr());
+        codeMap.put("groupIndustry", grouKeyInfoResponse.getGroupIndustry());
+        codeMap.put("groupMemberScale", grouKeyInfoResponse.getGroupMemberScale());
+        codeMap.put("groupType", grouKeyInfoResponse.getGroupType());
+        codeMap.put("contactDept", contactsInfoInfoResponse.getContactDept());
+        
         ICacheSV cacheSv = DubboConsumerFactory.getService("iCacheSV");
         String provinceName = cacheSv.getAreaName(grouKeyInfoResponse.getProvinceCode());
         String cityCode = cacheSv.getAreaName(grouKeyInfoResponse.getCityCode());
@@ -536,6 +550,9 @@ public class QualificationController {
         
         Map<String, Object> model = new HashMap<String, Object>();
         model.put("contactsInfo", contactsInfoInfoResponse);
+        model.put("codeMap", codeMap);
+        model.put("cityList", cityList);
+        model.put("countyList", countyList);
         model.put("groupKeyInfo", grouKeyInfoResponse);
         model.put("custFileResponse", custFileResponse);
         model.put("provinceList", provinceList);
@@ -557,6 +574,7 @@ public class QualificationController {
          * 获取个人客户信息
          */
         SearchCustKeyInfoResponse custKeyInfoResponse = getCustKeyBaseinfo(userId);
+        
         /**
          * 获取图片信息
          */
@@ -571,20 +589,37 @@ public class QualificationController {
         //获取地区信息
         List<GnAreaVo> provinceList = getProvinceList();
         
-        custKeyInfoResponse.setIncomeLevel(incomeLevelMap.get(custKeyInfoResponse.getIncomeLevel()));
-        custKeyInfoResponse.setCustEducation(educationMap.get(custKeyInfoResponse.getCustEducation()));
+        IGnAreaQuerySV areaQuerySV = DubboConsumerFactory.getService("iGnAreaQuerySV");
+        List<GnAreaVo> cityList = areaQuerySV.getCityListByProviceCode(custKeyInfoResponse.getCustProvinceCode());
+        List<GnAreaVo> countyList = areaQuerySV.getCountyListByCityCode(custKeyInfoResponse.getCustCityCode());
         
        //格式化生日的日期格式
         SimpleDateFormat fomate = new SimpleDateFormat("yyyy-MM-dd");
         String birthday = fomate.format(custKeyInfoResponse.getCustBirthday());
         
-       ICacheSV cacheSv = DubboConsumerFactory.getService("iCacheSV");
+        Map<String,String> codeMap = new HashMap<String,String>();
+        codeMap.put("provinceCode", custKeyInfoResponse.getCustProvinceCode());
+        codeMap.put("cityCode", custKeyInfoResponse.getCustCityCode());
+        codeMap.put("countyCode", custKeyInfoResponse.getCustCountyCode());
+        codeMap.put("certAddr", custKeyInfoResponse.getCustAddr());
+        codeMap.put("incomeLevel", custKeyInfoResponse.getIncomeLevel());
+        codeMap.put("custEducation", custKeyInfoResponse.getCustEducation());
+        codeMap.put("year", birthday.substring(0, 4));
+        codeMap.put("month", birthday.substring(5,7));
+        codeMap.put("day", birthday.substring(8, 10));
+        custKeyInfoResponse.setIncomeLevel(incomeLevelMap.get(custKeyInfoResponse.getIncomeLevel()));
+        custKeyInfoResponse.setCustEducation(educationMap.get(custKeyInfoResponse.getCustEducation()));
+        
+        ICacheSV cacheSv = DubboConsumerFactory.getService("iCacheSV");
         String provinceName = cacheSv.getAreaName(custKeyInfoResponse.getCustProvinceCode());
         String cityCode = cacheSv.getAreaName(custKeyInfoResponse.getCustCityCode());
         String county = cacheSv.getAreaName(custKeyInfoResponse.getCustCountyCode());
         custKeyInfoResponse.setProvinceCode(provinceName+" "+cityCode+" "+county+" "+custKeyInfoResponse.getCustAddr());
         Map<String, Object> model = new HashMap<String, Object>();
         model.put("custKeyInfo", custKeyInfoResponse);
+        model.put("codeMap", codeMap);
+        model.put("cityList", cityList);
+        model.put("countyList", countyList);
         model.put("imageMap", imageMap);
         model.put("educationMap", educationMap);
         model.put("incomeLevelMap", incomeLevelMap);
@@ -673,6 +708,23 @@ public class QualificationController {
         //获取行业信息
         Map<String,String> industryMap = getIndustry();
         
+        //获取下拉Code
+        Map<String,String> codeMap = new HashMap<String,String>();
+        codeMap.put("provinceCode", grouKeyInfoResponse.getProvinceCode());
+        codeMap.put("cityCode", grouKeyInfoResponse.getCityCode());
+        codeMap.put("countyCode", grouKeyInfoResponse.getCountyCode());
+        codeMap.put("certAddr", grouKeyInfoResponse.getCertAddr());
+        codeMap.put("groupIndustry", grouKeyInfoResponse.getGroupIndustry());
+        codeMap.put("taxpayerType", grouKeyInfoResponse.getTaxpayerType());
+        codeMap.put("taxpayerTypeCode", grouKeyInfoResponse.getTaxpayerTypeCode());
+        codeMap.put("groupMemberScale", grouKeyInfoResponse.getGroupMemberScale());
+        codeMap.put("groupType", grouKeyInfoResponse.getGroupType());
+        codeMap.put("contactDept", contactsInfoInfoResponse.getContactDept());
+        codeMap.put("certIssueDate", grouKeyInfoResponse.getCertIssueDate().toString().substring(0, 10));
+        IGnAreaQuerySV areaQuerySV = DubboConsumerFactory.getService("iGnAreaQuerySV");
+        List<GnAreaVo> cityList = areaQuerySV.getCityListByProviceCode(grouKeyInfoResponse.getProvinceCode());
+        List<GnAreaVo> countyList = areaQuerySV.getCountyListByCityCode(grouKeyInfoResponse.getCityCode());
+        
         ICacheSV cacheSv = DubboConsumerFactory.getService("iCacheSV");
         String provinceName = cacheSv.getAreaName(grouKeyInfoResponse.getProvinceCode());
         String cityCode = cacheSv.getAreaName(grouKeyInfoResponse.getCityCode());
@@ -688,6 +740,9 @@ public class QualificationController {
         
         Map<String,Object> model = new HashMap<String,Object>();
         model.put("contactsInfo", contactsInfoInfoResponse);
+        model.put("codeMap", codeMap);
+        model.put("cityList", cityList);
+        model.put("countyList", countyList);
         model.put("groupKeyInfo", grouKeyInfoResponse);
         model.put("custFileResponse", custFileResponse);
         model.put("provinceList", provinceList);
@@ -763,6 +818,7 @@ public class QualificationController {
         codeMap.put("taxpayerTypeCode", grouKeyInfoResponse.getTaxpayerTypeCode());
         codeMap.put("groupIndustry", grouKeyInfoResponse.getGroupIndustry());
         codeMap.put("productCat", grouKeyInfoResponse.getProductCat());
+        codeMap.put("certIssueDate", grouKeyInfoResponse.getCertIssueDate().toString().substring(0, 10));
         
         grouKeyInfoResponse.setProvinceCode(provinceName+" "+cityCode+" "+county+" "+grouKeyInfoResponse.getCertAddr());
         grouKeyInfoResponse.setGroupMemberScale(groupMemberMap.get(grouKeyInfoResponse.getGroupMemberScale()));

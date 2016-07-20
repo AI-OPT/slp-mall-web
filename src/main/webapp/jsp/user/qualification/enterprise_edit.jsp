@@ -14,6 +14,11 @@
 <script type="text/javascript">
 var baseInfoPager;
 var qualificationSubmitPager;
+var provinceCode = "${codeMap.provinceCode}";
+var cityCode = "${codeMap.cityCode}";
+var countyCode = "${codeMap.countyCode}";
+var certAddr = "${codeMap.certAddr}";
+
 var auditState = "${groupKeyInfo.auditState}";
 (function() { 
 	seajs.use([ 'app/jsp/user/qualification/baseinfo','app/jsp/user/qualification/qualificationSubmit'], function(BaseInfoQualificationPager,QualificationSubmitPager) {
@@ -27,6 +32,12 @@ var auditState = "${groupKeyInfo.auditState}";
 		qualificationSubmitPager.render();
 	});
 })(); 
+$(function(){
+	$("#groupIndustry").val("${codeMap.groupIndustry}");
+	$("#groupMemberScale").val("${codeMap.groupMemberScale}");
+	$("#groupType").val("${codeMap.groupType}");
+	$("#contactDept").val("${codeMap.contactDept}");
+})
 </script>
 </head>
 <body>
@@ -119,7 +130,7 @@ var auditState = "${groupKeyInfo.auditState}";
          <ul>
              <li>
                 <p class="word"><b class="red">*</b>企业名称:</p>
-                <p><input type="text" class="int-xlarge" placeholder="请填写营业执照上的注册企业名称" id="custName" name="custName" value="${ insertGroupKeyInfoRequest.custName}"></p>
+                <p><input type="text" class="int-xlarge" placeholder="请填写营业执照上的注册企业名称" id="custName" name="custName" value="${groupKeyInfo.custName}"></p>
                  <label id="custNameErrMsg" style="display:none"><img src="${_slpbase}/images/icon-c.png" id="custNameImage"><span class="ash" id="enterpriseErrMsgShow">4-60个字符，可用中英文、数字、“-”、”_”、“（）”及”( )”</span></label>
              </li>
          </ul>
@@ -138,21 +149,27 @@ var auditState = "${groupKeyInfo.auditState}";
                 </p>
                 <p>
                  <select class="select-xmini" id="cityCode" name="cityCode">
-                	
+                	<c:forEach items="${cityList}" var="record">
+                		<option value="${record.cityCode}">${record.areaName}</option>
+                	</c:forEach>
                  </select>
                 </p>
-                <p><select class="select-xmini" id="countyCode" name="countyCode"></select></p>
+                <p><select class="select-xmini" id="countyCode" name="countyCode">
+                                	<c:forEach items="${countyList}" var="record">
+                		<option value="${record.areaCode}">${record.areaName}</option>
+                	</c:forEach>
+                	</select></p>
                 <label id="registerAddrErrMsg" style="display:none"><img src="${_slpbase}/images/icon-a.png" id="registerAddrImage"><span class="ash" id="registerAddrText">请选择注册地址</span></label>
              </li>
              <li class="right">
-             <p><input type="text" class="int-xlarge" placeholder="详细街道地址" id="certAddr" name="certAddr"></p>
+             <p><input type="text" class="int-xlarge" placeholder="详细街道地址" id="certAddr" name="certAddr" value="${codeMap.certAddr }"></p>
              <label id="certAddrErrMsg" style="display:none"><img src="${_slpbase}/images/icon-c.png" id="certAddrImage"><span class="ash" id="certAddrText">5-120个字符</span></label>
              </li>
          </ul>
    		  <ul>
              <li>
                 <p class="word"><b class="red">*</b>营业执照注册号:</p>
-                <p><input type="text" class="int-medium" placeholder="请填写营业执照上的注册号" id="certNum" name="certNum"></p>
+                <p><input type="text" class="int-medium" placeholder="请填写营业执照上的注册号" id="certNum" name="certNum" value="${groupKeyInfo.certNum}"></p>
                  <label id="certNumErrMsg" style="display:none"><img src="${_slpbase}/images/icon-c.png" id="certNumImage"><span class="ash" id="certNumText">最多20个字符，允许使用英语字母（区分大小写）、数字及“-”</span></label>
              </li>
          </ul>
@@ -162,7 +179,7 @@ var auditState = "${groupKeyInfo.auditState}";
                 <input type="hidden" value="营业执照副本" name="list[0].infoName">
                 <input type="hidden" value="12" name="list[0].infoType">
                 <input type="hidden" value="12001" name="list[0].infoItem">
-                <p class="img"><img src="${_slpbase}/images/fom-t.png" id="certPic"></p>
+                <p class="img"><img src="${imageMap['12001']}" id="certPic"></p>
                 <p class="small-p">
                		<span><input type="file" id="image1" name="image1" class="file" style="display: " onchange="uploadImg('image1','certPic','idpsId','imgErrShow');">
                		<input type="button" value="点击上传" type="file" class="file-btn"><a href="javascript:" onclick="deleteImg('image1','certPic','idpsId','imgErrShow');">删除</a></span>
@@ -188,7 +205,7 @@ var auditState = "${groupKeyInfo.auditState}";
          <ul>
              <li>
                 <p class="word">官网:</p>
-                <p><input type="text" class="int-medium" placeholder="请填写官网网址" id="groupWebsite" name="groupWebsite"></p>
+                <p><input type="text" class="int-medium" placeholder="请填写官网网址" id="groupWebsite" name="groupWebsite" value="${groupKeyInfo.groupWebsite}"></p>
                  <label id="groupWebsitErrMsg" style="display:none"><img src="${_slpbase}/images/icon-c.png" id="groupWebsiteImage"><span class="ash" id="groupWebsiteText">3-60个字符，允许使用字母、数字、特殊字符</span></label>
              </li>
          </ul>
@@ -262,7 +279,7 @@ var auditState = "${groupKeyInfo.auditState}";
            <ul>
                <li>
                     <p class="word">联系人姓名:</p>
-                    <p><input type="text" class="int-medium" placeholder="请填写联系人姓名" id="contactName" name="contactName"></p>
+                    <p><input type="text" class="int-medium" placeholder="请填写联系人姓名" id="contactName" name="contactName" value="${contactsInfo.contactName }"></p>
                      <label id="contactNameErrMsg" style="display:none"><img src="${_slpbase}/images/icon-d.png" id="contactNameImage"><span class="ash" id="contactNameText">4-24个字符，可用汉字或英语字母</span></label>
                  </li>
              </ul>
@@ -283,14 +300,14 @@ var auditState = "${groupKeyInfo.auditState}";
              <ul>
                  <li>
                     <p class="word">联系人邮箱:</p>
-                    <p><input type="text" class="int-medium" placeholder="" id="contactEmail" name="contactEmail"></p>
+                    <p><input type="text" class="int-medium" placeholder="" id="contactEmail" name="contactEmail" value="${contactsInfo.contactEmail}"></p>
                     <label style="display:none" id="emailMsgError"><img src="${_slpbase}/images/icon-a.png" id="contactEmailMsgImage"><span id="contactEmailText" class="ash">请输入正确的邮箱地址</span></label>
                  </li>
              </ul>
               <ul>
                 <li>
                     <p class="word"><b class="red">*</b>联系人手机:</p>
-                    <p><input type="text" class="int-medium" placeholder="" id="contactMp" name="contactMp"></p>
+                    <p><input type="text" class="int-medium" placeholder="" id="contactMp" name="contactMp" value="${contactsInfo.contactMp}"></p>
                     <label style="display:none" id="contactMpErrMsg"><img src="${_slpbase}/images/icon-a.png" id="contactMpImage"><span id="contactMpText" class="ash">请填写正确手机号</span></label>
                  </li>
              </ul>
