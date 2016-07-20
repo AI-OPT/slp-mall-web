@@ -740,11 +740,29 @@ public class QualificationController {
         List<GnAreaVo> provinceList = getProvinceList();
         //获取行业信息
         Map<String,String> industryMap = getIndustry();
+        //获取地址编码
+        Map<String,String> addressMap = new HashMap<String,String>();
+        addressMap.put("provinceCode", grouKeyInfoResponse.getProvinceCode());
+        addressMap.put("cityCode", grouKeyInfoResponse.getCityCode());
+        addressMap.put("countyCode", grouKeyInfoResponse.getCountyCode());
+        addressMap.put("certAddr", grouKeyInfoResponse.getCertAddr());
+        IGnAreaQuerySV areaQuerySV = DubboConsumerFactory.getService("iGnAreaQuerySV");
+        List<GnAreaVo> cityList = areaQuerySV.getCityListByProviceCode(grouKeyInfoResponse.getProvinceCode());
+        List<GnAreaVo> countyList = areaQuerySV.getCountyListByCityCode(grouKeyInfoResponse.getCityCode());
         
         ICacheSV cacheSv = DubboConsumerFactory.getService("iCacheSV");
         String provinceName = cacheSv.getAreaName(grouKeyInfoResponse.getProvinceCode());
         String cityCode = cacheSv.getAreaName(grouKeyInfoResponse.getCityCode());
         String county = cacheSv.getAreaName(grouKeyInfoResponse.getCountyCode());
+        
+        Map<String,String> codeMap = new HashMap<String,String>();
+        codeMap.put("groupMemberScale", grouKeyInfoResponse.getGroupMemberScale());
+        codeMap.put("groupType", grouKeyInfoResponse.getGroupType());
+        codeMap.put("contactDept", contactsInfoInfoResponse.getContactDept());
+        codeMap.put("taxpayerCode", grouKeyInfoResponse.getTaxpayerType());
+        codeMap.put("taxpayerTypeCode", grouKeyInfoResponse.getTaxpayerTypeCode());
+        codeMap.put("groupIndustry", grouKeyInfoResponse.getGroupIndustry());
+        codeMap.put("productCat", grouKeyInfoResponse.getProductCat());
         
         grouKeyInfoResponse.setProvinceCode(provinceName+" "+cityCode+" "+county+" "+grouKeyInfoResponse.getCertAddr());
         grouKeyInfoResponse.setGroupMemberScale(groupMemberMap.get(grouKeyInfoResponse.getGroupMemberScale()));
@@ -760,9 +778,13 @@ public class QualificationController {
         
         Map<String,Object> model = new HashMap<String,Object>();
         model.put("contactsInfo", contactsInfoInfoResponse);
+        model.put("codeMap", codeMap);
+        model.put("addressMap", addressMap);
         model.put("groupKeyInfo", grouKeyInfoResponse);
         model.put("custFileResponse", custFileResponse);
         model.put("provinceList", provinceList);
+        model.put("cityList", cityList);
+        model.put("countyList", countyList);
         model.put("industryMap", industryMap);
         model.put("bankInfo", bankInfoResponse);
         model.put("imageMap", imageMap);

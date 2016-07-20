@@ -66,7 +66,22 @@ define('app/jsp/user/qualification/qualificationSubmit', function (require, expo
     		QualificationSubmitPager.superclass.setup.call(this);
     		//左侧相对应标签选中
     		activeUserLeftMenu(QualificationSubmitPager.USER_LEFT_MNU_ID);
+    		this._address();
     	},
+    	
+    	_address : function(){
+    		$("#provinceCode").val(provinceCode);
+    		$("#cityCode").val(cityCode);
+    		$("#countyCode").val(countyCode);
+    		$("#taxpayerType").val(taxpayerType);
+    		$("#taxCode").val(taxpayerTypeCode);
+    		$("#groupIndustry").val(groupIndustry);
+    		$("#groupMemberScale").val(groupMemberScale);
+    		$("#groupType").val(groupType);
+    		$("#supplyGoods").val(productCat);
+    		$("#contactDept").val(contactDept);
+    	},
+    	
     	/**
     	 * 企业提交方法
     	 */

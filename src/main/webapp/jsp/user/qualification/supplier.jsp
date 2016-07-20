@@ -83,7 +83,7 @@
                 <select class="select-xmini" id="provinceCode" name="provinceCode" >
                 	<option value="0">请选择</option>
                 	<c:forEach items="${provinceList}" var="record">
-                		<option value="${record.provinceCode}" <c:if test="${insertGroupKeyInfoRequest.provinceCode==record.provinceCode }">selected</c:if>>${record.areaName}</option>
+                		<option value="${record.provinceCode}">${record.areaName}</option>
                 	</c:forEach>
                 </select>
                 
