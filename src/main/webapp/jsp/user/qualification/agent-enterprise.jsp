@@ -408,7 +408,7 @@
               <ul>
                  <li>
                     <p class="word"><b class="red">*</b>联系人手机:</p>
-                    <p><input type="text" class="int-medium" placeholder="" id="contactMp" name="contactMp"></p>
+                    <p><input type="text" class="int-medium" placeholder="" id="contactMp" name="contactMp" value="${sessionScope.user_session_key.userMp }"></p>
                     <label style="display:none" id="contactMpErrMsg"><img src="${_slpbase}/images/icon-a.png" id="contactMpImage"><span class="ash" id="contactMpText">请填写正确手机号</span></label>
                  </li>
              </ul>

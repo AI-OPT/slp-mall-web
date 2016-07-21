@@ -572,7 +572,9 @@ define('app/jsp/user/qualification/qualificationSubmit', function (require, expo
 	},
 	
 	_editContactInfo:function(){
-		if(auditState=='11'||auditState=='12'){
+		$("#ct-edit").show(10);
+		$("#ct-browse").hide(10);
+		/*if(auditState=='11'||auditState=='12'){
 			$("#ct-edit").show(10);
 			$("#ct-browse").hide(10);
 		}
@@ -586,7 +588,7 @@ define('app/jsp/user/qualification/qualificationSubmit', function (require, expo
 				}
 			});
 			dialog.show();
-	}
+	}*/
 	}
 	
     });

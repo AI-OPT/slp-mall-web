@@ -184,7 +184,7 @@ define('app/jsp/user/qualification/baseinfo', function (require, exports, module
 		},
 		_checkContactName:function(){
 			var name = $("#contactName").val();
-			var reg = /^[\u4e00-\u9fa5a-zA-Z]{4,24}$/;
+			var reg = /^[\u4e00-\u9fa5a-zA-Z]{2,24}$/;
     		if(name!=""){
     			if(name.match(reg)){
     				$('#contactNameErrMsg').show();
@@ -194,14 +194,14 @@ define('app/jsp/user/qualification/baseinfo', function (require, exports, module
     			}else{
     				$('#contactNameErrMsg').show();
     				$("#contactNameImage").show();
-        			$('#contactNameText').text("4-24个字符，可用汉字或英语字母");
+        			$('#contactNameText').text("2-24个字符，可用汉字或英语字母");
         			$('#contactNameImage').attr('src',_base+'/resources/slpmall/images/icon-a.png');
         			$("#contactNameFlag").val("0");
     			}
     		}else{
 	    			$('#contactNameErrMsg').show();
 					$("#contactNameImage").show();
-	    			$('#contactNameText').text("4-24个字符，可用汉字或英语字母");
+	    			$('#contactNameText').text("2-24个字符，可用汉字或英语字母");
 	    			$('#contactNameImage').attr('src',_base+'/resources/slpmall/images/icon-a.png');
 	    			$("#contactNameFlag").val("0");
     		}
@@ -309,7 +309,11 @@ define('app/jsp/user/qualification/baseinfo', function (require, exports, module
     			$("#contactMpFlag").val("0");
 				return false;
 			}else if( /^0?1[3|4|5|8][0-9]\d{8}$/.test(phone)){
-				var	param={
+				$("#contactMpErrMsg").show();
+        		$("#contactMpText").hide();
+        		$('#contactMpFlag').val("1");
+        		$('#contactMpImage').attr('src',_base+'/resources/slpmall/images/icon-b.png');
+				/*var	param={
     					userMp:$("#contactMp").val()
     				   };
         		ajaxController.ajax({
@@ -342,7 +346,7 @@ define('app/jsp/user/qualification/baseinfo', function (require, exports, module
     						 alert(textStatus);
     						}
     			        
-    			    }); 
+    			    }); */
 			}else{
 				$("#contactMpErrMsg").show();
 				$("#contactMpText").show();
