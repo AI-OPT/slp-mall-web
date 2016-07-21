@@ -240,31 +240,32 @@ define('app/jsp/user/qualification/qualificationSubmit', function (require, expo
 		//校验姓名
 		agentPersonalPager._checkcustName();
 		//校验学历
-		agentPersonalPager._checkcustEducation();
+		//agentPersonalPager._checkcustEducation();
 		//校验联系地址
 		agentPersonalPager._checkContactAddress();
 		//校验街道地址
 		baseInfoPager._checkCertAddr();
 		//校验收入
-		agentPersonalPager._checkInCome();
+		//agentPersonalPager._checkInCome();
 		//校验省份证
 		agentPersonalPager._checkIdNumber();
 		//校验生日信息
-		agentPersonalPager._checkBithday();
+		//agentPersonalPager._checkBithday();
+		agentPersonalPager._checkCustSex();
 		//校验图片是否上传
 		for(var i=1;i<=3;i++){
 			baseInfoPager._checkPic('idpsId'+i,'imgErrShow'+i);
 		}
 		var picFlag = $("#picFlag").val();
 		var custNameFlag = $("#custNameFlag").val();
-		var custEducationFlag = $("#custEducationFlag").val();
+		//var custEducationFlag = $("#custEducationFlag").val();
 		var certAddrFlag =  $("#certAddrFlag").val();
 		var provinceCodeFlag =  $("#provinceCodeFlag").val();
-		var bithdayFlag =  $("#bithdayFlag").val();
-		var inComeFlag =  $("#inComeFlag").val();
+		//var bithdayFlag =  $("#bithdayFlag").val();
+		//var inComeFlag =  $("#inComeFlag").val();
 		var idNumberFlag =  $("#idNumberFlag").val();
-		
-		if(picFlag!="0"&&custNameFlag!="0"&&custEducationFlag!="0"&&certAddrFlag!="0"&&provinceCodeFlag!="0"&&bithdayFlag!="0"&&inComeFlag!="0"&&idNumberFlag!="0"){
+		var custSexFlag = $("#custSexFlag").val();
+		if(custSexFlag!="0"&&picFlag!="0"&&custNameFlag!="0"&&certAddrFlag!="0"&&provinceCodeFlag!="0"&&idNumberFlag!="0"){
 			toAgentPersonalSave();
 		}
 	},
@@ -416,31 +417,32 @@ define('app/jsp/user/qualification/qualificationSubmit', function (require, expo
 			//校验姓名
 			agentPersonalPager._checkcustName();
 			//校验学历
-			agentPersonalPager._checkcustEducation();
+			//agentPersonalPager._checkcustEducation();
 			//校验联系地址
 			agentPersonalPager._checkContactAddress();
 			//校验街道地址
 			baseInfoPager._checkCertAddr();
 			//校验收入
-			agentPersonalPager._checkInCome();
+			//agentPersonalPager._checkInCome();
 			//校验省份证
 			agentPersonalPager._checkIdNumber();
 			//校验生日信息
-			agentPersonalPager._checkBithday();
+			//agentPersonalPager._checkBithday();
+			agentPersonalPager._checkCustSex();
 			//校验图片是否上传
 			for(var i=1;i<=3;i++){
 			 baseInfoPager._checkPic('idpsId'+i,'imgErrShow'+i);
 			}
 			var picFlag = $("#picFlag").val();
-			var realNameFlag = $("#realNameFlag").val();
-			var custEducationFlag = $("#custEducationFlag").val();
+			var custNameFlag = $("#custNameFlag").val();
+			//var custEducationFlag = $("#custEducationFlag").val();
 			var certAddrFlag =  $("#certAddrFlag").val();
 			var provinceCodeFlag =  $("#provinceCodeFlag").val();
-			var bithdayFlag =  $("#bithdayFlag").val();
-			var inComeFlag =  $("#inComeFlag").val();
+			//var bithdayFlag =  $("#bithdayFlag").val();
+			//var inComeFlag =  $("#inComeFlag").val();
 			var idNumberFlag =  $("#idNumberFlag").val();
-			
-			if(picFlag!="0"&&realNameFlag!="0"&&custEducationFlag!="0"&&certAddrFlag!="0"&&provinceCodeFlag!="0"&&bithdayFlag!="0"&&inComeFlag!="0"&&idNumberFlag!="0"){
+			var custSexFlag = $("#custSexFlag").val();
+			if(custSexFlag!="0"&&picFlag!="0"&&custNameFlag!="0"&&certAddrFlag!="0"&&provinceCodeFlag!="0"&&idNumberFlag!="0"){
 				updatePersonalQualification();
 			}
 	},
