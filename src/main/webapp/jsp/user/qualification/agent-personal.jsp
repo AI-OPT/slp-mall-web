@@ -81,13 +81,14 @@
          <ul>
              <li>
                 <p class="word"><b class="red">*</b>性别:</p>
-                <p><input type="radio" class="checkbox-medium" name="custSex" id="man" value="0" checked=""><span class="Gender">男</span></p>
+                <p><input type="radio" class="checkbox-medium" name="custSex" id="man" value="0"><span class="Gender">男</span></p>
                 <p><input type="radio" class="checkbox-medium" name="custSex" id="woman" value="1" ><span class="Gender">女</span></p>
+                <label id="custSexErrMsg" style="display:none"><img src="${_slpbase}/images/icon-d.png" id="custSexImage"><span id="custSexText">2-24个字符，可用汉字或英语字母</span></label>
              </li>
          </ul>
          <ul>
              <li>
-                <p class="word"><b class="red">*</b>学历:</p>
+                <p class="word">学历:</p>
                 <p>
                  <select class="select-medium" id="custEducation" name="custEducation">
                  	<option value="0">请选择</option>
@@ -130,7 +131,7 @@
          </ul>
           <ul>
              <li>
-                <p class="word"><b class="red">*</b>生日:</p>
+                <p class="word">生日:</p>
                 <p><select class="select-xmini" id="yy_mm_dd" name="yy_mm_dd">
                 	 <option value="0">请选择</option>
                    </select>
@@ -151,7 +152,7 @@
          </ul>
    		  <ul>
              <li>
-                <p class="word"><b class="red">*</b>收入:</p>
+                <p class="word">收入:</p>
                 <p>
 	                <select class="select-medium" id="inCome" name="incomeLevel">
 		                <option value="0">请选择收入</option>
@@ -167,6 +168,7 @@
              <li>
                 <p class="word">介绍信息:</p>
                 <p><textarea type="text" class="textarea-xxlarge" id="introduce" name="personalRemark" placeholder = "简要介绍您产品销售渠道方面的优势或经验等相关内容"></textarea></p>
+                <label id="personalRemarkErrMsg" style="display:none"><img src="${_slpbase}/images/icon-a.png" id="personalRemarkImage"><span class="ash" id="personalRemarkText">请选择收入信息</span></label>
              </li>
          </ul>
      </div>
@@ -273,6 +275,7 @@
                  	<input type="hidden" id="provinceCodeFlag"/>
                  	<input type="hidden" id="picFlag"/>
                  	<input type="hidden" id="contactNameFlag"/>
+                 	<input type="hidden" id="custSexFlag"/>
                  	
                  	<input type="hidden" id="idpsId1" name="list[0].attrValue"/>
                  	<input type="hidden" id="idpsId2" name="list[1].attrValue"/>
