@@ -106,7 +106,7 @@ define('app/jsp/user/qualification/baseinfo', function (require, exports, module
 		_showContactNameTip:function(){
 			$("#contactNameErrMsg").show();
 			$("#contactNameText").show();
-			$("#contactNameText").text('2-24个字符，可用汉字或英语字母');
+			$("#contactNameText").text('4-24个字符，可用汉字或英语字母');
     		$('#contactNameImage').attr('src',_base+'/resources/slpmall/images/icon-d.png');
 		},
 		_showCheckPhoneTip:function(){
@@ -123,8 +123,8 @@ define('app/jsp/user/qualification/baseinfo', function (require, exports, module
 		},
 		_showGroupWebsite:function(){
 			$("#groupWebsitErrMsg").show();
-			$("#groupWebsitText").show();
-			$("#groupWebsitText").text('3-60个字符，允许使用字母、数字、特殊字符');
+			$("#groupWebsiteText").show();
+			$("#groupWebsiteText").text('3-60个字符，允许使用字母、数字、特殊字符');
     		$("#groupWebsiteImage").attr('src',_base+'/resources/slpmall/images/icon-d.png');
 		},
     	_validateName:function(){
@@ -184,22 +184,26 @@ define('app/jsp/user/qualification/baseinfo', function (require, exports, module
 		},
 		_checkContactName:function(){
 			var name = $("#contactName").val();
-			var reg = /^[\u4e00-\u9fa5a-zA-Z]{2,24}$/;
+			var reg = /^[\u4e00-\u9fa5a-zA-Z]{4,24}$/;
     		if(name!=""){
     			if(name.match(reg)){
     				$('#contactNameErrMsg').show();
     				$('#contactNameText').hide();
     				$('#contactNameImage').attr('src',_base+'/resources/slpmall/images/icon-b.png');
+    				$("#contactNameFlag").val("1");
     			}else{
     				$('#contactNameErrMsg').show();
     				$("#contactNameImage").show();
         			$('#contactNameText').text("4-24个字符，可用汉字或英语字母");
         			$('#contactNameImage').attr('src',_base+'/resources/slpmall/images/icon-a.png');
+        			$("#contactNameFlag").val("0");
     			}
     		}else{
-    				$('#contactNameErrMsg').hide();
-    				$('#contactNameText').hide();
-    				$('#contactNameImage').hide();
+	    			$('#contactNameErrMsg').show();
+					$("#contactNameImage").show();
+	    			$('#contactNameText').text("4-24个字符，可用汉字或英语字母");
+	    			$('#contactNameImage').attr('src',_base+'/resources/slpmall/images/icon-a.png');
+	    			$("#contactNameFlag").val("0");
     		}
 		},
 		_checkUrl:function(){
@@ -212,7 +216,7 @@ define('app/jsp/user/qualification/baseinfo', function (require, exports, module
 			        + "[a-z]{2,6})" // first level domain- .com or .museum
 			        + "(:[0-9]{1,4})?" // 端口- :80
 			        + "((/?)|" // a slash isn't required if there is no file name
-			        + "(/[0-9a-z_!~*'().;?:@&=+$,%#-]+)+/?)$";
+			        + "(/[0-9a-z_!~*'().;?:@&=+$,%#-]+)+/?){3,60}$";
 		    var urlValue = $("#groupWebsite").val();
 		    if(urlValue!=""){
 		    	if (urlValue.match(regExp)){

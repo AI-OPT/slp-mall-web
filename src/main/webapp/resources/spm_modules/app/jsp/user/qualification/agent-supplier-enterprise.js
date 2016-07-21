@@ -132,21 +132,21 @@ define('app/jsp/user/qualification/agent-supplier-enterprise', function (require
 			$("#bankNameErrMsg").show();
 			$("#bankNameText").show();
 			$("#bankNameImage").show();
-			$("#bankNameText").text('4-20位字符');
+			$("#bankNameText").text('4-20个汉字');
     		$('#bankNameImage').attr('src',_base+'/resources/slpmall/images/icon-d.png');
 		},
 		_showSubbranchNameTip:function(){
 			$("#subbranchNameErrMsg").show();
 			$("#subbranchNameText").show();
 			$("#subbranchNameImage").show();
-			$("#subbranchNameText").text('4-20位字符');
+			$("#subbranchNameText").text('4-60个汉字');
     		$('#subbranchNameImage').attr('src',_base+'/resources/slpmall/images/icon-d.png');
 		},
 		_showBankAccountTip:function(){
 			$("#bankAccountErrMsg").show();
 			$("#bankAccountText").show();
 			$("#bankAccountImage").show();
-			$("#bankAccountText").text('4-20位字符');
+			$("#bankAccountText").text('4-30个数字');
     		$('#bankAccountImage').attr('src',_base+'/resources/slpmall/images/icon-d.png');
 		},
 		_showOrganizationCodeTip:function(){
@@ -206,7 +206,7 @@ define('app/jsp/user/qualification/agent-supplier-enterprise', function (require
 	    		$('#capitalImage').attr('src',_base+'/resources/slpmall/images/icon-a.png');
 	    		$("#capitalFlag").val("0");
 			}else{
-				var reg = /^[\d+(\.\d+)|d+]{1,12}$/;
+				var reg = /^(\d{1,12}|\d{1,6}\.\d{1,6})$/;
 				if(capital.match(reg)){
 					$('#capitalErrMsg').show();
     				$('#capitalText').hide();
@@ -250,11 +250,11 @@ define('app/jsp/user/qualification/agent-supplier-enterprise', function (require
 			if(corporationName==null||corporationName==""){
 				$("#corporationNameErrMsg").show();
 				$("#corporationNameText").show();
-				$("#corporationNameText").text('2-24个字符，可用汉字或英语字母');
+				$("#corporationNameText").text('4-24个字符，可用汉字或英语字母');
 	    		$('#corporationNameImage').attr('src',_base+'/resources/slpmall/images/icon-a.png');
 	    		$("#corporationNameFlag").val("0");
 			}else{
-				var reg = /^[\u4e00-\u9fa5a-zA-Z]{2,24}$/;
+				var reg = /^[\u4e00-\u9fa5a-zA-Z]{4,24}$/;
     			if(corporationName.match(reg)){
     				$('#corporationNameErrMsg').show();
     				$('#corporationNameText').hide();
@@ -263,7 +263,7 @@ define('app/jsp/user/qualification/agent-supplier-enterprise', function (require
     			}else{
     				$('#corporationNameErrMsg').show();
     				$("#corporationNameImage").show();
-        			$('#corporationNameText').text("2-24个字符，可用汉字或英语字母");
+        			$('#corporationNameText').text("4-24个字符，可用汉字或英语字母");
         			$('#corporationNameImage').attr('src',_base+'/resources/slpmall/images/icon-a.png');
     			}
 	    		
@@ -358,11 +358,12 @@ define('app/jsp/user/qualification/agent-supplier-enterprise', function (require
     			$('#bankNameImage').attr('src',_base+'/resources/slpmall/images/icon-a.png');
     			$("#bankNameFlag").val("0");
 			}else{
-				if(bankName.length<4||bankName.length>20){
+				var reg = /^[\u4e00-\u9fa5]{4,20}$/;
+				if(!bankName.macth(reg)){
 					$('#bankNameErrMsg').show();
     				$("#bankNameImage").show();
     				$("#bankNameText").show();
-        			$('#bankNameText').text("4-20位字符");
+        			$('#bankNameText').text("4-20个汉字");
         			$('#bankNameImage').attr('src',_base+'/resources/slpmall/images/icon-a.png');
         			$("#bankNameFlag").val("0");
 				}else{
@@ -382,11 +383,12 @@ define('app/jsp/user/qualification/agent-supplier-enterprise', function (require
     			$('#subbranchNameImage').attr('src',_base+'/resources/slpmall/images/icon-a.png');
     			$("#subbranchNameFlag").val("0");
 			}else{
-				if(subbranchName.length<4||subbranchName.length>20){
+				var reg = /^[\u4e00-\u9fa5a-zA-Z]{4,60}$/;
+				if(!subbranchName.macth(reg)){
 					$('#subbranchNameErrMsg').show();
     				$("#subbranchNameImage").show();
     				$("#subbranchNameText").show();
-        			$('#subbranchNameText').text("4-20位字符");
+        			$('#subbranchNameText').text("4-60个汉字");
         			$('#subbranchNameImage').attr('src',_base+'/resources/slpmall/images/icon-a.png');
         			$("#subbranchNameFlag").val("0");
 				}else{
@@ -402,15 +404,16 @@ define('app/jsp/user/qualification/agent-supplier-enterprise', function (require
 			if(bankAccount==null|bankAccount==""){
 				$('#bankAccountErrMsg').show();
 				$("#bankAccountImage").show();
-    			$('#bankAccountText').text("请输入银行名称");
+    			$('#bankAccountText').text("请输入公司银行账户");
     			$('#bankAccountImage').attr('src',_base+'/resources/slpmall/images/icon-a.png');
     			$("#bankAccountFlag").val("0");
 			}else{
-				if(bankAccount.length<4||bankAccount.length>20){
+				var reg = /^\d{4,30}$/;
+				if(bankAccount.match(reg)){
 					$('#bankAccountErrMsg').show();
     				$("#bankAccountImage").show();
     				$("#bankAccountText").show();
-        			$('#bankAccountText').text("4-20位字符");
+        			$('#bankAccountText').text("4-30个数字");
         			$('#bankAccountImage').attr('src',_base+'/resources/slpmall/images/icon-a.png');
         			$("#bankAccountFlag").val("0");
 				}else{
@@ -442,7 +445,7 @@ define('app/jsp/user/qualification/agent-supplier-enterprise', function (require
 			if(organizationCode==null|organizationCode==""){
 				$('#organizationCodeErrMsg').show();
 				$("#organizationCodeImage").show();
-    			$('#organizationCodeText').text("请输入组织机构代码");
+    			$('#organizationCodeText').text("4-50个字符，可用数字、字母、“-”");
     			$('#organizationCodeImage').attr('src',_base+'/resources/slpmall/images/icon-a.png');
     			$("#organizationCodeFlag").val("0");
 			}else{
@@ -486,7 +489,7 @@ define('app/jsp/user/qualification/agent-supplier-enterprise', function (require
 					$('#brandNameCErrMsg').show();
     				$("#brandNameCmage").show();
     				$("#brandNameCText").show();
-        			$('#brandNameCText').text("4-20位字符");
+        			$('#brandNameCText').text("2-20个汉字");
         			$('#brandNameCImage').attr('src',_base+'/resources/slpmall/images/icon-a.png');
 				}
 			}else{
