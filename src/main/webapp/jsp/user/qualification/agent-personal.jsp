@@ -13,6 +13,8 @@
 <script type="text/javascript">
 		var agentPersonalPager;
 		var baseInfoPager;
+		var gender = "";
+		var year = "";
 		var qualificationSubmitPager;
 		(function() { 
 			seajs.use(['app/jsp/user/qualification/agent-personal','app/jsp/user/qualification/baseinfo','app/jsp/user/qualification/qualificationSubmit'],function(AgentPersonalPager,BaseInfoQualificationPager,QualificationSubmitPager) {
@@ -79,7 +81,7 @@
          <ul>
              <li>
                 <p class="word"><b class="red">*</b>性别:</p>
-                <p><input type="radio" class="checkbox-medium" name="custSex" id="man" value="0" checked=><span class="Gender">男</span></p>
+                <p><input type="radio" class="checkbox-medium" name="custSex" id="man" value="0" checked=""><span class="Gender">男</span></p>
                 <p><input type="radio" class="checkbox-medium" name="custSex" id="woman" value="1" ><span class="Gender">女</span></p>
              </li>
          </ul>

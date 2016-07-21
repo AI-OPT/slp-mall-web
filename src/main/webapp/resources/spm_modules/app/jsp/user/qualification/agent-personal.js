@@ -51,6 +51,7 @@ define(
 						$("#woman").attr("checked","checked");
 				},
 				_birthday:function(){
+					if(year!=""){
 					$("#yy_mm_dd").val(year);
 					$("#mm").val(month);
 					var t = ((year % 4)==0) && ((year % 100)!=0) || ((year % 400)==0);
@@ -78,6 +79,7 @@ define(
 			          document.getElementById('dd').options.add(new Option(j + 1, j + 1));
 			        }
 					$("#dd").val(day);
+					}
 				},
 				_showcustNameTip:function(){
 					$("#realNameErrMsg").show();
