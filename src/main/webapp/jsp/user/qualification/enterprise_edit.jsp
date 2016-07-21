@@ -278,7 +278,7 @@ $(function(){
      <div class="nav-form" id="ct-edit" style="display:none;">
            <ul>
                <li>
-                    <p class="word">联系人姓名:</p>
+                    <p class="word"><b class="red">*</b>联系人姓名:</p>
                     <p><input type="text" class="int-medium" placeholder="请填写联系人姓名" id="contactName" name="contactName" value="${contactsInfo.contactName }"></p>
                      <label id="contactNameErrMsg" style="display:none"><img src="${_slpbase}/images/icon-d.png" id="contactNameImage"><span class="ash" id="contactNameText">4-24个字符，可用汉字或英语字母</span></label>
                  </li>
