@@ -359,7 +359,7 @@ define('app/jsp/user/qualification/agent-supplier-enterprise', function (require
     			$("#bankNameFlag").val("0");
 			}else{
 				var reg = /^[\u4e00-\u9fa5]{4,20}$/;
-				if(!bankName.macth(reg)){
+				if(!bankName.match(reg)){
 					$('#bankNameErrMsg').show();
     				$("#bankNameImage").show();
     				$("#bankNameText").show();
@@ -384,7 +384,7 @@ define('app/jsp/user/qualification/agent-supplier-enterprise', function (require
     			$("#subbranchNameFlag").val("0");
 			}else{
 				var reg = /^[\u4e00-\u9fa5a-zA-Z]{4,60}$/;
-				if(!subbranchName.macth(reg)){
+				if(!subbranchName.match(reg)){
 					$('#subbranchNameErrMsg').show();
     				$("#subbranchNameImage").show();
     				$("#subbranchNameText").show();
