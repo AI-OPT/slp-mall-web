@@ -23,12 +23,18 @@ define(
 	    		"focus [id='idNumber']":"_showIdNumberTip",
 	    		"blur [id='idNumber']":"_checkIdNumber",
 	    		//学历校验
-	    		"change [id='custEducation']":"_checkcustEducation",
+	    		//"change [id='custEducation']":"_checkcustEducation",
 	    		"blur [id='countyCode']":"_checkContactAddress",
 	    		//生日校验
-	    		"blur [id='dd']":"_checkBithday",
+	    		//"blur [id='dd']":"_checkBithday",
 	    		//收入校验
-	    		"change [id='inCome']":"_checkInCome",
+	    		//"change [id='inCome']":"_checkInCome",
+	    		"focus [id='introduce']":"_showIntroduceTip",
+	    		"blur [id='introduce']":"_checkIntroduceTip",
+	    		
+	    		"click [id='man']":"_checkCustSex",
+	    		"click [id='woman']":"_checkCustSex",
+	    		
 	    		"click [id='updateAgengPersonal']":"_updateAgengPersonal",
 				},
 				init : function() {
@@ -93,6 +99,13 @@ define(
 					$("#idNumberImage").show();
 					$("#idNumberText").text('18位数字');
 		    		$('#idNumberImage').attr('src',_base+'/resources/slpmall/images/icon-d.png');
+				},
+				_showIntroduceTip:function(){
+					$("#personalRemarkErrMsg").show();
+					$("#personalRemarkText").show();
+					$("#personalRemarkImage").show();
+					$("#personalRemarkText").text('20-300个字符');
+		    		$('#personalRemarkImage').attr('src',_base+'/resources/slpmall/images/icon-d.png');
 				},
 				_checkcustName:function(){
 					var name = $("#realName").val();
@@ -161,7 +174,7 @@ define(
 	        			$('#idNumberImage').attr('src',_base+'/resources/slpmall/images/icon-a.png');
 	        			$("#idNumberFlag").val("0");
 					}else{
-						var reg = /(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/;
+						var reg = /(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X)$)/;
 						if(!reg.test(idNumber)){
 							$('#idNumberErrMsg').show();
 		    				$("#idNumberImage").show();
@@ -193,6 +206,43 @@ define(
 				_updateAgengPersonal:function(){
 					$("#qf-edit").show(10);
 					$("#qf-browse").hide(10);
+				},
+				_checkIntroduceTip:function(){
+					var introduce = $("#introduce").val();
+					if(introduce!=""){
+						if(introduce.length>=20&&introduce.length<=300){
+							$('#personalRemarkErrMsg').show();
+		    				$('#personalRemarkText').hide();
+		    				$('#personalRemarkImage').attr('src',_base+'/resources/slpmall/images/icon-b.png');
+						}else{
+							$('#personalRemarkErrMsg').show();
+		    				$("#personalRemarkImage").show();
+		    				$("#personalRemarkText").show();
+		        			$('#personalRemarkText').text("20-300个字符");
+		        			$('#personalRemarkImage').attr('src',_base+'/resources/slpmall/images/icon-a.png');
+						}
+					}else{
+						$('#personalRemarkErrMsg').hide();
+	    				$('#personalRemarkText').hide();
+	    				$("#personalRemarkImage").hide();
+					}
+					
+				},
+				_checkCustSex:function(){
+					var val=$('input:radio[name="custSex"]:checked').val();
+					if(typeof(val)=="undefined"){ 
+						$('#custSexErrMsg').show();
+	    				$("#custSexImage").show();
+	    				$("#custSexText").show();
+	        			$('#custSexText').text("请选择性别");
+	        			$('#custSexImage').attr('src',_base+'/resources/slpmall/images/icon-a.png');
+	        			$('#custSexFlag').val("0");
+					}else{
+						$('#custSexErrMsg').show();
+	    				$('#custSexText').hide();
+	    				$('#custSexImage').attr('src',_base+'/resources/slpmall/images/icon-b.png');
+	    				$('#custSexFlag').val("1");
+					}
 				}
 		});
 			module.exports = AgentPersonalPager
