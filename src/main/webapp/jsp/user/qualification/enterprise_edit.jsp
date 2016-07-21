@@ -67,7 +67,7 @@ $(function(){
       <div class="account-bj">
       <div class="account-title account-title-bjcolor">
      	<div class="title-bt">
-			供货商资质<span id="auditState" style="display:none">(未认证)</span>
+			企业资质<span id="auditState" style="display:none">(未认证)</span>
 		</div>
      	<p class="right"><i class="icon-edit qualifications" id="editEnterprise" >修改</i></p>
      </div>
