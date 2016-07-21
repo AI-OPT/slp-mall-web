@@ -46,8 +46,8 @@ var birth = {
             var pd = pv.split('_')[2];
         }
 
-        for(var i = 0; i <= curY - 1930; i++) {
-            oY.options.add(new Option(1930 + i, 1930 + i));            
+        for(var i = 0; i <= curY - 1920; i++) {
+            oY.options.add(new Option(1920 + i, 1920 + i));            
         }
 
         for(i  = 0; i < 12; i++) {
