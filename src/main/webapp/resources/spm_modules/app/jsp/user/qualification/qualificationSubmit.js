@@ -362,7 +362,7 @@ define('app/jsp/user/qualification/qualificationSubmit', function (require, expo
 		this._checkEnterpriseValue();
 		enterprisePager._checkSupplyGoodsValue();
 		//校验图片是否上传
-		for(var i=1;i<=9;i++){
+		for(var i=1;i<=5;i++){
 			baseInfoPager._checkPic('idpsId'+i,'imgErrShow'+i);
 		}
 		/**
@@ -503,7 +503,7 @@ define('app/jsp/user/qualification/qualificationSubmit', function (require, expo
 		this._checkEnterpriseContactValue();
 		enterprisePager._checkSupplyGoodsValue();
 		//校验图片是否上传
-		for(var i=1;i<=9;i++){
+		for(var i=1;i<=5;i++){
 			baseInfoPager._checkPic('idpsId'+i,'imgErrShow'+i);
 		}
 		/**
