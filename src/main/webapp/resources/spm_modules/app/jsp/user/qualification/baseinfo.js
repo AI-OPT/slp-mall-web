@@ -184,7 +184,7 @@ define('app/jsp/user/qualification/baseinfo', function (require, exports, module
 		},
 		_checkContactName:function(){
 			var name = $("#contactName").val();
-			var reg = /^[\u4e00-\u9fa5a-zA-Z]{2,24}$/;
+			var reg = /^[\u4e00-\u9fa5a-zA-Z]{4,24}$/;
     		if(name!=""){
     			if(name.match(reg)){
     				$('#contactNameErrMsg').show();
@@ -194,42 +194,50 @@ define('app/jsp/user/qualification/baseinfo', function (require, exports, module
     			}else{
     				$('#contactNameErrMsg').show();
     				$("#contactNameImage").show();
-        			$('#contactNameText').text("2-24个字符，可用汉字或英语字母");
+        			$('#contactNameText').text("4-24个字符，可用汉字或英语字母");
         			$('#contactNameImage').attr('src',_base+'/resources/slpmall/images/icon-a.png');
         			$("#contactNameFlag").val("0");
     			}
     		}else{
 	    			$('#contactNameErrMsg').show();
 					$("#contactNameImage").show();
-	    			$('#contactNameText').text("2-24个字符，可用汉字或英语字母");
+	    			$('#contactNameText').text("4-24个字符，可用汉字或英语字母");
 	    			$('#contactNameImage').attr('src',_base+'/resources/slpmall/images/icon-a.png');
 	    			$("#contactNameFlag").val("0");
     		}
 		},
 		_checkUrl:function(){
-			 var regExp = "^((https|http|ftp|rtsp|mms)?://)"
-			        + "?(([0-9a-z_!~*'().&=+$%-]+: )?[0-9a-z_!~*'().&=+$%-]+@)?" //ftp的user@
-			        + "(([0-9]{1,3}\.){3}[0-9]{1,3}" // IP形式的URL- 199.194.52.184
-			        + "|" // 允许IP和DOMAIN（域名）
-			        + "([0-9a-z_!~*'()-]+\.)*" // 域名- www.
-			        + "([0-9a-z][0-9a-z-]{0,61})?[0-9a-z]\." // 二级域名
-			        + "[a-z]{2,6})" // first level domain- .com or .museum
-			        + "(:[0-9]{1,4})?" // 端口- :80
-			        + "((/?)|" // a slash isn't required if there is no file name
-			        + "(/[0-9a-z_!~*'().;?:@&=+$,%#-]+)+/?){3,60}$";
+			var regExp = "^((https|http|ftp|rtsp|mms)?://)" 
+				     + "+(([0-9a-z_!~*'().&=+$%-]+: )?[0-9a-z_!~*'().&=+$%-]+@)?" 
+				     + "(([0-9]{1,3}\\.){3}[0-9]{1,3}" 
+				     + "|" 
+				     + "([0-9a-z_!~*'()-]+\\.)*" 
+				     + "([0-9a-z][0-9a-z-]{0,61})?[0-9a-z]\\." 
+				     + "[a-z]{2,6})" 
+				     + "(:[0-9]{1,4})?" 
+				     + "((/?)|" 
+				     + "(/[0-9a-z_!~*'().;?:@&=+$,%#-]+)+/?)$";
 		    var urlValue = $("#groupWebsite").val();
 		    if(urlValue!=""){
-		    	if (urlValue.match(regExp)){
-		        	$("#groupWebsitErrMsg").show();
-		        	$("#groupWebsiteText").hide();
-		        	$('#groupWebsiteImage').attr('src',_base+'/resources/slpmall/images/icon-b.png');
-					return true;
-		        }else{
-		        	$("#groupWebsitErrMsg").show();
+		    	if(urlValue.length>3&&urlValue.length<=60){
+		    		if (urlValue.match(regExp)){
+			        	$("#groupWebsitErrMsg").show();
+			        	$("#groupWebsiteText").hide();
+			        	$('#groupWebsiteImage').attr('src',_base+'/resources/slpmall/images/icon-b.png');
+						return true;
+			        }else{
+			        	$("#groupWebsitErrMsg").show();
+			        	$("#groupWebsiteText").show();
+			        	$('#groupWebsiteImage').attr('src',_base+'/resources/slpmall/images/icon-a.png');
+			        	$("#groupWebsiteText").text("请输入正确的网址");
+			        }
+		    	}else{
+		    		$("#groupWebsitErrMsg").show();
 		        	$("#groupWebsiteText").show();
 		        	$('#groupWebsiteImage').attr('src',_base+'/resources/slpmall/images/icon-a.png');
-		        	$("#groupWebsiteText").text("请输入正确的网址");
-		        }
+		        	$("#groupWebsiteText").text("3-60个字符，允许使用字母、数字、特殊字符");
+		    	}
+		    	
 		    }else{
 		    	$('#groupWebsitErrMsg').hide();
 				$('#groupWebsiteText').hide();
