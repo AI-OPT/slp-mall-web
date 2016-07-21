@@ -61,7 +61,7 @@
       
       <!--提示风险-->
         <div class="prompt-risk small-risk">
-            <p>提醒：代理商用户在完善基础认证信息后，才能查看代理商专属价格及专属货品，赶快提交认证所需信息吧！</p>
+            <p>提醒：供应商用户在完善基础认证信息后，才能查看代理商专属价格及专属货品，赶快提交认证所需信息吧！</p>
             <p class="img"><img src="${_slpbase}/images/yue-1.png"></p>
         </div>
      <!--标题-->  
@@ -343,10 +343,10 @@
              </ul>
              <ul>
                <li>
-                     <p class="word">官网:</p>
-	                <p><input type="text" class="int-medium" placeholder="请填写官网网址" id="groupWebsite" name="groupWebsite"></p>
-	                 <label id="groupWebsitErrMsg" style="display:none"><img src="${_slpbase}/images/icon-c.png" id="groupWebsiteImage"><span class="ash" id="groupWebsiteText">3-60个字符，允许使用字母、数字、特殊字符</span></label>
-                 </li>
+                <p class="word">官网:</p>
+                <p><input type="text" class="int-medium" placeholder="请填写官网网址" id="groupWebsite" name="groupWebsite"></p>
+                 <label id="groupWebsitErrMsg" style="display:none"><img src="${_slpbase}/images/icon-c.png" id="groupWebsiteImage"><span class="ash" id="groupWebsiteText">3-60个字符，允许使用字母、数字、特殊字符</span></label>
+             </li>
              </ul>
              <ul>
               <li>
@@ -411,7 +411,7 @@
              </ul>
          <ul>
              <li>
-                <p class="word"><b class="red">*</b>商品注册证:</p>
+                <p class="word">商品注册证:</p>
                 <input type="hidden" name="list[5].infoName" value="商品注册证"/>
                 <input type="hidden" value="16" name="list[5].infoType">
                 <input type="hidden" value="16001" name="list[5].infoItem">
@@ -429,7 +429,7 @@
          </ul>
          <ul>
              <li>
-                <p class="word"><b class="red">*</b>行业资质证明:</p>
+                <p class="word">行业资质证明:</p>
                 <input type="hidden" name="list[6].infoName" value="行业资质证明"/>
                 <input type="hidden" value="17" name="list[6].infoType">
                 <input type="hidden" value="17001" name="list[6].infoItem">
@@ -447,7 +447,7 @@
          </ul> 
         <ul>
              <li>
-                <p class="word"><b class="red">*</b>商品质检/检验报告:</p>
+                <p class="word">商品质检/检验报告:</p>
                 <input type="hidden" name="list[7].infoName" value="商品质检/检验报告"/>
                 <input type="hidden" value="18" name="list[7].infoType">
                 <input type="hidden" value="18001" name="list[7].infoItem">
@@ -465,7 +465,7 @@
          </ul> 
          <ul>
              <li>
-                <p class="word"><b class="red">*</b>卫生/生产许可证:</p>
+                <p class="word">卫生/生产许可证:</p>
                 <input type="hidden" name="list[8].infoName" value="卫生/生产许可证"/>
                 <input type="hidden" value="19" name="list[8].infoType">
                 <input type="hidden" value="19001" name="list[8].infoItem">
@@ -488,7 +488,7 @@
      <div class="nav-form">
            <ul>
                  <li>
-                    <p class="word">联系人姓名:</p>
+                    <p class="word"><b class="red">*</b>联系人姓名:</p>
                     <p><input type="text" class="int-medium" placeholder="请填写联系人姓名" id="contactName" name="contactName"></p>
                      <label id="contactNameErrMsg" style="display:none"><img src="${_slpbase}/images/icon-d.png" id="contactNameImage"><span class="ash" id="contactNameText">4-24个字符，可用汉字或英语字母</span></label>
                  </li>
@@ -542,6 +542,7 @@
                	   <input type="hidden" id="provinceCodeFlag">
                	   <input type="hidden" id="contactMpFlag">
                	   <input type="hidden" id="phoneCodeFlag">
+               	   <input type="hidden" id="contactNameFlag">
                	   <input type="hidden" id="groupIndusteryFlag">
                	   
                   <input type="hidden" id="establishTimeFlag"/>
