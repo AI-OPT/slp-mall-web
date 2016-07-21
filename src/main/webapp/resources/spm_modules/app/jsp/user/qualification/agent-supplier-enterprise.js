@@ -409,7 +409,7 @@ define('app/jsp/user/qualification/agent-supplier-enterprise', function (require
     			$("#bankAccountFlag").val("0");
 			}else{
 				var reg = /^\d{4,30}$/;
-				if(bankAccount.match(reg)){
+				if(!bankAccount.match(reg)){
 					$('#bankAccountErrMsg').show();
     				$("#bankAccountImage").show();
     				$("#bankAccountText").show();
