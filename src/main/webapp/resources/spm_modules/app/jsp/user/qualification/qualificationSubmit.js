@@ -432,7 +432,7 @@ define('app/jsp/user/qualification/qualificationSubmit', function (require, expo
 			 baseInfoPager._checkPic('idpsId'+i,'imgErrShow'+i);
 			}
 			var picFlag = $("#picFlag").val();
-			var custNameFlag = $("#custNameFlag").val();
+			var realNameFlag = $("#realNameFlag").val();
 			var custEducationFlag = $("#custEducationFlag").val();
 			var certAddrFlag =  $("#certAddrFlag").val();
 			var provinceCodeFlag =  $("#provinceCodeFlag").val();
@@ -440,7 +440,7 @@ define('app/jsp/user/qualification/qualificationSubmit', function (require, expo
 			var inComeFlag =  $("#inComeFlag").val();
 			var idNumberFlag =  $("#idNumberFlag").val();
 			
-			if(picFlag!="0"&&custNameFlag!="0"&&custEducationFlag!="0"&&certAddrFlag!="0"&&provinceCodeFlag!="0"&&bithdayFlag!="0"&&inComeFlag!="0"&&idNumberFlag!="0"){
+			if(picFlag!="0"&&realNameFlag!="0"&&custEducationFlag!="0"&&certAddrFlag!="0"&&provinceCodeFlag!="0"&&bithdayFlag!="0"&&inComeFlag!="0"&&idNumberFlag!="0"){
 				updatePersonalQualification();
 			}
 	},
