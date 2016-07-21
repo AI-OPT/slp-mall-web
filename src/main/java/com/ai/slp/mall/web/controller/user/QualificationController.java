@@ -671,6 +671,7 @@ public class QualificationController {
         updateCustKeyInfoRequest.setTenantId(user.getTenantId());
         updateCustKeyInfoRequest.setUserType(user.getUserType());
         updateCustKeyInfoRequest.setUserId(user.getUserId());
+        updateCustKeyInfoRequest.setAuditState("10");
         updateCustKeyInfoRequest.setCustBirthday(DateUtil.getTimestamp(request.getParameter("yy_mm_dd") + "-"+ request.getParameter("mm") + "-" + request.getParameter("dd")));
         // 附件信息
         for (CmCustFileExtVo cmCustFileExtVo : custFileListVo.getList()) {
