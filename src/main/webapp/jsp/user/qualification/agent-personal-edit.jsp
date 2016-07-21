@@ -51,6 +51,7 @@
 	$(function(){
 		$("#inCome").val("${codeMap.incomeLevel}");
 		$("#custEducation").val("${codeMap.custEducation}");
+		$("#certAddr").val("${codeMap.certAddr}");
 	});
 </script>
 </head>

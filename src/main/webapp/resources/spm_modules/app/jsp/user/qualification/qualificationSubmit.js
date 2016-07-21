@@ -73,7 +73,6 @@ define('app/jsp/user/qualification/qualificationSubmit', function (require, expo
     		$("#provinceCode").val(provinceCode);
     		$("#cityCode").val(cityCode);
     		$("#countyCode").val(countyCode);
-    		$("#certAddr").val(certAddr);
     	},
     	
     	/**

@@ -17,7 +17,6 @@ var qualificationSubmitPager;
 var provinceCode = "${codeMap.provinceCode}";
 var cityCode = "${codeMap.cityCode}";
 var countyCode = "${codeMap.countyCode}";
-var certAddr = "${codeMap.certAddr}";
 
 var auditState = "${groupKeyInfo.auditState}";
 (function() { 
@@ -37,6 +36,7 @@ $(function(){
 	$("#groupMemberScale").val("${codeMap.groupMemberScale}");
 	$("#groupType").val("${codeMap.groupType}");
 	$("#contactDept").val("${codeMap.contactDept}");
+	$("#certAddr").val("${codeMap.certAddr}");
 })
 </script>
 </head>

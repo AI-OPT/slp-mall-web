@@ -44,6 +44,7 @@
 		$("#groupMemberScale").val("${codeMap.groupMemberScale}");
 		$("#groupType").val("${codeMap.groupType}");
 		$("#contactDept").val("${codeMap.contactDept}");
+		$("#certAddr").val("${codeMap.certAddr}");
 	});
 </script>
 </head>

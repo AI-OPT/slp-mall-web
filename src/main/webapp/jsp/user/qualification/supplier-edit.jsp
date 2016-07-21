@@ -19,7 +19,6 @@
 	var provinceCode = "${addressMap.provinceCode}";
 	var cityCode = "${addressMap.cityCode}";
 	var countyCode = "${addressMap.countyCode}";
-	var certAddr = "${addressMap.certAddr}";
 	(function() { 
 		seajs.use([ 'app/jsp/user/qualification/baseinfo','app/jsp/user/qualification/agent-supplier-enterprise','app/jsp/user/qualification/qualificationSubmit'], function(BaseInfoQualificationPager,EnterprisePager,QualificationSubmitPager) {
 			    baseInfoPager = new BaseInfoQualificationPager({
@@ -44,6 +43,7 @@
 		$("#groupMemberScale").val(${codeMap.groupMemberScale});
 		$("#groupType").val(${codeMap.groupType});
 		$("#contactDept").val(${codeMap.contactDept});
+		$("#certAddr").val("${addressMap.certAddr}");
 	});
 </script>
 </head>
