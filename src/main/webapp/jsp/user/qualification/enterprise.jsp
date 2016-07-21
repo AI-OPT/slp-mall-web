@@ -64,7 +64,7 @@ var qualificationSubmitPager;
          <ul>
              <li>
                 <p class="word"><b class="red">*</b>企业名称:</p>
-                <p><input type="text" class="int-xlarge" placeholder="请填写营业执照上的注册企业名称" id="custName" name="custName" value="${ insertGroupKeyInfoRequest.custName}"></p>
+                <p><input type="text" class="int-xlarge" placeholder="请填写营业执照上的注册企业名称" id="custName" name="custName" value=""></p>
                  <label id="custNameErrMsg" style="display:none"><img src="${_slpbase}/images/icon-c.png" id="custNameImage"><span class="ash" id="enterpriseErrMsgShow">4-60个字符，可用中英文、数字、“-”、”_”、“（）”及”( )”</span></label>
              </li>
          </ul>
