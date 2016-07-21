@@ -36,6 +36,9 @@
 		});
 	})();  
 	$(function(){
+		if(${groupKeyInfo.auditState}=='10'){
+			$("#auditState").show();
+		}
 		$("#taxpayerType").val(${codeMap.taxpayerCode});
 		$("#taxCode").val(${codeMap.taxpayerTypeCode});
 		$("#supplyGoods").val(${codeMap.productCat});
@@ -71,7 +74,9 @@
       <div class="account-bj">
      <div class="mar-account-title">
       <div class="account-title account-title-bjcolor">
-      	<p>资质类型:供货商</p>
+      	<div class="title-bt">
+			供货商资质<span id=auditState style="display:none">(未认证)</span>
+		</div>
       	<p class="right"><i class="icon-edit qualifications" id="editEnterprise">修改</i></p>
       </div>
       </div>

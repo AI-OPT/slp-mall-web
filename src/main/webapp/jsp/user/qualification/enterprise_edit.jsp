@@ -32,6 +32,9 @@ var auditState = "${groupKeyInfo.auditState}";
 	});
 })(); 
 $(function(){
+	if(${groupKeyInfo.auditState}=='10'){
+		$("#auditState").show();
+	}
 	$("#groupIndustry").val("${codeMap.groupIndustry}");
 	$("#groupMemberScale").val("${codeMap.groupMemberScale}");
 	$("#groupType").val("${codeMap.groupType}");
@@ -63,7 +66,9 @@ $(function(){
       </div>
       <div class="account-bj">
       <div class="account-title account-title-bjcolor">
-     	<p>企业资质信息</p>
+     	<div class="title-bt">
+			供货商资质<span id="auditState" style="display:none">(未认证)</span>
+		</div>
      	<p class="right"><i class="icon-edit qualifications" id="editEnterprise" >修改</i></p>
      </div>
 
