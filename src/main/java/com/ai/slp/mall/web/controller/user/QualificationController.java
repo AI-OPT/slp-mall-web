@@ -88,7 +88,23 @@ public class QualificationController {
 
     // 代理商选择页面
     @RequestMapping("/toAgentSelectPage")
-    public ModelAndView toAgentSelectPage() {
+    public ModelAndView toAgentSelectPage(HttpServletRequest request) {
+    	SLPClientUser userClient = (SLPClientUser) request.getSession().getAttribute(SSOClientConstants.USER_SESSION_KEY);
+        String userId = userClient.getUserId();
+        /**
+         * 获取个人客户信息
+         */
+    	 SearchCustKeyInfoResponse custKeyInfoResponse = getCustKeyBaseinfo(userId);
+         if(!StringUtil.isBlank(custKeyInfoResponse.getUserId())){
+            return  new ModelAndView("redirect:/user/qualification/editAgentPersonal");
+         }
+         /**
+          * 获取企业客户信息
+          */
+         SearchGroupKeyInfoResponse grouKeyInfoResponse = getGroupKeyBaseinfo(userId);
+         if(!ExceptCodeConstants.Special.NO_RESULT.equals(grouKeyInfoResponse.getResponseHeader().getResultCode())){
+             return new ModelAndView("redirect:/user/qualification/editAgentEnterprise");
+         }
         return new ModelAndView("jsp/user/qualification/agent-select");
     }
 
