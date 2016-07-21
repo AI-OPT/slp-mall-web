@@ -384,7 +384,7 @@
              <ul>
                  <li class="form-btn">
                  	<input type="button" class="slp-btn regsiter-btn" id="updateAgentPersonal" value="保存资质">
-                 	<input type="hidden" id="custNameFlag"/>
+                 	<input type="hidden" id="realNameFlag"/>
                  	<input type="hidden" id="certAddrFlag">
                  	<input type="hidden" id="idNumberFlag"/>
                  	<input type="hidden" id="bithdayFlag"/>
