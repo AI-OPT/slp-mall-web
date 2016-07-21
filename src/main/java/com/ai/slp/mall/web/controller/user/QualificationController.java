@@ -619,9 +619,13 @@ public class QualificationController {
         List<GnAreaVo> cityList = areaQuerySV.getCityListByProviceCode(custKeyInfoResponse.getCustProvinceCode());
         List<GnAreaVo> countyList = areaQuerySV.getCountyListByCityCode(custKeyInfoResponse.getCustCityCode());
         
-       //格式化生日的日期格式
+        //格式化生日的日期格式
         SimpleDateFormat fomate = new SimpleDateFormat("yyyy-MM-dd");
-        String birthday = fomate.format(custKeyInfoResponse.getCustBirthday());
+        String birthday = "";
+        if(custKeyInfoResponse.getCustBirthday()!=null){
+            birthday = fomate.format(custKeyInfoResponse.getCustBirthday());
+        }
+        
         
         Map<String,Object> codeMap = new HashMap<String,Object>();
         codeMap.put("provinceCode", custKeyInfoResponse.getCustProvinceCode());
@@ -630,9 +634,11 @@ public class QualificationController {
         codeMap.put("certAddr", custKeyInfoResponse.getCustAddr());
         codeMap.put("incomeLevel", custKeyInfoResponse.getIncomeLevel());
         codeMap.put("custEducation", custKeyInfoResponse.getCustEducation());
-        codeMap.put("year", birthday.substring(0, 4));
-        codeMap.put("month", birthday.substring(5,7));
-        codeMap.put("day", birthday.substring(8, 10));
+        if(custKeyInfoResponse.getCustBirthday()!=null){
+            codeMap.put("year", birthday.substring(0, 4));
+            codeMap.put("month", birthday.substring(5,7));
+            codeMap.put("day", birthday.substring(8, 10));
+        }
         codeMap.put("idpsIdList", idpsIdList);
         custKeyInfoResponse.setIncomeLevel(incomeLevelMap.get(custKeyInfoResponse.getIncomeLevel()));
         custKeyInfoResponse.setCustEducation(educationMap.get(custKeyInfoResponse.getCustEducation()));
