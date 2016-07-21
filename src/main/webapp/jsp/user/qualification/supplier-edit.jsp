@@ -823,6 +823,7 @@
                	   <input type="hidden" id="phoneCodeFlag">
                	   <input type="hidden" id="groupIndusteryFlag">
                	   <input type="hidden" id="picFlag">
+               	   <input type="hidden" id="contactNameFlag">
                	   
                   <input type="hidden" id="establishTimeFlag"/>
                   <input type="hidden" id="capitalFlag"/>

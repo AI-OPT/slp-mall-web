@@ -233,6 +233,7 @@ var qualificationSubmitPager;
                 	 <input type="hidden" id="phoneCodeFlag">
                 	 <input type="hidden" id="groupIndustryFlag">
                 	 <input type="hidden" id="picFlag">
+                	 <input type="hidden" id="contactNameFlag">
    
                 	 <input type="hidden" id="idpsId" name="list[0].attrValue">
                  </li>

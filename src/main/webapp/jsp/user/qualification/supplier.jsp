@@ -561,6 +561,7 @@
                   <input type="hidden" id="brandNameEFlag"/>
                   <input type="hidden" id="brandNameCFlag"/>
                   <input type="hidden" id="picFlag"/>
+                  <input type="hidden" id="contactNameFlag"/>
                   
                  <input type="hidden" id="idpsId1" name="list[0].attrValue">
                  <input type="hidden" id="idpsId2" name="list[1].attrValue">

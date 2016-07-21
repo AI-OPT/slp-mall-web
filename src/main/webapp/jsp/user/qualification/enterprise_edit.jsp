@@ -334,6 +334,7 @@ $(function(){
             	  <input type="hidden" id="phoneCodeFlag">
             	  <input type="hidden" id="groupIndustryFlag">
             	  <input type="hidden" id="picFlag">
+            	  <input type="hidden" id="contactNameFlag">
                   </li>
              </ul>
      </div>
