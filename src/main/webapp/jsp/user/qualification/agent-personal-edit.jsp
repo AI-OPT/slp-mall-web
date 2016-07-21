@@ -392,9 +392,9 @@
                  	<input type="hidden" id="provinceCodeFlag"/>
                  	<input type="hidden" id="picFlag"/>
                  	
-                 	<input type="hidden" id="idpsId1" name="list[0].attrValue"/>
-                 	<input type="hidden" id="idpsId2" name="list[1].attrValue"/>
-                 	<input type="hidden" id="idpsId3" name="list[2].attrValue"/>
+                 	<input type="hidden" id="idpsId1" name="list[0].attrValue" value="${codeMap.idpsIdList[0] }"/>
+                 	<input type="hidden" id="idpsId2" name="list[1].attrValue" value="${codeMap.idpsIdList[1] }"/>
+                 	<input type="hidden" id="idpsId3" name="list[2].attrValue" value="${codeMap.idpsIdList[2] }"/>
                  </li>
              </ul>
              </div>

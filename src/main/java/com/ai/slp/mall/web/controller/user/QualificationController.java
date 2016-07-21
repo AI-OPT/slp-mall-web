@@ -3,6 +3,7 @@ package com.ai.slp.mall.web.controller.user;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -511,6 +512,10 @@ public class QualificationController {
          */
         QueryCustFileExtResponse custFileResponse = getCustFileExt(userId);
         List<CmCustFileExtVo> custFileExtVoList = custFileResponse.getList();
+        List<String> idpsIdList = new ArrayList<String>();
+        for (CmCustFileExtVo cmCustFileExtVo : custFileExtVoList) {
+			idpsIdList.add(cmCustFileExtVo.getAttrValue());
+		}
         Map<String,String> imageMap = getImageUrl(custFileExtVoList);
         //获取公司人数
         Map<String,String> groupMemberMap = getGroupMemberScaleMap();
@@ -527,7 +532,7 @@ public class QualificationController {
         List<GnAreaVo> cityList = areaQuerySV.getCityListByProviceCode(grouKeyInfoResponse.getProvinceCode());
         List<GnAreaVo> countyList = areaQuerySV.getCountyListByCityCode(grouKeyInfoResponse.getCityCode());
         //获取下拉Code
-        Map<String,String> codeMap = new HashMap<String,String>();
+        Map<String,Object> codeMap = new HashMap<String,Object>();
         codeMap.put("provinceCode", grouKeyInfoResponse.getProvinceCode());
         codeMap.put("cityCode", grouKeyInfoResponse.getCityCode());
         codeMap.put("countyCode", grouKeyInfoResponse.getCountyCode());
@@ -536,6 +541,7 @@ public class QualificationController {
         codeMap.put("groupMemberScale", grouKeyInfoResponse.getGroupMemberScale());
         codeMap.put("groupType", grouKeyInfoResponse.getGroupType());
         codeMap.put("contactDept", contactsInfoInfoResponse.getContactDept());
+        codeMap.put("idpsIdList", idpsIdList);
         
         ICacheSV cacheSv = DubboConsumerFactory.getService("iCacheSV");
         String provinceName = cacheSv.getAreaName(grouKeyInfoResponse.getProvinceCode());
@@ -579,7 +585,11 @@ public class QualificationController {
          * 获取图片信息
          */
         QueryCustFileExtResponse custFileResponse = getCustFileExt(userId);
+        List<String> idpsIdList = new ArrayList<String>();
         List<CmCustFileExtVo> custFileExtVoList = custFileResponse.getList();
+        for (CmCustFileExtVo cmCustFileExtVo : custFileExtVoList) {
+			idpsIdList.add(cmCustFileExtVo.getAttrValue());
+		}
         Map<String,String> imageMap = getImageUrl(custFileExtVoList);
         //获取学历信息
         Map<String,String> educationMap = getCustEducationMap();
@@ -597,7 +607,7 @@ public class QualificationController {
         SimpleDateFormat fomate = new SimpleDateFormat("yyyy-MM-dd");
         String birthday = fomate.format(custKeyInfoResponse.getCustBirthday());
         
-        Map<String,String> codeMap = new HashMap<String,String>();
+        Map<String,Object> codeMap = new HashMap<String,Object>();
         codeMap.put("provinceCode", custKeyInfoResponse.getCustProvinceCode());
         codeMap.put("cityCode", custKeyInfoResponse.getCustCityCode());
         codeMap.put("countyCode", custKeyInfoResponse.getCustCountyCode());
@@ -607,6 +617,7 @@ public class QualificationController {
         codeMap.put("year", birthday.substring(0, 4));
         codeMap.put("month", birthday.substring(5,7));
         codeMap.put("day", birthday.substring(8, 10));
+        codeMap.put("idpsIdList", idpsIdList);
         custKeyInfoResponse.setIncomeLevel(incomeLevelMap.get(custKeyInfoResponse.getIncomeLevel()));
         custKeyInfoResponse.setCustEducation(educationMap.get(custKeyInfoResponse.getCustEducation()));
         
@@ -687,6 +698,10 @@ public class QualificationController {
          */
         QueryCustFileExtResponse custFileResponse = getCustFileExt(userId);
         List<CmCustFileExtVo> custFileExtVoList = custFileResponse.getList();
+        List<String> idpsIdList = new ArrayList<String>();
+        for (CmCustFileExtVo cmCustFileExtVo : custFileExtVoList) {
+			idpsIdList.add(cmCustFileExtVo.getAttrValue());
+		}
         Map<String,String> imageMap = getImageUrl(custFileExtVoList);
         /**
          * 银行信息
@@ -709,7 +724,7 @@ public class QualificationController {
         Map<String,String> industryMap = getIndustry();
         
         //获取下拉Code
-        Map<String,String> codeMap = new HashMap<String,String>();
+        Map<String,Object> codeMap = new HashMap<String,Object>();
         codeMap.put("provinceCode", grouKeyInfoResponse.getProvinceCode());
         codeMap.put("cityCode", grouKeyInfoResponse.getCityCode());
         codeMap.put("countyCode", grouKeyInfoResponse.getCountyCode());
@@ -721,6 +736,7 @@ public class QualificationController {
         codeMap.put("groupType", grouKeyInfoResponse.getGroupType());
         codeMap.put("contactDept", contactsInfoInfoResponse.getContactDept());
         codeMap.put("certIssueDate", grouKeyInfoResponse.getCertIssueDate().toString().substring(0, 10));
+        codeMap.put("idpsIdList", idpsIdList);
         IGnAreaQuerySV areaQuerySV = DubboConsumerFactory.getService("iGnAreaQuerySV");
         List<GnAreaVo> cityList = areaQuerySV.getCityListByProviceCode(grouKeyInfoResponse.getProvinceCode());
         List<GnAreaVo> countyList = areaQuerySV.getCountyListByCityCode(grouKeyInfoResponse.getCityCode());
@@ -775,6 +791,10 @@ public class QualificationController {
          */
         QueryCustFileExtResponse custFileResponse = getCustFileExt(userId);
         List<CmCustFileExtVo> custFileExtVoList = custFileResponse.getList();
+        List<String> idpsIdList = new ArrayList<String>();
+        for (CmCustFileExtVo cmCustFileExtVo : custFileExtVoList) {
+			idpsIdList.add(cmCustFileExtVo.getAttrValue());
+		}
         Map<String,String> imageMap = getImageUrl(custFileExtVoList);
         /**
          * 银行信息
@@ -810,7 +830,7 @@ public class QualificationController {
         String cityCode = cacheSv.getAreaName(grouKeyInfoResponse.getCityCode());
         String county = cacheSv.getAreaName(grouKeyInfoResponse.getCountyCode());
         
-        Map<String,String> codeMap = new HashMap<String,String>();
+        Map<String,Object> codeMap = new HashMap<String,Object>();
         codeMap.put("groupMemberScale", grouKeyInfoResponse.getGroupMemberScale());
         codeMap.put("groupType", grouKeyInfoResponse.getGroupType());
         codeMap.put("contactDept", contactsInfoInfoResponse.getContactDept());
@@ -819,6 +839,7 @@ public class QualificationController {
         codeMap.put("groupIndustry", grouKeyInfoResponse.getGroupIndustry());
         codeMap.put("productCat", grouKeyInfoResponse.getProductCat());
         codeMap.put("certIssueDate", grouKeyInfoResponse.getCertIssueDate().toString().substring(0, 10));
+        codeMap.put("idpsIdList", idpsIdList);
         
         grouKeyInfoResponse.setProvinceCode(provinceName+" "+cityCode+" "+county+" "+grouKeyInfoResponse.getCertAddr());
         grouKeyInfoResponse.setGroupMemberScale(groupMemberMap.get(grouKeyInfoResponse.getGroupMemberScale()));
@@ -933,7 +954,7 @@ public class QualificationController {
         UpdateGroupKeyInfoRequest updateGroupKeyInfoRequest = new UpdateGroupKeyInfoRequest();
         updateGroupKeyInfoRequest.setTenantId(SLPMallConstants.COM_TENANT_ID);
         updateGroupKeyInfoRequest.setUserId(user.getUserId());
-        updateGroupKeyInfoRequest.setAuditState("10");
+        //updateGroupKeyInfoRequest.setAuditState("10");
         // 获取服务
         IUcContactsInfoSV ucContactsInfoSV = DubboConsumerFactory.getService(IUcContactsInfoSV.class);
         IUcKeyInfoSV ucKeyInfoSV = DubboConsumerFactory.getService(IUcKeyInfoSV.class);
@@ -942,7 +963,7 @@ public class QualificationController {
             //修改认证状态
             ucKeyInfoSV.updateGroupKeyInfo(updateGroupKeyInfoRequest);
             //更改用户账户状态
-            updateUserState(user, "10");
+            //updateUserState(user, "10");
             responseData = new ResponseData<String>(SLPMallConstants.Qualification.QUALIFICATION_SUCCESS, "操作成功", null);
             responseHeader = new ResponseHeader(true,SLPMallConstants.Qualification.QUALIFICATION_SUCCESS, "操作成功");
         } catch (Exception e) {

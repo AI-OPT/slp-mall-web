@@ -291,6 +291,8 @@ define('app/jsp/user/qualification/baseinfo', function (require, exports, module
 				document.getElementById(imgErrShowId).style.color="red";
 				document.getElementById(imgErrShowId).style.display="block";
 				return false;
+			}else{
+				$('#picFlag').val("1");
 			}
 		},
 		//校验手机号

@@ -321,7 +321,7 @@ $(function(){
              </ul>
               <ul>
                  <li class="form-btn" id="ct-btn"><input type="button" class="slp-btn regsiter-btn" value="保存联系人" id="updateContactsEnterprise">
-                  <input type="hidden" id="idpsId" name="list[0].attrValue">
+                  <input type="hidden" id="idpsId" name="list[0].attrValue" value="${codeMap.idpsIdList[0] }">
                   <input type="hidden" id="custNameFlag">
             	  <input type="hidden" id="provinceCode">
             	  <input type="hidden" id="certAddrFlag">

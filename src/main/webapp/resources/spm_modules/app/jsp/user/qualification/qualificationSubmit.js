@@ -604,7 +604,8 @@ function uploadImg(imageId,certPic,idpsId,imgErrShowId) {
 		document.getElementById(imgErrShowId).style.display="block";
 		$("#picFlag").val("0");
 		return false;
-	}else if(document.getElementById(imageId).files[0].size>3*1024*1024){
+		//这个图片
+	}else if(document.getElementById(imageId).files[0].size>=(3.05*1024*1024)-1){
 		document.getElementById(imgErrShowId).innerHTML="图片太大";
 		document.getElementById(imgErrShowId).style.color="red";
 		document.getElementById(imgErrShowId).style.display="block";

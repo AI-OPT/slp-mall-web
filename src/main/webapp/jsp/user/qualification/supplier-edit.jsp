@@ -839,15 +839,15 @@
                   <input type="hidden" id="supplyGoodsFlag"/>
                   <input type="hidden" id="brandNameEFlag"/>
                   <input type="hidden" id="brandNameCFlag"/>
-                 <input type="hidden" id="idpsId1" name="list[0].attrValue">
-                 <input type="hidden" id="idpsId2" name="list[1].attrValue">
-                 <input type="hidden" id="idpsId3" name="list[2].attrValue">
-                 <input type="hidden" id="idpsId4" name="list[3].attrValue">
-                 <input type="hidden" id="idpsId5" name="list[4].attrValue">
-                 <input type="hidden" id="idpsId6" name="list[5].attrValue">
-                 <input type="hidden" id="idpsId7" name="list[6].attrValue">
-                 <input type="hidden" id="idpsId8" name="list[7].attrValue">
-                 <input type="hidden" id="idpsId9" name="list[8].attrValue">
+                 <input type="hidden" id="idpsId1" name="list[0].attrValue" value="${codeMap.idpsIdList[0] }">
+                 <input type="hidden" id="idpsId2" name="list[1].attrValue" value="${codeMap.idpsIdList[1] }">
+                 <input type="hidden" id="idpsId3" name="list[2].attrValue" value="${codeMap.idpsIdList[2] }">
+                 <input type="hidden" id="idpsId4" name="list[3].attrValue" value="${codeMap.idpsIdList[3] }">
+                 <input type="hidden" id="idpsId5" name="list[4].attrValue" value="${codeMap.idpsIdList[4] }">
+                 <input type="hidden" id="idpsId6" name="list[5].attrValue" value="${codeMap.idpsIdList[5] }">
+                 <input type="hidden" id="idpsId7" name="list[6].attrValue" value="${codeMap.idpsIdList[6] }">
+                 <input type="hidden" id="idpsId8" name="list[7].attrValue" value="${codeMap.idpsIdList[7] }">
+                 <input type="hidden" id="idpsId9" name="list[8].attrValue" value="${codeMap.idpsIdList[8] }">
                 	 
                  </li>
              </ul>
