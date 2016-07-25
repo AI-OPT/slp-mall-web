@@ -24,7 +24,7 @@ define('app/jsp/user/qualification/baseinfo', function (require, exports, module
     	},
     	Statics: {
     		DEFAULT_PAGE_SIZE: 5,
-    		USER_LEFT_MNU_ID: "left_mnu_qualification_identify"
+    		USER_LEFT_MNU_ID: "left_mnu_qualification"
     	},
     	//事件代理
     	events: {
@@ -79,8 +79,8 @@ define('app/jsp/user/qualification/baseinfo', function (require, exports, module
     	//重写父类
     	setup: function () {
     		$("#provinceCode").val("0");
-		$("#cityCode").val("0");
-		$("#countyCode").val("0");
+		    $("#cityCode").val("0");
+		   $("#countyCode").val("0");
     		BaseInfoQualificationPager.superclass.setup.call(this);
     		activeUserLeftMenu(BaseInfoQualificationPager.USER_LEFT_MNU_ID);
     	},
