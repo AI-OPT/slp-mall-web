@@ -50,6 +50,24 @@
                      <li><A href="${_base}/myorder/list">我的订单</A></li>
                      <li><A href="${_base}/account/balance/index">账户余额</A></li>
                      <li><A href="javascript:void(0);">我的卡包</A></li>
+                     <li>
+                     	 <c:if test="${sessionScope.user_session_key.userType=='11' || sessionScope.user_session_key.userType=='12' || sessionScope.user_session_key.userType=='13' }">
+                        	<c:choose>
+				    			<c:when test="${sessionScope.user_session_key.userType=='11'}">
+			                	<li id="left_mnu_qualification_identify"><A href="${_base}/user/qualification/toEnterprisePage">资质认证</A></li>
+			                 	</c:when>
+				    			<c:when test="${sessionScope.user_session_key.userType=='12'}">
+			                	<li id="left_mnu_qualification_identify"><A href="${_base}/user/qualification/toAgentSelectPage">资质认证</A></li>
+			                 	</c:when>
+			                 	<c:when test="${sessionScope.user_session_key.userType=='13'}">
+			                	<li id="left_mnu_qualification_identify"><A href="${_base}/user/qualification/toSupplierPage">资质认证</A></li>
+			                 	</c:when>
+				    			<c:otherwise>
+			                	<li id="left_mnu_qualification_identify"><A href="javascript:void(0);">资质认证</A></li>
+			                 	</c:otherwise>
+			                </c:choose>
+                        </c:if>
+                     </li>
                      <!-- <li><A href="#">收藏夹</A></li> -->
                      <li><A href="${_base}/account/phonebook/phonebookmgr">通讯录</A></li>
                      <li><A href="${_base}/user/security/securitySettings">安全设置</A></li>
