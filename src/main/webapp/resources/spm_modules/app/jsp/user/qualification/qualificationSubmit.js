@@ -257,7 +257,7 @@ define('app/jsp/user/qualification/qualificationSubmit', function (require, expo
 			baseInfoPager._checkPic('idpsId'+i,'imgErrShow'+i);
 		}
 		var picFlag = $("#picFlag").val();
-		var custNameFlag = $("#custNameFlag").val();
+		var custNameFlag = $("#realNameFlag").val();
 		//var custEducationFlag = $("#custEducationFlag").val();
 		var certAddrFlag =  $("#certAddrFlag").val();
 		var provinceCodeFlag =  $("#provinceCodeFlag").val();
@@ -434,7 +434,7 @@ define('app/jsp/user/qualification/qualificationSubmit', function (require, expo
 			 baseInfoPager._checkPic('idpsId'+i,'imgErrShow'+i);
 			}
 			var picFlag = $("#picFlag").val();
-			var custNameFlag = $("#custNameFlag").val();
+			var custNameFlag = $("#realNameFlag").val();
 			//var custEducationFlag = $("#custEducationFlag").val();
 			var certAddrFlag =  $("#certAddrFlag").val();
 			var provinceCodeFlag =  $("#provinceCodeFlag").val();
