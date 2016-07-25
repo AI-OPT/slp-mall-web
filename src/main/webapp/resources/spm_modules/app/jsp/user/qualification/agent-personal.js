@@ -13,6 +13,10 @@ define(
 			var AgentPersonalPager = Widget.extend({
 				// 属性，使用时由类的构造函数传入
 				attrs : {},
+				Statics: {
+		    		DEFAULT_PAGE_SIZE: 5,
+		    		USER_LEFT_MNU_ID: "left_mnu_qualification"
+		    	},
 				// 事件代理
 				events : {
 				// key的格式: 事件+空格+对象选择器;value:事件方法
@@ -48,6 +52,7 @@ define(
 					birth.init('yy_mm_dd');
 					this._birthday();
 					this._gender();
+					activeUserLeftMenu(BaseInfoQualificationPager.USER_LEFT_MNU_ID);
 				},
 				
 				_gender:function(){
