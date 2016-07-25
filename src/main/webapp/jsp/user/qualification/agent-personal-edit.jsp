@@ -195,7 +195,7 @@
          </ul>
          <ul>
              <li>
-                <p class="word"><b class="red">*</b>学历:</p>
+                <p class="word">学历:</p>
                 <p>
                  <select class="select-medium" id="custEducation">
                  	<option value="0">请选择</option>
@@ -244,7 +244,7 @@
          </ul>
           <ul>
              <li>
-                <p class="word"><b class="red">*</b>生日:</p>
+                <p class="word">生日:</p>
                 <p><select class="select-xmini" id="yy_mm_dd" name="yy_mm_dd">
                 	 <option value="0">请选择</option>
                    </select>
@@ -265,7 +265,7 @@
          </ul>
    		  <ul>
              <li>
-                <p class="word"><b class="red">*</b>收入:</p>
+                <p class="word">收入:</p>
                 <p>
 	                <select class="select-medium" id="inCome" name="incomeLevel">
 		                <option value="0">请选择收入</option>
