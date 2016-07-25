@@ -70,16 +70,16 @@ function inActiveUserLeftMenu(left_mnu_id){
                 <p class="">资质管理</p>
                  <c:choose>
 	    			<c:when test="${sessionScope.user_session_key.userType=='11'}">
-                	<p id="left_mnu_qualification_identify"><A href="${_base}/user/qualification/toEnterprisePage">资质认证</A></p>
+                	<p id="left_mnu_qualification"><A href="${_base}/user/qualification/toEnterprisePage">资质认证</A></p>
                  	</c:when>
 	    			<c:when test="${sessionScope.user_session_key.userType=='12'}">
-                	<p id="left_mnu_qualification_identify"><A href="${_base}/user/qualification/toAgentSelectPage">资质认证</A></p>
+                	<p id="left_mnu_qualification"><A href="${_base}/user/qualification/toAgentSelectPage">资质认证</A></p>
                  	</c:when>
                  	<c:when test="${sessionScope.user_session_key.userType=='13'}">
-                	<p id="left_mnu_qualification_identify"><A href="${_base}/user/qualification/toSupplierPage">资质认证</A></p>
+                	<p id="left_mnu_qualification"><A href="${_base}/user/qualification/toSupplierPage">资质认证</A></p>
                  	</c:when>
 	    			<c:otherwise>
-                	<p id="left_mnu_qualification_identify"><A href="javascript:void(0);">资质认证</A></p>
+                	<p id="left_mnu_qualification"><A href="javascript:void(0);">资质认证</A></p>
                  	</c:otherwise>
                  </c:choose>
             </li> 
