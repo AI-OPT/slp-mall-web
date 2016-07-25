@@ -41,6 +41,7 @@
 		if(${groupKeyInfo.auditState}=='10'){
 			$("#auditState").show();
 		}
+		
 		$("#taxpayerType").val("${codeMap.taxpayerType}");
 		$("#taxCode").val("${codeMap.taxpayerTypeCode}");
 		$("#groupIndustry").val("${codeMap.groupIndustry}");
