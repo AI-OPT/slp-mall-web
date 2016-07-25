@@ -369,6 +369,7 @@ public class QualificationController {
         insertCustKeyInfoRequest.setTenantId(user.getTenantId());
         insertCustKeyInfoRequest.setUserType(user.getUserType());
         insertCustKeyInfoRequest.setUserId(user.getUserId());
+        if(request.getParameter("yy_mm_dd")!=null&&request.getParameter("mm")!=null&&request.getParameter("dd")!=null)
         insertCustKeyInfoRequest.setCustBirthday(DateUtil.getTimestamp(request.getParameter("yy_mm_dd") + "-"+ request.getParameter("mm") + "-" + request.getParameter("dd")));
         insertCustKeyInfoRequest.setAuditState("10");
         // 附件信息
@@ -678,6 +679,7 @@ public class QualificationController {
         updateCustKeyInfoRequest.setUserType(user.getUserType());
         updateCustKeyInfoRequest.setUserId(user.getUserId());
         updateCustKeyInfoRequest.setAuditState("10");
+        if(request.getParameter("yy_mm_dd")!=null&&request.getParameter("mm")!=null&&request.getParameter("dd")!=null)
         updateCustKeyInfoRequest.setCustBirthday(DateUtil.getTimestamp(request.getParameter("yy_mm_dd") + "-"+ request.getParameter("mm") + "-" + request.getParameter("dd")));
         // 附件信息
         for (CmCustFileExtVo cmCustFileExtVo : custFileListVo.getList()) {

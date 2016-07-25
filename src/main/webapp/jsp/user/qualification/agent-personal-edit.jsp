@@ -197,7 +197,7 @@
              <li>
                 <p class="word">学历:</p>
                 <p>
-                 <select class="select-medium" id="custEducation">
+                 <select class="select-medium" id="custEducation" name="custEducation">
                  	<option value="0">请选择</option>
                  	<c:forEach var="map" items="${educationMap}">
                  		<option value="${map.key}">${map.value}</option>

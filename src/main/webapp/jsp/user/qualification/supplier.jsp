@@ -159,7 +159,7 @@
              <li>
                 <p class="word"><b class="red">*</b>法人姓名:</p>
                 <p><input type="text" class="int-medium" placeholder="" id="corporationName" name="legalPerson"></p>
-                <label id="corporationNameErrMsg" style="display:none"><img src="${_slpbase}/images/icon-c.png" id="corporationNameImage"><span class="ash" id="corporationNameText">1-12位字符，可用数字及"."</span></label>
+                <label id="corporationNameErrMsg" style="display:none"><img src="${_slpbase}/images/icon-c.png" id="corporationNameImage"><span class="ash" id="corporationNameText">2-24个字符，可用汉字或英语字母</span></label>
              </li>
          </ul>
           <ul>
