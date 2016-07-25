@@ -26,7 +26,7 @@ define('app/jsp/user/qualification/agent-supplier-enterprise', function (require
     	},
     	Statics: {
     		DEFAULT_PAGE_SIZE: 5,
-    		USER_LEFT_MNU_ID: "left_mnu_qualification_identify"
+    		USER_LEFT_MNU_ID: "left_mnu_qualification"
     	}, 
     	//事件代理
     	events: {
