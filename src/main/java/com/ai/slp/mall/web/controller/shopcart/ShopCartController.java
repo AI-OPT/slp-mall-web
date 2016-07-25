@@ -199,6 +199,7 @@ public class ShopCartController {
             OrdBaseInfo ordBaseInfo = new OrdBaseInfo();
             ordBaseInfo.setUserId(getUserId(session));
             ordBaseInfo.setOrderType(SLPMallConstants.SHOP_CART_ORDE_TYPE);
+            ordBaseInfo.setUserType(getUserType(session));
             orderTradeReq.setOrdBaseInfo(ordBaseInfo);
             List<OrdProductInfo> infoList = JSON.parseArray(prodObj, OrdProductInfo.class);
             orderTradeReq.setOrdProductInfoList(infoList);
@@ -229,6 +230,18 @@ public class ShopCartController {
         if (user==null)
             throw new BusinessException("","请先登录");
         return user.getUserId();
+    }
+
+    /**
+     * 获取用户类型
+     * @param session
+     * @return
+     */
+    private String getUserType(HttpSession session){
+        SLPClientUser user = (SLPClientUser) session.getAttribute(SSOClientConstants.USER_SESSION_KEY);
+        if (user==null)
+            throw new BusinessException("","请先登录");
+        return user.getUserType();
     }
 
     /**
