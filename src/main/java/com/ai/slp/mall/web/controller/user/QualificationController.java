@@ -1141,8 +1141,11 @@ public class QualificationController {
         Map<String,String> map = new HashMap<String,String>();
         try {
             for(CmCustFileExtVo cmUcstFile:custFileExtVoList){
+            	if(cmUcstFile.getAttrValue()!=""){
                 String url = im.getImageUrl(cmUcstFile.getAttrValue(), ".jpg");
                 map.put(cmUcstFile.getInfoItem(), url);
+            	}else
+            		map.put(cmUcstFile.getInfoItem(), "/slp-mall/resources/slpmall/images/fom-t.png");
             }
            
         } catch (Exception e) {
