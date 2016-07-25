@@ -13,18 +13,18 @@
                 <li><a href="${_base}/myorder/list">账户首页</a></li>
                 <li><a href="${_base}/myorder/list">我的订单</a></li>
                 <li class="shez"><a href="#">账户设置<i class="icon-angle-down"></i></a>
-                <div class="setgs" style=" display:none;">
+                <div class="setgs" style="display:none;">
                     <ul>
                         <c:if test="${sessionScope.user_session_key.userType=='11' || sessionScope.user_session_key.userType=='12' || sessionScope.user_session_key.userType=='13' }">
                         	<c:choose>
 				    			<c:when test="${sessionScope.user_session_key.userType=='11'}">
-			                	<li id="left_mnu_qualification_identify"><A href="#">资质认证</A></li>
+			                	<li id="left_mnu_qualification_identify"><A href="${_base}/user/qualification/toEnterprisePage">资质认证</A></li>
 			                 	</c:when>
 				    			<c:when test="${sessionScope.user_session_key.userType=='12'}">
-			                	<li id="left_mnu_qualification_identify"><A href="#">资质认证</A></li>
+			                	<li id="left_mnu_qualification_identify"><A href="${_base}/user/qualification/toAgentSelectPage">资质认证</A></li>
 			                 	</c:when>
 			                 	<c:when test="${sessionScope.user_session_key.userType=='13'}">
-			                	<li id="left_mnu_qualification_identify"><A href="#">资质认证</A></li>
+			                	<li id="left_mnu_qualification_identify"><A href="${_base}/user/qualification/toSupplierPage">资质认证</A></li>
 			                 	</c:when>
 				    			<c:otherwise>
 			                	<li id="left_mnu_qualification_identify"><A href="javascript:void(0);">资质认证</A></li>
