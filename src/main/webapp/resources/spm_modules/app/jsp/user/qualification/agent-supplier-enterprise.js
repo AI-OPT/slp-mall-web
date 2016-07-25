@@ -111,7 +111,7 @@ define('app/jsp/user/qualification/agent-supplier-enterprise', function (require
     	_showCorporationNameTip:function(){
     		$("#corporationNameErrMsg").show();
 			$("#corporationNameText").show();
-			$("#corporationNameText").text('4-24个字符，可用汉字或英语字母');
+			$("#corporationNameText").text('2-24个字符，可用汉字或英语字母');
     		$('#corporationNameImage').attr('src',_base+'/resources/slpmall/images/icon-d.png');
     	},
     	_showIdNumberTip:function(){
@@ -250,11 +250,11 @@ define('app/jsp/user/qualification/agent-supplier-enterprise', function (require
 			if(corporationName==null||corporationName==""){
 				$("#corporationNameErrMsg").show();
 				$("#corporationNameText").show();
-				$("#corporationNameText").text('4-24个字符，可用汉字或英语字母');
+				$("#corporationNameText").text('2-24个字符，可用汉字或英语字母');
 	    		$('#corporationNameImage').attr('src',_base+'/resources/slpmall/images/icon-a.png');
 	    		$("#corporationNameFlag").val("0");
 			}else{
-				var reg = /^[\u4e00-\u9fa5a-zA-Z]{4,24}$/;
+				var reg = /^[\u4e00-\u9fa5a-zA-Z]{2,24}$/;
     			if(corporationName.match(reg)){
     				$('#corporationNameErrMsg').show();
     				$('#corporationNameText').hide();
@@ -263,7 +263,7 @@ define('app/jsp/user/qualification/agent-supplier-enterprise', function (require
     			}else{
     				$('#corporationNameErrMsg').show();
     				$("#corporationNameImage").show();
-        			$('#corporationNameText').text("4-24个字符，可用汉字或英语字母");
+        			$('#corporationNameText').text("2-24个字符，可用汉字或英语字母");
         			$('#corporationNameImage').attr('src',_base+'/resources/slpmall/images/icon-a.png');
     			}
 	    		
@@ -383,7 +383,7 @@ define('app/jsp/user/qualification/agent-supplier-enterprise', function (require
     			$('#subbranchNameImage').attr('src',_base+'/resources/slpmall/images/icon-a.png');
     			$("#subbranchNameFlag").val("0");
 			}else{
-				var reg = /^[\u4e00-\u9fa5a-zA-Z]{4,60}$/;
+				var reg = /^[\u4e00-\u9fa5]{4,60}$/;
 				if(!subbranchName.match(reg)){
 					$('#subbranchNameErrMsg').show();
     				$("#subbranchNameImage").show();
@@ -459,7 +459,7 @@ define('app/jsp/user/qualification/agent-supplier-enterprise', function (require
 					$('#organizationCodeErrMsg').show();
     				$("#organizationCodeImage").show();
     				$("#organizationCodeText").show();
-        			$('#organizationCodeText').text("4-20位字符");
+        			$('#organizationCodeText').text("4-50个字符，可用数字、字母、“-”");
         			$('#organizationCodeImage').attr('src',_base+'/resources/slpmall/images/icon-a.png');
         			$("#organizationCodeFlag").val("0");
 				}
@@ -509,7 +509,7 @@ define('app/jsp/user/qualification/agent-supplier-enterprise', function (require
 					$('#brandNameEErrMsg').show();
     				$("#brandNameEImage").show();
     				$("#brandNameEText").show();
-        			$('#brandNameEText').text("4-20位字符");
+        			$('#brandNameEText').text("2-40个字符");
         			$('#brandNameEImage').attr('src',_base+'/resources/slpmall/images/icon-a.png');
 				}
 			}else{
