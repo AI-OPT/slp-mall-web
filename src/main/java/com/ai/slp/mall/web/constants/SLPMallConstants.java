@@ -455,4 +455,20 @@ public final class SLPMallConstants {
              */
             public static final String UploadImg_ERROR="fail";
         }
+        
+        public static final class UserState{
+        	private UserState(){}
+        	/**
+        	 * 注册
+        	 */
+        	public static final String UserState_register="10";
+        	/**
+        	 * 正常
+        	 */
+        	public static final String UserState_Normal="11";
+        	/**
+        	 * 冻结
+        	 */
+        	public static final String UserState_Fail="12";
+        }
 }
