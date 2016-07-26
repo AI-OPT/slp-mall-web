@@ -622,7 +622,7 @@
              </ul>
          <ul>
              <li>
-                <p class="word"><b class="red">*</b>商品注册证:</p>
+                <p class="word">商品注册证:</p>
                 <input type="hidden" name="list[5].infoName" value="商品注册证"/>
                 <input type="hidden" value="16" name="list[5].infoType">
                 <input type="hidden" value="16001" name="list[5].infoItem">
@@ -640,7 +640,7 @@
          </ul>
          <ul>
              <li>
-                <p class="word"><b class="red">*</b>行业资质证明:</p>
+                <p class="word">行业资质证明:</p>
                 <input type="hidden" name="list[6].infoName" value="行业资质证明"/>
                 <input type="hidden" value="17" name="list[6].infoType">
                 <input type="hidden" value="17001" name="list[6].infoItem">
@@ -658,7 +658,7 @@
          </ul> 
         <ul>
              <li>
-                <p class="word"><b class="red">*</b>商品质检/检验报告:</p>
+                <p class="word">商品质检/检验报告:</p>
                 <input type="hidden" name="list[7].infoName" value="商品质检/检验报告"/>
                 <input type="hidden" value="18" name="list[7].infoType">
                 <input type="hidden" value="18001" name="list[7].infoItem">
@@ -676,7 +676,7 @@
          </ul> 
          <ul>
              <li>
-                <p class="word"><b class="red">*</b>卫生/生产许可证:</p>
+                <p class="word">卫生/生产许可证:</p>
                 <input type="hidden" name="list[8].infoName" value="卫生/生产许可证"/>
                 <input type="hidden" value="19" name="list[8].infoType">
                 <input type="hidden" value="19001" name="list[8].infoItem">
