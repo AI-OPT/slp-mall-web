@@ -471,4 +471,20 @@ public final class SLPMallConstants {
         	 */
         	public static final String UserState_Fail="12";
         }
+        
+        public static final class AuditState{
+        	private AuditState(){}
+        	/**
+        	 * 待审核
+        	 */
+        	public static final String UserState_ready="10";
+        	/**
+        	 * 审核通过
+        	 */
+        	public static final String UserState_paas="11";
+        	/**
+        	 * 审核失败
+        	 */
+        	public static final String UserState_Fail="12";
+        }
 }

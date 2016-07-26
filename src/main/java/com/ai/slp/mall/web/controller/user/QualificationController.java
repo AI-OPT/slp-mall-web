@@ -285,7 +285,7 @@ public class QualificationController {
             insertGroupKeyInfoRequest.setTenantId(user.getTenantId());
             insertGroupKeyInfoRequest.setUserType(user.getUserType());
             insertGroupKeyInfoRequest.setUserId(user.getUserId());
-            insertGroupKeyInfoRequest.setAuditState("10");
+            insertGroupKeyInfoRequest.setAuditState(SLPMallConstants.AuditState.UserState_ready);
             // 附件信息
             for (CmCustFileExtVo cmCustFileExtVo : custFileListVo.getList()) {
                 cmCustFileExtVo.setTenantId(user.getTenantId());
@@ -315,6 +315,12 @@ public class QualificationController {
             IUcContactsInfoSV contactsInfoSV = DubboConsumerFactory.getService(IUcContactsInfoSV.class);
 
             try {
+            	SearchGroupKeyInfoRequest searchGroupKeyInfoRequest = new SearchGroupKeyInfoRequest();
+            	searchGroupKeyInfoRequest.setTenantId(SLPMallConstants.COM_TENANT_ID);
+            	searchGroupKeyInfoRequest.setUserId(user.getUserId());
+            	if(ucKeyInfoSV.searchGroupKeyInfo(searchGroupKeyInfoRequest)==null){
+            		
+            	}
                 ucKeyInfoSV.insertGroupKeyInfo(insertGroupKeyInfoRequest);
                 ucKeyInfoSV.insertCustFileExt(insertCustFileExtRequest);
                 //更改用户账户状态
@@ -370,7 +376,7 @@ public class QualificationController {
         insertCustKeyInfoRequest.setUserId(user.getUserId());
         if(request.getParameter("yy_mm_dd")!=null&&request.getParameter("mm")!=null&&request.getParameter("dd")!=null)
         insertCustKeyInfoRequest.setCustBirthday(DateUtil.getTimestamp(request.getParameter("yy_mm_dd") + "-"+ request.getParameter("mm") + "-" + request.getParameter("dd")));
-        insertCustKeyInfoRequest.setAuditState("10");
+        insertCustKeyInfoRequest.setAuditState(SLPMallConstants.AuditState.UserState_ready);
         // 附件信息
         for (CmCustFileExtVo cmCustFileExtVo : custFileListVo.getList()) {
             cmCustFileExtVo.setTenantId(user.getTenantId());
@@ -677,7 +683,7 @@ public class QualificationController {
         updateCustKeyInfoRequest.setTenantId(user.getTenantId());
         updateCustKeyInfoRequest.setUserType(user.getUserType());
         updateCustKeyInfoRequest.setUserId(user.getUserId());
-        updateCustKeyInfoRequest.setAuditState(SLPMallConstants.UserState.UserState_register);
+        updateCustKeyInfoRequest.setAuditState(SLPMallConstants.AuditState.UserState_ready);
         if(request.getParameter("yy_mm_dd")!=null&&request.getParameter("mm")!=null&&request.getParameter("dd")!=null)
         updateCustKeyInfoRequest.setCustBirthday(DateUtil.getTimestamp(request.getParameter("yy_mm_dd") + "-"+ request.getParameter("mm") + "-" + request.getParameter("dd")));
         // 附件信息
@@ -945,7 +951,7 @@ public class QualificationController {
             if(ucBankInfoSV!=null)
                 ucBankInfoSV.updateBankInfo(updateBankInfoRequest);
             //更改用户账户状态
-            updateUserState(user, SLPMallConstants.UserState.UserState_register);
+            updateUserState(user, SLPMallConstants.AuditState.UserState_ready);
             responseData = new ResponseData<String>(SLPMallConstants.Qualification.QUALIFICATION_SUCCESS, "操作成功", null);
             responseHeader = new ResponseHeader(true,SLPMallConstants.Qualification.QUALIFICATION_SUCCESS, "操作成功");
         } catch (Exception e) {
@@ -1260,7 +1266,6 @@ public class QualificationController {
         SysParamMultiCond sysParam = new SysParamMultiCond();
         sysParam.setTenantId(SLPMallConstants.COM_TENANT_ID);
         sysParam.setTypeCode("USER");
-        sysParam.setParamCode("education");
         ICacheSV cacheSv = DubboConsumerFactory.getService("iCacheSV");
         List<SysParam> educationParam = cacheSv.getSysParamList(sysParam);
         Map<String,String> educationParamMap = new LinkedHashMap<String,String>();
