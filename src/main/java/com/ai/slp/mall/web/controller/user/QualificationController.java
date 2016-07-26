@@ -919,12 +919,15 @@ public class QualificationController {
         updateGroupKeyInfoRequest.setTenantId(user.getTenantId());
         updateGroupKeyInfoRequest.setUserType(user.getUserType());
         updateGroupKeyInfoRequest.setUserId(user.getUserId());
-        updateGroupKeyInfoRequest.setAuditState(SLPMallConstants.UserState.UserState_register);
+        updateGroupKeyInfoRequest.setAuditState(SLPMallConstants.AuditState.UserState_ready);
         if (request.getParameter("establishTime") != null) {
             updateGroupKeyInfoRequest.setCertIssueDate(DateUtil.getTimestamp(request.getParameter("establishTime")));
         }
         // 附件信息
         for (CmCustFileExtVo cmCustFileExtVo : custFileListVo.getList()) {
+        	if(cmCustFileExtVo.getAttrValue()==null){
+        		cmCustFileExtVo.setAttrValue("");
+        	}
             cmCustFileExtVo.setTenantId(user.getTenantId());
             cmCustFileExtVo.setUserId(user.getUserId());
         }
@@ -984,7 +987,7 @@ public class QualificationController {
         UpdateGroupKeyInfoRequest updateGroupKeyInfoRequest = new UpdateGroupKeyInfoRequest();
         updateGroupKeyInfoRequest.setTenantId(SLPMallConstants.COM_TENANT_ID);
         updateGroupKeyInfoRequest.setUserId(user.getUserId());
-        //updateGroupKeyInfoRequest.setAuditState("10");
+        //updateGroupKeyInfoRequest.setAuditState(SLPMallConstants.AuditState.UserState_ready);
         // 获取服务
         IUcContactsInfoSV ucContactsInfoSV = DubboConsumerFactory.getService(IUcContactsInfoSV.class);
         IUcKeyInfoSV ucKeyInfoSV = DubboConsumerFactory.getService(IUcKeyInfoSV.class);

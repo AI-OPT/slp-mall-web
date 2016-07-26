@@ -573,6 +573,18 @@ define('app/jsp/user/qualification/qualificationSubmit', function (require, expo
 		}
 	},
 	
+	_dialogErr:function(){
+		var dialog = Dialog({
+			title : '提示',
+			content : "保存失败",
+			okValue : "确定",
+			ok : function() {
+				this.close;
+			}
+		});
+		dialog.show();
+	},
+	
 	_editContactInfo:function(){
 		$("#ct-edit").show(10);
 		$("#ct-browse").hide(10);
@@ -706,7 +718,7 @@ function deleteImg(imageId,certPic,idpsId,imgErrShowId){
 				document.getElementById("enterpriseToSave").disabled=false;
 				return false;
         	}else if(data.responseHeader.resultCode=="111111"){
-        		alert("保存失败");
+        		
         		document.getElementById("enterpriseToSave").disabled=false;
         		return false;
         	}else if(data.responseHeader.resultCode=="000000"){

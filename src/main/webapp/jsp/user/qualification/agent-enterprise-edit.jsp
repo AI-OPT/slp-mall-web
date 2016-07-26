@@ -69,7 +69,7 @@
          <ul>
              <li>
                 <p class="word">营业执照副本:</p>
-                <p class="img"><img src="${imageMap['11001']}"></p>
+                <p class="img"><img src="${imageMap['12001']}"></p>
              </li>
          </ul>
          <ul>
