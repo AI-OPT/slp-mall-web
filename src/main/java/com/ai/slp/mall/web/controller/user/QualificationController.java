@@ -278,8 +278,7 @@ public class QualificationController {
             return validatePhoneCode(request);
         } else {
             HttpSession session = request.getSession();
-            SLPClientUser user = (SLPClientUser) session
-                    .getAttribute(SSOClientConstants.USER_SESSION_KEY);
+            SLPClientUser user = (SLPClientUser) session.getAttribute(SSOClientConstants.USER_SESSION_KEY);
             // 企业关键信息
             if (request.getParameter("establishTime") != null) 
                 insertGroupKeyInfoRequest.setCertIssueDate(DateUtil.getTimestamp(request.getParameter("establishTime")));            insertGroupKeyInfoRequest.setTenantId(user.getTenantId());            insertGroupKeyInfoRequest.setUserType(user.getUserType());
@@ -319,7 +318,7 @@ public class QualificationController {
                 ucKeyInfoSV.insertGroupKeyInfo(insertGroupKeyInfoRequest);
                 ucKeyInfoSV.insertCustFileExt(insertCustFileExtRequest);
                 //更改用户账户状态
-                updateUserState(user, "10");
+                updateUserState(user, SLPMallConstants.UserState.UserState_register);
                 contactsInfoSV.insertContactsInfo(insertContactsInfoRequest);
                 // 判断是否保存银行信息
                 if (ucBankInfoSV != null) {
@@ -385,7 +384,7 @@ public class QualificationController {
             ucKeyInfoSV.insertCustKeyInfo(insertCustKeyInfoRequest);
             ucKeyInfoSV.insertCustFileExt(insertCustFileExtRequest);
             //更改用户账户状态
-            updateUserState(user, "10");
+            updateUserState(user, SLPMallConstants.UserState.UserState_register);
             responseData = new ResponseData<String>(SLPMallConstants.Qualification.QUALIFICATION_SUCCESS, "操作成功", null);
             responseHeader = new ResponseHeader(true,SLPMallConstants.Qualification.QUALIFICATION_SUCCESS, "操作成功");
         } catch (Exception e) {
@@ -678,7 +677,7 @@ public class QualificationController {
         updateCustKeyInfoRequest.setTenantId(user.getTenantId());
         updateCustKeyInfoRequest.setUserType(user.getUserType());
         updateCustKeyInfoRequest.setUserId(user.getUserId());
-        updateCustKeyInfoRequest.setAuditState("10");
+        updateCustKeyInfoRequest.setAuditState(SLPMallConstants.UserState.UserState_register);
         if(request.getParameter("yy_mm_dd")!=null&&request.getParameter("mm")!=null&&request.getParameter("dd")!=null)
         updateCustKeyInfoRequest.setCustBirthday(DateUtil.getTimestamp(request.getParameter("yy_mm_dd") + "-"+ request.getParameter("mm") + "-" + request.getParameter("dd")));
         // 附件信息
@@ -694,7 +693,7 @@ public class QualificationController {
             ucKeyInfoSV.updateCustKeyInfo(updateCustKeyInfoRequest);
             ucKeyInfoSV.updateCustFileExt(updateCustFileExtRequest);
             //更改用户账户状态
-            updateUserState(user, "10");
+            updateUserState(user, SLPMallConstants.UserState.UserState_register);
             responseData = new ResponseData<String>(SLPMallConstants.Qualification.QUALIFICATION_SUCCESS, "操作成功", null);
             responseHeader = new ResponseHeader(true,SLPMallConstants.Qualification.QUALIFICATION_SUCCESS, "操作成功");
         } catch (Exception e) {
@@ -914,7 +913,7 @@ public class QualificationController {
         updateGroupKeyInfoRequest.setTenantId(user.getTenantId());
         updateGroupKeyInfoRequest.setUserType(user.getUserType());
         updateGroupKeyInfoRequest.setUserId(user.getUserId());
-        updateGroupKeyInfoRequest.setAuditState("10");
+        updateGroupKeyInfoRequest.setAuditState(SLPMallConstants.UserState.UserState_register);
         if (request.getParameter("establishTime") != null) {
             updateGroupKeyInfoRequest.setCertIssueDate(DateUtil.getTimestamp(request.getParameter("establishTime")));
         }
@@ -946,7 +945,7 @@ public class QualificationController {
             if(ucBankInfoSV!=null)
                 ucBankInfoSV.updateBankInfo(updateBankInfoRequest);
             //更改用户账户状态
-            updateUserState(user, "10");
+            updateUserState(user, SLPMallConstants.UserState.UserState_register);
             responseData = new ResponseData<String>(SLPMallConstants.Qualification.QUALIFICATION_SUCCESS, "操作成功", null);
             responseHeader = new ResponseHeader(true,SLPMallConstants.Qualification.QUALIFICATION_SUCCESS, "操作成功");
         } catch (Exception e) {
@@ -987,8 +986,6 @@ public class QualificationController {
             ucContactsInfoSV.updateContactsInfo(updateContactsInfoRequest);
             //修改认证状态
             ucKeyInfoSV.updateGroupKeyInfo(updateGroupKeyInfoRequest);
-            //更改用户账户状态
-            //updateUserState(user, "10");
             responseData = new ResponseData<String>(SLPMallConstants.Qualification.QUALIFICATION_SUCCESS, "操作成功", null);
             responseHeader = new ResponseHeader(true,SLPMallConstants.Qualification.QUALIFICATION_SUCCESS, "操作成功");
         } catch (Exception e) {
