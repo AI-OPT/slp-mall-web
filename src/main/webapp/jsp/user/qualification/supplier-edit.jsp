@@ -12,44 +12,6 @@
 <link href="${_slpbase }/styles/frame.css" rel="stylesheet" type="text/css">
 <link href="${_slpbase }/styles/font-awesome.css" rel="stylesheet" type="text/css">
 <link rel="stylesheet" type="text/css" href="${_base}/resources/slpmall/styles/bootstrap.css">
-<script type="text/javascript">
-	var baseInfoPager;
-	var enterprisePager;
-	var auditState = "${groupKeyInfo.auditState}";
-	
-	var provinceCode = "${addressMap.provinceCode}";
-	var cityCode = "${addressMap.cityCode}";
-	var countyCode = "${addressMap.countyCode}";
-	(function() { 
-		seajs.use([ 'app/jsp/user/qualification/baseinfo','app/jsp/user/qualification/agent-supplier-enterprise','app/jsp/user/qualification/qualificationSubmit'], function(BaseInfoQualificationPager,EnterprisePager,QualificationSubmitPager) {
-			    baseInfoPager = new BaseInfoQualificationPager({
-				element : document.body
-			});
-			    enterprisePager = new EnterprisePager({
-				element : document.body
-			});
-			    qualificationSubmitPager = new QualificationSubmitPager({
-				element : document.body
-			});
-			baseInfoPager.render();
-			enterprisePager.render();
-			qualificationSubmitPager.render();
-		});
-	})();  
-	$(function(){
-		if(${groupKeyInfo.auditState}=='10'){
-			$("#auditState").show();
-		}
-		$("#taxpayerType").val(${codeMap.taxpayerCode});
-		$("#taxCode").val(${codeMap.taxpayerTypeCode});
-		$("#supplyGoods").val(${codeMap.productCat});
-		$("#groupIndustry").val("${codeMap.groupIndustry}");
-		$("#groupMemberScale").val(${codeMap.groupMemberScale});
-		$("#groupType").val(${codeMap.groupType});
-		$("#contactDept").val(${codeMap.contactDept});
-		$("#certAddr").val("${addressMap.certAddr}");
-	});
-</script>
 </head>
 <body>
  <!--顶部菜单-->
@@ -869,3 +831,41 @@
    <!--底部 结束-->
 </body>
 </html>
+<script type="text/javascript">
+	var baseInfoPager;
+	var enterprisePager;
+	var auditState = "${groupKeyInfo.auditState}";
+	
+	var provinceCode = "${addressMap.provinceCode}";
+	var cityCode = "${addressMap.cityCode}";
+	var countyCode = "${addressMap.countyCode}";
+	(function() { 
+		seajs.use([ 'app/jsp/user/qualification/baseinfo','app/jsp/user/qualification/agent-supplier-enterprise','app/jsp/user/qualification/qualificationSubmit'], function(BaseInfoQualificationPager,EnterprisePager,QualificationSubmitPager) {
+			    baseInfoPager = new BaseInfoQualificationPager({
+				element : document.body
+			});
+			    enterprisePager = new EnterprisePager({
+				element : document.body
+			});
+			    qualificationSubmitPager = new QualificationSubmitPager({
+				element : document.body
+			});
+			baseInfoPager.render();
+			enterprisePager.render();
+			qualificationSubmitPager.render();
+		});
+	})();  
+	$(function(){
+		if(${groupKeyInfo.auditState}=='10'){
+			$("#auditState").show();
+		}
+		$("#taxpayerType").val(${codeMap.taxpayerCode});
+		$("#taxCode").val(${codeMap.taxpayerTypeCode});
+		$("#supplyGoods").val(${codeMap.productCat});
+		$("#groupIndustry").val("${codeMap.groupIndustry}");
+		$("#groupMemberScale").val(${codeMap.groupMemberScale});
+		$("#groupType").val(${codeMap.groupType});
+		$("#contactDept").val(${codeMap.contactDept});
+		$("#certAddr").val("${addressMap.certAddr}");
+	});
+</script>

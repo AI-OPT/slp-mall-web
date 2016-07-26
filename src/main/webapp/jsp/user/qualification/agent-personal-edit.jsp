@@ -12,48 +12,6 @@
 <link href="${_slpbase }/styles/font-awesome.css" rel="stylesheet" type="text/css">
 <link rel="stylesheet" type="text/css" href="${_base}/resources/slpmall/styles/bootstrap.css">
 <script type="text/javascript" src="${_base}/resources/spm_modules/jquery/1.9.1/jquery.js"></script>
-<script type="text/javascript">
-
-	var baseInfoPager;
-	var agentPersonalPager;
-	var auditState = "${custKeyInfo.auditState}";
-	
-	var provinceCode = "${codeMap.provinceCode}";
-	var cityCode = "${codeMap.cityCode}";
-	var countyCode = "${codeMap.countyCode}";
-	var certAddr = "${codeMap.certAddr}";
-	
-	var gender = "${custKeyInfo.custSex}";
-	var year = "${codeMap.year}";
-	var month = "${codeMap.month}";
-	if(month.substr(0,1)=='0')
-		month=month.substr(1,2);
-	var day = "${codeMap.day}";
-	if(day.substr(0,1)=='0')
-		day=day.substr(1,2);
-	(function() { 
-		seajs.use([ 'app/jsp/user/qualification/baseinfo','app/jsp/user/qualification/agent-personal','app/jsp/user/qualification/qualificationSubmit'], function(BaseInfoQualificationPager,AgentPersonalPager,QualificationSubmitPager) {
-			    baseInfoPager = new BaseInfoQualificationPager({
-				element : document.body
-			});
-			    agentPersonalPager = new AgentPersonalPager({
-				element : document.body
-			});
-			   var qualificationSubmitPager = new QualificationSubmitPager({
-					element : document.body
-				});
-			baseInfoPager.render();
-			agentPersonalPager.render();
-			qualificationSubmitPager.render();
-		});
-	})();  
-	
-	$(function(){
-		$("#inCome").val("${codeMap.incomeLevel}");
-		$("#custEducation").val("${codeMap.custEducation}");
-		$("#certAddr").val("${codeMap.certAddr}");
-	});
-</script>
 </head>
 <body>
  <!--顶部菜单-->
@@ -411,3 +369,45 @@
    <!--底部 结束-->
 </body>
 </html>
+<script type="text/javascript">
+
+	var baseInfoPager;
+	var agentPersonalPager;
+	var auditState = "${custKeyInfo.auditState}";
+	
+	var provinceCode = "${codeMap.provinceCode}";
+	var cityCode = "${codeMap.cityCode}";
+	var countyCode = "${codeMap.countyCode}";
+	var certAddr = "${codeMap.certAddr}";
+	
+	var gender = "${custKeyInfo.custSex}";
+	var year = "${codeMap.year}";
+	var month = "${codeMap.month}";
+	if(month.substr(0,1)=='0')
+		month=month.substr(1,2);
+	var day = "${codeMap.day}";
+	if(day.substr(0,1)=='0')
+		day=day.substr(1,2);
+	(function() { 
+		seajs.use([ 'app/jsp/user/qualification/baseinfo','app/jsp/user/qualification/agent-personal','app/jsp/user/qualification/qualificationSubmit'], function(BaseInfoQualificationPager,AgentPersonalPager,QualificationSubmitPager) {
+			    baseInfoPager = new BaseInfoQualificationPager({
+				element : document.body
+			});
+			    agentPersonalPager = new AgentPersonalPager({
+				element : document.body
+			});
+			   var qualificationSubmitPager = new QualificationSubmitPager({
+					element : document.body
+				});
+			baseInfoPager.render();
+			agentPersonalPager.render();
+			qualificationSubmitPager.render();
+		});
+	})();  
+	
+	$(function(){
+		$("#inCome").val("${codeMap.incomeLevel}");
+		$("#custEducation").val("${codeMap.custEducation}");
+		$("#certAddr").val("${codeMap.certAddr}");
+	});
+</script>

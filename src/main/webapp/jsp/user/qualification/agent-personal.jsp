@@ -10,29 +10,6 @@
 <link href="${_slpbase }/styles/global.css" rel="stylesheet" type="text/css">
 <link href="${_slpbase }/styles/frame.css" rel="stylesheet" type="text/css">
 <link href="${_slpbase }/styles/font-awesome.css" rel="stylesheet" type="text/css">
-<script type="text/javascript">
-		var agentPersonalPager;
-		var baseInfoPager;
-		var gender = "";
-		var year = "";
-		var qualificationSubmitPager;
-		(function() { 
-			seajs.use(['app/jsp/user/qualification/agent-personal','app/jsp/user/qualification/baseinfo','app/jsp/user/qualification/qualificationSubmit'],function(AgentPersonalPager,BaseInfoQualificationPager,QualificationSubmitPager) {
-				    agentPersonalPager = new AgentPersonalPager({
-					element : document.body
-				});
-				    baseInfoPager = new BaseInfoQualificationPager({
-					element : document.body
-				});
-				    qualificationSubmitPager = new QualificationSubmitPager({
-					element : document.body
-				});
-				agentPersonalPager.render();
-				baseInfoPager.render();
-				qualificationSubmitPager.render();
-			});
-		})();  
-</script>
 </head>
 <body>
  <!--顶部菜单-->
@@ -293,3 +270,26 @@
    <!--底部 结束-->
 </body>
 </html>
+<script type="text/javascript">
+		var agentPersonalPager;
+		var baseInfoPager;
+		var gender = "";
+		var year = "";
+		var qualificationSubmitPager;
+		(function() { 
+			seajs.use(['app/jsp/user/qualification/agent-personal','app/jsp/user/qualification/baseinfo','app/jsp/user/qualification/qualificationSubmit'],function(AgentPersonalPager,BaseInfoQualificationPager,QualificationSubmitPager) {
+				    agentPersonalPager = new AgentPersonalPager({
+					element : document.body
+				});
+				    baseInfoPager = new BaseInfoQualificationPager({
+					element : document.body
+				});
+				    qualificationSubmitPager = new QualificationSubmitPager({
+					element : document.body
+				});
+				agentPersonalPager.render();
+				baseInfoPager.render();
+				qualificationSubmitPager.render();
+			});
+		})();  
+</script>
