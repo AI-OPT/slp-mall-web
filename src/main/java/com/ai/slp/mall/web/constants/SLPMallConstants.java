@@ -461,11 +461,11 @@ public final class SLPMallConstants {
         	/**
         	 * 注册
         	 */
-        	public static final String UserState_register="10";
+        	public static final String UserState_register="11";
         	/**
         	 * 正常
         	 */
-        	public static final String UserState_Normal="11";
+        	public static final String UserState_Normal="10";
         	/**
         	 * 冻结
         	 */
