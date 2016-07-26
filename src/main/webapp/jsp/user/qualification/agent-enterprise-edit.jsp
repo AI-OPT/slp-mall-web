@@ -280,7 +280,7 @@
                  <input type="hidden" name="list[0].infoName" value="营业执照副本"/>
                   <input type="hidden" value="12" name="list[0].infoType">
                 <input type="hidden" value="12001" name="list[0].infoItem">
-                <p class="img"><img src="${imageMap['11001']}" id="certPic1"></p>
+                <p class="img"><img src="${imageMap['12001']}" id="certPic1"></p>
                 <p class="small-p">
                  <span>
                   <input type="button" value="点击上传" class="file-btn">

@@ -318,9 +318,10 @@ public class QualificationController {
             	SearchGroupKeyInfoRequest searchGroupKeyInfoRequest = new SearchGroupKeyInfoRequest();
             	searchGroupKeyInfoRequest.setTenantId(SLPMallConstants.COM_TENANT_ID);
             	searchGroupKeyInfoRequest.setUserId(user.getUserId());
-            	if(ucKeyInfoSV.searchGroupKeyInfo(searchGroupKeyInfoRequest)==null){
-            		
-            	}
+            	if(ucKeyInfoSV.searchGroupKeyInfo(searchGroupKeyInfoRequest).getUserId()==null){
+            		   responseData = new ResponseData<String>(VerifyConstants.QualificationConstants.ERROR_CODE, "操作失败", null);
+                       responseHeader = new ResponseHeader(false,VerifyConstants.QualificationConstants.ERROR_CODE, "操作失败");
+            	}else{
                 ucKeyInfoSV.insertGroupKeyInfo(insertGroupKeyInfoRequest);
                 ucKeyInfoSV.insertCustFileExt(insertCustFileExtRequest);
                 //更改用户账户状态
@@ -332,6 +333,7 @@ public class QualificationController {
                 }
                 responseData = new ResponseData<String>(VerifyConstants.QualificationConstants.SUCCESS_CODE, "操作成功", null);
                 responseHeader = new ResponseHeader(true,VerifyConstants.QualificationConstants.SUCCESS_CODE, "操作成功");
+            	}
             } catch (Exception e) {
                 LOGGER.error("操作失败");
                 responseData = new ResponseData<String>(VerifyConstants.QualificationConstants.ERROR_CODE, "操作失败", null);
@@ -368,8 +370,7 @@ public class QualificationController {
         ResponseHeader responseHeader = null;
 
         HttpSession session = request.getSession();
-        SLPClientUser user = (SLPClientUser) session
-                .getAttribute(SSOClientConstants.USER_SESSION_KEY);
+        SLPClientUser user = (SLPClientUser) session.getAttribute(SSOClientConstants.USER_SESSION_KEY);
         // 个人信息
         insertCustKeyInfoRequest.setTenantId(user.getTenantId());
         insertCustKeyInfoRequest.setUserType(user.getUserType());
@@ -387,12 +388,22 @@ public class QualificationController {
         // 联系人信息
         IUcKeyInfoSV ucKeyInfoSV = DubboConsumerFactory.getService(IUcKeyInfoSV.class);
         try {
+        	SearchCustKeyInfoRequest searchCustKeyInfoRequest = new SearchCustKeyInfoRequest();
+        	searchCustKeyInfoRequest.setTenantId(SLPMallConstants.COM_TENANT_ID);
+        	searchCustKeyInfoRequest.setUserId(user.getUserId());
+        	if(ucKeyInfoSV.searchCustKeyInfo(searchCustKeyInfoRequest).getUserId()==null){
+        		 responseData = new ResponseData<String>(
+                         SLPMallConstants.Qualification.QUALIFICATION_ERROR, "操作失败", null);
+                 responseHeader = new ResponseHeader(false,
+                         SLPMallConstants.Qualification.QUALIFICATION_ERROR, "操作失败");
+        	}else{
             ucKeyInfoSV.insertCustKeyInfo(insertCustKeyInfoRequest);
             ucKeyInfoSV.insertCustFileExt(insertCustFileExtRequest);
             //更改用户账户状态
             updateUserState(user, SLPMallConstants.UserState.UserState_register);
             responseData = new ResponseData<String>(SLPMallConstants.Qualification.QUALIFICATION_SUCCESS, "操作成功", null);
             responseHeader = new ResponseHeader(true,SLPMallConstants.Qualification.QUALIFICATION_SUCCESS, "操作成功");
+        	}
         } catch (Exception e) {
             LOGGER.error("操作失败");
             responseData = new ResponseData<String>(
