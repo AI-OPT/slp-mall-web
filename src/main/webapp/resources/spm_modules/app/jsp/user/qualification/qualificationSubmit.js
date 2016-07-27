@@ -12,7 +12,6 @@ define('app/jsp/user/qualification/qualificationSubmit', function (require, expo
     require("app/jsp/user/qualification/ajaxfileupload");
     require("app/util/jsviews-ext");
     require("opt-paging/aiopt.pagination");
-    require("twbs-pagination/jquery.twbsPagination.min");
       
     //实例化AJAX控制处理对象
     var ajaxController = new AjaxController();
@@ -909,10 +908,10 @@ function deleteImg(imageId,certPic,idpsId,imgErrShowId){
 					$('#phoneCodeFlag').val("0");
 					return false;
 	        	}else if(data.responseHeader.resultCode=="00001"){
-						qualificationSubmitPager._dialogErr();
+	        		qualificationSubmitPager._dialogErr();
 	        		return false;
 	        	}else if(data.responseHeader.resultCode=="00000"){
-	        		window.location.href=_base+"/user/qualification/editEnterprise";
+	        		window.location.href=url;
 	        	}
 	        },
 	        error: function(XMLHttpRequest, textStatus, errorThrown) {
