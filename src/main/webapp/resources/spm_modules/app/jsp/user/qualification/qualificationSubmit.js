@@ -576,7 +576,7 @@ define('app/jsp/user/qualification/qualificationSubmit', function (require, expo
 	_dialogErr:function(){
 		var dialog = Dialog({
 			title : '提示',
-			content : "保存失败",
+			content : "操作失败",
 			okValue : "确定",
 			ok : function() {
 				this.close;
@@ -718,7 +718,7 @@ function deleteImg(imageId,certPic,idpsId,imgErrShowId){
 				document.getElementById("enterpriseToSave").disabled=false;
 				return false;
         	}else if(data.responseHeader.resultCode=="111111"){
-        		
+        		qualificationSubmitPager._dialogErr();
         		document.getElementById("enterpriseToSave").disabled=false;
         		return false;
         	}else if(data.responseHeader.resultCode=="000000"){
@@ -786,7 +786,7 @@ function deleteImg(imageId,certPic,idpsId,imgErrShowId){
 					document.getElementById("agentEnterpriseSubmit").disabled=false;
 					return false;
 	        	}else if(data.responseHeader.resultCode=="111111"){
-	        		alert("失败了");
+	        		qualificationSubmitPager._dialogErr();
 	        		document.getElementById("agentEnterpriseSubmit").disabled=false;
 	        		return false;
 	        	}else if(data.responseHeader.resultCode=="000000"){
@@ -814,7 +814,7 @@ function deleteImg(imageId,certPic,idpsId,imgErrShowId){
 		        success: function(data) {
 		        	if(data.responseHeader.resultCode=="00001"){
 		        		document.getElementById("savePersonalQualification").disabled=false;
-		        		alert("失败了");
+		        		qualificationSubmitPager._dialogErr();
 		        	}
 		        	if(data.responseHeader.resultCode=="00000"){
 		        		window.location.href=_base+"/user/qualification/editAgentPersonal";
@@ -838,7 +838,7 @@ function deleteImg(imageId,certPic,idpsId,imgErrShowId){
 			data:$("#agentPersonal").serialize(),
 			success: function(data) {
 				if(data.responseHeader.resultCode=="00001"){
-					alert("失败了");
+					qualificationSubmitPager._dialogErr();
 				}
 				if(data.responseHeader.resultCode=="00000"){
 					window.location.href=_base+"/user/qualification/editAgentPersonal";
@@ -864,6 +864,9 @@ function deleteImg(imageId,certPic,idpsId,imgErrShowId){
 	        	if(data.responseHeader.resultCode=='00000'){
 	        		window.location.href=url;
 	        	}
+	        	if(data.responseHeader.resultCode=="00001"){
+					qualificationSubmitPager._dialogErr();
+				}
 	        },
 	        error: function(XMLHttpRequest, textStatus, errorThrown) {
 				 alert(XMLHttpRequest.status);
@@ -906,7 +909,7 @@ function deleteImg(imageId,certPic,idpsId,imgErrShowId){
 					$('#phoneCodeFlag').val("0");
 					return false;
 	        	}else if(data.responseHeader.resultCode=="00001"){
-	        		alert("失败了");
+						qualificationSubmitPager._dialogErr();
 	        		return false;
 	        	}else if(data.responseHeader.resultCode=="00000"){
 	        		window.location.href=_base+"/user/qualification/editEnterprise";
@@ -958,7 +961,7 @@ function deleteImg(imageId,certPic,idpsId,imgErrShowId){
 				return false;
         	}else if(data.responseHeader.resultCode=="111111"){
         		document.getElementById("toSaveSuppliser").disabled=false;
-        		alert("失败了");
+					qualificationSubmitPager._dialogErr();
         		return false;
         	}else if(data.responseHeader.resultCode=="000000"){
         		window.location.href=_base+"/user/qualification/editSupplier";

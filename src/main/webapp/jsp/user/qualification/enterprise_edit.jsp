@@ -34,15 +34,18 @@
           <p><a href="#">资质认证</a></p>
       </div>
       <div class="account-bj">
-     <div class="account-title account-title-bjcolor">
-      	<p>资质类型:供货商</p>
-      </div>   
-     	<div class="account-title">
-			企业资质<span id="auditState" style="display:none">(未认证)</span>
+      <div class="mar-account-title">
+      <div class="account-title account-title-bjcolor">
+      	<div class="title-bt">
+			企业资质<span id=auditState style="display:none">(未认证)</span>
 		</div>
-     	<p class="right"><i class="icon-edit qualifications" id="editEnterprise" >修改</i></p>
+      </div>
+      </div>
+     <!--标题-->  
+     <div class="account-title">
+     	<p>营业执照信息</p>
+      	<p class="right"><i class="icon-edit qualifications" id="editEnterprise">修改</i></p>
      </div>
-
      <!--信息填写-->
      <div class="nav-form" id="qf-browse">
          <ul>

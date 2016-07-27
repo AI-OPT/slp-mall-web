@@ -318,7 +318,7 @@ public class QualificationController {
             	SearchGroupKeyInfoRequest searchGroupKeyInfoRequest = new SearchGroupKeyInfoRequest();
             	searchGroupKeyInfoRequest.setTenantId(SLPMallConstants.COM_TENANT_ID);
             	searchGroupKeyInfoRequest.setUserId(user.getUserId());
-            	if(ucKeyInfoSV.searchGroupKeyInfo(searchGroupKeyInfoRequest).getUserId()==null){
+            	if(ucKeyInfoSV.searchGroupKeyInfo(searchGroupKeyInfoRequest).getUserId()!=null){
             		   responseData = new ResponseData<String>(VerifyConstants.QualificationConstants.ERROR_CODE, "操作失败", null);
                        responseHeader = new ResponseHeader(false,VerifyConstants.QualificationConstants.ERROR_CODE, "操作失败");
             	}else{
@@ -391,11 +391,11 @@ public class QualificationController {
         	SearchCustKeyInfoRequest searchCustKeyInfoRequest = new SearchCustKeyInfoRequest();
         	searchCustKeyInfoRequest.setTenantId(SLPMallConstants.COM_TENANT_ID);
         	searchCustKeyInfoRequest.setUserId(user.getUserId());
-        	if(ucKeyInfoSV.searchCustKeyInfo(searchCustKeyInfoRequest).getUserId()==null){
-        		 responseData = new ResponseData<String>(
-                         SLPMallConstants.Qualification.QUALIFICATION_ERROR, "操作失败", null);
-                 responseHeader = new ResponseHeader(false,
-                         SLPMallConstants.Qualification.QUALIFICATION_ERROR, "操作失败");
+        	//判断数据库是否存在记录
+        	//若存在则保存失败
+        	if(ucKeyInfoSV.searchCustKeyInfo(searchCustKeyInfoRequest).getUserId()!=null){
+        		 responseData = new ResponseData<String>(SLPMallConstants.Qualification.QUALIFICATION_ERROR, "操作失败", null);
+                 responseHeader = new ResponseHeader(false,SLPMallConstants.Qualification.QUALIFICATION_ERROR, "操作失败");
         	}else{
             ucKeyInfoSV.insertCustKeyInfo(insertCustKeyInfoRequest);
             ucKeyInfoSV.insertCustFileExt(insertCustFileExtRequest);

@@ -34,17 +34,17 @@
           <p><a href="#">账户中心</a>&gt;</p>
           <p><a href="#">资质认证</a></p>
       </div>
-      <div class="account-bj">
-     <!--标题-->  
-     <div class="mar-account-title">
-     	
+       <div class="account-bj">
+      <div class="mar-account-title">
       <div class="account-title account-title-bjcolor">
-      	<p>资质类型:个人</p>
-      	<p class="right"><i class="icon-edit qualifications" id="editEnterprise">修改</i></p>
+      	<div class="title-bt">
+		 个人代理资质<span id=auditState style="display:none">(未认证)</span>
+		</div>
       </div>
       </div>
      <div class="account-title">
      	<p>个人资质信息</p>
+      	<p class="right"><i class="icon-edit qualifications" id="editEnterprise">修改</i></p>
      </div>
      <!--信息预览-->
      <div id="qf-browse">

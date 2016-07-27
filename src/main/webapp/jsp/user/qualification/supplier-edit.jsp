@@ -40,12 +40,12 @@
       	<div class="title-bt">
 			供货商资质<span id=auditState style="display:none">(未认证)</span>
 		</div>
-      	<p class="right"><i class="icon-edit qualifications" id="editEnterprise">修改</i></p>
       </div>
       </div>
      <!--标题-->  
      <div class="account-title">
      	<p>营业执照信息</p>
+      	<p class="right"><i class="icon-edit qualifications" id="editEnterprise">修改</i></p>
      </div>
      <!--信息填写-->
     <div id="qf-browse">
