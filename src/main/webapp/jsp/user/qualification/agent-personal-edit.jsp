@@ -34,11 +34,11 @@
           <p><a href="#">账户中心</a>&gt;</p>
           <p><a href="#">资质认证</a></p>
       </div>
-       <div class="account-bj">
+         <div class="account-bj">
       <div class="mar-account-title">
       <div class="account-title account-title-bjcolor">
       	<div class="title-bt">
-		 个人代理资质<span id=auditState style="display:none">(未认证)</span>
+			个人代理资质<span id="auditState" style="display:none">(未认证)</span>
 		</div>
       </div>
       </div>
@@ -406,6 +406,17 @@
 	})();  
 	
 	$(function(){
+		if(${groupKeyInfo.auditState}=='10'){
+			$("#auditState").show();
+		}
+		if(${groupKeyInfo.auditState}=='11'){
+			$("#auditState").html("(已验证)");
+			$("#auditState").show();
+		}
+		if(${groupKeyInfo.auditState}=='12'){
+			$("#auditState").html("(审核失败)");
+			$("#auditState").show();
+		}
 		$("#inCome").val("${codeMap.incomeLevel}");
 		$("#custEducation").val("${codeMap.custEducation}");
 		$("#certAddr").val("${codeMap.certAddr}");

@@ -859,6 +859,14 @@
 		if(${groupKeyInfo.auditState}=='10'){
 			$("#auditState").show();
 		}
+		if(${groupKeyInfo.auditState}=='11'){
+			$("#auditState").html("(已验证)");
+			$("#auditState").show();
+		}
+		if(${groupKeyInfo.auditState}=='12'){
+			$("#auditState").html("(审核失败)");
+			$("#auditState").show();
+		}
 		$("#taxpayerType").val(${codeMap.taxpayerCode});
 		$("#taxCode").val(${codeMap.taxpayerTypeCode});
 		$("#supplyGoods").val(${codeMap.productCat});
