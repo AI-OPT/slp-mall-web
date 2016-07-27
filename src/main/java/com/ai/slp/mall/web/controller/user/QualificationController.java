@@ -1033,7 +1033,7 @@ public class QualificationController {
             String resultCode = keyInfoResponse.getResponseHeader().getResultCode();
             HttpSession session = request.getSession();
             SLPClientUser user = (SLPClientUser) session.getAttribute(SSOClientConstants.USER_SESSION_KEY);
-            if((keyInfoResponse.getUserId().equals(user.getUserId())&&keyInfoReqeust.getAuditState().equals("11"))||ExceptionCode.NO_RESULT.equals(resultCode)){
+            if(keyInfoResponse.getUserId().equals(user.getUserId())&&("11").equals(keyInfoResponse.getAuditState())||ExceptionCode.NO_RESULT.equals(resultCode)){
             	header = new ResponseHeader(true, VerifyConstants.ResultCodeConstants.SUCCESS_CODE,"成功");
                 responseData = new ResponseData<String>(ResponseData.AJAX_STATUS_SUCCESS, "成功",null);
                 responseData.setResponseHeader(header);
