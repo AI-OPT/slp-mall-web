@@ -1280,6 +1280,7 @@ public class QualificationController {
         SysParamMultiCond sysParam = new SysParamMultiCond();
         sysParam.setTenantId(SLPMallConstants.COM_TENANT_ID);
         sysParam.setTypeCode("USER");
+        sysParam.setParamCode("education");
         ICacheSV cacheSv = DubboConsumerFactory.getService("iCacheSV");
         List<SysParam> educationParam = cacheSv.getSysParamList(sysParam);
         Map<String,String> educationParamMap = new LinkedHashMap<String,String>();
