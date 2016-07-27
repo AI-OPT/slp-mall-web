@@ -127,7 +127,7 @@
                     <p> <img src="${imageMap.get('11003') }" height="80" width="80"></p>
                  </li>
              </ul>
-     </div>
+     </div> 
      </div>
      <div  id="qf-edit" style="display:none;">
      	<div class="prompt-risk small-risk mt-0">
