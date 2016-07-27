@@ -965,7 +965,7 @@ public class QualificationController {
             if(ucBankInfoSV!=null)
                 ucBankInfoSV.updateBankInfo(updateBankInfoRequest);
             //更改用户账户状态
-            updateUserState(user, SLPMallConstants.AuditState.UserState_ready);
+            updateUserState(user, SLPMallConstants.UserState.UserState_register);
             responseData = new ResponseData<String>(SLPMallConstants.Qualification.QUALIFICATION_SUCCESS, "操作成功", null);
             responseHeader = new ResponseHeader(true,SLPMallConstants.Qualification.QUALIFICATION_SUCCESS, "操作成功");
         } catch (Exception e) {
