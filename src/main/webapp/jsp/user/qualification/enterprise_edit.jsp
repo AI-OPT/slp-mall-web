@@ -50,7 +50,7 @@
      <div class="nav-form" id="qf-browse">
          <ul>
              <li>
-                <p class="word"><b class="red">*</b>企业名称:</p>
+                <p class="word">企业名称:</p>
                 <p>${groupKeyInfo.custName}</p>
              </li>
          </ul>
@@ -236,7 +236,7 @@
              </ul>
               <ul>
                  <li>
-                    <p class="word"><b class="red">*</b>所属部门:</p>
+                    <p class="word">所属部门:</p>
                     <p>${contactsInfo.contactDept}</p>
                  </li>
              </ul>
