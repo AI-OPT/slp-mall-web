@@ -52,7 +52,7 @@ define(
 					birth.init('yy_mm_dd');
 					this._birthday();
 					this._gender();
-					activeUserLeftMenu(BaseInfoQualificationPager.USER_LEFT_MNU_ID);
+					activeUserLeftMenu(AgentPersonalPager.USER_LEFT_MNU_ID);
 				},
 				
 				_gender:function(){

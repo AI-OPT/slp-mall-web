@@ -11,46 +11,6 @@
 <link href="${_slpbase }/styles/frame.css" rel="stylesheet" type="text/css">
 <link href="${_slpbase }/styles/font-awesome.css" rel="stylesheet" type="text/css">
 <link rel="stylesheet" type="text/css" href="${_base}/resources/slpmall/styles/bootstrap.css">
-<script type="text/javascript">
-	var baseInfoPager;
-	var enterprisePager;
-	var auditState = "${groupKeyInfo.auditState}";
-	
-	var provinceCode = "${codeMap.provinceCode}";
-	var cityCode = "${codeMap.cityCode}";
-	var countyCode = "${codeMap.countyCode}";
-	var certAddr = "${codeMap.certAddr}";
-	(function() { 
-		seajs.use([ 'app/jsp/user/qualification/baseinfo','app/jsp/user/qualification/agent-supplier-enterprise','app/jsp/user/qualification/qualificationSubmit'], function(BaseInfoQualificationPager,EnterprisePager,QualificationSubmitPager) {
-			    baseInfoPager = new BaseInfoQualificationPager({
-				element : document.body
-			});
-			    enterprisePager = new EnterprisePager({
-				element : document.body
-			});
-			   var qualificationSubmitPager = new QualificationSubmitPager({
-					element : document.body
-				});
-			baseInfoPager.render();
-			enterprisePager.render();
-			qualificationSubmitPager.render();
-		});
-	})();  
-	
-	$(function(){
-		if(${groupKeyInfo.auditState}=='10'){
-			$("#auditState").show();
-		}
-		
-		$("#taxpayerType").val("${codeMap.taxpayerType}");
-		$("#taxCode").val("${codeMap.taxpayerTypeCode}");
-		$("#groupIndustry").val("${codeMap.groupIndustry}");
-		$("#groupMemberScale").val("${codeMap.groupMemberScale}");
-		$("#groupType").val("${codeMap.groupType}");
-		$("#contactDept").val("${codeMap.contactDept}");
-		$("#certAddr").val("${codeMap.certAddr}");
-	});
-</script>
 </head>
 <body>
  <!--顶部菜单-->
@@ -79,12 +39,12 @@
       	<div class="title-bt">
 			企业代理资质<span id="auditState" style="display:none">(未认证)</span>
 		</div>
-      	<p class="right"><i class="icon-edit qualifications" id="editEnterprise">修改</i></p>
       </div>
       </div>
      <!--标题-->  
      <div class="account-title">
      	<p>营业执照信息</p>
+      	<p class="right"><i class="icon-edit qualifications" id="editEnterprise">修改</i></p>
      </div>
      <!--信息填写-->
      <div id="qf-browse">
@@ -109,7 +69,7 @@
          <ul>
              <li>
                 <p class="word">营业执照副本:</p>
-                <p class="img"><img src="${imageMap['11001']}"></p>
+                <p class="img"><img src="${imageMap['12001']}"></p>
              </li>
          </ul>
          <ul>
@@ -320,7 +280,7 @@
                  <input type="hidden" name="list[0].infoName" value="营业执照副本"/>
                   <input type="hidden" value="12" name="list[0].infoType">
                 <input type="hidden" value="12001" name="list[0].infoItem">
-                <p class="img"><img src="${imageMap['11001']}" id="certPic1"></p>
+                <p class="img"><img src="${imageMap['12001']}" id="certPic1"></p>
                 <p class="small-p">
                  <span>
                   <input type="button" value="点击上传" class="file-btn">
@@ -712,3 +672,51 @@
  <!--底部 结束-->
 </body>
 </html>
+<script type="text/javascript">
+	var baseInfoPager;
+	var enterprisePager;
+	var auditState = "${groupKeyInfo.auditState}";
+	
+	var provinceCode = "${codeMap.provinceCode}";
+	var cityCode = "${codeMap.cityCode}";
+	var countyCode = "${codeMap.countyCode}";
+	var certAddr = "${codeMap.certAddr}";
+	(function() { 
+		seajs.use([ 'app/jsp/user/qualification/baseinfo','app/jsp/user/qualification/agent-supplier-enterprise','app/jsp/user/qualification/qualificationSubmit'], function(BaseInfoQualificationPager,EnterprisePager,QualificationSubmitPager) {
+			    baseInfoPager = new BaseInfoQualificationPager({
+				element : document.body
+			});
+			    enterprisePager = new EnterprisePager({
+				element : document.body
+			});
+			   var qualificationSubmitPager = new QualificationSubmitPager({
+					element : document.body
+				});
+			baseInfoPager.render();
+			enterprisePager.render();
+			qualificationSubmitPager.render();
+		});
+	})();  
+	
+	$(function(){
+		if(${groupKeyInfo.auditState}=='10'){
+			$("#auditState").show();
+		}
+		if(${groupKeyInfo.auditState}=='11'){
+			$("#auditState").html("(已验证)");
+			$("#auditState").show();
+		}
+		if(${groupKeyInfo.auditState}=='12'){
+			$("#auditState").html("(审核失败)");
+			$("#auditState").show();
+		}
+		
+		$("#taxpayerType").val("${codeMap.taxpayerType}");
+		$("#taxCode").val("${codeMap.taxpayerTypeCode}");
+		$("#groupIndustry").val("${codeMap.groupIndustry}");
+		$("#groupMemberScale").val("${codeMap.groupMemberScale}");
+		$("#groupType").val("${codeMap.groupType}");
+		$("#contactDept").val("${codeMap.contactDept}");
+		$("#certAddr").val("${codeMap.certAddr}");
+	});
+</script>

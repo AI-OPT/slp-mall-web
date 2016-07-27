@@ -501,7 +501,7 @@ define('app/jsp/user/qualification/agent-supplier-enterprise', function (require
 		_checkBrandNameValue:function(){
 			var brandNameE = $("#brandNameE").val();
 			if(brandNameE!=""){
-				if(brandNameE.length>2&&brandNameE.length<40){
+				if(brandNameE.length>=2&&brandNameE.length<=40){
 					$('#brandNameEErrMsg').show();
     				$('#brandNameEText').hide();
     				$('#brandNameEImage').attr('src',_base+'/resources/slpmall/images/icon-b.png');

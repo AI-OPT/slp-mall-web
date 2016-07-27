@@ -12,48 +12,6 @@
 <link href="${_slpbase }/styles/font-awesome.css" rel="stylesheet" type="text/css">
 <link rel="stylesheet" type="text/css" href="${_base}/resources/slpmall/styles/bootstrap.css">
 <script type="text/javascript" src="${_base}/resources/spm_modules/jquery/1.9.1/jquery.js"></script>
-<script type="text/javascript">
-
-	var baseInfoPager;
-	var agentPersonalPager;
-	var auditState = "${custKeyInfo.auditState}";
-	
-	var provinceCode = "${codeMap.provinceCode}";
-	var cityCode = "${codeMap.cityCode}";
-	var countyCode = "${codeMap.countyCode}";
-	var certAddr = "${codeMap.certAddr}";
-	
-	var gender = "${custKeyInfo.custSex}";
-	var year = "${codeMap.year}";
-	var month = "${codeMap.month}";
-	if(month.substr(0,1)=='0')
-		month=month.substr(1,2);
-	var day = "${codeMap.day}";
-	if(day.substr(0,1)=='0')
-		day=day.substr(1,2);
-	(function() { 
-		seajs.use([ 'app/jsp/user/qualification/baseinfo','app/jsp/user/qualification/agent-personal','app/jsp/user/qualification/qualificationSubmit'], function(BaseInfoQualificationPager,AgentPersonalPager,QualificationSubmitPager) {
-			    baseInfoPager = new BaseInfoQualificationPager({
-				element : document.body
-			});
-			    agentPersonalPager = new AgentPersonalPager({
-				element : document.body
-			});
-			   var qualificationSubmitPager = new QualificationSubmitPager({
-					element : document.body
-				});
-			baseInfoPager.render();
-			agentPersonalPager.render();
-			qualificationSubmitPager.render();
-		});
-	})();  
-	
-	$(function(){
-		$("#inCome").val("${codeMap.incomeLevel}");
-		$("#custEducation").val("${codeMap.custEducation}");
-		$("#certAddr").val("${codeMap.certAddr}");
-	});
-</script>
 </head>
 <body>
  <!--顶部菜单-->
@@ -76,17 +34,17 @@
           <p><a href="#">账户中心</a>&gt;</p>
           <p><a href="#">资质认证</a></p>
       </div>
-      <div class="account-bj">
-     <!--标题-->  
-     <div class="mar-account-title">
-     	
+         <div class="account-bj">
+      <div class="mar-account-title">
       <div class="account-title account-title-bjcolor">
-      	<p>资质类型:个人</p>
-      	<p class="right"><i class="icon-edit qualifications" id="editEnterprise">修改</i></p>
+      	<div class="title-bt">
+			个人代理资质<span id="auditState" style="display:none">(未认证)</span>
+		</div>
       </div>
       </div>
      <div class="account-title">
      	<p>个人资质信息</p>
+      	<p class="right"><i class="icon-edit qualifications" id="editEnterprise">修改</i></p>
      </div>
      <!--信息预览-->
      <div id="qf-browse">
@@ -153,23 +111,23 @@
              </ul>
               <ul>
                  <li>
-                    <p class="word"><b class="red">*</b>身份证正面照片:</p>
+                    <p class="word">身份证正面照片:</p>
                     <p> <img src="${imageMap.get('11001') }" height="80" width="80"></p>
                  </li>
              </ul>
               <ul>
                  <li>
-                    <p class="word"><b class="red">*</b>身份证背面照片:</p>
+                    <p class="word">身份证背面照片:</p>
                      <p> <img src="${imageMap.get('11002') }" height="80" width="80"></p>
                  </li>
              </ul>
              <ul>
                  <li>
-                    <p class="word"><b class="red">*</b>手持身份证正面照片:</p>
+                    <p class="word">手持身份证正面照片:</p>
                     <p> <img src="${imageMap.get('11003') }" height="80" width="80"></p>
                  </li>
              </ul>
-     </div>
+     </div> 
      </div>
      <div  id="qf-edit" style="display:none;">
      	<div class="prompt-risk small-risk mt-0">
@@ -411,3 +369,56 @@
    <!--底部 结束-->
 </body>
 </html>
+<script type="text/javascript">
+
+	var baseInfoPager;
+	var agentPersonalPager;
+	var auditState = "${custKeyInfo.auditState}";
+	
+	var provinceCode = "${codeMap.provinceCode}";
+	var cityCode = "${codeMap.cityCode}";
+	var countyCode = "${codeMap.countyCode}";
+	var certAddr = "${codeMap.certAddr}";
+	
+	var gender = "${custKeyInfo.custSex}";
+	var year = "${codeMap.year}";
+	var month = "${codeMap.month}";
+	if(month.substr(0,1)=='0')
+		month=month.substr(1,2);
+	var day = "${codeMap.day}";
+	if(day.substr(0,1)=='0')
+		day=day.substr(1,2);
+	(function() { 
+		seajs.use([ 'app/jsp/user/qualification/baseinfo','app/jsp/user/qualification/agent-personal','app/jsp/user/qualification/qualificationSubmit'], function(BaseInfoQualificationPager,AgentPersonalPager,QualificationSubmitPager) {
+			    baseInfoPager = new BaseInfoQualificationPager({
+				element : document.body
+			});
+			    agentPersonalPager = new AgentPersonalPager({
+				element : document.body
+			});
+			   var qualificationSubmitPager = new QualificationSubmitPager({
+					element : document.body
+				});
+			baseInfoPager.render();
+			agentPersonalPager.render();
+			qualificationSubmitPager.render();
+		});
+	})();  
+	
+	$(function(){
+		if(${custKeyInfo.auditState}=='10'){
+			$("#auditState").show();
+		}
+		if(${custKeyInfo.auditState}=='11'){
+			$("#auditState").html("(已验证)");
+			$("#auditState").show();
+		}
+		if(${custKeyInfo.auditState}=='12'){
+			$("#auditState").html("(审核失败)");
+			$("#auditState").show();
+		}
+		$("#inCome").val("${codeMap.incomeLevel}");
+		$("#custEducation").val("${codeMap.custEducation}");
+		$("#certAddr").val("${codeMap.certAddr}");
+	});
+</script>

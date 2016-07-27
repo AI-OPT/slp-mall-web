@@ -9,14 +9,6 @@
 <link href="${_slpbase }/styles/global.css" rel="stylesheet" type="text/css">
 <link href="${_slpbase }/styles/frame.css" rel="stylesheet" type="text/css">
 <link href="${_slpbase }/styles/font-awesome.css" rel="stylesheet" type="text/css">
-<script type="text/javascript">
-	(function() {
-		seajs.use('app/jsp/user/qualification/agent-select', function(AgengSelectPager) {
-			var pager = new AgengSelectPager();
-			pager.render();
-		});
-	})();
-</script>
 </head>
 <body>
  <!--顶部菜单-->
@@ -67,3 +59,11 @@
    <!--底部 结束-->
 </body>
 </html>
+<script type="text/javascript">
+	(function() {
+		seajs.use('app/jsp/user/qualification/agent-select', function(AgengSelectPager) {
+			var pager = new AgengSelectPager();
+			pager.render();
+		});
+	})();
+</script>

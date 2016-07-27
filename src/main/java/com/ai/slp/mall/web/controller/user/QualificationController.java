@@ -278,15 +278,14 @@ public class QualificationController {
             return validatePhoneCode(request);
         } else {
             HttpSession session = request.getSession();
-            SLPClientUser user = (SLPClientUser) session
-                    .getAttribute(SSOClientConstants.USER_SESSION_KEY);
+            SLPClientUser user = (SLPClientUser) session.getAttribute(SSOClientConstants.USER_SESSION_KEY);
             // 企业关键信息
             if (request.getParameter("establishTime") != null) 
                 insertGroupKeyInfoRequest.setCertIssueDate(DateUtil.getTimestamp(request.getParameter("establishTime")));            insertGroupKeyInfoRequest.setTenantId(user.getTenantId());            insertGroupKeyInfoRequest.setUserType(user.getUserType());
             insertGroupKeyInfoRequest.setTenantId(user.getTenantId());
             insertGroupKeyInfoRequest.setUserType(user.getUserType());
             insertGroupKeyInfoRequest.setUserId(user.getUserId());
-            insertGroupKeyInfoRequest.setAuditState("10");
+            insertGroupKeyInfoRequest.setAuditState(SLPMallConstants.AuditState.UserState_ready);
             // 附件信息
             for (CmCustFileExtVo cmCustFileExtVo : custFileListVo.getList()) {
                 cmCustFileExtVo.setTenantId(user.getTenantId());
@@ -316,10 +315,17 @@ public class QualificationController {
             IUcContactsInfoSV contactsInfoSV = DubboConsumerFactory.getService(IUcContactsInfoSV.class);
 
             try {
+            	SearchGroupKeyInfoRequest searchGroupKeyInfoRequest = new SearchGroupKeyInfoRequest();
+            	searchGroupKeyInfoRequest.setTenantId(SLPMallConstants.COM_TENANT_ID);
+            	searchGroupKeyInfoRequest.setUserId(user.getUserId());
+            	if(ucKeyInfoSV.searchGroupKeyInfo(searchGroupKeyInfoRequest).getUserId()!=null){
+            		   responseData = new ResponseData<String>(VerifyConstants.QualificationConstants.ERROR_CODE, "操作失败", null);
+                       responseHeader = new ResponseHeader(false,VerifyConstants.QualificationConstants.ERROR_CODE, "操作失败");
+            	}else{
                 ucKeyInfoSV.insertGroupKeyInfo(insertGroupKeyInfoRequest);
                 ucKeyInfoSV.insertCustFileExt(insertCustFileExtRequest);
                 //更改用户账户状态
-                updateUserState(user, "10");
+                updateUserState(user, SLPMallConstants.UserState.UserState_register);
                 contactsInfoSV.insertContactsInfo(insertContactsInfoRequest);
                 // 判断是否保存银行信息
                 if (ucBankInfoSV != null) {
@@ -327,6 +333,7 @@ public class QualificationController {
                 }
                 responseData = new ResponseData<String>(VerifyConstants.QualificationConstants.SUCCESS_CODE, "操作成功", null);
                 responseHeader = new ResponseHeader(true,VerifyConstants.QualificationConstants.SUCCESS_CODE, "操作成功");
+            	}
             } catch (Exception e) {
                 LOGGER.error("操作失败");
                 responseData = new ResponseData<String>(VerifyConstants.QualificationConstants.ERROR_CODE, "操作失败", null);
@@ -363,15 +370,14 @@ public class QualificationController {
         ResponseHeader responseHeader = null;
 
         HttpSession session = request.getSession();
-        SLPClientUser user = (SLPClientUser) session
-                .getAttribute(SSOClientConstants.USER_SESSION_KEY);
+        SLPClientUser user = (SLPClientUser) session.getAttribute(SSOClientConstants.USER_SESSION_KEY);
         // 个人信息
         insertCustKeyInfoRequest.setTenantId(user.getTenantId());
         insertCustKeyInfoRequest.setUserType(user.getUserType());
         insertCustKeyInfoRequest.setUserId(user.getUserId());
         if(request.getParameter("yy_mm_dd")!=null&&request.getParameter("mm")!=null&&request.getParameter("dd")!=null)
         insertCustKeyInfoRequest.setCustBirthday(DateUtil.getTimestamp(request.getParameter("yy_mm_dd") + "-"+ request.getParameter("mm") + "-" + request.getParameter("dd")));
-        insertCustKeyInfoRequest.setAuditState("10");
+        insertCustKeyInfoRequest.setAuditState(SLPMallConstants.AuditState.UserState_ready);
         // 附件信息
         for (CmCustFileExtVo cmCustFileExtVo : custFileListVo.getList()) {
             cmCustFileExtVo.setTenantId(user.getTenantId());
@@ -382,12 +388,22 @@ public class QualificationController {
         // 联系人信息
         IUcKeyInfoSV ucKeyInfoSV = DubboConsumerFactory.getService(IUcKeyInfoSV.class);
         try {
+        	SearchCustKeyInfoRequest searchCustKeyInfoRequest = new SearchCustKeyInfoRequest();
+        	searchCustKeyInfoRequest.setTenantId(SLPMallConstants.COM_TENANT_ID);
+        	searchCustKeyInfoRequest.setUserId(user.getUserId());
+        	//判断数据库是否存在记录
+        	//若存在则保存失败
+        	if(ucKeyInfoSV.searchCustKeyInfo(searchCustKeyInfoRequest).getUserId()!=null){
+        		 responseData = new ResponseData<String>(SLPMallConstants.Qualification.QUALIFICATION_ERROR, "操作失败", null);
+                 responseHeader = new ResponseHeader(false,SLPMallConstants.Qualification.QUALIFICATION_ERROR, "操作失败");
+        	}else{
             ucKeyInfoSV.insertCustKeyInfo(insertCustKeyInfoRequest);
             ucKeyInfoSV.insertCustFileExt(insertCustFileExtRequest);
             //更改用户账户状态
-            updateUserState(user, "10");
+            updateUserState(user, SLPMallConstants.UserState.UserState_register);
             responseData = new ResponseData<String>(SLPMallConstants.Qualification.QUALIFICATION_SUCCESS, "操作成功", null);
             responseHeader = new ResponseHeader(true,SLPMallConstants.Qualification.QUALIFICATION_SUCCESS, "操作成功");
+        	}
         } catch (Exception e) {
             LOGGER.error("操作失败");
             responseData = new ResponseData<String>(
@@ -678,7 +694,7 @@ public class QualificationController {
         updateCustKeyInfoRequest.setTenantId(user.getTenantId());
         updateCustKeyInfoRequest.setUserType(user.getUserType());
         updateCustKeyInfoRequest.setUserId(user.getUserId());
-        updateCustKeyInfoRequest.setAuditState("10");
+        updateCustKeyInfoRequest.setAuditState(SLPMallConstants.AuditState.UserState_ready);
         if(request.getParameter("yy_mm_dd")!=null&&request.getParameter("mm")!=null&&request.getParameter("dd")!=null)
         updateCustKeyInfoRequest.setCustBirthday(DateUtil.getTimestamp(request.getParameter("yy_mm_dd") + "-"+ request.getParameter("mm") + "-" + request.getParameter("dd")));
         // 附件信息
@@ -694,7 +710,7 @@ public class QualificationController {
             ucKeyInfoSV.updateCustKeyInfo(updateCustKeyInfoRequest);
             ucKeyInfoSV.updateCustFileExt(updateCustFileExtRequest);
             //更改用户账户状态
-            updateUserState(user, "10");
+            updateUserState(user, SLPMallConstants.UserState.UserState_register);
             responseData = new ResponseData<String>(SLPMallConstants.Qualification.QUALIFICATION_SUCCESS, "操作成功", null);
             responseHeader = new ResponseHeader(true,SLPMallConstants.Qualification.QUALIFICATION_SUCCESS, "操作成功");
         } catch (Exception e) {
@@ -914,12 +930,15 @@ public class QualificationController {
         updateGroupKeyInfoRequest.setTenantId(user.getTenantId());
         updateGroupKeyInfoRequest.setUserType(user.getUserType());
         updateGroupKeyInfoRequest.setUserId(user.getUserId());
-        updateGroupKeyInfoRequest.setAuditState("10");
+        updateGroupKeyInfoRequest.setAuditState(SLPMallConstants.AuditState.UserState_ready);
         if (request.getParameter("establishTime") != null) {
             updateGroupKeyInfoRequest.setCertIssueDate(DateUtil.getTimestamp(request.getParameter("establishTime")));
         }
         // 附件信息
         for (CmCustFileExtVo cmCustFileExtVo : custFileListVo.getList()) {
+        	if(cmCustFileExtVo.getAttrValue()==null){
+        		cmCustFileExtVo.setAttrValue("");
+        	}
             cmCustFileExtVo.setTenantId(user.getTenantId());
             cmCustFileExtVo.setUserId(user.getUserId());
         }
@@ -946,7 +965,7 @@ public class QualificationController {
             if(ucBankInfoSV!=null)
                 ucBankInfoSV.updateBankInfo(updateBankInfoRequest);
             //更改用户账户状态
-            updateUserState(user, "10");
+            updateUserState(user, SLPMallConstants.UserState.UserState_register);
             responseData = new ResponseData<String>(SLPMallConstants.Qualification.QUALIFICATION_SUCCESS, "操作成功", null);
             responseHeader = new ResponseHeader(true,SLPMallConstants.Qualification.QUALIFICATION_SUCCESS, "操作成功");
         } catch (Exception e) {
@@ -979,7 +998,7 @@ public class QualificationController {
         UpdateGroupKeyInfoRequest updateGroupKeyInfoRequest = new UpdateGroupKeyInfoRequest();
         updateGroupKeyInfoRequest.setTenantId(SLPMallConstants.COM_TENANT_ID);
         updateGroupKeyInfoRequest.setUserId(user.getUserId());
-        //updateGroupKeyInfoRequest.setAuditState("10");
+        //updateGroupKeyInfoRequest.setAuditState(SLPMallConstants.AuditState.UserState_ready);
         // 获取服务
         IUcContactsInfoSV ucContactsInfoSV = DubboConsumerFactory.getService(IUcContactsInfoSV.class);
         IUcKeyInfoSV ucKeyInfoSV = DubboConsumerFactory.getService(IUcKeyInfoSV.class);
@@ -987,8 +1006,6 @@ public class QualificationController {
             ucContactsInfoSV.updateContactsInfo(updateContactsInfoRequest);
             //修改认证状态
             ucKeyInfoSV.updateGroupKeyInfo(updateGroupKeyInfoRequest);
-            //更改用户账户状态
-            //updateUserState(user, "10");
             responseData = new ResponseData<String>(SLPMallConstants.Qualification.QUALIFICATION_SUCCESS, "操作成功", null);
             responseHeader = new ResponseHeader(true,SLPMallConstants.Qualification.QUALIFICATION_SUCCESS, "操作成功");
         } catch (Exception e) {

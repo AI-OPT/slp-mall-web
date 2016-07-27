@@ -138,7 +138,6 @@ define('app/jsp/user/qualification/baseinfo', function (require, exports, module
     			$("#custNameFlag").val("0");
     		}else{
     			if(name.match(reg)){
-    				$("#custNameFlag").val("1");
     				var	param={
     						custName:$("#custName").val()
         				   };
@@ -157,13 +156,11 @@ define('app/jsp/user/qualification/baseinfo', function (require, exports, module
         			        	   $('#custNameImage').attr('src',_base+'/resources/slpmall/images/icon-a.png');
         			        	   $('#enterpriseErrMsgShow').text("企业名称已注册");
         						   $('#custNameFlag').val("0");
-        							return false;
         			        	}else if(data.responseHeader.resultCode=="000000"){
         			        		$("#custNameErrMsg").show();
         			        		$('#custNameImage').attr('src',_base+'/resources/slpmall/images/icon-b.png');
         			        		$('#enterpriseErrMsgShow').hide();
-        			        		$('#errorUserNameFlag').val("1");
-        							return true;
+        			        		$('#custNameFlag').val("1");
         			        	}
         			        	
         			        },

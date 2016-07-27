@@ -11,37 +11,6 @@
 <link href="${_slpbase }/styles/frame.css" rel="stylesheet" type="text/css">
 <link href="${_slpbase }/styles/font-awesome.css" rel="stylesheet" type="text/css">
 
-<script type="text/javascript">
-var baseInfoPager;
-var qualificationSubmitPager;
-var provinceCode = "${codeMap.provinceCode}";
-var cityCode = "${codeMap.cityCode}";
-var countyCode = "${codeMap.countyCode}";
-
-var auditState = "${groupKeyInfo.auditState}";
-(function() { 
-	seajs.use([ 'app/jsp/user/qualification/baseinfo','app/jsp/user/qualification/qualificationSubmit'], function(BaseInfoQualificationPager,QualificationSubmitPager) {
-		baseInfoPager = new BaseInfoQualificationPager({
-			element : document.body
-		});
-		qualificationSubmitPager = new QualificationSubmitPager({
-			element : document.body
-		});
-		baseInfoPager.render();
-		qualificationSubmitPager.render();
-	});
-})(); 
-$(function(){
-	if(${groupKeyInfo.auditState}=='10'){
-		$("#auditState").show();
-	}
-	$("#groupIndustry").val("${codeMap.groupIndustry}");
-	$("#groupMemberScale").val("${codeMap.groupMemberScale}");
-	$("#groupType").val("${codeMap.groupType}");
-	$("#contactDept").val("${codeMap.contactDept}");
-	$("#certAddr").val("${codeMap.certAddr}");
-})
-</script>
 </head>
 <body>
  <!--顶部菜单-->
@@ -65,18 +34,23 @@ $(function(){
           <p><a href="#">资质认证</a></p>
       </div>
       <div class="account-bj">
+      <div class="mar-account-title">
       <div class="account-title account-title-bjcolor">
-     	<div class="title-bt">
-			企业资质<span id="auditState" style="display:none">(未认证)</span>
+      	<div class="title-bt">
+			企业资质<span id=auditState style="display:none">(未认证)</span>
 		</div>
-     	<p class="right"><i class="icon-edit qualifications" id="editEnterprise" >修改</i></p>
+      </div>
+      </div>
+     <!--标题-->  
+     <div class="account-title">
+     	<p>营业执照信息</p>
+      	<p class="right"><i class="icon-edit qualifications" id="editEnterprise">修改</i></p>
      </div>
-
      <!--信息填写-->
      <div class="nav-form" id="qf-browse">
          <ul>
              <li>
-                <p class="word"><b class="red">*</b>企业名称:</p>
+                <p class="word">企业名称:</p>
                 <p>${groupKeyInfo.custName}</p>
              </li>
          </ul>
@@ -262,7 +236,7 @@ $(function(){
              </ul>
               <ul>
                  <li>
-                    <p class="word"><b class="red">*</b>所属部门:</p>
+                    <p class="word">所属部门:</p>
                     <p>${contactsInfo.contactDept}</p>
                  </li>
              </ul>
@@ -355,3 +329,42 @@ $(function(){
   <!--底部 结束-->
 </body>
 </html>
+<script type="text/javascript">
+var baseInfoPager;
+var qualificationSubmitPager;
+var provinceCode = "${codeMap.provinceCode}";
+var cityCode = "${codeMap.cityCode}";
+var countyCode = "${codeMap.countyCode}";
+
+var auditState = "${groupKeyInfo.auditState}";
+(function() { 
+	seajs.use([ 'app/jsp/user/qualification/baseinfo','app/jsp/user/qualification/qualificationSubmit'], function(BaseInfoQualificationPager,QualificationSubmitPager) {
+		baseInfoPager = new BaseInfoQualificationPager({
+			element : document.body
+		});
+		qualificationSubmitPager = new QualificationSubmitPager({
+			element : document.body
+		});
+		baseInfoPager.render();
+		qualificationSubmitPager.render();
+	});
+})(); 
+$(function(){
+	if(${groupKeyInfo.auditState}=='10'){
+		$("#auditState").show();
+	}
+	if(${groupKeyInfo.auditState}=='11'){
+		$("#auditState").html("(已验证)");
+		$("#auditState").show();
+	}
+	if(${groupKeyInfo.auditState}=='12'){
+		$("#auditState").html("(审核失败)");
+		$("#auditState").show();
+	}
+	$("#groupIndustry").val("${codeMap.groupIndustry}");
+	$("#groupMemberScale").val("${codeMap.groupMemberScale}");
+	$("#groupType").val("${codeMap.groupType}");
+	$("#contactDept").val("${codeMap.contactDept}");
+	$("#certAddr").val("${codeMap.certAddr}");
+})
+</script>
