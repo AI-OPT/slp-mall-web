@@ -406,14 +406,14 @@
 	})();  
 	
 	$(function(){
-		if(${groupKeyInfo.auditState}=='10'){
+		if(${custKeyInfo.auditState}=='10'){
 			$("#auditState").show();
 		}
-		if(${groupKeyInfo.auditState}=='11'){
+		if(${custKeyInfo.auditState}=='11'){
 			$("#auditState").html("(已验证)");
 			$("#auditState").show();
 		}
-		if(${groupKeyInfo.auditState}=='12'){
+		if(${custKeyInfo.auditState}=='12'){
 			$("#auditState").html("(审核失败)");
 			$("#auditState").show();
 		}
