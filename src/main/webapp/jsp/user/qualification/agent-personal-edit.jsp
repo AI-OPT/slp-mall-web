@@ -111,23 +111,23 @@
              </ul>
               <ul>
                  <li>
-                    <p class="word"><b class="red">*</b>身份证正面照片:</p>
+                    <p class="word">身份证正面照片:</p>
                     <p> <img src="${imageMap.get('11001') }" height="80" width="80"></p>
                  </li>
              </ul>
               <ul>
                  <li>
-                    <p class="word"><b class="red">*</b>身份证背面照片:</p>
+                    <p class="word">身份证背面照片:</p>
                      <p> <img src="${imageMap.get('11002') }" height="80" width="80"></p>
                  </li>
              </ul>
              <ul>
                  <li>
-                    <p class="word"><b class="red">*</b>手持身份证正面照片:</p>
+                    <p class="word">手持身份证正面照片:</p>
                     <p> <img src="${imageMap.get('11003') }" height="80" width="80"></p>
                  </li>
              </ul>
-     </div>
+     </div> 
      </div>
      <div  id="qf-edit" style="display:none;">
      	<div class="prompt-risk small-risk mt-0">
