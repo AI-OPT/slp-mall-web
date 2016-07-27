@@ -282,7 +282,6 @@ public class ProductController {
 		}
 
 		return resData;
-
 	}
 
 	@RequestMapping("/toOrderPay")
@@ -294,13 +293,14 @@ public class ProductController {
 			OrderTradeCenterRequest orderrequest = new OrderTradeCenterRequest();
 			HttpSession session = request.getSession();
 			SLPClientUser user = (SLPClientUser) session.getAttribute(SSOClientConstants.USER_SESSION_KEY);
+			OrdBaseInfo baseInfo = new OrdBaseInfo();
 			if (null == user) {
 				orderrequest.setTenantId(SLPMallConstants.COM_TENANT_ID);
+				baseInfo.setUserType("10");
 			} else {
 				orderrequest.setTenantId(user.getTenantId());
+				baseInfo.setUserType(user.getUserType());
 			}
-
-			OrdBaseInfo baseInfo = new OrdBaseInfo();
 			baseInfo.setUserId(res.getUserId());
 			baseInfo.setOrderType(res.getOrderType());
 			orderrequest.setOrdBaseInfo(baseInfo);
