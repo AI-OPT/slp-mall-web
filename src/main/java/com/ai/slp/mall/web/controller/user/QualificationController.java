@@ -1024,15 +1024,17 @@ public class QualificationController {
     public ResponseData<String> checkCustName(String custName,HttpServletRequest request) {
         IUcKeyInfoSV ucKeyInfoSv = DubboConsumerFactory.getService("iUcKeyInfoSV");
         SearchGroupKeyInfoRequest keyInfoReqeust = new SearchGroupKeyInfoRequest();
+        HttpSession session = request.getSession();
+        SLPClientUser user = (SLPClientUser) session.getAttribute(SSOClientConstants.USER_SESSION_KEY);
         keyInfoReqeust.setCustName(custName);
         keyInfoReqeust.setTenantId(SLPMallConstants.COM_TENANT_ID);
+        keyInfoReqeust.setUserType(user.getUserType());
         ResponseData<String> responseData = null;
         ResponseHeader header = null;
         try {
             SearchGroupKeyInfoResponse keyInfoResponse = ucKeyInfoSv.searchGroupKeyInfo(keyInfoReqeust);
             String resultCode = keyInfoResponse.getResponseHeader().getResultCode();
-            HttpSession session = request.getSession();
-            SLPClientUser user = (SLPClientUser) session.getAttribute(SSOClientConstants.USER_SESSION_KEY);
+            //凑合着看吧
             if(keyInfoResponse.getUserId().equals(user.getUserId())&&("11").equals(keyInfoResponse.getAuditState())||ExceptionCode.NO_RESULT.equals(resultCode)){
             	header = new ResponseHeader(true, VerifyConstants.ResultCodeConstants.SUCCESS_CODE,"成功");
                 responseData = new ResponseData<String>(ResponseData.AJAX_STATUS_SUCCESS, "成功",null);
