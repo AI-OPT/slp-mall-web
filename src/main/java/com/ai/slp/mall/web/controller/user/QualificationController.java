@@ -1028,6 +1028,7 @@ public class QualificationController {
         SLPClientUser user = (SLPClientUser) session.getAttribute(SSOClientConstants.USER_SESSION_KEY);
         keyInfoReqeust.setCustName(custName);
         keyInfoReqeust.setTenantId(SLPMallConstants.COM_TENANT_ID);
+        keyInfoReqeust.setAuditState(SLPMallConstants.AuditState.UserState_paas);
         keyInfoReqeust.setUserType(user.getUserType());
         ResponseData<String> responseData = null;
         ResponseHeader header = null;
@@ -1035,7 +1036,7 @@ public class QualificationController {
             SearchGroupKeyInfoResponse keyInfoResponse = ucKeyInfoSv.searchGroupKeyInfo(keyInfoReqeust);
             String resultCode = keyInfoResponse.getResponseHeader().getResultCode();
             //凑合着看吧
-            if(keyInfoResponse.getUserId().equals(user.getUserId())&&("11").equals(keyInfoResponse.getAuditState())||ExceptionCode.NO_RESULT.equals(resultCode)){
+            if(user.getUserId().equals(keyInfoResponse.getUserId())||ExceptionCode.NO_RESULT.equals(resultCode)){
             	header = new ResponseHeader(true, VerifyConstants.ResultCodeConstants.SUCCESS_CODE,"成功");
                 responseData = new ResponseData<String>(ResponseData.AJAX_STATUS_SUCCESS, "成功",null);
                 responseData.setResponseHeader(header);
