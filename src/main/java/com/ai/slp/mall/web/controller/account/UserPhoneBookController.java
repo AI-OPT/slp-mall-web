@@ -298,16 +298,24 @@ public class UserPhoneBookController {
 				if (row == null) {
 					continue;
 				}
-				Cell cell0 = row.getCell(0);
-				Cell cell1 = row.getCell(1);
-				String telName = cell0.getStringCellValue();
-				String telMp = cell1.getStringCellValue();
+				
 				UcUserPhonebooksBatchData o = new UcUserPhonebooksBatchData();
 				o.setTelGroupId(telGroupId);
 				o.setUserId(user.getUserId());
 				o.setTenantId(user.getTenantId());
-				o.setTelName(telName);
-				o.setTelMp(telMp);
+				
+				Cell cell0 = row.getCell(0);
+				if(cell0 != null){
+					cell0.setCellType(Cell.CELL_TYPE_STRING);
+					String telName = cell0.getStringCellValue();
+					o.setTelName(telName);
+				}
+				Cell cell1 = row.getCell(1);
+				if(cell1 != null){
+					cell1.setCellType(Cell.CELL_TYPE_STRING);
+					String telMp = cell1.getStringCellValue();
+					o.setTelMp(telMp);
+				}
 				list.add(o);
 			}
 			UcUserPhonebooksBatchAddReq req = new UcUserPhonebooksBatchAddReq();
