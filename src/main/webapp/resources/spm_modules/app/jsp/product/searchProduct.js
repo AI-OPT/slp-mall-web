@@ -41,6 +41,16 @@ define('app/jsp/product/searchProduct', function (require, exports, module) {
     		//初始化执行搜索
     		this._getsessionData();
     		this._getDispatchCity();
+    		
+    		//获取运营商
+    		var agent = $("#orgired").val();
+    		if(agent==10){
+    			this._flowCurrent(agent,"中国移动");
+    		}else if(agent==11){
+    			this._flowCurrent(agent,"中国电信");
+    		}else{
+    			this._flowCurrent(agent,"中国联通");
+    		}
     		var name = $("#skuName").val();
     		$("#serachName").val(name);
     		this._hideArrow();
@@ -183,8 +193,10 @@ define('app/jsp/product/searchProduct', function (require, exports, module) {
     					//添加样式
     		    		var attrDefId = $("#priceId").val();
     		    		var basic = $("#orgired").val();
-    		    		$(attrDefId).addClass("current");
-    		    		$(basic).addClass("current");
+    		    		var newAgent = "#"+basic;
+    		    		var newAttrDefId = "#"+attrDefId;
+    		    		$(newAgent).addClass("current");
+    		    		$(newAttrDefId).addClass("current");
     		    		$("#isHaveDataFlag").val("11");
 	            	}else{
 	            		$("#isHaveDataFlag").val("00");
@@ -301,6 +313,19 @@ define('app/jsp/product/searchProduct', function (require, exports, module) {
     	_detailPage: function(skuId){
     		window.location.href = _base +'/product/detail?skuId='+skuId;
     	},
+    	//流量更多按钮，代理商初始化选中
+    	_flowCurrent: function(agentId,agentName){
+    		var _this = this;
+    		if($.trim(agentName).length==0){
+    			//$("#areaTile").html("");
+    		}else{
+    			 var aname="<p id='agentV'></p><p id='agentN' class='close'>"+agentName+"<A href='javascript:void(0);'><i id='icon-rm2' class='icon-remove'></i></A></p>";
+    	    		$("#areaTile").append(aname);
+    		}
+    		$("#agentSearch").val(agentId);
+    		var newAgent="#"+agentId;
+    		$(newAgent).addClass("current");
+    	},
     	//改变运营商查询条件
     	_changeAgent: function(agentId,agentName){
     		var _this = this;
@@ -320,7 +345,7 @@ define('app/jsp/product/searchProduct', function (require, exports, module) {
     		}
     		//document.getElementById(oldAgent).className="";
     		$("#agentSearch").val(agentId);
-    		var newAgent=  "#"+agentId;
+    		var newAgent="#"+agentId;
     		$(newAgent).addClass("current");
     		_this._changeDataClick();
     		

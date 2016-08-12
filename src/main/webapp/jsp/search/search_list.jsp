@@ -92,7 +92,7 @@
                            	<script id="lastAreaTmpl" type="text/x-jsrender">
 							{{for areaList}}
 								{{if #index>=17}}	
-									<p id="{{:attrDefId}}"><A onclick="pager._changeArea('{{:attrDefId}}')" href="javascript:void(0);" value="{{:attrDefId}}">{{:attrDefValue}}</A></p>
+									<p id="{{:attrDefId}}"><A onclick="pager._changeArea('{{:attrDefId}}','{{:attrDefValue}}')" href="javascript:void(0);" value="{{:attrDefId}}">{{:attrDefValue}}</A></p>
 								{{/if}}
 							{{/for}}
 						</script>
