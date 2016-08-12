@@ -1029,7 +1029,7 @@ public class QualificationController {
         keyInfoReqeust.setCustName(custName);
         keyInfoReqeust.setTenantId(SLPMallConstants.COM_TENANT_ID);
         keyInfoReqeust.setAuditState(SLPMallConstants.AuditState.UserState_paas);
-        keyInfoReqeust.setUserType(user.getUserType());
+        //keyInfoReqeust.setUserType(user.getUserType());
         ResponseData<String> responseData = null;
         ResponseHeader header = null;
         try {
