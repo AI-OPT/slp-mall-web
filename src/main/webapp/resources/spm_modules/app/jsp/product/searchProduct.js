@@ -48,7 +48,7 @@ define('app/jsp/product/searchProduct', function (require, exports, module) {
     			this._flowCurrent(agent,"中国移动");
     		}else if(agent==11){
     			this._flowCurrent(agent,"中国电信");
-    		}else{
+    		}else if(agent==12){
     			this._flowCurrent(agent,"中国联通");
     		}
     		var name = $("#skuName").val();
@@ -78,7 +78,6 @@ define('app/jsp/product/searchProduct', function (require, exports, module) {
 		    			_this._searchBtnClick();
 		    		}
 					_this._getHotProduct();
-					
 				}
 			})
     	},
