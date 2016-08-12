@@ -13,7 +13,21 @@
 <script src="${_slpbase }/scripts/flickity-docs.min.js"></script>
 
 </head>
-
+<style type="text/css">
+/**登录banner**/
+.logo-banner-big{ width:100%; float:left; height:456px; background:url(theme/slp/images/bj1.png) no-repeat; min-width:1200px;}
+.banner{ width:1200px; margin:0 auto; background:url(theme/slp/images/logo-banner.png) no-repeat; height:456px;}
+.hero-gallery__cell {
+  width: 100%; min-width:1200px;
+ height: 460px;
+  color: white;
+  background: url(resources/slpmall/images/bj1.png) no-repeat;
+  
+}
+.hero-gallery__cell--2 {
+  background: url(resources/slpmall/images/bj2.png) no-repeat;
+}
+</style>
 <body>
  <!--顶部菜单-->
  <%@ include file="/inc/top-menu.jsp" %>
