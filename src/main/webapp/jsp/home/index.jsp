@@ -232,7 +232,7 @@
         
         <div class="plist-right">
         
-       	 <div class="plist-right-title">
+       	 <!--  <div class="plist-right-title">
         <ul>
         	<li><a href="javascript:void(0);" opratorid="10" class="current" id="phoneBillCmcc" >中国移动</a></li>         
         	<li><a href="javascript:void(0);" opratorid="11" id="phoneBillCtcc">中国电信</a></li>
@@ -241,8 +241,13 @@
          		<input type="hidden" id="phoneOprator">
          	</li>
         </ul>
-        </div>
+        </div>-->
         <!--table1-->
+        <div class="plist-right-title">
+        <ul>
+        	
+        </ul>
+        </div>
         <div>
             <div class="plist-right-list" id="phoneBillData">
            
@@ -265,7 +270,7 @@
         
         <div class="plist-right">
         
-       	 <div class="plist-right-title-tow">
+       	 <!--  <div class="plist-right-title-tow">
         <ul>
         <li><a href="javascript:void(0);" opratorid="10" class="current" id="flowCmcc">中国移动</a></li>         
         <li><a href="javascript:void(0);" opratorid="11" id="flowCtcc">中国电信</a></li>
@@ -274,8 +279,14 @@
         	<input type="hidden" id="flowOprator">
         </li>
         </ul>
-        </div>
+        </div>-->
         <!--table1-->
+        <div class="plist-right-title-tow">
+        <ul>
+        
+        </ul>
+        </div>
+        
         <div>
             <div class="plist-right-list" >
             <div id="flowData">

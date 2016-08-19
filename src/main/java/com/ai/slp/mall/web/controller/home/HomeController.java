@@ -54,7 +54,7 @@ public class HomeController {
 	 * 
 	 * @param request
 	 * @return
-	 */
+	 *//*
 	@RequestMapping("/getFlow")
 	@ResponseBody
 	public ResponseData<List<ProductHomeVO>> getFlow(HttpServletRequest request, ProductHomeRequest proRequest) {
@@ -93,15 +93,119 @@ public class HomeController {
 			responseData = new ResponseData<List<ProductHomeVO>>(ResponseData.AJAX_STATUS_SUCCESS, "查询失败");
 		}
 		return responseData;
+	}*/
+	/**
+	 * 流量查询
+	 * 
+	 * @param request
+	 * @return
+	 */
+	@RequestMapping("/getFlow")
+	@ResponseBody
+	public ResponseData<List<ProductHomeVO>> getFlow(HttpServletRequest request, ProductHomeRequest proRequest) {
+	   //从session中获取用户类型
+	    HttpSession session = request.getSession();
+        SLPClientUser user = (SLPClientUser) session.getAttribute(SSOClientConstants.USER_SESSION_KEY);
+        if(user!=null){
+            proRequest.setUsertype(user.getUserType());
+            proRequest.setUserid(user.getUserId());  
+        }
+	    IProductHomeSV iHomeProductSV = DubboConsumerFactory.getService("iProductHomeSV");
+		proRequest.setTenantId("SLP");
+		ResponseData<List<ProductHomeVO>> responseData = null;
+		List<ProductHomeVO> resultList = new ArrayList<ProductHomeVO>();
+		try {
+			proRequest.setBasicOrgIdIs("11");
+			List<ProductHomeResponse> ctccList = iHomeProductSV.queryHomeDataProduct(proRequest);
+			proRequest.setBasicOrgIdIs("12");
+			List<ProductHomeResponse> cmccList = iHomeProductSV.queryHomeDataProduct(proRequest);
+			
+			if (!CollectionUtil.isEmpty(ctccList)) {
+				for (int i=0;i<ctccList.size();i++) {
+					ProductHomeVO vo = new ProductHomeVO();
+					vo.setPicUrl(
+							ImageUtil.getImage(ctccList.get(i).getProductImage().getVfsId(), ctccList.get(i).getProductImage().getPicType()));
+					vo.setProdId(ctccList.get(i).getProdId());
+					vo.setProdName(ctccList.get(i).getProdName());
+					vo.setSalePrice(ctccList.get(i).getSalePrice());
+					vo.setSkuId(ctccList.get(i).getSkuId());
+					resultList.add(vo);
+				}
+			}
+			if (!CollectionUtil.isEmpty(cmccList)) {
+				for (int i=0;i<cmccList.size();i++) {
+					ProductHomeVO vo = new ProductHomeVO();
+					vo.setPicUrl(
+							ImageUtil.getImage(cmccList.get(i).getProductImage().getVfsId(), cmccList.get(i).getProductImage().getPicType()));
+					vo.setProdId(cmccList.get(i).getProdId());
+					vo.setProdName(cmccList.get(i).getProdName());
+					vo.setSalePrice(cmccList.get(i).getSalePrice());
+					vo.setSkuId(cmccList.get(i).getSkuId());
+					resultList.add(vo);
+				}
+			}
+			responseData = new ResponseData<List<ProductHomeVO>>(ResponseData.AJAX_STATUS_SUCCESS, "查询成功", resultList);
+		} catch (Exception e) {
+			responseData = new ResponseData<List<ProductHomeVO>>(ResponseData.AJAX_STATUS_SUCCESS, "查询失败");
+		}
+		return responseData;
 	}
-
+	@RequestMapping("/getPhoneBill")
+	@ResponseBody
+	public ResponseData<List<ProductHomeVO>> getPhoneBill(HttpServletRequest request, ProductHomeRequest proRequest) {
+	  //从session中获取用户类型
+        HttpSession session = request.getSession();
+        SLPClientUser user = (SLPClientUser) session.getAttribute(SSOClientConstants.USER_SESSION_KEY);
+        if(user!=null){
+            proRequest.setUsertype(user.getUserType());
+            proRequest.setUserid(user.getUserId());  
+        }
+	    IProductHomeSV iHomeProductSV = DubboConsumerFactory.getService("iProductHomeSV");
+		proRequest.setTenantId("SLP");
+		ResponseData<List<ProductHomeVO>> responseData = null;
+		List<ProductHomeVO> resultList = new ArrayList<ProductHomeVO>();
+		try {
+			proRequest.setBasicOrgIdIs("10");
+			List<ProductHomeResponse> ctcclist = iHomeProductSV.queryHomeDataProduct(proRequest);
+			proRequest.setBasicOrgIdIs("11");
+			List<ProductHomeResponse> cmcclist = iHomeProductSV.queryHomeDataProduct(proRequest);
+			if (!CollectionUtil.isEmpty(cmcclist)) {
+				for (ProductHomeResponse data : cmcclist) {
+					ProductHomeVO vo = new ProductHomeVO();
+					vo.setPicUrl(
+							ImageUtil.getImage(data.getProductImage().getVfsId(), data.getProductImage().getPicType()));
+					vo.setProdId(data.getProdId());
+					vo.setProdName(data.getProdName());
+					vo.setSkuId(data.getSkuId());
+					vo.setSalePrice(data.getSalePrice());
+					resultList.add(vo);
+				}
+			}
+			if (!CollectionUtil.isEmpty(ctcclist)) {
+				for (ProductHomeResponse data : ctcclist) {
+					ProductHomeVO vo = new ProductHomeVO();
+					vo.setPicUrl(
+							ImageUtil.getImage(data.getProductImage().getVfsId(), data.getProductImage().getPicType()));
+					vo.setProdId(data.getProdId());
+					vo.setProdName(data.getProdName());
+					vo.setSkuId(data.getSkuId());
+					vo.setSalePrice(data.getSalePrice());
+					resultList.add(vo);
+				}
+			}
+			responseData = new ResponseData<List<ProductHomeVO>>(ResponseData.AJAX_STATUS_SUCCESS, "查询成功", resultList);
+		} catch (Exception e) {
+			responseData = new ResponseData<List<ProductHomeVO>>(ResponseData.AJAX_STATUS_SUCCESS, "查询失败");
+		}
+		return responseData;
+	}
 	/**
 	 * 话费查询
 	 * 
 	 * @param request
 	 * @return
 	 */
-	@RequestMapping("/getPhoneBill")
+	/*@RequestMapping("/getPhoneBill")
 	@ResponseBody
 	public ResponseData<List<ProductHomeVO>> getPhoneBill(HttpServletRequest request, ProductHomeRequest proRequest) {
 	  //从session中获取用户类型
@@ -136,7 +240,7 @@ public class HomeController {
 		}
 		return responseData;
 	}
-
+*/
 	/**
 	 * 热品查询
 	 * 

@@ -197,20 +197,20 @@ define('app/jsp/producthome/productHome', function (require, exports, module) {
     		$("#phoneFee").html("");
     		$("#gsd1").html("");
     		$("#submitOdrBtn").removeAttr('href');
-    		$("#phoneFee").append("<option value='¥49.00-¥50.00'>50元</option>");
-    		$("#phoneFee").append("<option value='¥29.50-¥30.00'>30元</option>");
-    		$("#phoneFee").append("<option value='¥19.50-¥20.00'>20元</option>");
-    		$("#phoneFee").append("<option value='¥9.95-¥10.00'>10元</option>");
+    		$("#phoneFee").append("<option value='￥49.00-￥50.00'>50元</option>");
+    		$("#phoneFee").append("<option value='￥29.50-￥30.00'>30元</option>");
+    		$("#phoneFee").append("<option value='￥19.50-￥20.00'>20元</option>");
+    		$("#phoneFee").append("<option value='￥9.95-￥10.00'>10元</option>");
     		
     	},
     	_initLf:function(){
     		//$("#phoneNum2").val("");
     		$("#gprs").html("");
     		$("#gsd2").html("");
-    		$("#gprs").append("<option value='¥49.00-¥50.00'>1G</option>");
-    		$("#gprs").append("<option value='¥35.00-¥40.00'>500M</option>");
-    		$("#gprs").append("<option value='¥29.50-¥29.90'>300M</option>");
-    		$("#gprs").append("<option value='¥9.95-¥20.00'>100M</option>");
+    		$("#gprs").append("<option value='￥49.00-￥50.00'>1G</option>");
+    		$("#gprs").append("<option value='￥35.00-￥40.00'>500M</option>");
+    		$("#gprs").append("<option value='￥29.50-￥29.90'>300M</option>");
+    		$("#gprs").append("<option value='￥9.95-￥20.00'>100M</option>");
     	},
     	_submitGprs:function(){//话费的
     		var _this=this;
@@ -661,7 +661,7 @@ define('app/jsp/producthome/productHome', function (require, exports, module) {
     		var code = $("#currentCity").attr("currentCityCode");
     		//类目
     		var oprator;
-    		//获取运营商类目
+    		/*//获取运营商类目
       		var isCmcc = $("#phoneBillCmcc").attr("class");
       		var isCtcc = $("#phoneBillCtcc").attr("class");
       		var isCucc = $("#phoneBillCucc").attr("class");
@@ -671,11 +671,11 @@ define('app/jsp/producthome/productHome', function (require, exports, module) {
       			$("#phoneOprator").val($("#phoneBillCtcc").attr("opratorid"));
       		}else if(isCucc){
       			$("#phoneOprator").val($("#phoneBillCucc").attr("opratorid"));
-      		}
+      		}*/
       		var	param={
 					areaCode:code,  
 					productCatId: "10000010010000",	   
-					basicOrgIdIs:$("#phoneOprator").val()
+					basicOrgIdIs:'11'
 				   };
       		ajaxController.ajax({
 						type: "post",
@@ -700,7 +700,7 @@ define('app/jsp/producthome/productHome', function (require, exports, module) {
     		var code = $("#currentCity").attr("currentCityCode");
       		//流量类目ID
       		var productId="10000010020000";
-      		//获取运营商类目
+      		/*//获取运营商类目
           		var isCmcc = $("#flowCmcc").attr("class");
           		var isCtcc = $("#flowCtcc").attr("class");
           		var isCucc = $("#flowCucc").attr("class");
@@ -710,11 +710,11 @@ define('app/jsp/producthome/productHome', function (require, exports, module) {
           			$("#flowOprator").val($("#flowCtcc").attr("opratorid"));
           		}else if(isCucc){
           			$("#flowOprator").val($("#flowCucc").attr("opratorid"));
-          		}
+          		}*/
           		var	param={
     					areaCode:code,  
     					productCatId: "10000010020000",	   
-    					basicOrgIdIs:$("#flowOprator").val()
+    					basicOrgIdIs:'11'
     				   };
       		ajaxController.ajax({
 				type: "post",
@@ -732,7 +732,8 @@ define('app/jsp/producthome/productHome', function (require, exports, module) {
 			});
       	},
       	_getMore: function(){
-      		var agent = $("#flowOprator").val();
+      		//var agent = $("#flowOprator").val();
+      		var agent = 10;
       		var productCatId ="10000010020000";
       		window.location.href = _base + '/search/list?billType='+productCatId+"&orgired="+agent;;
       	},
